@@ -1,0 +1,30 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "First PR10 shared control batch, Single Box then Jenga Stack sample selector. Actual input on CPU,ordinary/native GPU,ordinary/native combined. No engine or solver edits.",
+  "new_builds": 0,
+  "viewers_maximum": 5,
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "per_viewer_watchdog_seconds": 300,
+  "first_window_seconds": 25,
+  "actions_per_viewer_maximum": 48,
+  "screenshots_per_viewer_maximum": 12,
+  "per_action_seconds": 5,
+  "recorders_video": 0,
+  "retries": 0,
+  "temporary_bytes": 104857600,
+  "retained_bytes": 67108864,
+  "observer_file_per_viewer_bytes": 12582912,
+  "batch_raw_bytes": 100663296,
+  "diagnostic_storage": "Keep compact action receipts/required original screenshots. Stream observer tail for each action; delete full observer log only after event windows/identity/flags checked. No binaries/cache copies/fullhealth.",
+  "cache_policy": "Reuse prior cache_source directories without copying; record file count/bytes/digests before and after; preserve shared caches.",
+  "cleanup": "Every exit releases held input and waits owned viewer; remove consumed observer logs after extraction, keep failure receipts. Stop first infra/control failure; no blind retries.",
+  "input": "Owned X11 window only, XTEST via xdotool; coordinate clicks require latest reviewed screenshot hash and same world identity. Initial/stale screen never treated as pass.",
+  "acceptance": "Numeric context/public-world flags and step/lifetime effects, actual displayed state/layout and sample shape switch; shared results do not certify all165 sample-specific inputs.",
+  "free_bytes_before": 1709628329984
+}

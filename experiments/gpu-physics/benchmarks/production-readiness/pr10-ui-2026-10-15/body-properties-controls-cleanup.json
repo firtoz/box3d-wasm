@@ -1,0 +1,268 @@
+{
+  "status": "CLOSED",
+  "per_app": [
+    {
+      "receipt": "raw/body-properties-controls-runs/bridge/cpu/stream-cleanup.json",
+      "deleted_bytes": 3203476
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/locks/cpu/stream-cleanup.json",
+      "deleted_bytes": 1430769
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/motor/cpu/stream-cleanup.json",
+      "deleted_bytes": 911241
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/door/cpu/stream-cleanup.json",
+      "deleted_bytes": 1422222
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/ragdoll-box/cpu/stream-cleanup.json",
+      "deleted_bytes": 2243273
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/cpu/stream-cleanup.json",
+      "deleted_bytes": 3538676
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/gear/cpu/stream-cleanup.json",
+      "deleted_bytes": 6898107
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/bridge/ordinary-gpu/stream-cleanup.json",
+      "deleted_bytes": 3257557
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/locks/ordinary-gpu/stream-cleanup.json",
+      "deleted_bytes": 1514105
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/motor/ordinary-gpu/stream-cleanup.json",
+      "deleted_bytes": 986385
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/door/ordinary-gpu/stream-cleanup.json",
+      "deleted_bytes": 1392525
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/ragdoll-box/ordinary-gpu/stream-cleanup.json",
+      "deleted_bytes": 2391252
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-gpu/stream-cleanup.json",
+      "deleted_bytes": 3716327
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/gear/ordinary-gpu/stream-cleanup.json",
+      "deleted_bytes": 7460978
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/bridge/native-gpu/stream-cleanup.json",
+      "deleted_bytes": 3270754
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/locks/native-gpu/stream-cleanup.json",
+      "deleted_bytes": 1518020
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/motor/native-gpu/stream-cleanup.json",
+      "deleted_bytes": 972979
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/door/native-gpu/stream-cleanup.json",
+      "deleted_bytes": 1396172
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/ragdoll-box/native-gpu/stream-cleanup.json",
+      "deleted_bytes": 2389143
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/native-gpu/stream-cleanup.json",
+      "deleted_bytes": 3744959
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/gear/native-gpu/stream-cleanup.json",
+      "deleted_bytes": 7455179
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/bridge/ordinary-both/stream-cleanup.json",
+      "deleted_bytes": 6732627
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/locks/ordinary-both/stream-cleanup.json",
+      "deleted_bytes": 2941481
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/motor/ordinary-both/stream-cleanup.json",
+      "deleted_bytes": 1768429
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/door/ordinary-both/stream-cleanup.json",
+      "deleted_bytes": 2703396
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/ragdoll-box/ordinary-both/stream-cleanup.json",
+      "deleted_bytes": 4580535
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-both/stream-cleanup.json",
+      "deleted_bytes": 7365676
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/gear/ordinary-both/stream-cleanup.json",
+      "deleted_bytes": 14624934
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/bridge/native-both/stream-cleanup.json",
+      "deleted_bytes": 6748741
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/locks/native-both/stream-cleanup.json",
+      "deleted_bytes": 2947490
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/motor/native-both/stream-cleanup.json",
+      "deleted_bytes": 1761575
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/door/native-both/stream-cleanup.json",
+      "deleted_bytes": 2491253
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/ragdoll-box/native-both/stream-cleanup.json",
+      "deleted_bytes": 4597318
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/native-both/stream-cleanup.json",
+      "deleted_bytes": 7355474
+    },
+    {
+      "receipt": "raw/body-properties-controls-runs/gear/native-both/stream-cleanup.json",
+      "deleted_bytes": 14568523
+    },
+    {
+      "receipt": "raw/door-right-pane-runs/ordinary-both/stream-cleanup.json",
+      "deleted_bytes": 693917
+    },
+    {
+      "receipt": "raw/door-right-pane-runs/native-both/stream-cleanup.json",
+      "deleted_bytes": 687426
+    }
+  ],
+  "removed": [
+    {
+      "path": "raw/joint-control-build/cpu",
+      "bytes": 7593568,
+      "sha256": "49662d3b6932ba043c184a62319513287efa20e220925fb04d3dff4cd2039e2c",
+      "reason": "Superseded after body-properties pool qualified onall5routes"
+    },
+    {
+      "path": "raw/joint-control-build/ordinary-gpu",
+      "bytes": 37696464,
+      "sha256": "731807ca5fc099a5f33bd79c0896cafff5085a5e14c181510f315a9e2d3462e2",
+      "reason": "Superseded after body-properties pool qualified onall5routes"
+    },
+    {
+      "path": "raw/joint-control-build/native-gpu",
+      "bytes": 40571488,
+      "sha256": "58ca0a8829ed64da4e53ebb6ee44fbc8ab28a1877560d4ef471d09a6fab16d1b",
+      "reason": "Superseded after body-properties pool qualified onall5routes"
+    },
+    {
+      "path": "raw/joint-control-build/ordinary-both",
+      "bytes": 38471760,
+      "sha256": "f2d5e8d1e26b3dbd7211fa11fe1966c2c758647eb63229d2cd82c8f4aef79c80",
+      "reason": "Superseded after body-properties pool qualified onall5routes"
+    },
+    {
+      "path": "raw/joint-control-build/native-both",
+      "bytes": 41350896,
+      "sha256": "3b926b032bb86b54a8de81eb9657481da820f27d06c37e8aa2a1643a5deef4db",
+      "reason": "Superseded after body-properties pool qualified onall5routes"
+    }
+  ],
+  "stream_deleted_bytes": 143682894,
+  "deleted_bytes": 309367070,
+  "raw_retained_bytes": 554409599,
+  "owned_pids_absent": [
+    2603879,
+    2603860,
+    2604263,
+    2604248,
+    2604693,
+    2604673,
+    2605077,
+    2605060,
+    2605608,
+    2605591,
+    2605990,
+    2605968,
+    2606387,
+    2606372,
+    2606766,
+    2606748,
+    2607219,
+    2607203,
+    2607700,
+    2607675,
+    2608110,
+    2608086,
+    2608663,
+    2608641,
+    2609055,
+    2609038,
+    2609509,
+    2609489,
+    2609904,
+    2609888,
+    2610403,
+    2610387,
+    2610902,
+    2610887,
+    2611313,
+    2611296,
+    2611994,
+    2611979,
+    2612495,
+    2612478,
+    2612981,
+    2612966,
+    2613419,
+    2613403,
+    2613925,
+    2613909,
+    2614512,
+    2614492,
+    2614936,
+    2614914,
+    2615484,
+    2615466,
+    2615960,
+    2615943,
+    2616405,
+    2616358,
+    2616990,
+    2616966,
+    2617396,
+    2617360,
+    2617921,
+    2617903,
+    2618357,
+    2618341,
+    2618978,
+    2618961,
+    2619387,
+    2619371,
+    2619871,
+    2619856,
+    2625003,
+    2624986,
+    2625294,
+    2625270
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708847960064,
+  "retained_consumer": "Currentbody-properties5viewers forremaininglaunch/propertycontrols; selectedreceipts/media/minimalstates forPR10audit/UI21–UI22repair; existinglink/preflightinputs andCPUReplayfixture retained; sharedcaches preserved."
+}

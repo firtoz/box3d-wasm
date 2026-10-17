@@ -1,0 +1,83 @@
+{
+  "status": "CLOSED",
+  "retained": {
+    "original": 8372422,
+    "remaining": 9564467
+  },
+  "raw_retained_bytes": 689903207,
+  "deleted_bytes": 198049949,
+  "removed": [
+    {
+      "path": "raw/host-controls-scoped-build/cpu",
+      "bytes": 7659992,
+      "sha256": "d49ecf0bcd7006ad4bc5dd4288d5918cd0d4643f1ea91e600d99bd82cbf91cbb",
+      "reason": "Superseded qualified observer pool, all5new routes exercised; source/pins/receipts retained."
+    },
+    {
+      "path": "raw/host-controls-scoped-build/ordinary-gpu",
+      "bytes": 37762912,
+      "sha256": "51a84c3551b9d5d71f839d64575fb1ddabd1013f51e83e7b78faa1b0a6cb484e",
+      "reason": "Superseded qualified observer pool, all5new routes exercised; source/pins/receipts retained."
+    },
+    {
+      "path": "raw/host-controls-scoped-build/native-gpu",
+      "bytes": 40633840,
+      "sha256": "48d15f938997cf785c64d0cbc3562fbc386f765fe67b03b0a842d37dd8639bba",
+      "reason": "Superseded qualified observer pool, all5new routes exercised; source/pins/receipts retained."
+    },
+    {
+      "path": "raw/host-controls-scoped-build/ordinary-both",
+      "bytes": 38536944,
+      "sha256": "aec87552dec4f469b674584c881ae9a2a2ef43758915587a5be702ff0ba9ae14",
+      "reason": "Superseded qualified observer pool, all5new routes exercised; source/pins/receipts retained."
+    },
+    {
+      "path": "raw/host-controls-scoped-build/native-both",
+      "bytes": 41411984,
+      "sha256": "e0fa9d580df1c86943ead514310cf0b7f8e31b87b446493fbf37894b3f32faf6",
+      "reason": "Superseded qualified observer pool, all5new routes exercised; source/pins/receipts retained."
+    },
+    {
+      "path": "raw/host-controls-scoped-build/observer.o",
+      "bytes": 662544,
+      "sha256": "56e497540d403d8fcf30ece52c47f9965e1d032186a5bd7a6d4dd1bafe7c3ad5",
+      "reason": "Superseded qualified observer pool, all5new routes exercised; source/pins/receipts retained."
+    }
+  ],
+  "owned_pids_absent": [
+    2843616,
+    2843596,
+    2842815,
+    2842800,
+    2848074,
+    2848059,
+    2844241,
+    2844220,
+    2843947,
+    2843932,
+    2848868,
+    2848852,
+    2844960,
+    2844941,
+    2844639,
+    2844622,
+    2849752,
+    2849734,
+    2845609,
+    2845590,
+    2845311,
+    2845291,
+    2850566,
+    2850550,
+    2846290,
+    2846266,
+    2845992,
+    2845975,
+    2851429,
+    2851413
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708477874176,
+  "consumer": "Current scene-controls-build.json five viewers/observer for remaining control effects; original207pins/CPUReplayfixture unchanged. Retain selected actual states/screens and unresolved UI25 input failures."
+}

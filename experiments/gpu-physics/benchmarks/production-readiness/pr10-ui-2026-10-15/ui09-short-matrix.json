@@ -1,0 +1,33 @@
+{
+  "status": "CHECKS_COMPLETE_DISPLAY_INSPECTION_PENDING",
+  "runs": [
+    {
+      "route": "ordinary-gpu",
+      "mode": "unsupported",
+      "exit": 0,
+      "complete": true,
+      "findings": []
+    },
+    {
+      "route": "native-gpu",
+      "mode": "unsupported",
+      "exit": 0,
+      "complete": true,
+      "findings": []
+    },
+    {
+      "route": "ordinary-both",
+      "mode": "unsupported",
+      "exit": 0,
+      "complete": true,
+      "findings": []
+    },
+    {
+      "route": "native-both",
+      "mode": "unsupported",
+      "exit": 0,
+      "complete": true,
+      "findings": []
+    }
+  ]
+}

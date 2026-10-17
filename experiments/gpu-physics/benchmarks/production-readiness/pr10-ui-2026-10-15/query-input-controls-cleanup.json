@@ -1,0 +1,32 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 13181990,
+  "raw_retained_bytes": 703085197,
+  "deleted_bytes": 17224928,
+  "owned_pids_absent": [
+    2861527,
+    2861504,
+    2862394,
+    2862379,
+    2862759,
+    2862737,
+    2863780,
+    2863761,
+    2864175,
+    2864155,
+    2865193,
+    2865131,
+    2865598,
+    2865581,
+    2866686,
+    2866629,
+    2867124,
+    2867105,
+    2868177,
+    2868162
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708521918464,
+  "consumer": "Current scene-controls-build.json for remaining sample controls; selected UI23/UI27 states/screens; original207inputs/CPUReplayfixture unchanged."
+}

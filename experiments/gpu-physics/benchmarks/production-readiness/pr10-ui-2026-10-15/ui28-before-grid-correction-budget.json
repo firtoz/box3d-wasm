@@ -1,0 +1,9 @@
+{
+  "status": "FROZEN",
+  "seconds": 12,
+  "montages": 1,
+  "apps": 0,
+  "builds": 0,
+  "captures": 0,
+  "scope": "Correct historical screenshot state key cast-box→box-size; first montage contained explicit UNQUALIFIED placeholders. No missing originalcapture: actual retained allfive box-size screenshots are valid. Preserve failed key/hash in receipt; replace only derived grid/updateSHA."
+}

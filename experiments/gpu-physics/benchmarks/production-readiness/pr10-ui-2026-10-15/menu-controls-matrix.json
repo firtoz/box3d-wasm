@@ -1,0 +1,12 @@
+{
+  "status": "FAILURE_RETAINED",
+  "runs": [
+    {
+      "label": "cpu",
+      "exit": 1,
+      "seconds": 0.5644921069906559
+    }
+  ],
+  "error": "AssertionError(('cpu', 1))",
+  "seconds": 0.5653136970067862
+}

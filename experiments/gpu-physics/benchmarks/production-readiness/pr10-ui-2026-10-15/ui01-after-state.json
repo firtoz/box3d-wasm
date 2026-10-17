@@ -1,0 +1,25 @@
+{
+  "status": "FAILURE_RETAINED",
+  "phases": [
+    {
+      "label": "cpu",
+      "driver_exit": 0
+    },
+    {
+      "label": "ordinary-gpu",
+      "driver_exit": 0
+    },
+    {
+      "label": "native-gpu",
+      "driver_exit": 0
+    },
+    {
+      "label": "ordinary-both",
+      "driver_exit": 1
+    }
+  ],
+  "current_child_pid": 1519534,
+  "current_label": "ordinary-both",
+  "error": "AssertionError('ordinary-both')",
+  "elapsed_seconds": 34.877213605999714
+}

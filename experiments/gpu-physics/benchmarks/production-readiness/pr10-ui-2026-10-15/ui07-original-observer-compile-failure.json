@@ -1,0 +1,39 @@
+{
+  "status": "DIAGNOSTIC_COMPILE_FAILURE",
+  "operations": [
+    {
+      "label": "camera-observer-compile",
+      "command": [
+        "/usr/bin/c++",
+        "-DSOKOL_GLCORE",
+        "-I/home/firtoz/work/2026/box3d-wasm/box3d/samples",
+        "-I/home/firtoz/work/2026/box3d-wasm/box3d/data",
+        "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+        "-I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/..",
+        "-I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include",
+        "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_src",
+        "-I/home/firtoz/work/2026/box3d-wasm/box3d/shared",
+        "-I/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/include",
+        "-isystem",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol",
+        "-isystem",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src",
+        "-isystem",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src",
+        "-O3",
+        "-DNDEBUG",
+        "-std=gnu++20",
+        "-c",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/ui07-camera-observer.cpp",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui07-trace-build/camera-observer.o"
+      ],
+      "pid": 3597283,
+      "exit": 1,
+      "seconds": 0.2785065669999999
+    }
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/ui07-camera-observer.cpp: In function ‘void wrap_frame(Camera*, b3AABB, float, float)’:\n/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/ui07-camera-observer.cpp:11:23: error: ‘TransformAABBToDisplay’ was not declared in this scope\n   11 |  const b3AABB display=TransformAABBToDisplay(c->m_renderXform,box);const b3Vec3 e=b3AABB_Extents(display);\n      |                       ^~~~~~~~~~~~~~~~~~~~~~\n\n\n1 !== 0\n",
+  "viewers_launched": 0,
+  "reason": "TransformAABBToDisplay is static in camera.cpp, unavailable to wrapper. Correction copies only read-only intermediate observation; actual Camera::Frame still called/verified."
+}

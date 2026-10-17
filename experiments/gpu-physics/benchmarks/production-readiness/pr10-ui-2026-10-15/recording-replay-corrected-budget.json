@@ -1,0 +1,22 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "builds": 0,
+  "apps_CPUfirst": [
+    "cpu-focused",
+    "four GPU previously unlaunched file-load tests"
+  ],
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "dialog_seconds": 8,
+  "screens_each": 8,
+  "actions_each": 160,
+  "api_each": 16777216,
+  "recording_each": 16777216,
+  "temporary_cap": 1073741824,
+  "retained_cap": 67108864,
+  "shared_cache_growth_cap": 134217728,
+  "retries": 0,
+  "reason": "Original CPU3 header checks pass; text replacement grouped click/CtrlA/type without frame transition, actual buffer appended at cursor. Correct to actual focus and key/frame transitions. FourGPU unavailable/cancel checks already pass; file load unlaunched because missingCPU producer. Preserve originals; GPU dependent runs gated on CPU actual file success. No product repair.",
+  "outputs": "Two tiny10step2body b3rec consumedbyCPU+GPUloading then delete; selectedscreens/receipts retained; consumedfullstreams delete",
+  "driver_sha256": "123ebe1e81e12295b760bd81ed7aeb99651a2fe3b47362a1b38fbf3eaaa68e92"
+}

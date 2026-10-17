@@ -1,0 +1,30 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "replay-gpu-tab-budget.json",
+  "runs": [
+    {
+      "route": "ordinary-gpu",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "complete": true
+    },
+    {
+      "route": "native-gpu",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "complete": true
+    },
+    {
+      "route": "ordinary-both",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "complete": true
+    },
+    {
+      "route": "native-both",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "complete": true
+    }
+  ]
+}

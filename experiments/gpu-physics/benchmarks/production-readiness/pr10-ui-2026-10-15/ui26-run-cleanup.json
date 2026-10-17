@@ -1,0 +1,22 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 10900222,
+  "raw_retained_bytes": 877439451,
+  "deleted_bytes": 5583342,
+  "owned_pids_absent": [
+    722596,
+    722581,
+    727494,
+    727452,
+    728015,
+    728000,
+    728639,
+    728621,
+    729294,
+    729276
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707605876736,
+  "consumer": "Current5viewers/39directtaskobjects/generatedTreeclass plus priorinputs nextPR10relink; minimal tree failure/load/scale/query/native digest/UI evidence finalaudit"
+}

@@ -1,0 +1,17 @@
+{
+  "status": "FROZEN_BEFORE_RUN",
+  "sha256": "9b0ad23d96a372c135706b455d1bb882b0ce7a8f8a65f30fda040a21b7703156",
+  "apps_CPUfirst": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 60,
+  "ready_seconds": 25,
+  "screens_each": 4,
+  "actions_each": 30,
+  "retries": 0,
+  "scope": "ActualBounds/Mass callbackoutput andoriginalscreens. Sharedsourceotheroverlaysunimplemented remainexplicitnotruntimequalified."
+}

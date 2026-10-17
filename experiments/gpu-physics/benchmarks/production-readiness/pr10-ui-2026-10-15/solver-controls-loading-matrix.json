@@ -1,0 +1,16 @@
+{
+  "status": "PASS_FIVE_ROUTES_SOLVER_CONTROLS",
+  "runs": [
+    {
+      "label": "ordinary-both",
+      "exit": 0,
+      "seconds": 7.427318519999972
+    },
+    {
+      "label": "native-both",
+      "exit": 0,
+      "seconds": 7.5774410710146185
+    }
+  ],
+  "seconds": 15.006034011021256
+}

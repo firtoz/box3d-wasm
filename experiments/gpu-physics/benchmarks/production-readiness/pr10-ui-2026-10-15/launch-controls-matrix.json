@@ -1,0 +1,138 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "launch-controls-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "bullet-stack",
+    "stall",
+    "sensor-hits"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "bullet-stack",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 25,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "stall",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 23,
+      "findings": 4
+    },
+    {
+      "route": "cpu",
+      "fixture": "sensor-hits",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 43,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "bullet-stack",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 25,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "stall",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 23,
+      "findings": 4
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "sensor-hits",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 43,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "bullet-stack",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 25,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "stall",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 23,
+      "findings": 4
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "sensor-hits",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 43,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "bullet-stack",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 37,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "stall",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 35,
+      "findings": 8
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "sensor-hits",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 64,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "bullet-stack",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 37,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "stall",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 35,
+      "findings": 8
+    },
+    {
+      "route": "native-both",
+      "fixture": "sensor-hits",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 64,
+      "findings": 0
+    }
+  ]
+}

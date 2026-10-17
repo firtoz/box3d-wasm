@@ -1,0 +1,175 @@
+{
+  "status": "ACTUAL_BOX3D_CPU_ORACLE",
+  "binary_sha256": "a4d161eac1a2bcb199a3d8a519cde333a25466e3805dbe56ff26c5883b40c0b8",
+  "receipt": "raw/ui24-runs/cpu/receipt.json",
+  "cases": [
+    {
+      "key": "flat no holes",
+      "heightfield": {
+        "rows": 6,
+        "columns": 8,
+        "hash": "fe0f12c1ad5f0688",
+        "scale": [
+          2,
+          0,
+          2
+        ],
+        "holes": 0,
+        "height_range": [
+          -256,
+          256
+        ],
+        "bounds": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            14,
+            0,
+            10
+          ]
+        ]
+      },
+      "actual_aabb": [
+        [
+          -7.01999998,
+          -0.0199999996,
+          -5.01999998
+        ],
+        [
+          7.01999998,
+          0.0199999996,
+          5.01999998
+        ]
+      ]
+    },
+    {
+      "key": "flat holes",
+      "heightfield": {
+        "rows": 6,
+        "columns": 8,
+        "hash": "e220dda430696045",
+        "scale": [
+          2,
+          0,
+          2
+        ],
+        "holes": 2,
+        "height_range": [
+          -256,
+          256
+        ],
+        "bounds": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            14,
+            0,
+            10
+          ]
+        ]
+      },
+      "actual_aabb": [
+        [
+          -7.01999998,
+          -0.0199999996,
+          -5.01999998
+        ],
+        [
+          7.01999998,
+          0.0199999996,
+          5.01999998
+        ]
+      ]
+    },
+    {
+      "key": "flat restored solid",
+      "heightfield": {
+        "rows": 6,
+        "columns": 8,
+        "hash": "fe0f12c1ad5f0688",
+        "scale": [
+          2,
+          0,
+          2
+        ],
+        "holes": 0,
+        "height_range": [
+          -256,
+          256
+        ],
+        "bounds": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            14,
+            0,
+            10
+          ]
+        ]
+      },
+      "actual_aabb": [
+        [
+          -7.01999998,
+          -0.0199999996,
+          -5.01999998
+        ],
+        [
+          7.01999998,
+          0.0199999996,
+          5.01999998
+        ]
+      ]
+    },
+    {
+      "key": "positive restored",
+      "heightfield": {
+        "rows": 6,
+        "columns": 8,
+        "hash": "8682c44df8d9e381",
+        "scale": [
+          2,
+          1.60000002,
+          2
+        ],
+        "holes": 0,
+        "height_range": [
+          -256,
+          256
+        ],
+        "bounds": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            14,
+            1.51241291,
+            10
+          ]
+        ]
+      },
+      "actual_aabb": [
+        [
+          -7.01999998,
+          -0.0199999996,
+          -5.01999998
+        ],
+        [
+          7.01999998,
+          1.53241289,
+          5.01999998
+        ]
+      ]
+    }
+  ]
+}

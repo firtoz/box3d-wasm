@@ -1,0 +1,60 @@
+{
+  "status": "FROZEN",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "generations": 1,
+  "generation_seconds": 10,
+  "cpp_compiles": 4,
+  "compile_seconds": 30,
+  "links": 5,
+  "link_seconds": 25,
+  "viewers": 5,
+  "seconds_per_app": 75,
+  "screenshots_per_app": 3,
+  "actions_per_app": 130,
+  "physics_steps_per_app": 48,
+  "retries": 0,
+  "api_bytes_per_app": 16777216,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "shared_cache_growth_total_bytes": 33554432,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 750,
+  "compositions": 2,
+  "seconds_per_composition": 8,
+  "raw_before_bytes": 909525428,
+  "source_pins_before": {
+    "generator": "c0fee43c2a69f3f51df0ad9395b1553bbe740ccbb89ad476846a16932abc8d78",
+    "split_generator": "5e7a7a4eedf657177168d2f18168118e963221843a40eb33c88e33e2c2b24933",
+    "native_sample": "4b0de896d159fd6cf4528c2f4b906ddc527314ee85cb3b823351fc91e1d3b3a6",
+    "prior_cpu_sample": "d95bf41cc454d0319a93683ba69e65976c2c529fa8968dbafd87420c48a59287",
+    "main": "1f55117fb494a97e693effba89eb2ab33d3cbe3b037a783ac9ae6b94f82dac91"
+  },
+  "scope": "Only generatednativeSampleResetText hidden+paused start3→4.5fontunits; hiddenunpaused3/fullUI unchanged. Onlycombined ComparisonView window/callback wrapped by showUI; splitrender/labels/pointerpolicy unchanged. ActualCPUfirst/all5 finalscreenbounds/visibility,show-hide-restore,resize1280x800,pausedIDs/poses/defaults; combinedsplitcheckboxoff/on restored. One short hiddenunpaused capture <=48advancingSingleBoxsteps/app thenpause, IDs/defaults preserved (no solver/trajectoryclaim). Exactcandidate source deltas/CPUcanonicalgeneration checked. Interleavebuild/check/consumestream/retireoldviewer; retainactiveobjects.",
+  "outputs": [
+    {
+      "path": "raw/ui05-build",
+      "consumer": "Current5repairedviewers +3Sampleobjects+1combinedMainobject +HUD/UIobserver objects and6Joint/Replay objects for nextrelinks",
+      "delete": "Retireoldviewerperrouteonlyafteractualchecks;traceCPUretireafterCPUcheck;oldSample/combinedMain/observerobjectsretireonlywhennoactivecurrentlinkneeds them. Removeunusedcanonicalmain/sourcecopyafteraudit"
+    },
+    {
+      "path": "raw/ui05-runs",
+      "consumer": "SelectedactualUI/text/identity snapshots and15 CPU-firstscreens",
+      "delete": "ConsumeAPI/observer/stderr aftereachterminalapp;retaincompactstates/images"
+    },
+    {
+      "path": "ui05-before/after-grid.png",
+      "consumer": "FixreportCPUfirst/currentCPUbefore+previous4GPUbefore matchedhiddenpaused policy",
+      "delete": "Retainselectedmedia"
+    }
+  ]
+}

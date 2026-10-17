@@ -1,0 +1,108 @@
+{
+  "status": "PASS_EXISTING_REAL_CPU_FIXTURE_COVERAGE",
+  "budget": "replay-counts-budget.json",
+  "operations": [
+    {
+      "label": "compile",
+      "args": [
+        "/usr/bin/c++",
+        "-std=c++20",
+        "-O2",
+        "-I/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/replay-counts.cpp",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_src/libbox3d.a",
+        "-lpthread",
+        "-lm",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-counts/fixture"
+      ],
+      "pid": 3065562,
+      "exit": 0,
+      "seconds": 0.34738537199999997,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "record-validate-scan",
+      "args": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-counts/fixture",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-rich-corrected/fixture.b3rec"
+      ],
+      "pid": 3065569,
+      "exit": 0,
+      "seconds": 0.003182062999999971,
+      "log_sha256": "6a79234c68711474ca9069f09001250f46ecbcd1c1d417c8c3246970f762d044"
+    }
+  ],
+  "deleted": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-counts/fixture",
+      "bytes": 1149040,
+      "sha256": "74e804f7fbf9547493968aa522da167eaa6bb05d2e8800aee64c611622147a88"
+    }
+  ],
+  "result": {
+    "status": "EXISTING_REAL_BOX3D_RECORDING_COVERAGE_EXTRACTED",
+    "frames": 64,
+    "bytes": 76546,
+    "min_bodies": 5,
+    "max_bodies": 6,
+    "spawn_visible_frames": 8,
+    "removed_ordinal_frames": 48,
+    "same_key_instance_frames": 64,
+    "untagged_queries": 64,
+    "contact_capacity_sum": 64,
+    "query_kinds": [
+      {
+        "kind": 0,
+        "queries": 64,
+        "positive": 32,
+        "miss": 32
+      },
+      {
+        "kind": 1,
+        "queries": 64,
+        "positive": 32,
+        "miss": 32
+      },
+      {
+        "kind": 2,
+        "queries": 64,
+        "positive": 32,
+        "miss": 32
+      },
+      {
+        "kind": 3,
+        "queries": 64,
+        "positive": 32,
+        "miss": 32
+      },
+      {
+        "kind": 4,
+        "queries": 192,
+        "positive": 96,
+        "miss": 96
+      },
+      {
+        "kind": 5,
+        "queries": 64,
+        "positive": 0,
+        "miss": 64
+      },
+      {
+        "kind": 6,
+        "queries": 64,
+        "positive": 0,
+        "miss": 64
+      }
+    ]
+  },
+  "recording": {
+    "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-rich-corrected/fixture.b3rec",
+    "bytes": 76546,
+    "sha256": "1955ae5cfd0238b67d071276c698b87ac79e3c78d964f2f212aff9d6c9cbe9e5",
+    "consumer": "RemainingReplayconditionalUI andrepairregression"
+  },
+  "retained_bytes": 600,
+  "cleanup_status": "CLOSED",
+  "core_limit_bytes": 0
+}

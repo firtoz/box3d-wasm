@@ -1,0 +1,126 @@
+{
+  "status": "CLOSED",
+  "retained_runs": {
+    "mesh-controls-runs": 36876527,
+    "mesh-remaining-controls-runs": 6081612,
+    "capsule-boundary-runs": 927085
+  },
+  "deleted_bytes": 283277396,
+  "removed": [
+    {
+      "path": "raw/body-properties-build/cpu",
+      "bytes": 7635536,
+      "sha256": "b68552866d615655bdd2c244abef91a52f59152acb213bca93bb767b5f96f9e6",
+      "reason": "Superseded by qualified current mesh observer with explicit shader-readiness exclusions"
+    },
+    {
+      "path": "raw/body-properties-build/ordinary-gpu",
+      "bytes": 37734360,
+      "sha256": "39ad6ca844dd719d4d0430c5859f890df63166fc3bce86a79c8ff76922cbf19b",
+      "reason": "Superseded by qualified current mesh observer with explicit shader-readiness exclusions"
+    },
+    {
+      "path": "raw/body-properties-build/native-gpu",
+      "bytes": 40609384,
+      "sha256": "d7b62f9bd979d873a3f06dbc8483f1d2079327e9323eb1e091bc4d6f8597c77e",
+      "reason": "Superseded by qualified current mesh observer with explicit shader-readiness exclusions"
+    },
+    {
+      "path": "raw/body-properties-build/ordinary-both",
+      "bytes": 38508704,
+      "sha256": "3bef4a86fc48e6fc75900ae994c0f722f88ede4ef4ed88bb021d073faf3df13a",
+      "reason": "Superseded by qualified current mesh observer with explicit shader-readiness exclusions"
+    },
+    {
+      "path": "raw/body-properties-build/native-both",
+      "bytes": 41387840,
+      "sha256": "35b4f1e9425f72b8a133bf269b919edc84be3240d96d071dd130cf56f20cd45b",
+      "reason": "Superseded by qualified current mesh observer with explicit shader-readiness exclusions"
+    },
+    {
+      "path": "raw/capsule-boundary-build/observer.o",
+      "bytes": 623416,
+      "sha256": "37960bdf6fb224714689e3296fc8d1a8a909a5f59dc13858ae4cb7ecd333d9b7",
+      "reason": "Terminal boundary diagnostic; operation and loading evidence extracted"
+    },
+    {
+      "path": "raw/capsule-boundary-build/cpu",
+      "bytes": 7640656,
+      "sha256": "3ab6a1d552d2917982fc4c4c5a41a4a5d6f119b701d752493f3acd798f8616c0",
+      "reason": "Terminal boundary diagnostic; operation and loading evidence extracted"
+    },
+    {
+      "path": "raw/capsule-boundary-build/native-gpu",
+      "bytes": 40614424,
+      "sha256": "9e9f19fe9362fbac04b2da0bd2693b0e439fa9c54ac65033365e3eb787bf7dc8",
+      "reason": "Terminal boundary diagnostic; operation and loading evidence extracted"
+    }
+  ],
+  "raw_retained_bytes": 615208233,
+  "owned_pids_absent": [
+    2682721,
+    2682706,
+    2683368,
+    2683334,
+    2683954,
+    2683935,
+    2684584,
+    2684567,
+    2684949,
+    2684931,
+    2685313,
+    2685291,
+    2685686,
+    2685660,
+    2686632,
+    2686612,
+    2687082,
+    2687065,
+    2687429,
+    2687405,
+    2687860,
+    2687826,
+    2688537,
+    2688522,
+    2688915,
+    2688900,
+    2689352,
+    2689331,
+    2689725,
+    2689696,
+    2690450,
+    2690434,
+    2690949,
+    2690930,
+    2691334,
+    2691269,
+    2691683,
+    2691655,
+    2692454,
+    2692439,
+    2701587,
+    2701569,
+    2702729,
+    2702713,
+    2703317,
+    2703299,
+    2703887,
+    2703869,
+    2704436,
+    2704415,
+    2705211,
+    2705193,
+    2705783,
+    2705765,
+    2706381,
+    2706365,
+    2698454,
+    2698439,
+    2698694,
+    2698670
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 3247716,
+  "free_bytes": 1708770283520,
+  "retained_consumer": "Current mesh-controls-build.json five viewers for remaining controls; selected actual states/media/failures for PR10 and UI23. Existing named link/preflight/Replay inputs and shared caches preserved."
+}

@@ -1,0 +1,48 @@
+{
+  "status": "FROZEN",
+  "builds": 0,
+  "viewers": 17,
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "weeble",
+    "explosion",
+    "restitution",
+    "far-stack",
+    "observer-recovery"
+  ],
+  "order_rule": "CPUrecovery first then4GPUfixtures perroute",
+  "seconds_per_app": 120,
+  "ready_seconds": 25,
+  "scene_seconds": 30,
+  "screenshots_per_app": 3,
+  "actions_per_app": 100,
+  "max_single_steps_per_app": 1,
+  "retries": 0,
+  "core_bytes": 0,
+  "api_bytes_per_app": 33554432,
+  "observer_bytes_per_app": 16777216,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 134217728,
+  "min_free_bytes": 21474836480,
+  "scope": "8per-sampleentries:Weeble3(teleport/explode/magnitude),Explosion2,Restitution2,FarStack1loopall5presets. ActualAPIinputs/bodyvelocities/IDlifetime/shapegeometry+restitution/absoluteoffsets/camera/rendercounts; pausedmutationeffects and <=1Weeblestep. No Explosion mesh physics/shaderqualification or fulltrajectorymatch.. Registrylifetimecorrection andactualnativequatreference; originalfailuresretained.",
+  "outputs": [
+    {
+      "path": "raw/body-mutation-controls-runs",
+      "consumer": "Actualcontrol/effectreceiptandCPU-firstscreenshots",
+      "delete": "FullAPI/observer/timingstreams afterselectedoperations extracted, includingfailure"
+    },
+    {
+      "path": "raw/body-mutation-build",
+      "consumer": "Thisreviewandremainingmutationcontrols",
+      "delete": "Afterqualifiedreplacement; previousdistancepooldeletedonlyonceall5routesqualified"
+    }
+  ],
+  "continuation": "1CPUreadonlybaseline/reference+unfinishedRestitutionrestartonly,then16unlaunchedGPUfixtures. OriginalCPUmutation/shape/offseteffectsresolvedfromretainedactualvalues; no passedactionreplays."
+}

@@ -1,0 +1,18 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "Harness waits up to existing25s readiness bound for widget to be submitted after async worker restart. Keep actualdisplay/newworld/backendargs requirements unchanged. Originalordinarycombinedfailure retained,3completedroutes not rerun.",
+  "apps": [
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 60,
+  "ready_seconds": 25,
+  "actions_each": 45,
+  "screens_each": 2,
+  "builds": 0,
+  "retries": 0,
+  "temporary_bytes": 134217728,
+  "retained_bytes": 16777216,
+  "shared_cache_growth_allowance": 134217728,
+  "prelaunch_syntax_correction": "OriginalPythonSyntaxError retained,0viewer/app/inputs launched. Assignment expression moved outsidecomprehension; compile(source)passes. Reuse two unconsumedapp slots, no budgets increased."
+}

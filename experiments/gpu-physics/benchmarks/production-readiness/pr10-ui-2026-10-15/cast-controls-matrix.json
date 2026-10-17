@@ -1,0 +1,181 @@
+{
+  "status": "INCOMPLETE_FAILURES_RETAINED",
+  "budget": "cast-controls-budget.json",
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "cast-world",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 4
+    },
+    {
+      "route": "cpu",
+      "fixture": "initial-overlap",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "long-ray",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 5
+    },
+    {
+      "route": "cpu",
+      "fixture": "overlap-world",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "shape-cast",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "cast-world",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 4
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "initial-overlap",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 1
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "long-ray",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 5
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "overlap-world",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "shape-cast",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "cast-world",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 4
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "initial-overlap",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 1
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "long-ray",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 5
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "overlap-world",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "shape-cast",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "cast-world",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "findings": 4
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "initial-overlap",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 1
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "long-ray",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 5
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "overlap-world",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "shape-cast",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "cast-world",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "findings": 4
+    },
+    {
+      "route": "native-both",
+      "fixture": "initial-overlap",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 1
+    },
+    {
+      "route": "native-both",
+      "fixture": "long-ray",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 5
+    },
+    {
+      "route": "native-both",
+      "fixture": "overlap-world",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "shape-cast",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    }
+  ]
+}

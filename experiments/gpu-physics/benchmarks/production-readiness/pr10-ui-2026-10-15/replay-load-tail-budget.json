@@ -1,0 +1,23 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "builds": 0,
+  "apps_CPUfirst": [
+    "cpu-load-tail",
+    "fourGPUload-only-if-CPUproducer-and-load-verified"
+  ],
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "dialog_seconds": 8,
+  "native_dialog_enter_count_max": 2,
+  "native_dialog_screens_each": 2,
+  "app_screens_each": 6,
+  "actions_each": 160,
+  "api_each": 16777216,
+  "temporary_cap": 1073741824,
+  "retained_cap": 67108864,
+  "shared_cache_growth_cap": 134217728,
+  "retries": 0,
+  "reason": "CPU recorded bothvalidfiles/9checks; no record/headertests repeated. Original GTK CtrlL/type/Return didnotclosewithin8s. Focused actual GTK screenshots before/afterfirstEnter distinguish location-entry commit vs fileopen; atmosttwoEnter events. Reuse completed tinyCPUfile, preserve failure. GPUcancel/unavailable checks not repeated.",
+  "outputs": "SelectedGTK/appscreens and receipt retained; existing2b3rec consumedbyCPUload+GPUexclusions then removed; fullstreams removed after extraction",
+  "driver_sha256": "44367f147507e370bab4567b5e29abae1518f3609059eeecaf22c9cd1818b863"
+}

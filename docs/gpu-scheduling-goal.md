@@ -43,7 +43,7 @@ Acceptance:
 - Explain the dominant measured cause of the component/global gap and identify the observed useful range of component scheduling—or report that neither tested fixture demonstrates an advantage.
 - Deliver a production improvement with at least 10% lower median completed-step time on one target fixture versus the current applicable path, with no greater than 5% median or p95 regression on the other. Compare any automatic selection against explicit global as well, so merely improving a much slower component path is not presented as beating global.
 - Preserve the existing schedule-equivalence, repeatability, island, and capacity checks. Add focused coverage only for new scheduling behavior; verify the independent-group fixture too. Do not relax physics tolerances to make the optimization pass.
-- Record affected scene snapshots before committing solver changes, following AGENTS.md.
+- Use targeted snapshots when useful for diagnosis; recordings/comparison grids are optional and do not block committing verified changes (AGENTS.md, user direction2026-10-17).
 - Check in portable before/after evidence and readable charts with distinct CPU/GPU colors, preserving existing machine datasets. Keep changed protocols separate from the existing scaling comparison.
 - Validate the improvement on this desktop. Provide a copyable second-machine command/prompt and compatible data format; do not claim laptop validation unless it was actually run.
 - Update relevant documentation and the scratchpad, commit and push to feat/gpu, and report the measured gain, behavior checks, remaining limitations, and commit.

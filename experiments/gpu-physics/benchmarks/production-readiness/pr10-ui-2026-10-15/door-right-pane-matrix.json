@@ -1,0 +1,20 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "door-right-pane-budget.json",
+  "runs": [
+    {
+      "route": "ordinary-both",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 8,
+      "findings": 1
+    },
+    {
+      "route": "native-both",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 8,
+      "findings": 1
+    }
+  ]
+}

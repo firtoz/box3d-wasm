@@ -1,0 +1,49 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "disable-controls-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "driver_sha256": "3cc23805f0232122e53e4373c2c1e5a40a8df3674849f02ea925973a83c21a72",
+  "runs": [
+    {
+      "route": "cpu",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 31,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 31,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 31,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 31,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 31,
+      "findings": 0
+    }
+  ]
+}

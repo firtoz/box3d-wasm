@@ -1,0 +1,11 @@
+{
+  "status": "FROZEN",
+  "seconds": 5,
+  "receipts": 5,
+  "position_axes_max": 105,
+  "apps": 0,
+  "builds": 0,
+  "captures": 0,
+  "output_bytes": 65536,
+  "scope": "Verify existing CPU and repaired GPU Extent body positions/rotations/mass from retained native records; no new runtime."
+}

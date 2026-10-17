@@ -1,0 +1,22 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 4384857,
+  "raw_retained_bytes": 881831581,
+  "deleted_bytes": 8066141,
+  "owned_pids_absent": [
+    750556,
+    750540,
+    751306,
+    751288,
+    752070,
+    752055,
+    752862,
+    752847,
+    753685,
+    753670
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707594489856,
+  "consumer": "Current5viewers/39taskobjects/newCollisionclass+priorTree/loading/API modules/3carriers nextPR10relink; retained callback/draw/nativeinput/IDs/beforeafter media finalaudit"
+}

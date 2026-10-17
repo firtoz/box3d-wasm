@@ -1,0 +1,115 @@
+{
+  "status": "FROZEN",
+  "order": [
+    "cpu",
+    "ordinary-both"
+  ],
+  "archive_inspections": 2,
+  "archive_seconds": 5,
+  "cc_compiles": 2,
+  "cpp_compiles": 1,
+  "compile_seconds": 30,
+  "links": 2,
+  "link_seconds": 25,
+  "viewers": 2,
+  "seconds_per_app": 75,
+  "screenshots_per_app": 2,
+  "actions_per_app": 120,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 16777216,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 83886080,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 350,
+  "cases": [
+    {
+      "route": "cpu",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/receipt.json",
+      "unit": {
+        "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/gfx/debug_adapter.c",
+        "source_sha256": "3a3e277b5fb42b5e12da63e9f3db21efabaedfcb6c16333429d469acfdd5cecb",
+        "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/debug_adapter.c.o",
+        "object_sha256": "51de6b774fe2f455c98f37bb1007b3298c5666587f73d2f31a2d49955621b85c",
+        "command": [
+          "/usr/bin/cc",
+          "-DSOKOL_GLCORE",
+          "-I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/..",
+          "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+          "-I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include",
+          "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_src",
+          "-isystem",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol",
+          "-isystem",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/samples/shaders/generated",
+          "-O3",
+          "-DNDEBUG",
+          "-std=gnu17",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/debug_adapter.c.o",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/gfx/debug_adapter.c",
+          "-I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx"
+        ],
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_gfx"
+      }
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/VIS07/build-candidate-ordinary-both.json",
+      "unit": {
+        "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/ordinary-both/split/debug_adapter.c",
+        "source_sha256": "1212f13ae9a3415090406438c8e8a2ac3018c55deff30ad5c2e116404c51a4bd",
+        "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/ordinary-both/debug_adapter.c.o",
+        "object_sha256": "66a4194ad9dcdbda52626a3509e0046542aac65520e0cb614cf3edc74655b591",
+        "command": [
+          "/usr/bin/cc",
+          "-DBOTH_SAMPLES",
+          "-DSOKOL_GLCORE",
+          "-I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/..",
+          "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+          "-I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include",
+          "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/box3d_src",
+          "-isystem",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol",
+          "-isystem",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/samples/shaders/generated",
+          "-O3",
+          "-DNDEBUG",
+          "-std=gnu17",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/ordinary-both/debug_adapter.c.o",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/ordinary-both/split/debug_adapter.c",
+          "-I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx"
+        ],
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/box3d_gfx"
+      }
+    }
+  ],
+  "raw_before_bytes": 903053480,
+  "pins_before": {
+    "native_adapter": "87389d84c35dc854ed163ac38e38fd007d57249a1d83775e97e795e9911258c7",
+    "both": "809f8a54fb18ff79bb8a31d8cb03d54eb6a02dabd1c32265210a2de619502524",
+    "capacity_generator": "546d9d919dcd9cd874197be677c9bf12906216af8e0510b5d17394560a0dcdaf",
+    "split_generator": "88656c92cfd40acf79e5ef528db13b74f7c3b44f5247e10477b7bf1d5b4bd522",
+    "observer": "34e095cd78b7873d005ca3fd100d939681aa62d1747faddaa1c2f20ac5f3acdc"
+  },
+  "scope": "Read-only actualCPU +ordinarycombined BodyType creation getters→cachedmetadata→draw resolvedtype/roughness/alpha and RenderFrame transparent counts. Initial Dynamic7 CPU/0combinedCPUpane; fiveKinematic getters1 butcachedcreationtype2/0, alpha1. RealmouseDynamic/Kinematic transparencyonoff andtype radios paused;default/IDs/poses restored. No productionedit/Rustbuild/solver/advancingphysics/nativebackend rerun. Verify exact originaladapter source+archiveobject hash, inject2readonlyhooks, linkdirectoverridebeforeunchangedlibgfx (noarchive mutation).",
+  "outputs": [
+    {
+      "path": "raw/ui06-trace-build",
+      "consumer": "2diagnosticadapterobjects+observer andCPU/combinedbeforebinaries for nextfocusedrepair relinks",
+      "delete": "Delete supersededbeforebinaries/diagnosticobjects afterdiscriminatinginputs+beforecaptures consumed or patchedrender qualified; retain only current namednext-relink inputs"
+    },
+    {
+      "path": "raw/ui06-trace-runs",
+      "consumer": "Selectedactualadapter rows/getter namespace/input/output values and4before screenshots",
+      "delete": "ConsumeAPI/observer/stderr aftereachterminalapp;retainselectedstates/creation/getter/drawrows/screens only"
+    }
+  ]
+}

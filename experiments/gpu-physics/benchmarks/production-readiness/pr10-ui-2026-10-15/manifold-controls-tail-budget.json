@@ -1,0 +1,45 @@
+{
+  "status": "FROZEN",
+  "created": "2026-10-15T19:10:07.026Z",
+  "builds": 0,
+  "viewers": 5,
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_per_app": 300,
+  "ready_seconds": 25,
+  "scene_seconds": 90,
+  "screenshots_per_app": 10,
+  "actions_per_app": 280,
+  "retries": 0,
+  "core_bytes": 0,
+  "api_bytes_per_app": 33554432,
+  "observer_bytes_per_app": 16777216,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 134217728,
+  "min_free_bytes": 21474836480,
+  "scope": "9Manifold no-bodytools:45inheritedwidget callsites, actualcache inputs/results/manualfeatures; eachMouseDown/Move/Up translate/Shiftrotate/release/Altignore. UIpreviewmath is native Box3D calculation in all5viewers, not GPUsolver qualification.",
+  "outputs": [
+    {
+      "path": "raw/manifold-controls-tail-runs",
+      "consumer": "Selectedcollision/cache/renderpose/UI checks and CPU-first tool grid",
+      "delete": "Full API/observer streams after selected operation/case extraction; retain one screenshot/tool/route"
+    },
+    {
+      "path": "raw/manifold-control-build",
+      "consumer": "9tools andremaining nativeUIcontrols; supersedesgeometryafter5routequalification",
+      "delete": "Current shared observer pooluntil verified replacement"
+    }
+  ],
+  "source_hypotheses": [
+    "4tools do not consumeUsecache;7tools do not consume manual feature radios",
+    "auto may leave forcedSATcachetype stale; actualinput trace required beforeissueconfirmation"
+  ],
+  "continuation": "CPU remaining2tools+2separated-cache-effect cases only; preserve7completed tools/21mousecases and original failures. FourGPUroutes unlaunched full9tools.",
+  "stimulus": "For2overlappingHull/simplexcases, dragB320x80pixels whilecacheenabled toseparate shapes andpopulateGJKcache; sourceacceptsemptyoverlapcache. No enginechange. Stablefilteredpicker settledafteractualframes/rehover."
+}

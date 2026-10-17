@@ -1,0 +1,5 @@
+{
+  "status": "STATIC_AUDIT_GUARD_ERROR_BEFORE_CLEANUP",
+  "cause": "Started with performance.now() but checked Date.now()-start; mixed clock domains fails immediately at first media. No deadline exhaustion or runtime/build/cleanup operation; all current binaries remain available.",
+  "correction": "Use performance.now() for both finite deadline and duration; acceptance/source/media checks unchanged."
+}

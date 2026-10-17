@@ -1,0 +1,22 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 8238346,
+  "raw_retained_bytes": 847855412,
+  "deleted_bytes": 9467397,
+  "owned_pids_absent": [
+    650596,
+    650581,
+    651248,
+    651231,
+    651995,
+    651975,
+    652724,
+    652707,
+    653704,
+    653689
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707650760704,
+  "consumer": "Current5viewers/34directtaskobjects/4Cmodules/3localAPIcarriers nextPR10relink; minimal floor inputs/actualRustboundary/shapeAABB/materialholes/lifecycle/defaults/picking/media finalaudit"
+}

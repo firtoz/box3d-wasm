@@ -1,0 +1,14 @@
+{
+  "status": "FROZEN",
+  "seconds": 25,
+  "files_scanned": 10000,
+  "receipt_reads": 400,
+  "total_bytes_read": 536870912,
+  "max_file_bytes": 33554432,
+  "output_bytes": 524288,
+  "builds": 0,
+  "apps": 0,
+  "captures": 0,
+  "deletions": 0,
+  "scope": "Read-onlyplanforterminalTypeScript/Bunreceipt JSON whitespace compaction. JSONvalues/numbertokens/order preserved;onlycanonical2-spaceJSON thatcanbereconstructedbyteexact. Currentpinnedinputs excluded. Images/logs/sources unchanged."
+}

@@ -1,0 +1,26 @@
+{
+  "status": "PASS_SOURCE_INVENTORY_CORRECTION",
+  "seconds": 0.32503886200720444,
+  "old_CPU_shared_calls": 84,
+  "generated_GPU_only_shared_calls": 1,
+  "new_shared_total": 85,
+  "native_samples": 165,
+  "sample_widget_calls": 342,
+  "prior_review_statuses_preserved": true,
+  "generated_call": {
+    "kind": "Checkbox",
+    "label": "Split: CPU left / GPU right",
+    "arguments": "\"Split: CPU left / GPU right\", &split",
+    "line": 88,
+    "status": "UNREVIEWED",
+    "ordinary_gpu": "NOT_APPLICABLE",
+    "native_gpu": "NOT_APPLICABLE",
+    "ordinary_combined": "UNREVIEWED",
+    "native_combined": "UNREVIEWED",
+    "real_cpu": "NOT_APPLICABLE",
+    "source": "experiments/gpu-physics/scripts/sokol_split_injection.py",
+    "declaring_class": "generated combined viewer; BOTH_SAMPLES",
+    "generated_gpu_only": true
+  },
+  "deleted_temporary_bytes": 340376
+}

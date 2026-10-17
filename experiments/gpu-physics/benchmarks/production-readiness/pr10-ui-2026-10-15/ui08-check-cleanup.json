@@ -1,0 +1,22 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 2112827,
+  "raw_retained_bytes": 1041461631,
+  "deleted_bytes": 1581091,
+  "owned_pids_absent": [
+    3197829,
+    3197812,
+    3198076,
+    3198060,
+    3198388,
+    3198370,
+    3198685,
+    3198669,
+    3199050,
+    3198983
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708172025856,
+  "consumer": "UI08actual all5popup/calculation/load/policy/IDs/layoutscreens; streamsconsumed/oldviewersretireaftermanualinspection"
+}

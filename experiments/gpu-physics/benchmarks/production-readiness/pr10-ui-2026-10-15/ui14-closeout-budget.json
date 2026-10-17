@@ -1,0 +1,13 @@
+{
+  "status": "FROZEN",
+  "builds": 0,
+  "viewers": 0,
+  "captures": 0,
+  "composites": 3,
+  "composite_seconds": 8,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 67108864,
+  "min_free_bytes": 21474836480,
+  "raw_before_bytes": 950419484,
+  "scope": "Prioractualauto8/originalbeforeCPUfirstbothSATpairs;newactualmanual/auto2grids. Validatepins/inputs/2CPUprobeadjudication/PIDs/core/cache/storage/Box3Dclean/diffcheck;consumeui14logs;currentpoolnextrelink."
+}

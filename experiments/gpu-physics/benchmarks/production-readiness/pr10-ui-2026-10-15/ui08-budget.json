@@ -1,0 +1,65 @@
+{
+  "status": "FROZEN",
+  "issue": "UI08",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "cpp_compiles": 3,
+  "compile_seconds": 20,
+  "links": 5,
+  "link_seconds": 25,
+  "generations": 1,
+  "generation_seconds": 10,
+  "focused_compile": 1,
+  "focused_compile_seconds": 10,
+  "focused_run_seconds": 5,
+  "cmake_configures": 1,
+  "cmake_seconds": 15,
+  "viewers": 5,
+  "seconds_per_app": 60,
+  "screenshots_per_app": 3,
+  "actions_per_app": 100,
+  "physics_steps": 0,
+  "replay_pregen_cpu": 64,
+  "builds_Rust": 0,
+  "retries": 0,
+  "api_bytes_per_app": 16777216,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 600,
+  "raw_before_bytes": 872874706,
+  "pre_edit_pins": {
+    "experiments/gpu-physics/scripts/inject-sokol-bench.py": "4579ae82842f423b5e88ecc0b8d66a45070f1312e3b9d6300b34db60e66a407c",
+    "experiments/gpu-physics/native-samples/CMakeLists.txt": "a51346769d22df9dce127860c1d1f6cd912bf4164ab0768140f8c7453d981bae",
+    "box3d/samples/sample_replay.cpp": "874920153f82d19791f28176d47bfa1865858f525646cf02e70b4632a54a23c9"
+  },
+  "compositions": 2,
+  "seconds_per_composition": 8,
+  "scope": "OnlyReplaypopupbasenameWindows/Unix/mixedseparator. GenerateprojectnativeReplaycopy;3routecompilevariants/5relinksagainstexisting207pinnedinputs. ActualCPUloadpolicy/IDs and4GPUunsupportedLoad/Cancel preserve originalbehavior. UI09 remains separate/open. Noengine/WASM/Box3Dedit.",
+  "outputs": [
+    {
+      "path": "raw/ui08-build",
+      "consumer": "All5UI08nativepopupregression thenfuturePR10fixregressions",
+      "delete": "Objects/extractedfocusedtest/generatedunrelatedcopiesafterqualification; old5viewerpoolafternew5qualify; new5retainedonlyascurrentpool"
+    },
+    {
+      "path": "raw/ui08-runs",
+      "consumer": "UI08actualinput/layout/identitybeforeafterevidence",
+      "delete": "Consumeall3streamsperterminalapp;keepselectedreceipts/images"
+    },
+    {
+      "path": "ui08-before-grid.png/ui08-after-grid.png",
+      "consumer": "Userrepairreport/finalPR10acceptance",
+      "delete": "Retainselectedbeforeafterevidence"
+    }
+  ]
+}

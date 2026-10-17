@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "counts": {
+    "samples_mapped": 165,
+    "samples_inventory_left": 0,
+    "sample_widget_call_sites": 342,
+    "samples_with_widget_calls": 67,
+    "shared_widget_call_sites": 85,
+    "samples_with_input_overrides": 23,
+    "interaction_samples_done": 0,
+    "interaction_samples_left": 165,
+    "cpu_shared_widget_call_sites": 84,
+    "gpu_only_shared_widget_call_sites": 1
+  },
+  "comparison": "Every sample identity, inheritance chain, widget kind/label/arguments/line/source/owner, input method/key token, and shared generated widget matches existing inventory. Existing runtime statuses were not overwritten.",
+  "apps": 0,
+  "builds": 0,
+  "temporary_json_files": 0,
+  "language": "TypeScript/Bun"
+}

@@ -1,0 +1,16 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 9580356,
+  "raw_retained_bytes": 962339385,
+  "deleted_bytes": 20768239,
+  "owned_pids_absent": [
+    2956503,
+    2956487,
+    2957212,
+    2957194
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708281446400,
+  "consumer": "OnlymissingcombinedCastWorldtailnowchecked; selectedstates/screens."
+}

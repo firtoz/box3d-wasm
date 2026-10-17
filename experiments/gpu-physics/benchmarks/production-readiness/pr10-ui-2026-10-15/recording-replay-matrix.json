@@ -1,0 +1,38 @@
+{
+  "status": "REVIEWED_FIVE_ROUTES_BODY_VIEW",
+  "runs": [
+    {
+      "label": "cpu",
+      "exit": 1,
+      "seconds": 1.8171000119764358
+    },
+    {
+      "label": "ordinary-gpu",
+      "exit": 1,
+      "seconds": 2.868927353993058
+    },
+    {
+      "label": "native-gpu",
+      "exit": 1,
+      "seconds": 3.068887161993189
+    },
+    {
+      "label": "ordinary-both",
+      "exit": 1,
+      "seconds": 3.1194925240124576
+    },
+    {
+      "label": "native-both",
+      "exit": 1,
+      "seconds": 2.9202063950069714
+    }
+  ],
+  "failed_routes": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds": 13.798190757021075
+}

@@ -1,0 +1,31 @@
+{
+  "status": "CPU_PREREQUISITE_FAILED",
+  "budget": "host-controls-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "village",
+    "tree"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "village",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "tree",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "findings": 0
+    }
+  ]
+}

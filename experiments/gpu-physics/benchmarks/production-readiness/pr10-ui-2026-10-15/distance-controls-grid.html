@@ -1,0 +1,78 @@
+<!doctype html><meta charset="utf-8"><title>PR10 collision tools — CPU first</title><style>body{font:16px system-ui;background:#17191d;color:#eee}table{border-collapse:collapse}th,td{padding:8px;border:1px solid #444;vertical-align:top}img{width:400px}</style><h1>Collision tool interaction review</h1><p>Real Box3D CPU first. Default/changed review states, not repaired before/after. UI15–UI18 remain open. Original negative faults and the rejected no-Alt pan assertion are explicit in acceptance.</p><table><tr><th>Tool/state</th>
+<th>cpu</th>
+<th>ordinary-gpu</th>
+<th>native-gpu</th>
+<th>ordinary-both</th>
+<th>native-both</th>
+</tr>
+<tr><th>distance-debug/distance-debug-before</th>
+<td><a href="evidence/distance-controls-tail-runs/distance-debug/cpu/distance-debug-before.png"><img src="evidence/distance-controls-tail-runs/distance-debug/cpu/distance-debug-before.png" alt="cpu distance-debug-before"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/distance-debug/ordinary-gpu/distance-debug-before.png"><img src="evidence/distance-controls-tail-runs/distance-debug/ordinary-gpu/distance-debug-before.png" alt="ordinary-gpu distance-debug-before"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/distance-debug/native-gpu/distance-debug-before.png"><img src="evidence/distance-controls-tail-runs/distance-debug/native-gpu/distance-debug-before.png" alt="native-gpu distance-debug-before"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/distance-debug/ordinary-both/distance-debug-before.png"><img src="evidence/distance-controls-tail-runs/distance-debug/ordinary-both/distance-debug-before.png" alt="ordinary-both distance-debug-before"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/distance-debug/native-both/distance-debug-before.png"><img src="evidence/distance-controls-tail-runs/distance-debug/native-both/distance-debug-before.png" alt="native-both distance-debug-before"></a></td>
+</tr>
+<tr><th>distance-debug/distance-debug-changed</th>
+<td><a href="evidence/distance-controls-tail-runs/distance-debug/cpu/distance-debug-changed.png"><img src="evidence/distance-controls-tail-runs/distance-debug/cpu/distance-debug-changed.png" alt="cpu distance-debug-changed"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/distance-debug/ordinary-gpu/distance-debug-changed.png"><img src="evidence/distance-controls-tail-runs/distance-debug/ordinary-gpu/distance-debug-changed.png" alt="ordinary-gpu distance-debug-changed"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/distance-debug/native-gpu/distance-debug-changed.png"><img src="evidence/distance-controls-tail-runs/distance-debug/native-gpu/distance-debug-changed.png" alt="native-gpu distance-debug-changed"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/distance-debug/ordinary-both/distance-debug-changed.png"><img src="evidence/distance-controls-tail-runs/distance-debug/ordinary-both/distance-debug-changed.png" alt="ordinary-both distance-debug-changed"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/distance-debug/native-both/distance-debug-changed.png"><img src="evidence/distance-controls-tail-runs/distance-debug/native-both/distance-debug-changed.png" alt="native-both distance-debug-changed"></a></td>
+</tr>
+<tr><th>shape-distance/shape-distance-default</th>
+<td><a href="evidence/distance-controls-runs/shape-distance/cpu/shape-distance-default.png"><img src="evidence/distance-controls-runs/shape-distance/cpu/shape-distance-default.png" alt="cpu shape-distance-default"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/ordinary-gpu/shape-distance-default.png"><img src="evidence/distance-controls-tail-runs/shape-distance/ordinary-gpu/shape-distance-default.png" alt="ordinary-gpu shape-distance-default"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/native-gpu/shape-distance-default.png"><img src="evidence/distance-controls-tail-runs/shape-distance/native-gpu/shape-distance-default.png" alt="native-gpu shape-distance-default"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/ordinary-both/shape-distance-default.png"><img src="evidence/distance-controls-tail-runs/shape-distance/ordinary-both/shape-distance-default.png" alt="ordinary-both shape-distance-default"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/native-both/shape-distance-default.png"><img src="evidence/distance-controls-tail-runs/shape-distance/native-both/shape-distance-default.png" alt="native-both shape-distance-default"></a></td>
+</tr>
+<tr><th>shape-distance/shape-distance-hidden-radii</th>
+<td><a href="evidence/distance-controls-runs/shape-distance/cpu/shape-distance-hidden-radii.png"><img src="evidence/distance-controls-runs/shape-distance/cpu/shape-distance-hidden-radii.png" alt="cpu shape-distance-hidden-radii"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/ordinary-gpu/shape-distance-hidden-radii.png"><img src="evidence/distance-controls-tail-runs/shape-distance/ordinary-gpu/shape-distance-hidden-radii.png" alt="ordinary-gpu shape-distance-hidden-radii"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/native-gpu/shape-distance-hidden-radii.png"><img src="evidence/distance-controls-tail-runs/shape-distance/native-gpu/shape-distance-hidden-radii.png" alt="native-gpu shape-distance-hidden-radii"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/ordinary-both/shape-distance-hidden-radii.png"><img src="evidence/distance-controls-tail-runs/shape-distance/ordinary-both/shape-distance-hidden-radii.png" alt="ordinary-both shape-distance-hidden-radii"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/native-both/shape-distance-hidden-radii.png"><img src="evidence/distance-controls-tail-runs/shape-distance/native-both/shape-distance-hidden-radii.png" alt="native-both shape-distance-hidden-radii"></a></td>
+</tr>
+<tr><th>shape-distance/shape-distance-indices</th>
+<td><a href="evidence/distance-controls-runs/shape-distance/cpu/shape-distance-indices.png"><img src="evidence/distance-controls-runs/shape-distance/cpu/shape-distance-indices.png" alt="cpu shape-distance-indices"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/ordinary-gpu/shape-distance-indices.png"><img src="evidence/distance-controls-tail-runs/shape-distance/ordinary-gpu/shape-distance-indices.png" alt="ordinary-gpu shape-distance-indices"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/native-gpu/shape-distance-indices.png"><img src="evidence/distance-controls-tail-runs/shape-distance/native-gpu/shape-distance-indices.png" alt="native-gpu shape-distance-indices"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/ordinary-both/shape-distance-indices.png"><img src="evidence/distance-controls-tail-runs/shape-distance/ordinary-both/shape-distance-indices.png" alt="ordinary-both shape-distance-indices"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/native-both/shape-distance-indices.png"><img src="evidence/distance-controls-tail-runs/shape-distance/native-both/shape-distance-indices.png" alt="native-both shape-distance-indices"></a></td>
+</tr>
+<tr><th>shape-distance/shape-distance-simplex</th>
+<td><a href="evidence/distance-controls-runs/shape-distance/cpu/shape-distance-simplex.png"><img src="evidence/distance-controls-runs/shape-distance/cpu/shape-distance-simplex.png" alt="cpu shape-distance-simplex"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/ordinary-gpu/shape-distance-simplex.png"><img src="evidence/distance-controls-tail-runs/shape-distance/ordinary-gpu/shape-distance-simplex.png" alt="ordinary-gpu shape-distance-simplex"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/native-gpu/shape-distance-simplex.png"><img src="evidence/distance-controls-tail-runs/shape-distance/native-gpu/shape-distance-simplex.png" alt="native-gpu shape-distance-simplex"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/ordinary-both/shape-distance-simplex.png"><img src="evidence/distance-controls-tail-runs/shape-distance/ordinary-both/shape-distance-simplex.png" alt="ordinary-both shape-distance-simplex"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/shape-distance/native-both/shape-distance-simplex.png"><img src="evidence/distance-controls-tail-runs/shape-distance/native-both/shape-distance-simplex.png" alt="native-both shape-distance-simplex"></a></td>
+</tr>
+<tr><th>time-of-impact/toi-default</th>
+<td><a href="evidence/distance-controls-runs/time-of-impact/cpu/toi-default.png"><img src="evidence/distance-controls-runs/time-of-impact/cpu/toi-default.png" alt="cpu toi-default"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/time-of-impact/ordinary-gpu/toi-default.png"><img src="evidence/distance-controls-tail-runs/time-of-impact/ordinary-gpu/toi-default.png" alt="ordinary-gpu toi-default"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/time-of-impact/native-gpu/toi-default.png"><img src="evidence/distance-controls-tail-runs/time-of-impact/native-gpu/toi-default.png" alt="native-gpu toi-default"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/time-of-impact/ordinary-both/toi-default.png"><img src="evidence/distance-controls-tail-runs/time-of-impact/ordinary-both/toi-default.png" alt="ordinary-both toi-default"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/time-of-impact/native-both/toi-default.png"><img src="evidence/distance-controls-tail-runs/time-of-impact/native-both/toi-default.png" alt="native-both toi-default"></a></td>
+</tr>
+<tr><th>time-of-impact/invalid-toi-option-popup</th>
+<td><a href="evidence/distance-controls-runs/time-of-impact/cpu/invalid-toi-option-popup.png"><img src="evidence/distance-controls-runs/time-of-impact/cpu/invalid-toi-option-popup.png" alt="cpu invalid-toi-option-popup"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/time-of-impact/ordinary-gpu/invalid-toi-option-popup.png"><img src="evidence/distance-controls-tail-runs/time-of-impact/ordinary-gpu/invalid-toi-option-popup.png" alt="ordinary-gpu invalid-toi-option-popup"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/time-of-impact/native-gpu/invalid-toi-option-popup.png"><img src="evidence/distance-controls-tail-runs/time-of-impact/native-gpu/invalid-toi-option-popup.png" alt="native-gpu invalid-toi-option-popup"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/time-of-impact/ordinary-both/invalid-toi-option-popup.png"><img src="evidence/distance-controls-tail-runs/time-of-impact/ordinary-both/invalid-toi-option-popup.png" alt="ordinary-both invalid-toi-option-popup"></a></td>
+<td><a href="evidence/distance-controls-tail-runs/time-of-impact/native-both/invalid-toi-option-popup.png"><img src="evidence/distance-controls-tail-runs/time-of-impact/native-both/invalid-toi-option-popup.png" alt="native-both invalid-toi-option-popup"></a></td>
+</tr>
+<tr><th>framing/default-preview</th>
+<td><a href="evidence/empty-world-framing-runs/cpu/default-preview.png"><img src="evidence/empty-world-framing-runs/cpu/default-preview.png" alt="cpu default-preview"></a></td>
+<td><a href="evidence/empty-world-framing-runs/ordinary-gpu/default-preview.png"><img src="evidence/empty-world-framing-runs/ordinary-gpu/default-preview.png" alt="ordinary-gpu default-preview"></a></td>
+<td><a href="evidence/empty-world-framing-runs/native-gpu/default-preview.png"><img src="evidence/empty-world-framing-runs/native-gpu/default-preview.png" alt="native-gpu default-preview"></a></td>
+<td><a href="evidence/empty-world-framing-runs/ordinary-both/default-preview.png"><img src="evidence/empty-world-framing-runs/ordinary-both/default-preview.png" alt="ordinary-both default-preview"></a></td>
+<td><a href="evidence/empty-world-framing-runs/native-both/default-preview.png"><img src="evidence/empty-world-framing-runs/native-both/default-preview.png" alt="native-both default-preview"></a></td>
+</tr>
+<tr><th>framing/after-frame-controls</th>
+<td><a href="evidence/empty-world-framing-runs/cpu/after-frame-controls.png"><img src="evidence/empty-world-framing-runs/cpu/after-frame-controls.png" alt="cpu after-frame-controls"></a></td>
+<td><a href="evidence/empty-world-framing-runs/ordinary-gpu/after-frame-controls.png"><img src="evidence/empty-world-framing-runs/ordinary-gpu/after-frame-controls.png" alt="ordinary-gpu after-frame-controls"></a></td>
+<td><a href="evidence/empty-world-framing-runs/native-gpu/after-frame-controls.png"><img src="evidence/empty-world-framing-runs/native-gpu/after-frame-controls.png" alt="native-gpu after-frame-controls"></a></td>
+<td><a href="evidence/empty-world-framing-runs/ordinary-both/after-frame-controls.png"><img src="evidence/empty-world-framing-runs/ordinary-both/after-frame-controls.png" alt="ordinary-both after-frame-controls"></a></td>
+<td><a href="evidence/empty-world-framing-runs/native-both/after-frame-controls.png"><img src="evidence/empty-world-framing-runs/native-both/after-frame-controls.png" alt="native-both after-frame-controls"></a></td>
+</tr>
+</table>

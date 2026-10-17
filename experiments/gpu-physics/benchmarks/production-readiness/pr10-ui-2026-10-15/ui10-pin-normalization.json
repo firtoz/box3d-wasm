@@ -1,0 +1,8 @@
+{
+  "status": "EXACT_INTENDED_GENERATOR_DELTA_VERIFIED",
+  "path": "experiments/gpu-physics/scripts/inject-sokol-bench.py",
+  "inherited_relative_pin": "be58c8d324436a6302c0e84bd7a045778d0e3465600172bfe90623a6a6f53751",
+  "expected_original": "be58c8d324436a6302c0e84bd7a045778d0e3465600172bfe90623a6a6f53751",
+  "current_sha256": "776bdec7e7a2eeca126f682be9c4e8233de7a6334a2348e86641c23e33645072",
+  "scope": "Inheritedrelativealias updatedtomatchalreadycorrectabsolutepin; inverseexactintendedfunction replacement reproducesoriginalsourcehash. No source/build/app change."
+}

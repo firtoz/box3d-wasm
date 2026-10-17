@@ -1,0 +1,26 @@
+{
+  "status": "CPU_FILE_AND_LOAD_GATES_SATISFIED_GPU_FOUR_UNLAUNCHED",
+  "builds": 0,
+  "apps_CPUfirst": [
+    "CPU actualvalidfileload receipt raw/replay-gtk-path-runs/cpu/receipt.json",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "dialog_seconds": 8,
+  "native_dialog_enter_count_max": 2,
+  "native_dialog_screens_each": 2,
+  "app_screens_each": 6,
+  "actions_each": 160,
+  "api_each": 16777216,
+  "temporary_cap": 1073741824,
+  "retained_cap": 67108864,
+  "shared_cache_growth_cap": 134217728,
+  "retries": 0,
+  "reason": "CPU savedfile andactual player load/forward/backpass; remainingGPUfileload checks previouslyunlaunched nowauthorized by frozen dependency. Exclusionmessage assertion scoped actualLoadReplaypopup, unrelatedRecordingunavailable text cannot satisfy.",
+  "outputs": "SelectedGTK/appscreens and receipt retained; existing2b3rec consumedbyCPUload+GPUexclusions then removed; fullstreams removed after extraction",
+  "driver_sha256": "ec11d6ac45f38ac6f223b0ebb13ace3f2841d028991bb118e5ec7ce9cd639d22"
+}

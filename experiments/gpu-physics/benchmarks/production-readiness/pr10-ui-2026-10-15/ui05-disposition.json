@@ -1,0 +1,25 @@
+{
+  "status": "CLOSED",
+  "open_issues": 21,
+  "verified_fixes": 8,
+  "widgets": 342,
+  "samples": 165,
+  "custom_groups": 23,
+  "review_left": 0,
+  "acceptance_sha256": "4e009d2fe3cfc5f553055a9d50dc1f9e211d1245102e98b2c3e737d8b67b5614",
+  "current_pool": "ui05-build.json/link_plan",
+  "next": "UI06 stale/misowned bodyType metadata; trace actual getters/adaptermetadata/RenderFrame onCPU first andcombined CPUcallbacks undernewfinitebudget",
+  "goal": "ACTIVE;PR10unchecked;no commitpush",
+  "final_checks": {
+    "diff_check": "PASS",
+    "box3d_submodule": "CLEAN",
+    "all_current_pins_verified": true,
+    "all_link_inputs_present": true,
+    "all28_recorded_pids_absent": true,
+    "owned_core_files": [],
+    "raw_bytes": 903053480,
+    "acceptance_sha256": "4e009d2fe3cfc5f553055a9d50dc1f9e211d1245102e98b2c3e737d8b67b5614",
+    "goal": "ACTIVE",
+    "next_budget": null
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "status": "PASS_FOCUSED_COMPOSITE",
+  "routes": {
+    "cpu": [
+      "raw/ui21-runs/cpu"
+    ],
+    "ordinary-gpu": [
+      "raw/ui21-runs/ordinary-gpu"
+    ],
+    "native-gpu": [
+      "raw/ui21-runs/native-gpu"
+    ],
+    "ordinary-both": [
+      "raw/ui21-runs/ordinary-both",
+      "raw/ui21-reflection-completion/ordinary-both"
+    ],
+    "native-both": [
+      "raw/ui21-core-completion/native-both",
+      "raw/ui21-reflection-completion/native-both"
+    ]
+  },
+  "original_ordinary_abort": "ui21-observer-capacity-attribution.json",
+  "qualified_complete_route_repeats": 0
+}

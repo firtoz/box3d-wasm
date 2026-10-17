@@ -1,0 +1,33 @@
+{
+  "status": "CPU_PREREQUISITE_FAILED",
+  "budget": "driving-controls-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "driving",
+    "top-down"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "driving",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 67,
+      "findings": 2
+    },
+    {
+      "route": "cpu",
+      "fixture": "top-down",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 1,
+      "findings": 0
+    }
+  ]
+}

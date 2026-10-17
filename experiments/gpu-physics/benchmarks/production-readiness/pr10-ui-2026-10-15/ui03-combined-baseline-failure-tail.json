@@ -1,0 +1,537 @@
+[
+  {
+    "api": "gpu_b3_world_step",
+    "world": [
+      1,
+      2
+    ],
+    "value": 0,
+    "substeps": 4
+  },
+  {
+    "api": "cpu_b3World_Step",
+    "world": [
+      1,
+      1
+    ],
+    "value": 0,
+    "substeps": 4
+  },
+  {
+    "api": "b3World_Draw",
+    "world": [
+      1,
+      2
+    ],
+    "shapes": 1,
+    "joints": 0,
+    "extras": 0,
+    "bounds": 0,
+    "mass": 0,
+    "sleep": 0,
+    "names": 0,
+    "contacts": 0,
+    "anchorA": 0,
+    "graph": 0,
+    "features": 0,
+    "normals": 0,
+    "forces": 0,
+    "islands": 0,
+    "jointScale": 1,
+    "forceScale": 1
+  },
+  {
+    "api": "actual_draw_outputs",
+    "world": [
+      1,
+      2
+    ],
+    "bodies": 8,
+    "joints": 3,
+    "contacts": 1,
+    "shape_callbacks": 8,
+    "shape_digest": "cfeb1628b4819064",
+    "segment_callbacks": 0,
+    "segment_digest": "0000000000000000",
+    "transform_callbacks": 0,
+    "transform_digest": "0000000000000000",
+    "point_callbacks": 0,
+    "point_digest": "0000000000000000",
+    "sphere_callbacks": 0,
+    "sphere_digest": "0000000000000000",
+    "capsule_callbacks": 0,
+    "capsule_digest": "0000000000000000",
+    "bounds_callbacks": 0,
+    "bounds_digest": "0000000000000000",
+    "box_callbacks": 0,
+    "box_digest": "0000000000000000",
+    "string_callbacks": 0,
+    "string_digest": "0000000000000000"
+  },
+  {
+    "api": "actual_RenderFrame",
+    "debugMode": 0,
+    "disableShadows": 0,
+    "disableAmbientOcclusion": 0,
+    "exposure": -2.5,
+    "sun": 0.800000012,
+    "ibl": 1,
+    "hullEdges": 1,
+    "edgeConvexity": 0,
+    "shadowStart": 10,
+    "shadowRange": 58.6431122,
+    "shadowDistribution": 0.5,
+    "gtaoQuality": 1
+  },
+  {
+    "api": "actual_gpu_draw_outputs",
+    "world": [
+      1,
+      2
+    ],
+    "bodies": 8,
+    "joints": 3,
+    "contacts": 1,
+    "shape_callbacks": 8,
+    "shape_digest": "0082c1d8f0a4f3e8",
+    "segment_callbacks": 0,
+    "segment_digest": "0000000000000000",
+    "transform_callbacks": 0,
+    "transform_digest": "0000000000000000",
+    "point_callbacks": 0,
+    "point_digest": "0000000000000000",
+    "sphere_callbacks": 0,
+    "sphere_digest": "0000000000000000",
+    "capsule_callbacks": 0,
+    "capsule_digest": "0000000000000000",
+    "bounds_callbacks": 0,
+    "bounds_digest": "0000000000000000",
+    "box_callbacks": 0,
+    "box_digest": "0000000000000000",
+    "string_callbacks": 0,
+    "string_digest": "0000000000000000"
+  },
+  {
+    "api": "actual_RenderFrame",
+    "debugMode": 0,
+    "disableShadows": 0,
+    "disableAmbientOcclusion": 0,
+    "exposure": -2.5,
+    "sun": 0.800000012,
+    "ibl": 1,
+    "hullEdges": 1,
+    "edgeConvexity": 0,
+    "shadowStart": 10,
+    "shadowRange": 58.6431122,
+    "shadowDistribution": 0.5,
+    "gtaoQuality": 1
+  },
+  {
+    "api": "b3World_Step",
+    "world": [
+      1,
+      2
+    ],
+    "value": 0,
+    "substeps": 4
+  },
+  {
+    "api": "gpu_b3_world_step",
+    "world": [
+      1,
+      2
+    ],
+    "value": 0,
+    "substeps": 4
+  },
+  {
+    "api": "cpu_b3World_Step",
+    "world": [
+      1,
+      1
+    ],
+    "value": 0,
+    "substeps": 4
+  },
+  {
+    "api": "b3World_Draw",
+    "world": [
+      1,
+      2
+    ],
+    "shapes": 1,
+    "joints": 0,
+    "extras": 0,
+    "bounds": 0,
+    "mass": 0,
+    "sleep": 0,
+    "names": 0,
+    "contacts": 0,
+    "anchorA": 0,
+    "graph": 0,
+    "features": 0,
+    "normals": 0,
+    "forces": 0,
+    "islands": 0,
+    "jointScale": 1,
+    "forceScale": 1
+  },
+  {
+    "api": "actual_draw_outputs",
+    "world": [
+      1,
+      2
+    ],
+    "bodies": 8,
+    "joints": 3,
+    "contacts": 1,
+    "shape_callbacks": 8,
+    "shape_digest": "cfeb1628b4819064",
+    "segment_callbacks": 0,
+    "segment_digest": "0000000000000000",
+    "transform_callbacks": 0,
+    "transform_digest": "0000000000000000",
+    "point_callbacks": 0,
+    "point_digest": "0000000000000000",
+    "sphere_callbacks": 0,
+    "sphere_digest": "0000000000000000",
+    "capsule_callbacks": 0,
+    "capsule_digest": "0000000000000000",
+    "bounds_callbacks": 0,
+    "bounds_digest": "0000000000000000",
+    "box_callbacks": 0,
+    "box_digest": "0000000000000000",
+    "string_callbacks": 0,
+    "string_digest": "0000000000000000"
+  },
+  {
+    "api": "actual_RenderFrame",
+    "debugMode": 0,
+    "disableShadows": 0,
+    "disableAmbientOcclusion": 0,
+    "exposure": -2.5,
+    "sun": 0.800000012,
+    "ibl": 1,
+    "hullEdges": 1,
+    "edgeConvexity": 0,
+    "shadowStart": 10,
+    "shadowRange": 58.6431122,
+    "shadowDistribution": 0.5,
+    "gtaoQuality": 1
+  },
+  {
+    "api": "actual_gpu_draw_outputs",
+    "world": [
+      1,
+      2
+    ],
+    "bodies": 8,
+    "joints": 3,
+    "contacts": 1,
+    "shape_callbacks": 8,
+    "shape_digest": "0082c1d8f0a4f3e8",
+    "segment_callbacks": 0,
+    "segment_digest": "0000000000000000",
+    "transform_callbacks": 0,
+    "transform_digest": "0000000000000000",
+    "point_callbacks": 0,
+    "point_digest": "0000000000000000",
+    "sphere_callbacks": 0,
+    "sphere_digest": "0000000000000000",
+    "capsule_callbacks": 0,
+    "capsule_digest": "0000000000000000",
+    "bounds_callbacks": 0,
+    "bounds_digest": "0000000000000000",
+    "box_callbacks": 0,
+    "box_digest": "0000000000000000",
+    "string_callbacks": 0,
+    "string_digest": "0000000000000000"
+  },
+  {
+    "api": "actual_RenderFrame",
+    "debugMode": 0,
+    "disableShadows": 0,
+    "disableAmbientOcclusion": 0,
+    "exposure": -2.5,
+    "sun": 0.800000012,
+    "ibl": 1,
+    "hullEdges": 1,
+    "edgeConvexity": 0,
+    "shadowStart": 10,
+    "shadowRange": 58.6431122,
+    "shadowDistribution": 0.5,
+    "gtaoQuality": 1
+  },
+  {
+    "api": "b3World_Step",
+    "world": [
+      1,
+      2
+    ],
+    "value": 0,
+    "substeps": 4
+  },
+  {
+    "api": "gpu_b3_world_step",
+    "world": [
+      1,
+      2
+    ],
+    "value": 0,
+    "substeps": 4
+  },
+  {
+    "api": "cpu_b3World_Step",
+    "world": [
+      1,
+      1
+    ],
+    "value": 0,
+    "substeps": 4
+  },
+  {
+    "api": "b3World_Draw",
+    "world": [
+      1,
+      2
+    ],
+    "shapes": 1,
+    "joints": 0,
+    "extras": 0,
+    "bounds": 0,
+    "mass": 0,
+    "sleep": 0,
+    "names": 0,
+    "contacts": 0,
+    "anchorA": 0,
+    "graph": 0,
+    "features": 0,
+    "normals": 0,
+    "forces": 0,
+    "islands": 0,
+    "jointScale": 1,
+    "forceScale": 1
+  },
+  {
+    "api": "actual_draw_outputs",
+    "world": [
+      1,
+      2
+    ],
+    "bodies": 8,
+    "joints": 3,
+    "contacts": 1,
+    "shape_callbacks": 8,
+    "shape_digest": "cfeb1628b4819064",
+    "segment_callbacks": 0,
+    "segment_digest": "0000000000000000",
+    "transform_callbacks": 0,
+    "transform_digest": "0000000000000000",
+    "point_callbacks": 0,
+    "point_digest": "0000000000000000",
+    "sphere_callbacks": 0,
+    "sphere_digest": "0000000000000000",
+    "capsule_callbacks": 0,
+    "capsule_digest": "0000000000000000",
+    "bounds_callbacks": 0,
+    "bounds_digest": "0000000000000000",
+    "box_callbacks": 0,
+    "box_digest": "0000000000000000",
+    "string_callbacks": 0,
+    "string_digest": "0000000000000000"
+  },
+  {
+    "api": "actual_RenderFrame",
+    "debugMode": 0,
+    "disableShadows": 0,
+    "disableAmbientOcclusion": 0,
+    "exposure": -2.5,
+    "sun": 0.800000012,
+    "ibl": 1,
+    "hullEdges": 1,
+    "edgeConvexity": 0,
+    "shadowStart": 10,
+    "shadowRange": 58.6431122,
+    "shadowDistribution": 0.5,
+    "gtaoQuality": 1
+  },
+  {
+    "api": "actual_gpu_draw_outputs",
+    "world": [
+      1,
+      2
+    ],
+    "bodies": 8,
+    "joints": 3,
+    "contacts": 1,
+    "shape_callbacks": 8,
+    "shape_digest": "0082c1d8f0a4f3e8",
+    "segment_callbacks": 0,
+    "segment_digest": "0000000000000000",
+    "transform_callbacks": 0,
+    "transform_digest": "0000000000000000",
+    "point_callbacks": 0,
+    "point_digest": "0000000000000000",
+    "sphere_callbacks": 0,
+    "sphere_digest": "0000000000000000",
+    "capsule_callbacks": 0,
+    "capsule_digest": "0000000000000000",
+    "bounds_callbacks": 0,
+    "bounds_digest": "0000000000000000",
+    "box_callbacks": 0,
+    "box_digest": "0000000000000000",
+    "string_callbacks": 0,
+    "string_digest": "0000000000000000"
+  },
+  {
+    "api": "actual_RenderFrame",
+    "debugMode": 0,
+    "disableShadows": 0,
+    "disableAmbientOcclusion": 0,
+    "exposure": -2.5,
+    "sun": 0.800000012,
+    "ibl": 1,
+    "hullEdges": 1,
+    "edgeConvexity": 0,
+    "shadowStart": 10,
+    "shadowRange": 58.6431122,
+    "shadowDistribution": 0.5,
+    "gtaoQuality": 1
+  },
+  {
+    "api": "b3World_Step",
+    "world": [
+      1,
+      2
+    ],
+    "value": 0,
+    "substeps": 4
+  },
+  {
+    "api": "gpu_b3_world_step",
+    "world": [
+      1,
+      2
+    ],
+    "value": 0,
+    "substeps": 4
+  },
+  {
+    "api": "cpu_b3World_Step",
+    "world": [
+      1,
+      1
+    ],
+    "value": 0,
+    "substeps": 4
+  },
+  {
+    "api": "b3World_Draw",
+    "world": [
+      1,
+      2
+    ],
+    "shapes": 1,
+    "joints": 0,
+    "extras": 0,
+    "bounds": 0,
+    "mass": 0,
+    "sleep": 0,
+    "names": 0,
+    "contacts": 0,
+    "anchorA": 0,
+    "graph": 0,
+    "features": 0,
+    "normals": 0,
+    "forces": 0,
+    "islands": 0,
+    "jointScale": 1,
+    "forceScale": 1
+  },
+  {
+    "api": "actual_draw_outputs",
+    "world": [
+      1,
+      2
+    ],
+    "bodies": 8,
+    "joints": 3,
+    "contacts": 1,
+    "shape_callbacks": 8,
+    "shape_digest": "cfeb1628b4819064",
+    "segment_callbacks": 0,
+    "segment_digest": "0000000000000000",
+    "transform_callbacks": 0,
+    "transform_digest": "0000000000000000",
+    "point_callbacks": 0,
+    "point_digest": "0000000000000000",
+    "sphere_callbacks": 0,
+    "sphere_digest": "0000000000000000",
+    "capsule_callbacks": 0,
+    "capsule_digest": "0000000000000000",
+    "bounds_callbacks": 0,
+    "bounds_digest": "0000000000000000",
+    "box_callbacks": 0,
+    "box_digest": "0000000000000000",
+    "string_callbacks": 0,
+    "string_digest": "0000000000000000"
+  },
+  {
+    "api": "actual_RenderFrame",
+    "debugMode": 0,
+    "disableShadows": 0,
+    "disableAmbientOcclusion": 0,
+    "exposure": -2.5,
+    "sun": 0.800000012,
+    "ibl": 1,
+    "hullEdges": 1,
+    "edgeConvexity": 0,
+    "shadowStart": 10,
+    "shadowRange": 58.6431122,
+    "shadowDistribution": 0.5,
+    "gtaoQuality": 1
+  },
+  {
+    "api": "actual_gpu_draw_outputs",
+    "world": [
+      1,
+      2
+    ],
+    "bodies": 8,
+    "joints": 3,
+    "contacts": 1,
+    "shape_callbacks": 8,
+    "shape_digest": "0082c1d8f0a4f3e8",
+    "segment_callbacks": 0,
+    "segment_digest": "0000000000000000",
+    "transform_callbacks": 0,
+    "transform_digest": "0000000000000000",
+    "point_callbacks": 0,
+    "point_digest": "0000000000000000",
+    "sphere_callbacks": 0,
+    "sphere_digest": "0000000000000000",
+    "capsule_callbacks": 0,
+    "capsule_digest": "0000000000000000",
+    "bounds_callbacks": 0,
+    "bounds_digest": "0000000000000000",
+    "box_callbacks": 0,
+    "box_digest": "0000000000000000",
+    "string_callbacks": 0,
+    "string_digest": "0000000000000000"
+  },
+  {
+    "api": "actual_RenderFrame",
+    "debugMode": 0,
+    "disableShadows": 0,
+    "disableAmbientOcclusion": 0,
+    "exposure": -2.5,
+    "sun": 0.800000012,
+    "ibl": 1,
+    "hullEdges": 1,
+    "edgeConvexity": 0,
+    "shadowStart": 10,
+    "shadowRange": 58.6431122,
+    "shadowDistribution": 0.5,
+    "gtaoQuality": 1
+  }
+]

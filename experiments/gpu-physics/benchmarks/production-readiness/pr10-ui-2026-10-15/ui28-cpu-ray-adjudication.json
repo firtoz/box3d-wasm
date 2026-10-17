@@ -1,0 +1,14 @@
+{
+  "status": "PASS_SIZE_UI_WITH_EXPLICIT_UNCHANGED_RAY_REUSE",
+  "receipt": "raw/ui28-runs/cpu/receipt.json",
+  "false_flags": [
+    "Ray mode hides both size labels and uses actual ray query"
+  ],
+  "cause": "Harness demanded CastRayClosest; native CastWorld closest mode calls callback-based b3World_CastRay. Existing original actualCPU Cast Type0 receipt records that API. New CPU Ray screenshot/uiJSON confirms type0 and bothsize labels absent. Its query snapshot/bodyID state was not saved, so freshCPU Ray API/identity is not claimed; inherit existingactual Ray control evidence for unchanged branch.",
+  "native_source": "box3d/samples/sample_collision.cpp:631",
+  "existing_actual_CPU_Ray": "raw/cast-controls-runs/cast-world/cpu/receipt.json widget_cases Cast Type=0",
+  "current_UI": "raw/ui28-runs/cpu/ray.ui.json",
+  "current_actual_size_and_native_proxy_cases": 8,
+  "CPU_apps_repeated": 0,
+  "product_changes": 0
+}

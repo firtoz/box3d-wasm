@@ -1,0 +1,13 @@
+{
+  "status": "FROZEN",
+  "seconds": 35,
+  "files": 308,
+  "bytes_read": 536870912,
+  "max_temporary_file_bytes": 33554432,
+  "output_bytes": 524288,
+  "builds": 0,
+  "apps": 0,
+  "captures": 0,
+  "deletions": 0,
+  "scope": "Atomic canonical JSON whitespace compaction of listed terminal task receipts only. Exact original bytes reconstructable. Images, sources, current build inputs and shared caches unchanged."
+}

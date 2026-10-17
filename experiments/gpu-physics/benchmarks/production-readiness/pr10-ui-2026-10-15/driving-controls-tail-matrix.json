@@ -1,0 +1,89 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "driving-controls-tail-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "driving",
+    "top-down"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "top-down",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 9,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "driving",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 67,
+      "findings": 2
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "top-down",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 9,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "driving",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 67,
+      "findings": 2
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "top-down",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 9,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "driving",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 67,
+      "findings": 2
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "top-down",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 9,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "driving",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 67,
+      "findings": 2
+    },
+    {
+      "route": "native-both",
+      "fixture": "top-down",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 9,
+      "findings": 0
+    }
+  ]
+}

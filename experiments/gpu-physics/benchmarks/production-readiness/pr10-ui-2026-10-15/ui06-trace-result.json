@@ -1,0 +1,6718 @@
+{
+  "status": "CONFIRMED_SMALLEST_CAUSES",
+  "production_unchanged": true,
+  "source_archive_modules_verified": [
+    {
+      "route": "cpu",
+      "original_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/gfx/debug_adapter.c",
+      "original_sha256": "3a3e277b5fb42b5e12da63e9f3db21efabaedfcb6c16333429d469acfdd5cecb",
+      "original_archive": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/libgfx.a",
+      "original_object_sha256": "51de6b774fe2f455c98f37bb1007b3298c5666587f73d2f31a2d49955621b85c",
+      "diagnostic_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/cpu-adapter.c",
+      "diagnostic_sha256": "2c4d31b314c67744706480d7e570e402e9caa3b85ec2f2cd08d53bf5d44ab512",
+      "scope": "Only2read-onlymetadata/materialhooks; originalgets/mutations/drawlogicunchanged"
+    },
+    {
+      "route": "ordinary-both",
+      "original_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/ordinary-both/split/debug_adapter.c",
+      "original_sha256": "1212f13ae9a3415090406438c8e8a2ac3018c55deff30ad5c2e116404c51a4bd",
+      "original_archive": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-repairs/VIS07-candidate/ordinary-both/libgfx.a",
+      "original_object_sha256": "66a4194ad9dcdbda52626a3509e0046542aac65520e0cb614cf3edc74655b591",
+      "diagnostic_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/ordinary-both-adapter.c",
+      "diagnostic_sha256": "0cf3356cddbc89a4c7255d595f6c7d4d53572e468fc0c2587516d4f5543fa4c4",
+      "scope": "Only2read-onlymetadata/materialhooks; originalgets/mutations/drawlogicunchanged"
+    }
+  ],
+  "rows": [
+    {
+      "route": "cpu",
+      "receipt": "raw/ui06-trace-runs/cpu/receipt.json",
+      "checks": 10,
+      "seconds": 5.247575997999999,
+      "cases": [
+        {
+          "tag": "initial",
+          "render_counts": {
+            "opaque": 8,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          },
+          "draw_rows": [
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec300",
+              "shape": [
+                1,
+                1,
+                0
+              ],
+              "cached_body": [
+                1,
+                1,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": true,
+              "live_public_type": 0,
+              "public_shape_body": [
+                1,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 27896233,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec390",
+              "shape": [
+                8,
+                1,
+                0
+              ],
+              "cached_body": [
+                8,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                8,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec420",
+              "shape": [
+                7,
+                1,
+                0
+              ],
+              "cached_body": [
+                7,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                7,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec4b0",
+              "shape": [
+                6,
+                1,
+                0
+              ],
+              "cached_body": [
+                6,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                6,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec540",
+              "shape": [
+                5,
+                1,
+                0
+              ],
+              "cached_body": [
+                5,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                5,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec5d0",
+              "shape": [
+                4,
+                1,
+                0
+              ],
+              "cached_body": [
+                4,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                4,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec660",
+              "shape": [
+                3,
+                1,
+                0
+              ],
+              "cached_body": [
+                3,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                3,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec6f0",
+              "shape": [
+                2,
+                1,
+                0
+              ],
+              "cached_body": [
+                2,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                2,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            }
+          ],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 8,
+              "id_digest": "31e3bbfb1abf5e23",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    0
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    0
+                  ],
+                  2
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "dynamic-transparent",
+          "render_counts": {
+            "opaque": 1,
+            "transparent": 7,
+            "lines": 0,
+            "points": 0
+          },
+          "draw_rows": [
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec300",
+              "shape": [
+                1,
+                1,
+                0
+              ],
+              "cached_body": [
+                1,
+                1,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": true,
+              "live_public_type": 0,
+              "public_shape_body": [
+                1,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 27896233,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec390",
+              "shape": [
+                8,
+                1,
+                0
+              ],
+              "cached_body": [
+                8,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                8,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec420",
+              "shape": [
+                7,
+                1,
+                0
+              ],
+              "cached_body": [
+                7,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                7,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec4b0",
+              "shape": [
+                6,
+                1,
+                0
+              ],
+              "cached_body": [
+                6,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                6,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec540",
+              "shape": [
+                5,
+                1,
+                0
+              ],
+              "cached_body": [
+                5,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                5,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec5d0",
+              "shape": [
+                4,
+                1,
+                0
+              ],
+              "cached_body": [
+                4,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                4,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec660",
+              "shape": [
+                3,
+                1,
+                0
+              ],
+              "cached_body": [
+                3,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                3,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec6f0",
+              "shape": [
+                2,
+                1,
+                0
+              ],
+              "cached_body": [
+                2,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                2,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            }
+          ],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 8,
+              "id_digest": "31e3bbfb1abf5e23",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    0
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    0
+                  ],
+                  2
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "kinematic-type",
+          "render_counts": {
+            "opaque": 8,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          },
+          "draw_rows": [
+            {
+              "api": "ui06_adapter",
+              "request": 64,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec300",
+              "shape": [
+                1,
+                1,
+                0
+              ],
+              "cached_body": [
+                1,
+                1,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": true,
+              "live_public_type": 0,
+              "public_shape_body": [
+                1,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 27896233,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 64,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec390",
+              "shape": [
+                8,
+                1,
+                0
+              ],
+              "cached_body": [
+                8,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                8,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 64,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec420",
+              "shape": [
+                7,
+                1,
+                0
+              ],
+              "cached_body": [
+                7,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                7,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 64,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec4b0",
+              "shape": [
+                6,
+                1,
+                0
+              ],
+              "cached_body": [
+                6,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                6,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 64,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec660",
+              "shape": [
+                3,
+                1,
+                0
+              ],
+              "cached_body": [
+                3,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                3,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 64,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec5d0",
+              "shape": [
+                4,
+                1,
+                0
+              ],
+              "cached_body": [
+                4,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                4,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 64,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec540",
+              "shape": [
+                5,
+                1,
+                0
+              ],
+              "cached_body": [
+                5,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                5,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 64,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec6f0",
+              "shape": [
+                2,
+                1,
+                0
+              ],
+              "cached_body": [
+                2,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                2,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            }
+          ],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 8,
+              "id_digest": "31e3bbfb1abf5e23",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    0
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    0
+                  ],
+                  1
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "kinematic-transparent",
+          "render_counts": {
+            "opaque": 8,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          },
+          "draw_rows": [
+            {
+              "api": "ui06_adapter",
+              "request": 88,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec300",
+              "shape": [
+                1,
+                1,
+                0
+              ],
+              "cached_body": [
+                1,
+                1,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": true,
+              "live_public_type": 0,
+              "public_shape_body": [
+                1,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 27896233,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 88,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec390",
+              "shape": [
+                8,
+                1,
+                0
+              ],
+              "cached_body": [
+                8,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                8,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 88,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec420",
+              "shape": [
+                7,
+                1,
+                0
+              ],
+              "cached_body": [
+                7,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                7,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 88,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec4b0",
+              "shape": [
+                6,
+                1,
+                0
+              ],
+              "cached_body": [
+                6,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                6,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 88,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec660",
+              "shape": [
+                3,
+                1,
+                0
+              ],
+              "cached_body": [
+                3,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                3,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 88,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec5d0",
+              "shape": [
+                4,
+                1,
+                0
+              ],
+              "cached_body": [
+                4,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                4,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 88,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec540",
+              "shape": [
+                5,
+                1,
+                0
+              ],
+              "cached_body": [
+                5,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                5,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 88,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec6f0",
+              "shape": [
+                2,
+                1,
+                0
+              ],
+              "cached_body": [
+                2,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                2,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            }
+          ],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 8,
+              "id_digest": "31e3bbfb1abf5e23",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    0
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    0
+                  ],
+                  1
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "restored",
+          "render_counts": {
+            "opaque": 8,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          },
+          "draw_rows": [
+            {
+              "api": "ui06_adapter",
+              "request": 120,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec300",
+              "shape": [
+                1,
+                1,
+                0
+              ],
+              "cached_body": [
+                1,
+                1,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": true,
+              "live_public_type": 0,
+              "public_shape_body": [
+                1,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 27896233,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 120,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec390",
+              "shape": [
+                8,
+                1,
+                0
+              ],
+              "cached_body": [
+                8,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                8,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 120,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec420",
+              "shape": [
+                7,
+                1,
+                0
+              ],
+              "cached_body": [
+                7,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                7,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 120,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec4b0",
+              "shape": [
+                6,
+                1,
+                0
+              ],
+              "cached_body": [
+                6,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                6,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 120,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec660",
+              "shape": [
+                3,
+                1,
+                0
+              ],
+              "cached_body": [
+                3,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                3,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 120,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec540",
+              "shape": [
+                5,
+                1,
+                0
+              ],
+              "cached_body": [
+                5,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                5,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 120,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec6f0",
+              "shape": [
+                2,
+                1,
+                0
+              ],
+              "cached_body": [
+                2,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                2,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 120,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55701ecec5d0",
+              "shape": [
+                4,
+                1,
+                0
+              ],
+              "cached_body": [
+                4,
+                1,
+                0
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                4,
+                1,
+                0
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            }
+          ],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 8,
+              "id_digest": "31e3bbfb1abf5e23",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    0
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    0
+                  ],
+                  2
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "screenshots": {
+        "dynamic-transparent-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-runs/cpu/dynamic-transparent-before.png",
+          "sha256": "ae6a3aacad332e581617041eef4025826ec3e8ddb9dfbe3c67ed986f3082f900",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 85,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 5,
+            "submitted": 5,
+            "completed": 5,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 8,
+            "shape_count": 8,
+            "move_count": 0
+          }
+        },
+        "kinematic-transparent-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-runs/cpu/kinematic-transparent-before.png",
+          "sha256": "273538a655bd570303ce08fb8f320addd57f898fabd08debc0d81ebc64e7662f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 214,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 5,
+            "submitted": 5,
+            "completed": 5,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 8,
+            "shape_count": 8,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui06-trace-runs/ordinary-both/receipt.json",
+      "checks": 12,
+      "seconds": 6.764276454000001,
+      "cases": [
+        {
+          "tag": "initial",
+          "render_counts": {
+            "opaque": 8,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          },
+          "draw_rows": [
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b330",
+              "shape": [
+                1,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                1,
+                1,
+                0
+              ],
+              "expected_cpu_type": 0,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 27896233,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b4e0",
+              "shape": [
+                6,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                6,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b450",
+              "shape": [
+                7,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                7,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b3c0",
+              "shape": [
+                8,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                8,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b570",
+              "shape": [
+                5,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                5,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b600",
+              "shape": [
+                4,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                4,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b690",
+              "shape": [
+                3,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                3,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b720",
+              "shape": [
+                2,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                2,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b7b0",
+              "shape": [
+                1,
+                1,
+                1
+              ],
+              "cached_body": [
+                1,
+                1,
+                1
+              ],
+              "cached_type": 0,
+              "public_body_valid": true,
+              "live_public_type": 0,
+              "public_shape_body": [
+                1,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 21511563,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b840",
+              "shape": [
+                2,
+                1,
+                1
+              ],
+              "cached_body": [
+                2,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                2,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b8d0",
+              "shape": [
+                3,
+                1,
+                1
+              ],
+              "cached_body": [
+                3,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                3,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b960",
+              "shape": [
+                4,
+                1,
+                1
+              ],
+              "cached_body": [
+                4,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                4,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b9f0",
+              "shape": [
+                5,
+                1,
+                1
+              ],
+              "cached_body": [
+                5,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                5,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660ba80",
+              "shape": [
+                6,
+                1,
+                1
+              ],
+              "cached_body": [
+                6,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                6,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660bb10",
+              "shape": [
+                7,
+                1,
+                1
+              ],
+              "cached_body": [
+                7,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                7,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 8,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660bba0",
+              "shape": [
+                8,
+                1,
+                1
+              ],
+              "cached_body": [
+                8,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                8,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            }
+          ],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 8,
+              "id_digest": "6fc80e61c8bbcab3",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    1
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    1
+                  ],
+                  2
+                ]
+              ]
+            },
+            {
+              "owner": "mapped_cpu",
+              "bodies": 8,
+              "id_digest": "31e3bbfb1abf5e23",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    0
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    0
+                  ],
+                  2
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "dynamic-transparent",
+          "render_counts": {
+            "opaque": 8,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          },
+          "draw_rows": [
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b330",
+              "shape": [
+                1,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                1,
+                1,
+                0
+              ],
+              "expected_cpu_type": 0,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 27896233,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b4e0",
+              "shape": [
+                6,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                6,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b450",
+              "shape": [
+                7,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                7,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b3c0",
+              "shape": [
+                8,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                8,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b570",
+              "shape": [
+                5,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                5,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b600",
+              "shape": [
+                4,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                4,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b690",
+              "shape": [
+                3,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                3,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b720",
+              "shape": [
+                2,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                2,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b7b0",
+              "shape": [
+                1,
+                1,
+                1
+              ],
+              "cached_body": [
+                1,
+                1,
+                1
+              ],
+              "cached_type": 0,
+              "public_body_valid": true,
+              "live_public_type": 0,
+              "public_shape_body": [
+                1,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 21511563,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b840",
+              "shape": [
+                2,
+                1,
+                1
+              ],
+              "cached_body": [
+                2,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                2,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b8d0",
+              "shape": [
+                3,
+                1,
+                1
+              ],
+              "cached_body": [
+                3,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                3,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b960",
+              "shape": [
+                4,
+                1,
+                1
+              ],
+              "cached_body": [
+                4,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                4,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b9f0",
+              "shape": [
+                5,
+                1,
+                1
+              ],
+              "cached_body": [
+                5,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                5,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660ba80",
+              "shape": [
+                6,
+                1,
+                1
+              ],
+              "cached_body": [
+                6,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                6,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660bb10",
+              "shape": [
+                7,
+                1,
+                1
+              ],
+              "cached_body": [
+                7,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                7,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 32,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660bba0",
+              "shape": [
+                8,
+                1,
+                1
+              ],
+              "cached_body": [
+                8,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                8,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 0.5
+              },
+              "transparency_inputs": [
+                true,
+                false
+              ],
+              "material_override": false
+            }
+          ],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 8,
+              "id_digest": "6fc80e61c8bbcab3",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    1
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    1
+                  ],
+                  2
+                ]
+              ]
+            },
+            {
+              "owner": "mapped_cpu",
+              "bodies": 8,
+              "id_digest": "31e3bbfb1abf5e23",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    0
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    0
+                  ],
+                  2
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "kinematic-type",
+          "render_counts": {
+            "opaque": 8,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          },
+          "draw_rows": [
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b330",
+              "shape": [
+                1,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                1,
+                1,
+                0
+              ],
+              "expected_cpu_type": 0,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 27896233,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b3c0",
+              "shape": [
+                8,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                8,
+                1,
+                0
+              ],
+              "expected_cpu_type": 1,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b450",
+              "shape": [
+                7,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                7,
+                1,
+                0
+              ],
+              "expected_cpu_type": 1,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b4e0",
+              "shape": [
+                6,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                6,
+                1,
+                0
+              ],
+              "expected_cpu_type": 1,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b690",
+              "shape": [
+                3,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                3,
+                1,
+                0
+              ],
+              "expected_cpu_type": 1,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b600",
+              "shape": [
+                4,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                4,
+                1,
+                0
+              ],
+              "expected_cpu_type": 1,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b570",
+              "shape": [
+                5,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                5,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b720",
+              "shape": [
+                2,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                2,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b7b0",
+              "shape": [
+                1,
+                1,
+                1
+              ],
+              "cached_body": [
+                1,
+                1,
+                1
+              ],
+              "cached_type": 0,
+              "public_body_valid": true,
+              "live_public_type": 0,
+              "public_shape_body": [
+                1,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 21511563,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b840",
+              "shape": [
+                2,
+                1,
+                1
+              ],
+              "cached_body": [
+                2,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                2,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b8d0",
+              "shape": [
+                3,
+                1,
+                1
+              ],
+              "cached_body": [
+                3,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                3,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 90478061,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b960",
+              "shape": [
+                4,
+                1,
+                1
+              ],
+              "cached_body": [
+                4,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                4,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 90478061,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b9f0",
+              "shape": [
+                5,
+                1,
+                1
+              ],
+              "cached_body": [
+                5,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                5,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660ba80",
+              "shape": [
+                6,
+                1,
+                1
+              ],
+              "cached_body": [
+                6,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                6,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 90478061,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660bb10",
+              "shape": [
+                7,
+                1,
+                1
+              ],
+              "cached_body": [
+                7,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                7,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 90478061,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 70,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660bba0",
+              "shape": [
+                8,
+                1,
+                1
+              ],
+              "cached_body": [
+                8,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                8,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 90478061,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            }
+          ],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 8,
+              "id_digest": "6fc80e61c8bbcab3",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    1
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    1
+                  ],
+                  1
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    1
+                  ],
+                  1
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    1
+                  ],
+                  1
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    1
+                  ],
+                  1
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    1
+                  ],
+                  1
+                ]
+              ]
+            },
+            {
+              "owner": "mapped_cpu",
+              "bodies": 8,
+              "id_digest": "31e3bbfb1abf5e23",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    0
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    0
+                  ],
+                  1
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "kinematic-transparent",
+          "render_counts": {
+            "opaque": 8,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          },
+          "draw_rows": [
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b330",
+              "shape": [
+                1,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                1,
+                1,
+                0
+              ],
+              "expected_cpu_type": 0,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 27896233,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b3c0",
+              "shape": [
+                8,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                8,
+                1,
+                0
+              ],
+              "expected_cpu_type": 1,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b450",
+              "shape": [
+                7,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                7,
+                1,
+                0
+              ],
+              "expected_cpu_type": 1,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b4e0",
+              "shape": [
+                6,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                6,
+                1,
+                0
+              ],
+              "expected_cpu_type": 1,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b690",
+              "shape": [
+                3,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                3,
+                1,
+                0
+              ],
+              "expected_cpu_type": 1,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b600",
+              "shape": [
+                4,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                4,
+                1,
+                0
+              ],
+              "expected_cpu_type": 1,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 88507060,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b570",
+              "shape": [
+                5,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                5,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b720",
+              "shape": [
+                2,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                2,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b7b0",
+              "shape": [
+                1,
+                1,
+                1
+              ],
+              "cached_body": [
+                1,
+                1,
+                1
+              ],
+              "cached_type": 0,
+              "public_body_valid": true,
+              "live_public_type": 0,
+              "public_shape_body": [
+                1,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 21511563,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b840",
+              "shape": [
+                2,
+                1,
+                1
+              ],
+              "cached_body": [
+                2,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                2,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b8d0",
+              "shape": [
+                3,
+                1,
+                1
+              ],
+              "cached_body": [
+                3,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                3,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 90478061,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b960",
+              "shape": [
+                4,
+                1,
+                1
+              ],
+              "cached_body": [
+                4,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                4,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 90478061,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b9f0",
+              "shape": [
+                5,
+                1,
+                1
+              ],
+              "cached_body": [
+                5,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                5,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660ba80",
+              "shape": [
+                6,
+                1,
+                1
+              ],
+              "cached_body": [
+                6,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                6,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 90478061,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660bb10",
+              "shape": [
+                7,
+                1,
+                1
+              ],
+              "cached_body": [
+                7,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                7,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 90478061,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 94,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660bba0",
+              "shape": [
+                8,
+                1,
+                1
+              ],
+              "cached_body": [
+                8,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 1,
+              "public_shape_body": [
+                8,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 90478061,
+                "preset": 5,
+                "metallic": 0.850000024,
+                "roughness": 0.349999994,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                true
+              ],
+              "material_override": false
+            }
+          ],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 8,
+              "id_digest": "6fc80e61c8bbcab3",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    1
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    1
+                  ],
+                  1
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    1
+                  ],
+                  1
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    1
+                  ],
+                  1
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    1
+                  ],
+                  1
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    1
+                  ],
+                  1
+                ]
+              ]
+            },
+            {
+              "owner": "mapped_cpu",
+              "bodies": 8,
+              "id_digest": "31e3bbfb1abf5e23",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    0
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    0
+                  ],
+                  1
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    0
+                  ],
+                  1
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "tag": "restored",
+          "render_counts": {
+            "opaque": 8,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          },
+          "draw_rows": [
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b330",
+              "shape": [
+                1,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                1,
+                1,
+                0
+              ],
+              "expected_cpu_type": 0,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 27896233,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b3c0",
+              "shape": [
+                8,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                8,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b450",
+              "shape": [
+                7,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                7,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b4e0",
+              "shape": [
+                6,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                6,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b690",
+              "shape": [
+                3,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                3,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b570",
+              "shape": [
+                5,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                5,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b720",
+              "shape": [
+                2,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                2,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": true,
+              "user_pointer": "0x55bcd660b600",
+              "shape": [
+                4,
+                1,
+                0
+              ],
+              "cached_body": [
+                0,
+                0,
+                0
+              ],
+              "cached_type": 0,
+              "public_body_valid": false,
+              "live_public_type": -1,
+              "public_shape_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_body": [
+                4,
+                1,
+                0
+              ],
+              "expected_cpu_type": 2,
+              "expected_cpu_valid": true,
+              "resolved": {
+                "packed_color": 47363212,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b7b0",
+              "shape": [
+                1,
+                1,
+                1
+              ],
+              "cached_body": [
+                1,
+                1,
+                1
+              ],
+              "cached_type": 0,
+              "public_body_valid": true,
+              "live_public_type": 0,
+              "public_shape_body": [
+                1,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 21511563,
+                "preset": 1,
+                "metallic": 0,
+                "roughness": 0.850000024,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b840",
+              "shape": [
+                2,
+                1,
+                1
+              ],
+              "cached_body": [
+                2,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                2,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b8d0",
+              "shape": [
+                3,
+                1,
+                1
+              ],
+              "cached_body": [
+                3,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                3,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b960",
+              "shape": [
+                4,
+                1,
+                1
+              ],
+              "cached_body": [
+                4,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                4,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660b9f0",
+              "shape": [
+                5,
+                1,
+                1
+              ],
+              "cached_body": [
+                5,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                5,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660ba80",
+              "shape": [
+                6,
+                1,
+                1
+              ],
+              "cached_body": [
+                6,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                6,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660bb10",
+              "shape": [
+                7,
+                1,
+                1
+              ],
+              "cached_body": [
+                7,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                7,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            },
+            {
+              "api": "ui06_adapter",
+              "request": 126,
+              "phase": "draw",
+              "cpu_callback": false,
+              "user_pointer": "0x55bcd660bba0",
+              "shape": [
+                8,
+                1,
+                1
+              ],
+              "cached_body": [
+                8,
+                1,
+                1
+              ],
+              "cached_type": 2,
+              "public_body_valid": true,
+              "live_public_type": 2,
+              "public_shape_body": [
+                8,
+                1,
+                1
+              ],
+              "expected_cpu_body": [
+                0,
+                0,
+                0
+              ],
+              "expected_cpu_type": -1,
+              "expected_cpu_valid": false,
+              "resolved": {
+                "packed_color": 40146413,
+                "preset": 2,
+                "metallic": 0,
+                "roughness": 0.649999976,
+                "alpha": 1
+              },
+              "transparency_inputs": [
+                false,
+                false
+              ],
+              "material_override": false
+            }
+          ],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 8,
+              "id_digest": "6fc80e61c8bbcab3",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    1
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    1
+                  ],
+                  2
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    1
+                  ],
+                  2
+                ]
+              ]
+            },
+            {
+              "owner": "mapped_cpu",
+              "bodies": 8,
+              "id_digest": "31e3bbfb1abf5e23",
+              "types": [
+                [
+                  [
+                    1,
+                    1,
+                    0
+                  ],
+                  0
+                ],
+                [
+                  [
+                    2,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    3,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    4,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    5,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    6,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    7,
+                    1,
+                    0
+                  ],
+                  2
+                ],
+                [
+                  [
+                    8,
+                    1,
+                    0
+                  ],
+                  2
+                ]
+              ]
+            }
+          ]
+        }
+      ],
+      "screenshots": {
+        "dynamic-transparent-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-runs/ordinary-both/dynamic-transparent-before.png",
+          "sha256": "ea13113a153bd25d9337d3856a835c28074724146c1c30906cecea5ae1a33a42",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 86,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 6,
+            "submitted": 6,
+            "completed": 6,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 8,
+            "shape_count": 8,
+            "move_count": 7,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              -2.00000262,
+              2.99980068,
+              0
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "kinematic-transparent-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-runs/ordinary-both/kinematic-transparent-before.png",
+          "sha256": "4ad0eca7236c2d4e9f0b9b9fbf009359f5f10aaa6e6ca5de981aa065dcda2518",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 229,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 6,
+            "submitted": 6,
+            "completed": 6,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 8,
+            "shape_count": 8,
+            "move_count": 7,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              -2.00000262,
+              2.99980068,
+              0
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "findings": [
+    "CPU fivekinematic live1/cached2/alpha1 whileKinematictransparencyon,submit0vsrequired5",
+    "CombinedCPUrawshapeIDs publicShape_GetBody=null, cachedbodyNULL/type0; nativeCPUexpectedbodyvalid/type2 or1; drawDynamic0vsrequired7",
+    "Currentfixture usesstatepresets1/2/5; roughness.85/.65/.35,defaultbodyTypefallbacknotexercised. NextactualCdefaultpacked-color0probe neededbefore broaderPBRclaim."
+  ],
+  "media_inspected": "4beforeimages native-size/CPUfirst",
+  "next": "ActualDrawShape defaultmaterial calculation under frozenlow24bitcolor, copyuser metadata/stopbeforeappend toavoidduplicategeometry; thenrepairfreshbodytype anddebugCPUgetter namespace, verifyall5bodytype/transparency/material/picking/compound cases underNEWbudget."
+}

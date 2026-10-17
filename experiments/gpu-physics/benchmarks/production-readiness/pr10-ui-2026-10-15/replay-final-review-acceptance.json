@@ -1,0 +1,1332 @@
+{
+  "status": "NINETEEN_REMAINING_WIDGETS_AND_REPLAY_CUSTOM_GROUP_REVIEWED_CPU_WITH_EXPLICIT_GPU_PLAYER_EXCLUSION",
+  "widget_entries": 19,
+  "samples_completed": 1,
+  "custom_input_groups_completed": 1,
+  "routes_CPU_first": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "rows": [
+    {
+      "fixture": "queries",
+      "route": "cpu",
+      "receipt": "raw/replay-query-runs/cpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 41,
+      "findings": [
+        "Actual query search text PR10-RAY"
+      ],
+      "screenshots": {
+        "all-queries": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-query-runs/cpu/all-queries.png",
+          "sha256": "5f300c87498f4ed58de2c7640c8d81363382a6ebd0f86d73581069495bccf39a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 119,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "filtered-search": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-query-runs/cpu/filtered-search.png",
+          "sha256": "3e23e8c2a5474168cbd1db63e175b7c58e3d2d17c37424991af9b8ba28625e2e",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 1229,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "pinned-query": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-query-runs/cpu/pinned-query.png",
+          "sha256": "b73723a9803295683de080d499cb4a8d4740bafb31b229f66e6e828e404577e9",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 1459,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 12,
+            "submitted": 12,
+            "completed": 12,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "selection",
+      "route": "cpu",
+      "receipt": "raw/replay-selection-runs/cpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 48,
+      "findings": [
+        "Shape tree selects actual offset sphere detail",
+        "FocusBounds frames selected offset shape instead of body"
+      ],
+      "screenshots": {
+        "body-detail": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-selection-runs/cpu/body-detail.png",
+          "sha256": "dd0205c5c7f1df0ca7061cdb2fddecb09fabe9e294412cc54715ac3d80707202",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 376,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "shape-focus": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-selection-runs/cpu/shape-focus.png",
+          "sha256": "6a85c8dea69cedf4bb9b3d76d96d46f40dacb5db449b0e83fae649acf919e557",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 570,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "joint-detail": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-selection-runs/cpu/joint-detail.png",
+          "sha256": "ffa4fb5e51f020007832b6e101b63328e6353a17cb80619537ac75974e4d8a10",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 783,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 3,
+            "submitted": 3,
+            "completed": 3,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "resized-zup": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-selection-runs/cpu/resized-zup.png",
+          "sha256": "1528f68cfa11387ad6c0c49146a0f9900ccd53b9abf477129ec7641174f2ca4b",
+          "dimensions": [
+            1280,
+            720
+          ],
+          "state": {
+            "frame": 1154,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 3,
+            "submitted": 3,
+            "completed": 3,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "exited": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-selection-runs/cpu/exited.png",
+          "sha256": "9b09836f122a12075196b2cd9c1b52d7e6535118560b57205ac33398c601c5c4",
+          "dimensions": [
+            1280,
+            720
+          ],
+          "state": {
+            "frame": 1240,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        }
+      }
+    }
+  ],
+  "new_images": [
+    {
+      "route": "cpu",
+      "fixture": "queries",
+      "state": "all-queries",
+      "path": "raw/replay-query-runs/cpu/all-queries.png",
+      "sha256": "5f300c87498f4ed58de2c7640c8d81363382a6ebd0f86d73581069495bccf39a"
+    },
+    {
+      "route": "cpu",
+      "fixture": "queries",
+      "state": "filtered-search",
+      "path": "raw/replay-query-runs/cpu/filtered-search.png",
+      "sha256": "3e23e8c2a5474168cbd1db63e175b7c58e3d2d17c37424991af9b8ba28625e2e"
+    },
+    {
+      "route": "cpu",
+      "fixture": "queries",
+      "state": "pinned-query",
+      "path": "raw/replay-query-runs/cpu/pinned-query.png",
+      "sha256": "b73723a9803295683de080d499cb4a8d4740bafb31b229f66e6e828e404577e9"
+    },
+    {
+      "route": "cpu",
+      "fixture": "selection",
+      "state": "body-detail",
+      "path": "raw/replay-selection-runs/cpu/body-detail.png",
+      "sha256": "dd0205c5c7f1df0ca7061cdb2fddecb09fabe9e294412cc54715ac3d80707202"
+    },
+    {
+      "route": "cpu",
+      "fixture": "selection",
+      "state": "shape-focus",
+      "path": "raw/replay-selection-runs/cpu/shape-focus.png",
+      "sha256": "6a85c8dea69cedf4bb9b3d76d96d46f40dacb5db449b0e83fae649acf919e557"
+    },
+    {
+      "route": "cpu",
+      "fixture": "selection",
+      "state": "joint-detail",
+      "path": "raw/replay-selection-runs/cpu/joint-detail.png",
+      "sha256": "ffa4fb5e51f020007832b6e101b63328e6353a17cb80619537ac75974e4d8a10"
+    },
+    {
+      "route": "cpu",
+      "fixture": "selection",
+      "state": "resized-zup",
+      "path": "raw/replay-selection-runs/cpu/resized-zup.png",
+      "sha256": "1528f68cfa11387ad6c0c49146a0f9900ccd53b9abf477129ec7641174f2ca4b"
+    },
+    {
+      "route": "cpu",
+      "fixture": "selection",
+      "state": "exited",
+      "path": "raw/replay-selection-runs/cpu/exited.png",
+      "sha256": "9b09836f122a12075196b2cd9c1b52d7e6535118560b57205ac33398c601c5c4"
+    }
+  ],
+  "reused_GPU_exclusion_receipts": [
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/replay-cli-popup-runs/unsupported/ordinary-gpu/receipt.json",
+      "binary_sha256": "5ff96c49cdc68d8d4746d8e8ac643492c8ba7fb56a3f2e0cbb553bffc2c84208",
+      "reason": "GPUPlayerAPIunsupported; actualvalidCPUfixturecannotload andUIstillmislabelsit. Popupvalueedits arenotGPUplayerfeaturepasses.",
+      "image": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-cli-popup-runs/unsupported/ordinary-gpu/unsupported.png",
+        "sha256": "cad2325e72d559ef27e23cdbfb13bc6344fe30283c095949480c9ff5c7f06125",
+        "dimensions": [
+          1600,
+          900
+        ],
+        "state": {
+          "frame": 388,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 1,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      }
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/replay-cli-popup-runs/unsupported/native-gpu/receipt.json",
+      "binary_sha256": "a530092a24289db5b6e3654665a9177ee73ddd173bd5e2cf761c30d1c9c7f87f",
+      "reason": "GPUPlayerAPIunsupported; actualvalidCPUfixturecannotload andUIstillmislabelsit. Popupvalueedits arenotGPUplayerfeaturepasses.",
+      "image": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-cli-popup-runs/unsupported/native-gpu/unsupported.png",
+        "sha256": "c30deb0bed7259ae33d0705bc1615c1230d1854069fe5b8a7a01e189f8faf08c",
+        "dimensions": [
+          1600,
+          900
+        ],
+        "state": {
+          "frame": 388,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 1,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      }
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/replay-cli-popup-runs/unsupported/ordinary-both/receipt.json",
+      "binary_sha256": "f2fc3b126a1dd3255b645b880da7727112c5905cc4e62b6ae20f58508ddbe6e5",
+      "reason": "GPUPlayerAPIunsupported; actualvalidCPUfixturecannotload andUIstillmislabelsit. Popupvalueedits arenotGPUplayerfeaturepasses.",
+      "image": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-cli-popup-runs/unsupported/ordinary-both/unsupported.png",
+        "sha256": "31287ddb1d8424c0eaa258e1993cee8ddba4cc66d72b496b02138a40756dc996",
+        "dimensions": [
+          1600,
+          900
+        ],
+        "state": {
+          "frame": 388,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 1,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0,
+          "cpu_world": [
+            1,
+            0
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/replay-cli-popup-runs/unsupported/native-both/receipt.json",
+      "binary_sha256": "b39b7607350e0a718299f8b7c1a800e9a3e451ef088f94b1de3f11c01c61def2",
+      "reason": "GPUPlayerAPIunsupported; actualvalidCPUfixturecannotload andUIstillmislabelsit. Popupvalueedits arenotGPUplayerfeaturepasses.",
+      "image": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-cli-popup-runs/unsupported/native-both/unsupported.png",
+        "sha256": "31287ddb1d8424c0eaa258e1993cee8ddba4cc66d72b496b02138a40756dc996",
+        "dimensions": [
+          1600,
+          900
+        ],
+        "state": {
+          "frame": 386,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 1,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0,
+          "cpu_world": [
+            1,
+            0
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    }
+  ],
+  "visual_review": {
+    "status": "ALL8_NEW_CPU_AND4_REUSED_GPU_IMAGES_INSPECTED_CPU_FIRST",
+    "grid_cells": 40,
+    "unique_images": 12,
+    "observations": "Query overlays, filtered result rows, pinned duplicate-instance selection and details visible. Body, shape and joint selections/details visible; first sphere selected at native slot1/id3, with close focus. Z-up resize keeps Outline/Info/Timeline separated; floor fills close transformed view. Exit restores normal Single Box panels/floor/box. Four GPU cells repeat the prior actual unsupported-player state explicitly; no GPU loaded-feature pass."
+  },
+  "checks": 89,
+  "original207inputs_unchanged": true,
+  "source_pins": {
+    "box3d/samples/sample_replay.cpp": "874920153f82d19791f28176d47bfa1865858f525646cf02e70b4632a54a23c9",
+    "box3d/src/body.c": "269178119c6a895ae4be3204c8d8151cfc5120541458e4b13992e97ffcbfd050"
+  },
+  "harness_resolutions": [
+    {
+      "check": "Actual query search text PR10-RAY",
+      "resolution": "Originalimmediatereadnotprovenstable/actualbadstringnotretained. Originalnativechangehistory containsfullPR10-RAY andactual64filteredrows. Narrowfollow-upretainsfullvaluebefore/afterEnterandsettled; no productbugdemonstrated. Needwaitforactualvalueonasyncinput, notfixed2frames. No exactinputrequirementrelaxed.",
+      "followup": {
+        "beforeEnter": {
+          "frame": 145,
+          "value": "PR10-RAY",
+          "want_text_input": true
+        },
+        "afterEnter": {
+          "value": "PR10-RAY",
+          "changed": false
+        },
+        "settled": {
+          "value": "PR10-RAY",
+          "changed": false
+        },
+        "native": {
+          "a": {
+            "api": "actual_mutation_frame",
+            "request": 67,
+            "created": 2,
+            "destroyed": 2,
+            "shapes_created": 2,
+            "teleport_reference": [
+              0,
+              0,
+              0.996831059,
+              0.0795476362
+            ],
+            "worlds": [
+              {
+                "owner": "public",
+                "bodies": 0,
+                "dynamic": 0,
+                "moving_dynamic": 0,
+                "velocity_squared_sum": 0,
+                "velocity_min": [
+                  0,
+                  0,
+                  0
+                ],
+                "velocity_max": [
+                  0,
+                  0,
+                  0
+                ],
+                "id_digest": "14650fb0739d0383",
+                "examples": [],
+                "gravity_range": [
+                  0,
+                  0
+                ],
+                "locks_histogram": [],
+                "shape_totals": [
+                  0,
+                  0,
+                  0,
+                  0,
+                  0
+                ],
+                "filter_count": 0,
+                "filters_match_definition": 0
+              }
+            ]
+          },
+          "h": {
+            "api": "sample_host_controls",
+            "request": 67,
+            "camera": {
+              "third_person": false,
+              "pivot": [
+                0,
+                1.0649999380111694,
+                0
+              ],
+              "radius": 18.598484,
+              "yaw": 0.52359879,
+              "pitch": 0.383972436
+            },
+            "mover": null,
+            "tree": null,
+            "tree_create_proxy": 0,
+            "tree_rebuilds": 0,
+            "tree_rays": 0,
+            "tree_queries": 0,
+            "tree_closest": 0,
+            "last_ray": null,
+            "last_overlap": null,
+            "last_closest": null,
+            "tree_save": null,
+            "tree_load": null,
+            "screen_labels": []
+          },
+          "r": {
+            "api": "sample_replay_controls",
+            "request": 67,
+            "calls": {
+              "create": 1,
+              "destroy": 0,
+              "step": 130,
+              "substep": 0,
+              "restart": 1,
+              "seek": 3,
+              "workers": 0,
+              "policy": 1
+            },
+            "last_seek": 1,
+            "last_worker": 8,
+            "last_policy": [
+              536870912,
+              16
+            ],
+            "draw_calls": [],
+            "camera": {
+              "z_up": false,
+              "size": [
+                1600,
+                900
+              ],
+              "pivot": [
+                0,
+                1.0649999380111694,
+                0
+              ],
+              "render_transform": [
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                1
+              ]
+            },
+            "player": {
+              "frame": 1,
+              "frame_count": 64,
+              "pre_step": false,
+              "at_end": false,
+              "diverged": false,
+              "diverge_frame": -1,
+              "world": [
+                2,
+                1
+              ],
+              "world_counts": [
+                5,
+                6,
+                1,
+                1
+              ],
+              "workers": 8,
+              "bounds": [
+                [
+                  -8.04000092,
+                  -1.03999996,
+                  -8.04000092
+                ],
+                [
+                  8.04000092,
+                  3.16999984,
+                  8.04000092
+                ]
+              ],
+              "keyframe_policy": [
+                536870912,
+                16,
+                16,
+                75720
+              ],
+              "bodies": [
+                {
+                  "ordinal": 0,
+                  "body": {
+                    "owner": "public",
+                    "id": [
+                      1,
+                      1,
+                      1
+                    ],
+                    "valid": true,
+                    "type": 0,
+                    "enabled": true,
+                    "position": [
+                      0,
+                      -0.5,
+                      0
+                    ],
+                    "velocity": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "mass": 0,
+                    "name": "fixture floor"
+                  },
+                  "world_center": [
+                    0,
+                    -0.5,
+                    0
+                  ],
+                  "shape_count": 1,
+                  "joint_count": 1,
+                  "contact_capacity": 1
+                },
+                {
+                  "ordinal": 1,
+                  "body": {
+                    "owner": "public",
+                    "id": [
+                      2,
+                      1,
+                      1
+                    ],
+                    "valid": true,
+                    "type": 2,
+                    "enabled": true,
+                    "position": [
+                      -0.0000152205075,
+                      0.49996835,
+                      0.00000846894727
+                    ],
+                    "velocity": [
+                      -0.000128012296,
+                      -0.000064630236,
+                      -0.0000840426146
+                    ],
+                    "mass": 1000,
+                    "name": "resting box"
+                  },
+                  "world_center": [
+                    -0.000015220507521007676,
+                    0.49996834993362427,
+                    0.000008468947271467187
+                  ],
+                  "shape_count": 1,
+                  "joint_count": 0,
+                  "contact_capacity": 1
+                },
+                {
+                  "ordinal": 2,
+                  "body": {
+                    "owner": "public",
+                    "id": [
+                      3,
+                      1,
+                      1
+                    ],
+                    "valid": true,
+                    "type": 2,
+                    "enabled": true,
+                    "position": [
+                      -2,
+                      0.998263836,
+                      0
+                    ],
+                    "velocity": [
+                      0,
+                      -0.166666672,
+                      0
+                    ],
+                    "mass": 226.194702,
+                    "name": "offset spheres"
+                  },
+                  "world_center": [
+                    -2,
+                    1.3482638597488403,
+                    0
+                  ],
+                  "shape_count": 2,
+                  "joint_count": 0,
+                  "contact_capacity": 0
+                },
+                {
+                  "ordinal": 3,
+                  "body": {
+                    "owner": "public",
+                    "id": [
+                      4,
+                      1,
+                      1
+                    ],
+                    "valid": true,
+                    "type": 2,
+                    "enabled": true,
+                    "position": [
+                      2,
+                      1.19826388,
+                      0
+                    ],
+                    "velocity": [
+                      0,
+                      -0.166666672,
+                      0
+                    ],
+                    "mass": 108.908554,
+                    "name": "capsule"
+                  },
+                  "world_center": [
+                    2,
+                    1.1982638835906982,
+                    0
+                  ],
+                  "shape_count": 1,
+                  "joint_count": 0,
+                  "contact_capacity": 0
+                },
+                {
+                  "ordinal": 4,
+                  "body": {
+                    "owner": "public",
+                    "id": [
+                      5,
+                      1,
+                      1
+                    ],
+                    "valid": true,
+                    "type": 2,
+                    "enabled": true,
+                    "position": [
+                      0,
+                      2.9999516,
+                      0
+                    ],
+                    "velocity": [
+                      0,
+                      0,
+                      0
+                    ],
+                    "mass": 80.0000076,
+                    "name": "hinged arm"
+                  },
+                  "world_center": [
+                    0,
+                    2.9999516010284424,
+                    0
+                  ],
+                  "shape_count": 1,
+                  "joint_count": 1,
+                  "contact_capacity": 0
+                }
+              ],
+              "queries": [
+                {
+                  "index": 0,
+                  "kind": 0,
+                  "id": 100,
+                  "key": "3267303717420195903",
+                  "name": "pr10-aabb",
+                  "hits": 2,
+                  "origin": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "translation": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "bounds": [
+                    [
+                      -0.5,
+                      -1,
+                      -0.5
+                    ],
+                    [
+                      0.5,
+                      0.75,
+                      0.5
+                    ]
+                  ]
+                },
+                {
+                  "index": 1,
+                  "kind": 1,
+                  "id": 101,
+                  "key": "7881320781362700473",
+                  "name": "pr10-overlap",
+                  "hits": 2,
+                  "origin": [
+                    0,
+                    0.25,
+                    0
+                  ],
+                  "translation": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "bounds": [
+                    [
+                      -0.25,
+                      0,
+                      -0.25
+                    ],
+                    [
+                      0.25,
+                      0.5,
+                      0.25
+                    ]
+                  ]
+                },
+                {
+                  "index": 2,
+                  "kind": 2,
+                  "id": 102,
+                  "key": "3534326080747319417",
+                  "name": "pr10-ray",
+                  "hits": 2,
+                  "origin": [
+                    0,
+                    2,
+                    0
+                  ],
+                  "translation": [
+                    0,
+                    -4,
+                    0
+                  ],
+                  "bounds": [
+                    [
+                      0,
+                      -2,
+                      0
+                    ],
+                    [
+                      0,
+                      2,
+                      0
+                    ]
+                  ]
+                },
+                {
+                  "index": 3,
+                  "kind": 3,
+                  "id": 103,
+                  "key": "6861058006058392957",
+                  "name": "pr10-shape",
+                  "hits": 2,
+                  "origin": [
+                    0,
+                    2,
+                    0
+                  ],
+                  "translation": [
+                    0,
+                    -4,
+                    0
+                  ],
+                  "bounds": [
+                    [
+                      -0.25,
+                      -2.25,
+                      -0.25
+                    ],
+                    [
+                      0.25,
+                      2.25,
+                      0.25
+                    ]
+                  ]
+                },
+                {
+                  "index": 4,
+                  "kind": 4,
+                  "id": 104,
+                  "key": "14054690266474979448",
+                  "name": "pr10-closest",
+                  "hits": 1,
+                  "origin": [
+                    0,
+                    2,
+                    0
+                  ],
+                  "translation": [
+                    0,
+                    -4,
+                    0
+                  ],
+                  "bounds": [
+                    [
+                      0,
+                      -2,
+                      0
+                    ],
+                    [
+                      0,
+                      2,
+                      0
+                    ]
+                  ]
+                },
+                {
+                  "index": 5,
+                  "kind": 4,
+                  "id": 104,
+                  "key": "14054690266474979448",
+                  "name": "pr10-closest",
+                  "hits": 1,
+                  "origin": [
+                    0,
+                    2,
+                    0
+                  ],
+                  "translation": [
+                    0,
+                    -4,
+                    0
+                  ],
+                  "bounds": [
+                    [
+                      0,
+                      -2,
+                      0
+                    ],
+                    [
+                      0,
+                      2,
+                      0
+                    ]
+                  ]
+                },
+                {
+                  "index": 6,
+                  "kind": 5,
+                  "id": 105,
+                  "key": "9053200497078869959",
+                  "name": "pr10-mover",
+                  "hits": 0,
+                  "origin": [
+                    0,
+                    2,
+                    0
+                  ],
+                  "translation": [
+                    0,
+                    -4,
+                    0
+                  ],
+                  "bounds": [
+                    [
+                      -0.200000003,
+                      -2.4000001,
+                      -0.200000003
+                    ],
+                    [
+                      0.200000003,
+                      2.4000001,
+                      0.200000003
+                    ]
+                  ]
+                },
+                {
+                  "index": 7,
+                  "kind": 6,
+                  "id": 106,
+                  "key": "10760548177223769608",
+                  "name": "pr10-planes",
+                  "hits": 0,
+                  "origin": [
+                    0,
+                    0.10000000149011612,
+                    0
+                  ],
+                  "translation": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "bounds": [
+                    [
+                      -0.200000003,
+                      -0.300000012,
+                      -0.200000003
+                    ],
+                    [
+                      0.200000003,
+                      0.5,
+                      0.200000003
+                    ]
+                  ]
+                },
+                {
+                  "index": 8,
+                  "kind": 4,
+                  "id": 0,
+                  "key": "0",
+                  "name": "",
+                  "hits": 1,
+                  "origin": [
+                    0,
+                    2,
+                    0
+                  ],
+                  "translation": [
+                    0,
+                    -4,
+                    0
+                  ],
+                  "bounds": [
+                    [
+                      0,
+                      -2,
+                      0
+                    ],
+                    [
+                      0,
+                      2,
+                      0
+                    ]
+                  ]
+                }
+              ]
+            }
+          },
+          "state": {
+            "frame": 168,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "checks": [
+        "Shape tree selects actual offset sphere detail",
+        "FocusBounds frames selected offset shape instead of body"
+      ],
+      "resolution": "Probeassumedshapeslot1wasthesecond-createdoffsetsphere. Nativeb3Body_GetShapes enumeratesbody.headShapeId linkedlist; actualslot1nodefirstsphere/shapeid3. Detailactualsphere/AABBcenterandFocusBoundspivotmatchfirstsphereatbodyorigin, distinctfromcompoundCOM. Originalexpectedid4/+0.7wrong. No identity/picking/camerabug orrerun.",
+      "actual_node": {
+        "kind": "Tree",
+        "label": "Shape 1  first sphere###b2s1",
+        "value": "true",
+        "window": "Outline/OutlineTree_055924CB",
+        "selected": true,
+        "hovered": true,
+        "clicked": false,
+        "toggled": false,
+        "id": 3637822998,
+        "visible": true,
+        "disabled": false,
+        "changed": false,
+        "rect": [
+          42,
+          200,
+          348,
+          216
+        ],
+        "clip": [
+          20,
+          70,
+          348,
+          616
+        ]
+      },
+      "actual_focus": {
+        "z_up": false,
+        "size": [
+          1600,
+          900
+        ],
+        "pivot": [
+          -2,
+          0.9982638359069824,
+          0
+        ],
+        "render_transform": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0,
+          0,
+          1
+        ]
+      }
+    }
+  ],
+  "cleanup": [
+    "replay-query-cleanup.json",
+    "replay-selection-cleanup.json"
+  ],
+  "limits": [
+    "19reviewdispositions includeGPUloaded-playerbranchesunsupportedunderknownUI09; not19GPUfeaturepasses. Current4GPUactualvalidfixtureLoadfailure/currentbinary/sourceguardproveconditionalunavailable; prioravailableTimelineTab/popupinputcheckedseparately.",
+    "ActualDrawAllQueriescallbackon/off, nativeindex576rows/all7kinds/minhits/empty/text/rebuild/restoredframe, searchresultseek/pin, QueriesTree/leafsame-keyinstanceidentity andQuerydetail checked. NativeMoverhitlists0fixtureexplicit/notno-collisionqualification.",
+    "Actualbody/shape/jointtree/detail/contactcollapse/expand, FollowCOMmotion/off, Zupmatrix/reframing/nativeposesunchanged; nativeplainpick/read-onlydrag/move/up/CtrlShiftRightgates, body/shape/query/HomeFfocus,24emInfo22emOutline/1280x720non-overlap/HasSolverControls/exitdestroyplayer+restoreZup/Metrics/normalpanelschecked. Keyboardcomma/Shift5/gating/clamp previouslychecked.",
+    "Grid8freshCPUimages+4priorGPUunsupportedimages reused acrossrows, no newGPUloadedwidgetcaptures claimed. Everyretainedimage mustbeinspected before disposition.",
+    "No querygeometricaccuracy/solver/determinism/cold/performancecampaign or product/Box3D/WASM/engine changes. Reviewclosingdoesnotclose27openUIissues orPR10 acceptance."
+  ]
+}

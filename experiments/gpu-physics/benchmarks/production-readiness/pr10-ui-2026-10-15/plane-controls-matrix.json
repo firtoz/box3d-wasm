@@ -1,0 +1,111 @@
+{
+  "status": "INCOMPLETE_FAILURES_RETAINED",
+  "budget": "plane-controls-budget.json",
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "capsule-plane",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "mover-overlap",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "body-cast",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "capsule-plane",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mover-overlap",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "body-cast",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "capsule-plane",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mover-overlap",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "body-cast",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "capsule-plane",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 1
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mover-overlap",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "body-cast",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "capsule-plane",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "mover-overlap",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "body-cast",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "findings": 0
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "status": "CLOSED",
+  "retired": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/cpu",
+      "bytes": 7761328,
+      "sha256": "bf7e1f6aed1a37498edb9328399706387e062e9bd7496019ce188e7c5401362e",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/ordinary-both",
+      "bytes": 38625640,
+      "sha256": "c44ba6315d3e7d1c136bfcc5f76d9b3e61bea238a81c88f4c24d3cfd3adbbee9",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/adapter-observer.o",
+      "bytes": 14704,
+      "sha256": "934a6bed1fb5eee7bf4f3baaad399ce546284a509d946e731e812ec9bff24af8",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/cpu-adapter.o",
+      "bytes": 37632,
+      "sha256": "09c5b5df585b6507b84cb9a4f0f0fcfe343eb3b02527ff3e18078947d40bdec3",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/ordinary-both-adapter.o",
+      "bytes": 37800,
+      "sha256": "fc5e5d5a8149fdab33e5cbd35ad76be3b54c303ca47cd29b08215be66bbe2415",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/adapter-observer-compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/cpu-archive-adapter-hash.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/cpu-adapter-compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/cpu-link.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/cpu-check.log",
+      "bytes": 470,
+      "sha256": "5efa47346a5ce10e1e176015d50377090233e9557b677144d831714f449e600f",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/ordinary-both-archive-adapter-hash.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/ordinary-both-adapter-compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/ordinary-both-link.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-build/ordinary-both-check.log",
+      "bytes": 748,
+      "sha256": "94659ad6a915f2a43f9f9d354a851e46b1a6d4f139fa9fe06ff02e3e425764f3",
+      "consumer": "Actual22checks/getter+drawinputoutputstates/4beforemedia extracted; no executable/object consumer remains. Sharedoriginalsources/archives/current5UI05pool preserved."
+    }
+  ],
+  "deleted_bytes": 46478322,
+  "raw_bytes": 904920845,
+  "historical_unrunnable_manifest": "ui06-trace-build.json"
+}

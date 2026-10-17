@@ -1,0 +1,24 @@
+{
+  "status": "FROZEN",
+  "cpp_compiles": 1,
+  "compile_seconds": 30,
+  "links": 1,
+  "link_seconds": 25,
+  "gpu_builds": 0,
+  "apps": 0,
+  "retries": 0,
+  "temporary_bytes": 50331648,
+  "log_bytes_each": 1048576,
+  "retained_metadata_bytes": 8388608,
+  "min_free_bytes": 21474836480,
+  "source_sha256": "d98a2267cc344da246bb494f359edf6b6dea743880bf2973ca9f278fe46e460f",
+  "helper_sha256": "3479082a6175fb64e45875270dfddd5d38d35f2468253a5f308735100b690c0c",
+  "scope": "Read-onlyCPUReplayPlayercreate/seek/step/substep/restart/worker/keyframepolicy/drawqueries/camerarendertransform and actualTreeNodeflags. Calls/callbacksoriginalonce. MixedpoolCPUnew/GPU4unchanged, original207inputs preserved; no engine/Box3D/WASM/productfix.",
+  "outputs": [
+    {
+      "path": "raw/replay-observer-build",
+      "consumer": "RemainingReplayCPUcontrols/customhandlers andrepairs",
+      "delete": "OldCPUviewer/objectafternewCPUqualifies; keep4GPUexistingbinariesreferencedbymixedpool. NewCPUafterreplacement/goalcompletion"
+    }
+  ]
+}

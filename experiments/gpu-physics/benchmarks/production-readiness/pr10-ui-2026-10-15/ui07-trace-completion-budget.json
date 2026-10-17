@@ -1,0 +1,41 @@
+{
+  "status": "FROZEN",
+  "cpp_compiles": 1,
+  "compile_seconds": 30,
+  "links": 2,
+  "link_seconds": 25,
+  "viewers": 2,
+  "seconds_per_app": 45,
+  "screenshots_per_app": 2,
+  "actions_per_app": 60,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 12582912,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 67108864,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 200,
+  "raw_before_bytes": 913512054,
+  "pins_before": {
+    "camera": "25c1de0c4fad9a23ebdefcada3d6b4e2a97c7cd45ea71a7488411c7d5924daf0",
+    "sample": "4b0de896d159fd6cf4528c2f4b906ddc527314ee85cb3b823351fc91e1d3b3a6",
+    "split": "8e844b5ab7d28b08eef3b49e8e54e2f1449c155cdc25a7beb94d1877284aa312"
+  },
+  "scope": "Distinct diagnostic compile correction; original failure retained. 1correctedobserver compile,2unstartedlinks/apps; originallimits unchanged. No productedit/repeatedqualifiedapp.",
+  "outputs": [
+    {
+      "path": "raw/ui07-trace-build",
+      "consumer": "Observer.o for repairrelinks;2traceviewers until minimal boundary evidence extracted",
+      "delete": "Retire2traceviewers after evidence extraction;keepobserver with namednextrelinkconsumer"
+    },
+    {
+      "path": "raw/ui07-trace-runs",
+      "consumer": "SelectedFrame input/output pairs/4beforeimages",
+      "delete": "Consume API/observer/stderr once app terminal;retain compact receipts/images"
+    }
+  ]
+}

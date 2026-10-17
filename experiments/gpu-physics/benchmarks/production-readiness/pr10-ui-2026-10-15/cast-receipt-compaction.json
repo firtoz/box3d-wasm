@@ -1,0 +1,59 @@
+{
+  "status": "CLOSED",
+  "reason": "Originalretainedbudget64MiB check caught71438098bytes, mostlyduplicatedindentation in5CastWorldreceipts. Preserve everyJSONvalue; compactwhitespaceonly tofitfrozenbudget ratherthanraiseit.",
+  "rows": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/cast-world/cpu/receipt.json",
+      "original_bytes": 6275927,
+      "compact_bytes": 1758883,
+      "original_sha256": "b520a51d37fe9903ea2c700bd532a5681f714b422dd542252f5d67e634638ecf",
+      "compact_sha256": "5eef426e7878278024ea68b3317f92afffa6fc804fd7348343fbee0d4d031332",
+      "canonical_json_sha256": "5eef426e7878278024ea68b3317f92afffa6fc804fd7348343fbee0d4d031332",
+      "structural_equality": true,
+      "scope": "Whitespace-only losslessJSONcompaction. Alloriginalactions/checks/failures/selectedstates preserved; no duplicateprettyreceipt retained."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/cast-world/ordinary-gpu/receipt.json",
+      "original_bytes": 6297595,
+      "compact_bytes": 1768375,
+      "original_sha256": "62d3d25bc2afde41d6e24a90602bda49857e1cec143c633a3fca27951070b62d",
+      "compact_sha256": "2561854d7476468b95d21befa9bd5ec5d090c9485f69bd3a45ec6a40d2030d23",
+      "canonical_json_sha256": "2561854d7476468b95d21befa9bd5ec5d090c9485f69bd3a45ec6a40d2030d23",
+      "structural_equality": true,
+      "scope": "Whitespace-only losslessJSONcompaction. Alloriginalactions/checks/failures/selectedstates preserved; no duplicateprettyreceipt retained."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/cast-world/native-gpu/receipt.json",
+      "original_bytes": 6297587,
+      "compact_bytes": 1768367,
+      "original_sha256": "54babbb8cf78d94be17b05aa000837e2796dc19e7029ef11904eb033f68bf686",
+      "compact_sha256": "5db61f8be259000e96579fb4748dcfa80b28b35043bfd2e86b33ef6799d4de1e",
+      "canonical_json_sha256": "5db61f8be259000e96579fb4748dcfa80b28b35043bfd2e86b33ef6799d4de1e",
+      "structural_equality": true,
+      "scope": "Whitespace-only losslessJSONcompaction. Alloriginalactions/checks/failures/selectedstates preserved; no duplicateprettyreceipt retained."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/cast-world/ordinary-both/receipt.json",
+      "original_bytes": 9231678,
+      "compact_bytes": 2516708,
+      "original_sha256": "b50d95aef63fe9199432c710d2cdbbac88cd2f633e7b45feeaa3ecdc125d9031",
+      "compact_sha256": "bbb7905c5af9ba92514636b30367f7def0cc815e8a28b1a7e149b32b7f65d1ec",
+      "canonical_json_sha256": "bbb7905c5af9ba92514636b30367f7def0cc815e8a28b1a7e149b32b7f65d1ec",
+      "structural_equality": true,
+      "scope": "Whitespace-only losslessJSONcompaction. Alloriginalactions/checks/failures/selectedstates preserved; no duplicateprettyreceipt retained."
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/cast-world/native-both/receipt.json",
+      "original_bytes": 9231659,
+      "compact_bytes": 2516689,
+      "original_sha256": "903cb9186a5483770e5156b7862941e1f79bf650e682935c54128570d4e24554",
+      "compact_sha256": "61ffee41f6f7d9543c141d3d8e854aa891a2879c98ec98f7abf3675a1f2b87ac",
+      "canonical_json_sha256": "61ffee41f6f7d9543c141d3d8e854aa891a2879c98ec98f7abf3675a1f2b87ac",
+      "structural_equality": true,
+      "scope": "Whitespace-only losslessJSONcompaction. Alloriginalactions/checks/failures/selectedstates preserved; no duplicateprettyreceipt retained."
+    }
+  ],
+  "saved_bytes": 27005424,
+  "retained_original_runs": 44432674,
+  "raw": 962339385
+}

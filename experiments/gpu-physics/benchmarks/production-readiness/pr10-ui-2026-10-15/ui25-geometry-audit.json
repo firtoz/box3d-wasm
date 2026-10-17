@@ -1,0 +1,7 @@
+{
+  "status": "PASS_NATIVE_VALUES_WITH_OFFLINE_SELECTOR_COUNT_OVERRUN",
+  "position_axes": 126,
+  "scope": "All observed Extent .25 dynamic body native positions/rotations/mass match real CPU at existing1e-5; allfourGPU routes and mappedCPU panes. Original checks unchanged.",
+  "budget_pass": false,
+  "budget_note": "The frozen offline maximum105 axes omitted the second mappedCPU panes: actual4GPUroutes/6worlds*7bodies*3axes=126. All retained comparisons passed;21 extra scalar comparisons occurred. No app/build/capture/physics or extra large output. Original budget remains unchanged; do not claim this auxiliary audit stayed within its selector cap."
+}

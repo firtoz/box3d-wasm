@@ -1,0 +1,46 @@
+{
+  "status": "FROZEN",
+  "created": "2026-10-15T19:49:01.848Z",
+  "builds": 0,
+  "viewers": 15,
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "distance-debug",
+    "shape-distance",
+    "time-of-impact"
+  ],
+  "order_rule": "All3CPUfixturesfirst, then3perGPUroute. Independent fixture processes preserve checks if a final negative option crashes.",
+  "seconds_per_app": 150,
+  "ready_seconds": 25,
+  "scene_seconds": 90,
+  "screenshots_per_app": 4,
+  "actions_per_app": 160,
+  "retries": 0,
+  "core_bytes": 0,
+  "max_expected_negative_crashes": 10,
+  "api_bytes_per_app": 33554432,
+  "observer_bytes_per_app": 16777216,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 134217728,
+  "min_free_bytes": 21474836480,
+  "scope": "3no-bodytools/11widgetentries+ShapeDistancecustommousegroup:actualGJK/TOI inputs/output andpreviewdraw/text. Allmenuchoices/conditionalradius/cache/simplex; source-knowninvalidTOIoption and cache-proxytransitionlast, preserveoriginalnegativefaults. NotGPUsolver orPR11qualification.",
+  "outputs": [
+    {
+      "path": "raw/distance-controls-runs",
+      "consumer": "Per-fixture control/effect/negative-boundary acceptance andCPU-first screenshots",
+      "delete": "Full streams andtimingstderr afterselectedcases/inputs/results extracted; retain receipts/media"
+    },
+    {
+      "path": "raw/distance-control-build",
+      "consumer": "3tools thenremainingnativeUI; replacesManifoldpoolafterall5routesqualified",
+      "delete": "Retainuntilverifiedreplacement, oldunlaunchedpoolalreadyremoved"
+    }
+  ]
+}

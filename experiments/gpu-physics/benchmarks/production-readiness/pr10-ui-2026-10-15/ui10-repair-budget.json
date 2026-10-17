@@ -1,0 +1,45 @@
+{
+  "status": "FROZEN",
+  "cpp_compiles": 3,
+  "compile_seconds": 30,
+  "generations": 1,
+  "generation_seconds": 10,
+  "links": 5,
+  "link_seconds": 25,
+  "viewers": 5,
+  "seconds_per_app": 75,
+  "screenshots_per_app": 3,
+  "actions_per_app": 190,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 16777216,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 6291456,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "shared_cache_growth_total_bytes": 33554432,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 650,
+  "raw_before_bytes": 923232383,
+  "pins_before": {
+    "main": "a5392f473371c2b1ef3de0dd8e4d72dcd94202e0e69d6b47954751f8889facc7",
+    "camera": "25c1de0c4fad9a23ebdefcada3d6b4e2a97c7cd45ea71a7488411c7d5924daf0",
+    "generator": "be58c8d324436a6302c0e84bd7a045778d0e3465600172bfe90623a6a6f53751",
+    "split": "f5400bff47a54ea6d6bf11ed0655918a5184771337103983a2c09f391fecb99b"
+  },
+  "scope": "Generatednativehost alwaysroutesKEY_UP toCameraOnEvent andclearscapturedhostkeytable; capturednewkeydown stillUIonly.3CPU/GPU/BOTHmaincompiles reuseidenticalnativeGPU/ordinarysources,5links/apps CPUfirst.7cameraWASDQE/Altreleases underactualpicker, Wnoafterreleasepivotdrift, hostWclear, capturedtextinputpreserved, normalworldkey/mouseup/restart/pickbothpanes/IDs/pausedposes/defaults.0scriptphysics/Rust/shader/sharedarchivechanges/retries.",
+  "outputs": [
+    {
+      "path": "raw/ui10-build",
+      "consumer": "5currentviewers/3hostobjects/key+UIobserverchain fornextPR10relink",
+      "delete": "Retireoldviewerperqualifiedroute,4oldmain+oldUIobserverafterall5qualified;canonicalcopies/logs consumed afterproofextraction"
+    },
+    {
+      "path": "raw/ui10-runs",
+      "consumer": "Selectedkeycapture/latch/update/identity/pick receipts and15afterimages",
+      "delete": "Consume API/observer/stderr terminalperroute;retainminimalreceipt/media"
+    }
+  ]
+}

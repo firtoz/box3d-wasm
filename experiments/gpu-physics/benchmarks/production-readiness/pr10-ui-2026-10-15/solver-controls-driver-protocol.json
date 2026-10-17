@@ -1,0 +1,16 @@
+{
+  "status": "FROZEN_BEFORE_RUN",
+  "sha256": "3b239fa1113ebef98476a2f438210618fa0a7b893af6afa383bba83cda2da90c",
+  "apps_CPUfirst": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 60,
+  "ready_seconds": 25,
+  "screens_each": 2,
+  "actions_each": 45,
+  "retries": 0
+}

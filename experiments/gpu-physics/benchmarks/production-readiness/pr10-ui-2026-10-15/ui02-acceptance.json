@@ -1,0 +1,2122 @@
+{
+  "status": "PASS_FIVE_ROUTES_UI02",
+  "routes": [
+    {
+      "label": "cpu",
+      "after_tag": "cpu",
+      "before_seconds": 1.8315909200173337,
+      "after_seconds": 2.9116934449994005,
+      "before_checks": 7,
+      "after_checks": 11,
+      "before_enter": {
+        "radius_before": 10.0,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 40,
+          "imgui_frame_before": 40,
+          "point": [
+            1432.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1591.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 40,
+            "imgui_frame_before": 40,
+            "point": [
+              1432.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1591.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 40,
+            "imgui_frame_before": 40,
+            "point": [
+              1432.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1591.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": true
+      },
+      "before_leave": {
+        "radius_before": 11.1,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 61,
+          "imgui_frame_before": 61,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1591.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 61,
+            "imgui_frame_before": 61,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1591.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 61,
+            "imgui_frame_before": 61,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1591.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": false
+      },
+      "after_enter": {
+        "radius_before": 10.0,
+        "radius_after": 10.0,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 38,
+          "imgui_frame_before": 38,
+          "point": [
+            1432.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1591.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 38,
+            "imgui_frame_before": 38,
+            "point": [
+              1432.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1591.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 38,
+            "imgui_frame_before": 38,
+            "point": [
+              1432.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1591.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": false
+      },
+      "after_leave": {
+        "radius_before": 10.0,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 58,
+          "imgui_frame_before": 58,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1591.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 58,
+            "imgui_frame_before": 58,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1591.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 58,
+            "imgui_frame_before": 58,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1591.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": true
+      },
+      "held_case": {
+        "radius_before": 11.1,
+        "radius_after": 12.3,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 90,
+          "imgui_frame_before": 90,
+          "point": [
+            1432.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 256,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1591.0,
+            891.0
+          ]
+        }
+      },
+      "popup_case": {
+        "radius_before": 12.3,
+        "radius_after": 12.3,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 122,
+          "imgui_frame_before": 122,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1591.0,
+            891.0
+          ]
+        },
+        "ui_windows": [
+          "Info"
+        ]
+      },
+      "identity_defaults_preserved": [
+        "world",
+        "body_count",
+        "shape_count",
+        "context_flags",
+        "world_flags",
+        "hertz",
+        "substeps",
+        "pause"
+      ],
+      "cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "ordinary-gpu",
+      "after_tag": "ordinary-gpu",
+      "before_seconds": 3.0743055610219017,
+      "after_seconds": 4.2385212590161245,
+      "before_checks": 7,
+      "after_checks": 11,
+      "before_enter": {
+        "radius_before": 10.0,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 94,
+          "imgui_frame_before": 94,
+          "point": [
+            1424.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 94,
+            "imgui_frame_before": 94,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 94,
+            "imgui_frame_before": 94,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": true
+      },
+      "before_leave": {
+        "radius_before": 11.1,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 116,
+          "imgui_frame_before": 116,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 116,
+            "imgui_frame_before": 116,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 116,
+            "imgui_frame_before": 116,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": false
+      },
+      "after_enter": {
+        "radius_before": 10.0,
+        "radius_after": 10.0,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 91,
+          "imgui_frame_before": 91,
+          "point": [
+            1424.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 91,
+            "imgui_frame_before": 91,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 91,
+            "imgui_frame_before": 91,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": false
+      },
+      "after_leave": {
+        "radius_before": 10.0,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 114,
+          "imgui_frame_before": 114,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 114,
+            "imgui_frame_before": 114,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 114,
+            "imgui_frame_before": 114,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": true
+      },
+      "held_case": {
+        "radius_before": 11.1,
+        "radius_after": 12.3,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 146,
+          "imgui_frame_before": 146,
+          "point": [
+            1424.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 256,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        }
+      },
+      "popup_case": {
+        "radius_before": 12.3,
+        "radius_after": 12.3,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 180,
+          "imgui_frame_before": 180,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "ui_windows": [
+          "Info"
+        ]
+      },
+      "identity_defaults_preserved": [
+        "world",
+        "body_count",
+        "shape_count",
+        "context_flags",
+        "world_flags",
+        "hertz",
+        "substeps",
+        "pause"
+      ],
+      "cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "native-gpu",
+      "after_tag": "native-gpu-timing-observed",
+      "before_seconds": 3.1371528489980847,
+      "after_seconds": 4.1627776399836875,
+      "before_checks": 7,
+      "after_checks": 11,
+      "before_enter": {
+        "radius_before": 10.0,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 93,
+          "imgui_frame_before": 93,
+          "point": [
+            1424.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 93,
+            "imgui_frame_before": 93,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 93,
+            "imgui_frame_before": 93,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": true
+      },
+      "before_leave": {
+        "radius_before": 11.1,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 115,
+          "imgui_frame_before": 115,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 115,
+            "imgui_frame_before": 115,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 115,
+            "imgui_frame_before": 115,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": false
+      },
+      "after_enter": {
+        "radius_before": 10.0,
+        "radius_after": 10.0,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 86,
+          "imgui_frame_before": 86,
+          "point": [
+            1424.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 86,
+            "imgui_frame_before": 86,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 86,
+            "imgui_frame_before": 86,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": false
+      },
+      "after_leave": {
+        "radius_before": 10.0,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 107,
+          "imgui_frame_before": 107,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 107,
+            "imgui_frame_before": 107,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 107,
+            "imgui_frame_before": 107,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": true
+      },
+      "held_case": {
+        "radius_before": 11.1,
+        "radius_after": 12.3,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 140,
+          "imgui_frame_before": 140,
+          "point": [
+            1424.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 256,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        }
+      },
+      "popup_case": {
+        "radius_before": 12.3,
+        "radius_after": 12.3,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 172,
+          "imgui_frame_before": 172,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "ui_windows": [
+          "Info"
+        ]
+      },
+      "identity_defaults_preserved": [
+        "world",
+        "body_count",
+        "shape_count",
+        "context_flags",
+        "world_flags",
+        "hertz",
+        "substeps",
+        "pause"
+      ],
+      "cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "ordinary-both",
+      "after_tag": "ordinary-both-timing-observed",
+      "before_seconds": 3.0056211249902844,
+      "after_seconds": 4.222478326992132,
+      "before_checks": 7,
+      "after_checks": 11,
+      "before_enter": {
+        "radius_before": 10.0,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 94,
+          "imgui_frame_before": 94,
+          "point": [
+            1424.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 94,
+            "imgui_frame_before": 94,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 94,
+            "imgui_frame_before": 94,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": true
+      },
+      "before_leave": {
+        "radius_before": 11.1,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 114,
+          "imgui_frame_before": 114,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 114,
+            "imgui_frame_before": 114,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 114,
+            "imgui_frame_before": 114,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": false
+      },
+      "after_enter": {
+        "radius_before": 10.0,
+        "radius_after": 10.0,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 90,
+          "imgui_frame_before": 90,
+          "point": [
+            1424.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 90,
+            "imgui_frame_before": 90,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 90,
+            "imgui_frame_before": 90,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": false
+      },
+      "after_leave": {
+        "radius_before": 10.0,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 111,
+          "imgui_frame_before": 111,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 111,
+            "imgui_frame_before": 111,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 111,
+            "imgui_frame_before": 111,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": true
+      },
+      "held_case": {
+        "radius_before": 11.1,
+        "radius_after": 12.3,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 146,
+          "imgui_frame_before": 146,
+          "point": [
+            1424.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 256,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        }
+      },
+      "popup_case": {
+        "radius_before": 12.3,
+        "radius_after": 12.3,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 179,
+          "imgui_frame_before": 179,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "ui_windows": [
+          "Comparison view",
+          "Info"
+        ]
+      },
+      "identity_defaults_preserved": [
+        "world",
+        "body_count",
+        "shape_count",
+        "context_flags",
+        "world_flags",
+        "hertz",
+        "substeps",
+        "pause"
+      ],
+      "cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "native-both",
+      "after_tag": "native-both-timing-observed",
+      "before_seconds": 3.107563848985592,
+      "after_seconds": 4.386023119994206,
+      "before_checks": 7,
+      "after_checks": 11,
+      "before_enter": {
+        "radius_before": 10.0,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 97,
+          "imgui_frame_before": 97,
+          "point": [
+            1424.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 97,
+            "imgui_frame_before": 97,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 97,
+            "imgui_frame_before": 97,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": true
+      },
+      "before_leave": {
+        "radius_before": 11.1,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 117,
+          "imgui_frame_before": 117,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 117,
+            "imgui_frame_before": 117,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 117,
+            "imgui_frame_before": 117,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": false
+      },
+      "after_enter": {
+        "radius_before": 10.0,
+        "radius_after": 10.0,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 98,
+          "imgui_frame_before": 98,
+          "point": [
+            1424.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 98,
+            "imgui_frame_before": 98,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 98,
+            "imgui_frame_before": 98,
+            "point": [
+              1424.0,
+              463.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": true,
+            "wanted_before": false,
+            "wanted_after": false,
+            "captured": false,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": false
+      },
+      "after_leave": {
+        "radius_before": 10.0,
+        "radius_after": 11.1,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 118,
+          "imgui_frame_before": 118,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "paired_events": [
+          {
+            "type": 7,
+            "sapp_frame": 118,
+            "imgui_frame_before": 118,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              0.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          },
+          {
+            "type": 6,
+            "sapp_frame": 118,
+            "imgui_frame_before": 118,
+            "point": [
+              400.0,
+              450.0
+            ],
+            "scroll": [
+              0.0,
+              -1.0
+            ],
+            "modifiers": 0,
+            "inside_info": false,
+            "wanted_before": true,
+            "wanted_after": true,
+            "captured": true,
+            "info_clip": [
+              1273.0,
+              35.0,
+              1576.0,
+              891.0
+            ]
+          }
+        ],
+        "camera_changed": true
+      },
+      "held_case": {
+        "radius_before": 11.1,
+        "radius_after": 12.3,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 150,
+          "imgui_frame_before": 150,
+          "point": [
+            1424.0,
+            463.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 256,
+          "inside_info": true,
+          "wanted_before": false,
+          "wanted_after": false,
+          "captured": false,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        }
+      },
+      "popup_case": {
+        "radius_before": 12.3,
+        "radius_after": 12.3,
+        "actual_handler_scroll": {
+          "type": 6,
+          "sapp_frame": 184,
+          "imgui_frame_before": 184,
+          "point": [
+            400.0,
+            450.0
+          ],
+          "scroll": [
+            0.0,
+            -1.0
+          ],
+          "modifiers": 0,
+          "inside_info": false,
+          "wanted_before": true,
+          "wanted_after": true,
+          "captured": true,
+          "info_clip": [
+            1273.0,
+            35.0,
+            1576.0,
+            891.0
+          ]
+        },
+        "ui_windows": [
+          "Comparison view",
+          "Info"
+        ]
+      },
+      "identity_defaults_preserved": [
+        "world",
+        "body_count",
+        "shape_count",
+        "context_flags",
+        "world_flags",
+        "hertz",
+        "substeps",
+        "pause"
+      ],
+      "cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    }
+  ],
+  "before_checks": 35,
+  "after_checks": 55,
+  "screenshots": 30,
+  "full_sample_interaction_reviews_complete": 0,
+  "full_sample_interaction_reviews_left": 165,
+  "limitations": [
+    "The XTEST motion/wheel flush can cross UI frames; paired actual events/flags are retained rather than assuming one batch. All5 before reproduce stale capture; after CPU/ordinary directly exercise stale-flag repaired path.",
+    "Specific mouse drag/body picking interactions remain PR10 open. Held mouse path is byte-preserved by helper early return and actual held-world+panel wheel tested.",
+    "Full affected-scene precommit recordings remain required; no commit authorization."
+  ]
+}

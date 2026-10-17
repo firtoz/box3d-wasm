@@ -1,0 +1,86 @@
+{
+  "status": "CLOSED",
+  "retained_original": 12394754,
+  "retained_remaining": 2054672,
+  "raw_retained_bytes": 741295347,
+  "deleted_bytes": 177299145,
+  "removed": [
+    {
+      "path": "raw/scene-controls-corrected-build/cpu",
+      "bytes": 7669528,
+      "sha256": "c17d539246a342cd6308fd8894b7d2a3085b29058e9d74583ae73c0163482945",
+      "reason": "Superseded diagnosticpool after all5newroutes qualified; sources/pins/receipts retained."
+    },
+    {
+      "path": "raw/scene-controls-corrected-build/ordinary-gpu",
+      "bytes": 37768352,
+      "sha256": "1d1e68c2a2f7effb837616e5d281d3879e6e3ec20eab8f3ca9c1409f27722422",
+      "reason": "Superseded diagnosticpool after all5newroutes qualified; sources/pins/receipts retained."
+    },
+    {
+      "path": "raw/scene-controls-corrected-build/native-gpu",
+      "bytes": 40643376,
+      "sha256": "e1e8fb512966a00d2efd75df4ccdecc8b9a02cf54fcf852287d9f47a29e3f4f0",
+      "reason": "Superseded diagnosticpool after all5newroutes qualified; sources/pins/receipts retained."
+    },
+    {
+      "path": "raw/scene-controls-corrected-build/ordinary-both",
+      "bytes": 38542272,
+      "sha256": "9b92123ee73eca03d6e1a191c19ed523da0f5dd52b0f7d41254733699e2e230f",
+      "reason": "Superseded diagnosticpool after all5newroutes qualified; sources/pins/receipts retained."
+    },
+    {
+      "path": "raw/scene-controls-corrected-build/native-both",
+      "bytes": 41417312,
+      "sha256": "a6f37083e4d3269dee81d62c8e901880ccdda7dd1b4c8c8e8552cac6db27a3a6",
+      "reason": "Superseded diagnosticpool after all5newroutes qualified; sources/pins/receipts retained."
+    },
+    {
+      "path": "raw/scene-controls-corrected-build/observer.o",
+      "bytes": 674088,
+      "sha256": "05cebe67af4f2580eae51be2a3a6ba73db7203a0b56c6082b72cba5881e1749b",
+      "reason": "Superseded diagnosticpool after all5newroutes qualified; sources/pins/receipts retained."
+    }
+  ],
+  "owned_pids_absent": [
+    2898935,
+    2898918,
+    2899324,
+    2899308,
+    2899663,
+    2899640,
+    2900010,
+    2899994,
+    2900347,
+    2900331,
+    2900686,
+    2900668,
+    2901027,
+    2901006,
+    2901445,
+    2901429,
+    2901787,
+    2901764,
+    2902211,
+    2902195,
+    2902595,
+    2902575,
+    2902947,
+    2902931,
+    2903197,
+    2903174,
+    2903578,
+    2903558,
+    2903944,
+    2903924,
+    2906802,
+    2906766,
+    2907164,
+    2907148
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708470771712,
+  "consumer": "Current plane-controls-build.json for remaining mouse/querycontrols; original207inputs/CPUReplayfixture unchanged. Preserve selectedactualevidence/harnessfailures. Oldscene binary/objectpooldeleted.",
+  "free_bytes_phase": "After superseded scene binary/object retirement"
+}

@@ -1,0 +1,302 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "body-properties-controls-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "bridge",
+    "locks",
+    "motor",
+    "door",
+    "ragdoll-box",
+    "ragdoll-mesh",
+    "gear"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "bridge",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 17,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "locks",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 26,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "motor",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "door",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 23,
+      "findings": 3
+    },
+    {
+      "route": "cpu",
+      "fixture": "ragdoll-box",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 17,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "ragdoll-mesh",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 20,
+      "findings": 2
+    },
+    {
+      "route": "cpu",
+      "fixture": "gear",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 15,
+      "findings": 1
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "bridge",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 17,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "locks",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 26,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "motor",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "door",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 23,
+      "findings": 3
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "ragdoll-box",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 17,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "ragdoll-mesh",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 20,
+      "findings": 2
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "gear",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 15,
+      "findings": 1
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "bridge",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 17,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "locks",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 26,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "motor",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "door",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 23,
+      "findings": 3
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "ragdoll-box",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 17,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "ragdoll-mesh",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 20,
+      "findings": 2
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "gear",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 15,
+      "findings": 1
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "bridge",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 17,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "locks",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 26,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "motor",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "door",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 23,
+      "findings": 3
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "ragdoll-box",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 17,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "ragdoll-mesh",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 20,
+      "findings": 2
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "gear",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 15,
+      "findings": 1
+    },
+    {
+      "route": "native-both",
+      "fixture": "bridge",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 17,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "locks",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 26,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "motor",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "door",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 23,
+      "findings": 4
+    },
+    {
+      "route": "native-both",
+      "fixture": "ragdoll-box",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 17,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "ragdoll-mesh",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 20,
+      "findings": 2
+    },
+    {
+      "route": "native-both",
+      "fixture": "gear",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 15,
+      "findings": 1
+    }
+  ]
+}

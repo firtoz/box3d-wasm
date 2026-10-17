@@ -1,0 +1,28 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 4790747,
+  "raw_retained_bytes": 933382473,
+  "deleted_bytes": 4771004,
+  "owned_pids_absent": [
+    3670169,
+    3670155,
+    3670450,
+    3670436,
+    3670778,
+    3670757,
+    3683986,
+    3683955,
+    3684244,
+    3684221,
+    3684555,
+    3684541,
+    3684955,
+    3684941,
+    3692132,
+    3692118
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707997126656,
+  "consumer": "Current5UI11viewers/neededobjects/taskarchive nextPR10relink; selected25images/receipts/2grids finalaudit"
+}

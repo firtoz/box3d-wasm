@@ -1,0 +1,48 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "empty-world-framing-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 6,
+      "findings": 2
+    },
+    {
+      "route": "ordinary-gpu",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 6,
+      "findings": 2
+    },
+    {
+      "route": "native-gpu",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 6,
+      "findings": 2
+    },
+    {
+      "route": "ordinary-both",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 6,
+      "findings": 2
+    },
+    {
+      "route": "native-both",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 6,
+      "findings": 2
+    }
+  ]
+}

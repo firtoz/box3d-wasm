@@ -1,0 +1,5347 @@
+{
+  "status": "REVIEWED_THIRTEEN_WIDGETS_AND_DRIVING_KEYBOARD_WITH_UI20_UNFIXED",
+  "routes_CPU_first": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "widget_entries": 13,
+  "custom_input_sample_groups": 1,
+  "recorded_evaluations": 381,
+  "policy_failures": 10,
+  "rows": [
+    {
+      "route": "cpu",
+      "fixture": "driving",
+      "receipt": "raw/driving-controls-runs/driving/cpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": {
+        "Driving actual scene counts": true,
+        "Driving actual unique body counts": true,
+        "Min##Suspension actualvalue -0.4": true,
+        "Min##Suspension actual intended setter": true,
+        "Min##Suspension actual intended wheel effect": true,
+        "Min##Suspension preserves other wheels and identities": true,
+        "Max##Suspension actualvalue 0.4": true,
+        "Max##Suspension actual intended setter": true,
+        "Max##Suspension actual intended wheel effect": true,
+        "Max##Suspension preserves other wheels and identities": true,
+        "Hertz##Suspension actualvalue 6": true,
+        "Hertz##Suspension actual intended setter": true,
+        "Hertz##Suspension actual intended wheel effect": true,
+        "Hertz##Suspension preserves other wheels and identities": true,
+        "Damping##Suspension actualvalue 1.2": true,
+        "Damping##Suspension actual intended setter": true,
+        "Damping##Suspension actual intended wheel effect": true,
+        "Damping##Suspension preserves other wheels and identities": true,
+        "Hertz##Steering actualvalue 8": true,
+        "Hertz##Steering actual intended setter": true,
+        "Hertz##Steering actual intended wheel effect": true,
+        "Hertz##Steering preserves other wheels and identities": true,
+        "Damping##Steering actualvalue 1.4": true,
+        "Damping##Steering actual intended setter": true,
+        "Damping##Steering actual intended wheel effect": true,
+        "Damping##Steering preserves other wheels and identities": true,
+        "Torque##Steering actualvalue 10": true,
+        "Torque##Steering actual intended setter": true,
+        "Torque##Steering actual intended wheel effect": true,
+        "Torque##Steering preserves other wheels and identities": true,
+        "Min Deg##Steering actualvalue -60": true,
+        "Min Deg##Steering actual intended setter": true,
+        "Min Deg##Steering actual intended wheel effect": true,
+        "Min Deg##Steering preserves other wheels and identities": true,
+        "Max Deg##Steering actualvalue 60": true,
+        "Max Deg##Steering actual intended setter": true,
+        "Max Deg##Steering actual intended wheel effect": true,
+        "Max Deg##Steering preserves other wheels and identities": true,
+        "Max Torque actualvalue 25": true,
+        "Max Torque actual intended setter": false,
+        "Max Torque actual intended wheel effect": false,
+        "Max Torque preserves other wheels and identities": true,
+        "Speed actualvalue 40": true,
+        "Third Person checkbox enables camera mode andfollow": true,
+        "T press/release disables third person once": true,
+        "T press/release enables third person once": true,
+        "w actual rear motor command": true,
+        "w actual front steering command": true,
+        "w release neutralizes actual commands": true,
+        "w paused body identity/poses preserved": true,
+        "s actual rear motor command": true,
+        "s actual front steering command": true,
+        "s release neutralizes actual commands": true,
+        "s paused body identity/poses preserved": true,
+        "a actual rear motor command": true,
+        "a actual front steering command": true,
+        "a release neutralizes actual commands": true,
+        "a paused body identity/poses preserved": true,
+        "d actual rear motor command": true,
+        "d actual front steering command": true,
+        "d release neutralizes actual commands": true,
+        "d paused body identity/poses preserved": true,
+        "third person suppresses body picking": true,
+        "final T releases third person": true,
+        "Driving restart source defaults": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "elapsed_seconds": 14.873389278000001,
+      "screenshots": {
+        "driving-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-runs/driving/cpu/driving-before.png",
+          "sha256": "6e1cabc467099eed036bf45192e548aa4847d4bac9f4f96171d7ba6edbc1fdbf",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 79,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "driving-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-runs/driving/cpu/driving-configured.png",
+          "sha256": "6271432a7e8e80e97a7829e47bb45d4762104ae2658205639f7f21c4c4513e7b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 668,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "driving-third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-runs/driving/cpu/driving-third-person.png",
+          "sha256": "0307839c92cc54ad584c82c9ef381643bf5724b686ce4fca18e81754b89baf85",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 808,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        }
+      },
+      "controls": [
+        {
+          "control": "Min##Suspension",
+          "value": -0.4,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetLowerSuspensionLimit",
+          "expected": -0.4
+        },
+        {
+          "control": "Max##Suspension",
+          "value": 0.4,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetUpperSuspensionLimit",
+          "expected": 0.4
+        },
+        {
+          "control": "Hertz##Suspension",
+          "value": 6,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetSuspensionHertz",
+          "expected": 6
+        },
+        {
+          "control": "Damping##Suspension",
+          "value": 1.2,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetSuspensionDampingRatio",
+          "expected": 1.2
+        },
+        {
+          "control": "Hertz##Steering",
+          "value": 8,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetSteeringHertz",
+          "expected": 8
+        },
+        {
+          "control": "Damping##Steering",
+          "value": 1.4,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetSteeringDampingRatio",
+          "expected": 1.4
+        },
+        {
+          "control": "Torque##Steering",
+          "value": 10,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetMaxSteeringTorque",
+          "expected": 10
+        },
+        {
+          "control": "Min Deg##Steering",
+          "value": -60,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetLowerSteeringLimit",
+          "expected": -1.0471975803375244
+        },
+        {
+          "control": "Max Deg##Steering",
+          "value": 60,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetUpperSteeringLimit",
+          "expected": 1.0471975803375244
+        },
+        {
+          "control": "Max Torque",
+          "value": 25,
+          "scope": "rear",
+          "getter": "b3WheelJoint_GetMaxSpinTorque",
+          "expected": 25
+        },
+        {
+          "control": "Third Person (T)"
+        },
+        {
+          "control": "Speed",
+          "value": 40
+        }
+      ],
+      "keys": [
+        {
+          "key": "w",
+          "held_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": -40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": -40,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "s",
+          "held_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 40,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "a",
+          "held_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "d",
+          "held_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        }
+      ],
+      "cleanup": "raw/driving-controls-runs/driving/cpu/stream-cleanup.json",
+      "deleted_stream_bytes": 10754874
+    },
+    {
+      "route": "cpu",
+      "fixture": "top-down",
+      "receipt": "raw/driving-controls-tail-runs/top-down/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": {
+        "Top Down Friction actual scene counts": true,
+        "Top Down Friction actual unique body counts": true,
+        "Top Down explosion exact source input": true,
+        "Top Down explosion actual outward velocities": true,
+        "Top Down explosion preserves IDs/pausedposes": true,
+        "Top Down explosion finite output": true,
+        "Top Down restart source counts/rest": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "elapsed_seconds": 2.5241637470000002,
+      "screenshots": {
+        "top-down-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/cpu/top-down-before.png",
+          "sha256": "2e7490b3d5bd7b89a77250dbe92c4fdef25474d1c38c1714df07702ece13bfb4",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 101,
+            "shape_count": 104,
+            "move_count": 0
+          }
+        },
+        "top-down-exploded": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/cpu/top-down-exploded.png",
+          "sha256": "7134e3835b33a4fd19b773f3c6c9a256760c1c34896ff639f0a65db4aee1d4f9",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 106,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 101,
+            "shape_count": 104,
+            "move_count": 0
+          }
+        }
+      },
+      "controls": [
+        {
+          "control": "Explode"
+        }
+      ],
+      "keys": [],
+      "cleanup": "raw/driving-controls-tail-runs/top-down/cpu/stream-cleanup.json",
+      "deleted_stream_bytes": 772578
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "driving",
+      "receipt": "raw/driving-controls-tail-runs/driving/ordinary-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": {
+        "Driving actual scene counts": true,
+        "Driving actual unique body counts": true,
+        "Min##Suspension actualvalue -0.4": true,
+        "Min##Suspension actual intended setter": true,
+        "Min##Suspension actual intended wheel effect": true,
+        "Min##Suspension preserves other wheels and identities": true,
+        "Max##Suspension actualvalue 0.4": true,
+        "Max##Suspension actual intended setter": true,
+        "Max##Suspension actual intended wheel effect": true,
+        "Max##Suspension preserves other wheels and identities": true,
+        "Hertz##Suspension actualvalue 6": true,
+        "Hertz##Suspension actual intended setter": true,
+        "Hertz##Suspension actual intended wheel effect": true,
+        "Hertz##Suspension preserves other wheels and identities": true,
+        "Damping##Suspension actualvalue 1.2": true,
+        "Damping##Suspension actual intended setter": true,
+        "Damping##Suspension actual intended wheel effect": true,
+        "Damping##Suspension preserves other wheels and identities": true,
+        "Hertz##Steering actualvalue 8": true,
+        "Hertz##Steering actual intended setter": true,
+        "Hertz##Steering actual intended wheel effect": true,
+        "Hertz##Steering preserves other wheels and identities": true,
+        "Damping##Steering actualvalue 1.4": true,
+        "Damping##Steering actual intended setter": true,
+        "Damping##Steering actual intended wheel effect": true,
+        "Damping##Steering preserves other wheels and identities": true,
+        "Torque##Steering actualvalue 10": true,
+        "Torque##Steering actual intended setter": true,
+        "Torque##Steering actual intended wheel effect": true,
+        "Torque##Steering preserves other wheels and identities": true,
+        "Min Deg##Steering actualvalue -60": true,
+        "Min Deg##Steering actual intended setter": true,
+        "Min Deg##Steering actual intended wheel effect": true,
+        "Min Deg##Steering preserves other wheels and identities": true,
+        "Max Deg##Steering actualvalue 60": true,
+        "Max Deg##Steering actual intended setter": true,
+        "Max Deg##Steering actual intended wheel effect": true,
+        "Max Deg##Steering preserves other wheels and identities": true,
+        "Max Torque actualvalue 25": true,
+        "Max Torque actual intended setter": false,
+        "Max Torque actual intended wheel effect": false,
+        "Max Torque preserves other wheels and identities": true,
+        "Speed actualvalue 40": true,
+        "Third Person checkbox enables camera mode andfollow": true,
+        "T press/release disables third person once": true,
+        "T press/release enables third person once": true,
+        "w actual rear motor command": true,
+        "w actual front steering command": true,
+        "w release neutralizes actual commands": true,
+        "w paused body identity/poses preserved": true,
+        "s actual rear motor command": true,
+        "s actual front steering command": true,
+        "s release neutralizes actual commands": true,
+        "s paused body identity/poses preserved": true,
+        "a actual rear motor command": true,
+        "a actual front steering command": true,
+        "a release neutralizes actual commands": true,
+        "a paused body identity/poses preserved": true,
+        "d actual rear motor command": true,
+        "d actual front steering command": true,
+        "d release neutralizes actual commands": true,
+        "d paused body identity/poses preserved": true,
+        "third person suppresses body picking": true,
+        "final T releases third person": true,
+        "Driving restart source defaults": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "elapsed_seconds": 16.922848843,
+      "screenshots": {
+        "driving-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/ordinary-gpu/driving-before.png",
+          "sha256": "0a7e1c51a13d83e3e55e9da51d5556d2df7a23db55ef8fd21b08e2d7f31f3fc6",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 112,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "driving-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/ordinary-gpu/driving-configured.png",
+          "sha256": "0a07e80ccc738be89ea1934779e2c94bc8ac72487d0aa0b8bdee3bf6b2428ef8",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 704,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "driving-third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/ordinary-gpu/driving-third-person.png",
+          "sha256": "9f1437bac5d8b208e3b046fb085be0b9b765df6628c5b40e61f7a1f899b522b2",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 845,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        }
+      },
+      "controls": [
+        {
+          "control": "Min##Suspension",
+          "value": -0.4,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetLowerSuspensionLimit",
+          "expected": -0.4
+        },
+        {
+          "control": "Max##Suspension",
+          "value": 0.4,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetUpperSuspensionLimit",
+          "expected": 0.4
+        },
+        {
+          "control": "Hertz##Suspension",
+          "value": 6,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetSuspensionHertz",
+          "expected": 6
+        },
+        {
+          "control": "Damping##Suspension",
+          "value": 1.2,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetSuspensionDampingRatio",
+          "expected": 1.2
+        },
+        {
+          "control": "Hertz##Steering",
+          "value": 8,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetSteeringHertz",
+          "expected": 8
+        },
+        {
+          "control": "Damping##Steering",
+          "value": 1.4,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetSteeringDampingRatio",
+          "expected": 1.4
+        },
+        {
+          "control": "Torque##Steering",
+          "value": 10,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetMaxSteeringTorque",
+          "expected": 10
+        },
+        {
+          "control": "Min Deg##Steering",
+          "value": -60,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetLowerSteeringLimit",
+          "expected": -1.0471975803375244
+        },
+        {
+          "control": "Max Deg##Steering",
+          "value": 60,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetUpperSteeringLimit",
+          "expected": 1.0471975803375244
+        },
+        {
+          "control": "Max Torque",
+          "value": 25,
+          "scope": "rear",
+          "getter": "b3WheelJoint_GetMaxSpinTorque",
+          "expected": 25
+        },
+        {
+          "control": "Third Person (T)"
+        },
+        {
+          "control": "Speed",
+          "value": 40
+        }
+      ],
+      "keys": [
+        {
+          "key": "w",
+          "held_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": -40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": -40,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "s",
+          "held_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 40,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "a",
+          "held_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "d",
+          "held_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        }
+      ],
+      "cleanup": "raw/driving-controls-tail-runs/driving/ordinary-gpu/stream-cleanup.json",
+      "deleted_stream_bytes": 11502193
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "top-down",
+      "receipt": "raw/driving-controls-tail-runs/top-down/ordinary-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": {
+        "Top Down Friction actual scene counts": true,
+        "Top Down Friction actual unique body counts": true,
+        "Top Down explosion exact source input": true,
+        "Top Down explosion actual outward velocities": true,
+        "Top Down explosion preserves IDs/pausedposes": true,
+        "Top Down explosion finite output": true,
+        "Top Down restart source counts/rest": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "elapsed_seconds": 3.684741619,
+      "screenshots": {
+        "top-down-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/ordinary-gpu/top-down-before.png",
+          "sha256": "1529e9b87e5821e68c9e61a39e8cccfe02415fc9534f0e66881e09c97fb4c75c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 101,
+            "shape_count": 104,
+            "move_count": 0
+          }
+        },
+        "top-down-exploded": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/ordinary-gpu/top-down-exploded.png",
+          "sha256": "403160ebfb2064dab9e91072503588ba0c601424efc5b56c931afaa2b19b583a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 105,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 101,
+            "shape_count": 104,
+            "move_count": 0
+          }
+        }
+      },
+      "controls": [
+        {
+          "control": "Explode"
+        }
+      ],
+      "keys": [],
+      "cleanup": "raw/driving-controls-tail-runs/top-down/ordinary-gpu/stream-cleanup.json",
+      "deleted_stream_bytes": 783652
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "driving",
+      "receipt": "raw/driving-controls-tail-runs/driving/native-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": {
+        "Driving actual scene counts": true,
+        "Driving actual unique body counts": true,
+        "Min##Suspension actualvalue -0.4": true,
+        "Min##Suspension actual intended setter": true,
+        "Min##Suspension actual intended wheel effect": true,
+        "Min##Suspension preserves other wheels and identities": true,
+        "Max##Suspension actualvalue 0.4": true,
+        "Max##Suspension actual intended setter": true,
+        "Max##Suspension actual intended wheel effect": true,
+        "Max##Suspension preserves other wheels and identities": true,
+        "Hertz##Suspension actualvalue 6": true,
+        "Hertz##Suspension actual intended setter": true,
+        "Hertz##Suspension actual intended wheel effect": true,
+        "Hertz##Suspension preserves other wheels and identities": true,
+        "Damping##Suspension actualvalue 1.2": true,
+        "Damping##Suspension actual intended setter": true,
+        "Damping##Suspension actual intended wheel effect": true,
+        "Damping##Suspension preserves other wheels and identities": true,
+        "Hertz##Steering actualvalue 8": true,
+        "Hertz##Steering actual intended setter": true,
+        "Hertz##Steering actual intended wheel effect": true,
+        "Hertz##Steering preserves other wheels and identities": true,
+        "Damping##Steering actualvalue 1.4": true,
+        "Damping##Steering actual intended setter": true,
+        "Damping##Steering actual intended wheel effect": true,
+        "Damping##Steering preserves other wheels and identities": true,
+        "Torque##Steering actualvalue 10": true,
+        "Torque##Steering actual intended setter": true,
+        "Torque##Steering actual intended wheel effect": true,
+        "Torque##Steering preserves other wheels and identities": true,
+        "Min Deg##Steering actualvalue -60": true,
+        "Min Deg##Steering actual intended setter": true,
+        "Min Deg##Steering actual intended wheel effect": true,
+        "Min Deg##Steering preserves other wheels and identities": true,
+        "Max Deg##Steering actualvalue 60": true,
+        "Max Deg##Steering actual intended setter": true,
+        "Max Deg##Steering actual intended wheel effect": true,
+        "Max Deg##Steering preserves other wheels and identities": true,
+        "Max Torque actualvalue 25": true,
+        "Max Torque actual intended setter": false,
+        "Max Torque actual intended wheel effect": false,
+        "Max Torque preserves other wheels and identities": true,
+        "Speed actualvalue 40": true,
+        "Third Person checkbox enables camera mode andfollow": true,
+        "T press/release disables third person once": true,
+        "T press/release enables third person once": true,
+        "w actual rear motor command": true,
+        "w actual front steering command": true,
+        "w release neutralizes actual commands": true,
+        "w paused body identity/poses preserved": true,
+        "s actual rear motor command": true,
+        "s actual front steering command": true,
+        "s release neutralizes actual commands": true,
+        "s paused body identity/poses preserved": true,
+        "a actual rear motor command": true,
+        "a actual front steering command": true,
+        "a release neutralizes actual commands": true,
+        "a paused body identity/poses preserved": true,
+        "d actual rear motor command": true,
+        "d actual front steering command": true,
+        "d release neutralizes actual commands": true,
+        "d paused body identity/poses preserved": true,
+        "third person suppresses body picking": true,
+        "final T releases third person": true,
+        "Driving restart source defaults": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "elapsed_seconds": 17.16369188,
+      "screenshots": {
+        "driving-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/native-gpu/driving-before.png",
+          "sha256": "0a7e1c51a13d83e3e55e9da51d5556d2df7a23db55ef8fd21b08e2d7f31f3fc6",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 115,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "driving-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/native-gpu/driving-configured.png",
+          "sha256": "0a07e80ccc738be89ea1934779e2c94bc8ac72487d0aa0b8bdee3bf6b2428ef8",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 707,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "driving-third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/native-gpu/driving-third-person.png",
+          "sha256": "9f1437bac5d8b208e3b046fb085be0b9b765df6628c5b40e61f7a1f899b522b2",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 851,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        }
+      },
+      "controls": [
+        {
+          "control": "Min##Suspension",
+          "value": -0.4,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetLowerSuspensionLimit",
+          "expected": -0.4
+        },
+        {
+          "control": "Max##Suspension",
+          "value": 0.4,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetUpperSuspensionLimit",
+          "expected": 0.4
+        },
+        {
+          "control": "Hertz##Suspension",
+          "value": 6,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetSuspensionHertz",
+          "expected": 6
+        },
+        {
+          "control": "Damping##Suspension",
+          "value": 1.2,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetSuspensionDampingRatio",
+          "expected": 1.2
+        },
+        {
+          "control": "Hertz##Steering",
+          "value": 8,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetSteeringHertz",
+          "expected": 8
+        },
+        {
+          "control": "Damping##Steering",
+          "value": 1.4,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetSteeringDampingRatio",
+          "expected": 1.4
+        },
+        {
+          "control": "Torque##Steering",
+          "value": 10,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetMaxSteeringTorque",
+          "expected": 10
+        },
+        {
+          "control": "Min Deg##Steering",
+          "value": -60,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetLowerSteeringLimit",
+          "expected": -1.0471975803375244
+        },
+        {
+          "control": "Max Deg##Steering",
+          "value": 60,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetUpperSteeringLimit",
+          "expected": 1.0471975803375244
+        },
+        {
+          "control": "Max Torque",
+          "value": 25,
+          "scope": "rear",
+          "getter": "b3WheelJoint_GetMaxSpinTorque",
+          "expected": 25
+        },
+        {
+          "control": "Third Person (T)"
+        },
+        {
+          "control": "Speed",
+          "value": 40
+        }
+      ],
+      "keys": [
+        {
+          "key": "w",
+          "held_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": -40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": -40,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "s",
+          "held_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 40,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "a",
+          "held_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "d",
+          "held_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        }
+      ],
+      "cleanup": "raw/driving-controls-tail-runs/driving/native-gpu/stream-cleanup.json",
+      "deleted_stream_bytes": 11567463
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "top-down",
+      "receipt": "raw/driving-controls-tail-runs/top-down/native-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": {
+        "Top Down Friction actual scene counts": true,
+        "Top Down Friction actual unique body counts": true,
+        "Top Down explosion exact source input": true,
+        "Top Down explosion actual outward velocities": true,
+        "Top Down explosion preserves IDs/pausedposes": true,
+        "Top Down explosion finite output": true,
+        "Top Down restart source counts/rest": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "elapsed_seconds": 3.7086506919999995,
+      "screenshots": {
+        "top-down-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/native-gpu/top-down-before.png",
+          "sha256": "1cb292810b4e02821c89f71c44bc904e52175126dc37805d7fe3cd88bc57d705",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 101,
+            "shape_count": 104,
+            "move_count": 0
+          }
+        },
+        "top-down-exploded": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/native-gpu/top-down-exploded.png",
+          "sha256": "c64530274e6f61a76751f4414f49f28cbc9321bc8791ccf9ba593cdce7aa488f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 105,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 101,
+            "shape_count": 104,
+            "move_count": 0
+          }
+        }
+      },
+      "controls": [
+        {
+          "control": "Explode"
+        }
+      ],
+      "keys": [],
+      "cleanup": "raw/driving-controls-tail-runs/top-down/native-gpu/stream-cleanup.json",
+      "deleted_stream_bytes": 781891
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "driving",
+      "receipt": "raw/driving-controls-tail-runs/driving/ordinary-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": {
+        "Driving actual scene counts": true,
+        "Driving actual unique body counts": true,
+        "Min##Suspension actualvalue -0.4": true,
+        "Min##Suspension actual intended setter": true,
+        "Min##Suspension actual intended wheel effect": true,
+        "Min##Suspension preserves other wheels and identities": true,
+        "Max##Suspension actualvalue 0.4": true,
+        "Max##Suspension actual intended setter": true,
+        "Max##Suspension actual intended wheel effect": true,
+        "Max##Suspension preserves other wheels and identities": true,
+        "Hertz##Suspension actualvalue 6": true,
+        "Hertz##Suspension actual intended setter": true,
+        "Hertz##Suspension actual intended wheel effect": true,
+        "Hertz##Suspension preserves other wheels and identities": true,
+        "Damping##Suspension actualvalue 1.2": true,
+        "Damping##Suspension actual intended setter": true,
+        "Damping##Suspension actual intended wheel effect": true,
+        "Damping##Suspension preserves other wheels and identities": true,
+        "Hertz##Steering actualvalue 8": true,
+        "Hertz##Steering actual intended setter": true,
+        "Hertz##Steering actual intended wheel effect": true,
+        "Hertz##Steering preserves other wheels and identities": true,
+        "Damping##Steering actualvalue 1.4": true,
+        "Damping##Steering actual intended setter": true,
+        "Damping##Steering actual intended wheel effect": true,
+        "Damping##Steering preserves other wheels and identities": true,
+        "Torque##Steering actualvalue 10": true,
+        "Torque##Steering actual intended setter": true,
+        "Torque##Steering actual intended wheel effect": true,
+        "Torque##Steering preserves other wheels and identities": true,
+        "Min Deg##Steering actualvalue -60": true,
+        "Min Deg##Steering actual intended setter": true,
+        "Min Deg##Steering actual intended wheel effect": true,
+        "Min Deg##Steering preserves other wheels and identities": true,
+        "Max Deg##Steering actualvalue 60": true,
+        "Max Deg##Steering actual intended setter": true,
+        "Max Deg##Steering actual intended wheel effect": true,
+        "Max Deg##Steering preserves other wheels and identities": true,
+        "Max Torque actualvalue 25": true,
+        "Max Torque actual intended setter": false,
+        "Max Torque actual intended wheel effect": false,
+        "Max Torque preserves other wheels and identities": true,
+        "Speed actualvalue 40": true,
+        "Third Person checkbox enables camera mode andfollow": true,
+        "T press/release disables third person once": true,
+        "T press/release enables third person once": true,
+        "w actual rear motor command": true,
+        "w actual front steering command": true,
+        "w release neutralizes actual commands": true,
+        "w paused body identity/poses preserved": true,
+        "s actual rear motor command": true,
+        "s actual front steering command": true,
+        "s release neutralizes actual commands": true,
+        "s paused body identity/poses preserved": true,
+        "a actual rear motor command": true,
+        "a actual front steering command": true,
+        "a release neutralizes actual commands": true,
+        "a paused body identity/poses preserved": true,
+        "d actual rear motor command": true,
+        "d actual front steering command": true,
+        "d release neutralizes actual commands": true,
+        "d paused body identity/poses preserved": true,
+        "third person suppresses body picking": true,
+        "final T releases third person": true,
+        "Driving restart source defaults": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "elapsed_seconds": 17.725820346,
+      "screenshots": {
+        "driving-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/ordinary-both/driving-before.png",
+          "sha256": "cf3fe756b997b539bb1d2ac668888654e6fb81d72fd69c3dbe0d47fdd8f7b07f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 133,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "driving-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/ordinary-both/driving-configured.png",
+          "sha256": "27a9e5cbb279ff5d69a46b32436a9615a4a3cf94d4e8ae095a7207411e21e7dc",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 732,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "driving-third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/ordinary-both/driving-third-person.png",
+          "sha256": "f3dbdd78a03dfd00be56cbf4183a0edd0dc15bb36bf9758f241bc45eac8a444c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 875,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "controls": [
+        {
+          "control": "Min##Suspension",
+          "value": -0.4,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetLowerSuspensionLimit",
+          "expected": -0.4
+        },
+        {
+          "control": "Max##Suspension",
+          "value": 0.4,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetUpperSuspensionLimit",
+          "expected": 0.4
+        },
+        {
+          "control": "Hertz##Suspension",
+          "value": 6,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetSuspensionHertz",
+          "expected": 6
+        },
+        {
+          "control": "Damping##Suspension",
+          "value": 1.2,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetSuspensionDampingRatio",
+          "expected": 1.2
+        },
+        {
+          "control": "Hertz##Steering",
+          "value": 8,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetSteeringHertz",
+          "expected": 8
+        },
+        {
+          "control": "Damping##Steering",
+          "value": 1.4,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetSteeringDampingRatio",
+          "expected": 1.4
+        },
+        {
+          "control": "Torque##Steering",
+          "value": 10,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetMaxSteeringTorque",
+          "expected": 10
+        },
+        {
+          "control": "Min Deg##Steering",
+          "value": -60,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetLowerSteeringLimit",
+          "expected": -1.0471975803375244
+        },
+        {
+          "control": "Max Deg##Steering",
+          "value": 60,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetUpperSteeringLimit",
+          "expected": 1.0471975803375244
+        },
+        {
+          "control": "Max Torque",
+          "value": 25,
+          "scope": "rear",
+          "getter": "b3WheelJoint_GetMaxSpinTorque",
+          "expected": 25
+        },
+        {
+          "control": "Third Person (T)"
+        },
+        {
+          "control": "Speed",
+          "value": 40
+        }
+      ],
+      "keys": [
+        {
+          "key": "w",
+          "held_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": -40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": -40,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": -40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": -40,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "s",
+          "held_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 40,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 40,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "a",
+          "held_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "d",
+          "held_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        }
+      ],
+      "cleanup": "raw/driving-controls-tail-runs/driving/ordinary-both/stream-cleanup.json",
+      "deleted_stream_bytes": 22926450
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "top-down",
+      "receipt": "raw/driving-controls-tail-runs/top-down/ordinary-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": {
+        "Top Down Friction actual scene counts": true,
+        "Top Down Friction actual unique body counts": true,
+        "Top Down explosion exact source input": true,
+        "Top Down explosion actual outward velocities": true,
+        "Top Down explosion preserves IDs/pausedposes": true,
+        "Top Down explosion finite output": true,
+        "Top Down restart source counts/rest": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "elapsed_seconds": 4.055777443999999,
+      "screenshots": {
+        "top-down-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/ordinary-both/top-down-before.png",
+          "sha256": "5bdac46c2c28e1f5803d45e09d8bc6a7d0c0a43bcfef00aaa070eed9751e27da",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 101,
+            "shape_count": 104,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "top-down-exploded": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/ordinary-both/top-down-exploded.png",
+          "sha256": "11edb4d6ae097c97693d519e44a48b3b186d813df013a2d68c48c80fb79c5968",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 123,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 101,
+            "shape_count": 104,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "controls": [
+        {
+          "control": "Explode"
+        }
+      ],
+      "keys": [],
+      "cleanup": "raw/driving-controls-tail-runs/top-down/ordinary-both/stream-cleanup.json",
+      "deleted_stream_bytes": 1862086
+    },
+    {
+      "route": "native-both",
+      "fixture": "driving",
+      "receipt": "raw/driving-controls-tail-runs/driving/native-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": {
+        "Driving actual scene counts": true,
+        "Driving actual unique body counts": true,
+        "Min##Suspension actualvalue -0.4": true,
+        "Min##Suspension actual intended setter": true,
+        "Min##Suspension actual intended wheel effect": true,
+        "Min##Suspension preserves other wheels and identities": true,
+        "Max##Suspension actualvalue 0.4": true,
+        "Max##Suspension actual intended setter": true,
+        "Max##Suspension actual intended wheel effect": true,
+        "Max##Suspension preserves other wheels and identities": true,
+        "Hertz##Suspension actualvalue 6": true,
+        "Hertz##Suspension actual intended setter": true,
+        "Hertz##Suspension actual intended wheel effect": true,
+        "Hertz##Suspension preserves other wheels and identities": true,
+        "Damping##Suspension actualvalue 1.2": true,
+        "Damping##Suspension actual intended setter": true,
+        "Damping##Suspension actual intended wheel effect": true,
+        "Damping##Suspension preserves other wheels and identities": true,
+        "Hertz##Steering actualvalue 8": true,
+        "Hertz##Steering actual intended setter": true,
+        "Hertz##Steering actual intended wheel effect": true,
+        "Hertz##Steering preserves other wheels and identities": true,
+        "Damping##Steering actualvalue 1.4": true,
+        "Damping##Steering actual intended setter": true,
+        "Damping##Steering actual intended wheel effect": true,
+        "Damping##Steering preserves other wheels and identities": true,
+        "Torque##Steering actualvalue 10": true,
+        "Torque##Steering actual intended setter": true,
+        "Torque##Steering actual intended wheel effect": true,
+        "Torque##Steering preserves other wheels and identities": true,
+        "Min Deg##Steering actualvalue -60": true,
+        "Min Deg##Steering actual intended setter": true,
+        "Min Deg##Steering actual intended wheel effect": true,
+        "Min Deg##Steering preserves other wheels and identities": true,
+        "Max Deg##Steering actualvalue 60": true,
+        "Max Deg##Steering actual intended setter": true,
+        "Max Deg##Steering actual intended wheel effect": true,
+        "Max Deg##Steering preserves other wheels and identities": true,
+        "Max Torque actualvalue 25": true,
+        "Max Torque actual intended setter": false,
+        "Max Torque actual intended wheel effect": false,
+        "Max Torque preserves other wheels and identities": true,
+        "Speed actualvalue 40": true,
+        "Third Person checkbox enables camera mode andfollow": true,
+        "T press/release disables third person once": true,
+        "T press/release enables third person once": true,
+        "w actual rear motor command": true,
+        "w actual front steering command": true,
+        "w release neutralizes actual commands": true,
+        "w paused body identity/poses preserved": true,
+        "s actual rear motor command": true,
+        "s actual front steering command": true,
+        "s release neutralizes actual commands": true,
+        "s paused body identity/poses preserved": true,
+        "a actual rear motor command": true,
+        "a actual front steering command": true,
+        "a release neutralizes actual commands": true,
+        "a paused body identity/poses preserved": true,
+        "d actual rear motor command": true,
+        "d actual front steering command": true,
+        "d release neutralizes actual commands": true,
+        "d paused body identity/poses preserved": true,
+        "third person suppresses body picking": true,
+        "final T releases third person": true,
+        "Driving restart source defaults": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "elapsed_seconds": 17.568179157,
+      "screenshots": {
+        "driving-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/native-both/driving-before.png",
+          "sha256": "cf3fe756b997b539bb1d2ac668888654e6fb81d72fd69c3dbe0d47fdd8f7b07f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 131,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "driving-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/native-both/driving-configured.png",
+          "sha256": "27a9e5cbb279ff5d69a46b32436a9615a4a3cf94d4e8ae095a7207411e21e7dc",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 731,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "driving-third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/native-both/driving-third-person.png",
+          "sha256": "f3dbdd78a03dfd00be56cbf4183a0edd0dc15bb36bf9758f241bc45eac8a444c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 875,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "controls": [
+        {
+          "control": "Min##Suspension",
+          "value": -0.4,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetLowerSuspensionLimit",
+          "expected": -0.4
+        },
+        {
+          "control": "Max##Suspension",
+          "value": 0.4,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetUpperSuspensionLimit",
+          "expected": 0.4
+        },
+        {
+          "control": "Hertz##Suspension",
+          "value": 6,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetSuspensionHertz",
+          "expected": 6
+        },
+        {
+          "control": "Damping##Suspension",
+          "value": 1.2,
+          "scope": "all",
+          "getter": "b3WheelJoint_GetSuspensionDampingRatio",
+          "expected": 1.2
+        },
+        {
+          "control": "Hertz##Steering",
+          "value": 8,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetSteeringHertz",
+          "expected": 8
+        },
+        {
+          "control": "Damping##Steering",
+          "value": 1.4,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetSteeringDampingRatio",
+          "expected": 1.4
+        },
+        {
+          "control": "Torque##Steering",
+          "value": 10,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetMaxSteeringTorque",
+          "expected": 10
+        },
+        {
+          "control": "Min Deg##Steering",
+          "value": -60,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetLowerSteeringLimit",
+          "expected": -1.0471975803375244
+        },
+        {
+          "control": "Max Deg##Steering",
+          "value": 60,
+          "scope": "front",
+          "getter": "b3WheelJoint_GetUpperSteeringLimit",
+          "expected": 1.0471975803375244
+        },
+        {
+          "control": "Max Torque",
+          "value": 25,
+          "scope": "rear",
+          "getter": "b3WheelJoint_GetMaxSpinTorque",
+          "expected": 25
+        },
+        {
+          "control": "Third Person (T)"
+        },
+        {
+          "control": "Speed",
+          "value": 40
+        }
+      ],
+      "keys": [
+        {
+          "key": "w",
+          "held_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": -40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": -40,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": -40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": -40,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "s",
+          "held_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 40,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 40,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 40,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "a",
+          "held_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0.785398185
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        },
+        {
+          "key": "d",
+          "held_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": -0.785398185
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ],
+          "released_wheels": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                3,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                4,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                5,
+                1,
+                0
+              ],
+              "spin": 0,
+              "target_steering": 0
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "spin": 0,
+              "target_steering": 0
+            }
+          ]
+        }
+      ],
+      "cleanup": "raw/driving-controls-tail-runs/driving/native-both/stream-cleanup.json",
+      "deleted_stream_bytes": 22947106
+    },
+    {
+      "route": "native-both",
+      "fixture": "top-down",
+      "receipt": "raw/driving-controls-tail-runs/top-down/native-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": {
+        "Top Down Friction actual scene counts": true,
+        "Top Down Friction actual unique body counts": true,
+        "Top Down explosion exact source input": true,
+        "Top Down explosion actual outward velocities": true,
+        "Top Down explosion preserves IDs/pausedposes": true,
+        "Top Down explosion finite output": true,
+        "Top Down restart source counts/rest": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "elapsed_seconds": 4.093384221,
+      "screenshots": {
+        "top-down-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/native-both/top-down-before.png",
+          "sha256": "bde964d85e13d7ef52f89b5a46b960d019432e5f9b1660d92c185ec02da19122",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 101,
+            "shape_count": 104,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "top-down-exploded": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/native-both/top-down-exploded.png",
+          "sha256": "693af0be6c8673af73577e854d372885cc936887f3f6dcf96f4f3f9695ff6df6",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 125,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 101,
+            "shape_count": 104,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "controls": [
+        {
+          "control": "Explode"
+        }
+      ],
+      "keys": [],
+      "cleanup": "raw/driving-controls-tail-runs/top-down/native-both/stream-cleanup.json",
+      "deleted_stream_bytes": 1865681
+    }
+  ],
+  "UI20": [
+    {
+      "route": "cpu",
+      "ui": 25,
+      "actual": [
+        {
+          "owner": "public",
+          "id": [
+            2,
+            1,
+            0
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            3,
+            1,
+            0
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            4,
+            1,
+            0
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            5,
+            1,
+            0
+          ],
+          "max_torque": 5
+        }
+      ],
+      "actual_max_torque_setter_calls": 0,
+      "held_key_max_torque": [
+        {
+          "key": "w",
+          "rear": [
+            5,
+            5
+          ]
+        },
+        {
+          "key": "s",
+          "rear": [
+            5,
+            5
+          ]
+        },
+        {
+          "key": "a",
+          "rear": [
+            5,
+            5
+          ]
+        },
+        {
+          "key": "d",
+          "rear": [
+            5,
+            5
+          ]
+        }
+      ],
+      "receipt": "raw/driving-controls-runs/driving/cpu/receipt.json"
+    },
+    {
+      "route": "ordinary-gpu",
+      "ui": 25,
+      "actual": [
+        {
+          "owner": "public",
+          "id": [
+            2,
+            2,
+            1
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            3,
+            2,
+            1
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            4,
+            2,
+            1
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            5,
+            2,
+            1
+          ],
+          "max_torque": 5
+        }
+      ],
+      "actual_max_torque_setter_calls": 0,
+      "held_key_max_torque": [
+        {
+          "key": "w",
+          "rear": [
+            5,
+            5
+          ]
+        },
+        {
+          "key": "s",
+          "rear": [
+            5,
+            5
+          ]
+        },
+        {
+          "key": "a",
+          "rear": [
+            5,
+            5
+          ]
+        },
+        {
+          "key": "d",
+          "rear": [
+            5,
+            5
+          ]
+        }
+      ],
+      "receipt": "raw/driving-controls-tail-runs/driving/ordinary-gpu/receipt.json"
+    },
+    {
+      "route": "native-gpu",
+      "ui": 25,
+      "actual": [
+        {
+          "owner": "public",
+          "id": [
+            2,
+            2,
+            1
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            3,
+            2,
+            1
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            4,
+            2,
+            1
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            5,
+            2,
+            1
+          ],
+          "max_torque": 5
+        }
+      ],
+      "actual_max_torque_setter_calls": 0,
+      "held_key_max_torque": [
+        {
+          "key": "w",
+          "rear": [
+            5,
+            5
+          ]
+        },
+        {
+          "key": "s",
+          "rear": [
+            5,
+            5
+          ]
+        },
+        {
+          "key": "a",
+          "rear": [
+            5,
+            5
+          ]
+        },
+        {
+          "key": "d",
+          "rear": [
+            5,
+            5
+          ]
+        }
+      ],
+      "receipt": "raw/driving-controls-tail-runs/driving/native-gpu/receipt.json"
+    },
+    {
+      "route": "ordinary-both",
+      "ui": 25,
+      "actual": [
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            2,
+            1,
+            0
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            2,
+            2,
+            1
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            3,
+            1,
+            0
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            3,
+            2,
+            1
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            4,
+            1,
+            0
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            4,
+            2,
+            1
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            5,
+            1,
+            0
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            5,
+            2,
+            1
+          ],
+          "max_torque": 5
+        }
+      ],
+      "actual_max_torque_setter_calls": 0,
+      "held_key_max_torque": [
+        {
+          "key": "w",
+          "rear": [
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "key": "s",
+          "rear": [
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "key": "a",
+          "rear": [
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "key": "d",
+          "rear": [
+            5,
+            5,
+            5,
+            5
+          ]
+        }
+      ],
+      "receipt": "raw/driving-controls-tail-runs/driving/ordinary-both/receipt.json"
+    },
+    {
+      "route": "native-both",
+      "ui": 25,
+      "actual": [
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            2,
+            1,
+            0
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            2,
+            2,
+            1
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            3,
+            1,
+            0
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            3,
+            2,
+            1
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            4,
+            1,
+            0
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            4,
+            2,
+            1
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            5,
+            1,
+            0
+          ],
+          "max_torque": 5
+        },
+        {
+          "owner": "public",
+          "id": [
+            5,
+            2,
+            1
+          ],
+          "max_torque": 5
+        }
+      ],
+      "actual_max_torque_setter_calls": 0,
+      "held_key_max_torque": [
+        {
+          "key": "w",
+          "rear": [
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "key": "s",
+          "rear": [
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "key": "a",
+          "rear": [
+            5,
+            5,
+            5,
+            5
+          ]
+        },
+        {
+          "key": "d",
+          "rear": [
+            5,
+            5,
+            5,
+            5
+          ]
+        }
+      ],
+      "receipt": "raw/driving-controls-tail-runs/driving/native-both/receipt.json"
+    }
+  ],
+  "UI19_unaffected_driving": [
+    {
+      "route": "cpu",
+      "control": "Damping##Steering",
+      "status": "CONFIRMED_UNAFFECTED_BY_UI19",
+      "front": [
+        {
+          "owner": "public",
+          "id": [
+            2,
+            1,
+            0
+          ],
+          "steering_damping": 1.39999998
+        },
+        {
+          "owner": "public",
+          "id": [
+            3,
+            1,
+            0
+          ],
+          "steering_damping": 1.39999998
+        }
+      ],
+      "rear": [
+        {
+          "owner": "public",
+          "id": [
+            4,
+            1,
+            0
+          ],
+          "steering_damping": 0.699999988
+        },
+        {
+          "owner": "public",
+          "id": [
+            5,
+            1,
+            0
+          ],
+          "steering_damping": 0.699999988
+        }
+      ],
+      "receipt": "raw/driving-controls-runs/driving/cpu/receipt.json"
+    },
+    {
+      "route": "ordinary-gpu",
+      "control": "Damping##Steering",
+      "status": "CONFIRMED_UNAFFECTED_BY_UI19",
+      "front": [
+        {
+          "owner": "public",
+          "id": [
+            2,
+            2,
+            1
+          ],
+          "steering_damping": 1.39999998
+        },
+        {
+          "owner": "public",
+          "id": [
+            3,
+            2,
+            1
+          ],
+          "steering_damping": 1.39999998
+        }
+      ],
+      "rear": [
+        {
+          "owner": "public",
+          "id": [
+            4,
+            2,
+            1
+          ],
+          "steering_damping": 0.699999988
+        },
+        {
+          "owner": "public",
+          "id": [
+            5,
+            2,
+            1
+          ],
+          "steering_damping": 0.699999988
+        }
+      ],
+      "receipt": "raw/driving-controls-tail-runs/driving/ordinary-gpu/receipt.json"
+    },
+    {
+      "route": "native-gpu",
+      "control": "Damping##Steering",
+      "status": "CONFIRMED_UNAFFECTED_BY_UI19",
+      "front": [
+        {
+          "owner": "public",
+          "id": [
+            2,
+            2,
+            1
+          ],
+          "steering_damping": 1.39999998
+        },
+        {
+          "owner": "public",
+          "id": [
+            3,
+            2,
+            1
+          ],
+          "steering_damping": 1.39999998
+        }
+      ],
+      "rear": [
+        {
+          "owner": "public",
+          "id": [
+            4,
+            2,
+            1
+          ],
+          "steering_damping": 0.699999988
+        },
+        {
+          "owner": "public",
+          "id": [
+            5,
+            2,
+            1
+          ],
+          "steering_damping": 0.699999988
+        }
+      ],
+      "receipt": "raw/driving-controls-tail-runs/driving/native-gpu/receipt.json"
+    },
+    {
+      "route": "ordinary-both",
+      "control": "Damping##Steering",
+      "status": "CONFIRMED_UNAFFECTED_BY_UI19",
+      "front": [
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            2,
+            1,
+            0
+          ],
+          "steering_damping": 1.39999998
+        },
+        {
+          "owner": "public",
+          "id": [
+            2,
+            2,
+            1
+          ],
+          "steering_damping": 1.39999998
+        },
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            3,
+            1,
+            0
+          ],
+          "steering_damping": 1.39999998
+        },
+        {
+          "owner": "public",
+          "id": [
+            3,
+            2,
+            1
+          ],
+          "steering_damping": 1.39999998
+        }
+      ],
+      "rear": [
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            4,
+            1,
+            0
+          ],
+          "steering_damping": 0.699999988
+        },
+        {
+          "owner": "public",
+          "id": [
+            4,
+            2,
+            1
+          ],
+          "steering_damping": 0.699999988
+        },
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            5,
+            1,
+            0
+          ],
+          "steering_damping": 0.699999988
+        },
+        {
+          "owner": "public",
+          "id": [
+            5,
+            2,
+            1
+          ],
+          "steering_damping": 0.699999988
+        }
+      ],
+      "receipt": "raw/driving-controls-tail-runs/driving/ordinary-both/receipt.json"
+    },
+    {
+      "route": "native-both",
+      "control": "Damping##Steering",
+      "status": "CONFIRMED_UNAFFECTED_BY_UI19",
+      "front": [
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            2,
+            1,
+            0
+          ],
+          "steering_damping": 1.39999998
+        },
+        {
+          "owner": "public",
+          "id": [
+            2,
+            2,
+            1
+          ],
+          "steering_damping": 1.39999998
+        },
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            3,
+            1,
+            0
+          ],
+          "steering_damping": 1.39999998
+        },
+        {
+          "owner": "public",
+          "id": [
+            3,
+            2,
+            1
+          ],
+          "steering_damping": 1.39999998
+        }
+      ],
+      "rear": [
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            4,
+            1,
+            0
+          ],
+          "steering_damping": 0.699999988
+        },
+        {
+          "owner": "public",
+          "id": [
+            4,
+            2,
+            1
+          ],
+          "steering_damping": 0.699999988
+        },
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            5,
+            1,
+            0
+          ],
+          "steering_damping": 0.699999988
+        },
+        {
+          "owner": "public",
+          "id": [
+            5,
+            2,
+            1
+          ],
+          "steering_damping": 0.699999988
+        }
+      ],
+      "receipt": "raw/driving-controls-tail-runs/driving/native-both/receipt.json"
+    }
+  ],
+  "images": [
+    {
+      "fixture": "driving",
+      "state": "driving-before",
+      "route": "cpu",
+      "path": "raw/driving-controls-runs/driving/cpu/driving-before.png",
+      "sha256": "6e1cabc467099eed036bf45192e548aa4847d4bac9f4f96171d7ba6edbc1fdbf"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-before",
+      "route": "ordinary-gpu",
+      "path": "raw/driving-controls-tail-runs/driving/ordinary-gpu/driving-before.png",
+      "sha256": "0a7e1c51a13d83e3e55e9da51d5556d2df7a23db55ef8fd21b08e2d7f31f3fc6"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-before",
+      "route": "native-gpu",
+      "path": "raw/driving-controls-tail-runs/driving/native-gpu/driving-before.png",
+      "sha256": "0a7e1c51a13d83e3e55e9da51d5556d2df7a23db55ef8fd21b08e2d7f31f3fc6"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-before",
+      "route": "ordinary-both",
+      "path": "raw/driving-controls-tail-runs/driving/ordinary-both/driving-before.png",
+      "sha256": "cf3fe756b997b539bb1d2ac668888654e6fb81d72fd69c3dbe0d47fdd8f7b07f"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-before",
+      "route": "native-both",
+      "path": "raw/driving-controls-tail-runs/driving/native-both/driving-before.png",
+      "sha256": "cf3fe756b997b539bb1d2ac668888654e6fb81d72fd69c3dbe0d47fdd8f7b07f"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-configured",
+      "route": "cpu",
+      "path": "raw/driving-controls-runs/driving/cpu/driving-configured.png",
+      "sha256": "6271432a7e8e80e97a7829e47bb45d4762104ae2658205639f7f21c4c4513e7b"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-configured",
+      "route": "ordinary-gpu",
+      "path": "raw/driving-controls-tail-runs/driving/ordinary-gpu/driving-configured.png",
+      "sha256": "0a07e80ccc738be89ea1934779e2c94bc8ac72487d0aa0b8bdee3bf6b2428ef8"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-configured",
+      "route": "native-gpu",
+      "path": "raw/driving-controls-tail-runs/driving/native-gpu/driving-configured.png",
+      "sha256": "0a07e80ccc738be89ea1934779e2c94bc8ac72487d0aa0b8bdee3bf6b2428ef8"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-configured",
+      "route": "ordinary-both",
+      "path": "raw/driving-controls-tail-runs/driving/ordinary-both/driving-configured.png",
+      "sha256": "27a9e5cbb279ff5d69a46b32436a9615a4a3cf94d4e8ae095a7207411e21e7dc"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-configured",
+      "route": "native-both",
+      "path": "raw/driving-controls-tail-runs/driving/native-both/driving-configured.png",
+      "sha256": "27a9e5cbb279ff5d69a46b32436a9615a4a3cf94d4e8ae095a7207411e21e7dc"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-third-person",
+      "route": "cpu",
+      "path": "raw/driving-controls-runs/driving/cpu/driving-third-person.png",
+      "sha256": "0307839c92cc54ad584c82c9ef381643bf5724b686ce4fca18e81754b89baf85"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-third-person",
+      "route": "ordinary-gpu",
+      "path": "raw/driving-controls-tail-runs/driving/ordinary-gpu/driving-third-person.png",
+      "sha256": "9f1437bac5d8b208e3b046fb085be0b9b765df6628c5b40e61f7a1f899b522b2"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-third-person",
+      "route": "native-gpu",
+      "path": "raw/driving-controls-tail-runs/driving/native-gpu/driving-third-person.png",
+      "sha256": "9f1437bac5d8b208e3b046fb085be0b9b765df6628c5b40e61f7a1f899b522b2"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-third-person",
+      "route": "ordinary-both",
+      "path": "raw/driving-controls-tail-runs/driving/ordinary-both/driving-third-person.png",
+      "sha256": "f3dbdd78a03dfd00be56cbf4183a0edd0dc15bb36bf9758f241bc45eac8a444c"
+    },
+    {
+      "fixture": "driving",
+      "state": "driving-third-person",
+      "route": "native-both",
+      "path": "raw/driving-controls-tail-runs/driving/native-both/driving-third-person.png",
+      "sha256": "f3dbdd78a03dfd00be56cbf4183a0edd0dc15bb36bf9758f241bc45eac8a444c"
+    },
+    {
+      "fixture": "top-down",
+      "state": "top-down-before",
+      "route": "cpu",
+      "path": "raw/driving-controls-tail-runs/top-down/cpu/top-down-before.png",
+      "sha256": "2e7490b3d5bd7b89a77250dbe92c4fdef25474d1c38c1714df07702ece13bfb4"
+    },
+    {
+      "fixture": "top-down",
+      "state": "top-down-before",
+      "route": "ordinary-gpu",
+      "path": "raw/driving-controls-tail-runs/top-down/ordinary-gpu/top-down-before.png",
+      "sha256": "1529e9b87e5821e68c9e61a39e8cccfe02415fc9534f0e66881e09c97fb4c75c"
+    },
+    {
+      "fixture": "top-down",
+      "state": "top-down-before",
+      "route": "native-gpu",
+      "path": "raw/driving-controls-tail-runs/top-down/native-gpu/top-down-before.png",
+      "sha256": "1cb292810b4e02821c89f71c44bc904e52175126dc37805d7fe3cd88bc57d705"
+    },
+    {
+      "fixture": "top-down",
+      "state": "top-down-before",
+      "route": "ordinary-both",
+      "path": "raw/driving-controls-tail-runs/top-down/ordinary-both/top-down-before.png",
+      "sha256": "5bdac46c2c28e1f5803d45e09d8bc6a7d0c0a43bcfef00aaa070eed9751e27da"
+    },
+    {
+      "fixture": "top-down",
+      "state": "top-down-before",
+      "route": "native-both",
+      "path": "raw/driving-controls-tail-runs/top-down/native-both/top-down-before.png",
+      "sha256": "bde964d85e13d7ef52f89b5a46b960d019432e5f9b1660d92c185ec02da19122"
+    },
+    {
+      "fixture": "top-down",
+      "state": "top-down-exploded",
+      "route": "cpu",
+      "path": "raw/driving-controls-tail-runs/top-down/cpu/top-down-exploded.png",
+      "sha256": "7134e3835b33a4fd19b773f3c6c9a256760c1c34896ff639f0a65db4aee1d4f9"
+    },
+    {
+      "fixture": "top-down",
+      "state": "top-down-exploded",
+      "route": "ordinary-gpu",
+      "path": "raw/driving-controls-tail-runs/top-down/ordinary-gpu/top-down-exploded.png",
+      "sha256": "403160ebfb2064dab9e91072503588ba0c601424efc5b56c931afaa2b19b583a"
+    },
+    {
+      "fixture": "top-down",
+      "state": "top-down-exploded",
+      "route": "native-gpu",
+      "path": "raw/driving-controls-tail-runs/top-down/native-gpu/top-down-exploded.png",
+      "sha256": "c64530274e6f61a76751f4414f49f28cbc9321bc8791ccf9ba593cdce7aa488f"
+    },
+    {
+      "fixture": "top-down",
+      "state": "top-down-exploded",
+      "route": "ordinary-both",
+      "path": "raw/driving-controls-tail-runs/top-down/ordinary-both/top-down-exploded.png",
+      "sha256": "11edb4d6ae097c97693d519e44a48b3b186d813df013a2d68c48c80fb79c5968"
+    },
+    {
+      "fixture": "top-down",
+      "state": "top-down-exploded",
+      "route": "native-both",
+      "path": "raw/driving-controls-tail-runs/top-down/native-both/top-down-exploded.png",
+      "sha256": "693af0be6c8673af73577e854d372885cc936887f3f6dcf96f4f3f9695ff6df6"
+    }
+  ],
+  "original_failure": {
+    "receipt": "raw/driving-controls-runs/top-down/cpu/receipt.json",
+    "scope": "Only host selection/count checked; no button effect before failure",
+    "cause": "TopDown disabled joint trace but state waiter required joint frame. Corrected waiter only requires enabled traces; CPUDriving passed12widgets/Keyboard preserved, not replayed."
+  },
+  "limits": [
+    "Paused command and immediate impulse effects;0new physics steps. This is not mesh/joint solver or trajectory qualification.",
+    "DrivingW/S actual rear targets -40/+40, A/D front targets ±pi/4 and each release returns0; third-person checkbox/T toggles, follow pivot, mode-specific picking exclusion and restart checked.",
+    "DrivingMaxTorque remains5 evenwhile key commands are active at UI25; no setter is called. UI20 remains open.",
+    "Drivingsteering damping correctly updates onlyfront wheels, excluding it fromUI19 all5routes.",
+    "TopDown Explode actual source inputs, outward body velocities, finite results/IDs/posepreservation and restart; no new friction-joint dynamics claim.",
+    "Source emits wheel setters every render even paused. Per-app fullstreams consumed/deleted immediately, selected states in originalreceipts; failedwait tail preserved in cleanup.",
+    "Images are interaction states, not repair before/after."
+  ],
+  "resource": {
+    "owned_pids_absent": [
+      2544098,
+      2544082,
+      2547910,
+      2547892,
+      2548127,
+      2548106,
+      2549057,
+      2549042,
+      2549267,
+      2549248,
+      2550664,
+      2550644,
+      2550990,
+      2550934,
+      2552905,
+      2552891,
+      2553214,
+      2553200,
+      2554260,
+      2554246,
+      2544991,
+      2544977
+    ],
+    "owned_core_files": [],
+    "unchanged_input_pins": 207
+  },
+  "true_checks": 371,
+  "visual_review": {
+    "status": "REVIEWED_ALL25_CPU_FIRST_IMAGE_CELLS",
+    "grids": 2,
+    "cells": 25,
+    "findings": "Vehicle/terrain and TopDownroom/grid geometry preserved onall5routes; third-person camera keeps vehicle visible. Configuredpaused bodyposes stayfixed asintended; numeric command/velocity receipts establisheffects. No newrenderfinding.",
+    "limits": "Pausedinteractionstates, not trajectories or repairbeforeafter."
+  }
+}

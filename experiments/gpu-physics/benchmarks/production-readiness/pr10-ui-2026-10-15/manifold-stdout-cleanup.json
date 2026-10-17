@@ -1,0 +1,170 @@
+{
+  "owned_process_proof": [
+    {
+      "folder": "raw/manifold-controls-runs/cpu",
+      "app_pid": 2304653,
+      "driver_pid": 2304639,
+      "absent": true
+    },
+    {
+      "folder": "raw/manifold-controls-tail-runs/cpu",
+      "app_pid": 2312669,
+      "driver_pid": 2312651,
+      "absent": true
+    },
+    {
+      "folder": "raw/manifold-controls-tail-runs/ordinary-gpu",
+      "app_pid": 2313579,
+      "driver_pid": 2313516,
+      "absent": true
+    },
+    {
+      "folder": "raw/manifold-controls-tail-runs/native-gpu",
+      "app_pid": 2316462,
+      "driver_pid": 2316441,
+      "absent": true
+    },
+    {
+      "folder": "raw/manifold-controls-tail-runs/ordinary-both",
+      "app_pid": 2319374,
+      "driver_pid": 2319336,
+      "absent": true
+    },
+    {
+      "folder": "raw/manifold-controls-tail-runs/native-both",
+      "app_pid": 2322471,
+      "driver_pid": 2322457,
+      "absent": true
+    },
+    {
+      "folder": "raw/cache-shallow-controls-runs/cpu",
+      "app_pid": 2330256,
+      "driver_pid": 2330241,
+      "absent": true
+    },
+    {
+      "folder": "raw/cache-shallow-controls-runs/ordinary-gpu",
+      "app_pid": 2330636,
+      "driver_pid": 2330621,
+      "absent": true
+    },
+    {
+      "folder": "raw/cache-shallow-controls-runs/native-gpu",
+      "app_pid": 2331079,
+      "driver_pid": 2331064,
+      "absent": true
+    },
+    {
+      "folder": "raw/cache-shallow-controls-runs/ordinary-both",
+      "app_pid": 2331541,
+      "driver_pid": 2331526,
+      "absent": true
+    },
+    {
+      "folder": "raw/cache-shallow-controls-runs/native-both",
+      "app_pid": 2332072,
+      "driver_pid": 2332055,
+      "absent": true
+    },
+    {
+      "folder": "raw/disable-controls-runs/cpu",
+      "app_pid": 2278584,
+      "driver_pid": 2278571,
+      "absent": true
+    },
+    {
+      "folder": "raw/disable-controls-runs/ordinary-gpu",
+      "app_pid": 2278942,
+      "driver_pid": 2278929,
+      "absent": true
+    },
+    {
+      "folder": "raw/disable-controls-runs/native-gpu",
+      "app_pid": 2279318,
+      "driver_pid": 2279301,
+      "absent": true
+    },
+    {
+      "folder": "raw/disable-controls-runs/ordinary-both",
+      "app_pid": 2279711,
+      "driver_pid": 2279698,
+      "absent": true
+    },
+    {
+      "folder": "raw/disable-controls-runs/native-both",
+      "app_pid": 2280199,
+      "driver_pid": 2280184,
+      "absent": true
+    }
+  ],
+  "removed": [
+    {
+      "path": "raw/manifold-controls-runs/cpu/stderr.txt",
+      "bytes": 1164931
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/cpu/stderr.txt",
+      "bytes": 443187
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/ordinary-gpu/stderr.txt",
+      "bytes": 1624239
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/native-gpu/stderr.txt",
+      "bytes": 1625312
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/ordinary-both/stderr.txt",
+      "bytes": 3287583
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/native-both/stderr.txt",
+      "bytes": 3282550
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/cpu/stderr.txt",
+      "bytes": 148299
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/ordinary-gpu/stderr.txt",
+      "bytes": 150784
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/native-gpu/stderr.txt",
+      "bytes": 149841
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/ordinary-both/stderr.txt",
+      "bytes": 322681
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/native-both/stderr.txt",
+      "bytes": 321988
+    },
+    {
+      "path": "raw/disable-controls-runs/cpu/stderr.txt",
+      "bytes": 121765
+    },
+    {
+      "path": "raw/disable-controls-runs/ordinary-gpu/stderr.txt",
+      "bytes": 131865
+    },
+    {
+      "path": "raw/disable-controls-runs/native-gpu/stderr.txt",
+      "bytes": 129048
+    },
+    {
+      "path": "raw/disable-controls-runs/ordinary-both/stderr.txt",
+      "bytes": 262491
+    },
+    {
+      "path": "raw/disable-controls-runs/native-both/stderr.txt",
+      "bytes": 264996
+    }
+  ],
+  "deleted_bytes": 13431560,
+  "raw_bytes": 365695335,
+  "free_bytes": 1709215191040,
+  "consumer": "Startup adapter/window provenance extracted; selected visual/math/UI receipts retained. No live processes."
+}

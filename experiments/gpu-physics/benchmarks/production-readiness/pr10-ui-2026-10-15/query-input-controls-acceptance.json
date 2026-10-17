@@ -1,0 +1,3459 @@
+{
+  "status": "SEVEN_WIDGET_REVIEW_DISPOSITIONS_WITH_UI23_UI27",
+  "widget_entries": 7,
+  "samples": 2,
+  "routes_CPU_first": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "rows": [
+    {
+      "fixture": "mesh-scale",
+      "route": "cpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/cpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 56,
+      "findings": [
+        "Missed sphere preview uses query endpoint"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/cpu/initial.png",
+          "sha256": "3f56a58405e61e8ba9c8462e7f854c510aa8675905d2061efc3f5a9344ae7482",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "zero-scale": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/cpu/zero-scale.png",
+          "sha256": "40a0a29138317e008abda9892d19769de161c566a6dac2e24b42ddcd3999a91d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 669,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "shifted-preview": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/cpu/shifted-preview.png",
+          "sha256": "afcfec26b17cb780753b2a5e89aeebef1a8579ff5c9464a8c5060820d6c68ace",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 847,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "contact-torque",
+      "route": "cpu",
+      "receipt": "raw/query-input-controls-runs/contact-torque/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/cpu/initial.png",
+          "sha256": "4b9d16b475496a795234635bba02db7d6e6bb630ea756dcfe063a8a035b42ecb",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "torque30000": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/cpu/torque30000.png",
+          "sha256": "9c51b4107e38df00ad0a1eb7bd850ea423b6e699d19c6628b640458026aa6619",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 219,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "torque60000": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/cpu/torque60000.png",
+          "sha256": "06f14462ed09d210f75c70d5fb02a1975f9ecd13411fd8db8e0cfdd37749d7f4",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 304,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mesh-scale",
+      "route": "ordinary-gpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/ordinary-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 56,
+      "findings": [
+        "Scale X zero shrinks actual bounds like CPU safeScale",
+        "Scale Y zero shrinks actual bounds like CPU safeScale",
+        "Scale Z zero shrinks actual bounds like CPU safeScale",
+        "Missed sphere preview uses query endpoint"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/ordinary-gpu/initial.png",
+          "sha256": "34cea7667b9478e12ff48f6090e0c31937d086617b59c777b65d69a88c443352",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "zero-scale": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/ordinary-gpu/zero-scale.png",
+          "sha256": "e147756521b0fff1dc246e4fc7ea16bd8d668cacf0325db6e3a4912bf38960ec",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 682,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "shifted-preview": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/ordinary-gpu/shifted-preview.png",
+          "sha256": "e37ce91f7f76fe65f1d04cd1929cc33d4238e256e106838feed21da0ef553c32",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 860,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "contact-torque",
+      "route": "ordinary-gpu",
+      "receipt": "raw/query-input-controls-runs/contact-torque/ordinary-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/ordinary-gpu/initial.png",
+          "sha256": "beea13b5234e5a7b16f587bfc8e28de97f7980384e461e424074bb0ab57b9d0d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "torque30000": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/ordinary-gpu/torque30000.png",
+          "sha256": "2d79d505926d73c23d6f5f73254957fd4af1d39c22da9b99e5432e03d60e00d3",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 221,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "torque60000": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/ordinary-gpu/torque60000.png",
+          "sha256": "c621f3c157ed3955dd862c217675dc93273cf19104f797fc7afd3737bc70e8ee",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 307,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mesh-scale",
+      "route": "native-gpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/native-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 56,
+      "findings": [
+        "Scale X zero shrinks actual bounds like CPU safeScale",
+        "Scale Y zero shrinks actual bounds like CPU safeScale",
+        "Scale Z zero shrinks actual bounds like CPU safeScale",
+        "Missed sphere preview uses query endpoint"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/native-gpu/initial.png",
+          "sha256": "154e1c9330c6a089503eed1436e74cb9dd291cc5ae28794e5df9206424a8ecac",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "zero-scale": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/native-gpu/zero-scale.png",
+          "sha256": "a4051d809864a21dcf66074156b001ed5f979b367e708617ecb926168c656dbf",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 682,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "shifted-preview": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/native-gpu/shifted-preview.png",
+          "sha256": "d0274a1b8026c9e3e8b19e27fbf5f607b800bcc4e02e092db21248689384df82",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 859,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "contact-torque",
+      "route": "native-gpu",
+      "receipt": "raw/query-input-controls-runs/contact-torque/native-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/native-gpu/initial.png",
+          "sha256": "3eb6de602ba09b3cd8fcd865a9b32e7962f14ca4ed7f00607dddf5e0af626922",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "torque30000": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/native-gpu/torque30000.png",
+          "sha256": "3eb6de602ba09b3cd8fcd865a9b32e7962f14ca4ed7f00607dddf5e0af626922",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 220,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "torque60000": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/native-gpu/torque60000.png",
+          "sha256": "285827d32dba8409dd41ad6e2c35acef00d880242a6d62ae0b7880b7dcb0e356",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 303,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mesh-scale",
+      "route": "ordinary-both",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/ordinary-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 56,
+      "findings": [
+        "Scale X zero shrinks actual bounds like CPU safeScale",
+        "Scale Y zero shrinks actual bounds like CPU safeScale",
+        "Scale Z zero shrinks actual bounds like CPU safeScale",
+        "Missed sphere preview uses query endpoint"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/ordinary-both/initial.png",
+          "sha256": "e916a922eab41cfb539fe32286a7a0bf22803296b053fb53412ebc64ea13506d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "zero-scale": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/ordinary-both/zero-scale.png",
+          "sha256": "780d76e22422a763b7c6fbcf540782e9862962119e99bdaf45a9e96a1cc53e0f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 691,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "shifted-preview": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/ordinary-both/shifted-preview.png",
+          "sha256": "892a2f334e6232e32477ec87b7b208872ff2a744d8250080f6e7aa185c75b559",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 875,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "contact-torque",
+      "route": "ordinary-both",
+      "receipt": "raw/query-input-controls-runs/contact-torque/ordinary-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/ordinary-both/initial.png",
+          "sha256": "ac4f97bc42a647d8933a8b00487f353b5009d628da1a8887075ed2468446b0a8",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "torque30000": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/ordinary-both/torque30000.png",
+          "sha256": "36534d5e10203167f851be98a2c9b638b500ad767d1589c4a3d417bde9133f61",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 237,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "torque60000": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/ordinary-both/torque60000.png",
+          "sha256": "507217f6460d69103b91edf2731e65354cfb50cf4e50d47501a26c611ca822df",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 325,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mesh-scale",
+      "route": "native-both",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/native-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 56,
+      "findings": [
+        "Scale X zero shrinks actual bounds like CPU safeScale",
+        "Scale Y zero shrinks actual bounds like CPU safeScale",
+        "Scale Z zero shrinks actual bounds like CPU safeScale",
+        "Missed sphere preview uses query endpoint"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/native-both/initial.png",
+          "sha256": "48a7520c9ed3fa8902b708599751af45bfdbc74ed6282fb8b9bb6ed54bd2bbb6",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "zero-scale": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/native-both/zero-scale.png",
+          "sha256": "b0ace9df7cac41f089b031bcddac101e96516d0dd50c9f446eff229495ceadf5",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 699,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "shifted-preview": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/native-both/shifted-preview.png",
+          "sha256": "6c55fc824c742d104ecaab90529a36b617a7989fe504d846e14a9fd4fe41c86a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 881,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "contact-torque",
+      "route": "native-both",
+      "receipt": "raw/query-input-controls-runs/contact-torque/native-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/native-both/initial.png",
+          "sha256": "1e2f05a1bf245ffc18317663f6e796ff847d4d85974a14824a1f724a1b55ea84",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "torque30000": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/native-both/torque30000.png",
+          "sha256": "49f6d8279ca3af587a2c9bb7de58b05fcab357494512136990623c7a2a6c5868",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 240,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "torque60000": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/native-both/torque60000.png",
+          "sha256": "d16b343f3fd7eb17a08b955822613f15f2646c464101c5d9884c7d4b4a95dd33",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 326,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "images": [
+    {
+      "route": "cpu",
+      "fixture": "mesh-scale",
+      "state": "initial",
+      "path": "raw/query-input-controls-runs/mesh-scale/cpu/initial.png",
+      "sha256": "3f56a58405e61e8ba9c8462e7f854c510aa8675905d2061efc3f5a9344ae7482"
+    },
+    {
+      "route": "cpu",
+      "fixture": "mesh-scale",
+      "state": "zero-scale",
+      "path": "raw/query-input-controls-runs/mesh-scale/cpu/zero-scale.png",
+      "sha256": "40a0a29138317e008abda9892d19769de161c566a6dac2e24b42ddcd3999a91d"
+    },
+    {
+      "route": "cpu",
+      "fixture": "mesh-scale",
+      "state": "shifted-preview",
+      "path": "raw/query-input-controls-runs/mesh-scale/cpu/shifted-preview.png",
+      "sha256": "afcfec26b17cb780753b2a5e89aeebef1a8579ff5c9464a8c5060820d6c68ace"
+    },
+    {
+      "route": "cpu",
+      "fixture": "contact-torque",
+      "state": "initial",
+      "path": "raw/query-input-controls-runs/contact-torque/cpu/initial.png",
+      "sha256": "4b9d16b475496a795234635bba02db7d6e6bb630ea756dcfe063a8a035b42ecb"
+    },
+    {
+      "route": "cpu",
+      "fixture": "contact-torque",
+      "state": "torque30000",
+      "path": "raw/query-input-controls-runs/contact-torque/cpu/torque30000.png",
+      "sha256": "9c51b4107e38df00ad0a1eb7bd850ea423b6e699d19c6628b640458026aa6619"
+    },
+    {
+      "route": "cpu",
+      "fixture": "contact-torque",
+      "state": "torque60000",
+      "path": "raw/query-input-controls-runs/contact-torque/cpu/torque60000.png",
+      "sha256": "06f14462ed09d210f75c70d5fb02a1975f9ecd13411fd8db8e0cfdd37749d7f4"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mesh-scale",
+      "state": "initial",
+      "path": "raw/query-input-controls-runs/mesh-scale/ordinary-gpu/initial.png",
+      "sha256": "34cea7667b9478e12ff48f6090e0c31937d086617b59c777b65d69a88c443352"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mesh-scale",
+      "state": "zero-scale",
+      "path": "raw/query-input-controls-runs/mesh-scale/ordinary-gpu/zero-scale.png",
+      "sha256": "e147756521b0fff1dc246e4fc7ea16bd8d668cacf0325db6e3a4912bf38960ec"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mesh-scale",
+      "state": "shifted-preview",
+      "path": "raw/query-input-controls-runs/mesh-scale/ordinary-gpu/shifted-preview.png",
+      "sha256": "e37ce91f7f76fe65f1d04cd1929cc33d4238e256e106838feed21da0ef553c32"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "contact-torque",
+      "state": "initial",
+      "path": "raw/query-input-controls-runs/contact-torque/ordinary-gpu/initial.png",
+      "sha256": "beea13b5234e5a7b16f587bfc8e28de97f7980384e461e424074bb0ab57b9d0d"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "contact-torque",
+      "state": "torque30000",
+      "path": "raw/query-input-controls-runs/contact-torque/ordinary-gpu/torque30000.png",
+      "sha256": "2d79d505926d73c23d6f5f73254957fd4af1d39c22da9b99e5432e03d60e00d3"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "contact-torque",
+      "state": "torque60000",
+      "path": "raw/query-input-controls-runs/contact-torque/ordinary-gpu/torque60000.png",
+      "sha256": "c621f3c157ed3955dd862c217675dc93273cf19104f797fc7afd3737bc70e8ee"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mesh-scale",
+      "state": "initial",
+      "path": "raw/query-input-controls-runs/mesh-scale/native-gpu/initial.png",
+      "sha256": "154e1c9330c6a089503eed1436e74cb9dd291cc5ae28794e5df9206424a8ecac"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mesh-scale",
+      "state": "zero-scale",
+      "path": "raw/query-input-controls-runs/mesh-scale/native-gpu/zero-scale.png",
+      "sha256": "a4051d809864a21dcf66074156b001ed5f979b367e708617ecb926168c656dbf"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mesh-scale",
+      "state": "shifted-preview",
+      "path": "raw/query-input-controls-runs/mesh-scale/native-gpu/shifted-preview.png",
+      "sha256": "d0274a1b8026c9e3e8b19e27fbf5f607b800bcc4e02e092db21248689384df82"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "contact-torque",
+      "state": "initial",
+      "path": "raw/query-input-controls-runs/contact-torque/native-gpu/initial.png",
+      "sha256": "3eb6de602ba09b3cd8fcd865a9b32e7962f14ca4ed7f00607dddf5e0af626922"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "contact-torque",
+      "state": "torque30000",
+      "path": "raw/query-input-controls-runs/contact-torque/native-gpu/torque30000.png",
+      "sha256": "3eb6de602ba09b3cd8fcd865a9b32e7962f14ca4ed7f00607dddf5e0af626922"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "contact-torque",
+      "state": "torque60000",
+      "path": "raw/query-input-controls-runs/contact-torque/native-gpu/torque60000.png",
+      "sha256": "285827d32dba8409dd41ad6e2c35acef00d880242a6d62ae0b7880b7dcb0e356"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mesh-scale",
+      "state": "initial",
+      "path": "raw/query-input-controls-runs/mesh-scale/ordinary-both/initial.png",
+      "sha256": "e916a922eab41cfb539fe32286a7a0bf22803296b053fb53412ebc64ea13506d"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mesh-scale",
+      "state": "zero-scale",
+      "path": "raw/query-input-controls-runs/mesh-scale/ordinary-both/zero-scale.png",
+      "sha256": "780d76e22422a763b7c6fbcf540782e9862962119e99bdaf45a9e96a1cc53e0f"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mesh-scale",
+      "state": "shifted-preview",
+      "path": "raw/query-input-controls-runs/mesh-scale/ordinary-both/shifted-preview.png",
+      "sha256": "892a2f334e6232e32477ec87b7b208872ff2a744d8250080f6e7aa185c75b559"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "contact-torque",
+      "state": "initial",
+      "path": "raw/query-input-controls-runs/contact-torque/ordinary-both/initial.png",
+      "sha256": "ac4f97bc42a647d8933a8b00487f353b5009d628da1a8887075ed2468446b0a8"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "contact-torque",
+      "state": "torque30000",
+      "path": "raw/query-input-controls-runs/contact-torque/ordinary-both/torque30000.png",
+      "sha256": "36534d5e10203167f851be98a2c9b638b500ad767d1589c4a3d417bde9133f61"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "contact-torque",
+      "state": "torque60000",
+      "path": "raw/query-input-controls-runs/contact-torque/ordinary-both/torque60000.png",
+      "sha256": "507217f6460d69103b91edf2731e65354cfb50cf4e50d47501a26c611ca822df"
+    },
+    {
+      "route": "native-both",
+      "fixture": "mesh-scale",
+      "state": "initial",
+      "path": "raw/query-input-controls-runs/mesh-scale/native-both/initial.png",
+      "sha256": "48a7520c9ed3fa8902b708599751af45bfdbc74ed6282fb8b9bb6ed54bd2bbb6"
+    },
+    {
+      "route": "native-both",
+      "fixture": "mesh-scale",
+      "state": "zero-scale",
+      "path": "raw/query-input-controls-runs/mesh-scale/native-both/zero-scale.png",
+      "sha256": "b0ace9df7cac41f089b031bcddac101e96516d0dd50c9f446eff229495ceadf5"
+    },
+    {
+      "route": "native-both",
+      "fixture": "mesh-scale",
+      "state": "shifted-preview",
+      "path": "raw/query-input-controls-runs/mesh-scale/native-both/shifted-preview.png",
+      "sha256": "6c55fc824c742d104ecaab90529a36b617a7989fe504d846e14a9fd4fe41c86a"
+    },
+    {
+      "route": "native-both",
+      "fixture": "contact-torque",
+      "state": "initial",
+      "path": "raw/query-input-controls-runs/contact-torque/native-both/initial.png",
+      "sha256": "1e2f05a1bf245ffc18317663f6e796ff847d4d85974a14824a1f724a1b55ea84"
+    },
+    {
+      "route": "native-both",
+      "fixture": "contact-torque",
+      "state": "torque30000",
+      "path": "raw/query-input-controls-runs/contact-torque/native-both/torque30000.png",
+      "sha256": "49f6d8279ca3af587a2c9bb7de58b05fcab357494512136990623c7a2a6c5868"
+    },
+    {
+      "route": "native-both",
+      "fixture": "contact-torque",
+      "state": "torque60000",
+      "path": "raw/query-input-controls-runs/contact-torque/native-both/torque60000.png",
+      "sha256": "d16b343f3fd7eb17a08b955822613f15f2646c464101c5d9884c7d4b4a95dd33"
+    }
+  ],
+  "UI23": [
+    {
+      "route": "cpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/cpu/receipt.json",
+      "control": "Scale X",
+      "before": [
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              -1,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.0249999985,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.0249999985,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              0.00999999978,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "cpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/cpu/receipt.json",
+      "control": "Scale Y",
+      "before": [
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              -1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.0249999985,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.0249999985,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              0.00999999978,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "cpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/cpu/receipt.json",
+      "control": "Scale Z",
+      "before": [
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              -1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.0249999985
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.0249999985
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              0.00999999978
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/ordinary-gpu/receipt.json",
+      "control": "Scale X",
+      "before": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              -1,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              -1,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/ordinary-gpu/receipt.json",
+      "control": "Scale Y",
+      "before": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              -1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              -1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/ordinary-gpu/receipt.json",
+      "control": "Scale Z",
+      "before": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              -1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              -1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/native-gpu/receipt.json",
+      "control": "Scale X",
+      "before": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              -1,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              -1,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/native-gpu/receipt.json",
+      "control": "Scale Y",
+      "before": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              -1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              -1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/native-gpu/receipt.json",
+      "control": "Scale Z",
+      "before": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              -1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              -1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/ordinary-both/receipt.json",
+      "control": "Scale X",
+      "before": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              -1,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        },
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              -1,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              0.00999999978,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        },
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.0249999985,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.0249999985,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              0.00999999978,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/ordinary-both/receipt.json",
+      "control": "Scale Y",
+      "before": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              -1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        },
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              -1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              0.00999999978,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        },
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.0249999985,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.0249999985,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              0.00999999978,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/ordinary-both/receipt.json",
+      "control": "Scale Z",
+      "before": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              -1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        },
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              -1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              0.00999999978
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        },
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.0249999985
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.0249999985
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              0.00999999978
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/native-both/receipt.json",
+      "control": "Scale X",
+      "before": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              -1,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        },
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              -1,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              0.00999999978,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        },
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.0249999985,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.0249999985,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              0.00999999978,
+              1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/native-both/receipt.json",
+      "control": "Scale Y",
+      "before": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              -1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        },
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              -1,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              0.00999999978,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        },
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.0249999985,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.0249999985,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              0.00999999978,
+              1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/native-both/receipt.json",
+      "control": "Scale Z",
+      "before": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              -1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        },
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              -1
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ],
+      "after": [
+        {
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.519999981
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.519999981
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              0.00999999978
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        },
+        {
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "kind": "Mesh",
+          "actual_type": 4,
+          "restitution": 0,
+          "definition_restitution": 0,
+          "definition_invoke": true,
+          "radius": 0,
+          "vertices": 0,
+          "actual_aabb": [
+            [
+              -0.519999981,
+              -0.519999981,
+              -0.0249999985
+            ],
+            [
+              0.519999981,
+              0.519999981,
+              0.0249999985
+            ]
+          ],
+          "mesh": {
+            "scale": [
+              1,
+              1,
+              0.00999999978
+            ],
+            "data_valid": true,
+            "triangles": 12,
+            "vertices": 8
+          }
+        }
+      ]
+    }
+  ],
+  "UI27": [
+    {
+      "route": "cpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/cpu/receipt.json",
+      "queries": [
+        {
+          "owner": "public",
+          "operation": "b3World_CastShape",
+          "calls": 834,
+          "hits": 0,
+          "input": {
+            "origin": [
+              -2,
+              1,
+              1
+            ],
+            "translation": [
+              4,
+              0,
+              0
+            ],
+            "count": 1,
+            "radius": 0.25,
+            "points": [
+              [
+                0,
+                0,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "actual_preview": {
+        "radius": 0.25,
+        "position": [
+          4,
+          0,
+          0
+        ]
+      },
+      "expected_miss_center": [
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/ordinary-gpu/receipt.json",
+      "queries": [
+        {
+          "owner": "public",
+          "operation": "b3World_CastShape",
+          "calls": 847,
+          "hits": 0,
+          "input": {
+            "origin": [
+              -2,
+              1,
+              1
+            ],
+            "translation": [
+              4,
+              0,
+              0
+            ],
+            "count": 1,
+            "radius": 0.25,
+            "points": [
+              [
+                0,
+                0,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "actual_preview": {
+        "radius": 0.25,
+        "position": [
+          4,
+          0,
+          0
+        ]
+      },
+      "expected_miss_center": [
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/native-gpu/receipt.json",
+      "queries": [
+        {
+          "owner": "public",
+          "operation": "b3World_CastShape",
+          "calls": 846,
+          "hits": 0,
+          "input": {
+            "origin": [
+              -2,
+              1,
+              1
+            ],
+            "translation": [
+              4,
+              0,
+              0
+            ],
+            "count": 1,
+            "radius": 0.25,
+            "points": [
+              [
+                0,
+                0,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "actual_preview": {
+        "radius": 0.25,
+        "position": [
+          4,
+          0,
+          0
+        ]
+      },
+      "expected_miss_center": [
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/ordinary-both/receipt.json",
+      "queries": [
+        {
+          "owner": "public",
+          "operation": "b3World_CastShape",
+          "calls": 862,
+          "hits": 0,
+          "input": {
+            "origin": [
+              -2,
+              1,
+              1
+            ],
+            "translation": [
+              4,
+              0,
+              0
+            ],
+            "count": 1,
+            "radius": 0.25,
+            "points": [
+              [
+                0,
+                0,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "actual_preview": {
+        "radius": 0.25,
+        "position": [
+          4,
+          0,
+          0
+        ]
+      },
+      "expected_miss_center": [
+        2,
+        1,
+        1
+      ]
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/query-input-controls-runs/mesh-scale/native-both/receipt.json",
+      "queries": [
+        {
+          "owner": "public",
+          "operation": "b3World_CastShape",
+          "calls": 867,
+          "hits": 0,
+          "input": {
+            "origin": [
+              -2,
+              1,
+              1
+            ],
+            "translation": [
+              4,
+              0,
+              0
+            ],
+            "count": 1,
+            "radius": 0.25,
+            "points": [
+              [
+                0,
+                0,
+                0
+              ]
+            ]
+          }
+        }
+      ],
+      "actual_preview": {
+        "radius": 0.25,
+        "position": [
+          4,
+          0,
+          0
+        ]
+      },
+      "expected_miss_center": [
+        2,
+        1,
+        1
+      ]
+    }
+  ],
+  "checks": 360,
+  "visual_review": {
+    "status": "ALL30_CAPTURED_IMAGES_INSPECTED_CPU_FIRST",
+    "observations": "MeshScale15cells and Contact15cells inspected. Missed gray sphere lies away from offset query segment on all5routes. Known zero-scale geometry is invisible/facing-away from this camera: actual getters/AABBs prove UI23; images alone do not. Contact remains paused with geometry unchanged; torque inputs qualified by actual API observations, not visible rolling."
+  },
+  "original207hashes_unchanged": true,
+  "cleanup": "query-input-controls-cleanup.json",
+  "limits": [
+    "Paused0physics; Contact torque actual API vector/wake/bodyidentity/Wrelease qualified, not contactevents/physicalrolling.",
+    "MeshScale actualsignedscale/bounds/IDs, queryorigin/radius/branch/preview observed. ZeroUI23knownGPUrejection; combinedmeshgetterCPUprovenance doesnotproveGPUstate.",
+    "UI27 actual misspreviewoffset wrong all5; hitbranch sameomittedstart source-applicable, not independently qualified. NoPR11querynumericalqualification."
+  ]
+}

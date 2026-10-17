@@ -1,0 +1,14 @@
+{
+  "status": "FROZEN",
+  "compositions": 2,
+  "seconds_per_composition": 8,
+  "outer_seconds": 40,
+  "builds": 0,
+  "apps": 0,
+  "captures": 0,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 67108864,
+  "min_free_bytes": 21474836480,
+  "consumer": "NativeDoorpolicy/50hingerecreations/IDs/defaults/picking+2CPUfirstbeforeaftergrids finalaudit",
+  "cleanup": "Consume logs/streams/supersededviewers/3Jointobjects/source;keepcurrent32taskobjects/fiveviewers"
+}

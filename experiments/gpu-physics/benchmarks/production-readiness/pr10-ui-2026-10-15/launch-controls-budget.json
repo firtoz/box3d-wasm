@@ -1,0 +1,17 @@
+{
+  "status":"FROZEN", "builds":0, "viewers":15,
+  "order":["cpu","ordinary-gpu","native-gpu","ordinary-both","native-both"],
+  "classes":["bullet-stack","stall","sensor-hits"],
+  "seconds_per_app":90, "ready_seconds":25, "scene_seconds":30,
+  "screenshots_per_app":2, "actions_per_app":45, "physics_steps":0,
+  "retries":0, "core_bytes":0, "api_bytes_per_app":33554432,
+  "api_tail_bytes":2097152, "observer_bytes_per_app":8388608,
+  "temporary_bytes":1073741824, "retained_bytes":67108864,
+  "shared_cache_growth_bytes":134217728, "min_free_bytes":21474836480,
+  "scope":"4 widget entries/3 samples plus BulletVersusStack Keyboard L; SensorHits polled B. Actual bullet getter, pose/velocity/shape and replacement identity/counts, checkbox deferred to next launch, restart. Paused only; no CCD/sensor query/mesh solver qualification.",
+  "outputs":[
+    {"path":"raw/launch-controls-runs","consumer":"Selected actual states, original assertions, CPU-first screenshots and cleanup receipts","maximum_bytes":67108864,"delete":"Consume API/observer/stderr immediately after terminal child; retain selected receipts/media"},
+    {"path":"launch-controls-*-grid.png","consumer":"Visual control review and PR10 evidence","maximum_bytes":8388608,"delete":"Retain acceptance media"}
+  ],
+  "closeout":{"apps":0,"builds":0,"compositions":3,"seconds_per_composition":8,"total_seconds":45}
+}

@@ -13,6 +13,10 @@ For `feat/gpu` next actions and durable goal recovery, use the
 PR09 publication, 2026-10-15: **165 native samples reviewed, 0 left; 21 fixes, 1 resolved without repair, 0 open original repair groups.** [Portable inventory, reports and before/after evidence](benchmarks/production-readiness/pr09-verified-2026-10-15/README.md) close the PR09 comparison gate. Rain physical failures remain open under PR04; UI/widgets and full query qualification remain PR10/PR11. Earlier dated counts, local audit archives and source-specific limitations below are historical and do not certify the full release.
 
 
+PR10 UI qualification is complete: **165 sample dispositions,342 active widgets,85 shared calls,23 custom input groups and29 verified repairs**. Coverage comprises71 actual specific-control fixtures and94 explicit shared-code reuses. The [report index and before/after evidence](benchmarks/production-readiness/pr10-ui-2026-10-15/README.md) document rendering/overlays, input ownership, framing, supported controls, mesh/heightfield edits and lifetime cleanup. Unsupported GPU diagnostics and Replay playback remain explicit; solver and full query qualification remain open.
+
+Fresh native/frontend/unchanged-source WASM compatibility passed. Commit and push are authorized. Recordings and comparison grids are optional diagnostics; they are not commit prerequisites. Existing repair reports, before/after screenshots and checks provide the PR10 evidence.
+
 ## Tested platforms and hardware
 
 The current Manjaro desktop has an **Intel Core i9-9900K** and an **NVIDIA
@@ -116,6 +120,26 @@ both worlds; it defaults to enabled. Disabling clears active contact and joint
 caches at step preparation while preserving accumulation within substeps.
 Recording is unavailable in GPU/combined mode. The combined worker slider is
 labelled CPU-only; GPU-only mode reports automatic scheduling.
+
+The native Replay load dialog displays the file name for Unix, Windows and mixed
+path separators. The player receives the complete original path. This display
+adjustment is generated in the native host without modifying Box3D.
+GPU and combined viewers explain that Replay playback is unavailable and offer
+Close instead of loading controls. Use the CPU viewer to play a recording.
+
+In the Wheel sample, steering damping and suspension damping are independent
+controls. Changing either preserves the other setting.
+Driving's Max Torque control changes the rear motor torque cap; front-wheel
+steering settings remain independent.
+
+The CPU Profile table measures section labels with the current font, indentation
+and tree-arrow spacing, including collapsed rows. Expanded labels remain visible
+with history plots enabled. GPU/combined Profile uses the separate native
+timestamp view.
+
+With the UI hidden, sample messages leave room below the paused HUD. Running
+messages keep their normal position. The combined Comparison view control hides
+and restores with the main UI while preserving its split-view setting.
 
 The inspector is GPU-led; the shared sample controller means sample-specific
 event/query logic is not two
@@ -1173,7 +1197,7 @@ diagnostic. CPU phases 100/101 bracket relaxed joint solves, 102/103 biased solv
 `BOTH_DRAG_TRACE_BODY=-1` traces all five cubes; `B <frame> <cube-index>` records
 identify the following state/contact lines. Values 0–4 retain single-cube tracing.
 
-For visual or solver changes, record the affected scenes before committing:
+Optional recording tools for targeted visual/solver diagnosis (not a commit or push prerequisite):
 
 ```sh
 ./scripts/record-box3d-oracle.sh

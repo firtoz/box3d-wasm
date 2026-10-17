@@ -1,0 +1,31 @@
+{
+  "status": "UI03_OUTPUT_CONFIRMED_FIVE_ROUTES",
+  "runs": [
+    {
+      "label": "cpu",
+      "exit": 0,
+      "seconds": 4.07116862598923
+    },
+    {
+      "label": "ordinary-gpu",
+      "exit": 0,
+      "seconds": 5.273150600987719
+    },
+    {
+      "label": "native-gpu",
+      "exit": 0,
+      "seconds": 5.3734784629778005
+    },
+    {
+      "label": "ordinary-both",
+      "exit": 0,
+      "seconds": 5.328266807977343
+    },
+    {
+      "label": "native-both",
+      "exit": 0,
+      "seconds": 5.22229963800055
+    }
+  ],
+  "seconds": 25.272177091013873
+}

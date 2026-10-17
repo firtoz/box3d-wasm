@@ -1,0 +1,48 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "replay-cli-popup-budget.json",
+  "runs": [
+    {
+      "route": "cpu",
+      "mode": "cancel",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "complete": true
+    },
+    {
+      "route": "cpu",
+      "mode": "apply",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "complete": true
+    },
+    {
+      "route": "ordinary-gpu",
+      "mode": "unsupported",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "complete": true
+    },
+    {
+      "route": "native-gpu",
+      "mode": "unsupported",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "complete": true
+    },
+    {
+      "route": "ordinary-both",
+      "mode": "unsupported",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "complete": true
+    },
+    {
+      "route": "native-both",
+      "mode": "unsupported",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "complete": true
+    }
+  ]
+}

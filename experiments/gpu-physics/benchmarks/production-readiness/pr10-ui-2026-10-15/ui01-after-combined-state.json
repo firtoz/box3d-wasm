@@ -1,0 +1,19 @@
+{
+  "status": "NUMERIC_PASSES_VISUAL_AND_WRAP_AUDIT_PENDING",
+  "phases": [
+    {
+      "label": "ordinary-both",
+      "tag": "ordinary-both-stat-safe",
+      "driver_exit": 0
+    },
+    {
+      "label": "native-both",
+      "tag": "native-both",
+      "driver_exit": 0
+    }
+  ],
+  "driver_sha256": "d6551d192902a12959559a1ad60e11bfdd68db05bdcff916f0cc21dc5a10a7ac",
+  "current_child_pid": 1534242,
+  "current_label": "native-both",
+  "elapsed_seconds": 19.514396729995497
+}

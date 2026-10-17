@@ -1,0 +1,16 @@
+{
+  "status": "FROZEN",
+  "seconds": 90,
+  "montages": 3,
+  "montage_seconds": 8,
+  "max_rows": 8,
+  "max_offline_cases": 64,
+  "max_scalar_checks": 4096,
+  "apps": 0,
+  "builds": 0,
+  "captures": 0,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 67108864,
+  "min_free_bytes": 21474836480,
+  "scope": "CPUfirst matching BodyType before/after overlays; bounds/mass/Shapesoff/honestavailability/picking regressions. Preserve original harness errors and explicit CPU picking/source-identical readonlyobserver evidence reuse. Audit actual getter/sink coordinates and resource cleanup before issue closure."
+}

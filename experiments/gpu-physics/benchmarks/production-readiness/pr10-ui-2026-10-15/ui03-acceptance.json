@@ -1,0 +1,2045 @@
+{
+  "status": "FIXED_VERIFIED_LOCAL",
+  "issue": "UI03",
+  "cause": "gpu_samples_world_draw consumes only drawShapes and returns early when Shapes disabled. All other overlay flags/callbacks ignored.",
+  "repair": {
+    "source": "c_abi/debug_overlays.h / samples_api.c / shim.c / both_dual.c; Bun overlayControls/CMake native generator",
+    "scope": "Real direct GPU AABBs/COM/mass/names/local jointframes/reaction vectors/native Rust solver contact manifolds. Independent overlays with Shapesoff. Full-ID per-draw dedup/free; per-world jointdrawScale metadata freed on worlddestroy; actualStepdt retained for native force convention. All physical inputs/geometry/defaults/IDs/picking preserved. Three unavailable current diagnostics truthfully disabled on GPU or labelled CPU-pane-only in combined.",
+    "build": "ui03-build.json/link_plan"
+  },
+  "before": {
+    "report": "UI03.md",
+    "acceptance": [
+      "ui03-output-acceptance.json",
+      "overlay-controls-acceptance.json"
+    ],
+    "media": [
+      {
+        "route": "cpu",
+        "state": "initial",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/cpu/initial.png",
+        "sha256": "d445e4ccc284542217c932d5107878ec03f726d6a15f4697cb82c2450cbaf4d5"
+      },
+      {
+        "route": "cpu",
+        "state": "joints",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/cpu/joints.png",
+        "sha256": "39f39245f7c62988a52d6374c5554c4f29326882e366624b9b3368bff49e0149"
+      },
+      {
+        "route": "cpu",
+        "state": "sleep",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/cpu/sleep.png",
+        "sha256": "20e38d2e54e297c78ec5cac7b574fdfae2f7b214c9e94505340456aabc9b641f"
+      },
+      {
+        "route": "cpu",
+        "state": "body-names",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/cpu/body-names.png",
+        "sha256": "2590c522b19e478125863413355aeb670b250abbfc084b2ceb24278943ccd3b4"
+      },
+      {
+        "route": "cpu",
+        "state": "islands",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/cpu/islands.png",
+        "sha256": "fe9f11982e3b0e85ecd6f268d7be4e1fc8c4c1356c0fb0c907a81fb7c43c6ab4"
+      },
+      {
+        "route": "cpu",
+        "state": "contacts",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/cpu/contacts.png",
+        "sha256": "fa418430570e5ba9ed6faab3db8ad80fb4f1444bb02b0408c03690e72fe0c6d6"
+      },
+      {
+        "route": "cpu",
+        "state": "forces",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/cpu/forces.png",
+        "sha256": "7f4795b52fb496f4e2738eed68529cbc30edbd9999809190c5dba71051c33b7d"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "initial",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-gpu/initial.png",
+        "sha256": "cc26c30c281b4aad7bdb18d396dc0d584154189ed1d243e5f28e0bbc285a76ac"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "joints",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-gpu/joints.png",
+        "sha256": "4df17d0740e7a594b3592232670bf696a4c2ccdd6a5208f9713c6e5e7872af3c"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "sleep",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-gpu/sleep.png",
+        "sha256": "4df17d0740e7a594b3592232670bf696a4c2ccdd6a5208f9713c6e5e7872af3c"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "body-names",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-gpu/body-names.png",
+        "sha256": "4df17d0740e7a594b3592232670bf696a4c2ccdd6a5208f9713c6e5e7872af3c"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "islands",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-gpu/islands.png",
+        "sha256": "fdaa8dfd7b281b532b49b9c3e93d2a393e399465d7465c0f6c7ecb933ef13345"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "contacts",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-gpu/contacts.png",
+        "sha256": "a3882be7ad6f7eb3b1bb4bd359de9ed1411ed6a95739b73e9351eb0ab6a44dcf"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "forces",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-gpu/forces.png",
+        "sha256": "b8ecb46135592767c733e628ca053a0df4382acf1484d04fc2aacb578dc4cbfe"
+      },
+      {
+        "route": "native-gpu",
+        "state": "initial",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-gpu/initial.png",
+        "sha256": "520fe1196ec68f22914235e3f12bed17fbb0ade7f89e0cacc8cd251172a0ec97"
+      },
+      {
+        "route": "native-gpu",
+        "state": "joints",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-gpu/joints.png",
+        "sha256": "7773925fe64973a93d9e350e5983bb1c3a99d721ca666555d65b5b4c399d6411"
+      },
+      {
+        "route": "native-gpu",
+        "state": "sleep",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-gpu/sleep.png",
+        "sha256": "520fe5d97e4f2dbdb359c0a4cff00f8f4ef8f8818820f7d7473514c4f6a5d262"
+      },
+      {
+        "route": "native-gpu",
+        "state": "body-names",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-gpu/body-names.png",
+        "sha256": "520fe5d97e4f2dbdb359c0a4cff00f8f4ef8f8818820f7d7473514c4f6a5d262"
+      },
+      {
+        "route": "native-gpu",
+        "state": "islands",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-gpu/islands.png",
+        "sha256": "c8ee6a049f2e683a80c7b9f6094a5acdfffa1e4d6622f963f50129dd5c83b15f"
+      },
+      {
+        "route": "native-gpu",
+        "state": "contacts",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-gpu/contacts.png",
+        "sha256": "7773925fe64973a93d9e350e5983bb1c3a99d721ca666555d65b5b4c399d6411"
+      },
+      {
+        "route": "native-gpu",
+        "state": "forces",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-gpu/forces.png",
+        "sha256": "4fb4aae74adfd0900242c787695d26b042c4392ee1bc295a24a426724c2817e4"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "initial",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-both/initial.png",
+        "sha256": "ac365b8e65e7a714c4afd8df457b31c2343b6e77cd6682a8db1713efb77130a6"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "joints",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-both/joints.png",
+        "sha256": "7f5b444f1030c7e85770138c5aff44b741bd496df913d79c5e71dd3ac5c4f0a1"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "sleep",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-both/sleep.png",
+        "sha256": "b8ddf3ca884ffa051668549106f6e87399c1473a2a437aeefb3340feadd6df3d"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "body-names",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-both/body-names.png",
+        "sha256": "bb2cb1969dc48b9c7a9987eddbcce601f32cd7a65379effab4ef15b503c97d76"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "islands",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-both/islands.png",
+        "sha256": "5c84e375b5cc51f99d2e0579cf450e6734a715c2845bad952b75335f8cab7cf5"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "contacts",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-both/contacts.png",
+        "sha256": "74b2e6ca11d2d6752129f60bf28416b65f5cb43a85008c5af5229eb2477c2cce"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "forces",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-both/forces.png",
+        "sha256": "3647492ae75c6411a2fb0f53abcc04481bf23f0ecce3af3541d8e3ae0747b785"
+      },
+      {
+        "route": "native-both",
+        "state": "initial",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-both/initial.png",
+        "sha256": "d21737b39483c195c4678573529060247c5155b53fce860636a0f5ba207d2c62"
+      },
+      {
+        "route": "native-both",
+        "state": "joints",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-both/joints.png",
+        "sha256": "209c73afb70c2469e5d4ca658890bdba46d0429deac60815fbeaf38b61a3f805"
+      },
+      {
+        "route": "native-both",
+        "state": "sleep",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-both/sleep.png",
+        "sha256": "f00197a4fed9161a25d892de907e03cfcaaf7b46e8f09f272ae67315b016b06b"
+      },
+      {
+        "route": "native-both",
+        "state": "body-names",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-both/body-names.png",
+        "sha256": "72ffbbe69dffe179c8d34e363b3abf9c760d89948e7511174101fdd2eb2ff2e8"
+      },
+      {
+        "route": "native-both",
+        "state": "islands",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-both/islands.png",
+        "sha256": "46bcca0440b3145350b4a1e2d21a48fd3eff662fca7d7ff141fd1a8a6dcd7d60"
+      },
+      {
+        "route": "native-both",
+        "state": "contacts",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-both/contacts.png",
+        "sha256": "266bba6434fba6676500142e373ed18bd49dd5f4b990302e43044d0f15338ecb"
+      },
+      {
+        "route": "native-both",
+        "state": "forces",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-both/forces.png",
+        "sha256": "cfaf40f57ba3cc4fb3431c858a836a8c1cabfde2434744a9cf287f7ef515a077"
+      }
+    ],
+    "original_failures_preserved": true
+  },
+  "checks": {
+    "routes": 5,
+    "recorded": 249,
+    "all_applicable_checks_pass": true,
+    "adjudications": [
+      "ui03-cpu-picking-adjudication.json",
+      "ui03-ordinary-adjudication.json"
+    ],
+    "readonly_observer_fix": "ui03-combined-observer-budget.json; per-owner request counter, product unchanged",
+    "CPU_repeats": 0,
+    "apps": 7,
+    "original_apps": 5,
+    "additional_apps": 2,
+    "scripted_steps_per_app": 2,
+    "additional_sink_audit": "ui03-additional-sink-audit.json",
+    "current_binary_reuse": "CPU/nativeGPU checked before readonly per-owner counter fix; each current link differs only observer and output path; old/new source delta asserted exact. Actual observer forwards original once; product source/API/physics/geometry identical."
+  },
+  "after": [
+    {
+      "route": "cpu",
+      "fixture": "initial-overlay-checks",
+      "receipt": "raw/ui03-runs/cpu/receipt.json",
+      "seconds": 38.247474454000006,
+      "checks": {
+        "Body Type actual scene/no-body fixture": true,
+        "Actual paused two-step fixture": true,
+        "Sleep truthful availability": true,
+        "Graph Colors truthful availability": true,
+        "Islands truthful availability": true,
+        "Baseline eight actual shapes": true,
+        "Bounds public callback effect": true,
+        "Mass public callback effect": true,
+        "Body Names public callback effect": true,
+        "Joints public callback effect": true,
+        "Joint actualvalue 2": true,
+        "Joint scale public actual coordinates change": true,
+        "Joint actualvalue 1": true,
+        "Joint scale public restores coordinates": true,
+        "Joint Extras public callback effect": true,
+        "Contacts public callback effect": true,
+        "Contact Normals public callback effect": true,
+        "Contact Features public callback effect": true,
+        "Contact Forces public callback effect": true,
+        "Force actualvalue 2": true,
+        "Force scale public actual coordinates change": true,
+        "Force actualvalue 1": true,
+        "Force scale public restores coordinates": true,
+        "Shapes off preserves supported callbacks": true,
+        "Overlay edits preserve world IDs poses mass geometry and steps": true,
+        "Sleep current menu retained": true,
+        "Graph Colors current menu retained": true,
+        "Islands current menu retained": true,
+        "Single Box actual scene/no-body fixture": true
+      },
+      "findings": [],
+      "error": "Error: Transition timed out 3s",
+      "status": "FAILURE_RETAINED"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "initial-overlay-checks",
+      "receipt": "raw/ui03-runs/ordinary-gpu/receipt.json",
+      "seconds": 20.12615308,
+      "checks": {
+        "Body Type actual scene/no-body fixture": true,
+        "Actual paused two-step fixture": true,
+        "Sleep (GPU unavailable) truthful availability": true,
+        "Graph Colors (GPU unavailable) truthful availability": true,
+        "Islands (GPU unavailable) truthful availability": true,
+        "Baseline eight actual shapes": true,
+        "Bounds public callback effect": true,
+        "Bounds actual GPU inputs → renderer sinks": true,
+        "Mass public callback effect": true,
+        "Mass actual GPU inputs → renderer sinks": true,
+        "Body Names public callback effect": true,
+        "Body Names actual GPU inputs → renderer sinks": false,
+        "Joints public callback effect": true,
+        "Joints actual GPU inputs → renderer sinks": true,
+        "Joint actualvalue 2": true,
+        "Joint scale public actual coordinates change": true,
+        "Joint actualvalue 1": true,
+        "Joint scale public restores coordinates": true,
+        "Joint doubled scale actual GPU inputs → renderer sinks": true,
+        "Joint Extras public callback effect": true,
+        "Joint Extras actual GPU inputs → renderer sinks": true,
+        "Contacts public callback effect": true
+      },
+      "findings": [
+        {
+          "check": "Body Names actual GPU inputs → renderer sinks",
+          "context": {
+            "boundary": {
+              "api": "overlay_boundary",
+              "owner": "public",
+              "request": 287,
+              "world": 1,
+              "origin": [
+                0,
+                16.5,
+                25.9807625
+              ],
+              "truncated": false,
+              "inputs": [
+                {
+                  "op": "flags",
+                  "shapes": 1,
+                  "bounds": 0,
+                  "mass": 0,
+                  "names": 1,
+                  "joints": 0,
+                  "extras": 0,
+                  "contacts": 0,
+                  "anchorA": 0,
+                  "normals": 0,
+                  "features": 0,
+                  "forces": 0,
+                  "jointScale": 1,
+                  "forceScale": 1
+                },
+                {
+                  "op": "aabb",
+                  "id": [
+                    1,
+                    1,
+                    2
+                  ],
+                  "min": [
+                    -20.0200005,
+                    -2.01999998,
+                    -20.0200005
+                  ],
+                  "max": [
+                    20.0200005,
+                    0.0199999996,
+                    20.0200005
+                  ]
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    1,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    0,
+                    -1,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "op": "center",
+                  "id": [
+                    1,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    0,
+                    -1,
+                    0
+                  ]
+                },
+                {
+                  "op": "name",
+                  "id": [
+                    1,
+                    1,
+                    2
+                  ],
+                  "text": "ground"
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    1,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    0,
+                    -1,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "op": "mass",
+                  "id": [
+                    1,
+                    1,
+                    2
+                  ],
+                  "value": 0
+                },
+                {
+                  "op": "aabb",
+                  "id": [
+                    2,
+                    1,
+                    2
+                  ],
+                  "min": [
+                    -2.52000546,
+                    0.979812384,
+                    -0.519999981
+                  ],
+                  "max": [
+                    -1.48000026,
+                    5.01981401,
+                    0.519999981
+                  ]
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    2,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    -2.00000286,
+                    2.99981308,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    -6.48776108e-7,
+                    1
+                  ]
+                },
+                {
+                  "op": "center",
+                  "id": [
+                    2,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    -2.00000286,
+                    2.99981308,
+                    0
+                  ]
+                },
+                {
+                  "op": "name",
+                  "id": [
+                    2,
+                    1,
+                    2
+                  ],
+                  "text": "attach1"
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    2,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    -2.00000286,
+                    2.99981308,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    -6.48776108e-7,
+                    1
+                  ]
+                },
+                {
+                  "op": "mass",
+                  "id": [
+                    2,
+                    1,
+                    2
+                  ],
+                  "value": 4
+                },
+                {
+                  "op": "aabb",
+                  "id": [
+                    3,
+                    1,
+                    2
+                  ],
+                  "min": [
+                    2.48000002,
+                    0.979780436,
+                    -0.519999981
+                  ],
+                  "max": [
+                    3.52002478,
+                    5.01978636,
+                    0.519999981
+                  ]
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    3,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    3.0000124,
+                    2.99978352,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    0.00000307556115,
+                    1
+                  ]
+                },
+                {
+                  "op": "center",
+                  "id": [
+                    3,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    3.0000124,
+                    2.99978352,
+                    0
+                  ]
+                },
+                {
+                  "op": "name",
+                  "id": [
+                    3,
+                    1,
+                    2
+                  ],
+                  "text": "attach2"
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    3,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    3.0000124,
+                    2.99978352,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    0.00000307556115,
+                    1
+                  ]
+                },
+                {
+                  "op": "mass",
+                  "id": [
+                    3,
+                    1,
+                    2
+                  ],
+                  "value": 4
+                },
+                {
+                  "op": "aabb",
+                  "id": [
+                    4,
+                    1,
+                    2
+                  ],
+                  "min": [
+                    -4.02000141,
+                    4.47989225,
+                    -0.519999981
+                  ],
+                  "max": [
+                    4.02000189,
+                    5.51991606,
+                    0.519999981
+                  ]
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    4,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    -4,
+                    4.99991608,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    -0.00000147487162,
+                    1
+                  ]
+                },
+                {
+                  "op": "center",
+                  "id": [
+                    4,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    0,
+                    4.99990416,
+                    0
+                  ]
+                },
+                {
+                  "op": "name",
+                  "id": [
+                    4,
+                    1,
+                    2
+                  ],
+                  "text": "platform"
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    4,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    -4,
+                    4.99991608,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    -0.00000147487162,
+                    1
+                  ]
+                },
+                {
+                  "op": "mass",
+                  "id": [
+                    4,
+                    1,
+                    2
+                  ],
+                  "value": 16
+                },
+                {
+                  "op": "aabb",
+                  "id": [
+                    5,
+                    1,
+                    2
+                  ],
+                  "min": [
+                    -3.76999998,
+                    7.22375011,
+                    -0.769999981
+                  ],
+                  "max": [
+                    -2.23000002,
+                    8.76375008,
+                    0.769999981
+                  ]
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    5,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    -3,
+                    7.9937501,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "op": "center",
+                  "id": [
+                    5,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    -3,
+                    7.9937501,
+                    0
+                  ]
+                },
+                {
+                  "op": "name",
+                  "id": [
+                    5,
+                    1,
+                    2
+                  ],
+                  "text": "crate1"
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    5,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    -3,
+                    7.9937501,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "op": "mass",
+                  "id": [
+                    5,
+                    1,
+                    2
+                  ],
+                  "value": 6.75
+                },
+                {
+                  "op": "aabb",
+                  "id": [
+                    6,
+                    1,
+                    2
+                  ],
+                  "min": [
+                    1.23000002,
+                    7.22375011,
+                    -0.769999981
+                  ],
+                  "max": [
+                    2.76999998,
+                    8.76375008,
+                    0.769999981
+                  ]
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    6,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    2,
+                    7.9937501,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "op": "center",
+                  "id": [
+                    6,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    2,
+                    7.9937501,
+                    0
+                  ]
+                },
+                {
+                  "op": "name",
+                  "id": [
+                    6,
+                    1,
+                    2
+                  ],
+                  "text": "crate2"
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    6,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    2,
+                    7.9937501,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "op": "mass",
+                  "id": [
+                    6,
+                    1,
+                    2
+                  ],
+                  "value": 6.75
+                },
+                {
+                  "op": "aabb",
+                  "id": [
+                    7,
+                    1,
+                    2
+                  ],
+                  "min": [
+                    7.73000002,
+                    -0.0369252898,
+                    -0.270000011
+                  ],
+                  "max": [
+                    9.27000046,
+                    0.503074706,
+                    0.270000011
+                  ]
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    7,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    8,
+                    0.23307471,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "op": "center",
+                  "id": [
+                    7,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    8.5,
+                    0.23307471,
+                    0
+                  ]
+                },
+                {
+                  "op": "name",
+                  "id": [
+                    7,
+                    1,
+                    2
+                  ],
+                  "text": "debris"
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    7,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    8,
+                    0.23307471,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "op": "mass",
+                  "id": [
+                    7,
+                    1,
+                    2
+                  ],
+                  "value": 0.52359879
+                },
+                {
+                  "op": "aabb",
+                  "id": [
+                    8,
+                    1,
+                    2
+                  ],
+                  "min": [
+                    -8.27000046,
+                    12.2299995,
+                    -0.270000011
+                  ],
+                  "max": [
+                    -7.73000002,
+                    12.7700005,
+                    0.270000011
+                  ]
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    8,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    -8,
+                    12,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "op": "center",
+                  "id": [
+                    8,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    -8,
+                    12.5,
+                    0
+                  ]
+                },
+                {
+                  "op": "name",
+                  "id": [
+                    8,
+                    1,
+                    2
+                  ],
+                  "text": "floater"
+                },
+                {
+                  "op": "transform",
+                  "id": [
+                    8,
+                    1,
+                    2
+                  ],
+                  "p": [
+                    -8,
+                    12,
+                    0
+                  ],
+                  "q": [
+                    0,
+                    0,
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "op": "mass",
+                  "id": [
+                    8,
+                    1,
+                    2
+                  ],
+                  "value": 0.130899698
+                }
+              ],
+              "sinks": [
+                {
+                  "op": "text",
+                  "p": [
+                    0.0500000007,
+                    -17.4500008,
+                    -25.9307632
+                  ],
+                  "text": "ground"
+                },
+                {
+                  "op": "text",
+                  "p": [
+                    -1.95000279,
+                    -13.4501867,
+                    -25.9307632
+                  ],
+                  "text": "attach1"
+                },
+                {
+                  "op": "text",
+                  "p": [
+                    3.05001211,
+                    -13.4502163,
+                    -25.9307632
+                  ],
+                  "text": "attach2"
+                },
+                {
+                  "op": "text",
+                  "p": [
+                    0.0500001498,
+                    -11.4500961,
+                    -25.9307632
+                  ],
+                  "text": "platform"
+                },
+                {
+                  "op": "text",
+                  "p": [
+                    -2.95000005,
+                    -8.45625019,
+                    -25.9307632
+                  ],
+                  "text": "crate1"
+                },
+                {
+                  "op": "text",
+                  "p": [
+                    2.04999995,
+                    -8.45625019,
+                    -25.9307632
+                  ],
+                  "text": "crate2"
+                },
+                {
+                  "op": "text",
+                  "p": [
+                    8.55000019,
+                    -16.2169247,
+                    -25.9307632
+                  ],
+                  "text": "debris"
+                },
+                {
+                  "op": "text",
+                  "p": [
+                    -7.94999981,
+                    -3.94999981,
+                    -25.9307632
+                  ],
+                  "text": "floater"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "error": "Error: Missing actual contact COM",
+      "status": "FAILURE_RETAINED"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "initial-overlay-checks",
+      "receipt": "raw/ui03-runs/native-gpu/receipt.json",
+      "seconds": 38.479279752000004,
+      "checks": {
+        "Body Type actual scene/no-body fixture": true,
+        "Actual paused two-step fixture": true,
+        "Sleep (GPU unavailable) truthful availability": true,
+        "Graph Colors (GPU unavailable) truthful availability": true,
+        "Islands (GPU unavailable) truthful availability": true,
+        "Baseline eight actual shapes": true,
+        "Bounds public callback effect": true,
+        "Bounds actual GPU inputs → renderer sinks": true,
+        "Mass public callback effect": true,
+        "Mass actual GPU inputs → renderer sinks": true,
+        "Body Names public callback effect": true,
+        "Body Names actual GPU inputs → renderer sinks": true,
+        "Joints public callback effect": true,
+        "Joints actual GPU inputs → renderer sinks": true,
+        "Joint actualvalue 2": true,
+        "Joint scale public actual coordinates change": true,
+        "Joint actualvalue 1": true,
+        "Joint scale public restores coordinates": true,
+        "Joint doubled scale actual GPU inputs → renderer sinks": true,
+        "Joint Extras public callback effect": true,
+        "Joint Extras actual GPU inputs → renderer sinks": true,
+        "Contacts public callback effect": true,
+        "Contact Points actual GPU inputs → renderer sinks": true,
+        "Contact Normals public callback effect": true,
+        "Contact Normals actual GPU inputs → renderer sinks": true,
+        "Contact Features public callback effect": true,
+        "Contact Features actual GPU inputs → renderer sinks": true,
+        "Contact Forces public callback effect": true,
+        "Contact Forces actual GPU inputs → renderer sinks": true,
+        "Force actualvalue 2": true,
+        "Force scale public actual coordinates change": true,
+        "Force actualvalue 1": true,
+        "Force scale public restores coordinates": true,
+        "Force doubled scale actual GPU inputs → renderer sinks": true,
+        "Anchor A actual GPU inputs → renderer sinks": true,
+        "Anchor B actual GPU inputs → renderer sinks": true,
+        "Shapes off preserves supported callbacks": true,
+        "Shapes off actual GPU inputs → renderer sinks": true,
+        "Overlay edits preserve world IDs poses mass geometry and steps": true,
+        "Sleep (GPU unavailable) current menu retained": true,
+        "Graph Colors (GPU unavailable) current menu retained": true,
+        "Islands (GPU unavailable) current menu retained": true,
+        "Single Box actual scene/no-body fixture": true,
+        "public actual projected picking preserved": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": [],
+      "status": "PASS_CONTROLS"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "remaining-ordinary-controls",
+      "receipt": "raw/ui03-ordinary-supplement-runs/ordinary-gpu/receipt.json",
+      "seconds": 26.096521721,
+      "checks": {
+        "Body Type actual scene/no-body fixture": true,
+        "Actual paused two-step fixture": true,
+        "Contacts public callback effect": true,
+        "Contact Points actual GPU inputs → renderer sinks": true,
+        "Contact Normals public callback effect": true,
+        "Contact Normals actual GPU inputs → renderer sinks": true,
+        "Contact Features public callback effect": true,
+        "Contact Features actual GPU inputs → renderer sinks": true,
+        "Contact Forces public callback effect": true,
+        "Contact Forces actual GPU inputs → renderer sinks": true,
+        "Force actualvalue 2": true,
+        "Force scale public actual coordinates change": true,
+        "Force actualvalue 1": true,
+        "Force scale public restores coordinates": true,
+        "Force doubled scale actual GPU inputs → renderer sinks": true,
+        "Anchor A actual GPU inputs → renderer sinks": true,
+        "Anchor B actual GPU inputs → renderer sinks": true,
+        "Shapes off preserves supported callbacks": true,
+        "Shapes off actual GPU inputs → renderer sinks": true,
+        "Overlay edits preserve world IDs poses mass geometry and steps": true,
+        "Sleep (GPU unavailable) current menu retained": true,
+        "Graph Colors (GPU unavailable) current menu retained": true,
+        "Islands (GPU unavailable) current menu retained": true,
+        "Single Box actual scene/no-body fixture": true,
+        "public actual projected picking preserved": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": [],
+      "status": "PASS_CONTROLS"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "combined-overlays",
+      "receipt": "raw/ui03-combined-corrected-runs/ordinary-both/receipt.json",
+      "seconds": 39.304858541,
+      "checks": {
+        "Body Type actual scene/no-body fixture": true,
+        "Actual paused two-step fixture": true,
+        "Sleep (CPU pane only) truthful availability": true,
+        "Graph Colors (CPU pane only) truthful availability": true,
+        "Islands (CPU pane only) truthful availability": true,
+        "Baseline eight actual shapes": true,
+        "Bounds public callback effect": true,
+        "Bounds gpu callback effect": true,
+        "Bounds actual GPU inputs → renderer sinks": true,
+        "Mass public callback effect": true,
+        "Mass gpu callback effect": true,
+        "Mass actual GPU inputs → renderer sinks": true,
+        "Body Names public callback effect": true,
+        "Body Names gpu callback effect": true,
+        "Body Names actual GPU inputs → renderer sinks": true,
+        "Joints public callback effect": true,
+        "Joints gpu callback effect": true,
+        "Joints actual GPU inputs → renderer sinks": true,
+        "Joint actualvalue 2": true,
+        "Joint scale public actual coordinates change": true,
+        "Joint scale gpu actual coordinates change": true,
+        "Joint actualvalue 1": true,
+        "Joint scale public restores coordinates": true,
+        "Joint scale gpu restores coordinates": true,
+        "Joint doubled scale actual GPU inputs → renderer sinks": true,
+        "Joint Extras public callback effect": true,
+        "Joint Extras gpu callback effect": true,
+        "Joint Extras actual GPU inputs → renderer sinks": true,
+        "Contacts public callback effect": true,
+        "Contacts gpu callback effect": true,
+        "Contact Points actual GPU inputs → renderer sinks": true,
+        "Contact Normals public callback effect": true,
+        "Contact Normals gpu callback effect": true,
+        "Contact Normals actual GPU inputs → renderer sinks": true,
+        "Contact Features public callback effect": true,
+        "Contact Features gpu callback effect": true,
+        "Contact Features actual GPU inputs → renderer sinks": true,
+        "Contact Forces public callback effect": true,
+        "Contact Forces gpu callback effect": true,
+        "Contact Forces actual GPU inputs → renderer sinks": true,
+        "Force actualvalue 2": true,
+        "Force scale public actual coordinates change": true,
+        "Force scale gpu actual coordinates change": true,
+        "Force actualvalue 1": true,
+        "Force scale public restores coordinates": true,
+        "Force scale gpu restores coordinates": true,
+        "Force doubled scale actual GPU inputs → renderer sinks": true,
+        "Anchor A actual GPU inputs → renderer sinks": true,
+        "Anchor B actual GPU inputs → renderer sinks": true,
+        "Shapes off preserves supported callbacks": true,
+        "Shapes off actual GPU inputs → renderer sinks": true,
+        "Overlay edits preserve world IDs poses mass geometry and steps": true,
+        "Sleep (CPU pane only) current menu retained": true,
+        "Graph Colors (CPU pane only) current menu retained": true,
+        "Islands (CPU pane only) current menu retained": true,
+        "Single Box actual scene/no-body fixture": true,
+        "mapped_cpu actual projected picking preserved": true,
+        "public actual projected picking preserved": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": [],
+      "status": "PASS_CONTROLS"
+    },
+    {
+      "route": "native-both",
+      "fixture": "combined-overlays",
+      "receipt": "raw/ui03-combined-corrected-runs/native-both/receipt.json",
+      "seconds": 39.785732161,
+      "checks": {
+        "Body Type actual scene/no-body fixture": true,
+        "Actual paused two-step fixture": true,
+        "Sleep (CPU pane only) truthful availability": true,
+        "Graph Colors (CPU pane only) truthful availability": true,
+        "Islands (CPU pane only) truthful availability": true,
+        "Baseline eight actual shapes": true,
+        "Bounds public callback effect": true,
+        "Bounds gpu callback effect": true,
+        "Bounds actual GPU inputs → renderer sinks": true,
+        "Mass public callback effect": true,
+        "Mass gpu callback effect": true,
+        "Mass actual GPU inputs → renderer sinks": true,
+        "Body Names public callback effect": true,
+        "Body Names gpu callback effect": true,
+        "Body Names actual GPU inputs → renderer sinks": true,
+        "Joints public callback effect": true,
+        "Joints gpu callback effect": true,
+        "Joints actual GPU inputs → renderer sinks": true,
+        "Joint actualvalue 2": true,
+        "Joint scale public actual coordinates change": true,
+        "Joint scale gpu actual coordinates change": true,
+        "Joint actualvalue 1": true,
+        "Joint scale public restores coordinates": true,
+        "Joint scale gpu restores coordinates": true,
+        "Joint doubled scale actual GPU inputs → renderer sinks": true,
+        "Joint Extras public callback effect": true,
+        "Joint Extras gpu callback effect": true,
+        "Joint Extras actual GPU inputs → renderer sinks": true,
+        "Contacts public callback effect": true,
+        "Contacts gpu callback effect": true,
+        "Contact Points actual GPU inputs → renderer sinks": true,
+        "Contact Normals public callback effect": true,
+        "Contact Normals gpu callback effect": true,
+        "Contact Normals actual GPU inputs → renderer sinks": true,
+        "Contact Features public callback effect": true,
+        "Contact Features gpu callback effect": true,
+        "Contact Features actual GPU inputs → renderer sinks": true,
+        "Contact Forces public callback effect": true,
+        "Contact Forces gpu callback effect": true,
+        "Contact Forces actual GPU inputs → renderer sinks": true,
+        "Force actualvalue 2": true,
+        "Force scale public actual coordinates change": true,
+        "Force scale gpu actual coordinates change": true,
+        "Force actualvalue 1": true,
+        "Force scale public restores coordinates": true,
+        "Force scale gpu restores coordinates": true,
+        "Force doubled scale actual GPU inputs → renderer sinks": true,
+        "Anchor A actual GPU inputs → renderer sinks": true,
+        "Anchor B actual GPU inputs → renderer sinks": true,
+        "Shapes off preserves supported callbacks": true,
+        "Shapes off actual GPU inputs → renderer sinks": true,
+        "Overlay edits preserve world IDs poses mass geometry and steps": true,
+        "Sleep (CPU pane only) current menu retained": true,
+        "Graph Colors (CPU pane only) current menu retained": true,
+        "Islands (CPU pane only) current menu retained": true,
+        "Single Box actual scene/no-body fixture": true,
+        "mapped_cpu actual projected picking preserved": true,
+        "public actual projected picking preserved": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": [],
+      "status": "PASS_CONTROLS"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "readonly-counter-failure",
+      "receipt": "raw/ui03-runs/ordinary-both/receipt.json",
+      "seconds": 12.268864004,
+      "checks": {
+        "Body Type actual scene/no-body fixture": true,
+        "Actual paused two-step fixture": true,
+        "Sleep (CPU pane only) truthful availability": true,
+        "Graph Colors (CPU pane only) truthful availability": true,
+        "Islands (CPU pane only) truthful availability": true
+      },
+      "findings": [],
+      "error": "Error: Transition timed out 3s",
+      "status": "FAILURE_RETAINED"
+    }
+  ],
+  "media": {
+    "grids": [
+      {
+        "path": "ui03-repair-before-grid.png",
+        "sha256": "350de68bacd2ebeccc9f8d43b46501e73858d8a2ffc0b09c31b7524cfe919881"
+      },
+      {
+        "path": "ui03-after-grid.png",
+        "sha256": "7b6ba0ff42bf080408158e65ca3cb494b7d4ecadca57a7ff21faca9bcdc68aae"
+      },
+      {
+        "path": "ui03-regressions-grid.png",
+        "sha256": "fe5d4f6347985b0d8ffcbd4a157d142311f2dd3994b3f04457610fb1a1b83990"
+      }
+    ],
+    "after": [
+      {
+        "route": "cpu",
+        "state": "baseline",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/baseline.png",
+        "sha256": "5a1e6f7fa3409af6edbc67af0efbfaffa7bad5e3d55138a71fd3aa402c4a0cd9"
+      },
+      {
+        "route": "cpu",
+        "state": "bounds",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/bounds.png",
+        "sha256": "e1a155c1089e2381f01edbda20c9789259507cb780ff73209b518a5ae5defc0c"
+      },
+      {
+        "route": "cpu",
+        "state": "mass",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/mass.png",
+        "sha256": "d10729052b6c0e8089103ef5b683cef3ce6bc7aa19302b7be4c2a4df2b6de282"
+      },
+      {
+        "route": "cpu",
+        "state": "names",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/names.png",
+        "sha256": "2590c522b19e478125863413355aeb670b250abbfc084b2ceb24278943ccd3b4"
+      },
+      {
+        "route": "cpu",
+        "state": "joints",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/joints.png",
+        "sha256": "39f39245f7c62988a52d6374c5554c4f29326882e366624b9b3368bff49e0149"
+      },
+      {
+        "route": "cpu",
+        "state": "contacts",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/contacts.png",
+        "sha256": "fa418430570e5ba9ed6faab3db8ad80fb4f1444bb02b0408c03690e72fe0c6d6"
+      },
+      {
+        "route": "cpu",
+        "state": "forces",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/forces.png",
+        "sha256": "56b4742ba24dccbaa9ec8199e67de77e012aabe2a6192813bbe736a78096e82d"
+      },
+      {
+        "route": "cpu",
+        "state": "shapes-off",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/shapes-off.png",
+        "sha256": "7b12f6134462e02dac738c20069d67a803fc3cbf4f987edf565649edc96e61bd"
+      },
+      {
+        "route": "cpu",
+        "state": "availability",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/availability.png",
+        "sha256": "4422011ffa90c376e53957edc287d2decfed2d8d9e674521f5713bfeedecbd1b"
+      },
+      {
+        "route": "cpu",
+        "state": "picking",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-runs/cpu/picking.png",
+        "sha256": "82ef5bec642683d35b82610be607ca0381c7c1ccb21c5b80c5b31d846b03a8b5"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "baseline",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/ordinary-gpu/baseline.png",
+        "sha256": "3519866fd9fdd780c615dfb03da2f1ca9928fbc8b9698ccfdb564fdd0dd7b747"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "bounds",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/ordinary-gpu/bounds.png",
+        "sha256": "ee4c5722038d3b27583f90f769971b97a52bde3c44154117a10a723133d90d4a"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "mass",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/ordinary-gpu/mass.png",
+        "sha256": "3985f73177f896821253e16a1c032507c98de5c3e47caca529fec65687931334"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "names",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/ordinary-gpu/names.png",
+        "sha256": "42507f1eeadae31a6ecc985cf1a4906b8f2a292986cb2d113c065037d6747306"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "joints",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/ordinary-gpu/joints.png",
+        "sha256": "b05e9ce1ba55fb54d3f2e667a538a44d1bd7c5777388c78fb09b4538808f4ce6"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "contacts",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-ordinary-supplement-runs/ordinary-gpu/contacts.png",
+        "sha256": "f22116d3bab2fe1f4b94dc72483bb580fa1d19bdcc4cdfb5dab32fbebc547655"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "forces",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-ordinary-supplement-runs/ordinary-gpu/forces.png",
+        "sha256": "ba85ff84e3e5aaad88ba9797aa8bc7cea696573cbe33b34ee2029948754d5cf6"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "shapes-off",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-ordinary-supplement-runs/ordinary-gpu/shapes-off.png",
+        "sha256": "ec788df37102f9be58ebfc414f2fa36eac1ca572922a6f38c413e626e60a8486"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "availability",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-ordinary-supplement-runs/ordinary-gpu/availability.png",
+        "sha256": "d889f217c11061f6c973e651e0fd940fc8e5e7b276a998a7dade72bef88d25c4"
+      },
+      {
+        "route": "ordinary-gpu",
+        "state": "picking",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-ordinary-supplement-runs/ordinary-gpu/picking.png",
+        "sha256": "4b61fb8430edb6f0b8427fb51f215367fc4436f4ccb01e97d19325f57a241db3"
+      },
+      {
+        "route": "native-gpu",
+        "state": "baseline",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/native-gpu/baseline.png",
+        "sha256": "6cf839fc28e29ddc7dccec0957981723ca3b1080160be5e77f4cf2af703a7159"
+      },
+      {
+        "route": "native-gpu",
+        "state": "bounds",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/native-gpu/bounds.png",
+        "sha256": "066d4b0418f96ef3e617d4bbc44473066435bf385f3bf0e8ad356dc07ed26635"
+      },
+      {
+        "route": "native-gpu",
+        "state": "mass",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/native-gpu/mass.png",
+        "sha256": "38b903c65130985e391327f048f303803ab793219febba5936f6871adefbad47"
+      },
+      {
+        "route": "native-gpu",
+        "state": "names",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/native-gpu/names.png",
+        "sha256": "b621ff9d66d8da63f7853dfbbcf6cdb29cc0d203053d2b757024df908f72fa9b"
+      },
+      {
+        "route": "native-gpu",
+        "state": "joints",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/native-gpu/joints.png",
+        "sha256": "8b819c38948ddd96e768cd9d83e3aaae43e104a79b5f8b9949d0883652a75c6b"
+      },
+      {
+        "route": "native-gpu",
+        "state": "contacts",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/native-gpu/contacts.png",
+        "sha256": "08466f520c4d443c51255db86ab4683ced4f40a07cd398b5e8ca8d86a247f3d5"
+      },
+      {
+        "route": "native-gpu",
+        "state": "forces",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/native-gpu/forces.png",
+        "sha256": "019773523ad1c60394c0a60cf3a9072c9c0ffb52f7ed4863d2f9091e8ccc0c8a"
+      },
+      {
+        "route": "native-gpu",
+        "state": "shapes-off",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/native-gpu/shapes-off.png",
+        "sha256": "e23160f6ea9018721b40b5ff89dd0304070f3c20e485d8ecdec4af88a4621c31"
+      },
+      {
+        "route": "native-gpu",
+        "state": "availability",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/native-gpu/availability.png",
+        "sha256": "c399d75e68c2d2290f6406516f44722a9cf81b36122609b085e4c92f762b1beb"
+      },
+      {
+        "route": "native-gpu",
+        "state": "picking",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/native-gpu/picking.png",
+        "sha256": "43943fa87411c8d0b97b2b0bf3ebb015a3af2574c8e742e30969a4366aaa1719"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "baseline",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/ordinary-both/baseline.png",
+        "sha256": "4988be284cc889181ed88cb8432cf4ddb8856cc8fb78291f3ecb64cf0733558c"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "bounds",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/ordinary-both/bounds.png",
+        "sha256": "4d4b5dcea9c58ed6e99fb275507643b7dab98e4d9ca512a18c4d46c299a85626"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "mass",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/ordinary-both/mass.png",
+        "sha256": "3725041bf33d850225db4ddead7aa72fe6ba4ca6b10d463ef596f06aedec2f66"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "names",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/ordinary-both/names.png",
+        "sha256": "c3fd77975e10ca1e680eb28e90ed4f013d23a9197c72c5c8c391638feba6dab7"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "joints",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/ordinary-both/joints.png",
+        "sha256": "b179272f945f0849821c51919fb5effeafd53e19d5e7c400e459e1ec23435c5a"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "contacts",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/ordinary-both/contacts.png",
+        "sha256": "83d3d47c0362cf26bde6f2feacf8a520aced40ee516da13e1b3f905f1d9c3453"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "forces",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/ordinary-both/forces.png",
+        "sha256": "8afecfa42b3b612e8838b7af55943cc73112d8ef9406b336776a369e8b80435b"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "shapes-off",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/ordinary-both/shapes-off.png",
+        "sha256": "3ea9f765fbc6afcdb4969a7c7ae386662ae40822d28c5f930ae469af62fe672c"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "availability",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/ordinary-both/availability.png",
+        "sha256": "d46ec1e9de1adb81e059d51c34a1d2a9a675ac8a84d9f500ebcef37cbd7a696d"
+      },
+      {
+        "route": "ordinary-both",
+        "state": "picking",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/ordinary-both/picking.png",
+        "sha256": "6deaf4cf072da2b9d3f4a03069e1a6c95eaca3076120b174c78357311426834b"
+      },
+      {
+        "route": "native-both",
+        "state": "baseline",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/native-both/baseline.png",
+        "sha256": "9bbd0159b2ee8f957acbfa7af060957ebf5e4c1a4de18b2f2c328b4ba4544da1"
+      },
+      {
+        "route": "native-both",
+        "state": "bounds",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/native-both/bounds.png",
+        "sha256": "777eed8db16e0e647bf5258da7f5cc568196c4de3556d407695a75c58b88023f"
+      },
+      {
+        "route": "native-both",
+        "state": "mass",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/native-both/mass.png",
+        "sha256": "0e993928a4fdbc3d06ef4f2560ecb1bd759548cef0a301dd74d9bb0b17fcc6e8"
+      },
+      {
+        "route": "native-both",
+        "state": "names",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/native-both/names.png",
+        "sha256": "fa35ac0b519d690d802cab3dc3483f0adf39626df4200a0966bd438b177319af"
+      },
+      {
+        "route": "native-both",
+        "state": "joints",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/native-both/joints.png",
+        "sha256": "06ac12cb5d492ce508708d847bc405a1b5bea0742d0152b23cd2dc4d94c524d2"
+      },
+      {
+        "route": "native-both",
+        "state": "contacts",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/native-both/contacts.png",
+        "sha256": "809bd4a4876cfbccf222ae5f72f8ab85c54bdf7b1ca88731177d9f83f5440436"
+      },
+      {
+        "route": "native-both",
+        "state": "forces",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/native-both/forces.png",
+        "sha256": "e2bdbe88c40acc1bae44c7b23d587e9013de45ec588364961e93b69992455aac"
+      },
+      {
+        "route": "native-both",
+        "state": "shapes-off",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/native-both/shapes-off.png",
+        "sha256": "5563ebf93a47c5da0a4627ba32f9d3f606997310bdb84ba271bad4252d2bb203"
+      },
+      {
+        "route": "native-both",
+        "state": "availability",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/native-both/availability.png",
+        "sha256": "9f9fe4ad4b5955e0a9eaea512e9ce339aaa6fe27d8ed67063c8a48a7fce0c465"
+      },
+      {
+        "route": "native-both",
+        "state": "picking",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-combined-corrected-runs/native-both/picking.png",
+        "sha256": "e2a5209c3a547ed9163ae6c0b19bbadcd83cb0b87135c2b315a14ed48bb17c19"
+      }
+    ],
+    "inspection": "All65 cells in three CPUfirst before/after/regression grids inspected: GPU names/mass/bounds/joints/contactforce lines present; Shapesoff overlays remain; three availability labels are honest; picking visible. Actual renderer input/sink checks complement small/occluded glyph pixels; no exactpixel or solver parity claim",
+    "caption": "Real Box3D CPU first. Before/after BodyType at two steps: actual joints/names/contacts/forces. Regressions bounds/mass/Shapesoff/honestavailability/picking. CPU picking cell explicitly reuses unchanged prior CPU case."
+  },
+  "applicability": [
+    {
+      "cpu_identity": "Bodies/Body Type",
+      "routes": [
+        "cpu",
+        "ordinary-gpu",
+        "native-gpu",
+        "ordinary-both",
+        "native-both"
+      ],
+      "method": "ACTUAL_NATIVE_OVERLAY_INPUT_CALLBACK_AND_FINAL_RENDERER_SINKS",
+      "scope": "8bodies/8shapes/3joints/actual live manifolds at two steps; bounds/mass/names/joints/extras/contactpoints/normals/features/forces/anchors/scales/Shapesoff; unchanged IDs/poses/mass/geometry."
+    },
+    {
+      "cpu_identity": "Stacking/Single Box",
+      "routes": [
+        "cpu",
+        "ordinary-gpu",
+        "native-gpu",
+        "ordinary-both",
+        "native-both"
+      ],
+      "method": "ACTUAL_NATIVE_PICKING_WITH_EXPLICIT_UNCHANGED_CPU_REUSE",
+      "scope": "2bodies/2shapes; projected picking all4GPU including both panes; CPU prior UI24 actual picking unchanged."
+    }
+  ],
+  "limitations": [
+    "Sleep velocity, perconstraint graph color and island membership unavailable through current Cdiagnostics; honest disabled/CPU-pane-only controls, not fabricated GPU values or a feature-parity pass.",
+    "GPU Bounds show public speculative-padded AABBs; native CPU draws fat broadphase AABBs. Joint glyphs are generic real anchor/frame/reaction diagnostics; native type-specific decorations differ.",
+    "Two steps/60Hz fixture; no solver/query/long-window trajectory or exactpixel qualification. Default ALL mask; separate PR02 mask/default issue unchanged. Custom perjoint drawScale metadata source-preserved, runtime fixture uses native default1.",
+    "CPU picking reused after omittedreadonlytraceenv; firstordinary names/ID-order checker errors and combined observer request-counter timeout preserved. Seven actualapps total under distinct frozen original/supplement/observer protocols; no passed CPU/standalone fixture repeated.",
+    "Box3D/WASM/Rust/WGSL/sharedarchives unchanged; PR10 observations/freshcompatibility/final affected-scene evidence/criterion audit remain open. No commit/push."
+  ],
+  "resources": {
+    "status": "CLOSED",
+    "raw_retained_bytes": 908654112,
+    "free_bytes": 1707550420992,
+    "retained_diagnostic_bytes": 28195077,
+    "deleted_bytes": 99414495,
+    "deleted_build_bytes": 335455602,
+    "deleted_log_bytes": 6324,
+    "consumed_logs": [
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/shim-compile.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/dual-compile.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/api-standalone-compile.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/api-both-compile.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/standalone-old-members.log",
+        "sha256": "fd219611158d8d7e6ebdd2ee5613269c7c287a05d88fa45274ef69dc473d22d7",
+        "bytes": 60
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/standalone-replace-shim.c.o.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/standalone-replace-samples_api.c.o.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/standalone-new-members.log",
+        "sha256": "fd219611158d8d7e6ebdd2ee5613269c7c287a05d88fa45274ef69dc473d22d7",
+        "bytes": 60
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/both-api-old-members.log",
+        "sha256": "ac9581d236205d6623f05567f9b74f10749190f49eb6c7e2b579fc86fb10f415",
+        "bytes": 48
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/both-api-replace-both_dual.c.o.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/both-api-new-members.log",
+        "sha256": "ac9581d236205d6623f05567f9b74f10749190f49eb6c7e2b579fc86fb10f415",
+        "bytes": 48
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/both-samples-old-members.log",
+        "sha256": "fd219611158d8d7e6ebdd2ee5613269c7c287a05d88fa45274ef69dc473d22d7",
+        "bytes": 60
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/both-samples-replace-samples_api.c.o.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/both-samples-new-members.log",
+        "sha256": "fd219611158d8d7e6ebdd2ee5613269c7c287a05d88fa45274ef69dc473d22d7",
+        "bytes": 60
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/gpu-sample-compile.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/both-sample-compile.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/cpu-observer-chain.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/gpu-observer-chain.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/boundary-observer-compile.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/cpu-link.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/ordinary-gpu-link.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/native-gpu-link.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/ordinary-both-link.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/native-both-link.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/ordinary-gpu-check.log",
+        "sha256": "4d21bed3454508ce3c8841905fa40a16fe7dabe454d556e70e1bfcbe31561266",
+        "bytes": 3852
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/native-gpu-check.log",
+        "sha256": "a43f7e5faca54ee7e8fc793211e8b39879aa4f9ebae89b9dcb74741de9dcc04d",
+        "bytes": 57
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/ordinary-both-check.log",
+        "sha256": "edc2ded8c6c78a0c98a77e0242890a5d3c478da096f8de1b2294a21f09a53b8f",
+        "bytes": 1896
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-observer-fix/observer-compile.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-observer-fix/cpu-link.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-observer-fix/ordinary-gpu-link.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-observer-fix/native-gpu-link.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-observer-fix/ordinary-both-link.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-observer-fix/native-both-link.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-observer-fix/ordinary-gpu-check.log",
+        "sha256": "23285c226122f4b2bdd80c558371e06bb3c9b4105b49ce4f7afe9020b3bc9c66",
+        "bytes": 61
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-observer-fix/ordinary-both-check.log",
+        "sha256": "fe92399dcd0572acbab6b309143066902ccf8554d483c05aa3f6eef5027678c2",
+        "bytes": 63
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-observer-fix/native-both-check.log",
+        "sha256": "29bbed1b887ecc26af0153e38d04e09fe6e62108746d72145fb2e3725301bf31",
+        "bytes": 59
+      }
+    ],
+    "owned_all_pids_absent": [
+      911524,
+      911609,
+      911662,
+      911734,
+      911789,
+      911790,
+      911791,
+      911792,
+      911793,
+      911794,
+      911795,
+      911796,
+      911797,
+      911798,
+      911799,
+      911800,
+      911801,
+      911802,
+      911803,
+      911804,
+      911805,
+      911806,
+      911807,
+      911808,
+      911809,
+      911810,
+      911811,
+      911812,
+      911813,
+      911814,
+      911815,
+      911816,
+      911817,
+      911818,
+      911819,
+      911820,
+      911821,
+      911907,
+      912021,
+      912022,
+      912024,
+      912974,
+      912983,
+      913106,
+      913185,
+      913287,
+      923369,
+      930324,
+      932379,
+      938765,
+      938828,
+      938904,
+      938987,
+      939070,
+      939166,
+      940309,
+      941815,
+      943997,
+      918818,
+      918796,
+      923411,
+      930342,
+      940324,
+      941834,
+      944019,
+      932401
+    ],
+    "owned_core_files": [],
+    "shared_cache_growth_bytes": 0,
+    "active_task_objects": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-observer-fix/boundary-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-build/diagnostic-human.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-build/lifetime-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/preview-bounds.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-overlay.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/projection-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui17-build/cache-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/draw.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/key-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui07-trace-completion-build/camera-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/cpu-adapter.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-material-build/material-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/hud-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/cpu-ui-chain.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui28-build/sample_collision_ui.cpp.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-build/cpu-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui14-build/sample_manifold_ui.cpp.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/cpu-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/sample_tree_ui.cpp.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-renderer-observed.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/input-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/heightfield-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-build/replacement-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/key-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/gpu-ui-chain.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/gpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/loading.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/gpu-sample.cpp.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-build/ordinary-gpu-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-gpu-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/both-overlay.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-trace-build/selection-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/both-adapter.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/both-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/both-sample.cpp.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-build/ordinary-both-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-both-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/both-renderer-observed.c.o"
+    ],
+    "active_carriers": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/libgpu_samples_api.a",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/libgpu_both_api.a",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/libgpu_both_samples_api.a"
+    ],
+    "needed_module_objects": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/shim/shim.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/dual/both_dual.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/api-standalone/samples_api.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-build/api-both/samples_api.c.o"
+    ],
+    "consumer": "Five current viewers/modules/carriers for PR10 fresh native compatibility/final affected-scene audit. Consumed streams and superseded builders removed; preserve shared caches."
+  }
+}

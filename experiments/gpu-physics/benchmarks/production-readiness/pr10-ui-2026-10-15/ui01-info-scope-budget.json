@@ -1,0 +1,23 @@
+{
+  "status": "FROZEN_BEFORE_CANDIDATE_OR_AUTOMATIC_RUNS",
+  "scope": "UI01 wrap all text inside generated Info panel, including diagnostics and unsupported recording explanation. Original GPU sidebar alone is insufficient because the recording message is emitted outside it. Apply shared native-host injection onCPU/GPU/BOTH; upstreamBox3D unchanged.",
+  "supersedes": "ui01-budget.json candidate/sidebar andafter counts only; beforebudget unchanged",
+  "candidate_generated_sample_cpp_compiles": 3,
+  "compile_seconds_each": 10,
+  "after_relinks": 5,
+  "after_viewers": 5,
+  "per_viewer_seconds": 180,
+  "loading_to_ready_seconds": 90,
+  "UI_actions_each": 60,
+  "screenshots_each": 9,
+  "engine_Rust_WASM_builds": 0,
+  "temporary_bytes": 1073741824,
+  "retained_diagnostics_bytes": 67108864,
+  "new_app_pipeline_cache_growth_bytes": 134217728,
+  "new_shared_driver_cache_growth_bytes": 134217728,
+  "cache_copies": 0,
+  "implicit_retries": 0,
+  "outputs_consumers": "Currentbeforetrace viewers supportCPU-firstsourcebaseline;5afterviewers forUI01andremainingPR10. Deleteoldmarker-onlyviewers afternewtracevariants validated. Extractsmallstate/eventwindows thenremoveallconsumedobserverstreams. Requiredoriginalscreenshots/source/receiptsretained.",
+  "storage_accounting": "Measure normalWGPUcache and sharedNVIDIA/driver roots beforeafter each batch; preserve otherssharedcache, no causal attribution of concurrent growth.",
+  "free_bytes": 1709392494592
+}

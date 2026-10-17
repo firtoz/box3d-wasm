@@ -1,0 +1,43 @@
+{
+  "status": "FROZEN",
+  "cpp_compiles": 1,
+  "compile_seconds": 30,
+  "links": 3,
+  "link_seconds": 25,
+  "viewers": 3,
+  "seconds_per_app": 45,
+  "screenshots_per_app": 2,
+  "actions_per_app": 55,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 12582912,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 100663296,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "shared_cache_growth_total_bytes": 33554432,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 270,
+  "raw_before_bytes": 927090453,
+  "pins_before": {
+    "both": "d6dbe00a9509c1935fc3b70eae91ca24f5dd99011281beeaab2cf8fed4fa695d",
+    "header": "d64c484e8cbe72fc1494b94032011924ce21bf0424267ce1a9f1ff9aca26615a",
+    "split": "f5400bff47a54ea6d6bf11ed0655918a5184771337103983a2c09f391fecb99b",
+    "native_adapter": "87389d84c35dc854ed163ac38e38fd007d57249a1d83775e97e795e9911258c7"
+  },
+  "scope": "Read-only actualClearSelection inputs/immediateoutput plusboth_pointer_state(0/1) authoritativeIDs andnextactualdrawmetadata. CPUfirst thenordinary/nativecombined actualmousepick/Escape; proveCPUclear vscombinedrestore andpreservedowner, noAPIguess. Existingwrapinventorychecked;0productionphysicsRust/retries. Temporaryviewerretiredperroute.",
+  "outputs": [
+    {
+      "path": "raw/ui11-trace-build",
+      "consumer": "Selectionobserver.o for combinedrepairrelinks; temporaryvieweruntilnativeboundarydata extracted",
+      "delete": "Retireviewerperroute;consume logs afterproof;keepobserverwithnextrelinkconsumer"
+    },
+    {
+      "path": "raw/ui11-trace-runs",
+      "consumer": "Minimalowner/renderer/Escape IDrows and6beforeimages",
+      "delete": "Consume API/observer/stderr terminalperroute;retainreceipt/media"
+    }
+  ]
+}

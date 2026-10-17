@@ -1,0 +1,16 @@
+{
+  "status": "FROZEN",
+  "created": "2026-10-15T19:43:04.550Z",
+  "cpp_compiles": 1,
+  "compile_seconds": 20,
+  "links": 5,
+  "link_seconds_each": 25,
+  "apps": 0,
+  "captures": 0,
+  "retries": 0,
+  "temporary_bytes": 220200960,
+  "retained_bytes": 8388608,
+  "scope": "Readonly b3ShapeDistance/b3TimeOfImpact input/output/cache/simplex capture and actual DrawLine/DrawPoint/text-arena output; originals once. No solver/worldquery qualification or engine changes. Supplemental immediate invalid-distance-cache boundary record; no behavior change. Initial unlaunched pool removed before replacement.",
+  "consumer": "Distance Debug1 +Shape Distance8 +Time ofImpact2 widget entries, ShapeDistance custom mousegroup",
+  "delete": "Newpool replaces currentManifoldonlyafter5routesqualified; consumed streams extracted/deleted"
+}

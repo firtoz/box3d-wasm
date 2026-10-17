@@ -33,6 +33,8 @@ b3WorldId prepared_world{};
 double scene_ms = 0, gpu_ms = 0, device_ms = 0, first_loading_ms = -1;
 bool initial_startup = false;
 bool startup_report_pending = false;
+ImGuiContext* sample_ui = nullptr;
+ImGuiContext* loading_ui = nullptr;
 void prepare_gpu(b3WorldId world) {
     prepared_world = world;
     if (close_pending.load()) { stage.store(3); return; }
@@ -60,6 +62,28 @@ bool gpu_loading_on_scene_worker() { return scene_worker; }
 void gpu_loading_request_close() { close_pending = true; }
 bool gpu_loading_close_pending() { return close_pending; }
 bool gpu_loading_active() { return active; }
+void gpu_loading_ui_begin() {
+    sample_ui = ImGui::GetCurrentContext();
+    const ImGuiStyle style = ImGui::GetStyle();
+    const ImGuiIO& sample_io = ImGui::GetIO();
+    if (loading_ui == nullptr) {
+        loading_ui = ImGui::CreateContext(sample_io.Fonts);
+        ImGui::SetCurrentContext(loading_ui);
+        ImGuiIO& io = ImGui::GetIO();
+        io.IniFilename = nullptr;
+        io.BackendFlags = sample_io.BackendFlags;
+        io.BackendPlatformName = sample_io.BackendPlatformName;
+        io.BackendRendererName = sample_io.BackendRendererName;
+        io.FontDefault = sample_io.FontDefault;
+    }
+    ImGui::SetCurrentContext(loading_ui);
+    ImGui::GetStyle() = style;
+}
+void gpu_loading_ui_end() {
+    // Events are delivered to the sample context between frames. Its queue and
+    // active widget are untouched until DrawUI can render that widget again.
+    ImGui::SetCurrentContext(sample_ui);
+}
 void gpu_loading_create_scene(std::function<b3WorldId()> create) {
     if (active) return;
     if (worker.joinable()) worker.join();
@@ -170,10 +194,18 @@ void gpu_loading_draw() {
     ImGui::End();
     ImGui::PopStyleVar();
 }
-void gpu_loading_shutdown() { if (worker.joinable()) worker.join(); }
+void gpu_loading_shutdown() {
+    if (worker.joinable()) worker.join();
+    if (loading_ui != nullptr) {
+        ImGui::DestroyContext(loading_ui);
+        loading_ui = nullptr;
+    }
+}
 #else
 void gpu_loading_create_scene(std::function<b3WorldId()> create) { create(); }
 void gpu_loading_presented() {}
+void gpu_loading_ui_begin() {}
+void gpu_loading_ui_end() {}
 void gpu_loading_begin_startup() {}
 void gpu_loading_lock_mouse(bool lock) { sapp_lock_mouse(lock); }
 bool gpu_loading_on_scene_worker() { return false; }

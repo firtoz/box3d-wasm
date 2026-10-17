@@ -1,0 +1,16 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "cpp_compiles": 1,
+  "compile_seconds": 15,
+  "links": 5,
+  "link_seconds_each": 20,
+  "apps": 0,
+  "screens": 0,
+  "engine_builds": 0,
+  "temporary_cap_bytes": 220200960,
+  "retained_cap_bytes": 8388608,
+  "retries": 0,
+  "scope": "Readonly actualDrawHull arguments localbounds/vertices/volume/area/center/pointdigest, max16hulls4096points perRenderFrame; originalonce. Optionalgeometrytracemodeonly. Add3SliderFloat3componentrects derivedfromactualCalcItemWidth/nativepinnedPushMultiItemsWidths, physicalclick+displayedvectorwillverify hit. Alloriginalengine/gfx/main/sample objects unchanged.",
+  "outputs_consumer_cleanup": "Nextactual4geometrytoolscenes/18samplewidgets. New5viewerpoolreplacesoldonlyafterall5qualified; fullstreamsconsumed/extractedthenremoved. No repair.",
+  "source_sha256": "474026ca28df82fc69cee31515b28f7c928e0a1ed321111176a5f426d5765c47"
+}

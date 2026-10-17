@@ -1,0 +1,17 @@
+{
+  "status": "FROZEN_BEFORE_FIRST_AUTO_PROCESS",
+  "driver_sha256": "546affe06364bee0fffbf5a8b1649ff2461efcb6c56f30babecaeb73d0064e76",
+  "observer_sha256": "6c82db0e631a9a39eaa3ba288a607a7dddcf3a5b2377069d301ab472822affe7",
+  "before_build_receipt_sha256": "8236d55c40a1024e0f0ccf0179aa9fff985c94f08dd25a956e11c0e4f32502eb",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "native_input": "XTEST viaxdotool onownedwindow; coordinatesfromactualImGui rectangle refreshedafterhover/scroll andtwoframes. No per-actionwaitforchat.",
+  "startup": "Visibleloadingwindow distinctfromphysicsready.15s firstwindow/90sphysicsready/180soverall/60inputactions/9screens. No enginebuild/coldoptimization campaign.",
+  "current_full_sample_reviews_done": 0,
+  "current_full_sample_reviews_left": 165
+}

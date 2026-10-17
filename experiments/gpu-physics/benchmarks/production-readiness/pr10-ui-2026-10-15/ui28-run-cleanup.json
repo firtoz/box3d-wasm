@@ -1,0 +1,22 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 10083292,
+  "raw_retained_bytes": 891914951,
+  "deleted_bytes": 21655007,
+  "owned_pids_absent": [
+    772424,
+    772408,
+    780066,
+    780051,
+    780947,
+    780932,
+    781878,
+    781863,
+    782710,
+    782695
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707575394304,
+  "consumer": "Current5viewers/39taskobjects/newCollisionclass+priorTree/loading/API modules/3carriers nextPR10relink; nativeProxy/UIlabel/identity/default/Raybeforeafter media finalaudit"
+}

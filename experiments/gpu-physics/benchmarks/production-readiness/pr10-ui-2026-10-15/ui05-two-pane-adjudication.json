@@ -1,0 +1,102 @@
+{
+  "status": "PASS_RETAINED_NATIVE_EVIDENCE",
+  "corrections": [
+    {
+      "check": "hidden-paused PAUSED label visibility",
+      "original": false,
+      "corrected": true,
+      "actual": [
+        {
+          "text": "****PAUSED****",
+          "position": [
+            5,
+            48
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ],
+          "bounds": [
+            5,
+            48,
+            131,
+            64
+          ]
+        },
+        {
+          "text": "****PAUSED****",
+          "position": [
+            805,
+            48
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ],
+          "bounds": [
+            805,
+            48,
+            931,
+            64
+          ]
+        }
+      ],
+      "expected": "One native PAUSED label per enabled comparison pane",
+      "evidence": "raw/ui05-runs/ordinary-both/receipt.json"
+    },
+    {
+      "check": "hidden-resized PAUSED label visibility",
+      "original": false,
+      "corrected": true,
+      "actual": [
+        {
+          "text": "****PAUSED****",
+          "position": [
+            5,
+            48
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ],
+          "bounds": [
+            5,
+            48,
+            131,
+            64
+          ]
+        },
+        {
+          "text": "****PAUSED****",
+          "position": [
+            645,
+            48
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ],
+          "bounds": [
+            645,
+            48,
+            771,
+            64
+          ]
+        }
+      ],
+      "expected": "One native PAUSED label per enabled comparison pane",
+      "evidence": "raw/ui05-runs/ordinary-both/receipt.json"
+    }
+  ],
+  "original_receipt_unchanged": true,
+  "all_other_checks": true,
+  "no_product_change_or_rerun": true
+}

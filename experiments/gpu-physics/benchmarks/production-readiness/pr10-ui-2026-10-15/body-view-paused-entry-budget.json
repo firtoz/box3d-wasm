@@ -1,0 +1,23 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "builds": 0,
+  "apps": [
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 180,
+  "ready_seconds": 25,
+  "first_controlled_step_seconds": 90,
+  "screens_each": 8,
+  "actions_each": 100,
+  "api_cap": 16777216,
+  "temporary_cap": 1073741824,
+  "retained_cap": 67108864,
+  "shared_cache_growth_cap": 134217728,
+  "retries": 0,
+  "reason": "Previous GPU loaded1.086s then actual first automatic joint step blocked before first state. Enter already qualified SingleBox, pause via actual UI, switch BodyType; bounded first positive step90s while retaining UI checks first. No cold-cache campaign, cache copies, solver changes or builds. CPU completed subsets not repeated. Correct CPU stale-ID assertion to actual intervening lifetime rather than permanent invalidation across two recreated CPU worlds.",
+  "outputs_consumer_cleanup": "Retain selected screenshots/check+ABI excerpts, delete consumed fullstreams after extract; current binary pool reused; old pool removed after new actual qualification.",
+  "driver_sha256": "bbd1e96e42b361b7cd4bf0a81e5eb54413843437c81c94fc796d2c878607f061"
+}

@@ -1,0 +1,78 @@
+{
+  "status": "CLOSED",
+  "deleted": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-build/ordinary-both",
+      "bytes": 38612072,
+      "sha256": "169365f7f7ffd0635654694552a5cef59c6a6f96d6728f7797415445ee0f3936"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-build/native-both",
+      "bytes": 41491208,
+      "sha256": "244c925ccd76291b80a5785ff2fb91fdce2a4af2ef1a97eb620b88b038c221be"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/main_bench.cpp",
+      "bytes": 28060,
+      "sha256": "97b11c29a5d40b3d26e9b8a05ad3e66cf7482c4380cbdb1e74bb07789f28e685"
+    }
+  ],
+  "deleted_bytes": 80131340,
+  "compacted_receipts": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-corrected-runs/cpu/receipt.json",
+      "before_bytes": 2246717,
+      "before_sha256": "f005612f736baf04e922990ae3e9a2954b42a9a4fb5e58e1377094ca20a994c9",
+      "after_bytes": 286603,
+      "after_sha256": "13015ac9ac83d750a4d13058a9c9ffef4927233d7f7201e43ee1f2674e1d1eb3"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-completion-runs/cpu/receipt.json",
+      "before_bytes": 3044930,
+      "before_sha256": "e35b58df27ca6638ac9ea76db69fafb3206e0971e95e9859867fdbdf83637a5c",
+      "after_bytes": 185992,
+      "after_sha256": "dcadf0af677a37fbda1cc549264dfdcf02a369ab1ca5b13119a58287324c542a"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-completion-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 5862795,
+      "before_sha256": "4600409bfa6e64f86eca5318f51bc1fa7bf471cc69b9b8385bdeea34c98749db",
+      "after_bytes": 446211,
+      "after_sha256": "bdade69044e907779d68f651661d9b95d9fb5a866ee894f4ed47610d3762730f"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-completion-runs/native-gpu/receipt.json",
+      "before_bytes": 5835360,
+      "before_sha256": "f2c3fe52d4e20b1aaad92b70c8a486cc596a94bc05b2f28493bc7369397594e7",
+      "after_bytes": 446198,
+      "after_sha256": "3914015b51cc2fc338d30f5422d35933e629774bfe8caf06656a9386cac9f254"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-completion-runs/ordinary-both/receipt.json",
+      "before_bytes": 3002733,
+      "before_sha256": "70cd1baef9fa562077ccc7fc4ff432e7dc70883456daabaa2cd160411f5182da",
+      "after_bytes": 336923,
+      "after_sha256": "dd9e7f88c62eb355e884b855bd3283819c17f3752c4926cbfc4a8c16cb36fb1a"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-remaining-runs/ordinary-both/receipt.json",
+      "before_bytes": 9233043,
+      "before_sha256": "06fda24179527808c3f94f26939c31c67c4fb25a197ff13ffa0a2c9bd6b09431",
+      "after_bytes": 641001,
+      "after_sha256": "9790b0efae49644e260f63782a1c01ea7dada411813234ab20a56ce7106f5baf"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-remaining-runs/native-both/receipt.json",
+      "before_bytes": 10809596,
+      "before_sha256": "ec7fabc77de9e9118beed3dbf4fd735d2c579da4f0b12231c1f91505ba549b70",
+      "after_bytes": 824192,
+      "after_sha256": "e69cbb7b4a7a526ef0953cf8ff89b018e111f17db9d691484056e6ca4c7d4477"
+    }
+  ],
+  "compacted_bytes": 36868054,
+  "raw_bytes": 890098653,
+  "free_bytes": 1708133658624,
+  "current_pool": "ui19-build.json",
+  "active_objects_consumer": "All6Replay/Jointobjectsandlink_planrequirednextPR10relinks; retainuntilreplacement/finalqualification, do notdeleteactiveobjects. Newdiagnosticsmustfilterduplicateeventsbeforewritingreceipts.",
+  "remaining_old_pool": "All5ui09-shortviewersretired; oldmanifests historical/unrunnable."
+}

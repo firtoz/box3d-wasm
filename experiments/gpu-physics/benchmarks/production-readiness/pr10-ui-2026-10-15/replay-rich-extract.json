@@ -1,0 +1,47 @@
+{
+  "status": "FAILURE_RETAINED",
+  "budget": "replay-rich-extract-budget.json",
+  "operations": [
+    {
+      "label": "compile",
+      "args": [
+        "/usr/bin/c++",
+        "-std=c++20",
+        "-O2",
+        "-I/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/replay-rich-extract.cpp",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_src/libbox3d.a",
+        "-lpthread",
+        "-lm",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-rich-extract/fixture"
+      ],
+      "pid": 3062432,
+      "exit": 0,
+      "seconds": 0.378867169,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "record-validate-scan",
+      "args": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-rich-extract/fixture",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-rich-corrected/fixture.b3rec"
+      ],
+      "pid": 3062481,
+      "exit": null,
+      "seconds": 0.064680315,
+      "log_sha256": "9d37f07625fb64460f83821bbd25a1c5ef44cb5e6a0a8f4c4d5abd07b8778261"
+    }
+  ],
+  "deleted": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-rich-extract/fixture",
+      "bytes": 1148992,
+      "sha256": "6ca2f975d4d3669468d6646250ad7c5ba338951055b0c006d5fe235a82634453"
+    }
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: fixture: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/replay-rich-extract.cpp:6: int main(int, char**): Assertion `hitCount[i]>0' failed.\n\n\nnull !== 0\n",
+  "retained_bytes": 202,
+  "cleanup_status": "CLOSED",
+  "core_limit_bytes": 0
+}

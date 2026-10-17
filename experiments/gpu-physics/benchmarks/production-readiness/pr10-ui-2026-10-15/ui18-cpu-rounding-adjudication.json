@@ -1,0 +1,150 @@
+{
+  "status": "PASS_FROM_SAME_RETAINED_NATIVE_DATA",
+  "original_false_checks": [
+    "Collision/Shape Cast Debug correct bounds/padding/aspect",
+    "Collision/Shape Cast Debug actual acceptedbounds routed"
+  ],
+  "pairs": [
+    {
+      "a": -715.848022,
+      "b": -715.847656,
+      "diff": 0.00036599999998543353,
+      "envelope": 0.0014487214499488473,
+      "pass": true
+    },
+    {
+      "a": -1194.14014,
+      "b": -1194.14014,
+      "diff": 0,
+      "envelope": 0.0019048565331473946,
+      "pass": true
+    },
+    {
+      "a": -701.241821,
+      "b": -701.24176,
+      "diff": 0.00006099999995967664,
+      "envelope": 0.0014347920366302132,
+      "pass": true
+    },
+    {
+      "a": 2270.32983,
+      "b": 2270.32983,
+      "diff": 0,
+      "envelope": 0.002931191000081599,
+      "pass": true
+    },
+    {
+      "a": 3405.12695,
+      "b": 3405.12671,
+      "diff": 0.0002399999998488056,
+      "envelope": 0.004013417753316462,
+      "pass": true
+    },
+    {
+      "a": 21.4493542,
+      "b": 21.4493313,
+      "diff": 0.00002289999999760539,
+      "envelope": 0.0007864914387241006,
+      "pass": true
+    },
+    {
+      "a": -715.848022,
+      "b": -715.847656,
+      "diff": 0.00036599999998543353,
+      "envelope": 0.0014487214499488473,
+      "pass": true
+    },
+    {
+      "a": -1194.14014,
+      "b": -1194.14014,
+      "diff": 0,
+      "envelope": 0.0019048565331473946,
+      "pass": true
+    },
+    {
+      "a": -701.241821,
+      "b": -701.24176,
+      "diff": 0.00006099999995967664,
+      "envelope": 0.0014347920366302132,
+      "pass": true
+    },
+    {
+      "a": 2270.32983,
+      "b": 2270.32983,
+      "diff": 0,
+      "envelope": 0.002931191000081599,
+      "pass": true
+    },
+    {
+      "a": 3405.12695,
+      "b": 3405.12671,
+      "diff": 0.0002399999998488056,
+      "envelope": 0.004013417753316462,
+      "pass": true
+    },
+    {
+      "a": 21.4493542,
+      "b": 21.4493313,
+      "diff": 0.00002289999999760539,
+      "envelope": 0.0007864914387241006,
+      "pass": true
+    },
+    {
+      "a": -715.847656,
+      "b": -715.848022,
+      "diff": 0.00036599999998543353,
+      "envelope": 0.0014487214499488473,
+      "pass": true
+    },
+    {
+      "a": -1194.14014,
+      "b": -1194.14001,
+      "diff": 0.00012999999989915523,
+      "envelope": 0.0019048564711585641,
+      "pass": true
+    },
+    {
+      "a": -701.24176,
+      "b": -701.241821,
+      "diff": 0.00006099999995967664,
+      "envelope": 0.0014347920366302132,
+      "pass": true
+    },
+    {
+      "a": 2270.32983,
+      "b": 2270.32983,
+      "diff": 0,
+      "envelope": 0.002931191000081599,
+      "pass": true
+    },
+    {
+      "a": 3405.12671,
+      "b": 3405.12671,
+      "diff": 0,
+      "envelope": 0.0040134176388755445,
+      "pass": true
+    },
+    {
+      "a": 21.4493313,
+      "b": 21.4493313,
+      "diff": 0,
+      "envelope": 0.0007864914278045297,
+      "pass": true
+    }
+  ],
+  "source": "Accepted relative float draw position plus GetDrawOrigin is re-added as float; changingcameraorigin shifts few lastbits at kilometre scale.4eps*(|a|+|b|+origin+1) arithmetic envelope only,notphysics tolerance.",
+  "native_view_limit": {
+    "scene": "Collision/Shape Cast Debug",
+    "source": "box3d/samples/sample_collision.cpp:1718",
+    "capsule_center2": [
+      3422.3196875,
+      3597.116875,
+      1326.318125
+    ],
+    "expected_radius": 7413.39355,
+    "actual_radius": 1000,
+    "status": "VIEW_LIMIT_ROUTING_ONLY",
+    "whole_preview_fit": "NOT_PASSED"
+  },
+  "qualified_cpu_reruns": 0
+}

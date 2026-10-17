@@ -1,0 +1,23 @@
+{
+  "status": "FROZEN_BEFORE_RUN",
+  "sha256": "8a5463ed75e14ab9c397b4f8179800e3b316366d85f8fa08b2d033fe0d182c1d",
+  "apps_CPUfirst": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "screens_each": 3,
+  "actions_each": 100,
+  "retries": 0,
+  "tests": [
+    "SimPause/Step/Restart/Quit",
+    "13 View flagtoggle+restore mappedto actualb3World_Draw arguments",
+    "Anchor A/B actualdrawflag",
+    "Diagnostics visiblemetricstate",
+    "geometry hidden/restoredscreens"
+  ]
+}

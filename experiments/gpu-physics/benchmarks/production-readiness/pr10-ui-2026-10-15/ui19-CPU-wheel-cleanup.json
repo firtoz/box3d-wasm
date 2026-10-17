@@ -1,0 +1,14 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 3104144,
+  "raw_retained_bytes": 1007098047,
+  "deleted_bytes": 1828539,
+  "owned_pids_absent": [
+    3268220,
+    3268204
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708142424064,
+  "consumer": "Retain6CPUWheeltransitions/enable/getter/wake/IDs/poses/defaultreset and3images; originalDrivingParallelmiscountadjudicated fromactualjointkinds."
+}

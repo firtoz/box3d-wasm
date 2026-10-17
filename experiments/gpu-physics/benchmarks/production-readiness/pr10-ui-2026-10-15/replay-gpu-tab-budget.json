@@ -1,0 +1,36 @@
+{
+  "status": "FROZEN",
+  "builds": 0,
+  "viewers": 4,
+  "order": [
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "timeline-tab"
+  ],
+  "seconds_per_app": 25,
+  "screenshots_per_app": 1,
+  "actions_per_app": 20,
+  "physics_steps": 0,
+  "replay_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 4194304,
+  "api_tail_bytes": 1048576,
+  "observer_bytes_per_app": 2097152,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 8388608,
+  "shared_cache_growth_bytes": 134217728,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 130,
+  "scope": "OnlypreviouslyunreachedGPUavailableTimelineTab: nativeCLIpopupCancel, actualProfile→Timelineclick/selectedstate/fileline/worldidentity on4GPUroutes. Loadedplayercontrolsunsupported; do notrepeatpopupedits/Load.0world/replaysteps/build/retry.",
+  "outputs": [
+    {
+      "path": "raw/replay-gpu-tab-runs",
+      "consumer": "ActualGPUavailableTimelineTabinput/currentfile/state proof",
+      "delete": "Consume streams perterminalapp, retainsmallreceipts/screens"
+    }
+  ]
+}

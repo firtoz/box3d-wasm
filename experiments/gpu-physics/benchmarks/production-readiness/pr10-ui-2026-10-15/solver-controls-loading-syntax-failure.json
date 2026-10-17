@@ -1,0 +1,12 @@
+{
+  "status": "FAILURE_RETAINED",
+  "runs": [
+    {
+      "label": "ordinary-both",
+      "exit": 1,
+      "seconds": 0.06363440499990247
+    }
+  ],
+  "error": "AssertionError(('ordinary-both', 1))",
+  "seconds": 0.0643390959885437
+}

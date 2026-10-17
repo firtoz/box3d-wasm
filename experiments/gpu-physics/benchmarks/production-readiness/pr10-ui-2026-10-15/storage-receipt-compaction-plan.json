@@ -1,0 +1,2479 @@
+{
+  "status": "READ_ONLY_COMPACTION_PLAN",
+  "budget": "storage-receipt-compaction-plan-budget.json",
+  "seconds": 4.234301597,
+  "scanned_files": 8228,
+  "receipt_reads": 336,
+  "bytes_read": 264626092,
+  "skipped": 28,
+  "files": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-runs/heightfield/cpu/receipt.json",
+      "before_bytes": 236469,
+      "before_sha256": "f7066f59b03baad5d425c74e2baf80f91a9fa48040bc27659fd69ad6760a12b7",
+      "after_bytes": 91735,
+      "after_sha256": "62cbb1f55cd3d675c62960088d7808d7be2d073a8cfd3e1afe9b2dab6951e326",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-runs/heightfield/ordinary-gpu/receipt.json",
+      "before_bytes": 254954,
+      "before_sha256": "a4283899bb8e76e319a955d3f045aab5cd9df57cca1cedaa43d9db137facc1c9",
+      "after_bytes": 98344,
+      "after_sha256": "08c764c3bfa5990f93bb935bb3a470dce12d7d947b446f2203354c7eafb86eb8",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-runs/heightfield/native-gpu/receipt.json",
+      "before_bytes": 254931,
+      "before_sha256": "8cf03be25b02766fba31842c8c39b0fb3d492b882946b4a348435c32791864b5",
+      "after_bytes": 98321,
+      "after_sha256": "ef6bb9c39cef32f2de8545c101b15a8171ddbb979eaea4dabcba4ab78e680a23",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-runs/heightfield/ordinary-both/receipt.json",
+      "before_bytes": 383764,
+      "before_sha256": "6e1ba023cc81eec99025d5b4f1b1ba8c66757ca08d62d66fafad98bf714c84b2",
+      "after_bytes": 133606,
+      "after_sha256": "a7664f02904601eb99d17442722fce2fa3a30474e8b517325cbdd93c4439af07",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-runs/heightfield/native-both/receipt.json",
+      "before_bytes": 383757,
+      "before_sha256": "0798bacfb24fcdb2e18e996f094e2d3da408576f02d3992fc706749773cc68a5",
+      "after_bytes": 133599,
+      "after_sha256": "5c8a90592589ff5a4ba664b619c6e04e249a85f0e2efc3a0e71859ac68cddcc4",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-runs/mesh-viewer/cpu/receipt.json",
+      "before_bytes": 200732,
+      "before_sha256": "9a26faef74f9e9f57c2c8c9f66c37f939a21c15bcfce23dc5a6efd03ee6470fa",
+      "after_bytes": 82593,
+      "after_sha256": "b048d8cec653116a36350beb5c3203f95dbafb2350e1c096b42fbf49f9e2c56d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-runs/mesh-viewer/ordinary-gpu/receipt.json",
+      "before_bytes": 205601,
+      "before_sha256": "2222a3391940fefaecad84f05839f41ba3f058fbb2fd180f4091ac3fcae5072a",
+      "after_bytes": 85010,
+      "after_sha256": "eef58c217355f69bbd8780e3aadedd3ff5893d87c3e843fac0097b69bf46b66e",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-runs/mesh-viewer/native-gpu/receipt.json",
+      "before_bytes": 205582,
+      "before_sha256": "05035dc4329b7770cd7d9d7da358c48737b0b986a6db65630fb88411e7487720",
+      "after_bytes": 84991,
+      "after_sha256": "ca94d61ba929821615805c1da4dc519e863522747812320e22c4edd2ef18cfc1",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-runs/mesh-viewer/ordinary-both/receipt.json",
+      "before_bytes": 298632,
+      "before_sha256": "09bb4ea8157a461be4559cad9a546243192c2cc1bca7cd3dc9f01cf3edafd0e5",
+      "after_bytes": 111980,
+      "after_sha256": "6f22d9c33c2492993a58a3ca9e26c3ba1c733336e32f25d7dcc2b97423b9b264",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-runs/mesh-viewer/native-both/receipt.json",
+      "before_bytes": 298617,
+      "before_sha256": "ea0c81d15aede3f19038191b0c587d1273bf197c181fe4dd757f1a7aa79873e9",
+      "after_bytes": 111965,
+      "after_sha256": "8317580eab0372e420b8044926071ef3e711de7bdb6ea067d667a85733c117f8",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-ts-runs/cpu/receipt.json",
+      "before_bytes": 185998,
+      "before_sha256": "ddcc9273ef39162f84affea0562f8d901cf1fb0a8aa23f77118fba53268cb2a1",
+      "after_bytes": 87893,
+      "after_sha256": "7f3e774b667fe1675dd78af86bff2522adfd4d03cc5a1fdb5e4be8ba1deb085e",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-ts-tail-runs/cpu/receipt.json",
+      "before_bytes": 212720,
+      "before_sha256": "bb965108095b4463e1b147bf08d59ac5a288a56fd5203415c43297eb1a29862f",
+      "after_bytes": 104010,
+      "after_sha256": "8caf218289f95307ba621b5470394e91e8b83ab748da86d8900ed747a6f6e31a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-ts-tail-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 411838,
+      "before_sha256": "ed7df8b94679593ca8226da5b8236d29134b4ce9c433427e3a44310659cbedca",
+      "after_bytes": 197729,
+      "after_sha256": "0914fb48c5b31ce03a609331f5f4bc46ab6f7b66ca6ab0376b299512f4b26a14",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-ts-tail-runs/native-gpu/receipt.json",
+      "before_bytes": 411779,
+      "before_sha256": "d9ad491f06e8841a8fdcf21708e73a840ae4d58da3bc2d93aae135f5c56cca97",
+      "after_bytes": 197670,
+      "after_sha256": "50c7e692e3586ae2a2f7d02b34bb0405cccdf9379bb271b2d3d601c7ade9e953",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-ts-tail-runs/ordinary-both/receipt.json",
+      "before_bytes": 466625,
+      "before_sha256": "bca425327aeb325e96d3f2aaadf5fd4a975ebdc47f476699b7ecf1dcc2a8f801",
+      "after_bytes": 213642,
+      "after_sha256": "51ccb0619156763659ec76ae489b5caee256b29696ca53ee998be966ca8d1f04",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-controls-ts-tail-runs/native-both/receipt.json",
+      "before_bytes": 466577,
+      "before_sha256": "00b79e81f2761046e4f46971c32d0048a100f7dd3ce02af199640fe0ed00da3a",
+      "after_bytes": 213594,
+      "after_sha256": "d7aac69ab2c6de2dd5f6e6326df6e2c35fcbfedeab8b0fafebf89bb8f809da9a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/manifold-controls-runs/cpu/receipt.json",
+      "before_bytes": 651397,
+      "before_sha256": "c2ed2b557119c049381eeaa4a194d37c8b146524d2fa3e92017badca0de38515",
+      "after_bytes": 236682,
+      "after_sha256": "177ce0c48385779e39545a2f06feb2c77bbcf3c23e39af2c10ac37f19fe5dec8",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/manifold-controls-tail-runs/cpu/receipt.json",
+      "before_bytes": 224065,
+      "before_sha256": "c601c84186f84ab8ed6953b4448b90ab19a6ebaa88c52b7bd10849f85d4e5f61",
+      "after_bytes": 84862,
+      "after_sha256": "468cdb10eb464a83b7201176011b1ddd16438346c1546af7c0ca23cabeac07dc",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/manifold-controls-tail-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 851440,
+      "before_sha256": "5d68a6523be478072ef85a9319cc99b2a2a77f3d65c90a1707b9cec274092af3",
+      "after_bytes": 315373,
+      "after_sha256": "2e37e3ed39052759111f1fefbba5f5c6599acff922b60023790af6f5524ce824",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/manifold-controls-tail-runs/native-gpu/receipt.json",
+      "before_bytes": 851406,
+      "before_sha256": "1538d05c81455dbc6f4170dedf4c11a230a1fc5f2e73ecb343498e6ab746c76c",
+      "after_bytes": 315339,
+      "after_sha256": "31540c62d39e7ecabb8292eb29a372a1484b47d1b195d5d3c4a5253df720aa6d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/manifold-controls-tail-runs/ordinary-both/receipt.json",
+      "before_bytes": 888509,
+      "before_sha256": "9814f57d2869f1dc0d5548399e595688e4f345c08736df40b7ec0f22e47d8955",
+      "after_bytes": 326598,
+      "after_sha256": "337b35c17d2f000619341595a753f7d6c168549ebe35852fadfe0fa339fc6f0b",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/manifold-controls-tail-runs/native-both/receipt.json",
+      "before_bytes": 888476,
+      "before_sha256": "be3ac82fb32f791db13f8cc059b324324ee46bfb0efeb849a9be09a040b77380",
+      "after_bytes": 326565,
+      "after_sha256": "2710d0d56d3fe1e9e999e04c041933494d2602d39fc3ed8564017aa689f5d861",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/distance-controls-runs/shape-distance/cpu/receipt.json",
+      "before_bytes": 439552,
+      "before_sha256": "35d2ceb45570d04204a4c15e271dad4083d81f6357649a58ffb5f21a01b3b814",
+      "after_bytes": 134925,
+      "after_sha256": "026004ffc9dcf78710f54764e4cbe0c795bd9482d0586c48c0c735ce739d71a4",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/distance-controls-tail-runs/shape-distance/ordinary-gpu/receipt.json",
+      "before_bytes": 399361,
+      "before_sha256": "f076c47d8e485dae3f4589763ac398db427ceb0bcc9076a333b0bbb8eda30b1d",
+      "after_bytes": 126907,
+      "after_sha256": "b5e11b4616066c6656e0310dff3544894f411d541bb3190d5e56567a846d40f7",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/distance-controls-tail-runs/shape-distance/native-gpu/receipt.json",
+      "before_bytes": 399354,
+      "before_sha256": "5feec37a16e38bc06ab1ccb335a4b14c6617b458509fb70cf526bd41c2990da7",
+      "after_bytes": 126900,
+      "after_sha256": "294bf2e91efc94134db84a3e8e76a3c362c08dba59166bc46fbdb4781946c694",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/distance-controls-tail-runs/shape-distance/ordinary-both/receipt.json",
+      "before_bytes": 415307,
+      "before_sha256": "bc54afe4a44dc132f7c6ff25ba8f141096b577f084dbd749923a852a30e5da0a",
+      "after_bytes": 131775,
+      "after_sha256": "639e4ff283b19efa5dd857f461f0684815c26265a1fb40faac11810cc2cad5c1",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/distance-controls-tail-runs/shape-distance/native-both/receipt.json",
+      "before_bytes": 417627,
+      "before_sha256": "ea1d3b664ac4ff6732fe216b223e6fd0c2c86003302fd6296b33e0d324c8ee04",
+      "after_bytes": 132681,
+      "after_sha256": "36dc7c2e902f30642795dc882a3f36d3ddbc91c6197fc5d43031614c8ce73dd9",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-runs/weeble/cpu/receipt.json",
+      "before_bytes": 173260,
+      "before_sha256": "6982757c4430e9b543188752b2a4c08de59de364f83a4e9623ab5e7aab7a3553",
+      "after_bytes": 58320,
+      "after_sha256": "ca7cb6b1b1fd9f86e05ec4941a9c3d1c34ca7a0ae9297993922b942fac276208",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-runs/explosion/cpu/receipt.json",
+      "before_bytes": 1782836,
+      "before_sha256": "33e0f53087dac3a3ceb44444050cf1a17b510d43fbced52d0ae4b1db17f61e4b",
+      "after_bytes": 503938,
+      "after_sha256": "7825c46d50a6c309033c3b23fb456d0327e1a34ed3b0674f8eee4fd0f054c008",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-runs/restitution/cpu/receipt.json",
+      "before_bytes": 664674,
+      "before_sha256": "ef07f99a88b02d4399f5ca3d0d2623bbaa1f98b623fc4f921593bdff24958708",
+      "after_bytes": 191414,
+      "after_sha256": "cab9327d8a47dea9cb4cfa9ec76cc8c4419e66d76fa31fb74052d068d69b6591",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-runs/far-stack/cpu/receipt.json",
+      "before_bytes": 837944,
+      "before_sha256": "6033fcd3c7d44c9e491c350488814fc6371af1161791d935701bb4da936adc31",
+      "after_bytes": 224512,
+      "after_sha256": "553b73f03d1205a405432cfe983ba22978d0bf7e0deea89e2b63bf365ffea3d7",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/observer-recovery/cpu/receipt.json",
+      "before_bytes": 247700,
+      "before_sha256": "11432f6764e124c97ffca1095560901ad5c5a0b4b37a047fee5876e3558fb4de",
+      "after_bytes": 75680,
+      "after_sha256": "e85554646572839817b193cce6f437ef326b6442d81781821737bfa5dbc43d3b",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/weeble/ordinary-both/receipt.json",
+      "before_bytes": 157664,
+      "before_sha256": "910120e96dd8ec794647fc6100ee7bf92bc8b2d3bf71d2f39babe4458f19ba2e",
+      "after_bytes": 56802,
+      "after_sha256": "71c15675e93ed6803cb02955457e0077cb33ddfbd86617c2460fb61d9916367a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/weeble/native-both/receipt.json",
+      "before_bytes": 157653,
+      "before_sha256": "75f118a6594fd3f5ef71dff5cf83828999fb9cd3b36f53a0bc9a02d86b8a3587",
+      "after_bytes": 56791,
+      "after_sha256": "ff4ad01edd9d0c5e8169c34347cba6a0663f94756915f481d35defcec0c24370",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/explosion/ordinary-gpu/receipt.json",
+      "before_bytes": 1226929,
+      "before_sha256": "2be0178befbe75090b035b4fe502e600136c98337810584acb37bd15730da558",
+      "after_bytes": 337240,
+      "after_sha256": "79fe63f3200a3e4a150e03ab4e4dea09539032de0afbfecdaf54a0173fe4c951",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/explosion/native-gpu/receipt.json",
+      "before_bytes": 1226918,
+      "before_sha256": "567d157a84ede44ac846897dd7dbff51bbfaa4366034cf3b6b93aeb8a862edf3",
+      "after_bytes": 337229,
+      "after_sha256": "6dd0f75e5bbc521320b3e06f6e2b4257551125ee13ef8c3e815e10d72e378601",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/explosion/ordinary-both/receipt.json",
+      "before_bytes": 2427927,
+      "before_sha256": "7f639a14bc04b928efada7cc970f8d4ab1bae64ad53a827440da91d02600bd2f",
+      "after_bytes": 660877,
+      "after_sha256": "5a9d9a895d88b40cb5ccdb63dbd40f92f2e9343ba1e8e238805408efc848b81e",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/explosion/native-both/receipt.json",
+      "before_bytes": 2427914,
+      "before_sha256": "7ff8e48e01ac37be83ee4fdb7e1473c4bd6cb46a6596a0d416e415a8482a5dac",
+      "after_bytes": 660864,
+      "after_sha256": "e5d511e9af04e1263f46e775d11036eb8b76b77d91e592ed4b77bd18d2125df7",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/restitution/ordinary-gpu/receipt.json",
+      "before_bytes": 462498,
+      "before_sha256": "52045c26b7c1e7732379172d8c4e25d785fb8913edc186576c26aaa65f037380",
+      "after_bytes": 141734,
+      "after_sha256": "ea782865f4a7116e0b2d80d97507bf7c60c19ae8b6d14efc551048df23cb4886",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/restitution/native-gpu/receipt.json",
+      "before_bytes": 462490,
+      "before_sha256": "3c94a377b334168e9e89b94b8050a33c99268b3ae2b26f067ac2ff11c40d7694",
+      "after_bytes": 141726,
+      "after_sha256": "84749e58bb8b1ca2e40a440db7c1ada817faf6e6db2aaf2ea805b93fa072e638",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/restitution/ordinary-both/receipt.json",
+      "before_bytes": 909659,
+      "before_sha256": "d71e1f306ec812cb21db4eabe698088e9ccf0ac14579912c09e69dc0f0cf3c9b",
+      "after_bytes": 275203,
+      "after_sha256": "3f38deb00ba6790a70960d770dcece65e1b748df43fa3bd3ea899cccce22c953",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/restitution/native-both/receipt.json",
+      "before_bytes": 909657,
+      "before_sha256": "b6f352c03f0cdb0e8dc74e364493c217910dc863f98c2fac758b44aeac457ebc",
+      "after_bytes": 275201,
+      "after_sha256": "fef85a46ec2fa9699729289bde4b036252991c06c20112d73661a0d6b53b8e3a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/far-stack/ordinary-gpu/receipt.json",
+      "before_bytes": 140657,
+      "before_sha256": "1ef755652f43c57b9eb3c35d48b4852f5941faa8412f238a423d9fc661671590",
+      "after_bytes": 45965,
+      "after_sha256": "293fcf1a489f6345f58521663e4e5907ab0ad7b9d5abcc55dabf720f81946040",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/far-stack/native-gpu/receipt.json",
+      "before_bytes": 140666,
+      "before_sha256": "f03581f1bc798f1eeb028c4aa811cb6ac93eb7b30be7d5ba0eb679fcb8b0a001",
+      "after_bytes": 45974,
+      "after_sha256": "4e15a210699ab9f4d7966d2e8270f3b0d952e250f520b666d152ae5d2c3452ee",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/far-stack/ordinary-both/receipt.json",
+      "before_bytes": 257331,
+      "before_sha256": "d1fa08a54752db2fa0393b9ad4cc1537ad998133baf214c3abe05d5a70b41efe",
+      "after_bytes": 78191,
+      "after_sha256": "e3ac2c8eb2418a5c6042ccb3aa6499791e8dba89239921315ae412806c363c50",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-mutation-controls-tail-runs/far-stack/native-both/receipt.json",
+      "before_bytes": 257332,
+      "before_sha256": "c00420d0aef44d7f9deeb06fe15df5b50a83624633b45bdb4e2de7f05da08b8f",
+      "after_bytes": 78192,
+      "after_sha256": "e7f76918dfa90d82e4d70ad31193c3148b162209e5af012c1e66d7778d035b1e",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/distance/cpu/receipt.json",
+      "before_bytes": 363300,
+      "before_sha256": "73eeb8d3471f22d073116800209a5b4da71eee028bb839bc97cb0cc4ab500750",
+      "after_bytes": 156213,
+      "after_sha256": "c3cbfe716487cf5ccc9b9629bad0c30a38a4c6d9125a33050b429c50f8cc969d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/distance/ordinary-gpu/receipt.json",
+      "before_bytes": 369417,
+      "before_sha256": "c2cca3682c3e3d08ecf900b6541cfa46531d8024d192fa512a540374cb2f8a6d",
+      "after_bytes": 159080,
+      "after_sha256": "e80195f1b341809e77c5a7daf4f837653a9d7ad912cdfb28d7438f48f7ef5733",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/distance/native-gpu/receipt.json",
+      "before_bytes": 368112,
+      "before_sha256": "f56e279c1aa5fe8a24f8064c8c79c34f86972d5d0dbd5bc1ae7f49b3bdbab399",
+      "after_bytes": 158491,
+      "after_sha256": "91674ef9cea9a599dc7ca598ec5faa90718e407b4d91e3bc362324c545a8b651",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/distance/ordinary-both/receipt.json",
+      "before_bytes": 671569,
+      "before_sha256": "7a0779ce6548542d516d966105b27264c6ebdbefaf9cae38124d341b9c743bb2",
+      "after_bytes": 280346,
+      "after_sha256": "32021a838f39e519a8f106a4f492b85374567d507ec06e9d8ded2718eee07a7c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/distance/native-both/receipt.json",
+      "before_bytes": 671572,
+      "before_sha256": "8e98787468c338322455fbc66b1bc54616c4b9237a3b7bd5442cf5ac0f720c8f",
+      "after_bytes": 280349,
+      "after_sha256": "06e7cd29abe4e57d58becb0ea8ee86278485c6566a39893b11be637ea7865194",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/prismatic/cpu/receipt.json",
+      "before_bytes": 305538,
+      "before_sha256": "d93f8b88b6ac485f6851d3e65d7ecad0c6e677f9ae7ebb5cf59b2d8870d427be",
+      "after_bytes": 131551,
+      "after_sha256": "af6313397b9c78f226b960ff4d06e75aebfb84f73305ebde34bf43fc4c55374b",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/prismatic/ordinary-gpu/receipt.json",
+      "before_bytes": 311627,
+      "before_sha256": "439a54ce482e3b5357c956f873fbb12c0ab4e34496ae1e7195af47e6a2fb5a32",
+      "after_bytes": 134390,
+      "after_sha256": "e5f05ec46c6b14b1d9b58dbcfea4a07e1699ba9d20bd9efd224ce9b5f809fd35",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/prismatic/native-gpu/receipt.json",
+      "before_bytes": 310333,
+      "before_sha256": "86780b5f2a5d5aa36e81ed1ced8ec13107f8f5abd7aeea4a14c983b3017d1568",
+      "after_bytes": 133812,
+      "after_sha256": "8c242a2fa2f5dcf7de2dc948e91611e1425b4f2d7938e7b47e5b7bf7955d3bf6",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/prismatic/ordinary-both/receipt.json",
+      "before_bytes": 556196,
+      "before_sha256": "32994687aed7357df056fd0f6e8e57cc6e107fcb3f81831687af6db798336b17",
+      "after_bytes": 230901,
+      "after_sha256": "dfd6140c5847638997856f98fb6d89cd9155621a71cd03e42f8ec42180b7062a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/prismatic/native-both/receipt.json",
+      "before_bytes": 556179,
+      "before_sha256": "a6ed62ec719382f6362a10303225d4d5028edefdb526a2bcaae0747802ebac97",
+      "after_bytes": 230884,
+      "after_sha256": "747911c6b0bdc75fc706824fd4b2842d194f9058f9e9052414292c7d38ddea2c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/revolute/cpu/receipt.json",
+      "before_bytes": 325999,
+      "before_sha256": "64726009ceb5d9eb408434f90ed2c74839a0515946d796465460805c168286fc",
+      "after_bytes": 142068,
+      "after_sha256": "43ae980bcd27d325e555104094df3569ea8c02ef8cfb6dd70c0ce8c3220f1822",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/revolute/ordinary-gpu/receipt.json",
+      "before_bytes": 332564,
+      "before_sha256": "4b1e19f80be62e3de3ae276829927deb48633cc18b4ff0dbadef1433193d6043",
+      "after_bytes": 145155,
+      "after_sha256": "7d3f83e4440126623a26c0fe8adb9d4633a0ec8b66c024500514610576439d29",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/revolute/native-gpu/receipt.json",
+      "before_bytes": 331259,
+      "before_sha256": "879620e4d82b2f24133d17fbc8c0f1e40874c1718d2854e796a6b6ade54ef88d",
+      "after_bytes": 144566,
+      "after_sha256": "9de4c781475993e9c877bfeca43f0a69a5d5caba48734d0683d9fb21c9ed80ec",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/revolute/ordinary-both/receipt.json",
+      "before_bytes": 597858,
+      "before_sha256": "2b084fed569b0ccf5ad21fab3b38e7c476c43189523090e7f6e6cd148243165a",
+      "after_bytes": 252447,
+      "after_sha256": "fc61dafe053e5dafdb246c3ca26ac806c3327dcad09e3bdbc61e55b8dc4c4e9f",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/revolute/native-both/receipt.json",
+      "before_bytes": 597849,
+      "before_sha256": "913c449a6841061868d5d60396e25af7fdaf05f2fdc066aed7f22050cd627ac9",
+      "after_bytes": 252438,
+      "after_sha256": "40959deb810f373f0f1407f6a5d5cf8a5e3930e740ec4bda6517908e3e8bd167",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/spherical/cpu/receipt.json",
+      "before_bytes": 548219,
+      "before_sha256": "7642b2bf31fb7ede009e8f3d464376e88a1c629506069109a9c5c1435718b15b",
+      "after_bytes": 236490,
+      "after_sha256": "2639ff3721fcf90848478bba682b84c9fb45a44898beff646fa8511859ffe5f4",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/spherical/ordinary-gpu/receipt.json",
+      "before_bytes": 553631,
+      "before_sha256": "078692d5805e54ec6203684a86edcd6c934e6faf61fccc4e951d2d7e0feed7b5",
+      "after_bytes": 239140,
+      "after_sha256": "3fca39766356a5164329fa064f19a25ff73948f875ff9314e5863a701aa1efe0",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/spherical/native-gpu/receipt.json",
+      "before_bytes": 553625,
+      "before_sha256": "eb0eeb1ca3b961b301d32aa119471eb72ee2918a9a6603683c4f1a1c9773c505",
+      "after_bytes": 239134,
+      "after_sha256": "c939d6f2a1574f519a0bf6b18f55ad6415c9d9492551ea9dd2073d2cfd8d1434",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/spherical/ordinary-both/receipt.json",
+      "before_bytes": 1011894,
+      "before_sha256": "76e3ecd7014103bc717e7c0af2429cd8c620526c5915ca5b0da0558b91210ac6",
+      "after_bytes": 424035,
+      "after_sha256": "b6514fb87ed2a2c303a90b1f965b8a8c7c1b4f58822c49b75ee849192ef6c464",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/spherical/native-both/receipt.json",
+      "before_bytes": 1011876,
+      "before_sha256": "3eb617090ca81de259a79dc64eabb948a9cff8a6d6c090b58646df6872e85ce5",
+      "after_bytes": 424017,
+      "after_sha256": "a89382130add27b521f7551ad01bd5472d80a066be59ef7c92d9125842e3484d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/parallel/ordinary-both/receipt.json",
+      "before_bytes": 148795,
+      "before_sha256": "1b2bfeadbaf6bc0895e7cd2fd50e79db966c6a08a374db86f532e15e81840794",
+      "after_bytes": 54413,
+      "after_sha256": "53c62867d011e387c172e50fff3d165c270e06ed92f43b8bb8170959009ee964",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/parallel/native-both/receipt.json",
+      "before_bytes": 148781,
+      "before_sha256": "54ca0eb72910d03572c26974f33a916cddc5ce25b045d13a91fec421aeb2e0af",
+      "after_bytes": 54399,
+      "after_sha256": "b20448804ce60786b48d027f3b3976a47f3937112d15b2901f1e7855dd39f3b6",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/weld/ordinary-both/receipt.json",
+      "before_bytes": 194624,
+      "before_sha256": "a43ec476ef23d2663457acbc39e83bd6121dc321f58ac79c55f45142c955a62e",
+      "after_bytes": 72274,
+      "after_sha256": "6402f9df7f4a3b70fd9bb57e853d6f7a29e111fb3d494c83ae837f7276c7fc1f",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/weld/native-both/receipt.json",
+      "before_bytes": 194609,
+      "before_sha256": "cb257dbea1530b42acfea725be1c16e7ad0350ff1f453e29af08b9e14af73901",
+      "after_bytes": 72259,
+      "after_sha256": "478603f0cf7686fee1281106f613b3917c313c5cdeedb1e35337b60dc574b3b9",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/wheel/cpu/receipt.json",
+      "before_bytes": 649573,
+      "before_sha256": "8beffaad157bcbf6cdec750231bff09553c72cae85eba6f74f912b62237f6d96",
+      "after_bytes": 310300,
+      "after_sha256": "c07227568a2396e7d218b7e650f83f516fe01f5aeabf352b10f0471a4d7bbb25",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/wheel/ordinary-gpu/receipt.json",
+      "before_bytes": 657580,
+      "before_sha256": "ab08ad4d1617659f24d4d18b3c94b89158d964b77827b2a1091c557a139cbe43",
+      "after_bytes": 314262,
+      "after_sha256": "149cc551925040f707fd5763375d82d76e1336338fd97096c4a179678d0d6632",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/wheel/native-gpu/receipt.json",
+      "before_bytes": 657573,
+      "before_sha256": "d8495aaf768ca6500992aad3393301d2d2bafb83e96d5e6e5a34be5fd84fea3a",
+      "after_bytes": 314255,
+      "after_sha256": "fb20a87b34320f4a38e2ac1240376b233a7c7e77342793fb19ce0bae700d0df9",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/wheel/ordinary-both/receipt.json",
+      "before_bytes": 1215949,
+      "before_sha256": "f4452c56d8a44104c76d0845c2074e2dace5bbd071d79df95d527bb401b7cbb9",
+      "after_bytes": 571923,
+      "after_sha256": "25f9e3f53b4241f942c77f07e20d5d3866a3d328a9809323bde60ae53dceae09",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-controls-runs/wheel/native-both/receipt.json",
+      "before_bytes": 1215950,
+      "before_sha256": "abb2984f0316ec40e3dfb1d0403c421cf2307cbdf668f3fff1b702a11be5aab5",
+      "after_bytes": 571924,
+      "after_sha256": "bda019f289510fa209f0116bbed641e496d91870bf255e527f6de4552f217ef3",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-runs/driving/cpu/receipt.json",
+      "before_bytes": 779211,
+      "before_sha256": "ca8745db367a9da3e64575ee7af7201f66b3af77c78106af7e7a78eced6ed19c",
+      "after_bytes": 346747,
+      "after_sha256": "0c97736f2e67c0435db29930e2261b139262ab4a5af806f6f708a74d4edec10a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/cpu/receipt.json",
+      "before_bytes": 506657,
+      "before_sha256": "d687ed0431e509624ec078c86a428c2bae652abeb014d46f0760f512256aa5ed",
+      "after_bytes": 147811,
+      "after_sha256": "774dec69b5e0adaceddfc01dfce9b5316dd2c23add71569a37899213194b20b5",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/ordinary-gpu/receipt.json",
+      "before_bytes": 508157,
+      "before_sha256": "0426622fb280444c517ef0ec0821b5665b7e88af54377579192110481fea3f3e",
+      "after_bytes": 148513,
+      "after_sha256": "bc3b020d481733b7c353997854a1e05bee6c2987f44b2b9e69ef4623d7dc6650",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/native-gpu/receipt.json",
+      "before_bytes": 508164,
+      "before_sha256": "c25dd7eca1751d1b0db494624b17fc56e8370d87ee0d08bbbdc11f7f893c26c6",
+      "after_bytes": 148520,
+      "after_sha256": "ba92c4e50dcea5d76f98e71d6041348aafb10d73a447bd9d37210cc8becd2d2b",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/ordinary-both/receipt.json",
+      "before_bytes": 1005706,
+      "before_sha256": "854a0074d5b8dc17229497eac5bfd50593ad3da0a5068f74be38eabbdecbfeae",
+      "after_bytes": 291138,
+      "after_sha256": "eb5403e5ddcbd632f2365b8bf74839c29af3adf6eb8eff78e9011110884fb2f3",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/top-down/native-both/receipt.json",
+      "before_bytes": 1005695,
+      "before_sha256": "7568f47d0047d0829aaad58fd6e17fce12a12d06e0bb6e164b54417a00d6ae69",
+      "after_bytes": 291127,
+      "after_sha256": "dcc1e67199ffc3b1ad05638d2d7f8eb34aabb6fbcb4a7ffd7c80cda625fac744",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/ordinary-gpu/receipt.json",
+      "before_bytes": 784014,
+      "before_sha256": "2057dd1ce5b895831a589906660721bfd0484c6f803f4191fbbe8a38abe9280f",
+      "after_bytes": 349098,
+      "after_sha256": "d46774fa1a384d8d8992bbdcda47fffa0ff193bbc2a0cc7df1cb3965d02c8be4",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/native-gpu/receipt.json",
+      "before_bytes": 784011,
+      "before_sha256": "9f9fb0bf0a5e023ce5c708a6f9e9f9b82ac43a5adfca3be4d6a263b67ba0fe1b",
+      "after_bytes": 349095,
+      "after_sha256": "a770380a99023d19de3144ce0d0e51b8752c2a644a9278b31a40720576e293e1",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/ordinary-both/receipt.json",
+      "before_bytes": 1479972,
+      "before_sha256": "75f25672d8a098a31f0355e5841066fe8463e18b72cd60e99da238a0b34bac81",
+      "after_bytes": 650234,
+      "after_sha256": "78f3c93c52d0b11dd8c4ae417974b47f4181d04fa6da5e93b25e03ca66d28a27",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/driving-controls-tail-runs/driving/native-both/receipt.json",
+      "before_bytes": 1479959,
+      "before_sha256": "67fafc65139ad5bd4e171ba5820bbe35c4989627199c56e106550e44ddd04612",
+      "after_bytes": 650221,
+      "after_sha256": "35db09124d233bf0cdd8d9c14e88e25da2c20a73c4624898339a76547dfca0e9",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/cpu/receipt.json",
+      "before_bytes": 1348174,
+      "before_sha256": "b4e03e390c7d5659a4b72b96b27ba074b79c5c605518fba6057cad19905ba455",
+      "after_bytes": 426301,
+      "after_sha256": "6fd96e7b20e4e995e918e25061726d29ec64ed268ff3bfe016d5ed94e56681e6",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/ordinary-gpu/receipt.json",
+      "before_bytes": 1349684,
+      "before_sha256": "d5abadaa774af2d6d2f888639ad5b44b1a52c4b5d69d7ec69d1083f129e365fb",
+      "after_bytes": 427013,
+      "after_sha256": "a3f1599ee4316184ccf34398d316f2d0924d36498a093bcc81af3ff60086fd64",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/native-gpu/receipt.json",
+      "before_bytes": 1349686,
+      "before_sha256": "248d4ab6a84e32fe3141867988bdf9ef05edefeacfab6545791086048560f23a",
+      "after_bytes": 427015,
+      "after_sha256": "de6d65af841a4918a8538fb042bd2e4a60d69b7ce2717c4e4e424d6209a73daa",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/ordinary-both/receipt.json",
+      "before_bytes": 2678658,
+      "before_sha256": "d824982f30fd36f7b685fc8543499c74af1983db9b545feec182e213b5a0bb4a",
+      "after_bytes": 844319,
+      "after_sha256": "962e40c7354e19dec3b04d14d83a3d3216c0c11fa761762fa048057ff044b722",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/native-both/receipt.json",
+      "before_bytes": 2678638,
+      "before_sha256": "c6672132017fb73cb18f38654a0e945769d5ac4cef3f6bbcc82ce9edc35eb39c",
+      "after_bytes": 844299,
+      "after_sha256": "e3857854016b7e5d4dfa0de7c30b3c9f4e10298552d62b75eb20c64dd21a52f2",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/cpu/receipt.json",
+      "before_bytes": 307185,
+      "before_sha256": "14a98c574318df2f067ced1d3c1a04a47b56142d87e6a10aef88d5a44563c781",
+      "after_bytes": 113511,
+      "after_sha256": "26a99d37e656c7c204a4eb4fc8213893ad86d621799590879b714d96275d4b4f",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/ordinary-gpu/receipt.json",
+      "before_bytes": 313713,
+      "before_sha256": "f4b2ccedf87698cd4e114a012c117ebbe1da542f5364b317762e8fe3c76e1e55",
+      "after_bytes": 116296,
+      "after_sha256": "ff9a04e20b0a074d1d5950d4db6bd9ba3bc147dbd097e46278f1bc6c7a24d0e0",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/native-gpu/receipt.json",
+      "before_bytes": 313704,
+      "before_sha256": "6e581cccc8798c6b0a22b772c1a7d5017bb23539153044baf0fef64b1a1cc17b",
+      "after_bytes": 116287,
+      "after_sha256": "daa708686128a4908837cc9b39f97585f12ac6200dcc5f574f584e4ac8342231",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/ordinary-both/receipt.json",
+      "before_bytes": 587368,
+      "before_sha256": "80012261af57ba9d85ab900a8dca91fe41fb40847951bd102e2f70774c95d533",
+      "after_bytes": 211416,
+      "after_sha256": "8a416131b9acd685b1c60386cfd662174545eb99541f7c8a0d4b646280900843",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/native-both/receipt.json",
+      "before_bytes": 587382,
+      "before_sha256": "f7474c63276bb7855940cf2df472cba9a7aa1a30a4df8a938368544beb5a3791",
+      "after_bytes": 211430,
+      "after_sha256": "0f067cd2c9d8a365910f3dedbbe7b22beb4dcd7440d2f21328d3f528f61935f7",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/cpu/receipt.json",
+      "before_bytes": 161214,
+      "before_sha256": "d73b7f8747a48d0b277da4008b3a31aebb1500ad808313abb20169e61068cd7b",
+      "after_bytes": 61401,
+      "after_sha256": "b4e6d18353e9b89ad304cd662c020b64389a4b3a990058a5c7d8183270e305f2",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/ordinary-gpu/receipt.json",
+      "before_bytes": 165722,
+      "before_sha256": "7c53bb60916f2af03c7ec196b49d4e62f95d8405c42d7fbc4ab280dbe6575c85",
+      "after_bytes": 63670,
+      "after_sha256": "ac6a08f11f0e1e7f5c73d09ce7b8985ec63730636f7328331c14879b32a07b5a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/native-gpu/receipt.json",
+      "before_bytes": 165705,
+      "before_sha256": "715ba3ec238373151827144f19acac383b4624fc6e86579b913fce2229e53c13",
+      "after_bytes": 63653,
+      "after_sha256": "54899103ae702dbcd2ea9877c88469cd61048f48f833de9f9d1d31d92b15001c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/ordinary-both/receipt.json",
+      "before_bytes": 297515,
+      "before_sha256": "1432a3c54f5f37387f922698760b4e7495fe6fc72e200fcd17612096476c3efc",
+      "after_bytes": 108662,
+      "after_sha256": "803905da93e753289ff6dd58196e84fad4b5c7287939b3e9829ad1800121059d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/native-both/receipt.json",
+      "before_bytes": 297485,
+      "before_sha256": "d6d50cf5f1bff7159a6ed81512c3d9d212a6ef5339cf09cad66aad5ef3d24d3a",
+      "after_bytes": 108632,
+      "after_sha256": "4006d4c33ef13334d7d389d853c1fd2e854bb9f1b68695fecac075fcf8d71e9f",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/cpu/receipt.json",
+      "before_bytes": 246909,
+      "before_sha256": "a22de379086fe08f4fa90ea30ea55fb76e46dd8cf9b59cc39d19f24f3f5c0377",
+      "after_bytes": 99392,
+      "after_sha256": "c8f503829ca5f33084a33b6ecf356c7c7dc29f542986335ff1ea4c25b1af5a1f",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/ordinary-gpu/receipt.json",
+      "before_bytes": 239322,
+      "before_sha256": "5da72ed07bd99c7e9bd4521842688c244fd991e1d2adb573289c5b3df6e8b0ed",
+      "after_bytes": 96567,
+      "after_sha256": "a2a8907c1fc917e5aec27cc73dd926d9c2642b8acd41075124ca2246ea6de621",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/native-gpu/receipt.json",
+      "before_bytes": 239320,
+      "before_sha256": "a62c2c731cd85b10be96876d7aade4c4edbc2925b99cee17d7d7f82ac8df4ada",
+      "after_bytes": 96565,
+      "after_sha256": "0ea914148ed4d5d5c543b0723e82e19ac6e690a0befeced0a84f7e3d793e563c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/ordinary-both/receipt.json",
+      "before_bytes": 444657,
+      "before_sha256": "435d51f7483d23ac5cb3222edec762fbceb558888c58d8386b082d8f7d0aa3b6",
+      "after_bytes": 172637,
+      "after_sha256": "aee855a9533f955471fa86134581f8c201c9852ccdc611908b36801bd67f7386",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/native-both/receipt.json",
+      "before_bytes": 440727,
+      "before_sha256": "336229e2e67bdead6a269fbe3fb5d3249a09923784cbb86c95fa97a3556cb3d1",
+      "after_bytes": 170753,
+      "after_sha256": "8818bcd2fe748f3ec09b092053cea0484aaf8ada3a8657613342f8b0dae51202",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/cpu/receipt.json",
+      "before_bytes": 456384,
+      "before_sha256": "8ca2febc8f07cf171b651138661f8202a2af749b42753a0315ce6acf7ed62849",
+      "after_bytes": 200584,
+      "after_sha256": "9deab1d758b35603f61229d863655c9c23a00f102a3d3d7280c7d0bef3266a26",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/ordinary-gpu/receipt.json",
+      "before_bytes": 459654,
+      "before_sha256": "c2f5a7b17422d026d453dd6bb5595ba10cc663890ba9282bc03b3f915e750bb1",
+      "after_bytes": 202229,
+      "after_sha256": "cddeb6fa77c51e52537400f7b418111b27245e666a07512e55b27b2c60a8a23d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/native-gpu/receipt.json",
+      "before_bytes": 459638,
+      "before_sha256": "309debdf86359dd051607e28838685d3f4fb0bd756a2f656fa7636feff56b22d",
+      "after_bytes": 202213,
+      "after_sha256": "5fff9b606bf55230a9f230bef5a4564687802f424dcb19ff6a5efb6626651a9c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/ordinary-both/receipt.json",
+      "before_bytes": 888714,
+      "before_sha256": "456ad0e4ec44e489565d0646d3dbaea69cc0b3e5be1296bcfd6eee25d5a403f0",
+      "after_bytes": 387867,
+      "after_sha256": "89c1b201fc33e0ce606ca94e37c25f659d3cdcb30f012963518d519f7aecb07b",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/native-both/receipt.json",
+      "before_bytes": 888690,
+      "before_sha256": "2018858e197857b7ffc86b06c07f5d6b9b3aa747e9ae7adc2d0f3821a39c84a0",
+      "after_bytes": 387843,
+      "after_sha256": "28f9e5de78aa78d50211d5c4bf6caa9daacddad2b903246c909c85c87748baf6",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/cpu/receipt.json",
+      "before_bytes": 1583490,
+      "before_sha256": "61ff2f1717365dc90f430b8534c3265f237dc67944da5d495c896f3f14430f73",
+      "after_bytes": 588055,
+      "after_sha256": "0fbbfbcdad7eb5556967e03b14ed73fd8a0005d86f87428c3b34ad7b66706850",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/ordinary-gpu/receipt.json",
+      "before_bytes": 1587082,
+      "before_sha256": "8fd86ef36075d69f337421b643735f8e7c259a30008a2feda9c3ec933123bf88",
+      "after_bytes": 590022,
+      "after_sha256": "5e7f361b8e1357068a4f6b39fc5239791afadad15b993eed1517d9a59d7f6a30",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/native-gpu/receipt.json",
+      "before_bytes": 1587049,
+      "before_sha256": "2ca7d6563e55d51c1fcb16f247e238fe21d4f3220d417dfc27ef7f0e3502abe9",
+      "after_bytes": 589989,
+      "after_sha256": "a28cc704752231f158d215a7205337d379695c9c08d04a284c842f883df39baf",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/ordinary-both/receipt.json",
+      "before_bytes": 3256085,
+      "before_sha256": "72f7d8c5c32029f65473b512e15b34b76ea39963a1e6e9015447502dabf16e30",
+      "after_bytes": 1204627,
+      "after_sha256": "6d18a16c57a44bdbfa02b63d39bbc0695d71d67f75d96c5cb9ef3695439f3dd5",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/native-both/receipt.json",
+      "before_bytes": 3256049,
+      "before_sha256": "32a497784140c7a20ef524c6f35b4ca82a03de1b582179b53dc2e746e28a6059",
+      "after_bytes": 1204591,
+      "after_sha256": "5365cd346a63a57cb3b0438ef24ce5bdc8311fc83e7d39a2a252ea2349cb34b1",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/cpu/receipt.json",
+      "before_bytes": 1800775,
+      "before_sha256": "68364b0e043e62237f3c7880427ee748f913fec429a91936afd0faf229f0e26d",
+      "after_bytes": 731759,
+      "after_sha256": "579c3fb6c3c93abfe5ed0aaf77bb9b38cfae83ce38abc49425c9ad3699f5129b",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/ordinary-gpu/receipt.json",
+      "before_bytes": 1803937,
+      "before_sha256": "51f920b63e45c51c1c1d1e084f9d5af247a8a4b8c39030166d18d543cb97127f",
+      "after_bytes": 733296,
+      "after_sha256": "5d7292d31866c14219219a99bb9425a891cd5ec94dbc2c5645fc19f8ce830846",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/native-gpu/receipt.json",
+      "before_bytes": 1803944,
+      "before_sha256": "8568b005884a9a53a36f2860a5b9d76186dd4786e2940803d57384a871312f0f",
+      "after_bytes": 733303,
+      "after_sha256": "0e7dbaa74c56f6150fb914d5991fd8cbf35d8a0f74796bdd552b37023f560ce4",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/ordinary-both/receipt.json",
+      "before_bytes": 3584132,
+      "before_sha256": "0df6f2df4a93a9983743c61815d7982b273377e6e4187f048293a1c48b8259a1",
+      "after_bytes": 1455617,
+      "after_sha256": "8ae55b16b02c31c9cee20bb02f79194b975edc4d799c7014b77c5a463d923461",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/native-both/receipt.json",
+      "before_bytes": 3584118,
+      "before_sha256": "1c7faf22b1adbcccaab71506b335b838aa570445fa8125f1fb35cce4ecad98f2",
+      "after_bytes": 1455603,
+      "after_sha256": "1de590a19d05349bd8be4f6366b1e99deda9c59abe68e7f2acdc8d372916c928",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/cpu/receipt.json",
+      "before_bytes": 194793,
+      "before_sha256": "172e90c8cecfdef2f97ef14c8d05c8b08aa2c3808175f7c66adf9d730b82baad",
+      "after_bytes": 61456,
+      "after_sha256": "5a858bb2e3c9880930040d00b8c54940c9760513bd437f2b02584378097babed",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/ordinary-gpu/receipt.json",
+      "before_bytes": 196296,
+      "before_sha256": "ed2ec2e27d2a4fbec833222912c35286cc2b5cdaeff513bdaf863d5952d471a8",
+      "after_bytes": 62161,
+      "after_sha256": "5c5cf53070dcf9ba49351a1c97a97c248b1bab8d97ed79b9582a7dbc082e6432",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/native-gpu/receipt.json",
+      "before_bytes": 196289,
+      "before_sha256": "e58f30fc50fc67447ddaa417b4b4dbbbe9dc2281ad9ac892c2c37c7f71cf41a5",
+      "after_bytes": 62154,
+      "after_sha256": "b07fd66d2e9fb5746835d4fb00a9699c06735bf239d10454e3f0bcf990df749c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/ordinary-both/receipt.json",
+      "before_bytes": 376248,
+      "before_sha256": "7e4d4128931539c8cb5262d6347b55c9704e3b9b18b6dc48805377c9231a8f78",
+      "after_bytes": 114968,
+      "after_sha256": "b7d337e2edfe76bc5c99837fa87bd4a0d9c9304736aaf741160d00daf97a5a9a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/native-both/receipt.json",
+      "before_bytes": 376233,
+      "before_sha256": "6a691190cd49274566cf9661d864288d6c63837a643f024a0a7a050521708c39",
+      "after_bytes": 114953,
+      "after_sha256": "0d0126fde2c935519b85393218bc298cc0d5ac890bded9ed36969fa8327f2bd8",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/cpu/receipt.json",
+      "before_bytes": 166336,
+      "before_sha256": "7d9333886e278f03590ffb9392153ac4d0d9f643441083650fb5ef17df475501",
+      "after_bytes": 55746,
+      "after_sha256": "11d242d77bfe51d2f00bc49d5296f48ed6a38e9039971fa30d107adbf2a86750",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/ordinary-gpu/receipt.json",
+      "before_bytes": 169471,
+      "before_sha256": "9f9f677fa4a3113a3b7ebb443f2e875c83c8cecd8c5554519d99e05e04f19433",
+      "after_bytes": 57256,
+      "after_sha256": "7aa66b3866f2ff2b903b978de8abcad6e05b7b8930c4f6b5323f2c27a9d448e8",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/native-gpu/receipt.json",
+      "before_bytes": 169454,
+      "before_sha256": "ea30ca4953a3621464115af9873825f1beb3f47061cc0b0e192fcb45f7442a77",
+      "after_bytes": 57239,
+      "after_sha256": "192a21507d98600961c11630555bbc0e0d390c70d92d783fd57d1499a3fb4763",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/ordinary-both/receipt.json",
+      "before_bytes": 309098,
+      "before_sha256": "be38ba91f9b7ab8e3ad230787ee258364e2b18a4f877e577cb0592cff035be49",
+      "after_bytes": 98115,
+      "after_sha256": "d77cda4fcac80eacd65614db557ec26d2315cf0f8287c465601e63776523b18d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/native-both/receipt.json",
+      "before_bytes": 309106,
+      "before_sha256": "de62306332bdfa28d73f83b4c5baef0fbdf1c238168e2d6495b0e50b90885388",
+      "after_bytes": 98123,
+      "after_sha256": "273f30ae1fbc013a418af80c6d1f6647b64fee4017e138a2437e16e2d5b8bc31",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-controls-runs/grid/cpu/receipt.json",
+      "before_bytes": 185623,
+      "before_sha256": "e4ee47b299ef25a56882c38aeef7145581bcda15c6ad2251045fc81186a52f53",
+      "after_bytes": 67560,
+      "after_sha256": "1a986045f63ca6ff56457db35b73629eeabc8520564f0f41d8b84a9a634095a6",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-controls-runs/big-box/cpu/receipt.json",
+      "before_bytes": 185017,
+      "before_sha256": "72f1fc6a8555243575231dc20153800549d4a738d1f929a2019d41704cdc9123",
+      "after_bytes": 66954,
+      "after_sha256": "780c7d7719ade2a94fdb298ac1615b3fa8931dff7bb3875095df482f4d026f95",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-controls-runs/box/cpu/receipt.json",
+      "before_bytes": 235009,
+      "before_sha256": "7b495791fd09db9a0d101cc78a1aa8d9aff30ad42fe544dc0ecd721d4d1eb536",
+      "after_bytes": 78840,
+      "after_sha256": "70f9574756fa9e519d28ce2f1cf55ae95d84306242ddb37cc0b4416a93052c9d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-controls-runs/box/ordinary-gpu/receipt.json",
+      "before_bytes": 275694,
+      "before_sha256": "b7f62b3b36fec39773701b7b7e4c2a176337d858dfd907ea912bd8462d60791f",
+      "after_bytes": 90153,
+      "after_sha256": "c10f60958049a1b9c534e489c7f6495d95a4428764181439bda8e487c9f703b4",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-controls-runs/box/native-gpu/receipt.json",
+      "before_bytes": 275675,
+      "before_sha256": "e49017dcb1c2b284ccbab272b0bafaae8fcf38bf692ac4a5d333e3ee70d233b2",
+      "after_bytes": 90134,
+      "after_sha256": "d505b0cd3512f7e17c451da223997e61b252651c7989decef1bf60192ea39639",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-controls-runs/box/ordinary-both/receipt.json",
+      "before_bytes": 420605,
+      "before_sha256": "574c9b763312a1cb20886dfefae85d72245c0930f417a5a8103e19553940c777",
+      "after_bytes": 129991,
+      "after_sha256": "43e6bd0d550225fae1bcf25926b2ea398843c79b6b90fb1cc5f39b171facc943",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-controls-runs/box/native-both/receipt.json",
+      "before_bytes": 420598,
+      "before_sha256": "449b88c48ed31724a3545d8ae99fc9a28f92aed8bbf4817122778ea55a7984ac",
+      "after_bytes": 129984,
+      "after_sha256": "e7d5e4eec7e53ca6703e68c03912ea7575aec0f0139a794638168378a3280191",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-controls-runs/reflection/cpu/receipt.json",
+      "before_bytes": 2471409,
+      "before_sha256": "48d662f8838b3885d7af325a41aa8d0c2491df8b868544e451d7fbad372dbe51",
+      "after_bytes": 752164,
+      "after_sha256": "e0f3d77d1a471ddb1a4ebe66c348cd21c43481f77b3fa0d9aa2b220b473f0804",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-controls-runs/reflection/ordinary-gpu/receipt.json",
+      "before_bytes": 2474912,
+      "before_sha256": "70259cce75330b7219b935a532fe1de3ed3d875741325cf7b13276d43e62c554",
+      "after_bytes": 754042,
+      "after_sha256": "37d6955b4146571f6b5f9f03739739e59ea3f8d13eb13256f10bfde8059036db",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-controls-runs/reflection/native-gpu/receipt.json",
+      "before_bytes": 2474898,
+      "before_sha256": "f2c295f9a7fc5746ed913e81883ed4282101e39f5c9fed6408ce6322b5783235",
+      "after_bytes": 754028,
+      "after_sha256": "468ac3a8016118532f0766317c090287ff1f939abcb5359bba912eb2306c3f86",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-controls-runs/reflection/ordinary-both/receipt.json",
+      "before_bytes": 4920589,
+      "before_sha256": "38ca2c1b6705e9e63060105b33b8c87ebfa719a36c2c9ebdc02ffd15a46e4b2a",
+      "after_bytes": 1493510,
+      "after_sha256": "1ce077e143c16a2446bf9e8baa95bfe702edee8773284275657cf3d30e345e3c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-controls-runs/reflection/native-both/receipt.json",
+      "before_bytes": 4920593,
+      "before_sha256": "119c13170777bebc2eff962ecb3ea1840dbfbc951bd26f6e63d345842054e86e",
+      "after_bytes": 1493514,
+      "after_sha256": "8b2d681d29c225bfa8f2fd5e4dfb72ee13228b814c4c8320cf45e3bb8f748147",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-remaining-controls-runs/grid/ordinary-gpu/receipt.json",
+      "before_bytes": 214375,
+      "before_sha256": "fc6f190c5e68a93a134ccfbe647f5240c638492cad4fb63afb29216a66b1b185",
+      "after_bytes": 74356,
+      "after_sha256": "0b8a1505f3d69bf367edd068c9e7aa85ad0d5dbf7023221d6a32e73f32a46f39",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-remaining-controls-runs/grid/native-gpu/receipt.json",
+      "before_bytes": 214373,
+      "before_sha256": "d51e5d7c6b818d3b453f58a818126b0cc6d51615fa5632aafe2595fbb39c4faf",
+      "after_bytes": 74354,
+      "after_sha256": "132ec15871522e32af4208e7cbd7062ce37c05f0a14ca750cd921130170e340f",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-remaining-controls-runs/grid/ordinary-both/receipt.json",
+      "before_bytes": 321029,
+      "before_sha256": "c4aa33d07fcbdd0a0e83815e57d8aadeee0c0666c1412013d884051aa5cc3237",
+      "after_bytes": 104661,
+      "after_sha256": "ac922bb70d6bc67da39d8e234d27643a52c2bf3d81e5c158d28f5850071904e6",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-remaining-controls-runs/grid/native-both/receipt.json",
+      "before_bytes": 321028,
+      "before_sha256": "cfe54e1fa3e02ed1bb82d514d2ef6c7b175518e9e2835dddd5fb10395afdaa5d",
+      "after_bytes": 104660,
+      "after_sha256": "941ede1dafa9571a4be3a355a59c163b0b5c036c8c5421e921fe3139e2e746be",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-remaining-controls-runs/big-box/ordinary-gpu/receipt.json",
+      "before_bytes": 213749,
+      "before_sha256": "d2fec0444ba3263ac40d439d805734f3d232a8225c85e8b0f6f030ad84c506aa",
+      "after_bytes": 73730,
+      "after_sha256": "19570c0e8b17ce6a82ca4343dee58225a7c27a777ce0ff83434badcb0681734d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-remaining-controls-runs/big-box/native-gpu/receipt.json",
+      "before_bytes": 213730,
+      "before_sha256": "ab8864bed55bd42fc80a1597d7bea3f78cbe84c448a0f0545682bf08f2b86de7",
+      "after_bytes": 73711,
+      "after_sha256": "111717053c06bfad6dc19926f6640134e336c4b027cbc612d94774062bc52077",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-remaining-controls-runs/big-box/ordinary-both/receipt.json",
+      "before_bytes": 319930,
+      "before_sha256": "7b982ae4515af6ee29e0006b969a3c4b479cacf3e8b0d3df649745536ad49465",
+      "after_bytes": 103562,
+      "after_sha256": "e77c42dfb9a77e95fbfe2224668c54fb690e920422dc56ef136476e477cc2bfa",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mesh-remaining-controls-runs/big-box/native-both/receipt.json",
+      "before_bytes": 319916,
+      "before_sha256": "e8c40807a2b8ea6d535c1269e6f641ba6ba90b8e781b7ce39dab8c23d50343a6",
+      "after_bytes": 103548,
+      "after_sha256": "110cb8d9d517d09e65fa9a70d92884d6b77ea26381767671abd888051a609d1e",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/cpu/receipt.json",
+      "before_bytes": 259533,
+      "before_sha256": "4877c6ad097c923523afb3ae5d577cad348df50385e0f127c7942e8410fbc3e2",
+      "after_bytes": 118958,
+      "after_sha256": "2e837b8f0fce216893d68091662f16a805a09bea72e36d4be06701788561bab3",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/ordinary-gpu/receipt.json",
+      "before_bytes": 258793,
+      "before_sha256": "ce56ce7adc96d40504bcbd0ca9b128ce33a0fd0a935a65b7123cdacf14fc6ea2",
+      "after_bytes": 119370,
+      "after_sha256": "2241e2f753a6b7bf8df84417aa2a6939306d460ebb647e0b4170b885a584a560",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/native-gpu/receipt.json",
+      "before_bytes": 258765,
+      "before_sha256": "2aea04279d06f254a0345609d51f970b01416e1a4cd477ae17c070ff49a5167c",
+      "after_bytes": 119342,
+      "after_sha256": "f423a60564468d57008aeb0b48cdabc38db337cc72008cb70d26e6b06722e924",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/ordinary-both/receipt.json",
+      "before_bytes": 304302,
+      "before_sha256": "c6e0eb28290b7ba31208bbff4f4354f0b66684d4095cc038f933851b11b289cc",
+      "after_bytes": 134914,
+      "after_sha256": "ba1545e86b3d38bad0832c5132da36f5468b8d38e46277387bb2477aef750879",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/native-both/receipt.json",
+      "before_bytes": 304295,
+      "before_sha256": "e36ed9f4d57b902bf5f3349fb3df9375dd0d0b385b1de43f0c2eef8821ad71de",
+      "after_bytes": 134907,
+      "after_sha256": "745e6f81d0f862e1deca4ab145a50bdb127216c075eaf21441d654002b9c516a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/scene-controls-runs/recovery/cpu/receipt.json",
+      "before_bytes": 627019,
+      "before_sha256": "d87d983071d7ef2244dbd5c7d1411774a5f8dfc5c646f9eeaf0a39d7e4a6f75c",
+      "after_bytes": 176472,
+      "after_sha256": "13e21de1d4e63fc9e49fbed1e8cdc109e72548e2a0742e150bfe5b89592beeb1",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/scene-controls-runs/static-invoke/cpu/receipt.json",
+      "before_bytes": 133959,
+      "before_sha256": "caa0f35b92b7be92d2e9259a9083454d50d4893e6fa935238056cf9f97f05b82",
+      "after_bytes": 43054,
+      "after_sha256": "7b9736f75d46f33448eb27fec120281f9f67c833e446b1cd3c7824d2dd876102",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/scene-controls-runs/static-invoke/ordinary-gpu/receipt.json",
+      "before_bytes": 137099,
+      "before_sha256": "10c4b669a29d1f73164879bc36291c06af165225dee023dc2eef52de4ce0677d",
+      "after_bytes": 44569,
+      "after_sha256": "09c0e2665a88c2380fc22e9e88c31a12d5f6ab617160526fda545111d3e58748",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/scene-controls-runs/static-invoke/native-gpu/receipt.json",
+      "before_bytes": 137081,
+      "before_sha256": "eb1d942e8ba0a1e5279974c29eda02a66a95d459471f44de562aac185493fba8",
+      "after_bytes": 44551,
+      "after_sha256": "8c1de47cf80de95c3a587e72456c0524ee99987820e9a0130d7fb62569dc111c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/scene-controls-runs/static-invoke/ordinary-both/receipt.json",
+      "before_bytes": 238271,
+      "before_sha256": "9f938bdd257b10c075a56479730ac055dff2c8eefbf27eed32278e9b7223b0e0",
+      "after_bytes": 69731,
+      "after_sha256": "31be1821459a454e6ee3813f623bf0fa8b471ed866f010f41c84764b5440c256",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/scene-controls-runs/static-invoke/native-both/receipt.json",
+      "before_bytes": 238283,
+      "before_sha256": "ae2739fee0367a4406e62b071785f8685641d6521958c0fbcb6db37a190b6cc0",
+      "after_bytes": 69743,
+      "after_sha256": "c7bc875dccc796388047b20686be1470c2d9e159a62fba321aadcc33fff5f3e4",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/scene-controls-remaining-runs/recovery/cpu/receipt.json",
+      "before_bytes": 608291,
+      "before_sha256": "1037893254ff07cbdb55f9e76456d646bc459834b9ec5e0b176ccb8d7b11faf9",
+      "after_bytes": 168965,
+      "after_sha256": "d5e271612b8b30cb6e74baaa71fe8f784991e71dd7b6b375f403550778f7e18e",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/scene-controls-remaining-runs/recovery/ordinary-gpu/receipt.json",
+      "before_bytes": 615086,
+      "before_sha256": "39b292de29921e6bd07643669d177dd1fafe6a7607c1e6c5872271bbc025fb31",
+      "after_bytes": 173007,
+      "after_sha256": "643d52d43adce428df914cc417766e9ad05aed095ca41818794a7c03946e4390",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/scene-controls-remaining-runs/recovery/native-gpu/receipt.json",
+      "before_bytes": 615100,
+      "before_sha256": "40f4c189d380cc9a43d613dfda06bbf87eb2ba396ee005c499a2bdd0a0d6d54e",
+      "after_bytes": 173021,
+      "after_sha256": "21204893eb27f637a356fe5b720001e9f08137057c878b4febcdac937e5d45d0",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/scene-controls-remaining-runs/recovery/ordinary-both/receipt.json",
+      "before_bytes": 1143316,
+      "before_sha256": "034e0860ca2927d13787da08888723f86935a9e49e3827f23c9b8a97d8f7660d",
+      "after_bytes": 299264,
+      "after_sha256": "7cdc85e81708d63f6bf932e5ca103a37780153f6e3d57f3d6d70daf88be076b2",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/scene-controls-remaining-runs/recovery/native-both/receipt.json",
+      "before_bytes": 1143329,
+      "before_sha256": "9a15fea5c307ad3f134a8489b2d75e2a4a6c05558fd8ad6181671987f3a8af1c",
+      "after_bytes": 299277,
+      "after_sha256": "d967a0a59a123505e5d3f6bd1ca87ad2d4bac49c9a1bd713b14893b910144987",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/cpu/receipt.json",
+      "before_bytes": 280287,
+      "before_sha256": "eddebc43c85b37ad868f8584ed0218c2c07e1e7df89fcd9ccc83ee997018336a",
+      "after_bytes": 109510,
+      "after_sha256": "d8df07e95bbfb2327f9eb777783f0b3ae10bbd301087e8e27456ad646570037c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/ordinary-gpu/receipt.json",
+      "before_bytes": 318191,
+      "before_sha256": "f76397d5df1bf928fb75b25b429459a8f88ee01bf1b68cf847ff98cd1a835cde",
+      "after_bytes": 121696,
+      "after_sha256": "97ae78be404c5da9d48e72ce2e039225363ac1e3e89e0ddeca693c11fb852388",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/native-gpu/receipt.json",
+      "before_bytes": 318167,
+      "before_sha256": "0dcd09baf44e72a7948f2282107510a2d2dfefae5394a17a45ccd440a9bd3560",
+      "after_bytes": 121672,
+      "after_sha256": "5b9d15af76ef76ec5238704287dc69aba2c46924e3a2abc8ccd546cc23885cf3",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/ordinary-both/receipt.json",
+      "before_bytes": 469048,
+      "before_sha256": "ad6e52a229d46e3455fd5e121cbbe1d10a0287c1960e4a3b2d88f3c4f1a2125b",
+      "after_bytes": 162823,
+      "after_sha256": "20db8d59b5b4237a55ee0bc3ac921f26d0a58d9311fc925b19100f505791bbef",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/mesh-scale/native-both/receipt.json",
+      "before_bytes": 469052,
+      "before_sha256": "fc334b3a3a80f6da0cca1d9b4375cdf502a5840c753afd4a5e4553e86c94761e",
+      "after_bytes": 162827,
+      "after_sha256": "aedcc41d3a9528ae5219987b6696218bf17648d297036b67a921bc605505b3db",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/cpu/receipt.json",
+      "before_bytes": 212236,
+      "before_sha256": "0cb9ac86663fb61119927e50ed1c6b570e11ab008716d2d5b4e685e6937afe78",
+      "after_bytes": 63873,
+      "after_sha256": "69bd11ade0fe053f371b79602d6f362fbdc01a458b53f57dfd6c281980ca5e97",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/ordinary-gpu/receipt.json",
+      "before_bytes": 213740,
+      "before_sha256": "e2cb651f034b5d4e59cd394cd818ec777ab264a4376ee90ccd2f8a3d4f9bbe97",
+      "after_bytes": 64579,
+      "after_sha256": "d7bf9bf06b270a575c714faeed7a0589a6ffbd3a5c46bf781ba92b67a94f9783",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/native-gpu/receipt.json",
+      "before_bytes": 213743,
+      "before_sha256": "20238b4f3b976e295182f735cad81057a96e1aca5841ed14b0d06e813502f680",
+      "after_bytes": 64582,
+      "after_sha256": "3889db719d5e51aaf4c0beb05405f6ed7125c5e768fc6ab75bc074742ca3133a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/ordinary-both/receipt.json",
+      "before_bytes": 381406,
+      "before_sha256": "470f2306d342d12507e9807692d869581ec61f81ac001ce1fa4cbb2ce51700bf",
+      "after_bytes": 104940,
+      "after_sha256": "065bccb947bf91cab3f8d4b442b49325f68acac56d424436c95c0cb10fe8ad45",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/query-input-controls-runs/contact-torque/native-both/receipt.json",
+      "before_bytes": 381396,
+      "before_sha256": "5fe71fa06a00b345b09f173cae03b2a772314e845e3e09da155a7437f234e7f4",
+      "after_bytes": 104930,
+      "after_sha256": "6d4a7070dad5d84cb57ad257acae8bca09ae854125ce282068a23cb74f52a8a1",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/cpu/receipt.json",
+      "before_bytes": 583108,
+      "before_sha256": "c422185a1e976caed51fa6eba6ad76533fcc14141a0dfff719a49dacedae2bb4",
+      "after_bytes": 157939,
+      "after_sha256": "f52168600414530490eed2889c0f45814bc8970f51d7cb12e61125e635ce305d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/ordinary-gpu/receipt.json",
+      "before_bytes": 544796,
+      "before_sha256": "85ab5b54262f4c1017be2e67498bce0da3bc0a7b01195a6c232126afe36e3ad1",
+      "after_bytes": 150498,
+      "after_sha256": "81a940d0174872cf6d49b25b27c317c06a8b537ee0828180e9d6ef22eb1a0668",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/native-gpu/receipt.json",
+      "before_bytes": 544789,
+      "before_sha256": "60c4c0c33ae1c40aad519f44a66055e9cd49651ea566aa24c4048d8504e4d21d",
+      "after_bytes": 150491,
+      "after_sha256": "c184cab17a618bfb1380baa8c2fc52e956c003a44f0cf7fda547d664ff3ca208",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/ordinary-both/receipt.json",
+      "before_bytes": 1027490,
+      "before_sha256": "0e738256a3ecb046871c48f368880753ae32acf3579a134df207ef7c53472760",
+      "after_bytes": 268693,
+      "after_sha256": "e9740755e856df9e359cd8517b818d3cd8900e30f3d2fccc79c46c75a3021548",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/native-both/receipt.json",
+      "before_bytes": 1027463,
+      "before_sha256": "68b7d24532142492e8eed11163854ce70481246084e84a709247da9ae9bcfc8d",
+      "after_bytes": 268666,
+      "after_sha256": "0f4fa96000793bd31fd26dde3ef97b11385b6c4f608ac44740802876916b9702",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/cpu/receipt.json",
+      "before_bytes": 1740262,
+      "before_sha256": "96714e06585cfa2022d81a251903380f288e9135a644ab2f367b95d5e9b6f211",
+      "after_bytes": 450397,
+      "after_sha256": "64846e18ad1d3ea246e043f29b0b38eac31902fae3300dd87e457f60cd9e0955",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/ordinary-gpu/receipt.json",
+      "before_bytes": 1743475,
+      "before_sha256": "01a5ef87326c665d8aeba5f2227328e182f5676460f4543deccca1f26a5ad0a6",
+      "after_bytes": 451985,
+      "after_sha256": "8476d76f84686388e866e5c4dadbe1fbf955e4bf5e9a837cfbe5a62509f4c249",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/native-gpu/receipt.json",
+      "before_bytes": 1743457,
+      "before_sha256": "46e4381a548a63cfae4467245d6453a676d788b0f04cd5b59bb327ca78a897e4",
+      "after_bytes": 451967,
+      "after_sha256": "04d209b61534626d8122b116c1b370b9e16bdf00d3c4138d880137258554667f",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/ordinary-both/receipt.json",
+      "before_bytes": 3404623,
+      "before_sha256": "4b54e58b0bd02587244f6628ebb746c715a3e73e664edfe294c2c3103300105f",
+      "after_bytes": 859763,
+      "after_sha256": "55004b2e958a91944ecf20313b9d19eab1b54c3a35b0de4f36290a8a1f7c49d5",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/native-both/receipt.json",
+      "before_bytes": 3404615,
+      "before_sha256": "09a6d4df73f62d2f8665327c1bb4eba8183b9cdea831a5a123797a7fb882edf4",
+      "after_bytes": 859755,
+      "after_sha256": "accfccc44ae52fd8994fd0b971743ec4c1633fbff1de362200806801255652c0",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/plane-controls-runs/capsule-plane/ordinary-both/receipt.json",
+      "before_bytes": 152878,
+      "before_sha256": "7aac2c850f993cf94fde24126304d1b4bf12e86a413e3e77fb551904b8dccd95",
+      "after_bytes": 50338,
+      "after_sha256": "d8d7a97a1c75e3aeac1f47cecf15c104b193c6c51e8a2d05e1d6741d35617312",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/plane-controls-runs/capsule-plane/native-both/receipt.json",
+      "before_bytes": 143275,
+      "before_sha256": "8a3d0ae8c30970b2691f81633772d21914d0607508d23dc4acf26590a57dc74d",
+      "after_bytes": 47675,
+      "after_sha256": "b1beabe7111472fb27ec26fc58763d7000e13e65cf44ee2635ef02da30120e0d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/plane-controls-runs/mover-overlap/cpu/receipt.json",
+      "before_bytes": 158179,
+      "before_sha256": "a06d2b9c76436823addc9d6371f050f1228c6518a05d133bd4cd705744a2ad38",
+      "after_bytes": 49924,
+      "after_sha256": "e3727d1ec57a0774c0980d64d497c231cb614d8f5897d61690ba975bac162a37",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/plane-controls-runs/mover-overlap/ordinary-gpu/receipt.json",
+      "before_bytes": 144209,
+      "before_sha256": "08d2c426c6d6cd1c60b40b7bc84ba00bf18472648038ef94dab2b4ee43ef49e9",
+      "after_bytes": 46797,
+      "after_sha256": "ec2c5fada2789ee012edb7bccc84c3ff18937d2d98d9d97a900904a0d1ee16b2",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/plane-controls-runs/mover-overlap/native-gpu/receipt.json",
+      "before_bytes": 144191,
+      "before_sha256": "a1b31a21d07e6f9799beb3529939a631b88816d821cf8f144ef661b457d6c4ca",
+      "after_bytes": 46779,
+      "after_sha256": "73c79f071877040437141d56f6f83f86c7f26b7365e42e4cd5f96766e8248d19",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/plane-controls-runs/mover-overlap/ordinary-both/receipt.json",
+      "before_bytes": 233050,
+      "before_sha256": "68be6f08914871cbaad19ad9f43bc87635f039f46d0fbe876dc9aea505e4dd67",
+      "after_bytes": 69693,
+      "after_sha256": "a025fa41ed356be8b9c0283eabc83dfacf358906234246728181aa869b819dc3",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/plane-controls-runs/mover-overlap/native-both/receipt.json",
+      "before_bytes": 233023,
+      "before_sha256": "8cfcb85e555a22dc06174adbb5218fe5dea96ca08b40153028982340524207a1",
+      "after_bytes": 69666,
+      "after_sha256": "d02f988ea4f065490e4cce333bfd50681e669c1fbf6ca5b82ee50eb643248d2d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/plane-controls-runs/body-cast/cpu/receipt.json",
+      "before_bytes": 156942,
+      "before_sha256": "00df7f3d6faea39af19426ecd900618d58d850f1a7b1632c7113f0a4ec32784b",
+      "after_bytes": 51154,
+      "after_sha256": "2cce3620520b7d4c95588e07e67d7bbd8c21c551c801294bb0147fe151c415c2",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/plane-controls-runs/body-cast/ordinary-gpu/receipt.json",
+      "before_bytes": 138589,
+      "before_sha256": "c116e89d8ccf1ce0cbb27a9f8cc0c27267e98029d2545bb7af3fedb21d770dfe",
+      "after_bytes": 46965,
+      "after_sha256": "f73d5f3f17f092a765201a7bc2737d325d17c21dfbcf831be6550cb7dd277aaa",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/plane-controls-runs/body-cast/native-gpu/receipt.json",
+      "before_bytes": 138612,
+      "before_sha256": "2945ab5cf7b26f603ad3ba01d1a61aabb52ed0513ebc9267aa2029f37592ee13",
+      "after_bytes": 46988,
+      "after_sha256": "e99fc9fcc1b08bd12d8be4b51128c0f9139bcdffde5e21049f8622f85aba2f13",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/plane-controls-remaining-runs/body-cast/ordinary-both/receipt.json",
+      "before_bytes": 186587,
+      "before_sha256": "9c9f138e598793aed661688e54ac1bfaaca1cacc32dd5aef60938ace3b15d85e",
+      "after_bytes": 59774,
+      "after_sha256": "5ad19b020edc7ad6bf5f0e756fec48209d2fea6eff9ddb5f864b391d601bdd66",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/plane-controls-remaining-runs/body-cast/native-both/receipt.json",
+      "before_bytes": 186569,
+      "before_sha256": "1906b1d28d1d7336722baee53f2efd3929822637745c1f208d91bf36de1efa73",
+      "after_bytes": 59756,
+      "after_sha256": "ec9c6f69219135fd390145b24f0e423e72600f1a87dc3df5c8248c1aa2d7cab6",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/long-ray/cpu/receipt.json",
+      "before_bytes": 370610,
+      "before_sha256": "ca390972989ec09b690f99295e0fd2c3a28451e2e7e3dbb253822146bdfc27f7",
+      "after_bytes": 117361,
+      "after_sha256": "906d5ac531906f3d0da29fbdbccfc3560e32830f52c524836bad6863bd9e00c4",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/long-ray/ordinary-gpu/receipt.json",
+      "before_bytes": 373788,
+      "before_sha256": "9bfbdf54fb1180cd52ea9b98e5547eb9e0869fe06be5af58c9af10db9c04be16",
+      "after_bytes": 118914,
+      "after_sha256": "71b1edf4e5f6a2c6e9b7a41fca14fe7ba57bcbf649f2921b80f7cb4fa10a7642",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/long-ray/native-gpu/receipt.json",
+      "before_bytes": 373771,
+      "before_sha256": "b5db67ed5119f0a28b4e3983fa75364934542c0be3a7b8d36ad92957b1b14307",
+      "after_bytes": 118897,
+      "after_sha256": "c310ecb47551d31c6ab2b93a55536ae089a0c020b907359ced853a2d0a675986",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/long-ray/ordinary-both/receipt.json",
+      "before_bytes": 636240,
+      "before_sha256": "1cd0cabe13c3d8d169aaf424f057fc9c2f469958ce306fc042a7a1c90ebd06b6",
+      "after_bytes": 183263,
+      "after_sha256": "56b8b73ea9907bf34e9a2e80943d9ebbbb434635617e0c0c0dcd70aec8d31c9f",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/long-ray/native-both/receipt.json",
+      "before_bytes": 636236,
+      "before_sha256": "b8a21c73f6fd06f17baab5d48fbe08140716cd23691470934ac18a4509dcb3e7",
+      "after_bytes": 183259,
+      "after_sha256": "7626579dae1dd8802a5f5f370b2b6f39f216d4211be1dc150ee81b741fd9506a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/overlap-world/cpu/receipt.json",
+      "before_bytes": 491329,
+      "before_sha256": "e0b45298abab3832cc86fc384e7c2436c3915c6669b433276b366c047ad8d46f",
+      "after_bytes": 136798,
+      "after_sha256": "ac3593afae7de7dbd55d52128dd7d281efb154ac26ab1282fb64f1a15ee11895",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/overlap-world/ordinary-gpu/receipt.json",
+      "before_bytes": 492552,
+      "before_sha256": "82a75ee4fdb5f1234eed832b7f067b7545effc27eb89c9bc07ac13f2a2051669",
+      "after_bytes": 137479,
+      "after_sha256": "764481899bde05699da5f81c242e22de6ea2a387895d33cc343548a73c8efd28",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/overlap-world/native-gpu/receipt.json",
+      "before_bytes": 492550,
+      "before_sha256": "cd29be1b9b24a480334c749a8b797a075f1c4a7c9adb3b6618d7d10b957c37c3",
+      "after_bytes": 137477,
+      "after_sha256": "84e1ef4b14589317893801d50f56a07b2340a0ef0a560e876c5d6d30349b5edc",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/overlap-world/ordinary-both/receipt.json",
+      "before_bytes": 913609,
+      "before_sha256": "e27c58dd462a208c2846acc89bc1cac030afee47949567256012c459c16a7a88",
+      "after_bytes": 245164,
+      "after_sha256": "f66c4ad797b7dd7dc3aebe5b6672a790551f2628b2466ef49568e4f8942439ca",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/overlap-world/native-both/receipt.json",
+      "before_bytes": 913597,
+      "before_sha256": "07c2ac1843e138fac2f435c82c2d7f1dfc2526a521d376f80a371a23fde1302a",
+      "after_bytes": 245152,
+      "after_sha256": "f5df21f5b36dc380145260884a850de6f6202c4a86a28e642d854378f662d71c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/shape-cast/cpu/receipt.json",
+      "before_bytes": 651770,
+      "before_sha256": "6cb4b84508d6d90ed093e8c7172e82d049ed56e2befae0ef9787add3465168b2",
+      "after_bytes": 183297,
+      "after_sha256": "743dc6589a43b4061e2958b09b8420cbedf7166d072b7a2f863134be7a20283b",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/shape-cast/ordinary-gpu/receipt.json",
+      "before_bytes": 653324,
+      "before_sha256": "48e07a273d072f4253b3fa13ebb2b60a8ffdaf95cfb27253c080a4ed093b99fd",
+      "after_bytes": 184053,
+      "after_sha256": "d449438442aff7535543a3d5c15696ac98f20e840927e7bf09399b98281ea18d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/shape-cast/native-gpu/receipt.json",
+      "before_bytes": 653292,
+      "before_sha256": "694dbabcc292839e32838679a3d750c09c93ce40304e9fc255953e6b360f2c68",
+      "after_bytes": 184021,
+      "after_sha256": "73d69381414b1aa97380d64c2d3a4cd3de3cdf603797479356a30009760471ed",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/shape-cast/ordinary-both/receipt.json",
+      "before_bytes": 1189433,
+      "before_sha256": "584643f46876637e9b3df59aa9f67e84192270e4b2b783439408c9c111e86b7b",
+      "after_bytes": 320856,
+      "after_sha256": "f1b348fd01c2b247fa867bee57bf6b2db346134f0e94a24f8d289cd66d1aee94",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-runs/shape-cast/native-both/receipt.json",
+      "before_bytes": 1189430,
+      "before_sha256": "8df3aa469f03b9ad0ff6ca16242fd21df0905b61d16f24ee3d089dc5bb1c3680",
+      "after_bytes": 320853,
+      "after_sha256": "0a2b8c4ff209d2bcc8a0d5fff4eaea11d7bc18072344ba950bdf9fdccd2be56c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-tail-runs/cast-world/ordinary-both/receipt.json",
+      "before_bytes": 3521985,
+      "before_sha256": "84b612593b7575048267c3f5f644cb7d6487558d9a6065d82b6c1675207f3b7d",
+      "after_bytes": 1000722,
+      "after_sha256": "bebb8799f4fdc50098f8694f8c574e5f2fbcc45364e463009b08f80ff46fc86b",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/cast-controls-tail-runs/cast-world/native-both/receipt.json",
+      "before_bytes": 3521985,
+      "before_sha256": "69ef8578cbe71adfa46357319270d6f1e5a8864ed3c10503c7e22648a6b39005",
+      "after_bytes": 1000722,
+      "after_sha256": "d8229b8118668ff994be00d73cba497b1c1fad833e7b4c31b8b999e81a008007",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "before_bytes": 1484502,
+      "before_sha256": "547761ee5782037bc2732f7d9d0d70e8e50ac1005c2a0b8ed76c70788da84585",
+      "after_bytes": 420123,
+      "after_sha256": "4b9f393e2f8ec46f118075bc334c4daeed3a8493a3da5a0c124cfecd2e6aa9f8",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "before_bytes": 1188237,
+      "before_sha256": "ead0e14275f8fa06b321693c9b1f38c10e5638f845a3724ad1e502888513ba7f",
+      "after_bytes": 333526,
+      "after_sha256": "59022c53b986429321f5d53cb9355ce6e406a6ec447f4acd8d5916b9a7e38562",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "before_bytes": 1188302,
+      "before_sha256": "021ccf87ad007e244b07c8e5949e55adcd04ccd61fac48147ce0df57a1a2b381",
+      "after_bytes": 333591,
+      "after_sha256": "f89037083e2444eb3ef1a2a36fe5f7913b9c1b81025e5b89616be3f8feb6c344",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "before_bytes": 2894725,
+      "before_sha256": "860ee5d8c3e00176959c73cfae0fc46a8fa135b7efd2cad39e110985d596b8b6",
+      "after_bytes": 801358,
+      "after_sha256": "3e33dd47a4d4bd85d82a8e13e4db114e9c7e2e4b2c9e2536230460d8ed92a521",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "before_bytes": 2894863,
+      "before_sha256": "eaa62addb187a78601a01334410481c8f49f240e8f580049c52fe4c6b9ad8fcb",
+      "after_bytes": 801496,
+      "after_sha256": "6af26d235c54dd107bb5362792aa1e697ab61cd1629362e9fc4ba32a87745451",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/cpu/receipt.json",
+      "before_bytes": 660648,
+      "before_sha256": "8b94e7e4b6ecb45ec023540416afd22fb2842b81b20be6a349f09ccdf57de5d5",
+      "after_bytes": 199963,
+      "after_sha256": "0e03eb0890838c055767eca38a8bc59ebd15334466523307c0f472ed7e03a73e",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/ordinary-gpu/receipt.json",
+      "before_bytes": 657547,
+      "before_sha256": "0b5d44d31f10c301fc8b3733b20d58dc0088fd85f3d5a8c7c6c27ff19de387d5",
+      "after_bytes": 195123,
+      "after_sha256": "50e95b85e24519925fd214ce7ed4d73e65222e6e3d9ed979907b53c37e0104ab",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/native-gpu/receipt.json",
+      "before_bytes": 657549,
+      "before_sha256": "50c41b3fce1bab49e08389f0ec0e1adb4d8f94a1b62f9a8bf8827474c9ead4fc",
+      "after_bytes": 195125,
+      "after_sha256": "2288f2bfae99d7457c3fa8889bc868a104a46f620be49e7dd0c2d7e8146c32bf",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/ordinary-both/receipt.json",
+      "before_bytes": 1244740,
+      "before_sha256": "925e73ff1e5b4f71632e92d1b32c7571b6c94912f29043a3745286b007041180",
+      "after_bytes": 359555,
+      "after_sha256": "fb060b063f59b7e7cd6c4340d24afeac79df7c8cd698e3a756537554118115af",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/native-both/receipt.json",
+      "before_bytes": 1244740,
+      "before_sha256": "cc8ef1755625af7c15f88f1206deff7810b236b4b98706370b952babf2cbbf34",
+      "after_bytes": 359555,
+      "after_sha256": "02def73fe71cdc3f867e8b9a16fde7db334fa321ebc56dd6d8b29855cfb7021e",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/cpu/receipt.json",
+      "before_bytes": 3110377,
+      "before_sha256": "44d5012108910e3486ccca6e9aab0a01ba4a03c1fef5df36116a820bf2e0d9ca",
+      "after_bytes": 845786,
+      "after_sha256": "7c57e966ba64566f319d05333852fc7d6057a80ab14ab874591717bd8d061300",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/ordinary-gpu/receipt.json",
+      "before_bytes": 3048732,
+      "before_sha256": "89a49dec4ffafb80f5967b7f47bf30ca15fd51540dd8b448a38e67c2e9b97f18",
+      "after_bytes": 782516,
+      "after_sha256": "39fc944bb2fb1c7e7ee5927fa5495bab65ec02d3c3365795d7c88d48b969cff0",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/native-gpu/receipt.json",
+      "before_bytes": 3048700,
+      "before_sha256": "3f62c740d4defacf99168548fe71b78f0a1eef0bad3cad6725a487f1b524d1d9",
+      "after_bytes": 782484,
+      "after_sha256": "a53e7b69fb92608662addd29c4a6384eb7c6b31b4614ec72a8c5b2f7aed03093",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/ordinary-both/receipt.json",
+      "before_bytes": 6200456,
+      "before_sha256": "3105809a4d386f293f8e039f4deaf913b0c852b2b54b448205d9f1923aa5d16b",
+      "after_bytes": 1680005,
+      "after_sha256": "76c719d89c55762368aedb5c2f49ca4e6a5b6342eeef77540af42dae11d9934d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/native-both/receipt.json",
+      "before_bytes": 6200440,
+      "before_sha256": "fefbf5785611f95820b43945937b230a8f979ff46a56958f7d930b83f77d1fb6",
+      "after_bytes": 1679989,
+      "after_sha256": "019ada1764a9659801b29eed0d8264af12397005c6fc1aeccd36636b2faf3a3c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-off-held-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 232780,
+      "before_sha256": "db606fbe54134c460a9dd8ea2949e8126c22ae5fe843febf74cb154f7e170c3a",
+      "after_bytes": 68531,
+      "after_sha256": "9dfcc044a5ed35160716b551ee8b300463cc7bc54afe1c325e9496d78d3de682",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-off-held-runs/native-gpu/receipt.json",
+      "before_bytes": 232684,
+      "before_sha256": "320cdf3a0ca3492d32c86ceaf7f0c5a3e1ea0293e8316815d8df5200c62d97a8",
+      "after_bytes": 68435,
+      "after_sha256": "51321e4ec22a26c93a8d34ff5e85d0ad8388914d6ad3ee419f3dde4cb11fc77b",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-off-held-runs/ordinary-both/receipt.json",
+      "before_bytes": 451636,
+      "before_sha256": "7f477ed0b219e36216521d2ab7a14d7ae44719e43c349309e8e51fa8daf2e38c",
+      "after_bytes": 130810,
+      "after_sha256": "ea271af293cfd5968caaa426694feb901c98315d340a6e33e7342e855e464df3",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-off-held-runs/native-both/receipt.json",
+      "before_bytes": 451877,
+      "before_sha256": "0ceacd5f1826662c5c1199a461b0a8bf2eb479398fb9d8939849749a35ec7a4f",
+      "after_bytes": 131051,
+      "after_sha256": "d176ca39784332fa2587251957cdcd452647204b4b43c9cdd00c33228de58a89",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ghost-controls-runs/cpu/receipt.json",
+      "before_bytes": 420640,
+      "before_sha256": "4770cdc047929e7265ef6e784b831dd619d5f7d796ea8a15a1dbd5789d0b4073",
+      "after_bytes": 137120,
+      "after_sha256": "980797a26a528225be6f4fd8e834619bd381f936f9f8b2579f02d842a26cd692",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ghost-threshold-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 244688,
+      "before_sha256": "e8c484f56a47a9b0ee23721be9c9d24fbc00ddc36740b57d629c15c9e7cb79a1",
+      "after_bytes": 87447,
+      "after_sha256": "6d902c7378b4f7f415820e740df639b7067effe2452280405c71056b168d2737",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ghost-threshold-runs/native-gpu/receipt.json",
+      "before_bytes": 244674,
+      "before_sha256": "d71defddb6e231682344bdcf7798a7aca06b1470959c0befed739221ce57fa70",
+      "after_bytes": 87433,
+      "after_sha256": "3c6fb6340ceb69d87da82e5dc5a9b9bad4a0b6a5b76e79732eb0a5c2c4704399",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ghost-threshold-runs/ordinary-both/receipt.json",
+      "before_bytes": 413197,
+      "before_sha256": "609ccb5c36bec1e8a4ab3fef0c478a7fd0859931badfdaaded23a10a387be975",
+      "after_bytes": 136901,
+      "after_sha256": "ff6c73c711c23740a6db200622fdaf8e62249cba11456ee90f2221b9b048483a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ghost-threshold-runs/native-both/receipt.json",
+      "before_bytes": 413216,
+      "before_sha256": "49e27d989b708a1b589c501bd5b303fc5a47bc4570037e9ebbf101aff0504445",
+      "after_bytes": 136920,
+      "after_sha256": "eec9f615a1ba2e3d9fbd8907ddd852bcaec55c52c9d7e7503d97f4b4f2f362dd",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-cli-popup-runs/unsupported/ordinary-both/receipt.json",
+      "before_bytes": 138667,
+      "before_sha256": "f7930d21cfcd1e6f78637494cbf2e82ed4b84ca7398637a6ee75489e841a5d06",
+      "after_bytes": 61583,
+      "after_sha256": "86e5ea6fa07a861bd90f1b6cc4b7d394df1260174b5a85c2c71b790e6db383f5",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-cli-popup-runs/unsupported/native-both/receipt.json",
+      "before_bytes": 138672,
+      "before_sha256": "189aced095ed64ed4ba2cd87c0101ffa2a91b14e13c9bd89c56adb4848d33c21",
+      "after_bytes": 61588,
+      "after_sha256": "197a051b31e440525a61bd441b52d1dac88190fd81349fec211a0b4aebed8636",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-timeline-runs/cpu/receipt.json",
+      "before_bytes": 1170354,
+      "before_sha256": "38aac9d96ad834a5b531c99074c11544c08de4ca30f86b87367dde0f0b73eb87",
+      "after_bytes": 389782,
+      "after_sha256": "a76c379bacf1be1556c4192ac550159304058765eb4d637bbac197699458c2e5",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-query-runs/cpu/receipt.json",
+      "before_bytes": 674132,
+      "before_sha256": "81d9c7435b5bd5fab83f6f5809663bcbb1baf79bf652afed4c1b9eaa428f9add",
+      "after_bytes": 229144,
+      "after_sha256": "cd1ec464b5904d927f9ed8aead427d2a687d2af494f3f9befb90307cf27d1c8d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-selection-runs/cpu/receipt.json",
+      "before_bytes": 620486,
+      "before_sha256": "4811d8c8337c3f4b675cc939d6283a42dd46ec26901bbe7abee992e1c7f67629",
+      "after_bytes": 211512,
+      "after_sha256": "03778c71c386f6af4efe6618f84d5d15ffccc869a4d55a649bff81be18291379",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-corrected-runs/cpu/receipt.json",
+      "before_bytes": 286603,
+      "before_sha256": "13015ac9ac83d750a4d13058a9c9ffef4927233d7f7201e43ee1f2674e1d1eb3",
+      "after_bytes": 126976,
+      "after_sha256": "1211a99ba12196b12d5fe0bc128a27c9d49a06e81cffe84bd538c8da7e5fb405",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-completion-runs/cpu/receipt.json",
+      "before_bytes": 185992,
+      "before_sha256": "dcadf0af677a37fbda1cc549264dfdcf02a369ab1ca5b13119a58287324c542a",
+      "after_bytes": 80325,
+      "after_sha256": "742767a6cbbbb16fb901dbb247d7d586b5f35908c39c01878b1fc637307185ee",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-completion-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 446211,
+      "before_sha256": "bdade69044e907779d68f651661d9b95d9fb5a866ee894f4ed47610d3762730f",
+      "after_bytes": 193725,
+      "after_sha256": "eea06972c69a5fec241d44dedfb138810bb25bcdc10b39f1482097d1d09b50d1",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-completion-runs/native-gpu/receipt.json",
+      "before_bytes": 446198,
+      "before_sha256": "3914015b51cc2fc338d30f5422d35933e629774bfe8caf06656a9386cac9f254",
+      "after_bytes": 193712,
+      "after_sha256": "066d736c3eee26d05ba253b334ab7375ad9cf943904958224e589d2c63c15cc9",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-completion-runs/ordinary-both/receipt.json",
+      "before_bytes": 336923,
+      "before_sha256": "dd9e7f88c62eb355e884b855bd3283819c17f3752c4926cbfc4a8c16cb36fb1a",
+      "after_bytes": 146006,
+      "after_sha256": "d377b5b6c84b95e2c7ca817b535f889a764f375e2ef1ded68226e8b399a57f8b",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-remaining-runs/ordinary-both/receipt.json",
+      "before_bytes": 641001,
+      "before_sha256": "9790b0efae49644e260f63782a1c01ea7dada411813234ab20a56ce7106f5baf",
+      "after_bytes": 270055,
+      "after_sha256": "9f6d976c37f283e19f6dbaa75bf3431ee9c157c27f4b612ce86899c80d0e3f13",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-remaining-runs/native-both/receipt.json",
+      "before_bytes": 824192,
+      "before_sha256": "e69cbb7b4a7a526ef0953cf8ff89b018e111f17db9d691484056e6ca4c7d4477",
+      "after_bytes": 350656,
+      "after_sha256": "7a7eca28d486c7a31c6a9b0ac2aebc765299f36b19af0f6e7ac71850e6c5fc34",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-runs/cpu/receipt.json",
+      "before_bytes": 279403,
+      "before_sha256": "00e70b05a262393ff0aaafe3bb6dfa5cf83e1a34df45b351f1306085ece9e067",
+      "after_bytes": 113465,
+      "after_sha256": "fe1dab7bca89dbe2861d017b8b606df65b6958462de32edf50624ea0b9871456",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-completion-runs/cpu/receipt.json",
+      "before_bytes": 265172,
+      "before_sha256": "96f15796431e377ff34f9c9654a13ed069978cbd801aec2bd57acd5f69e32fa5",
+      "after_bytes": 112570,
+      "after_sha256": "0281745cd0240b01147d0cbc95e042589062aeea43fcf87703db4b47fa93382b",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-completion-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 510992,
+      "before_sha256": "1e8f7b6c674b44b7fbff366e37286f669d1261f12204ff53dcc1707078175fb4",
+      "after_bytes": 207812,
+      "after_sha256": "9eb4efb82af405023d9e32e7908e89c8b41315f9b6272f6c7ac8789966b18ff2",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-completion-runs/native-gpu/receipt.json",
+      "before_bytes": 510984,
+      "before_sha256": "64b133d174290bfa431788c2a515c7c59bf4f32fb9e68a5ba860ca43ebef5bb9",
+      "after_bytes": 207804,
+      "after_sha256": "84aba35e3bf976dd5428be19374439d21579699fd01d79b02fedae9ac2e3cad7",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-completion-runs/ordinary-both/receipt.json",
+      "before_bytes": 974521,
+      "before_sha256": "957eedb6dd250705c87b76e8cced1c3e484970275e7cffeac38ff92ba6b80f09",
+      "after_bytes": 392551,
+      "after_sha256": "25c212786b7d53bf2f0b33a3702ca296b3b7f1462e749cd9c75dd093669e223c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-completion-runs/native-both/receipt.json",
+      "before_bytes": 974509,
+      "before_sha256": "def6270b6e92fe06d1cd6ea4d1916030958d416dc144c84d311ffdfe3ece34cb",
+      "after_bytes": 392539,
+      "after_sha256": "aba5947d5f5e05fefeecfe3c4b9d00ff9bef86371d02236d5011c6ab65256db4",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-runs/cpu/receipt.json",
+      "before_bytes": 218929,
+      "before_sha256": "b32a2c0336174115b11417c24679a2d25342df0bc31471659c840364515f621c",
+      "after_bytes": 77496,
+      "after_sha256": "1c78736806b184305b88666740bd7c240d2ef7a626d4ec2577110021711b25f6",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-trace-runs/ordinary-both/receipt.json",
+      "before_bytes": 401790,
+      "before_sha256": "097cdc734e87a67e69f8897fdb67033ef72b6d3b0e19eda5860b0ad402243f4f",
+      "after_bytes": 136612,
+      "after_sha256": "88cdfa3eb6f7281080eedbb17ccb9239abe16a88e863efd60b73049bb624b591",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-material-runs/cpu/receipt.json",
+      "before_bytes": 142322,
+      "before_sha256": "296a455db39a16565505911b33f4a34ae1da804efb42653361e5f0386c805abe",
+      "after_bytes": 51204,
+      "after_sha256": "2e8a7cbf631784df0c815b8ab8e96c043706fe125ab101e96c46097530bcb1a5",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-runs/cpu/receipt.json",
+      "before_bytes": 433165,
+      "before_sha256": "291edc5e84658ca9c577eb21730055aaca607386ce97db8319df15a12fe3427e",
+      "after_bytes": 159565,
+      "after_sha256": "052a975d71e3477f8b86ea2fdc90f4c6a88f80a960443baeacef9c570d76c5f8",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 427897,
+      "before_sha256": "0f9688723b01c8cf0d60a07e2c92a4ce0e8722609c38cd58d8c7f5077430e19b",
+      "after_bytes": 156932,
+      "after_sha256": "51ddb59178ce4904ce879baf6e13960062d169983373d6bc5cd6cfa8877d83bc",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-runs/native-gpu/receipt.json",
+      "before_bytes": 427901,
+      "before_sha256": "8ebce7f8613f2ecb5bfcad21152eb117d63042ba3a711693f54816ab7a2d1a34",
+      "after_bytes": 156936,
+      "after_sha256": "38c7bac1b2f1dc8323b0fa1c76c51d935985675a7c0b029143b057d7f9988e83",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-runs/ordinary-both/receipt.json",
+      "before_bytes": 803843,
+      "before_sha256": "d313585e68b8124cc4cfb8920e742881cbdf4f5dfd6d5c8d8c50ddea5f48e007",
+      "after_bytes": 284327,
+      "after_sha256": "186d87e736bbc35856d1872cb76ec5c821746aa3dd719aa889c99cbaa2ab9d24",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-runs/native-both/receipt.json",
+      "before_bytes": 803835,
+      "before_sha256": "341a096d676dd83de3071203f0f66f6ade1a6049e78c951fb77b2af033a06bec",
+      "after_bytes": 284319,
+      "after_sha256": "5021ef26d09f475120d5e729aaffc2380750d7de65f92aa7a41fc0ad419f95fe",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui13-runs/cpu/receipt.json",
+      "before_bytes": 265583,
+      "before_sha256": "89aa04bf43c611ae0ad8ceb49932251bf42e180e2776389672f438f8b3ebc6c7",
+      "after_bytes": 106597,
+      "after_sha256": "b29787ad62ed09369b45b8caf1bd20e5dd72dc288ad4a3576f24b9bbabda180c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui13-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 270415,
+      "before_sha256": "96dd1b8236fbc7e58a8fc91757dec7577871ebb8b4acbc6830f4bfb1ddf7e8ac",
+      "after_bytes": 108977,
+      "after_sha256": "29cf5da5de89668317830bca7c679665d612a4fcb5e43b5a468a38db3d85b95c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui13-runs/native-gpu/receipt.json",
+      "before_bytes": 270397,
+      "before_sha256": "71efea837546901a82a11906e58a22983a6a1e94a08683188a14a881d89d832f",
+      "after_bytes": 108959,
+      "after_sha256": "218f623bf49df49de4c59d10954a00b5e2cd626885a58654161b68f246cc0ee4",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui13-runs/ordinary-both/receipt.json",
+      "before_bytes": 292728,
+      "before_sha256": "794ab8ebf6133a42507cc58148c6b31394736a7b50fa1dde00b517b80122930f",
+      "after_bytes": 115862,
+      "after_sha256": "8aa2bfb12272f102fc2c04003164bd40a9e39654525f2f695e62e7294c93b97c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui13-runs/native-both/receipt.json",
+      "before_bytes": 292693,
+      "before_sha256": "090be99a6d9762662d0e10846ff26b348ae6c35bafcdee4886444951d84c472d",
+      "after_bytes": 115827,
+      "after_sha256": "3ab52ed11b98efa26a485ded477ff2f2d9f815044e063b1890746a2c10126dfb",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui14-runs/ordinary-both/receipt.json",
+      "before_bytes": 136761,
+      "before_sha256": "7a0d7e1de417e9d00c92bf1c47244adc701a789aef8f85852e8774a1015adc10",
+      "after_bytes": 51744,
+      "after_sha256": "a04b5e689d478eced097690cc880d4ba4050e96a286131ef040ccc9fc97a68fc",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui14-runs/native-both/receipt.json",
+      "before_bytes": 136767,
+      "before_sha256": "4d06275c31a7610f6238ca3fe5f1e40a1983ed5f2362d0be64cce0c48a063359",
+      "after_bytes": 51750,
+      "after_sha256": "c7fe2eb4d45eb114d4c6d2f288abcfeda2d232bd381b93a3a8ddce2d6a61557b",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui16-runs/cpu/receipt.json",
+      "before_bytes": 246057,
+      "before_sha256": "47c129827b35eb1c40e4ebfddeb8206dbd8d98ba70ad5b656a8dbe7209e27257",
+      "after_bytes": 99415,
+      "after_sha256": "51a1584840a20b136f72d12c33083de510254e5daa223e8c8761f5b2bf4f8d7c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui16-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 249192,
+      "before_sha256": "e07d7e5a79311f2361687bcaf6f7397c70e566ae7df20bcad25fdb08e80f49f9",
+      "after_bytes": 100925,
+      "after_sha256": "a8db7602b03baa0a251ac44183493dc8e5a0c622ce4c4a68d2358f6726874ae3",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui16-runs/native-gpu/receipt.json",
+      "before_bytes": 249203,
+      "before_sha256": "ba03b375984e614e753a510b9dfcac5645f7c94b631f7aeae8519efee3e54901",
+      "after_bytes": 100936,
+      "after_sha256": "9f18aed3838dd58c7a68eaafddf1569d718b8a8b319d709f2332b7730c781781",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui16-runs/ordinary-both/receipt.json",
+      "before_bytes": 277367,
+      "before_sha256": "e84362c03e93f734968975814a53499f0e7147a58b4f41e1ca4736bb20fc185a",
+      "after_bytes": 109105,
+      "after_sha256": "acc566f25066eac01685f369a85dd69da864bca54d4f5b05c72a822f7f6bf228",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui16-runs/native-both/receipt.json",
+      "before_bytes": 277341,
+      "before_sha256": "ffaa6e94532223bbd272050e5f99c9d19079ee89c9c1e851e7299aac5c6e62ba",
+      "after_bytes": 109079,
+      "after_sha256": "86796593708bae02e5d12bf2d3e5e1a4a4d3310397ac0e514b54d6d406cf2c9c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui17-runs/cpu/receipt.json",
+      "before_bytes": 526906,
+      "before_sha256": "64ac9df8d2fa80228747c4d34d6d40b1f2f3e258a4fa1d2feda59ed0f3580bbb",
+      "after_bytes": 171767,
+      "after_sha256": "288c5dfef891e700dfcce9abb9ec336a92635b5586c68a06c25c20341394aa91",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui17-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 530054,
+      "before_sha256": "757d958b0eec575426897db36088700d07f5deee36b929dfc73656b26ad7bcbb",
+      "after_bytes": 173290,
+      "after_sha256": "f01c97ef949a748470a19a5f2eb3c50dadebfa8587cf0ac7473df43206b26bdb",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui17-runs/native-gpu/receipt.json",
+      "before_bytes": 530050,
+      "before_sha256": "7b3a1b7de06af7c6a79d723c586de51cfb626ac0d34e864ab00cb52f5a2fc58a",
+      "after_bytes": 173286,
+      "after_sha256": "367e941ef6dc196b130169044762a08dfcbbac051b356219dfd993a5802e8b81",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui17-runs/ordinary-both/receipt.json",
+      "before_bytes": 559245,
+      "before_sha256": "48084f577b2b0f9fc526b7e0108e4eee11d382d21e6aa26cf4f67d1e67237e3a",
+      "after_bytes": 181809,
+      "after_sha256": "eff926a7af5effe18f13e3c578de86451d6f889ab13e43ffb877a8ca92c57465",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui17-runs/native-both/receipt.json",
+      "before_bytes": 559534,
+      "before_sha256": "de981930789294356e9a47f7631cc15d941d6c9f8609ad8a9830a671934bac3b",
+      "after_bytes": 181845,
+      "after_sha256": "e1dc7801c177390089d9b21859543994a2d2e56095092723d27b3d402b9ddf53",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-qualified-runs/cpu/receipt.json",
+      "before_bytes": 1394915,
+      "before_sha256": "7c152ec366235a15080f792578377497f2e37f9da21683c575eb912d77a6804c",
+      "after_bytes": 478181,
+      "after_sha256": "322e42959a7752e88c3ac08593be6009d9bd262b2c8f97466b728238d234306a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-qualified-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 1343604,
+      "before_sha256": "efa04e90c25d58038da3777190db40b490f04da8fdc658b7770a92847111e456",
+      "after_bytes": 463710,
+      "after_sha256": "e45802dab97ff11f6ab833fc6c11fc0b558e70c310d906cf07dfec977a70dd72",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-qualified-runs/native-gpu/receipt.json",
+      "before_bytes": 1343560,
+      "before_sha256": "4e6fd4fafdfc9fbe3cef49e64ce80f76a68b8699993b023bca5ebdd1478c30d6",
+      "after_bytes": 463666,
+      "after_sha256": "3f161519baf1aaec6289b66e7505dcbf97a052c195d782ccd85396a61d347f22",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-qualified-runs/ordinary-both/receipt.json",
+      "before_bytes": 1595559,
+      "before_sha256": "e90cacd9778660ded0efefb0d69ce4d88056a13dd65b058dd9b712d7cca86fb4",
+      "after_bytes": 523940,
+      "after_sha256": "cca2acba333ccd7952350d8b780fcbf9a560c4f56581de17830515595920bd2d",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-qualified-runs/native-both/receipt.json",
+      "before_bytes": 1603042,
+      "before_sha256": "c23eb84a6960645f499c699793460ba1d6bec06e8d9be7117ba42b058bc6af5f",
+      "after_bytes": 526665,
+      "after_sha256": "8984c12ece9481dc543d8d6801a21c6c92d31ca084c98ccac49ec1e9ee73af06",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-runs/cpu/receipt.json",
+      "before_bytes": 1868207,
+      "before_sha256": "993ef01e59a43d6b692ba3ac4b1074e8887e81bd23c4b74eb0b20f86b598e283",
+      "after_bytes": 682449,
+      "after_sha256": "b9d77bdc277720d2d4e0d2936f8d86077fb6cf38f1bf2040949430e7b53dc5f0",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 1862379,
+      "before_sha256": "255a37e96559209c8292e594566e6a145a4ceeb64258df99dca392b54a11ac70",
+      "after_bytes": 674996,
+      "after_sha256": "a29bc29fda7253a12c0bfb49edaa04086b06fef2235fbcd5422c56142e314972",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-runs/native-gpu/receipt.json",
+      "before_bytes": 1862361,
+      "before_sha256": "817c40cc59fe28e2362daf0b7d04d972a4d8f625255326103816e0574a7527c0",
+      "after_bytes": 674978,
+      "after_sha256": "ce1b892c60319eeab22654e905a48ea56c25416490a88045286f834de60745d6",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-runs/ordinary-both/receipt.json",
+      "before_bytes": 1901601,
+      "before_sha256": "25811218e74e7f65678118bd4535be3727b4f321c9fd4eaac49efb4bf0c0f484",
+      "after_bytes": 662326,
+      "after_sha256": "efb8b03693a0d8c99c0eca42f1405a6ae23574917508fe48290d3702f25b38a5",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-core-completion/native-both/receipt.json",
+      "before_bytes": 1896763,
+      "before_sha256": "b568ab4d94e823088e45be55d02021b1fd7e6cef4653fc21fa25a62cd7fc7458",
+      "after_bytes": 660073,
+      "after_sha256": "8b826afd4ad278dcf35b73884111db84df9fa81393d8dd8ab82c384f55376c47",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-reflection-completion/ordinary-both/receipt.json",
+      "before_bytes": 690944,
+      "before_sha256": "48559500767b61584cb8ab0224d809beddf43d09b2cd5303196c9b1a76aad17e",
+      "after_bytes": 199822,
+      "after_sha256": "02933d0bf9438d8745e3569f3291eb9de0580cf1c3d1dd209f0f1ce33b6576b7",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-reflection-completion/native-both/receipt.json",
+      "before_bytes": 690920,
+      "before_sha256": "f15c6510ef084e5a0fa7a12004ed0dd5d36878391a51b57d02aafc043b46ec1d",
+      "after_bytes": 199798,
+      "after_sha256": "bfb604ba30bf13f493721cddb5644d063f372eabb80b816d3ccac0558b385e32",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-runs/cpu/receipt.json",
+      "before_bytes": 260768,
+      "before_sha256": "5882173aba863527dfab2e805fb633975b8849053fddf62137da432c9be1377f",
+      "after_bytes": 96681,
+      "after_sha256": "c8b4ebf9d70fe0677790a7283e6e12503265a2a10aa21656575e4fd32a3b18e7",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 262275,
+      "before_sha256": "7ec6a8db9f90defbab9b7ba1c95e48dfd629820b315021f18bd8511157e3c3e1",
+      "after_bytes": 96563,
+      "after_sha256": "0b13b6bf25c78d7950af5cb01dd7726a35809883629bb2d70c32a20a34a2d7d0",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-runs/native-gpu/receipt.json",
+      "before_bytes": 262247,
+      "before_sha256": "59d9c7bc19a4cd50d638e59d399a1a56702d3a0652cdff0d0282dd2f9f8fa749",
+      "after_bytes": 96535,
+      "after_sha256": "0f27b07fae2af487685dfd52f68bda552eb1c71d306045a3381633d1c7727911",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-runs/ordinary-both/receipt.json",
+      "before_bytes": 467419,
+      "before_sha256": "847928b2e05e157eebb8638acf5e9013bda6d648ee6d1f1c1fc8d99d7c28760e",
+      "after_bytes": 162938,
+      "after_sha256": "dda746841ccf89d1fabbea1b9e27d14da0852c0747d8cea02513f4b01a57ba63",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-runs/native-both/receipt.json",
+      "before_bytes": 467391,
+      "before_sha256": "4ca4d652d7528b7c13fdcfd71ad9ac8bb8bdeec08513f65ea47a8b5fffbaf24e",
+      "after_bytes": 162910,
+      "after_sha256": "583514c8409b6a596173558bcd418d17f5440748c67af5b3382d1a4a3c9b146c",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-runs/cpu/receipt.json",
+      "before_bytes": 925957,
+      "before_sha256": "e906140fe32bb90929dcdd1c2bbdff99786e692af88f2eaebba226d80a2861df",
+      "after_bytes": 318981,
+      "after_sha256": "dbc90130b167e871655bee83f9aad7f1ba6b4d199a1bdd182ed1aea331ca1b5a",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 931701,
+      "before_sha256": "31f6edecc765e910ab7611c0f19e3db80e8dc8a0899ffe6d9d593a8f16755f36",
+      "after_bytes": 317919,
+      "after_sha256": "64a3ba903f3a4fb40d12dcaac074bdeb0cf5565abaeb12fec6f2fa557e216859",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-runs/native-gpu/receipt.json",
+      "before_bytes": 931675,
+      "before_sha256": "659a1d96e6492c323141eed0631872360e96eb2d2052c84680c652ee3b4edd72",
+      "after_bytes": 317893,
+      "after_sha256": "f069c2aca57f9d90abc3057b80c948e334b797e8a63a8df73e57aeb1f43f3ca0",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-runs/ordinary-both/receipt.json",
+      "before_bytes": 1660119,
+      "before_sha256": "f0951efad04943dcc5cabfe8a55cae2511edb4fa6ce2b68347adfdecde48a629",
+      "after_bytes": 531681,
+      "after_sha256": "35d454aea2d2e5e0222f0c0eb460a3a05a2ffa9d2c92072d0c813d012f22a650",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-runs/native-both/receipt.json",
+      "before_bytes": 1660068,
+      "before_sha256": "7f4e1fdcbb69a2b682d7e265717127f9f4bfaecfabb9db5bdaaaa4e21b60aaa7",
+      "after_bytes": 531630,
+      "after_sha256": "9ae7f1911450357da252176aa41ff9c9e93dbcf24ca59f8d37bb902282f40822",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-runs/ordinary-gpu/receipt.json",
+      "before_bytes": 969636,
+      "before_sha256": "b08308d41a47c17ae637161a3b05a5bebaf11bf1d916d2bc93d3709e25ddd8f4",
+      "after_bytes": 336786,
+      "after_sha256": "79fdf56aa19b755955e58f81193a125a8c69078137e85833e39946f95d1892bb",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-runs/native-gpu/receipt.json",
+      "before_bytes": 957103,
+      "before_sha256": "4e5efc3ce1b666d1e22d1eac45f0b472b9ac154b290cadcd4a854d9d3da3e335",
+      "after_bytes": 331375,
+      "after_sha256": "3d61ee20daac7d948189eeae4e267d78a59807d02a44150f289491586688af5e",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-runs/ordinary-both/receipt.json",
+      "before_bytes": 1685537,
+      "before_sha256": "e62781cd3506a150dfe2792c293bd1946fa1ad9137dbcea64de6afe76287b8e4",
+      "after_bytes": 545153,
+      "after_sha256": "ca62d7efb7de8563cdfc310df6aeaeb10fab6ede0526134f8fe648f057e9092f",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-runs/native-both/receipt.json",
+      "before_bytes": 1685534,
+      "before_sha256": "b35af28aa0178ecdcf9011cc3a38a32d986415162c5dcdaf62bad0cd8bdd82c6",
+      "after_bytes": 545150,
+      "after_sha256": "f8af6cfc71cd538bcc81d008d836171ba65044a42fa350c1b713d7990f9eaaf7",
+      "consumer": "Alloriginalnativevalues/IDs/actions/findings/mediarefs preserved;whitespace consumed,reversible viaJSON.stringify(JSON.parse(text),null,2)+newline"
+    }
+  ],
+  "expected_saved_bytes": 166655909,
+  "raw_bytes_before": 1006253300,
+  "restoration": "Foranyplannedfile:JSON.stringify(JSON.parse(readFileSync(path,\"utf8\")),null,2)+\"\\n\" reconstructsoriginalbytesandoriginalSHA256 exactly;fieldvalues/order/numericcontent unchanged.",
+  "mutations": 0
+}

@@ -1,0 +1,122 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "distance-controls-tail-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "distance-debug",
+    "shape-distance",
+    "time-of-impact"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "distance-debug",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "distance-debug",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "shape-distance",
+      "exit": 0,
+      "status": "REVIEWED_WITH_CONFIRMED_NEGATIVE_CRASH",
+      "checks": 48,
+      "findings": 3
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "time-of-impact",
+      "exit": 0,
+      "status": "REVIEWED_WITH_CONFIRMED_NEGATIVE_CRASH",
+      "checks": 19,
+      "findings": 5
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "distance-debug",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "shape-distance",
+      "exit": 0,
+      "status": "REVIEWED_WITH_CONFIRMED_NEGATIVE_CRASH",
+      "checks": 48,
+      "findings": 3
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "time-of-impact",
+      "exit": 0,
+      "status": "REVIEWED_WITH_CONFIRMED_NEGATIVE_CRASH",
+      "checks": 19,
+      "findings": 5
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "distance-debug",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "shape-distance",
+      "exit": 0,
+      "status": "REVIEWED_WITH_CONFIRMED_NEGATIVE_CRASH",
+      "checks": 48,
+      "findings": 3
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "time-of-impact",
+      "exit": 0,
+      "status": "REVIEWED_WITH_CONFIRMED_NEGATIVE_CRASH",
+      "checks": 19,
+      "findings": 5
+    },
+    {
+      "route": "native-both",
+      "fixture": "distance-debug",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "shape-distance",
+      "exit": 0,
+      "status": "REVIEWED_WITH_CONFIRMED_NEGATIVE_CRASH",
+      "checks": 48,
+      "findings": 3
+    },
+    {
+      "route": "native-both",
+      "fixture": "time-of-impact",
+      "exit": 0,
+      "status": "REVIEWED_WITH_CONFIRMED_NEGATIVE_CRASH",
+      "checks": 19,
+      "findings": 5
+    }
+  ]
+}

@@ -1,0 +1,798 @@
+{
+  "status": "FIXED_VERIFIED_LOCAL",
+  "issue": "UI24",
+  "cause": "The sample deliberately creates b3CreateGrid with native scale [2,0,2]. GPU Rust heightfield validation rejects any scale component <=0, returns null and leaves zero floor shapes. Real native Box3D retains a valid flat floor.",
+  "repair": {
+    "source": [
+      "c_abi/height_field_compat.h",
+      "c_abi/shim.c:b3CreateHeightFieldShape + b3Shape_SetHeightField",
+      "c_abi/both_dual.c:b3CreateHeightFieldShape"
+    ],
+    "scope": "Only otherwise finite valid native scaleY0 encoding changes at GPU boundary: minHeight0, heightScale0, scaleY1. All decoded Y vertices remain exactly zero. Original native pointer/data/getter/render scale/materials/flags/winding and combined CPU arguments stay unchanged; positive and invalid inputs retain their encoding. Rust validator/engine/scene/defaults unchanged.",
+    "build": "ui24-build.json/link_plan",
+    "header_check": "PASS: 131072 flat decoded vertices; positive/negative/nonfinite/invalid/overflow metadata preserve original encoding",
+    "archive_carriers": [
+      {
+        "kind": "standalone",
+        "original": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/libgpu_samples_api.a",
+        "original_sha256": "cddbc619172ac6dcebadffe74a813d83318afcc9d727018e694b7b2475fbb994",
+        "candidate": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/libgpu_samples_api.a",
+        "candidate_sha256": "ce431881869720586ab442a593c1fa117d252b7cad0d1d23e7e6b3a8540a5337",
+        "members": [
+          {
+            "member": "samples_api.c.o",
+            "before_sha256": "01ad48483b930155c03081ea264634301077cb90a743e56e18c20da36df94111",
+            "after_sha256": "01ad48483b930155c03081ea264634301077cb90a743e56e18c20da36df94111",
+            "changed": false
+          },
+          {
+            "member": "samples_stubs.c.o",
+            "before_sha256": "1ee513ea9a66907e8064ed928cbd2e5fa0d77797a38569a60b04b1ca6e725245",
+            "after_sha256": "1ee513ea9a66907e8064ed928cbd2e5fa0d77797a38569a60b04b1ca6e725245",
+            "changed": false
+          },
+          {
+            "member": "shim.c.o",
+            "before_sha256": "83967d52e0401fe60d293495974eecf8ef33aba448150e220adf809b77ae0da1",
+            "after_sha256": "8f31cf73c7673e85ca02502107ee6964bac74eb08d30b0629ba27c4f67da34d1",
+            "changed": true
+          },
+          {
+            "member": "gpu_gl_poses.c.o",
+            "before_sha256": "5acbe7a3d58898c29e8ce43d29e5188bde0f84244241b8696027cc0b7a825e69",
+            "after_sha256": "5acbe7a3d58898c29e8ce43d29e5188bde0f84244241b8696027cc0b7a825e69",
+            "changed": false
+          }
+        ],
+        "shared_archive_mutated": false
+      },
+      {
+        "kind": "both",
+        "original": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/libgpu_both_api.a",
+        "original_sha256": "284e32f094370ae80418eeb29ea2594ae2b620d12f38ad15a5599d71436f3d74",
+        "candidate": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/libgpu_both_api.a",
+        "candidate_sha256": "d05b5c527b2c2a0db9ebea0013caee25471ba26834b2333f48ed58dbc50bedf5",
+        "members": [
+          {
+            "member": "both_map.c.o",
+            "before_sha256": "11134ac1e61577d686efff306085a4881aa15ff7fc84e7b7fa1b66e5526dd2c3",
+            "after_sha256": "11134ac1e61577d686efff306085a4881aa15ff7fc84e7b7fa1b66e5526dd2c3",
+            "changed": false
+          },
+          {
+            "member": "both_dual.c.o",
+            "before_sha256": "ec31860ecd7257bbec8dcd2c3a01c6902c3382c2db3808206cc577fbc8e3437a",
+            "after_sha256": "38488db59726520407670e8c65d3a4ece9a0b36b7271c4486c1b60d4a795aabc",
+            "changed": true
+          },
+          {
+            "member": "both_passthrough.c.o",
+            "before_sha256": "7e5455d53e7c5275a9c3cc9cdebe0b4b7c84850c1f7c000a18c6e09d60a7d79a",
+            "after_sha256": "7e5455d53e7c5275a9c3cc9cdebe0b4b7c84850c1f7c000a18c6e09d60a7d79a",
+            "changed": false
+          }
+        ],
+        "shared_archive_mutated": false
+      }
+    ]
+  },
+  "before": {
+    "report": "UI24.md",
+    "all_route_receipts": "raw/geometry-controls-runs/heightfield/<route>/receipt.json",
+    "all_route_media": "flat-heightfield-before-grid.png",
+    "original_failed_flags_preserved": true,
+    "receipt_whitespace_compaction": "storage-receipt-compaction-plan.json / storage-receipt-compaction-apply.json; original pretty bytes reconstructable exactly"
+  },
+  "checks": {
+    "routes": 5,
+    "recorded": 207,
+    "all_true": true,
+    "actual_native_cases": 20,
+    "actual_GPU_Rust_create_boundaries": 16,
+    "actual_GPU_flat_AABB_CPU_comparisons": 12,
+    "equivalent_vertex_calculations": 131072,
+    "scripted_advancing_physics": 0,
+    "unchanged_negative_retries": 0
+  },
+  "cpu_oracle": "ui24-cpu-oracle.json",
+  "after": [
+    {
+      "route": "cpu",
+      "receipt": "raw/ui24-runs/cpu/receipt.json",
+      "seconds": 8.542998512,
+      "checks": {
+        "Height Field actual scene/no-body fixture": true,
+        "columns actualvalue 8": true,
+        "rows actualvalue 6": true,
+        "amplitude actualvalue 0": true,
+        "flat no holes actual native heightfield/rawscale/material holes": true,
+        "flat no holes valid ground recreated/counts/defaults preserved": true,
+        "flat no holes actual finite shape bounds": true,
+        "flat no holes original native flat bounds preserved": true,
+        "flat no holes real query reaches existing floor": true,
+        "flat holes actual native heightfield/rawscale/material holes": true,
+        "flat holes valid ground recreated/counts/defaults preserved": true,
+        "flat holes actual finite shape bounds": true,
+        "flat holes original native flat bounds preserved": true,
+        "flat holes real query reaches existing floor": true,
+        "flat restored solid actual native heightfield/rawscale/material holes": true,
+        "flat restored solid valid ground recreated/counts/defaults preserved": true,
+        "flat restored solid actual finite shape bounds": true,
+        "flat restored solid original native flat bounds preserved": true,
+        "flat restored solid real query reaches existing floor": true,
+        "flat noholes restore preserves native data/payload": true,
+        "amplitude actualvalue 0.8": true,
+        "positive restored actual native heightfield/rawscale/material holes": true,
+        "positive restored valid ground recreated/counts/defaults preserved": true,
+        "positive restored actual finite shape bounds": true,
+        "restart native defaults/generation": true,
+        "Single Box actual scene/no-body fixture": true,
+        "public actual projected picking preserved": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      }
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/ui24-runs/ordinary-gpu/receipt.json",
+      "seconds": 11.144549454999998,
+      "checks": {
+        "Height Field actual scene/no-body fixture": true,
+        "columns actualvalue 8": true,
+        "rows actualvalue 6": true,
+        "amplitude actualvalue 0": true,
+        "flat no holes actual native heightfield/rawscale/material holes": true,
+        "flat no holes valid ground recreated/counts/defaults preserved": true,
+        "flat no holes actual finite shape bounds": true,
+        "flat no holes original native flat bounds preserved": true,
+        "flat no holes real query reaches existing floor": true,
+        "flat no holes actual Rust create accepted/right shape/holes": true,
+        "flat no holes actual encoded scale/decoded vertices": true,
+        "flat no holes native data/hash matches real CPU": true,
+        "flat no holes actual GPU flat AABB equals real CPU": true,
+        "flat holes actual native heightfield/rawscale/material holes": true,
+        "flat holes valid ground recreated/counts/defaults preserved": true,
+        "flat holes actual finite shape bounds": true,
+        "flat holes original native flat bounds preserved": true,
+        "flat holes real query reaches existing floor": true,
+        "flat holes actual Rust create accepted/right shape/holes": true,
+        "flat holes actual encoded scale/decoded vertices": true,
+        "flat holes native data/hash matches real CPU": true,
+        "flat holes actual GPU flat AABB equals real CPU": true,
+        "flat restored solid actual native heightfield/rawscale/material holes": true,
+        "flat restored solid valid ground recreated/counts/defaults preserved": true,
+        "flat restored solid actual finite shape bounds": true,
+        "flat restored solid original native flat bounds preserved": true,
+        "flat restored solid real query reaches existing floor": true,
+        "flat restored solid actual Rust create accepted/right shape/holes": true,
+        "flat restored solid actual encoded scale/decoded vertices": true,
+        "flat restored solid native data/hash matches real CPU": true,
+        "flat restored solid actual GPU flat AABB equals real CPU": true,
+        "flat noholes restore preserves native data/payload": true,
+        "amplitude actualvalue 0.8": true,
+        "positive restored actual native heightfield/rawscale/material holes": true,
+        "positive restored valid ground recreated/counts/defaults preserved": true,
+        "positive restored actual finite shape bounds": true,
+        "positive restored actual Rust create accepted/right shape/holes": true,
+        "positive restored actual encoded scale/decoded vertices": true,
+        "positive restored native data/hash matches real CPU": true,
+        "restart native defaults/generation": true,
+        "Single Box actual scene/no-body fixture": true,
+        "public actual projected picking preserved": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      }
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/ui24-runs/native-gpu/receipt.json",
+      "seconds": 11.221871257,
+      "checks": {
+        "Height Field actual scene/no-body fixture": true,
+        "columns actualvalue 8": true,
+        "rows actualvalue 6": true,
+        "amplitude actualvalue 0": true,
+        "flat no holes actual native heightfield/rawscale/material holes": true,
+        "flat no holes valid ground recreated/counts/defaults preserved": true,
+        "flat no holes actual finite shape bounds": true,
+        "flat no holes original native flat bounds preserved": true,
+        "flat no holes real query reaches existing floor": true,
+        "flat no holes actual Rust create accepted/right shape/holes": true,
+        "flat no holes actual encoded scale/decoded vertices": true,
+        "flat no holes native data/hash matches real CPU": true,
+        "flat no holes actual GPU flat AABB equals real CPU": true,
+        "flat holes actual native heightfield/rawscale/material holes": true,
+        "flat holes valid ground recreated/counts/defaults preserved": true,
+        "flat holes actual finite shape bounds": true,
+        "flat holes original native flat bounds preserved": true,
+        "flat holes real query reaches existing floor": true,
+        "flat holes actual Rust create accepted/right shape/holes": true,
+        "flat holes actual encoded scale/decoded vertices": true,
+        "flat holes native data/hash matches real CPU": true,
+        "flat holes actual GPU flat AABB equals real CPU": true,
+        "flat restored solid actual native heightfield/rawscale/material holes": true,
+        "flat restored solid valid ground recreated/counts/defaults preserved": true,
+        "flat restored solid actual finite shape bounds": true,
+        "flat restored solid original native flat bounds preserved": true,
+        "flat restored solid real query reaches existing floor": true,
+        "flat restored solid actual Rust create accepted/right shape/holes": true,
+        "flat restored solid actual encoded scale/decoded vertices": true,
+        "flat restored solid native data/hash matches real CPU": true,
+        "flat restored solid actual GPU flat AABB equals real CPU": true,
+        "flat noholes restore preserves native data/payload": true,
+        "amplitude actualvalue 0.8": true,
+        "positive restored actual native heightfield/rawscale/material holes": true,
+        "positive restored valid ground recreated/counts/defaults preserved": true,
+        "positive restored actual finite shape bounds": true,
+        "positive restored actual Rust create accepted/right shape/holes": true,
+        "positive restored actual encoded scale/decoded vertices": true,
+        "positive restored native data/hash matches real CPU": true,
+        "restart native defaults/generation": true,
+        "Single Box actual scene/no-body fixture": true,
+        "public actual projected picking preserved": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      }
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui24-runs/ordinary-both/receipt.json",
+      "seconds": 11.708142287000001,
+      "checks": {
+        "Height Field actual scene/no-body fixture": true,
+        "columns actualvalue 8": true,
+        "rows actualvalue 6": true,
+        "amplitude actualvalue 0": true,
+        "flat no holes actual native heightfield/rawscale/material holes": true,
+        "flat no holes valid ground recreated/counts/defaults preserved": true,
+        "flat no holes actual finite shape bounds": true,
+        "flat no holes original native flat bounds preserved": true,
+        "flat no holes real query reaches existing floor": true,
+        "flat no holes actual Rust create accepted/right shape/holes": true,
+        "flat no holes actual encoded scale/decoded vertices": true,
+        "flat no holes native data/hash matches real CPU": true,
+        "flat no holes actual GPU flat AABB equals real CPU": true,
+        "flat holes actual native heightfield/rawscale/material holes": true,
+        "flat holes valid ground recreated/counts/defaults preserved": true,
+        "flat holes actual finite shape bounds": true,
+        "flat holes original native flat bounds preserved": true,
+        "flat holes real query reaches existing floor": true,
+        "flat holes actual Rust create accepted/right shape/holes": true,
+        "flat holes actual encoded scale/decoded vertices": true,
+        "flat holes native data/hash matches real CPU": true,
+        "flat holes actual GPU flat AABB equals real CPU": true,
+        "flat restored solid actual native heightfield/rawscale/material holes": true,
+        "flat restored solid valid ground recreated/counts/defaults preserved": true,
+        "flat restored solid actual finite shape bounds": true,
+        "flat restored solid original native flat bounds preserved": true,
+        "flat restored solid real query reaches existing floor": true,
+        "flat restored solid actual Rust create accepted/right shape/holes": true,
+        "flat restored solid actual encoded scale/decoded vertices": true,
+        "flat restored solid native data/hash matches real CPU": true,
+        "flat restored solid actual GPU flat AABB equals real CPU": true,
+        "flat noholes restore preserves native data/payload": true,
+        "amplitude actualvalue 0.8": true,
+        "positive restored actual native heightfield/rawscale/material holes": true,
+        "positive restored valid ground recreated/counts/defaults preserved": true,
+        "positive restored actual finite shape bounds": true,
+        "positive restored actual Rust create accepted/right shape/holes": true,
+        "positive restored actual encoded scale/decoded vertices": true,
+        "positive restored native data/hash matches real CPU": true,
+        "restart native defaults/generation": true,
+        "Single Box actual scene/no-body fixture": true,
+        "mapped_cpu actual projected picking preserved": true,
+        "public actual projected picking preserved": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      }
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/ui24-runs/native-both/receipt.json",
+      "seconds": 11.882409461,
+      "checks": {
+        "Height Field actual scene/no-body fixture": true,
+        "columns actualvalue 8": true,
+        "rows actualvalue 6": true,
+        "amplitude actualvalue 0": true,
+        "flat no holes actual native heightfield/rawscale/material holes": true,
+        "flat no holes valid ground recreated/counts/defaults preserved": true,
+        "flat no holes actual finite shape bounds": true,
+        "flat no holes original native flat bounds preserved": true,
+        "flat no holes real query reaches existing floor": true,
+        "flat no holes actual Rust create accepted/right shape/holes": true,
+        "flat no holes actual encoded scale/decoded vertices": true,
+        "flat no holes native data/hash matches real CPU": true,
+        "flat no holes actual GPU flat AABB equals real CPU": true,
+        "flat holes actual native heightfield/rawscale/material holes": true,
+        "flat holes valid ground recreated/counts/defaults preserved": true,
+        "flat holes actual finite shape bounds": true,
+        "flat holes original native flat bounds preserved": true,
+        "flat holes real query reaches existing floor": true,
+        "flat holes actual Rust create accepted/right shape/holes": true,
+        "flat holes actual encoded scale/decoded vertices": true,
+        "flat holes native data/hash matches real CPU": true,
+        "flat holes actual GPU flat AABB equals real CPU": true,
+        "flat restored solid actual native heightfield/rawscale/material holes": true,
+        "flat restored solid valid ground recreated/counts/defaults preserved": true,
+        "flat restored solid actual finite shape bounds": true,
+        "flat restored solid original native flat bounds preserved": true,
+        "flat restored solid real query reaches existing floor": true,
+        "flat restored solid actual Rust create accepted/right shape/holes": true,
+        "flat restored solid actual encoded scale/decoded vertices": true,
+        "flat restored solid native data/hash matches real CPU": true,
+        "flat restored solid actual GPU flat AABB equals real CPU": true,
+        "flat noholes restore preserves native data/payload": true,
+        "amplitude actualvalue 0.8": true,
+        "positive restored actual native heightfield/rawscale/material holes": true,
+        "positive restored valid ground recreated/counts/defaults preserved": true,
+        "positive restored actual finite shape bounds": true,
+        "positive restored actual Rust create accepted/right shape/holes": true,
+        "positive restored actual encoded scale/decoded vertices": true,
+        "positive restored native data/hash matches real CPU": true,
+        "restart native defaults/generation": true,
+        "Single Box actual scene/no-body fixture": true,
+        "mapped_cpu actual projected picking preserved": true,
+        "public actual projected picking preserved": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      }
+    }
+  ],
+  "diagnostics": {
+    "source": "ui24-boundary-observer.cpp",
+    "scope": "Calls actual Rust GPU create once with unchanged received arguments; records input scale/height metadata, decoded Y extrema/finite status, actual returned ID, holes/winding/material defaults/payload digest. Existing independent observer reads actual native GPU public AABB (not combined CPU getter only), native heightfield/hash, world/shape/body identity and query draw hit presence."
+  },
+  "media": {
+    "grids": [
+      {
+        "path": "flat-heightfield-before-grid.png",
+        "sha256": "7717a000568b65002cafb9499b364e8f7901c4d340df91c732c725d11fbeef4d"
+      },
+      {
+        "path": "ui24-after-grid.png",
+        "sha256": "b59684f58a726e4ed7fb636f356651cc435391febed5c3b9512878bf7070cf94"
+      },
+      {
+        "path": "ui24-regressions-grid.png",
+        "sha256": "02507fab5c84ee8cdba9fb89e6f442c1927d2b7d5a6a2e2eb0aadc026d031340"
+      }
+    ],
+    "after": [
+      {
+        "route": "cpu",
+        "fixture": "flat-heightfield",
+        "state": "flat",
+        "path": "raw/ui24-runs/cpu/flat.png",
+        "sha256": "51350134e3c5d8209188062bac7c14a5a9595b109b8202dc898bc37e2386ac01"
+      },
+      {
+        "route": "cpu",
+        "fixture": "flat-heightfield",
+        "state": "flat-holes",
+        "path": "raw/ui24-runs/cpu/flat-holes.png",
+        "sha256": "56062763fb1e599f81215a2bcc2dee4be49e85d69e8ac07c6c813d9eca7ea445"
+      },
+      {
+        "route": "cpu",
+        "fixture": "flat-heightfield",
+        "state": "positive",
+        "path": "raw/ui24-runs/cpu/positive.png",
+        "sha256": "7b54b2393efa895f0a27a2f6965193c356ede26acce507987fc711e8a9cef850"
+      },
+      {
+        "route": "cpu",
+        "fixture": "flat-heightfield",
+        "state": "restart",
+        "path": "raw/ui24-runs/cpu/restart.png",
+        "sha256": "ea7974aa73dc2ee09d8fbe6d5d355fa93ba786a5716d2717bd8a1fc60b0619c8"
+      },
+      {
+        "route": "cpu",
+        "fixture": "flat-heightfield",
+        "state": "picking",
+        "path": "raw/ui24-runs/cpu/picking.png",
+        "sha256": "82ef5bec642683d35b82610be607ca0381c7c1ccb21c5b80c5b31d846b03a8b5"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "flat-heightfield",
+        "state": "flat",
+        "path": "raw/ui24-runs/ordinary-gpu/flat.png",
+        "sha256": "4ac6e0e14b019ed20174272658410e2515d04720c50d12777474e329a940a981"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "flat-heightfield",
+        "state": "flat-holes",
+        "path": "raw/ui24-runs/ordinary-gpu/flat-holes.png",
+        "sha256": "f1946ecaa3a20219de8589bd3dd1ea5f55c80669b9f0a5bf25c1ee43a5698184"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "flat-heightfield",
+        "state": "positive",
+        "path": "raw/ui24-runs/ordinary-gpu/positive.png",
+        "sha256": "1e7175b277687c5c7b5301172c1e227a05b4a9abb6208fcb774f3c3bcab72e9b"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "flat-heightfield",
+        "state": "restart",
+        "path": "raw/ui24-runs/ordinary-gpu/restart.png",
+        "sha256": "69eb545c86694ffe3c15bbd6baf587bfab16b0a34e91d9b27368747235225a4b"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "flat-heightfield",
+        "state": "picking",
+        "path": "raw/ui24-runs/ordinary-gpu/picking.png",
+        "sha256": "2a5d39449611ecc50e89933ed4f115ad7d94990cdffdc4f4ed7a5cbb0932deae"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "flat-heightfield",
+        "state": "flat",
+        "path": "raw/ui24-runs/native-gpu/flat.png",
+        "sha256": "1ea14f454507dfeb73fde14ab13dd21db7599251b9c13b8b8691c3d3d5347336"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "flat-heightfield",
+        "state": "flat-holes",
+        "path": "raw/ui24-runs/native-gpu/flat-holes.png",
+        "sha256": "fe4569c2ff25f3ddde97a6338d089cdd91e3c3151533cb4d0d7d3965806c0321"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "flat-heightfield",
+        "state": "positive",
+        "path": "raw/ui24-runs/native-gpu/positive.png",
+        "sha256": "4fee894f52830f8ea1129bce5f14b26873c29219734d6761d003653f1164a717"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "flat-heightfield",
+        "state": "restart",
+        "path": "raw/ui24-runs/native-gpu/restart.png",
+        "sha256": "bf37fbff73af2c261e39a9968f2dbeba7ee37f806cd2eb71ad5b69282d4121cd"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "flat-heightfield",
+        "state": "picking",
+        "path": "raw/ui24-runs/native-gpu/picking.png",
+        "sha256": "edd4054538b0eb7f66b4d7a5775199583470fc8e7be1cc2b592be9fdeaee4c95"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "flat-heightfield",
+        "state": "flat",
+        "path": "raw/ui24-runs/ordinary-both/flat.png",
+        "sha256": "d5c4652b75653279dce53c012fd05996396269f9a3baa2906d845322f49b3f87"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "flat-heightfield",
+        "state": "flat-holes",
+        "path": "raw/ui24-runs/ordinary-both/flat-holes.png",
+        "sha256": "37bbeedad7d9b9eba11fecb86c7e350db544c7529d47e0a0ce50476ad7530b8d"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "flat-heightfield",
+        "state": "positive",
+        "path": "raw/ui24-runs/ordinary-both/positive.png",
+        "sha256": "f70c5087361384e65bf28359fa61285b08a2a9c6c8a55ef74141905be784e7fe"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "flat-heightfield",
+        "state": "restart",
+        "path": "raw/ui24-runs/ordinary-both/restart.png",
+        "sha256": "76d7198e6cb9d065a26668cc089337264bf11b6cd41ff2422b21ef92a8c4de2c"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "flat-heightfield",
+        "state": "picking",
+        "path": "raw/ui24-runs/ordinary-both/picking.png",
+        "sha256": "5cd9784cc677a51aca9cc90df5cc300baa250908d95451796a8d2c3d9ce14595"
+      },
+      {
+        "route": "native-both",
+        "fixture": "flat-heightfield",
+        "state": "flat",
+        "path": "raw/ui24-runs/native-both/flat.png",
+        "sha256": "9a7125f7f5189333179292f1efa2e4e0d81827d369055f769d91cbf7e54668bc"
+      },
+      {
+        "route": "native-both",
+        "fixture": "flat-heightfield",
+        "state": "flat-holes",
+        "path": "raw/ui24-runs/native-both/flat-holes.png",
+        "sha256": "62bfa4e2000d486db33686a7423170bac437e337ea950078fc1248f9dd83bf47"
+      },
+      {
+        "route": "native-both",
+        "fixture": "flat-heightfield",
+        "state": "positive",
+        "path": "raw/ui24-runs/native-both/positive.png",
+        "sha256": "643a56331bc81f792c82310ca0c631a0e7e4d742031ea68feed0652fb6f9fc2c"
+      },
+      {
+        "route": "native-both",
+        "fixture": "flat-heightfield",
+        "state": "restart",
+        "path": "raw/ui24-runs/native-both/restart.png",
+        "sha256": "0ad9712ce58d159acb69c2324ba67fed17015894ab2da89c77aba056398048f1"
+      },
+      {
+        "route": "native-both",
+        "fixture": "flat-heightfield",
+        "state": "picking",
+        "path": "raw/ui24-runs/native-both/picking.png",
+        "sha256": "a82b986b5b96fddeb7fb0ecc6a87600fc6f80f1b5aa92332d052c0e6105c3cb9"
+      }
+    ],
+    "inspection": "All three CPU-first before/after/regression grids inspected: GPU floors restored with matching holes; positive restoration/default restart/fresh picking visible. Real CPU first, combined GPU tint intentional",
+    "caption": "Real Box3D CPU first, ordinary GPU, native GPU, ordinary combined, native combined. Original flat-floor loss before; repaired solid flat floor/holes/positive-amplitude restore after. Restart/picking separate regression grid."
+  },
+  "applicability": [
+    {
+      "cpu_identity": "Mesh/Height Field",
+      "routes": [
+        "cpu",
+        "ordinary-gpu",
+        "native-gpu",
+        "ordinary-both",
+        "native-both"
+      ],
+      "method": "ACTUAL_NATIVE_INPUT_AND_PHYSICAL_RENDER_BOUNDARIES",
+      "scope": "8x6 flat noholes/twoholes/noholes restoration/positive .8 and default400x400 restart plus fresh projected SingleBox picking both panes. Native data hashes match CPU for all4cases; all12GPU flat AABBs match real CPU."
+    }
+  ],
+  "limitations": [
+    "No native sample uses the compatibility-only b3Shape_SetHeightField extension. Its shared encoding helper/source callsite is covered; actual replacement API lifecycle remains unqualified, combined extension is absent.",
+    "Positive heightfield decoded-vs-native geometry quantization differences are preexisting and unchanged. Only zeroY scale is repaired; no full query-numeric or solver qualification.",
+    "Only Mesh/HeightField exposes amplitude0; other seven shared heightfield scenes already covered by PR09 retain positive scales. X/Zzero and negative scales remain rejected; no broad Rust heightfield contract change.",
+    "All app checks paused; defaults60Hz/4substeps preserved. UI25 trailing-digit loss/UI29 input-loading issue and otherPR10 findings remain open.",
+    "Box3D/WASM/Rust/WGSL/sharedarchives unchanged; final compatibility/affectedscene recordings/criteria audit still open. PR10 unchecked; no new commit/push."
+  ],
+  "resources": {
+    "status": "CLOSED",
+    "retained_bytes": 8238346,
+    "raw_retained_bytes": 847855412,
+    "deleted_bytes": 9467397,
+    "owned_pids_absent": [
+      650596,
+      650581,
+      651248,
+      651231,
+      651995,
+      651975,
+      652724,
+      652707,
+      653704,
+      653689
+    ],
+    "owned_core_files": [],
+    "shared_cache_growth_bytes": 0,
+    "free_bytes": 1707650760704,
+    "consumer": "Current5viewers/34directtaskobjects/4Cmodules/3localAPIcarriers nextPR10relink; minimal floor inputs/actualRustboundary/shapeAABB/materialholes/lifecycle/defaults/picking/media finalaudit",
+    "retained_diagnostic_bytes": 10841152,
+    "consumed_logs": [
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/shim-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/dual-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/standalone-old-members.log",
+        "bytes": 60,
+        "sha256": "fd219611158d8d7e6ebdd2ee5613269c7c287a05d88fa45274ef69dc473d22d7",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/standalone-replace-member.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/standalone-new-members.log",
+        "bytes": 60,
+        "sha256": "fd219611158d8d7e6ebdd2ee5613269c7c287a05d88fa45274ef69dc473d22d7",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/both-old-members.log",
+        "bytes": 48,
+        "sha256": "ac9581d236205d6623f05567f9b74f10749190f49eb6c7e2b579fc86fb10f415",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/both-replace-member.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/both-new-members.log",
+        "bytes": 48,
+        "sha256": "ac9581d236205d6623f05567f9b74f10749190f49eb6c7e2b579fc86fb10f415",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/observer-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/encoding-check-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/encoding-check.log",
+        "bytes": 117,
+        "sha256": "013866e540c755acf6c3317a003d05a6173ebdb60a8369c5cf86eb8358aafbd9",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/cpu-check.log",
+        "bytes": 43,
+        "sha256": "33fe35bb05f2149aa845719aa692c09d9c2caff66912d6ee9c828bade6563f07",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/ordinary-gpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/ordinary-gpu-check.log",
+        "bytes": 61,
+        "sha256": "0d8db421191d489dba1adcba1f60b07e73eea744394f8c767988dfa8d5112448",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/native-gpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/native-gpu-check.log",
+        "bytes": 57,
+        "sha256": "8cf3bd68c91405212dee3c5ed2603679796f92a6c053a2123471131ff50beb0f",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/ordinary-both-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/ordinary-both-check.log",
+        "bytes": 63,
+        "sha256": "036e6d7ab7e623ef31516be8c11a0a3afd3355561d182d1068cfa62fa03b457e",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/native-both-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/native-both-check.log",
+        "bytes": 59,
+        "sha256": "20a5b714a8b2937055d9757427818fb4d365f24996704e61235463a603bd06c2",
+        "consumer": "Commands/exit/timing/archive member identities/header check summary extracted; current modules and viewer retained"
+      }
+    ],
+    "deleted_log_bytes": 616,
+    "deleted_build_bytes": 160283549,
+    "owned_all_pids_absent": [
+      648296,
+      648367,
+      648401,
+      648403,
+      648404,
+      648405,
+      648407,
+      648408,
+      648409,
+      648410,
+      648411,
+      648412,
+      648414,
+      648415,
+      648416,
+      648432,
+      648433,
+      648434,
+      648436,
+      648437,
+      648438,
+      648439,
+      648440,
+      648464,
+      648469,
+      650581,
+      651115,
+      651231,
+      651879,
+      651975,
+      652617,
+      652707,
+      653526,
+      653689,
+      650596,
+      651248,
+      651995,
+      652724,
+      653704
+    ],
+    "active_task_objects": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-build/diagnostic-human.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-build/lifetime-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/preview-bounds.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-overlay.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/projection-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui17-build/cache-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/draw.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/key-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui07-trace-completion-build/camera-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/cpu-adapter.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-material-build/material-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/hud-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui17-build/ui-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/sample_collision_ui.cpp.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-build/cpu-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui14-build/sample_manifold_ui.cpp.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/cpu-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-renderer-observed.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/heightfield-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-build/replacement-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/gpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/gpu-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-build/ordinary-gpu-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-gpu-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/both-overlay.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-trace-build/selection-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/both-adapter.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/both-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/both-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-build/ordinary-both-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-both-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/both-renderer-observed.c.o"
+    ],
+    "active_carriers": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/libgpu_samples_api.a",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/libgpu_both_api.a",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/libgpu_both_samples_api.a"
+    ],
+    "needed_module_objects": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/shim.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/both_dual.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/api-standalone/samples_api.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/api-both/samples_api.c.o"
+    ],
+    "receipt_compaction": "308 terminal receipts/166655909B saved without evidence loss; exact original hashes reconstructable through plan"
+  }
+}

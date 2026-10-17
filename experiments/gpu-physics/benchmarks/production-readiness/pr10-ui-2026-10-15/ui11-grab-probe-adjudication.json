@@ -1,0 +1,109 @@
+{
+  "status": "PASS_RETAINED_ACTUAL_WORLD_AND_OWNER_EVIDENCE",
+  "original_false_probes": [
+    "Activegrabactualmousebody perworld",
+    "Selectionclear preservesactivegrab bodies/joints"
+  ],
+  "corrected": true,
+  "actual_public_body_counts": [
+    3,
+    3,
+    2
+  ],
+  "actual_CPU_observed_body_counts": [
+    3,
+    3
+  ],
+  "actual_owner_boundary": {
+    "api": "ui11_clear_selection",
+    "before": {
+      "rendered": [
+        0,
+        0,
+        0
+      ],
+      "owner_available": true,
+      "owners": [
+        {
+          "selected": [
+            0,
+            0,
+            0
+          ],
+          "mouse": [
+            3,
+            1,
+            0
+          ],
+          "joint": [
+            1,
+            1,
+            0
+          ]
+        },
+        {
+          "selected": [
+            0,
+            0,
+            0
+          ],
+          "mouse": [
+            3,
+            1,
+            1
+          ],
+          "joint": [
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    "after": {
+      "rendered": [
+        0,
+        0,
+        0
+      ],
+      "owner_available": true,
+      "owners": [
+        {
+          "selected": [
+            0,
+            0,
+            0
+          ],
+          "mouse": [
+            3,
+            1,
+            0
+          ],
+          "joint": [
+            1,
+            1,
+            0
+          ]
+        },
+        {
+          "selected": [
+            0,
+            0,
+            0
+          ],
+          "mouse": [
+            3,
+            1,
+            1
+          ],
+          "joint": [
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    }
+  },
+  "scope": "Onlyprobe source schema corrected; originalreceipt/findings unchanged, no productchange/rerun. Allother26ordinarycombinedchecks true."
+}

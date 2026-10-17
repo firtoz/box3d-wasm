@@ -1,0 +1,22 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 5279787,
+  "raw_retained_bytes": 916155975,
+  "deleted_bytes": 31949184,
+  "owned_pids_absent": [
+    240639,
+    240624,
+    242705,
+    242688,
+    244831,
+    244816,
+    247070,
+    247055,
+    249216,
+    249196
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707794714624,
+  "consumer": "CurrentfiveUI17viewers/newCollisionobject/chainedUIobserver/cacheobserver+priorinputs nextPR10relink;15afterimages/2grids/original5pre-faultbefore finalaudit"
+}

@@ -1,0 +1,17 @@
+{
+  "scope": "PR10 inventory and interaction-route discovery only; no build/viewer/capture/fix in this phase",
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "source_inventory_seconds": 30,
+  "automation_discovery_seconds": 30,
+  "new_builds_scene_capture_runs": 0,
+  "retained_bytes": 2097152,
+  "scratch_bytes": 1048576,
+  "retries": 0,
+  "outputs": {
+    "inventory.json": "Permanent source-derived control inventory, UNREVIEWED until actual interaction checks",
+    "log.md": "Simple current counts/recovery record; read first after compaction/restart",
+    "raw/discovery": "Only small source mapping/automation receipts; remove consumed scratch after checked extraction"
+  },
+  "next": "Freeze finite actual interaction process/capture/storage budget after identifying supported input route; do not replay exhausted PR09 budgets",
+  "free_bytes_before": 1709631963136
+}

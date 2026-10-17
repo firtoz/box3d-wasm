@@ -1,0 +1,24 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 3133217,
+  "raw_retained_bytes": 953962391,
+  "deleted_bytes": 10923907,
+  "owned_pids_absent": [
+    197391,
+    197373,
+    198243,
+    198227,
+    199161,
+    199145,
+    200067,
+    200051,
+    201140,
+    201124,
+    190331,
+    190313
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707926736896,
+  "consumer": "CurrentfiveUI15viewers/Collisionobject/source+priorinputs nextPR10relink;15afterimages/2grids/original10before/partialpopupwatch finalaudit"
+}

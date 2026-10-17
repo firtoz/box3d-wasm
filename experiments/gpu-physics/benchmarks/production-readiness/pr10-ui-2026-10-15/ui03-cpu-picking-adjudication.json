@@ -1,0 +1,495 @@
+{
+  "status": "CPU_OVERLAYS_PASS_WITH_EXPLICIT_UNCHANGED_PICKING_REUSE",
+  "new_checks": {
+    "Body Type actual scene/no-body fixture": true,
+    "Actual paused two-step fixture": true,
+    "Sleep truthful availability": true,
+    "Graph Colors truthful availability": true,
+    "Islands truthful availability": true,
+    "Baseline eight actual shapes": true,
+    "Bounds public callback effect": true,
+    "Mass public callback effect": true,
+    "Body Names public callback effect": true,
+    "Joints public callback effect": true,
+    "Joint actualvalue 2": true,
+    "Joint scale public actual coordinates change": true,
+    "Joint actualvalue 1": true,
+    "Joint scale public restores coordinates": true,
+    "Joint Extras public callback effect": true,
+    "Contacts public callback effect": true,
+    "Contact Normals public callback effect": true,
+    "Contact Features public callback effect": true,
+    "Contact Forces public callback effect": true,
+    "Force actualvalue 2": true,
+    "Force scale public actual coordinates change": true,
+    "Force actualvalue 1": true,
+    "Force scale public restores coordinates": true,
+    "Shapes off preserves supported callbacks": true,
+    "Overlay edits preserve world IDs poses mass geometry and steps": true,
+    "Sleep current menu retained": true,
+    "Graph Colors current menu retained": true,
+    "Islands current menu retained": true,
+    "Single Box actual scene/no-body fixture": true
+  },
+  "new_screenshots": {
+    "baseline": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/baseline.png",
+      "sha256": "5a1e6f7fa3409af6edbc67af0efbfaffa7bad5e3d55138a71fd3aa402c4a0cd9",
+      "dimensions": [
+        1600,
+        900
+      ],
+      "state": {
+        "frame": 461,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 8,
+        "shape_count": 8,
+        "move_count": 0
+      }
+    },
+    "bounds": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/bounds.png",
+      "sha256": "e1a155c1089e2381f01edbda20c9789259507cb780ff73209b518a5ae5defc0c",
+      "dimensions": [
+        1600,
+        900
+      ],
+      "state": {
+        "frame": 509,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 8,
+        "shape_count": 8,
+        "move_count": 0
+      }
+    },
+    "mass": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/mass.png",
+      "sha256": "d10729052b6c0e8089103ef5b683cef3ce6bc7aa19302b7be4c2a4df2b6de282",
+      "dimensions": [
+        1600,
+        900
+      ],
+      "state": {
+        "frame": 587,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 8,
+        "shape_count": 8,
+        "move_count": 0
+      }
+    },
+    "names": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/names.png",
+      "sha256": "2590c522b19e478125863413355aeb670b250abbfc084b2ceb24278943ccd3b4",
+      "dimensions": [
+        1600,
+        900
+      ],
+      "state": {
+        "frame": 667,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 8,
+        "shape_count": 8,
+        "move_count": 0
+      }
+    },
+    "joints": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/joints.png",
+      "sha256": "39f39245f7c62988a52d6374c5554c4f29326882e366624b9b3368bff49e0149",
+      "dimensions": [
+        1600,
+        900
+      ],
+      "state": {
+        "frame": 745,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 8,
+        "shape_count": 8,
+        "move_count": 0
+      }
+    },
+    "contacts": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/contacts.png",
+      "sha256": "fa418430570e5ba9ed6faab3db8ad80fb4f1444bb02b0408c03690e72fe0c6d6",
+      "dimensions": [
+        1600,
+        900
+      ],
+      "state": {
+        "frame": 1085,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 8,
+        "shape_count": 8,
+        "move_count": 0
+      }
+    },
+    "forces": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/forces.png",
+      "sha256": "56b4742ba24dccbaa9ec8199e67de77e012aabe2a6192813bbe736a78096e82d",
+      "dimensions": [
+        1600,
+        900
+      ],
+      "state": {
+        "frame": 1268,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 8,
+        "shape_count": 8,
+        "move_count": 0
+      }
+    },
+    "shapes-off": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/shapes-off.png",
+      "sha256": "7b12f6134462e02dac738c20069d67a803fc3cbf4f987edf565649edc96e61bd",
+      "dimensions": [
+        1600,
+        900
+      ],
+      "state": {
+        "frame": 1790,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 8,
+        "shape_count": 8,
+        "move_count": 0
+      }
+    },
+    "availability": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui03-runs/cpu/availability.png",
+      "sha256": "4422011ffa90c376e53957edc287d2decfed2d8d9e674521f5713bfeedecbd1b",
+      "dimensions": [
+        1600,
+        900
+      ],
+      "state": {
+        "frame": 1829,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 2,
+        "submitted": 2,
+        "completed": 2,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 8,
+        "shape_count": 8,
+        "move_count": 0
+      }
+    }
+  },
+  "original_status": "FAILURE_RETAINED",
+  "original_error": "Error: Transition timed out 3s",
+  "cause": "Harness omitted GPU_PR10_PREVIEW_TRACE and GPU_PR10_PROJECTION_POINT, so readonly projection output never requested. Timeout occurred after all29 new overlay/control/identity checks passed and after SingleBox selection; actual picking never attempted.",
+  "reuse": {
+    "receipt": "raw/ui24-runs/cpu/receipt.json",
+    "check": "public actual projected picking preserved",
+    "sha256": "1fa6e3441ac55c332a65de04b2ec5e29318031b480325dca2607a8b0b58829b4",
+    "scope": "CPU product sample/shim/engine/render adapter/picking code unchanged in UI03; CPU link adds readonly draw-scope/sink tracing only. Reuse actual prior CPU picking; no CPU rerun."
+  },
+  "gpu_stimulus_correction": "Enable both readonly projection env flags before first four GPU apps; no build/product changes.",
+  "new_cpu_clean_quit": false,
+  "owned_cleanup": {
+    "status": "CLOSED",
+    "removed": [
+      {
+        "name": "api.jsonl",
+        "bytes": 10771540,
+        "sha256": "9843a878597ce8b00cea9b4cb42f10ae1d75ae10d1daaba50ff9f3be4a251830",
+        "summary": {
+          "failure_tail": [
+            "{\"api\":\"b3World_Draw\",\"world\":[1,2],\"shapes\":1,\"joints\":0,\"extras\":0,\"bounds\":0,\"mass\":0,\"sleep\":0,\"names\":0,\"contacts\":0,\"anchorA\":0,\"graph\":0,\"features\":0,\"normals\":0,\"forces\":0,\"islands\":0,\"jointScale\":1,\"forceScale\":1}",
+            "{\"api\":\"actual_draw_outputs\",\"world\":[1,2],\"bodies\":2,\"joints\":0,\"contacts\":1,\"shape_callbacks\":2,\"shape_digest\":\"f33a1225ed985ea7\",\"segment_callbacks\":0,\"segment_digest\":\"0000000000000000\",\"transform_callbacks\":0,\"transform_digest\":\"0000000000000000\",\"point_callbacks\":0,\"point_digest\":\"0000000000000000\",\"sphere_callbacks\":0,\"sphere_digest\":\"0000000000000000\",\"capsule_callbacks\":0,\"capsule_digest\":\"0000000000000000\",\"bounds_callbacks\":0,\"bounds_digest\":\"0000000000000000\",\"box_callbacks\":0,\"box_digest\":\"0000000000000000\",\"string_callbacks\":0,\"string_digest\":\"0000000000000000\"}",
+            "{\"api\":\"actual_RenderFrame\",\"debugMode\":0,\"disableShadows\":0,\"disableAmbientOcclusion\":0,\"exposure\":-2.5,\"sun\":0.800000012,\"ibl\":1,\"hullEdges\":1,\"edgeConvexity\":0,\"shadowStart\":10,\"shadowRange\":56.7669373,\"shadowDistribution\":0.5,\"gtaoQuality\":1}",
+            "{\"api\":\"b3World_Step\",\"world\":[1,2],\"value\":0,\"substeps\":4}",
+            "{\"api\":\"b3World_Draw\",\"world\":[1,2],\"shapes\":1,\"joints\":0,\"extras\":0,\"bounds\":0,\"mass\":0,\"sleep\":0,\"names\":0,\"contacts\":0,\"anchorA\":0,\"graph\":0,\"features\":0,\"normals\":0,\"forces\":0,\"islands\":0,\"jointScale\":1,\"forceScale\":1}",
+            "{\"api\":\"actual_draw_outputs\",\"world\":[1,2],\"bodies\":2,\"joints\":0,\"contacts\":1,\"shape_callbacks\":2,\"shape_digest\":\"f33a1225ed985ea7\",\"segment_callbacks\":0,\"segment_digest\":\"0000000000000000\",\"transform_callbacks\":0,\"transform_digest\":\"0000000000000000\",\"point_callbacks\":0,\"point_digest\":\"0000000000000000\",\"sphere_callbacks\":0,\"sphere_digest\":\"0000000000000000\",\"capsule_callbacks\":0,\"capsule_digest\":\"0000000000000000\",\"bounds_callbacks\":0,\"bounds_digest\":\"0000000000000000\",\"box_callbacks\":0,\"box_digest\":\"0000000000000000\",\"string_callbacks\":0,\"string_digest\":\"0000000000000000\"}",
+            "{\"api\":\"actual_RenderFrame\",\"debugMode\":0,\"disableShadows\":0,\"disableAmbientOcclusion\":0,\"exposure\":-2.5,\"sun\":0.800000012,\"ibl\":1,\"hullEdges\":1,\"edgeConvexity\":0,\"shadowStart\":10,\"shadowRange\":56.7669373,\"shadowDistribution\":0.5,\"gtaoQuality\":1}",
+            "{\"api\":\"b3World_Step\",\"world\":[1,2],\"value\":0,\"substeps\":4}",
+            "{\"api\":\"b3World_Draw\",\"world\":[1,2],\"shapes\":1,\"joints\":0,\"extras\":0,\"bounds\":0,\"mass\":0,\"sleep\":0,\"names\":0,\"contacts\":0,\"anchorA\":0,\"graph\":0,\"features\":0,\"normals\":0,\"forces\":0,\"islands\":0,\"jointScale\":1,\"forceScale\":1}",
+            "{\"api\":\"actual_draw_outputs\",\"world\":[1,2],\"bodies\":2,\"joints\":0,\"contacts\":1,\"shape_callbacks\":2,\"shape_digest\":\"f33a1225ed985ea7\",\"segment_callbacks\":0,\"segment_digest\":\"0000000000000000\",\"transform_callbacks\":0,\"transform_digest\":\"0000000000000000\",\"point_callbacks\":0,\"point_digest\":\"0000000000000000\",\"sphere_callbacks\":0,\"sphere_digest\":\"0000000000000000\",\"capsule_callbacks\":0,\"capsule_digest\":\"0000000000000000\",\"bounds_callbacks\":0,\"bounds_digest\":\"0000000000000000\",\"box_callbacks\":0,\"box_digest\":\"0000000000000000\",\"string_callbacks\":0,\"string_digest\":\"0000000000000000\"}",
+            "{\"api\":\"actual_RenderFrame\",\"debugMode\":0,\"disableShadows\":0,\"disableAmbientOcclusion\":0,\"exposure\":-2.5,\"sun\":0.800000012,\"ibl\":1,\"hullEdges\":1,\"edgeConvexity\":0,\"shadowStart\":10,\"shadowRange\":56.7669373,\"shadowDistribution\":0.5,\"gtaoQuality\":1}",
+            "{\"api\":\"b3World_Step\",\"world\":[1,2],\"value\":0,\"substeps\":4}",
+            "{\"api\":\"b3World_Draw\",\"world\":[1,2],\"shapes\":1,\"joints\":0,\"extras\":0,\"bounds\":0,\"mass\":0,\"sleep\":0,\"names\":0,\"contacts\":0,\"anchorA\":0,\"graph\":0,\"features\":0,\"normals\":0,\"forces\":0,\"islands\":0,\"jointScale\":1,\"forceScale\":1}",
+            "{\"api\":\"actual_draw_outputs\",\"world\":[1,2],\"bodies\":2,\"joints\":0,\"contacts\":1,\"shape_callbacks\":2,\"shape_digest\":\"f33a1225ed985ea7\",\"segment_callbacks\":0,\"segment_digest\":\"0000000000000000\",\"transform_callbacks\":0,\"transform_digest\":\"0000000000000000\",\"point_callbacks\":0,\"point_digest\":\"0000000000000000\",\"sphere_callbacks\":0,\"sphere_digest\":\"0000000000000000\",\"capsule_callbacks\":0,\"capsule_digest\":\"0000000000000000\",\"bounds_callbacks\":0,\"bounds_digest\":\"0000000000000000\",\"box_callbacks\":0,\"box_digest\":\"0000000000000000\",\"string_callbacks\":0,\"string_digest\":\"0000000000000000\"}",
+            "{\"api\":\"actual_RenderFrame\",\"debugMode\":0,\"disableShadows\":0,\"disableAmbientOcclusion\":0,\"exposure\":-2.5,\"sun\":0.800000012,\"ibl\":1,\"hullEdges\":1,\"edgeConvexity\":0,\"shadowStart\":10,\"shadowRange\":56.7669373,\"shadowDistribution\":0.5,\"gtaoQuality\":1}",
+            "{\"api\":\"b3World_Step\",\"world\":[1,2],\"value\":0,\"substeps\":4}",
+            "{\"api\":\"b3World_Draw\",\"world\":[1,2],\"shapes\":1,\"joints\":0,\"extras\":0,\"bounds\":0,\"mass\":0,\"sleep\":0,\"names\":0,\"contacts\":0,\"anchorA\":0,\"graph\":0,\"features\":0,\"normals\":0,\"forces\":0,\"islands\":0,\"jointScale\":1,\"forceScale\":1}",
+            "{\"api\":\"actual_draw_outputs\",\"world\":[1,2],\"bodies\":2,\"joints\":0,\"contacts\":1,\"shape_callbacks\":2,\"shape_digest\":\"f33a1225ed985ea7\",\"segment_callbacks\":0,\"segment_digest\":\"0000000000000000\",\"transform_callbacks\":0,\"transform_digest\":\"0000000000000000\",\"point_callbacks\":0,\"point_digest\":\"0000000000000000\",\"sphere_callbacks\":0,\"sphere_digest\":\"0000000000000000\",\"capsule_callbacks\":0,\"capsule_digest\":\"0000000000000000\",\"bounds_callbacks\":0,\"bounds_digest\":\"0000000000000000\",\"box_callbacks\":0,\"box_digest\":\"0000000000000000\",\"string_callbacks\":0,\"string_digest\":\"0000000000000000\"}",
+            "{\"api\":\"actual_RenderFrame\",\"debugMode\":0,\"disableShadows\":0,\"disableAmbientOcclusion\":0,\"exposure\":-2.5,\"sun\":0.800000012,\"ibl\":1,\"hullEdges\":1,\"edgeConvexity\":0,\"shadowStart\":10,\"shadowRange\":56.7669373,\"shadowDistribution\":0.5,\"gtaoQuality\":1}",
+            "{\"api\":\"b3World_Step\",\"world\":[1,2],\"value\":0,\"substeps\":4}",
+            "{\"api\":\"b3World_Draw\",\"world\":[1,2],\"shapes\":1,\"joints\":0,\"extras\":0,\"bounds\":0,\"mass\":0,\"sleep\":0,\"names\":0,\"contacts\":0,\"anchorA\":0,\"graph\":0,\"features\":0,\"normals\":0,\"forces\":0,\"islands\":0,\"jointScale\":1,\"forceScale\":1}",
+            "{\"api\":\"actual_draw_outputs\",\"world\":[1,2],\"bodies\":2,\"joints\":0,\"contacts\":1,\"shape_callbacks\":2,\"shape_digest\":\"f33a1225ed985ea7\",\"segment_callbacks\":0,\"segment_digest\":\"0000000000000000\",\"transform_callbacks\":0,\"transform_digest\":\"0000000000000000\",\"point_callbacks\":0,\"point_digest\":\"0000000000000000\",\"sphere_callbacks\":0,\"sphere_digest\":\"0000000000000000\",\"capsule_callbacks\":0,\"capsule_digest\":\"0000000000000000\",\"bounds_callbacks\":0,\"bounds_digest\":\"0000000000000000\",\"box_callbacks\":0,\"box_digest\":\"0000000000000000\",\"string_callbacks\":0,\"string_digest\":\"0000000000000000\"}",
+            "{\"api\":\"actual_RenderFrame\",\"debugMode\":0,\"disableShadows\":0,\"disableAmbientOcclusion\":0,\"exposure\":-2.5,\"sun\":0.800000012,\"ibl\":1,\"hullEdges\":1,\"edgeConvexity\":0,\"shadowStart\":10,\"shadowRange\":56.7669373,\"shadowDistribution\":0.5,\"gtaoQuality\":1}",
+            "{\"api\":\"b3World_Step\",\"world\":[1,2],\"value\":0,\"substeps\":4}",
+            "{\"api\":\"b3World_Draw\",\"world\":[1,2],\"shapes\":1,\"joints\":0,\"extras\":0,\"bounds\":0,\"mass\":0,\"sleep\":0,\"names\":0,\"contacts\":0,\"anchorA\":0,\"graph\":0,\"features\":0,\"normals\":0,\"forces\":0,\"islands\":0,\"jointScale\":1,\"forceScale\":1}",
+            "{\"api\":\"actual_draw_outputs\",\"world\":[1,2],\"bodies\":2,\"joints\":0,\"contacts\":1,\"shape_callbacks\":2,\"shape_digest\":\"f33a1225ed985ea7\",\"segment_callbacks\":0,\"segment_digest\":\"0000000000000000\",\"transform_callbacks\":0,\"transform_digest\":\"0000000000000000\",\"point_callbacks\":0,\"point_digest\":\"0000000000000000\",\"sphere_callbacks\":0,\"sphere_digest\":\"0000000000000000\",\"capsule_callbacks\":0,\"capsule_digest\":\"0000000000000000\",\"bounds_callbacks\":0,\"bounds_digest\":\"0000000000000000\",\"box_callbacks\":0,\"box_digest\":\"0000000000000000\",\"string_callbacks\":0,\"string_digest\":\"0000000000000000\"}",
+            "{\"api\":\"actual_RenderFrame\",\"debugMode\":0,\"disableShadows\":0,\"disableAmbientOcclusion\":0,\"exposure\":-2.5,\"sun\":0.800000012,\"ibl\":1,\"hullEdges\":1,\"edgeConvexity\":0,\"shadowStart\":10,\"shadowRange\":56.7669373,\"shadowDistribution\":0.5,\"gtaoQuality\":1}",
+            "{\"api\":\"b3World_Step\",\"world\":[1,2],\"value\":0,\"substeps\":4}",
+            "{\"api\":\"b3World_Draw\",\"world\":[1,2],\"shapes\":1,\"joints\":0,\"extras\":0,\"bounds\":0,\"mass\":0,\"sleep\":0,\"names\":0,\"contacts\":0,\"anchorA\":0,\"graph\":0,\"features\":0,\"normals\":0,\"forces\":0,\"islands\":0,\"jointScale\":1,\"forceScale\":1}",
+            "{\"api\":\"actual_draw_outputs\",\"world\":[1,2],\"bodies\":2,\"joints\":0,\"contacts\":1,\"shape_callbacks\":2,\"shape_digest\":\"f33a1225ed985ea7\",\"segment_callbacks\":0,\"segment_digest\":\"0000000000000000\",\"transform_callbacks\":0,\"transform_digest\":\"0000000000000000\",\"point_callbacks\":0,\"point_digest\":\"0000000000000000\",\"sphere_callbacks\":0,\"sphere_digest\":\"0000000000000000\",\"capsule_callbacks\":0,\"capsule_digest\":\"0000000000000000\",\"bounds_callbacks\":0,\"bounds_digest\":\"0000000000000000\",\"box_callbacks\":0,\"box_digest\":\"0000000000000000\",\"string_callbacks\":0,\"string_digest\":\"0000000000000000\"}",
+            "{\"api\":\"actual_RenderFrame\",\"debugMode\":0,\"disableShadows\":0,\"disableAmbientOcclusion\":0,\"exposure\":-2.5,\"sun\":0.800000012,\"ibl\":1,\"hullEdges\":1,\"edgeConvexity\":0,\"shadowStart\":10,\"shadowRange\":56.7669373,\"shadowDistribution\":0.5,\"gtaoQuality\":1}",
+            ""
+          ]
+        },
+        "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+      },
+      {
+        "name": "observer.jsonl",
+        "bytes": 571473,
+        "sha256": "053e0d7b2a61115ee877fc4bcd90bfc97d7af130ce7a64b7dc281a2e8fde1f96",
+        "summary": {
+          "failure_tail": [
+            "{\"frame\":2194,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2195,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2196,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2197,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2198,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2199,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2200,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2201,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2202,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2203,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2204,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2205,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2206,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2207,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2208,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2209,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2210,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2211,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2212,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2213,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2214,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2215,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2216,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2217,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2218,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2219,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2220,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2221,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2222,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2223,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            "{\"frame\":2224,\"world\":[1,2],\"sample_step\":0,\"submitted\":0,\"completed\":0,\"completed_known\":1,\"pause\":1,\"single_remaining\":0,\"context_flags\":[1,1,1],\"world_flags\":[1,1,1],\"hertz\":60,\"substeps\":4,\"show_metrics\":0,\"body_count\":2,\"shape_count\":2,\"move_count\":0}",
+            ""
+          ]
+        },
+        "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+      },
+      {
+        "name": "stderr.txt",
+        "bytes": 1010728,
+        "sha256": "655d069c8adab9055cf2a1fc8a4579f2d49836a7515daa0d1b9fa38d05a470c4",
+        "summary": {
+          "PERF05_lines": 26701,
+          "other_lines": [
+            "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+            "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+            "sokol-debug-pool: 65536 stable slots (was 0)",
+            "PR10WINDOW,pid=918818,id=115343406,width=1600,height=900"
+          ],
+          "last_other_lines": [
+            "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+            "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+            "sokol-debug-pool: 65536 stable slots (was 0)",
+            "PR10WINDOW,pid=918818,id=115343406,width=1600,height=900"
+          ]
+        },
+        "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+      }
+    ],
+    "deleted_bytes": 12353741,
+    "owned_pids_absent": [
+      918818,
+      918796
+    ]
+  }
+}

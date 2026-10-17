@@ -1,0 +1,2333 @@
+{
+  "status": "REVIEWED_FOUR_WIDGETS_AND_L_KEYBOARD_ALL_FIVE_ROUTES",
+  "routes_CPU_first": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "widget_entries": 4,
+  "samples": 3,
+  "custom_input_sample_groups": 1,
+  "per_receipt_distinct_check_keys": 545,
+  "finding_events": 28,
+  "product_finding_events": 0,
+  "harness_resolutions": [
+    {
+      "route": "cpu",
+      "receipt": "raw/launch-controls-runs/stall/cpu/receipt.json",
+      "original_failures": [
+        "initial public actual launch velocities",
+        "launch1 public actual launch velocities",
+        "launch2 public actual launch velocities",
+        "restart public actual launch velocities"
+      ],
+      "original_predicate": "Shape-attached rock COM velocity equals body-definition origin velocity [0,0,600]",
+      "actual_velocity": [
+        0.0809419155,
+        0.0160726905,
+        600
+      ],
+      "resolution": "Incorrect coordinate-point expectation. Box3D body.c:899–906 moves the mass centre after attaching the off-centre rock hull and adds angularVelocity cross (newCenter-oldCenter) to COM velocity. Actual velocities are identical to real CPU after every launch/restart on all routes. Original false assertions retained, no rerun. COM coordinates were not separately captured, so this is source-supported explanation and CPU comparison, not independent numerical mass-centre qualification."
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/launch-controls-runs/stall/ordinary-gpu/receipt.json",
+      "original_failures": [
+        "initial public actual launch velocities",
+        "launch1 public actual launch velocities",
+        "launch2 public actual launch velocities",
+        "restart public actual launch velocities"
+      ],
+      "original_predicate": "Shape-attached rock COM velocity equals body-definition origin velocity [0,0,600]",
+      "actual_velocity": [
+        0.0809419155,
+        0.0160726905,
+        600
+      ],
+      "resolution": "Incorrect coordinate-point expectation. Box3D body.c:899–906 moves the mass centre after attaching the off-centre rock hull and adds angularVelocity cross (newCenter-oldCenter) to COM velocity. Actual velocities are identical to real CPU after every launch/restart on all routes. Original false assertions retained, no rerun. COM coordinates were not separately captured, so this is source-supported explanation and CPU comparison, not independent numerical mass-centre qualification."
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/launch-controls-runs/stall/native-gpu/receipt.json",
+      "original_failures": [
+        "initial public actual launch velocities",
+        "launch1 public actual launch velocities",
+        "launch2 public actual launch velocities",
+        "restart public actual launch velocities"
+      ],
+      "original_predicate": "Shape-attached rock COM velocity equals body-definition origin velocity [0,0,600]",
+      "actual_velocity": [
+        0.0809419155,
+        0.0160726905,
+        600
+      ],
+      "resolution": "Incorrect coordinate-point expectation. Box3D body.c:899–906 moves the mass centre after attaching the off-centre rock hull and adds angularVelocity cross (newCenter-oldCenter) to COM velocity. Actual velocities are identical to real CPU after every launch/restart on all routes. Original false assertions retained, no rerun. COM coordinates were not separately captured, so this is source-supported explanation and CPU comparison, not independent numerical mass-centre qualification."
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/launch-controls-runs/stall/ordinary-both/receipt.json",
+      "original_failures": [
+        "initial public actual launch velocities",
+        "initial mapped_cpu actual launch velocities",
+        "launch1 public actual launch velocities",
+        "launch1 mapped_cpu actual launch velocities",
+        "launch2 public actual launch velocities",
+        "launch2 mapped_cpu actual launch velocities",
+        "restart public actual launch velocities",
+        "restart mapped_cpu actual launch velocities"
+      ],
+      "original_predicate": "Shape-attached rock COM velocity equals body-definition origin velocity [0,0,600]",
+      "actual_velocity": [
+        0.0809419155,
+        0.0160726905,
+        600
+      ],
+      "resolution": "Incorrect coordinate-point expectation. Box3D body.c:899–906 moves the mass centre after attaching the off-centre rock hull and adds angularVelocity cross (newCenter-oldCenter) to COM velocity. Actual velocities are identical to real CPU after every launch/restart on all routes. Original false assertions retained, no rerun. COM coordinates were not separately captured, so this is source-supported explanation and CPU comparison, not independent numerical mass-centre qualification."
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/launch-controls-runs/stall/native-both/receipt.json",
+      "original_failures": [
+        "initial public actual launch velocities",
+        "initial mapped_cpu actual launch velocities",
+        "launch1 public actual launch velocities",
+        "launch1 mapped_cpu actual launch velocities",
+        "launch2 public actual launch velocities",
+        "launch2 mapped_cpu actual launch velocities",
+        "restart public actual launch velocities",
+        "restart mapped_cpu actual launch velocities"
+      ],
+      "original_predicate": "Shape-attached rock COM velocity equals body-definition origin velocity [0,0,600]",
+      "actual_velocity": [
+        0.0809419155,
+        0.0160726905,
+        600
+      ],
+      "resolution": "Incorrect coordinate-point expectation. Box3D body.c:899–906 moves the mass centre after attaching the off-centre rock hull and adds angularVelocity cross (newCenter-oldCenter) to COM velocity. Actual velocities are identical to real CPU after every launch/restart on all routes. Original false assertions retained, no rerun. COM coordinates were not separately captured, so this is source-supported explanation and CPU comparison, not independent numerical mass-centre qualification."
+    }
+  ],
+  "rows": [
+    {
+      "route": "cpu",
+      "fixture": "bullet-stack",
+      "receipt": "raw/launch-controls-runs/bullet-stack/cpu/receipt.json",
+      "checks": 25,
+      "findings": 0,
+      "elapsed_seconds": 3.2403158160000003,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/cpu/initial.png",
+          "sha256": "feeda16200dcd176bf408b85967aa7c030826898a31e76c67464c8cdde5bc64f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 12,
+            "move_count": 0
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/cpu/launched.png",
+          "sha256": "0cce742c6acf718845ec6890a370b5a8b59af11b4750adfb0fc68ee4c30862e0",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 152,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 13,
+            "shape_count": 13,
+            "move_count": 0
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 484474,
+            "sha256": "4a6165f1e4f905c47a1e917976a7fad786d5eca385dd16431334b576d4590257",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 42846,
+            "sha256": "22f6d159217ab108d0825daaac326e1e15c9a2f57218919d720d14741d9f32cf",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 72871,
+            "sha256": "735cbbe622265c65801c08c114253d8ca558e463c8f3bd84195864fad0f3f802",
+            "summary": {
+              "PERF05_lines": 1981,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2665993,id=117440558,width=1600,height=900",
+                "samples: 165 frames, 0 sokol errors"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 600191,
+        "owned_pids_absent": [
+          2665993,
+          2665978
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "stall",
+      "receipt": "raw/launch-controls-runs/stall/cpu/receipt.json",
+      "checks": 23,
+      "findings": 4,
+      "elapsed_seconds": 3.0532340510000004,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/stall/cpu/initial.png",
+          "sha256": "516ce392ecee04faa839bc95c17dcd7b0778fd2085b64e8d6d83e880a3a54316",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 77,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/stall/cpu/launched.png",
+          "sha256": "4b2b1768682f1696e173a035d1215083d0024f702adc40dd0b8ee7aebdb01ac7",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 133,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 255859,
+            "sha256": "1014c505d468ae10bce00dca937910017aa992aa85b902eaa696b2f0b325d179",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 36838,
+            "sha256": "61843cc6af03a50ca92e9c8d276c8722608d4a7e796063ad92cc5e85dc1d8a79",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 62543,
+            "sha256": "e36dae059d9a5cb22bbd4da437d0e729eabdc0d8a36e417d7cf8d06287828183",
+            "summary": {
+              "PERF05_lines": 1705,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2666242,id=115343406,width=1600,height=900",
+                "samples: 142 frames, 0 sokol errors"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 355240,
+        "owned_pids_absent": [
+          2666242,
+          2666207
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "sensor-hits",
+      "receipt": "raw/launch-controls-runs/sensor-hits/cpu/receipt.json",
+      "checks": 43,
+      "findings": 0,
+      "elapsed_seconds": 4.624469132,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/cpu/initial.png",
+          "sha256": "d13cdd2b2e8ff1ba8b6308cdae7bee20872d6dc4f281c0761ab5d43a8aec08c7",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/cpu/launched.png",
+          "sha256": "d13cdd2b2e8ff1ba8b6308cdae7bee20872d6dc4f281c0761ab5d43a8aec08c7",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 229,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 563127,
+            "sha256": "53a7d8b0365115e2c35344994a3f21d75e38a8ea6e77ed755696b371791c92af",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 63718,
+            "sha256": "0611c5ceb7682dad1b0b3c85375a7d80da846457ad305aa8bbba01148c2f0e15",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 109663,
+            "sha256": "ac295a4c4b3cc450fec5d61fc14f332685c8b1167b8eb425155c138517a1471a",
+            "summary": {
+              "PERF05_lines": 2965,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2666524,id=115343406,width=1600,height=900",
+                "samples: 247 frames, 0 sokol errors"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 736508,
+        "owned_pids_absent": [
+          2666524,
+          2666509
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "bullet-stack",
+      "receipt": "raw/launch-controls-runs/bullet-stack/ordinary-gpu/receipt.json",
+      "checks": 25,
+      "findings": 0,
+      "elapsed_seconds": 4.47966457,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/ordinary-gpu/initial.png",
+          "sha256": "3e429769499a7586d15b9cd07526df8c54d879e51a76df2657d0521a6fa28bb9",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 12,
+            "move_count": 0
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/ordinary-gpu/launched.png",
+          "sha256": "aa4f53e7c73742db302f6c6ec4ef11ebcfbb3fc70d24b0028b4ee0043e4009dc",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 147,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 13,
+            "shape_count": 13,
+            "move_count": 0
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 483246,
+            "sha256": "a8fee31b8f0506c50107e8d3c23c7616c5970a1ca5b0942ccc59ab888ef7d26d",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 46501,
+            "sha256": "3857e9dbca657779b4166a485231815072100a4888f306906a67bcd0e0cd5cc1",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 79128,
+            "sha256": "858cc9a2f4aa51b6e8cb5d8037ffb3a723fb16b2787ffeb4447270131a31f1a6",
+            "summary": {
+              "PERF05_lines": 1921,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2666947,id=115343406,width=1600,height=900",
+                "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+                "GPU features: subgroups",
+                "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+                "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 608875,
+        "owned_pids_absent": [
+          2666947,
+          2666876
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "stall",
+      "receipt": "raw/launch-controls-runs/stall/ordinary-gpu/receipt.json",
+      "checks": 23,
+      "findings": 4,
+      "elapsed_seconds": 5.005458758,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/stall/ordinary-gpu/initial.png",
+          "sha256": "3534a2d3d2558b65ea7a0e3cccb524eb0e376b32f50450dfb95c3924df48d8aa",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 78,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/stall/ordinary-gpu/launched.png",
+          "sha256": "f3b07eafe1d6da9cba50dff4e85ef4e9e7bd66f00cd33114ef8409a7ac685a85",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 151,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 295274,
+            "sha256": "d2d18979f8d5483d3c9fb960b5aeb6252574d97f6185ab57b4ae41630f1b4fb1",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 46192,
+            "sha256": "96ce2d35ad2ebce661eb74ffc92b6421e60e0879376815f775666b47cc210066",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 76219,
+            "sha256": "412435e93c9c169f653e4e59bce109c05fd5b5ea4029a87c7b9f4579cc1b143b",
+            "summary": {
+              "PERF05_lines": 1921,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2667279,id=115343406,width=1600,height=900",
+                "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+                "GPU features: subgroups",
+                "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+                "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 417685,
+        "owned_pids_absent": [
+          2667279,
+          2667259
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "sensor-hits",
+      "receipt": "raw/launch-controls-runs/sensor-hits/ordinary-gpu/receipt.json",
+      "checks": 43,
+      "findings": 0,
+      "elapsed_seconds": 6.215370512000001,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/ordinary-gpu/initial.png",
+          "sha256": "3ece28a77e63a592b46b44d693a7c9e92d057e811b752f265fc9a9c8674dc18f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 70,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/ordinary-gpu/launched.png",
+          "sha256": "fa9ccac4e53bfeca9a033152dabfadbcffa1a23bf8b69879106a8491a19cb445",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 236,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 594221,
+            "sha256": "56d188ded55d869c776b39f2d9c494fb0f15063540d3c8abecace6b7b35489dd",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 69695,
+            "sha256": "d8f55b1a1bbe556bf14bd27545c4b4386c45c329ace1ac402e6a1c802b5c9fb1",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 120385,
+            "sha256": "b49545837e261aa2ee16c0ab588885b5bb163050c825b386ea72e4971c449fd1",
+            "summary": {
+              "PERF05_lines": 3025,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2667667,id=115343406,width=1600,height=900",
+                "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+                "GPU features: subgroups",
+                "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+                "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 784301,
+        "owned_pids_absent": [
+          2667667,
+          2667650
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "bullet-stack",
+      "receipt": "raw/launch-controls-runs/bullet-stack/native-gpu/receipt.json",
+      "checks": 25,
+      "findings": 0,
+      "elapsed_seconds": 4.571358438,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/native-gpu/initial.png",
+          "sha256": "6657915c1c81dafbc9382865c535cf65d3162618fb9a265716429b0490630fe8",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 12,
+            "move_count": 0
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/native-gpu/launched.png",
+          "sha256": "4cce14f2d1c5e2224ec3a17db1c3ec2cd09c85a675f858174906cc5f01e9d723",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 146,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 13,
+            "shape_count": 13,
+            "move_count": 0
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 488222,
+            "sha256": "ccd79dd0ff43b87a38bbcbb0fb52d6f63a68d8c93a715dc0706ca8e29d384c19",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 46097,
+            "sha256": "b8ff37490f237841b8d395a55a2d0289292239da695f7c69df35cc34c3057fa2",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 78650,
+            "sha256": "85f4961640db78dd1e13f80c8f1c59ce25b29758bbb61baaf39ebc8752b2ab89",
+            "summary": {
+              "PERF05_lines": 1909,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2668104,id=115343406,width=1600,height=900",
+                "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+                "GPU features: subgroups",
+                "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+                "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 612969,
+        "owned_pids_absent": [
+          2668104,
+          2668087
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "stall",
+      "receipt": "raw/launch-controls-runs/stall/native-gpu/receipt.json",
+      "checks": 23,
+      "findings": 4,
+      "elapsed_seconds": 5.028881583,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/stall/native-gpu/initial.png",
+          "sha256": "77dbbf642e1d6c630fb9827632fd05c8d6c5ee026f1be7cabdac57d26a399029",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 79,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/stall/native-gpu/launched.png",
+          "sha256": "cf2470c69b5b7edfe6f050724370625880b65c4a7691d24aad6462994aa5e814",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 152,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 296451,
+            "sha256": "9da56534e58c6859cf0cde0dda65be437672492578adce787a679dc1bff7657d",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 46547,
+            "sha256": "04bf79745bfdc632223655ae6bfedcf600defb84918d41a12fd9fc372c249f0c",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 76621,
+            "sha256": "63b8c12e104afb3dd44b5c85658ac7829dab48e23e46defefdd7b8cd6d5b73ad",
+            "summary": {
+              "PERF05_lines": 1933,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2668393,id=115343406,width=1600,height=900",
+                "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+                "GPU features: subgroups",
+                "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+                "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 419619,
+        "owned_pids_absent": [
+          2668393,
+          2668378
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "sensor-hits",
+      "receipt": "raw/launch-controls-runs/sensor-hits/native-gpu/receipt.json",
+      "checks": 43,
+      "findings": 0,
+      "elapsed_seconds": 6.4153592779999995,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/native-gpu/initial.png",
+          "sha256": "f5a3b30b4930fd9de6042ee9ea48ba097170eb828f11e66f7ac1c7b89caaacc8",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/native-gpu/launched.png",
+          "sha256": "641036e39132acd6dcab129c64bdc02a7e19b477ceb6bcac1675351a71613311",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 237,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 596906,
+            "sha256": "f3fb68e65a4ccf2c6c08b8026d272b1096a80c7268058f3e96fcdf04bd9db332",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 69843,
+            "sha256": "3c4594646577071968efa1ec75d7bdc1bb872c4fd6ad6adb14bd27e9f1451a25",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 120363,
+            "sha256": "e1e84719d9224abfe536a5d5e631c854e9eb42fc0d5d0aa4f16798ba8c79b127",
+            "summary": {
+              "PERF05_lines": 3025,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2668735,id=115343406,width=1600,height=900",
+                "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+                "GPU features: subgroups",
+                "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+                "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 787112,
+        "owned_pids_absent": [
+          2668735,
+          2668715
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "bullet-stack",
+      "receipt": "raw/launch-controls-runs/bullet-stack/ordinary-both/receipt.json",
+      "checks": 37,
+      "findings": 0,
+      "elapsed_seconds": 4.735334833,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/ordinary-both/initial.png",
+          "sha256": "1eeb0b5f17b0b9dbdb1a6bc654abba707a73c9d824bd188930491df414d9c5f5",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 12,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/ordinary-both/launched.png",
+          "sha256": "2c4ef73758c0e441f06a9560aa2b94d80023e9b3567bb8f69bcf80f77dc81111",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 167,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 13,
+            "shape_count": 13,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 1016665,
+            "sha256": "9d6f8b9d19ce247c1085bd8e919ee8edd14cd312aeda0f9b7f66ee8ed5e22ade",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 58501,
+            "sha256": "473cab26dd8633e4d7dd8ad81f65af1e4cd0c07b42c7aff06b10d3fee512c5bd",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 174389,
+            "sha256": "5b921cbbfe2b1eadfc52f9bb3e6350ea7a0b378d6c2da7f3d58b7ebe7f847728",
+            "summary": {
+              "PERF05_lines": 4321,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2669156,id=115343406,width=1600,height=900",
+                "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+                "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+                "GPU features: subgroups",
+                "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 1249555,
+        "owned_pids_absent": [
+          2669156,
+          2669141
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "stall",
+      "receipt": "raw/launch-controls-runs/stall/ordinary-both/receipt.json",
+      "checks": 35,
+      "findings": 8,
+      "elapsed_seconds": 4.974404571,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/stall/ordinary-both/initial.png",
+          "sha256": "4fd4fe273d8fe9a58a43f335c6f0aa47831d19fffb75abb0623e5613257d4a2b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 77,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/stall/ordinary-both/launched.png",
+          "sha256": "80cfa5a12e13a1a971baf93eca05adeda669baf2352f52fd9f598b380fb9e18b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 151,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 520691,
+            "sha256": "8ee08e5634b9457367ef83072cc70e18a9d61d6ee10f8c02574888384e468485",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 51831,
+            "sha256": "8cd0e3afdbbc01a0e0a22e8cf45c310bc578ed59eb9c89c93ed093c476722519",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 152634,
+            "sha256": "3c7f33401e26f30ee2da8050c2cb816df26f054f962f07c53c151319b4083d1c",
+            "summary": {
+              "PERF05_lines": 3817,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2669490,id=115343406,width=1600,height=900",
+                "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+                "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+                "GPU features: subgroups",
+                "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 725156,
+        "owned_pids_absent": [
+          2669490,
+          2669473
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "sensor-hits",
+      "receipt": "raw/launch-controls-runs/sensor-hits/ordinary-both/receipt.json",
+      "checks": 64,
+      "findings": 0,
+      "elapsed_seconds": 6.296411452999999,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/ordinary-both/initial.png",
+          "sha256": "8ca6789e7151e8de1540c878c1fe8201ccba47246943b5c09e9d80bb67d857ee",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/ordinary-both/launched.png",
+          "sha256": "22aeefa6e59c0bc70671a7652faf4862c0097358ba5cbe6b4e459e9cdfaf6066",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 240,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 1095358,
+            "sha256": "9ef868c23dc9f80046c331645739505aeaf5e8085c7eb2d509daefd8fcbfc0d4",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 80889,
+            "sha256": "76f92806593c2c0c82f6fafde5993e395f7005aeb4afbbf7ad8e1ad3b4eb5580",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 243276,
+            "sha256": "85ea53f6b6cb3190d8b86bc45c08bc2a231f6aceeb3cf792388612fa3270d86d",
+            "summary": {
+              "PERF05_lines": 6169,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2669839,id=115343406,width=1600,height=900",
+                "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+                "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+                "GPU features: subgroups",
+                "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 1419523,
+        "owned_pids_absent": [
+          2669839,
+          2669822
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "bullet-stack",
+      "receipt": "raw/launch-controls-runs/bullet-stack/native-both/receipt.json",
+      "checks": 37,
+      "findings": 0,
+      "elapsed_seconds": 4.907108505,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/native-both/initial.png",
+          "sha256": "2648fb18c35c8cac6170db5d7d6499f35abeaa44bf40591e6e5b8ac7da249cb7",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 12,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/bullet-stack/native-both/launched.png",
+          "sha256": "0ff3b8267b814b2d9f03aa15ed2b6e94d4c426a2ab7b26e7a6b004525ce6cc83",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 169,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 13,
+            "shape_count": 13,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 1020814,
+            "sha256": "dc6339e1384014d0e2aba5b4439178e9e7fa3b1ad12fc3e58c360d601836fcf6",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 59190,
+            "sha256": "954b80b366c586a68e8eb63601d003270fb96d1d2c66f325f18b3231a6c38d60",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 176160,
+            "sha256": "ed6660ab5c2152fb41cb3cabbbbd99a87ab86a78ca37409d42f014786ca9d852",
+            "summary": {
+              "PERF05_lines": 4369,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2670297,id=115343406,width=1600,height=900",
+                "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+                "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+                "GPU features: subgroups",
+                "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 1256164,
+        "owned_pids_absent": [
+          2670297,
+          2670280
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "stall",
+      "receipt": "raw/launch-controls-runs/stall/native-both/receipt.json",
+      "checks": 35,
+      "findings": 8,
+      "elapsed_seconds": 5.034540441,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/stall/native-both/initial.png",
+          "sha256": "9aa317f85856f18c44ce82232110a5b358507d4728c64c0e2ed7ede8d5a7fa39",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 79,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/stall/native-both/launched.png",
+          "sha256": "09716ca28b2c71c1c254626f96a9f7edc466a00218a0a557c601115ad58a85c3",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 153,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 526878,
+            "sha256": "e58583027d635f0a8fb1a9de0eb560cbfa3d4690fafaa7382285139a2aca636e",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 52811,
+            "sha256": "dab4b7c88d7f13bbe1060fc9f0c56363e07e64dac54bc7375a660d6a763d7d16",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 155408,
+            "sha256": "44fcaf7146afb81d5a7e9406446d548a631796e4f093f44c07607bc953a77f0f",
+            "summary": {
+              "PERF05_lines": 3889,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2670630,id=115343406,width=1600,height=900",
+                "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+                "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+                "GPU features: subgroups",
+                "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 735097,
+        "owned_pids_absent": [
+          2670630,
+          2670613
+        ]
+      },
+      "cache_growth": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "sensor-hits",
+      "receipt": "raw/launch-controls-runs/sensor-hits/native-both/receipt.json",
+      "checks": 64,
+      "findings": 0,
+      "elapsed_seconds": 6.453239753000001,
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/native-both/initial.png",
+          "sha256": "f57aa98138bf090b0a4d4cfc1dd951e9eadea9ba7796c469ec16fa23cc761ae1",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "launched": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/launch-controls-runs/sensor-hits/native-both/launched.png",
+          "sha256": "1427f47e6e71c767fb5eafc80b5019a78565d31df12218588ee083827d9ef408",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 242,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 6,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "cleanup": {
+        "status": "CLOSED",
+        "removed": [
+          {
+            "name": "api.jsonl",
+            "bytes": 1094333,
+            "sha256": "7e2951d98b3214aa12497be624e9399ae694ed88f756c5f42e8bec1ad4dcd90e",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "observer.jsonl",
+            "bytes": 81477,
+            "sha256": "f1899023d2601e517c6a3844077975bd054e141c9ce8036cfff6b436b636b092",
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          },
+          {
+            "name": "stderr.txt",
+            "bytes": 245296,
+            "sha256": "cc4a2fa819cfb576adbee7ff4ca94a76f43880bb43be66234a436df502bf1159",
+            "summary": {
+              "PERF05_lines": 6217,
+              "other_lines": [
+                "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+                "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+                "sokol-debug-pool: 65536 stable slots (was 0)",
+                "PR10WINDOW,pid=2670988,id=115343406,width=1600,height=900",
+                "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+                "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+                "GPU features: subgroups",
+                "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+              ]
+            },
+            "consumer": "Selectedactualstates/controls/keys/inputsandoriginalreceipt; fullstreamconsumed"
+          }
+        ],
+        "deleted_bytes": 1421106,
+        "owned_pids_absent": [
+          2670988,
+          2670973
+        ]
+      },
+      "cache_growth": 0
+    }
+  ],
+  "images": [
+    {
+      "fixture": "bullet-stack",
+      "route": "cpu",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/bullet-stack/cpu/initial.png",
+      "sha256": "feeda16200dcd176bf408b85967aa7c030826898a31e76c67464c8cdde5bc64f"
+    },
+    {
+      "fixture": "bullet-stack",
+      "route": "cpu",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/bullet-stack/cpu/launched.png",
+      "sha256": "0cce742c6acf718845ec6890a370b5a8b59af11b4750adfb0fc68ee4c30862e0"
+    },
+    {
+      "fixture": "stall",
+      "route": "cpu",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/stall/cpu/initial.png",
+      "sha256": "516ce392ecee04faa839bc95c17dcd7b0778fd2085b64e8d6d83e880a3a54316"
+    },
+    {
+      "fixture": "stall",
+      "route": "cpu",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/stall/cpu/launched.png",
+      "sha256": "4b2b1768682f1696e173a035d1215083d0024f702adc40dd0b8ee7aebdb01ac7"
+    },
+    {
+      "fixture": "sensor-hits",
+      "route": "cpu",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/sensor-hits/cpu/initial.png",
+      "sha256": "d13cdd2b2e8ff1ba8b6308cdae7bee20872d6dc4f281c0761ab5d43a8aec08c7"
+    },
+    {
+      "fixture": "sensor-hits",
+      "route": "cpu",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/sensor-hits/cpu/launched.png",
+      "sha256": "d13cdd2b2e8ff1ba8b6308cdae7bee20872d6dc4f281c0761ab5d43a8aec08c7"
+    },
+    {
+      "fixture": "bullet-stack",
+      "route": "ordinary-gpu",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/bullet-stack/ordinary-gpu/initial.png",
+      "sha256": "3e429769499a7586d15b9cd07526df8c54d879e51a76df2657d0521a6fa28bb9"
+    },
+    {
+      "fixture": "bullet-stack",
+      "route": "ordinary-gpu",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/bullet-stack/ordinary-gpu/launched.png",
+      "sha256": "aa4f53e7c73742db302f6c6ec4ef11ebcfbb3fc70d24b0028b4ee0043e4009dc"
+    },
+    {
+      "fixture": "stall",
+      "route": "ordinary-gpu",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/stall/ordinary-gpu/initial.png",
+      "sha256": "3534a2d3d2558b65ea7a0e3cccb524eb0e376b32f50450dfb95c3924df48d8aa"
+    },
+    {
+      "fixture": "stall",
+      "route": "ordinary-gpu",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/stall/ordinary-gpu/launched.png",
+      "sha256": "f3b07eafe1d6da9cba50dff4e85ef4e9e7bd66f00cd33114ef8409a7ac685a85"
+    },
+    {
+      "fixture": "sensor-hits",
+      "route": "ordinary-gpu",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/sensor-hits/ordinary-gpu/initial.png",
+      "sha256": "3ece28a77e63a592b46b44d693a7c9e92d057e811b752f265fc9a9c8674dc18f"
+    },
+    {
+      "fixture": "sensor-hits",
+      "route": "ordinary-gpu",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/sensor-hits/ordinary-gpu/launched.png",
+      "sha256": "fa9ccac4e53bfeca9a033152dabfadbcffa1a23bf8b69879106a8491a19cb445"
+    },
+    {
+      "fixture": "bullet-stack",
+      "route": "native-gpu",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/bullet-stack/native-gpu/initial.png",
+      "sha256": "6657915c1c81dafbc9382865c535cf65d3162618fb9a265716429b0490630fe8"
+    },
+    {
+      "fixture": "bullet-stack",
+      "route": "native-gpu",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/bullet-stack/native-gpu/launched.png",
+      "sha256": "4cce14f2d1c5e2224ec3a17db1c3ec2cd09c85a675f858174906cc5f01e9d723"
+    },
+    {
+      "fixture": "stall",
+      "route": "native-gpu",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/stall/native-gpu/initial.png",
+      "sha256": "77dbbf642e1d6c630fb9827632fd05c8d6c5ee026f1be7cabdac57d26a399029"
+    },
+    {
+      "fixture": "stall",
+      "route": "native-gpu",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/stall/native-gpu/launched.png",
+      "sha256": "cf2470c69b5b7edfe6f050724370625880b65c4a7691d24aad6462994aa5e814"
+    },
+    {
+      "fixture": "sensor-hits",
+      "route": "native-gpu",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/sensor-hits/native-gpu/initial.png",
+      "sha256": "f5a3b30b4930fd9de6042ee9ea48ba097170eb828f11e66f7ac1c7b89caaacc8"
+    },
+    {
+      "fixture": "sensor-hits",
+      "route": "native-gpu",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/sensor-hits/native-gpu/launched.png",
+      "sha256": "641036e39132acd6dcab129c64bdc02a7e19b477ceb6bcac1675351a71613311"
+    },
+    {
+      "fixture": "bullet-stack",
+      "route": "ordinary-both",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/bullet-stack/ordinary-both/initial.png",
+      "sha256": "1eeb0b5f17b0b9dbdb1a6bc654abba707a73c9d824bd188930491df414d9c5f5"
+    },
+    {
+      "fixture": "bullet-stack",
+      "route": "ordinary-both",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/bullet-stack/ordinary-both/launched.png",
+      "sha256": "2c4ef73758c0e441f06a9560aa2b94d80023e9b3567bb8f69bcf80f77dc81111"
+    },
+    {
+      "fixture": "stall",
+      "route": "ordinary-both",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/stall/ordinary-both/initial.png",
+      "sha256": "4fd4fe273d8fe9a58a43f335c6f0aa47831d19fffb75abb0623e5613257d4a2b"
+    },
+    {
+      "fixture": "stall",
+      "route": "ordinary-both",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/stall/ordinary-both/launched.png",
+      "sha256": "80cfa5a12e13a1a971baf93eca05adeda669baf2352f52fd9f598b380fb9e18b"
+    },
+    {
+      "fixture": "sensor-hits",
+      "route": "ordinary-both",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/sensor-hits/ordinary-both/initial.png",
+      "sha256": "8ca6789e7151e8de1540c878c1fe8201ccba47246943b5c09e9d80bb67d857ee"
+    },
+    {
+      "fixture": "sensor-hits",
+      "route": "ordinary-both",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/sensor-hits/ordinary-both/launched.png",
+      "sha256": "22aeefa6e59c0bc70671a7652faf4862c0097358ba5cbe6b4e459e9cdfaf6066"
+    },
+    {
+      "fixture": "bullet-stack",
+      "route": "native-both",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/bullet-stack/native-both/initial.png",
+      "sha256": "2648fb18c35c8cac6170db5d7d6499f35abeaa44bf40591e6e5b8ac7da249cb7"
+    },
+    {
+      "fixture": "bullet-stack",
+      "route": "native-both",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/bullet-stack/native-both/launched.png",
+      "sha256": "0ff3b8267b814b2d9f03aa15ed2b6e94d4c426a2ab7b26e7a6b004525ce6cc83"
+    },
+    {
+      "fixture": "stall",
+      "route": "native-both",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/stall/native-both/initial.png",
+      "sha256": "9aa317f85856f18c44ce82232110a5b358507d4728c64c0e2ed7ede8d5a7fa39"
+    },
+    {
+      "fixture": "stall",
+      "route": "native-both",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/stall/native-both/launched.png",
+      "sha256": "09716ca28b2c71c1c254626f96a9f7edc466a00218a0a557c601115ad58a85c3"
+    },
+    {
+      "fixture": "sensor-hits",
+      "route": "native-both",
+      "state": "initial",
+      "path": "raw/launch-controls-runs/sensor-hits/native-both/initial.png",
+      "sha256": "f57aa98138bf090b0a4d4cfc1dd951e9eadea9ba7796c469ec16fa23cc761ae1"
+    },
+    {
+      "fixture": "sensor-hits",
+      "route": "native-both",
+      "state": "launched",
+      "path": "raw/launch-controls-runs/sensor-hits/native-both/launched.png",
+      "sha256": "1427f47e6e71c767fb5eafc80b5019a78565d31df12218588ee083827d9ef408"
+    }
+  ],
+  "visual_review": {
+    "status": "ALL_30_CELLS_INSPECTED_CPU_FIRST",
+    "observations": "Floors, torus, wall, stack and sensor scene appearance retained across all routes. Projectile spawn positions can be outside the source default camera view (also CPU); actual body/shape states and identities checked. Combined material tint is intentional. Images are paused review states, not repair before/after."
+  },
+  "limitations": [
+    "Paused UI/lifecycle review; no CCD, sensor-event, Stall performance or solver qualification.",
+    "Bullet checkbox intentionally applies to next launch only; actual current and newly created body flags were checked.",
+    "L actual press creates a replacement; release does not create another. SensorHits B is polled per UI frame and stops after release.",
+    "Rock COM velocity predicate corrected by explanation, original receipts preserved; COM coordinates not separately observed.",
+    "Review images are not repaired before/after; no product code fixed."
+  ],
+  "source_hashes": {
+    "box3d/samples/sample_continuous.cpp": "c66acb99e4b4887ea2018c8337bbeeffbf69cc12ac108eb6fd59faeeaf853a91",
+    "box3d/samples/sample_events.cpp": "a78eb5960278cf750114ef8b6ee0c21cd21c216c4c95ee7c0e673b1a1ff040c9",
+    "box3d/src/body.c": "269178119c6a895ae4be3204c8d8151cfc5120541458e4b13992e97ffcbfd050",
+    "box3d/samples/main.cpp": "a5392f473371c2b1ef3de0dd8e4d72dcd94202e0e69d6b47954751f8889facc7"
+  },
+  "unchanged_original_inputs": 207,
+  "cleanup": "launch-controls-cleanup.json"
+}

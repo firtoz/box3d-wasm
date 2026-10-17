@@ -1,0 +1,20 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "ReadonlydiagnosticBodyType/Enable/velocity/selected-body metadata andactualrendercounts fornextUI cases; originalAPIs calledonce. No app runs authorizedbythisbuildbudget; runtimefixturebudgetmustbefrozenbeforeexecution.",
+  "CPP_compiles": 1,
+  "compile_seconds": 15,
+  "links": 5,
+  "link_seconds_each": 20,
+  "apps": 0,
+  "engine_builds": 0,
+  "retries": 0,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 33554432,
+  "cache_copies": 0,
+  "shared_driver_cache_growth": 0,
+  "outputs": {
+    "newobserver/source/object+5viewers": "NextsharedView/BodyType/pickingchecks; replacecurrentpoolonlyafteractualqualification. Keepminimalstateechoes/screens later; delete supersededpool/streams.",
+    "watch_limit": "max16distinctpublic/CPUbodyIDs +2selected IDs, onlysnapshotonnewUIrequest. No fullworld dumps."
+  },
+  "free_bytes": 1709420457984
+}

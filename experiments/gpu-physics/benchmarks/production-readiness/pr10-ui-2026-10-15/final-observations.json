@@ -1,0 +1,98 @@
+{
+  "status": "DISPOSITIONED_WITH_EXPLICIT_UNCONFIRMED_LIMITS",
+  "observations": [
+    {
+      "id": "OBS01",
+      "status": "ROUTED_UNCONFIRMED_APPEARANCE_PR11",
+      "scope": "Bodies/Cast combined Shift-drag pale/white small shape. Actual input/query/transform/identity/release effects were verified; this visual discrepancy remains unconfirmed because shape/selection/material provenance was not retained.",
+      "evidence": [
+        "plane-controls-acceptance.json",
+        "plane-controls-body-cast-grid.png",
+        "raw/plane-controls-remaining-runs/body-cast/ordinary-both/shift-drag.png",
+        "raw/plane-controls-remaining-runs/body-cast/native-both/shift-drag.png"
+      ],
+      "source": "box3d/samples/sample_bodies.cpp:BodyCast::Render",
+      "source_sha256": "d8cc9bddfdb3b0aafa3ac04627c3742692026f1a068bc52ff3e05dc48ffee169",
+      "source_facts": "BodyCast renders the cylinder blue, a hit sphere green, and a miss sphere/translation white. This establishes several legitimate colours, not which object the old pixels depict. Do not attribute it to the combined palette without actual colour/selection inputs.",
+      "disposition": "Keep visible in PR11 query behavior/appearance qualification; no confirmed PR10 widget defect or false repaired/pixel-equivalent claim."
+    },
+    {
+      "id": "OBS02",
+      "status": "NATIVE_CHOOSER_PASS_REUSED_HARNESS_TIMEOUTS_PRESERVED",
+      "scope": "Later GTK discovery/path submission probes timed out before sample widgets. They are not proof of a product hang.",
+      "evidence": [
+        "recording-replay-acceptance.json",
+        "raw/replay-gtk-path-runs/cpu/receipt.json",
+        "gtk-first-cleanup.json",
+        "gtk-discovery-cleanup.json",
+        "replay-popup-acceptance.json"
+      ],
+      "actual_positive": {
+        "receipt": "raw/replay-gtk-path-runs/cpu/receipt.json",
+        "sha256": "ccf4a6d81e7a1cad91f9f1453a4f41a6bb94398c05a65c5588db35a4ab2c4306",
+        "checks": {
+          "CPU Replay transport available": true,
+          "CPU Replay timeline frame0": true,
+          "CPU Replay > frame1": true,
+          "CPU Replay > frame2": true,
+          "CPU Replay < frame1": true
+        },
+        "loaded_ui_available": true,
+        "original_terminal_status": "FAILURE_RETAINED",
+        "original_later_error": "AssertionError('Transition did not satisfy predicate within 3s')"
+      },
+      "media": [
+        {
+          "path": "raw/replay-gtk-path-runs/cpu/gtk-before-enter.png",
+          "sha256": "af35e0e4a533e7811b6155970f6f110e31b568288f3168734c98162679621b22"
+        },
+        {
+          "path": "raw/replay-gtk-path-runs/cpu/gtk-after-first-enter.png",
+          "sha256": "01c5332c5b15ee55dcacc722fe3dc02c749dd2e974ee4009eaad736e2c0924a6"
+        },
+        {
+          "path": "raw/replay-gtk-path-runs/cpu/load-popup.png",
+          "sha256": "46561d877fb0f4ecf5de154c8e8f218490716c5d2065bcfdefc92ee7a4949a4b"
+        },
+        {
+          "path": "raw/replay-gtk-path-runs/cpu/loaded-replay.png",
+          "sha256": "ce4836270f318afdbfba9ea7f245db6653ae2c8ebfb6628dfc2062d51d8cc878"
+        }
+      ],
+      "source": "box3d/samples/sample.cpp:OpenReplayFileDialog",
+      "source_sha256": "4b0de896d159fd6cf4528c2f4b906ddc527314ee85cb3b823351fc91e1d3b3a6",
+      "source_facts": "Unmodified native NFD handler loads the selected path then selects ReplayViewer. Actual prior GTK sequence shows the full path before Return; after the first Return the chooser stays open with Open focused; the second Return accepts it and native Load popup/player controls appear. Later TS helper sends one Return then waits for closure.",
+      "disposition": "Reuse actual prior native GTK acceptance and subsequent Load/player state. The one-Return difference explains a plausible automation failure; exact later event/timing cause remains unconfirmed. Original later timeouts retained; no new GTK run or product fix."
+    },
+    {
+      "id": "OBS03",
+      "status": "NATIVE_NAVIGATION_POLICY_DISPOSITION_NO_GPU_REPAIR",
+      "scope": "Original CPU TimeOfImpact Combo A remained open after Escape; original event delivery was not traced. This is the TOI combo watch, not a Replay modal finding.",
+      "evidence": [
+        "ui15-original-popup-timeout.json",
+        "ui15-acceptance.json",
+        "UI15-repair.md"
+      ],
+      "source_files": [
+        {
+          "path": "box3d/samples/host/gui.cpp",
+          "sha256": "dae46c68a2edb0c26c55d7d60eff1d5074182670a335a1597d634c2812f443ae"
+        },
+        {
+          "path": "box3d/extern/sokol/sokol_imgui.h",
+          "sha256": "ee820f7ad3bccb4bcdab7ec9557a5b247b6a01492b4c8f4a56087cd43b2c2ce3"
+        },
+        {
+          "path": "box3d/.fetchcontent-cache/imgui-src/imgui.cpp",
+          "sha256": "baac4dfc90575a64f6fafd7fd5abc86a7b0051ee273ee5d8f3bc4e223d3ff329"
+        }
+      ],
+      "source_facts": "ImGui initializes ConfigFlags to None. Native InitUI and Sokol adapter do not enable NavEnableKeyboard. ImGui NavUpdateCancelRequest gates Escape popup cancellation on that flag; modal popups also have a separate non-closing policy. Escape-to-close a combo is not an advertised native control in this configuration.",
+      "disposition": "No GPU-specific defect established. Original incomplete event sequence stays archived; actual three-option/all-nine-pair TOI interaction was completed by choosing the current item and confirming popup closure. That verified input path is reused; no unproven Escape-input pass, Box3D change, or unrequested keyboard-navigation feature."
+    }
+  ],
+  "seconds": 0.009757024999999999,
+  "apps": 0,
+  "builds": 0,
+  "captures": 0
+}

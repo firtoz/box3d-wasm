@@ -1,0 +1,58 @@
+{
+  "status": "CLOSED",
+  "user_direction": "Recording/comparison commit gate removed; unnecessary new publication media and machinery deleted. Existing repair evidence preserved.",
+  "removed": [
+    {
+      "path": "publication-media",
+      "bytes": 132320335
+    },
+    {
+      "path": "publication.ts",
+      "bytes": 16470
+    },
+    {
+      "path": "publication-budget.json",
+      "bytes": 159292
+    },
+    {
+      "path": "publication-receipt.json",
+      "bytes": 10700615
+    },
+    {
+      "path": "publication-review.ts",
+      "bytes": 4022
+    },
+    {
+      "path": "publication-review-budget.json",
+      "bytes": 628
+    },
+    {
+      "path": "publication-review.json",
+      "bytes": 47318
+    },
+    {
+      "path": "publication-pack.ts",
+      "bytes": 3074
+    },
+    {
+      "path": "publication-pack-budget.json",
+      "bytes": 172676
+    },
+    {
+      "path": "raw/publication-review",
+      "bytes": 161194
+    }
+  ],
+  "deleted_bytes": 143585624,
+  "earlier_consumed_build_scratch_deleted_bytes": 483881275,
+  "owned_pids_absent": 2465,
+  "remaining_jobs": 0,
+  "free_bytes": 1707016650752,
+  "preserved": [
+    "29 repair reports and acceptance checks",
+    "original before/after screenshots",
+    "portable-media.json and selected evidence",
+    "shared caches and immutable engine archives",
+    "Box3D/WASM and other local work"
+  ]
+}

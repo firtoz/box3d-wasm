@@ -1,0 +1,3221 @@
+{
+  "status": "PASS_FIVE_ROUTES_RENDER_SETTINGS",
+  "routes": [
+    {
+      "label": "cpu",
+      "initial_renderer": {
+        "api": "actual_RenderFrame",
+        "debugMode": 0,
+        "disableShadows": 0,
+        "disableAmbientOcclusion": 0,
+        "exposure": -2.5,
+        "sun": 0.800000012,
+        "ibl": 1,
+        "hullEdges": 1,
+        "edgeConvexity": 0,
+        "shadowStart": 10,
+        "shadowRange": 56.7669373,
+        "shadowDistribution": 0.5,
+        "gtaoQuality": 1
+      },
+      "final_renderer": {
+        "api": "actual_RenderFrame",
+        "debugMode": 0,
+        "disableShadows": 0,
+        "disableAmbientOcclusion": 0,
+        "exposure": -2.5,
+        "sun": 0.800000012,
+        "ibl": 1,
+        "hullEdges": 1,
+        "edgeConvexity": 0,
+        "shadowStart": 10,
+        "shadowRange": 56.7669373,
+        "shadowDistribution": 0.5,
+        "gtaoQuality": 1
+      },
+      "actual_renderer_proofs": [
+        {
+          "field": "gtaoQuality",
+          "value": 2,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 2
+          }
+        },
+        {
+          "field": "gtaoQuality",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "exposure",
+          "value": -6.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -6,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "exposure",
+          "value": -2.5,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableShadows",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 1,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableShadows",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableAmbientOcclusion",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 1,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableAmbientOcclusion",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "ibl",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 0,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "ibl",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "hullEdges",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "edgeConvexity",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 1,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "edgeConvexity",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "hullEdges",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowStart",
+          "value": 3.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 3,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowStart",
+          "value": 10,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowRange",
+          "value": 80.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 80,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowRange",
+          "value": 56.7669373,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowDistribution",
+          "value": 0.25,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.25,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowDistribution",
+          "value": 0.5,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "gtaoQuality",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "gtaoQuality",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "sun",
+          "value": 0.25,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.25,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "sun",
+          "value": 0.800000012,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "exposure",
+          "value": -3.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -3,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "exposure",
+          "value": -2.5,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 1,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 2,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 2,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 3,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 3,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 4,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 4,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        }
+      ],
+      "image_effects": {
+        "baseline_mean": 157.8713664421998,
+        "dark_mean": 55.329728769173215,
+        "normal_mean_abs_difference": 51.50310699588477
+      },
+      "seconds": 6.479130118998,
+      "partial_CPU_receipts": [
+        {
+          "receipt": "raw/render-controls-runs/cpu/receipt.json",
+          "status": "FAILURE_RETAINED",
+          "error": "CalledProcessError(1, ['xdotool', 'type', '--clearmodifiers', '-3.0'])",
+          "retained_checked_fields": [
+            "disableShadows actual renderer=1",
+            "disableShadows actual renderer=0",
+            "disableAmbientOcclusion actual renderer=1",
+            "disableAmbientOcclusion actual renderer=0",
+            "ibl actual renderer=0",
+            "ibl actual renderer=1",
+            "hullEdges actual renderer=0",
+            "edgeConvexity actual renderer=1",
+            "edgeConvexity actual renderer=0",
+            "hullEdges actual renderer=1",
+            "Start displayed value",
+            "shadowStart actual renderer=3.0",
+            "shadowStart actual renderer=10",
+            "Range displayed value",
+            "shadowRange actual renderer=80.0",
+            "shadowRange actual renderer=56.7669373",
+            "Distribution displayed value",
+            "shadowDistribution actual renderer=0.25",
+            "shadowDistribution actual renderer=0.5",
+            "gtaoQuality actual renderer=1",
+            "Sun displayed value",
+            "sun actual renderer=0.25",
+            "sun actual renderer=0.800000012"
+          ]
+        },
+        {
+          "receipt": "raw/render-controls-runs/cpu-negative/receipt.json",
+          "status": "FAILURE_RETAINED",
+          "error": "AssertionError('Exposure changes actual image luminance')",
+          "retained_checked_fields": [
+            "Exposure displayed value",
+            "exposure actual renderer=-3.0",
+            "exposure actual renderer=-2.5",
+            "debugMode actual renderer=0",
+            "0 - lit selected",
+            "debugMode actual renderer=1",
+            "1 - view-space distance selected",
+            "debugMode actual renderer=2",
+            "2 - CSM cascade selected",
+            "debugMode actual renderer=3",
+            "3 - view-space normal selected",
+            "debugMode actual renderer=4",
+            "4 - raw GTAO selected",
+            "all renderer defaults restored"
+          ]
+        }
+      ],
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "identity_defaults_preserved": [
+        "world",
+        "body_count",
+        "shape_count",
+        "context_flags",
+        "world_flags",
+        "hertz",
+        "substeps",
+        "pause"
+      ]
+    },
+    {
+      "label": "ordinary-gpu",
+      "initial_renderer": {
+        "api": "actual_RenderFrame",
+        "debugMode": 0,
+        "disableShadows": 0,
+        "disableAmbientOcclusion": 0,
+        "exposure": -2.5,
+        "sun": 0.800000012,
+        "ibl": 1,
+        "hullEdges": 1,
+        "edgeConvexity": 0,
+        "shadowStart": 10,
+        "shadowRange": 56.648037,
+        "shadowDistribution": 0.5,
+        "gtaoQuality": 1
+      },
+      "final_renderer": {
+        "api": "actual_RenderFrame",
+        "debugMode": 0,
+        "disableShadows": 0,
+        "disableAmbientOcclusion": 0,
+        "exposure": -2.5,
+        "sun": 0.800000012,
+        "ibl": 1,
+        "hullEdges": 1,
+        "edgeConvexity": 0,
+        "shadowStart": 10,
+        "shadowRange": 56.648037,
+        "shadowDistribution": 0.5,
+        "gtaoQuality": 1
+      },
+      "actual_renderer_proofs": [
+        {
+          "field": "disableShadows",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 1,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableShadows",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableAmbientOcclusion",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 1,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableAmbientOcclusion",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "ibl",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 0,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "ibl",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "hullEdges",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "edgeConvexity",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 1,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "edgeConvexity",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "hullEdges",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowStart",
+          "value": 3.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 3,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowStart",
+          "value": 10,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowRange",
+          "value": 80.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 80,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowRange",
+          "value": 56.648037,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowDistribution",
+          "value": 0.25,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.25,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowDistribution",
+          "value": 0.5,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "gtaoQuality",
+          "value": 2,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 2
+          }
+        },
+        {
+          "field": "gtaoQuality",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "sun",
+          "value": 0.25,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.25,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "sun",
+          "value": 0.800000012,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "exposure",
+          "value": -6.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -6,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "exposure",
+          "value": -2.5,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 1,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 2,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 2,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 3,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 3,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 4,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 4,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        }
+      ],
+      "image_effects": {
+        "baseline_mean": 157.871646090535,
+        "dark_mean": 55.32984848484849,
+        "normal_mean_abs_difference": 51.50313598952488
+      },
+      "seconds": 29.11308905199985,
+      "partial_CPU_receipts": [],
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "identity_defaults_preserved": [
+        "world",
+        "body_count",
+        "shape_count",
+        "context_flags",
+        "world_flags",
+        "hertz",
+        "substeps",
+        "pause"
+      ]
+    },
+    {
+      "label": "native-gpu",
+      "initial_renderer": {
+        "api": "actual_RenderFrame",
+        "debugMode": 0,
+        "disableShadows": 0,
+        "disableAmbientOcclusion": 0,
+        "exposure": -2.5,
+        "sun": 0.800000012,
+        "ibl": 1,
+        "hullEdges": 1,
+        "edgeConvexity": 0,
+        "shadowStart": 10,
+        "shadowRange": 56.648037,
+        "shadowDistribution": 0.5,
+        "gtaoQuality": 1
+      },
+      "final_renderer": {
+        "api": "actual_RenderFrame",
+        "debugMode": 0,
+        "disableShadows": 0,
+        "disableAmbientOcclusion": 0,
+        "exposure": -2.5,
+        "sun": 0.800000012,
+        "ibl": 1,
+        "hullEdges": 1,
+        "edgeConvexity": 0,
+        "shadowStart": 10,
+        "shadowRange": 56.648037,
+        "shadowDistribution": 0.5,
+        "gtaoQuality": 1
+      },
+      "actual_renderer_proofs": [
+        {
+          "field": "disableShadows",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 1,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableShadows",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableAmbientOcclusion",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 1,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableAmbientOcclusion",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "ibl",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 0,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "ibl",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "hullEdges",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "edgeConvexity",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 1,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "edgeConvexity",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "hullEdges",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowStart",
+          "value": 3.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 3,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowStart",
+          "value": 10,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowRange",
+          "value": 80.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 80,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowRange",
+          "value": 56.648037,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowDistribution",
+          "value": 0.25,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.25,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowDistribution",
+          "value": 0.5,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "gtaoQuality",
+          "value": 2,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 2
+          }
+        },
+        {
+          "field": "gtaoQuality",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "sun",
+          "value": 0.25,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.25,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "sun",
+          "value": 0.800000012,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "exposure",
+          "value": -6.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -6,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "exposure",
+          "value": -2.5,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 1,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 2,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 2,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 3,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 3,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 4,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 4,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.648037,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        }
+      ],
+      "image_effects": {
+        "baseline_mean": 157.87164515525626,
+        "dark_mean": 55.32984474373364,
+        "normal_mean_abs_difference": 51.50314253647587
+      },
+      "seconds": 29.85713630000828,
+      "partial_CPU_receipts": [],
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "identity_defaults_preserved": [
+        "world",
+        "body_count",
+        "shape_count",
+        "context_flags",
+        "world_flags",
+        "hertz",
+        "substeps",
+        "pause"
+      ]
+    },
+    {
+      "label": "ordinary-both",
+      "initial_renderer": {
+        "api": "actual_RenderFrame",
+        "debugMode": 0,
+        "disableShadows": 0,
+        "disableAmbientOcclusion": 0,
+        "exposure": -2.5,
+        "sun": 0.800000012,
+        "ibl": 1,
+        "hullEdges": 1,
+        "edgeConvexity": 0,
+        "shadowStart": 10,
+        "shadowRange": 56.7669373,
+        "shadowDistribution": 0.5,
+        "gtaoQuality": 1
+      },
+      "final_renderer": {
+        "api": "actual_RenderFrame",
+        "debugMode": 0,
+        "disableShadows": 0,
+        "disableAmbientOcclusion": 0,
+        "exposure": -2.5,
+        "sun": 0.800000012,
+        "ibl": 1,
+        "hullEdges": 1,
+        "edgeConvexity": 0,
+        "shadowStart": 10,
+        "shadowRange": 56.7669373,
+        "shadowDistribution": 0.5,
+        "gtaoQuality": 1
+      },
+      "actual_renderer_proofs": [
+        {
+          "field": "disableShadows",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 1,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableShadows",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableAmbientOcclusion",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 1,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableAmbientOcclusion",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "ibl",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 0,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "ibl",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "hullEdges",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "edgeConvexity",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 1,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "edgeConvexity",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "hullEdges",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowStart",
+          "value": 3.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 3,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowStart",
+          "value": 10,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowRange",
+          "value": 80.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 80,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowRange",
+          "value": 56.7669373,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowDistribution",
+          "value": 0.25,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.25,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowDistribution",
+          "value": 0.5,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "gtaoQuality",
+          "value": 2,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 2
+          }
+        },
+        {
+          "field": "gtaoQuality",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "sun",
+          "value": 0.25,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.25,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "sun",
+          "value": 0.800000012,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "exposure",
+          "value": -6.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -6,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "exposure",
+          "value": -2.5,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 1,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 2,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 2,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 3,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 3,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 4,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 4,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        }
+      ],
+      "image_effects": {
+        "baseline_mean": 139.84445847362517,
+        "dark_mean": 45.25836887392443,
+        "normal_mean_abs_difference": 45.87575851103628
+      },
+      "seconds": 29.789095952000935,
+      "partial_CPU_receipts": [],
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "identity_defaults_preserved": [
+        "world",
+        "body_count",
+        "shape_count",
+        "context_flags",
+        "world_flags",
+        "hertz",
+        "substeps",
+        "pause"
+      ]
+    },
+    {
+      "label": "native-both",
+      "initial_renderer": {
+        "api": "actual_RenderFrame",
+        "debugMode": 0,
+        "disableShadows": 0,
+        "disableAmbientOcclusion": 0,
+        "exposure": -2.5,
+        "sun": 0.800000012,
+        "ibl": 1,
+        "hullEdges": 1,
+        "edgeConvexity": 0,
+        "shadowStart": 10,
+        "shadowRange": 56.7669373,
+        "shadowDistribution": 0.5,
+        "gtaoQuality": 1
+      },
+      "final_renderer": {
+        "api": "actual_RenderFrame",
+        "debugMode": 0,
+        "disableShadows": 0,
+        "disableAmbientOcclusion": 0,
+        "exposure": -2.5,
+        "sun": 0.800000012,
+        "ibl": 1,
+        "hullEdges": 1,
+        "edgeConvexity": 0,
+        "shadowStart": 10,
+        "shadowRange": 56.7669373,
+        "shadowDistribution": 0.5,
+        "gtaoQuality": 1
+      },
+      "actual_renderer_proofs": [
+        {
+          "field": "disableShadows",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 1,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableShadows",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableAmbientOcclusion",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 1,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "disableAmbientOcclusion",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "ibl",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 0,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "ibl",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "hullEdges",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "edgeConvexity",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 1,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "edgeConvexity",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 0,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "hullEdges",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowStart",
+          "value": 3.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 3,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowStart",
+          "value": 10,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowRange",
+          "value": 80.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 80,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowRange",
+          "value": 56.7669373,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowDistribution",
+          "value": 0.25,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.25,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "shadowDistribution",
+          "value": 0.5,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "gtaoQuality",
+          "value": 2,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 2
+          }
+        },
+        {
+          "field": "gtaoQuality",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "sun",
+          "value": 0.25,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.25,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "sun",
+          "value": 0.800000012,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "exposure",
+          "value": -6.0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -6,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "exposure",
+          "value": -2.5,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 1,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 1,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 2,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 2,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 3,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 3,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 4,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 4,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        },
+        {
+          "field": "debugMode",
+          "value": 0,
+          "actual_renderer": {
+            "api": "actual_RenderFrame",
+            "debugMode": 0,
+            "disableShadows": 0,
+            "disableAmbientOcclusion": 0,
+            "exposure": -2.5,
+            "sun": 0.800000012,
+            "ibl": 1,
+            "hullEdges": 1,
+            "edgeConvexity": 0,
+            "shadowStart": 10,
+            "shadowRange": 56.7669373,
+            "shadowDistribution": 0.5,
+            "gtaoQuality": 1
+          }
+        }
+      ],
+      "image_effects": {
+        "baseline_mean": 139.84446127946129,
+        "dark_mean": 45.25836887392443,
+        "normal_mean_abs_difference": 45.87576131687243
+      },
+      "seconds": 30.796283564006444,
+      "partial_CPU_receipts": [],
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "identity_defaults_preserved": [
+        "world",
+        "body_count",
+        "shape_count",
+        "context_flags",
+        "world_flags",
+        "hertz",
+        "substeps",
+        "pause"
+      ]
+    }
+  ],
+  "settings_per_route": 12,
+  "debug_modes_per_route": 5,
+  "full_sample_reviews_done": 0,
+  "full_sample_reviews_left": 165,
+  "limits": [
+    "CPU evidence combines retainedpartial checks and tailchecks on samefrozenbuild/defaultsetup; originalfailures remainfailures.",
+    "Nativekeyboardnavnotenabled, Combo actual mouse usesobservedpopupgeometry. Previoussame-tierweakcaseinvalidated; changed-tier2\u21921proved.",
+    "SourcecommonRenderFrame actualsettings verified; selectedExposure/normal actualimageeffects. Notpixelmatching, noUI03overlayrepair."
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "cpp_compiles": 1,
+  "compile_seconds": 15,
+  "links": 5,
+  "link_seconds_each": 20,
+  "apps": 0,
+  "screens": 0,
+  "engine_builds": 0,
+  "temporary_cap_bytes": 220200960,
+  "retained_cap_bytes": 8388608,
+  "retries": 0,
+  "scope": "Supplementfactorycallcounts forRefresh lifetimeeffect; originalgeometrybuildpassed10.647s but0apps. OneCPP+5links; originalmathAPIcalledonce withoriginalarguments/return. Countersonly, nofunctionrewrite. No engine/gfx/main/Sample change.",
+  "outputs_consumer_cleanup": "Nextactual4geometrytoolscenes/18samplewidgets. New5viewerpoolreplacesoldonlyafterall5qualified; fullstreamsconsumed/extractedthenremoved. No repair.",
+  "source_sha256": "3e1d599424fec36918cc86d5a4e75d2aea03dc458b1f193a96ff9fffc38f890f",
+  "deleted_superseded_unlaunched_binaries": [
+    {
+      "path": "experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-control-build/cpu",
+      "bytes": 7349768
+    },
+    {
+      "path": "experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-control-build/ordinary-gpu",
+      "bytes": 37448672
+    },
+    {
+      "path": "experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-control-build/native-gpu",
+      "bytes": 40327792
+    },
+    {
+      "path": "experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-control-build/ordinary-both",
+      "bytes": 38244824
+    },
+    {
+      "path": "experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-control-build/native-both",
+      "bytes": 41123960
+    }
+  ],
+  "deleted_bytes": 164495016
+}

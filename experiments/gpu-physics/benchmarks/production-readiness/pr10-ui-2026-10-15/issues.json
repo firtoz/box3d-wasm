@@ -1,0 +1,583 @@
+[
+  {
+    "id": "UI01",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "GPU Info diagnostic text overflows fixed panel width and is clipped",
+    "evidence": [
+      "raw/shared/loading-ordinary-gpu-cap/paused.png",
+      "raw/shared/loading-ordinary-gpu-cap/solver.png"
+    ],
+    "cause": "sample_stats.cpp sidebar emits long Text/TextDisabled lines without wrapping inside fixed16em Info panel",
+    "affected": "All165native GPU registrations share sidebar inordinary/native standalone/combined; sourceapplicability, notnew165runtimepasses",
+    "repair": "ScopedPushTextWrapPos/PopTextWrapPos in generatedInfoPanel; samephysicalsource outsidewindow/currentgeneratorfunctionexact. 100before+100after checks, all5routes/90originalstages, clip9→0. Notcommitted; fullaffected-scene precommit requirement and remainingPR10 stayopen."
+  },
+  {
+    "id": "UI02",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "Panel scroll also changes camera radius10.0→11.1",
+    "evidence": [
+      "UI02.md",
+      "ui02-acceptance.json",
+      "ui02-before-grid.jpg",
+      "ui02-after-grid.jpg"
+    ],
+    "cause": "ActualHandleEvent staleWantCaptureMouse across pointerenter/leave+wheel; all5before traced",
+    "repair": "Generatednativehost querieswheel-event position throughImGuiFindHoveredWindowEx; originalrouteheld/nonwheel, activeUI/popupconsume. 35before+55after checks/all5routes/30screens. SeeUI02.md/ui02-acceptance.json. Notcommitted/fullPR10stillopen."
+  },
+  {
+    "id": "STARTUP01",
+    "status": "RELEASE_LIMITATION_PR05_PR08",
+    "finding": "Compatiblecacheinput doesnotprove particularpipelinehit; generalnonmeshcollision startup exceeds25s. Actualloadingwindow remainsvisible/resizable; worldready withinnew90s operation. No startupfix claimed; no exhaustedcompiler campaign resumed."
+  },
+  {
+    "id": "UI03",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "Bounds/Mass andall12remainingworlddrawoverlaysreachflagsbutemitnoGPUoverlayoutput;actualCPU/combinedCPUpositive. Joint/ForcescaleactualCPUsegmentinputschange+restore, GPUoutputmissing.",
+    "affected": "SharedGPUworlddraw all165sourceapplicability ordinary/native/combinedGPUhalves; actualruntimefirstSingleBox/flags, notfullsamplepass",
+    "evidence": [
+      "UI03.md",
+      "ui03-output-acceptance.json",
+      "overlay-controls-acceptance.json",
+      "overlay-controls-grid.jpg",
+      "UI03-repair.md",
+      "ui03-acceptance.json",
+      "ui03-repair-before-grid.png",
+      "ui03-after-grid.png",
+      "ui03-regressions-grid.png"
+    ],
+    "repair": "Real GPU bounds/COM/mass/names/jointframes/reactions/contactmanifolds now reach actual renderer sinks, including Shapesoff; unavailable Sleep/Graph/Islands honestly disabled or CPU-pane-only. Five CPUfirst routes,249 recorded checks/seven bounded apps, full-ID dedup and unchanged geometry/physical defaults/IDs/picking; CPU picking and source-identical readonly-observer checks explicitly reused. Original harness errors retained/adjudicated. See UI03-repair.md/ui03-acceptance.json"
+  },
+  {
+    "id": "UI04",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "CPUProfile firstcolumn clips long indented labels, includingconstraints; rowmouseinteractionworks afterproperone-detentscroll.",
+    "cause": "Actualfont16: constraints indentation16+arrowspacing36+text99=151 versus128requested; actualtextends171,clip155,16pxcut. Leaftextneedsmore. Generatedcolumnmaxall22labels=185;repairedclip212.",
+    "affected": "RealCPUsharedProfile table; GPU/combinedProfiletimestampviewdoesnotshowtheseCPUtreecontrols. SourceapplicabilityallCPUHasMetrics scenes, actualSingleBoxconfirmed.",
+    "evidence": [
+      "UI04.md",
+      "raw/metrics-tree-control-runs/one-detent/plots.png",
+      "navigation-metrics-acceptance.json",
+      "UI04-repair.md",
+      "ui04-acceptance.json",
+      "ui04-before-grid.png",
+      "ui04-after-grid.png"
+    ],
+    "repair": "GeneratednativeCPU Profile measuresall22labels withactualfont/indent/arrowspacing.60checks/3CPUapps:20submittedlabels fit,plots/tree/resize/identity/pausedposes pass;4GPUcompiledbranchesunchanged bypreprocessing. Originalcachebudgetbreachrecordedseparately; noBox3D/WASMedits."
+  },
+  {
+    "id": "UI05",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "HiddenUI pausedHUD andsampletext overlap at3fontSize Y; combinedComparisonViewcheckboxstaysvisibleandcoversfooter.",
+    "cause": "Actualnative textdrain: whitecoordinates andredPAUSED bothy48–64; nativeResetTexthidden3fontUnits equalsDrawHudPAUSED3. CombinedComparisonView emittedbeforehiddenUIcheck.",
+    "affected": "All5routes hidden+paused sampletext, actualSingleBox; bothcombined toggleelementshownwhilehidden acrosssharedhost.",
+    "evidence": [
+      "UI05.md",
+      "navigation-metrics-grid.jpg",
+      "navigation-metrics-acceptance.json",
+      "UI05-repair.md",
+      "ui05-acceptance.json",
+      "ui05-before-grid.png",
+      "ui05-after-grid.png"
+    ],
+    "repair": "Generatedhiddenpausedsampletextstarts4.5fontUnits/y72; running3fontUnits/y48 andshowny34 preserved. CombinedComparisonView window/callback guardedshowUI; all5routes actualbounds/visibility/resize/toggle/IDs/defaults/shortunpaused pass.9before+121repair evaluations;128positive+2originalwrongpane-count probes adjudicatedwithout rerun.20images+2CPUfirstgridsinspected."
+  },
+  {
+    "id": "UI06",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "Kinematic transparency0vs5 after runtime type changes onall5routes; combined CPU Dynamic also0vs7",
+    "cause": "Creation-time type stale after SetType; combined CPU callbacks sent rawCPU IDs toGPU Shape_GetBody/GetType",
+    "evidence": [
+      "UI06.md",
+      "body-view-controls-acceptance.json",
+      "body-view-controls-grid.jpg",
+      "UI06-repair.md",
+      "ui06-acceptance.json",
+      "ui06-before-grid.png",
+      "ui06-after-grid.png"
+    ],
+    "repair": "Generatednative DrawShape refreshes existingbody type; existingCPUdrawguard scopes2CPUgetters. 22boundary+9nativeprimitive+266repairchecks alltrue, all5routes/3fixtures; IDs/poses/defaults/picking/lifecycle preserved. SeeUI06-repair.md/ui06-acceptance.json."
+  },
+  {
+    "id": "UI07",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "Frame Camera menu47.2 vs keyboardF53.1 in both combined viewers; standalone47.1/47.1",
+    "cause": "ActualnativeFrame getsfullwindowlayoutaspect1.7778 frommenu versuspaneaspect.8889 fromF, samebounds/padding",
+    "evidence": [
+      "UI07.md",
+      "body-view-controls-acceptance.json",
+      "body-view-controls-grid.jpg",
+      "UI07-repair.md",
+      "ui07-acceptance.json",
+      "ui07-before-grid.png",
+      "ui07-after-grid.png"
+    ],
+    "repair": "GeneratedcombinedSample menucomputesactualpaneaspect; fullUIlayout/projection/picking/FocusHome unchanged.27before+153repair checksalltrue on5routes withsplitoffon/resize/IDs/pausedposes/restart/picking. UI07-repair.md/ui07-acceptance.json."
+  },
+  {
+    "id": "UI08",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "Replay load modal displays full Unixpath and expandsnearfullwindow instead offilename",
+    "cause": "Filename formatter searches only backslash",
+    "evidence": [
+      "UI08.md",
+      "recording-replay-acceptance.json",
+      "recording-replay-grid.jpg",
+      "UI08-repair.md",
+      "ui08-acceptance.json",
+      "ui08-before-grid.png",
+      "ui08-after-grid.png"
+    ],
+    "repair": "GeneratednativeReplaycopy acceptsUnix/Windows/mixedseparators;displayonly, originalplayerpathunchanged. 7exactgeneratedC++boundarycases+46actualchecks/all5routes/15newimages, CPUIDs/poses/policyexact. CMakewiringupdated;nofullreconfigureorprecommitclipsyet."
+  },
+  {
+    "id": "UI09",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "All4GPUReplayload modals label verifiedCPUrecording failedtoopenfile withoutnativeplayerexclusion",
+    "cause": "GPUb3LoadRecordingFromFile unsupportedstubreturnsNULL; samplemapsNULLtofailed-to-open-file evenforvalidCPUrecording.",
+    "evidence": [
+      "UI09.md",
+      "recording-replay-acceptance.json",
+      "recording-replay-grid.jpg",
+      "UI09-repair.md",
+      "ui09-acceptance.json",
+      "ui09-before-grid.png",
+      "ui09-short-after-grid.png"
+    ],
+    "repair": "GeneratednativeGPU/combinedReplay explainsunavailability, offersClose, hidesineffectivepolicyLoad, skipsunsupportedload/playercalls; constructor/Rstatusagrees. Final46charactertextfitsactual64byteHUD. ActualCPUvalid/missingfilecompatibility plusall4GPUClose/R/newbaseworld/exit verified. Playbackremainsexplicitlyunsupported;nofeaturepass."
+  },
+  {
+    "id": "UI10",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "HardwareWkeyup whilepickerownstextinput leavesflycamera moving onall5routes",
+    "cause": "ActualHandleEvent captureshardwareKEY_UP; camerafilter omitskeyup andUIreturn skipsSetKeyDown(false), bothWlatchesstay1/Updatecontinuesmotion",
+    "evidence": [
+      "UI10.md",
+      "picking-camera-acceptance.json",
+      "picking-camera-grid.jpg",
+      "UI10-repair.md",
+      "ui10-acceptance.json",
+      "ui10-before-grid.png",
+      "ui10-after-grid.png"
+    ],
+    "repair": "GeneratednativehostroutesKEY_UP toCameraandclearscapturedhosttable beforeUIreturn; capturednewpresses remainUIonly/mousecleanupflagunchanged.40before+267repair=307truechecks/all5routes/WASDQE+Alt/text/normalkeys/IDs/defaults/restart/picking. UI10-repair.md/ui10-acceptance.json."
+  },
+  {
+    "id": "UI11",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "Escape fails toclear actualselectedcube IDs inbothcombinedviewers",
+    "cause": "ActualrendererClearSelection nullsGPU ID butauthoritativebothpointer selectedIDs remain andnextdrawrestoresboth",
+    "evidence": [
+      "UI11.md",
+      "picking-camera-acceptance.json",
+      "picking-camera-grid.jpg",
+      "UI11-repair.md",
+      "ui11-acceptance.json",
+      "ui11-before-grid.png",
+      "ui11-after-grid.png"
+    ],
+    "repair": "Newboth_clear_selection helper clearsselectedowner/renderers atgeneratedEscape selectionlayer only; mouse/joint/grab/world preserved.25before+86repair evaluations109originalpositive+2wrongregistryprobesadjudicatedsameactualdata. All5routes/popup/overlayreturn/activegrabIDs/counts/lifetime/picking. UI11-repair.md/ui11-acceptance.json."
+  },
+  {
+    "id": "UI12",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "BoxHullCtrl-text fractionalhalfwidth cantransientlyapply0 andcrashDrawHull(null)",
+    "cause": "Leading0of0.7 creates8coplanarpoints→CreateHullNULL→nativeDrawHullread",
+    "affected": "ActualCPU; sharedBoxHull/DrawHullsource inall5viewers, GPUruntimepending",
+    "evidence": [
+      "UI12.md",
+      "geometry-null-acceptance.json",
+      "geometry-null-debug.txt",
+      "UI12-repair.md",
+      "ui12-acceptance.json",
+      "ui12-after-grid.png",
+      "ui12-related-grid.png"
+    ],
+    "repair": "GeneratednativeDrawHull earlyNULLreturn; allfiveactualfractional/zeroXYZ/restore/relatedHullReduction/picking/lifetime checked.172evaluations169positive+3wronganalyticzero probes adjudicatedsameactualdata. UI12-repair.md/ui12-acceptance.json."
+  },
+  {
+    "id": "UI13",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "Manifold controls expose ignored cache/manual feature settings: fourcollidershave no cacheargument; sevenhave no manualSATfeature consumer",
+    "affected": "Confirmed all5routes:4unusedcachetools and7unusedmanualfeaturetools; exactscene lists inmanifold-controls-acceptance.json",
+    "cause": "SharedManifold/TriangleManifoldDrawControls offeredcachecheckbox/manualSATradios withoutcheckingwhichactualcollider consumesarguments",
+    "evidence": [
+      "UI13.md",
+      "manifold-controls-acceptance.json",
+      "manifold-controls-grid.html",
+      "UI13-repair.md",
+      "ui13-acceptance.json",
+      "ui13-before-grid-1.png",
+      "ui13-after-grid-1.png",
+      "ui13-before-grid-2.png",
+      "ui13-after-grid-2.png",
+      "ui13-before-grid-3.png",
+      "ui13-after-grid-3.png"
+    ],
+    "repair": "TSnativecopy explicitcache/SATcapabilityUI;4no-cache/7no-SATpairsavailabilitytext,5workingcachepairs/2SATpairs preserved. All9pairs/all5routes540checksalltrue;beforeafter6grids. UI13-repair.md/ui13-acceptance.json. UI14separateopen."
+  },
+  {
+    "id": "UI14",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "Manifold HullvsHull auto UI afterforcededgePair retainsmanualSATtype8 atactualcollisioninput",
+    "affected": "HullvsHull onall5routes. TrianglevsHull actualauto passes all5routes; recordedunaffected.",
+    "cause": "Manualfeature0branchdoesnotclear previouslyforced m_satCache.type",
+    "evidence": [
+      "UI14.md",
+      "manifold-controls-acceptance.json",
+      "manifold-controls-grid.html",
+      "UI14-repair.md",
+      "ui14-acceptance.json",
+      "ui14-before-grid.png",
+      "ui14-after-grid.png",
+      "ui14-manual-grid.png"
+    ],
+    "repair": "Auto radio clears forced SAT cache once; both SAT pairs/all five routes pass manual6/7/8→auto3, automatic reuse, manifold counts, geometry, off/on and restart. 210 evaluations:208 original positives+2 wrong cache-hit equality probes adjudicated from the same data, no qualified rerun. See UI14-repair.md/ui14-acceptance.json"
+  },
+  {
+    "id": "UI15",
+    "defect": "Time of Impact menus expose four labels for three shape enums; fourth choice builds a zero-vertex proxy and crashes",
+    "cause": "Menu point/segment/triangle/box is inconsistent with enum box/capsule/triangle and MakeProxy switch.",
+    "affected": "Both menus mislabel box and capsule on all five routes. Selecting A index3 captures count0 then SIGSEGV all five. B index3 is source-applicable through the same helper, not separately faulted.",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "evidence": [
+      "UI15.md",
+      "distance-controls-acceptance.json",
+      "UI15-repair.md",
+      "ui15-acceptance.json",
+      "ui15-before-grid.png",
+      "ui15-after-grid.png"
+    ],
+    "repair": "Generated TimeOfImpact menu now exactly box/capsule/triangle; both menus/all nine supported pairs on all five routes pass 205 recorded checks, preserved proxies/sweeps/native default results/restart. Original invalid index3 faults reused, no new crash. One incomplete CPU popup sequence retained/completed with unchanged candidate; no fully qualified app repeated. OBS03 Escape watch remains unconfirmed. See UI15-repair.md/ui15-acceptance.json"
+  },
+  {
+    "id": "UI16",
+    "defect": "Shape Distance retains hidden radii after switching to triangle/box",
+    "cause": "MakeProxy copies radius after the type change; the UI hides radius and DrawShape omits rounded triangle/box geometry.",
+    "affected": "All five routes: A triangle radius.2/B box radius.1 still enter GJK and produce distance.45 versus .75 with radii0; outlines omit radii.",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "evidence": [
+      "UI16.md",
+      "distance-controls-acceptance.json",
+      "UI16-repair.md",
+      "ui16-acceptance.json",
+      "ui16-before-grid.png",
+      "ui16-after-grid.png"
+    ],
+    "repair": "Actual triangle/box type changes clear hidden radii before proxy rebuild; point/segment and other-axis radii preserved. Both axes/all five routes pass 175 recorded checks with actual GJK distance, UI, original preview digests/defaults/restart. Cache OFF; UI17 remains open. Historical terminal timing cleanup reclaimed47,212,789B/retained332,262B summaries; receipts/media/failure inputs/shared caches preserved. See UI16-repair.md/ui16-acceptance.json"
+  },
+  {
+    "id": "UI17",
+    "defect": "Shape Distance reuses support indices outside a changed proxy vertex set",
+    "cause": "Shape combo rebuilds the proxy without invalidating its simplex cache before b3ShapeDistance reads cached indices.",
+    "affected": "All five routes: cached A indices[1,0] are reused when A count becomes1. CPU records invalid input and survives; all four GPU viewers fault SIGILL at the unchanged native operation. This is caller input invalidation, not GPU solver diagnosis.",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "evidence": [
+      "UI17.md",
+      "distance-controls-acceptance.json",
+      "UI17-repair.md",
+      "ui17-acceptance.json",
+      "ui17-before-grid.png",
+      "ui17-after-grid.png"
+    ],
+    "repair": "Both actual type-change branches invalidate the simplex cache before proxy rebuild. All four types/all12 ordered transitions per axis/all five routes pass515 recorded checks:120 actual first-native-GJK boundaries receivecache0, then validindices/reuse/finiteGJK/geometry/defaults/restart. Original four GPU faults reused,none repeated. Read-only distance observer chains through prior observer/nativeonce; allotherhooks preserved. See UI17-repair.md/ui17-acceptance.json"
+  },
+  {
+    "id": "UI18",
+    "defect": "Time of Impact moving preview is offscreen and neither F nor Frame Camera includes it",
+    "cause": "Direct preview geometry has no physics bodies; inherited focus and menu framing use physics-world bounds rather than preview bounds.",
+    "affected": "Confirmed Time of Impact on actual CPU, ordinary/native GPU and both combined. Default/F/menu leave all three moving capsule preview poses fully outside. CPU radius10 stays unchanged; GPU2.8 and combined F3.1/menu2.8 frame around the wrong bounds. Other zero-body tools are source-applicable but runtime framing-unreviewed.",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "evidence": [
+      "UI18.md",
+      "empty-world-framing-acceptance.json",
+      "UI18-repair.md",
+      "ui18-acceptance.json",
+      "ui18-before-grid.png",
+      "ui18-preview-grid-0.png",
+      "ui18-preview-grid-1.png",
+      "ui18-preview-grid-2.png",
+      "ui18-preview-grid-3.png",
+      "ui18-preview-grid-4.png",
+      "ui18-regressions-grid.png",
+      "ui18-split-off-grid.png"
+    ],
+    "repair": "Nativeacceptedpreviewbounds fallback fixesTOI initial/F/menu onallfive routes.19relatedscenes×5routes:18whole-boundfits/route,ShapeCastDebugkilometrepreview explicitly1000mVIEW_LIMIT_ROUTING_ONLY.858recordedchecks inclfocusedrestart;3originalfalseharnesschecks/resolutions preserved. Actualinputs/geometry/defaultangles/nativecamera/bodyfulbounds/.75padding/IDs/picking unchanged. See UI18-repair.md/ui18-acceptance.json"
+  },
+  {
+    "id": "UI19",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "Wheel steering-damping slider calls suspension-damping setter with the suspension value",
+    "cause": "sample_joint.cpp:1463 passes m_suspensionDampingRatio to b3WheelJoint_SetSuspensionDampingRatio from Damping##Steering; m_steeringDampingRatio is never sent to the joint",
+    "affected": "Wheel wrong steering-damping setter confirmed all5routes. Closely related Driving is actually unaffected onall5routes: correctfront-wheel setter/value1.4, rearsteering remains.7.",
+    "evidence": [
+      "UI19.md",
+      "joint-controls-acceptance.json",
+      "driving-controls-acceptance.json",
+      "UI19-repair.md",
+      "ui19-acceptance.json",
+      "ui19-before-grid.png",
+      "ui19-after-grid.png"
+    ],
+    "repair": "GeneratednativeWheelcallbackusesSetSteeringDampingRatio/m_steeringDampingRatio. Actualall5setter/input/getters/two-wayindependence/wake/IDs/poses/defaultresetandDrivingfront/rear/Parallelregression verified;267checks/20newimages+5before. CPU/ordinarycombinedcompletedpassesreused acrossdiagnosticfollowups. Zero advancingphysicssteps; no solverqualification."
+  },
+  {
+    "id": "UI20",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "Driving Max Torque slider does not update actual wheel spin motor torque limits",
+    "cause": "m_maxSpinTorque is used only in constructor and ImGui slider; no runtime b3WheelJoint_SetMaxSpinTorque call",
+    "affected": "Confirmed Driving on all5routes: UI MaxTorque25, actual allwheel MaxSpinTorque5, zero runtime torque setter calls, includingheldW/S commands. Source uses field only inconstructor/slider.",
+    "evidence": [
+      "UI20.md",
+      "driving-controls-acceptance.json",
+      "raw/driving-controls-runs/driving/cpu/receipt.json",
+      "raw/driving-controls-tail-runs/driving/ordinary-gpu/receipt.json",
+      "raw/driving-controls-tail-runs/driving/native-gpu/receipt.json",
+      "raw/driving-controls-tail-runs/driving/ordinary-both/receipt.json",
+      "raw/driving-controls-tail-runs/driving/native-both/receipt.json",
+      "UI20-repair.md",
+      "ui20-acceptance.json",
+      "ui20-before-grid.png",
+      "ui20-after-grid.png"
+    ],
+    "repair": "GeneratedDrivingMaxTorquecallbacksetsrearLeft/rearRight motorcaps. All5actual25/0/5getter/setterchecks, W/S±30/0whilecap25, front+Parallel/otherjointsettings/IDs/poses/defaultreset andWheel25→20/Motorregressionverified.199evaluations/198true+1originalmouselockprobeadjudicatedwithactualTunlock;15new+5beforeimagesinspected. Pausedparameter/commandproof, no dynamicsolverqualification."
+  },
+  {
+    "id": "UI21",
+    "defect": "Mesh ragdoll Respawn leaks fourteen kinematic anchor bodies each time",
+    "cause": "DestroyHuman removes bone joints/bodies but omits anchor bodies created by Human_CreateParallelAnchors; CreateHuman overwrites their saved IDs",
+    "affected": "Mesh ragdoll all5routes: body29→43→57, dynamic14stable, kinematic14→28→42; original anchor IDs remain valid after replacement. Box(noanchors) actualbodycount15stable all5routes.",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "evidence": [
+      "UI21.md",
+      "body-properties-controls-acceptance.json",
+      "UI21-repair.md",
+      "ui21-acceptance.json",
+      "ui21-before-grid.png",
+      "ui21-after-grid.png",
+      "ui21-regressions-grid.png"
+    ],
+    "repair": "GeneratednativeDestroyHuman releasesstoredanchorjoints/bodies andclearsIDs beforeunchangedbonecleanup. All5routes/179checks:15Meshrespawns stable29/14dynamic/14anchors,210oldanchorbody+jointIDs invalid;Box15/100ReflectionHuman destructors/currentpolicy/defaults/poses/mass/picking pass. CombinedReflection usesseparatelifetimefixturedueto512-recordjointobserverlimit;originalabort/missingmessage/sourceinference andbuildsizeguardstop preserved.1Cmodule reusedacross5identicaloriginalarchives;0physics/engine/WASM edits. See UI21-repair.md/ui21-acceptance.json"
+  },
+  {
+    "id": "UI22",
+    "defect": "Door limit checkbox has uninitialized state and joint recreation forces limits on",
+    "cause": "Door constructor never initializes m_enableLimit; CreateJoints hardcodes enableLimit=true rather than current UI policy",
+    "affected": "Door all5routes: initialcheckboxmaymismatchactualenabledlimits or failtoclear; togglingTwoJointshardcodesnewlimits true. RouteswithUIstilltruearenotvalidunchecked-preservation stimuli; failureischeckboxclear instead. OriginalbodyIDs/hingerecreation/tuning/impulses/pickingotherwisechecked.",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "evidence": [
+      "UI22.md",
+      "body-properties-controls-acceptance.json",
+      "UI22-repair.md",
+      "ui22-acceptance.json",
+      "ui22-before-grid.png",
+      "ui22-after-grid.png"
+    ],
+    "repair": "GeneratedDoor initializesenabledUIpolicy/initialhingeIDs andbothhingedefinitions usecurrentpolicy. All5routes/252checks:50actualhingerecreations preservefalse/true policy/one-twohinges/currenttuning;oldjointIDs invalid,newIDs/bodyposes/mass/geometry/otherdefaults/restart/picking pass. AllotherJointsource/UI19/20 byteexact;0physics/engine/WASM edits. See UI22-repair.md/ui22-acceptance.json"
+  },
+  {
+    "id": "UI23",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "Zero mesh scale updates UI/CPU but leaves actual GPU geometry unchanged Also allSetMeshchanges leaveGPUrender ShapeVis/cache atcreationgeometry afterphysicsrepair.",
+    "cause": "Raw0 forwarded to GPU mesh replacement; temporary mesh creation rejects below1e-6 instead of native b3SafeScale(+0.01). Combined CPU-backed mesh getter hides stale GPU AABB.",
+    "affected": "Grid, Big Box and Box X/Z zero scale confirmed onall4GPUroutes. Combined public mesh getter readsCPU and masks unchangedGPU AABB. Reflection±1signs actuallyunaffectedall5routes.; also Collision/Mesh Scale all3zeroaxes onall4GPUroutes, actualbounds stale. Mesh/Reflection sign updates sharemissingrendercachecallback;actualrenderboundary pending.",
+    "evidence": [
+      "UI23.md",
+      "mesh-controls-acceptance.json",
+      "query-input-controls-acceptance.json",
+      "ui23-physics-normalization-acceptance.json",
+      "ui23-physics-stage-after-grid.png",
+      "UI23-repair.md",
+      "ui23-acceptance.json",
+      "ui23-render-before-grid.png",
+      "ui23-render-after-grid.png",
+      "ui23-render-regressions-grid.png"
+    ],
+    "repair": "FiniteSetMeshGPUscales useactualnativeb3SafeScale;acceptedreplacement invalidatescacheduserShape/updatesShapeVismesh whilepreservingname/metadata/IDs. Actual5routes/165scale cases/45zeroaxes/132Rustaccepted+GPUAABBvsCPUoracle boundaries and96nativeCreateShape meshscale boundaries verifyphysics+render.1173finalrecordedchecks with9wrongquery-onlyCreateShape probes adjudicatedsamecaptureddata;CPUreused/noordinaryrenderrepeat. InitialcreationzeroAPI andUI27offset unqualified/open;0Rustbuilds/Box3D/WASM/sharedarchive edits. See UI23-repair.md/ui23-acceptance.json"
+  },
+  {
+    "id": "UI24",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "HeightField amplitude0 removes actualGPUfloor",
+    "cause": "Native flatgrid scale[2,0,2] isvalid; GPUheightfieldcreation rejects every scalecomponent<=0 andreturnsnullshape.",
+    "affected": "Mesh/HeightFieldactualall4GPUroutes: zeroyscale yieldsnullGPUshape/worldshapecount0; combinedCPUfloorremainsvalid. Positive.8restoresfloor inoriginalmatrix. Otherflatheightfieldcases source-applicable/unreviewed.",
+    "evidence": [
+      "UI24.md",
+      "geometry-controls-acceptance.json",
+      "UI24-repair.md",
+      "ui24-acceptance.json",
+      "flat-heightfield-before-grid.png",
+      "ui24-after-grid.png",
+      "ui24-regressions-grid.png"
+    ],
+    "repair": "Native flat heightfields use equivalent GPU minHeight0/heightScale0/scaleY1 encoding instead of passing rejected scaleY0. Original data/render scale/holes/materials/winding/combined CPU input preserved. Five routes/20 actual native cases/16 accepted Rust create boundaries/12 flat GPU AABBs versus real CPU, 207 passing checks; 131072 header decoded-vertex equivalences. Paused/defaults/restart/picking pass; no Rust/Box3D/WASM/shared-archive changes. See UI24-repair.md/ui24-acceptance.json"
+  },
+  {
+    "id": "UI25",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "HeightFieldamplitude.75realtextstimulus applies.7onall4GPUroutes Also OverlapRecoveryExtent.25→.2all4GPUroutes/CPUcorrect, actualhullbounds confirm. CommoncauseUNTRACED.",
+    "cause": "Queuedcharacter/focus/loadingboundarynotyettraced; immediategeometryrebuild/loadingconsumingtrailing5 isonlyhypothesis.",
+    "affected": "Mesh/HeightFieldCPU.75correct,ordinary/native standalone/combined.7displayandactualscale1.4 afterzeroamplitude. 1mstypingrate tested; notallrates.",
+    "evidence": [
+      "UI25.md",
+      "geometry-controls-acceptance.json",
+      "scene-controls-acceptance.json",
+      "scene-controls-recovery-grid.png",
+      "UI25-repair.md",
+      "ui25-acceptance.json",
+      "ui25-before-grid.png",
+      "ui25-after-grid.png",
+      "ui25-regressions-grid.png"
+    ],
+    "repair": "Loading UI uses a separate shared-font/style ImGui context; sample queued input/active widget survives preparation. Actual .25/.75 values and hull/heightfield effects, queue/activeID retention, UI24 flat floor, restart/defaults/picking pass allfourGPU routes against reused realCPU. Two invalid stale-position UI29 flags preserved and supplemented; no repeated ordinaryUI25 app. No engine/WASM changes. See UI25-repair.md/ui25-acceptance.json"
+  },
+  {
+    "id": "UI26",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "Missing Tree Load destroys current tree and hides all sample controls without visible error; global restart recovers.",
+    "cause": "TreeBenchmark::LoadTree destroys before load; DrawControls returns early for zero proxies; only stderr error.",
+    "affected": "Tree/Benchmark shared native host, actual real CPU and all4GPU viewer routes.",
+    "evidence": [
+      "UI26.md",
+      "tree-missing-file-acceptance.json",
+      "UI26-repair.md",
+      "ui26-acceptance.json",
+      "tree-missing-file-before-grid.png",
+      "ui26-after-grid.png"
+    ],
+    "repair": "Generated native Tree class loads into a temporary candidate; failed missing/empty/version-invalid loads preserve288proxies/bounds/leaf digest and show visible actionable error. ValidLoad/.5scale/actual overlap queries/defaultrestart pass allfive routes.95recordedchecks;3CPUTextWrapped item-list flags adjudicated from same pixels/source branch,0CPUreruns. One class compile reused afterallfive originalmodule identity proof. No native algorithm/engine/WASM changes. See UI26-repair.md/ui26-acceptance.json"
+  },
+  {
+    "id": "UI27",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "Collision/MeshScale sphere preview omits cast start: at StartY=StartZ=1 querymissendpoint[2,1,1], actualspherecenter[4,0,0] onall5routes.",
+    "cause": "MeshScale::Step constructs previewtransform from fraction*translation (hit) or translation (miss), omitting m_start. Actualmiss boundary proven; hitbranchsource-applicable.",
+    "affected": "Shared native MeshScale sample host, real CPU plusordinary/native/combinedroutes. Queryphysicsunchanged.",
+    "evidence": [
+      "UI27.md",
+      "query-input-controls-acceptance.json",
+      "query-input-mesh-scale-grid.png",
+      "UI27-repair.md",
+      "ui27-acceptance.json",
+      "ui27-before-grid.png",
+      "ui27-after-grid.png",
+      "ui27-regressions-grid.png"
+    ],
+    "repair": "Generated native MeshScale hit/miss sphere transforms add m_start with b3OffsetPos, preserving actual query inputs/results/mesh/defaults/body+shapeIDs. FiveCPUfirst routes/40nativepreview cases (35hits5misses)/40independentDrawSolidSphere comparisons/230passingchecks. Offsethit/miss/restoration/UI23zeroScale/raymode/restart pass; no querynumerics/solver matching required. See UI27-repair.md/ui27-acceptance.json"
+  },
+  {
+    "id": "UI28",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "CastWorldBoxcasts usem_castRadiusfortheactualboxhalfextentsbuthideRadiuscontrol, all5routes.",
+    "cause": "DrawControls onlyshowsRadiusforSphere/Capsule; StepBoxextent=[radius,.5radius,.25radius]. Actual8pointproxy[±2,±1,±.5]afterlastRadius2whileBoxselectedhasnoshownsizecontrol.",
+    "affected": "Collision/CastWorld sharednativehost, CPU andall4GPUroutes.",
+    "evidence": [
+      "UI28.md",
+      "cast-controls-acceptance.json",
+      "cast-controls-cast-world-grid.png",
+      "UI28-repair.md",
+      "ui28-acceptance.json",
+      "ui28-before-grid.png",
+      "ui28-after-grid.png",
+      "ui28-regressions-grid.png"
+    ],
+    "repair": "Generated CastWorld shows same size binding asHalf-width forBox/Radius forSphere+Capsule, hidden forRay; default.5/range.1–2/geometry unchanged. FiveCPUfirst routes/40nativeproxy cases/25eightpointBoxcases verifyactualcorners/radius plus10sphere IDs/poses/mass/counts/restart.175recordedchecks,1wrongCPU RayAPI predicate preserved with explicitunchangedCPU Raycoverage reuse;0CPUrepeats. See UI28-repair.md/ui28-acceptance.json"
+  },
+  {
+    "id": "UI29",
+    "status": "FIXED_VERIFIED_LOCAL",
+    "defect": "MeshDrop paused AutoGenerate repeatedly enters PreparingSimulation; requested off clicks do not activate the button or stop regeneration on all4GPUroutes. CPU remainsinteractive and stops.",
+    "cause": "UNTRACED event-to-button boundary. ActualGPUButtonactivationcount1vsCPU2, livecreationcontinues. All8GPUoffcaptures showloadingUI; loading host bypassesnormalDrawUI whilepreparing. Distinct2UIframe-heldstimulus alsofails; mayshareUI25loading/editcause, notestablished.",
+    "affected": "Continuous/MeshDrop ordinary/native GPU and both combined routes; CPU control unaffected in original case.",
+    "evidence": [
+      "UI29.md",
+      "mutation-force-acceptance.json",
+      "mutation-force-mesh-grid.png",
+      "mutation-off-held-matrix.json",
+      "UI29-repair.md",
+      "ui29-acceptance.json",
+      "ui29-before-grid.png",
+      "ui29-after-grid.png"
+    ],
+    "actual_evidence": [
+      {
+        "route": "cpu",
+        "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+        "activation_count": 2,
+        "off_created": 35845,
+        "settled_created": 35845
+      },
+      {
+        "route": "ordinary-gpu",
+        "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+        "activation_count": 1,
+        "off_created": 25605,
+        "settled_created": 27653
+      },
+      {
+        "route": "native-gpu",
+        "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+        "activation_count": 1,
+        "off_created": 21509,
+        "settled_created": 23557
+      },
+      {
+        "route": "ordinary-both",
+        "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+        "activation_count": 1,
+        "off_created": 45066,
+        "settled_created": 49162
+      },
+      {
+        "route": "native-both",
+        "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+        "activation_count": 1,
+        "off_created": 73738,
+        "settled_created": 77834
+      }
+    ],
+    "repair": "Shared UI25 loading-context repair preserves sample button input. Current-position off clicks activate original button and stop actual creation/destruction/IDs allfourGPU routes; CPU reused. Original fullreview failures valid; diagnostic stale-position flags preserved, distinct5.47s ordinary current-target supplement. UI29 cause inferred from loader/source/original valid failures and repaired behavior; exact original event trace unavailable. See UI29-repair.md/ui29-acceptance.json"
+  },
+  {
+    "id": "OBS03",
+    "status": "NATIVE_NAVIGATION_POLICY_DISPOSITION_NO_GPU_REPAIR",
+    "finding": "CPUTimeOfImpactcomboEscape didnotcloseA beforeBclick; BclickappearsselectedA0. UI15partialharnesssequence retained, actualEscapeevent/capture nottraced; investigate finalaudit, notconfirmedproductfix.",
+    "evidence": [
+      "ui15-original-popup-timeout.json",
+      "raw/ui15-runs/cpu/receipt.json",
+      "raw/ui15-runs/cpu/ui.json",
+      "raw/ui15-runs/cpu/popup-a.png",
+      "final-observations.json"
+    ],
+    "original_watch_status": "UNCONFIRMED_REVIEW_WATCH",
+    "final_disposition": "No GPU-specific defect established. Original incomplete event sequence stays archived; actual three-option/all-nine-pair TOI interaction was completed by choosing the current item and confirming popup closure. That verified input path is reused; no unproven Escape-input pass, Box3D change, or unrequested keyboard-navigation feature."
+  },
+  {
+    "id": "OBS01",
+    "status": "ROUTED_UNCONFIRMED_APPEARANCE_PR11",
+    "finding": "Bodies/Cast combined Shift-drag pale/white small shape. Actual input/query/transform/identity/release effects were verified; this visual discrepancy remains unconfirmed because shape/selection/material provenance was not retained.",
+    "repair": null,
+    "final_disposition": "Keep visible in PR11 query behavior/appearance qualification; no confirmed PR10 widget defect or false repaired/pixel-equivalent claim.",
+    "evidence": [
+      "plane-controls-acceptance.json",
+      "plane-controls-body-cast-grid.png",
+      "raw/plane-controls-remaining-runs/body-cast/ordinary-both/shift-drag.png",
+      "raw/plane-controls-remaining-runs/body-cast/native-both/shift-drag.png",
+      "final-observations.json"
+    ]
+  },
+  {
+    "id": "OBS02",
+    "status": "NATIVE_CHOOSER_PASS_REUSED_HARNESS_TIMEOUTS_PRESERVED",
+    "finding": "Later GTK discovery/path submission probes timed out before sample widgets. They are not proof of a product hang.",
+    "repair": null,
+    "final_disposition": "Reuse actual prior native GTK acceptance and subsequent Load/player state. The one-Return difference explains a plausible automation failure; exact later event/timing cause remains unconfirmed. Original later timeouts retained; no new GTK run or product fix.",
+    "evidence": [
+      "recording-replay-acceptance.json",
+      "raw/replay-gtk-path-runs/cpu/receipt.json",
+      "gtk-first-cleanup.json",
+      "gtk-discovery-cleanup.json",
+      "replay-popup-acceptance.json",
+      "final-observations.json"
+    ]
+  }
+]

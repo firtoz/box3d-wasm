@@ -1,0 +1,8 @@
+{
+  "status": "EXACT_PRODUCTION_SOURCE_DELTA_VERIFIED",
+  "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/scripts/sokol_split_injection.py",
+  "original_absolute_pin": "8e844b5ab7d28b08eef3b49e8e54e2f1449c155cdc25a7beb94d1877284aa312",
+  "restored_expected_original_sha256": "8e844b5ab7d28b08eef3b49e8e54e2f1449c155cdc25a7beb94d1877284aa312",
+  "current_sha256": "f5400bff47a54ea6d6bf11ed0655918a5184771337103983a2c09f391fecb99b",
+  "cause": "New generator was pinned under relative path; inherited absolute path retained oldhash. Exact intended insertion removed reproduces originalhash. Update absolute metadata pin only;0build/runtime/media repeated."
+}

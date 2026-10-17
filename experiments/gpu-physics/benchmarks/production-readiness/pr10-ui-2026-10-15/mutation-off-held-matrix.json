@@ -1,0 +1,26 @@
+{
+  "status": "INCOMPLETE_FAILURES_RETAINED",
+  "budget": "mutation-off-held-budget.json",
+  "runs": [
+    {
+      "route": "ordinary-gpu",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS"
+    },
+    {
+      "route": "native-gpu",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS"
+    },
+    {
+      "route": "ordinary-both",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS"
+    },
+    {
+      "route": "native-both",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS"
+    }
+  ]
+}

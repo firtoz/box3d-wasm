@@ -1,0 +1,24 @@
+{
+  "status": "PASS_ALL_UI02_BEFORE_AFTER_ROUTES",
+  "runs": [
+    {
+      "phase": "after",
+      "label": "native-gpu",
+      "exit": 0,
+      "seconds": 4.22162922899588
+    },
+    {
+      "phase": "after",
+      "label": "ordinary-both",
+      "exit": 0,
+      "seconds": 4.272468545997981
+    },
+    {
+      "phase": "after",
+      "label": "native-both",
+      "exit": 0,
+      "seconds": 4.4725361409946345
+    }
+  ],
+  "seconds": 12.967279482982121
+}

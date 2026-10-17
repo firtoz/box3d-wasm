@@ -3,6 +3,9 @@
 bool gpu_loading_poll(b3WorldId world);
 bool gpu_loading_active();
 void gpu_loading_draw();
+// Loading frames must not consume the sample UI's pending input or active IDs.
+void gpu_loading_ui_begin();
+void gpu_loading_ui_end();
 void gpu_loading_shutdown();
 #include <functional>
 void gpu_loading_create_scene(std::function<b3WorldId()> create);

@@ -1,0 +1,99 @@
+{
+  "status": "FROZEN",
+  "cc_compiles": 2,
+  "compile_seconds": 20,
+  "cpp_compiles": 1,
+  "observer_compile_seconds": 20,
+  "unit_compiles": 1,
+  "unit_compile_seconds": 10,
+  "unit_runs": 1,
+  "unit_seconds": 3,
+  "archive_commands_max": 30,
+  "archive_seconds": 5,
+  "archive_copy_bytes": 8388608,
+  "links": 2,
+  "link_seconds": 25,
+  "viewers": 2,
+  "seconds_per_app": 90,
+  "seconds_per_transition": 3,
+  "screenshots_per_app": 4,
+  "actions_per_app": 160,
+  "physics_steps": 0,
+  "retries": 0,
+  "outer_seconds": 280,
+  "api_bytes_per_app": 12582912,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 150994944,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "shared_cache_growth_total_bytes": 33554432,
+  "min_free_bytes": 21474836480,
+  "raw_before_bytes": 847855412,
+  "shim_compile": [
+    "/usr/bin/cc",
+    "-O3",
+    "-DNDEBUG",
+    "-std=gnu17",
+    "-w",
+    "-I/home/firtoz/work/2026/box3d-wasm/box3d/include",
+    "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+    "-c",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH02/candidate-shared-completion/api-sources/shim.c",
+    "-o",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH02/candidate-shared-completion/shim.c.o",
+    "-MMD",
+    "-MF",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH02/candidate-shared-completion/shim.c.o.d"
+  ],
+  "dual_compile": [
+    "/usr/bin/cc",
+    "-O3",
+    "-DNDEBUG",
+    "-std=gnu17",
+    "-w",
+    "-I/home/firtoz/work/2026/box3d-wasm/box3d/include",
+    "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+    "-c",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_dual.c",
+    "-o",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/both-dual.o"
+  ],
+  "shim_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/shim.c",
+  "shim_archive": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/libgpu_samples_api.a",
+  "dual_archive": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/libgpu_both_api.a",
+  "pins_before": {
+    "shim": "2adebc0f66cc203cd76b2374cf4d550566e636e2abbf05fc42a44f16ce8b9a12",
+    "both": "6445624c24f39002cb0f9e976d35548522dfc5861bf230781681aaec09e2a45d",
+    "rust": "b6d5d7df4303e68ba67c34a0a78b50059ec23d4162fc084254a388d5886da438",
+    "native": "17e9da4c8e1cadf4a958f7b8c1b729bee9f98de0520fcf7d0162652f8221b473"
+  },
+  "scope": "Read-only trace of UI25 actual .25/.75 chars→HandleEvent/ImGui activeID/queuedinput→SliderFloat return→loading poll/frame. UI29 AutoGenerate queued mouse/button boundary in same finite apps. Preserve old observer wrappers via task-only objcopy rename and chained calls once; product sources/physics/build unchanged. Distinct traced reproducer, not unchanged retry. Do not claim cause before trace. 2diagnostic viewers/objects consumed after extracting <=64MiB evidence; current UI24 five-viewer pool preserved.",
+  "outputs": [
+    {
+      "path": "raw/ui24-build",
+      "max_bytes": 201326592,
+      "consumer": "2C modules/1readonlyGPUboundaryobserver/2local APIcarriers/4replacementGPUviewers plus reusedCPU nextPR10relink",
+      "delete": "Extractedarchivebytes/logs/unit executable consumed after check; supersededGPUviewers retired sequentially after route verification; old2taskcarriers/modules retired after all4routes; sharedarchives untouched."
+    },
+    {
+      "path": "raw/ui24-runs",
+      "max_bytes": 67108864,
+      "consumer": "Native inputs/getter/actualGPUargs/return/bounds/lifecycle/picking and <=25images finalaudit",
+      "delete": "Fullstreams consumed each terminal route;retain minimal before/after receipts/images."
+    }
+  ],
+  "objcopy_commands": 2,
+  "objcopy_seconds": 5,
+  "routes": [
+    "cpu",
+    "ordinary-gpu"
+  ],
+  "original_ui_observer": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui17-build/ui-observer.o",
+  "original_key_observer": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/key-observer.o",
+  "pins": {
+    "ui": "48992944188f5449e9f207c28a4df005e1cc63c938d9a8d393c713b6ae2eea5d",
+    "key": "e1280a08b5564ad4b10781cd3244541320bb7a03369fb2ec167f801c0058db1d"
+  }
+}

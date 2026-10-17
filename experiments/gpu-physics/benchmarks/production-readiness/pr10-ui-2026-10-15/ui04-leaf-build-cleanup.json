@@ -1,0 +1,20 @@
+{
+  "status": "CLOSED",
+  "retired": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/cpu",
+      "bytes": 7743608,
+      "sha256": "37b05692612f2307f9281e7306ae27b24415f27b89717d1138be3911a2bf72a7",
+      "consumer": "Enhanced actual leaf and tree label checks qualified; superseded binary/observer retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/observer.o",
+      "bytes": 806152,
+      "sha256": "ecc178a26205f92910a5f928286929dcba68158c928dafcce7e8b28b5eaf620d",
+      "consumer": "Enhanced actual leaf and tree label checks qualified; superseded binary/observer retired"
+    }
+  ],
+  "deleted_bytes": 8549760,
+  "raw_bytes": 900637701,
+  "consumer": "Current5 viewer pool/ui04-leaf-build.json/link_plan; CPU sample+leaf observer and6Joint/Replay objects retained for subsequent repairs"
+}

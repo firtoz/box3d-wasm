@@ -1,0 +1,2971 @@
+{
+  "status": "FIXED_VERIFIED_LOCAL",
+  "issue": "UI12",
+  "cause": {
+    "boundary": "ActualBoxHull h:1 leading0 of0.7 yields8coplanarpoints→b3CreateHullNULL→nativeDrawHull unguardedread",
+    "before_evidence": "geometry-null-acceptance.json/geometry-null-debug.txt",
+    "before_limit": "OriginalactualCPUcrash/GDBstop-before-read reused; no newGPUbeforecrash/corecampaign. OriginalCPUbefore image isvalidinitialpreview, notcrashscreen."
+  },
+  "repair": {
+    "source": "scripts/inject-sokol-capacity.py generateddraw.c DrawHull: return immediatelyifNULL beforehullread/overlayappend",
+    "preserved": "Nativehull rejection/defaults/analyticminimum/Input/geometry/world/physics/IDs untouched; validDrawHull path byteexact",
+    "source_deltas": [
+      {
+        "source": "experiments/gpu-physics/scripts/inject-sokol-capacity.py",
+        "before_sha256": "02b9392de253c23e35e25c1cc4d5be7e38b1dd155deec68418d3d2238f8491a7",
+        "after_sha256": "72c5dc2d5b84c7cda103783bd8c73d1507e5df5086dbc50bbcc0b9c1f0422b5e",
+        "only_expected_delta": true,
+        "scope": "OnlyearlyNULLreturn in generatednativeDrawHull; validpath unchanged"
+      },
+      {
+        "route": "cpu",
+        "before_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/capacity-gfx/draw.c",
+        "before_sha256": "7c9f9e4fb60c1591def11ce05aa6f1aad72d5f1317bf2451f1956fc43afebd08",
+        "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/cpu-source/draw.c",
+        "sha256": "aae2e4d660a446706e261740f9b94f3ce2fc61e4a7a44d1d005e64fc7edd35a3",
+        "only_expected_delta": true,
+        "scope": "GeneratedCPU/BOTHDrawC exactlyqualifiedoriginal plusNULLguard"
+      },
+      {
+        "route": "ordinary-both",
+        "before_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/split-gfx/draw.c",
+        "before_sha256": "e1fc79a55e06d27a73c5f03920967cf78d12b3bc37ec6c9fa9b459b0c126ada1",
+        "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/both-source/draw.c",
+        "sha256": "89e4cc5182e0965573bc11fc677db465ca8f03b668e96a58954d3d6338b1244e",
+        "only_expected_delta": true,
+        "scope": "GeneratedCPU/BOTHDrawC exactlyqualifiedoriginal plusNULLguard"
+      }
+    ],
+    "original_modules": [
+      {
+        "route": "cpu",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/libgfx.a",
+        "module": "draw.c.o",
+        "sha256": "3241b728578b1d7b90b975619976b23b79dc5673ff0eb98276e22d52147667c0"
+      },
+      {
+        "route": "ordinary-gpu",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/ordinary-gpu/libgfx.a",
+        "module": "draw.c.o",
+        "sha256": "3241b728578b1d7b90b975619976b23b79dc5673ff0eb98276e22d52147667c0"
+      },
+      {
+        "route": "native-gpu",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/native-gpu/libgfx.a",
+        "module": "draw.c.o",
+        "sha256": "3241b728578b1d7b90b975619976b23b79dc5673ff0eb98276e22d52147667c0"
+      },
+      {
+        "route": "ordinary-both",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-repairs/VIS07-candidate/ordinary-both/libgfx.a",
+        "module": "draw.c.o",
+        "sha256": "3241b728578b1d7b90b975619976b23b79dc5673ff0eb98276e22d52147667c0"
+      },
+      {
+        "route": "native-both",
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-repairs/VIS07-candidate/native-both/libgfx.a",
+        "module": "draw.c.o",
+        "sha256": "3241b728578b1d7b90b975619976b23b79dc5673ff0eb98276e22d52147667c0"
+      }
+    ],
+    "build": "ui12-build.json/link_plan",
+    "one_compile_reuse": "Allfiveoriginaldraw.c.o bytesidentical;CPU/BOTHgeneratednewsource exactold+macroindependentguard"
+  },
+  "evaluations": {
+    "repair": 172,
+    "original_positive": 169,
+    "original_wrong_probe_assertions": 3,
+    "adjudicated_from_same_actual_data": 3,
+    "no_qualified_runtime_repeated": true
+  },
+  "after": [
+    {
+      "route": "cpu",
+      "receipt": "raw/ui12-runs/cpu/receipt.json",
+      "checks": 34,
+      "seconds": 12.013281422,
+      "findings": [
+        "Zeroaxis1 actualNULLhull safelyreturns",
+        "Zeroaxis0 actualNULLhull safelyreturns",
+        "Zeroaxis2 actualNULLhull safelyreturns"
+      ],
+      "adjudication": "ui12-zero-probe-adjudication.json",
+      "geometry": [
+        {
+          "axis": 1,
+          "spelling": "0.7",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 3,
+            "factory_clone": 0,
+            "factory_box": 3,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1.39999998,
+                "area": 9,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.699999988,
+                  -0.25,
+                  1,
+                  0.699999988,
+                  0.25
+                ],
+                "points_digest": "cd459b835f9b4b23",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1.39999998,
+                "area": 9,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.699999988,
+                  -0.25,
+                  1,
+                  0.699999988,
+                  0.25
+                ],
+                "points_digest": "accf2aca8137f323",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 8
+        },
+        {
+          "axis": 1,
+          "spelling": "0.5",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 5,
+            "factory_clone": 0,
+            "factory_box": 5,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 8
+        },
+        {
+          "axis": 1,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 6,
+            "factory_clone": 0,
+            "factory_box": 6,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0399999991,
+                "area": 2.20000005,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.0199999996,
+                  -0.25,
+                  1,
+                  0.0199999996,
+                  0.25
+                ],
+                "points_digest": "08095f6797348393",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 16
+        },
+        {
+          "axis": 1,
+          "spelling": "0.5",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 7,
+            "factory_clone": 0,
+            "factory_box": 7,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 9
+        },
+        {
+          "axis": 0,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 8,
+            "factory_clone": 0,
+            "factory_box": 8,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0199999996,
+                "area": 1.12,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -0.0199999996,
+                  -0.5,
+                  -0.25,
+                  0.0199999996,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "3ac1d690e04648d3",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 17
+        },
+        {
+          "axis": 0,
+          "spelling": "1",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 9,
+            "factory_clone": 0,
+            "factory_box": 9,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 2
+        },
+        {
+          "axis": 2,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 10,
+            "factory_clone": 0,
+            "factory_box": 10,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0799999982,
+                "area": 4.23999977,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.0199999996,
+                  1,
+                  0.5,
+                  0.0199999996
+                ],
+                "points_digest": "6b03e79da8f89843",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 17
+        },
+        {
+          "axis": 2,
+          "spelling": "0.25",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 12,
+            "factory_clone": 0,
+            "factory_box": 12,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 9
+        }
+      ]
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/ui12-runs/ordinary-gpu/receipt.json",
+      "checks": 34,
+      "seconds": 13.031042656,
+      "findings": [],
+      "adjudication": null,
+      "geometry": [
+        {
+          "axis": 1,
+          "spelling": "0.7",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 3,
+            "factory_clone": 0,
+            "factory_box": 3,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1.39999998,
+                "area": 9,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.699999988,
+                  -0.25,
+                  1,
+                  0.699999988,
+                  0.25
+                ],
+                "points_digest": "cd459b835f9b4b23",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1.39999998,
+                "area": 9,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.699999988,
+                  -0.25,
+                  1,
+                  0.699999988,
+                  0.25
+                ],
+                "points_digest": "accf2aca8137f323",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 7
+        },
+        {
+          "axis": 1,
+          "spelling": "0.5",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 5,
+            "factory_clone": 0,
+            "factory_box": 5,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 7
+        },
+        {
+          "axis": 1,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 6,
+            "factory_clone": 0,
+            "factory_box": 6,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0399999991,
+                "area": 2.20000005,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.0199999996,
+                  -0.25,
+                  1,
+                  0.0199999996,
+                  0.25
+                ],
+                "points_digest": "08095f6797348393",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 17
+        },
+        {
+          "axis": 1,
+          "spelling": "0.5",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 7,
+            "factory_clone": 0,
+            "factory_box": 7,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 9
+        },
+        {
+          "axis": 0,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 8,
+            "factory_clone": 0,
+            "factory_box": 8,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0199999996,
+                "area": 1.12,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -0.0199999996,
+                  -0.5,
+                  -0.25,
+                  0.0199999996,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "3ac1d690e04648d3",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 16
+        },
+        {
+          "axis": 0,
+          "spelling": "1",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 9,
+            "factory_clone": 0,
+            "factory_box": 9,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 1
+        },
+        {
+          "axis": 2,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 10,
+            "factory_clone": 0,
+            "factory_box": 10,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0799999982,
+                "area": 4.23999977,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.0199999996,
+                  1,
+                  0.5,
+                  0.0199999996
+                ],
+                "points_digest": "6b03e79da8f89843",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 17
+        },
+        {
+          "axis": 2,
+          "spelling": "0.25",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 12,
+            "factory_clone": 0,
+            "factory_box": 12,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 10
+        }
+      ]
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/ui12-runs/native-gpu/receipt.json",
+      "checks": 34,
+      "seconds": 13.0092184,
+      "findings": [],
+      "adjudication": null,
+      "geometry": [
+        {
+          "axis": 1,
+          "spelling": "0.7",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 3,
+            "factory_clone": 0,
+            "factory_box": 3,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1.39999998,
+                "area": 9,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.699999988,
+                  -0.25,
+                  1,
+                  0.699999988,
+                  0.25
+                ],
+                "points_digest": "cd459b835f9b4b23",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1.39999998,
+                "area": 9,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.699999988,
+                  -0.25,
+                  1,
+                  0.699999988,
+                  0.25
+                ],
+                "points_digest": "accf2aca8137f323",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 8
+        },
+        {
+          "axis": 1,
+          "spelling": "0.5",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 5,
+            "factory_clone": 0,
+            "factory_box": 5,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 8
+        },
+        {
+          "axis": 1,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 6,
+            "factory_clone": 0,
+            "factory_box": 6,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0399999991,
+                "area": 2.20000005,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.0199999996,
+                  -0.25,
+                  1,
+                  0.0199999996,
+                  0.25
+                ],
+                "points_digest": "08095f6797348393",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 17
+        },
+        {
+          "axis": 1,
+          "spelling": "0.5",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 7,
+            "factory_clone": 0,
+            "factory_box": 7,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 9
+        },
+        {
+          "axis": 0,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 8,
+            "factory_clone": 0,
+            "factory_box": 8,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0199999996,
+                "area": 1.12,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -0.0199999996,
+                  -0.5,
+                  -0.25,
+                  0.0199999996,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "3ac1d690e04648d3",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 17
+        },
+        {
+          "axis": 0,
+          "spelling": "1",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 9,
+            "factory_clone": 0,
+            "factory_box": 9,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 2
+        },
+        {
+          "axis": 2,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 10,
+            "factory_clone": 0,
+            "factory_box": 10,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0799999982,
+                "area": 4.23999977,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.0199999996,
+                  1,
+                  0.5,
+                  0.0199999996
+                ],
+                "points_digest": "6b03e79da8f89843",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 17
+        },
+        {
+          "axis": 2,
+          "spelling": "0.25",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 12,
+            "factory_clone": 0,
+            "factory_box": 12,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 9
+        }
+      ]
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui12-runs/ordinary-both/receipt.json",
+      "checks": 35,
+      "seconds": 13.569687421000001,
+      "findings": [],
+      "adjudication": null,
+      "geometry": [
+        {
+          "axis": 1,
+          "spelling": "0.7",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 3,
+            "factory_clone": 0,
+            "factory_box": 3,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1.39999998,
+                "area": 9,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.699999988,
+                  -0.25,
+                  1,
+                  0.699999988,
+                  0.25
+                ],
+                "points_digest": "cd459b835f9b4b23",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1.39999998,
+                "area": 9,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.699999988,
+                  -0.25,
+                  1,
+                  0.699999988,
+                  0.25
+                ],
+                "points_digest": "accf2aca8137f323",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 14
+        },
+        {
+          "axis": 1,
+          "spelling": "0.5",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 5,
+            "factory_clone": 0,
+            "factory_box": 5,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 14
+        },
+        {
+          "axis": 1,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 6,
+            "factory_clone": 0,
+            "factory_box": 6,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0399999991,
+                "area": 2.20000005,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.0199999996,
+                  -0.25,
+                  1,
+                  0.0199999996,
+                  0.25
+                ],
+                "points_digest": "08095f6797348393",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 34
+        },
+        {
+          "axis": 1,
+          "spelling": "0.5",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 7,
+            "factory_clone": 0,
+            "factory_box": 7,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 18
+        },
+        {
+          "axis": 0,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 8,
+            "factory_clone": 0,
+            "factory_box": 8,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0199999996,
+                "area": 1.12,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -0.0199999996,
+                  -0.5,
+                  -0.25,
+                  0.0199999996,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "3ac1d690e04648d3",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 34
+        },
+        {
+          "axis": 0,
+          "spelling": "1",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 9,
+            "factory_clone": 0,
+            "factory_box": 9,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 4
+        },
+        {
+          "axis": 2,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 10,
+            "factory_clone": 0,
+            "factory_box": 10,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0799999982,
+                "area": 4.23999977,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.0199999996,
+                  1,
+                  0.5,
+                  0.0199999996
+                ],
+                "points_digest": "6b03e79da8f89843",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 34
+        },
+        {
+          "axis": 2,
+          "spelling": "0.25",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 12,
+            "factory_clone": 0,
+            "factory_box": 12,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 18
+        }
+      ]
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/ui12-runs/native-both/receipt.json",
+      "checks": 35,
+      "seconds": 13.795738915,
+      "findings": [],
+      "adjudication": null,
+      "geometry": [
+        {
+          "axis": 1,
+          "spelling": "0.7",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 3,
+            "factory_clone": 0,
+            "factory_box": 3,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1.39999998,
+                "area": 9,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.699999988,
+                  -0.25,
+                  1,
+                  0.699999988,
+                  0.25
+                ],
+                "points_digest": "cd459b835f9b4b23",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1.39999998,
+                "area": 9,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.699999988,
+                  -0.25,
+                  1,
+                  0.699999988,
+                  0.25
+                ],
+                "points_digest": "accf2aca8137f323",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 16
+        },
+        {
+          "axis": 1,
+          "spelling": "0.5",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 5,
+            "factory_clone": 0,
+            "factory_box": 5,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 16
+        },
+        {
+          "axis": 1,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 6,
+            "factory_clone": 0,
+            "factory_box": 6,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0399999991,
+                "area": 2.20000005,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.0199999996,
+                  -0.25,
+                  1,
+                  0.0199999996,
+                  0.25
+                ],
+                "points_digest": "08095f6797348393",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 34
+        },
+        {
+          "axis": 1,
+          "spelling": "0.5",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 7,
+            "factory_clone": 0,
+            "factory_box": 7,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 18
+        },
+        {
+          "axis": 0,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 8,
+            "factory_clone": 0,
+            "factory_box": 8,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0199999996,
+                "area": 1.12,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -0.0199999996,
+                  -0.5,
+                  -0.25,
+                  0.0199999996,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "3ac1d690e04648d3",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 33
+        },
+        {
+          "axis": 0,
+          "spelling": "1",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 9,
+            "factory_clone": 0,
+            "factory_box": 9,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 4
+        },
+        {
+          "axis": 2,
+          "spelling": "0",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 10,
+            "factory_clone": 0,
+            "factory_box": 10,
+            "hulls": [
+              {
+                "valid": false
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 0.0799999982,
+                "area": 4.23999977,
+                "radius": 0.0199999996,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.0199999996,
+                  1,
+                  0.5,
+                  0.0199999996
+                ],
+                "points_digest": "6b03e79da8f89843",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 36
+        },
+        {
+          "axis": 2,
+          "spelling": "0.25",
+          "geometry": {
+            "api": "actual_geometry_frame",
+            "hull_calls": 2,
+            "factory_create": 12,
+            "factory_clone": 0,
+            "factory_box": 12,
+            "hulls": [
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "04c9d69c5e40f503",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "valid": true,
+                "vertices": 8,
+                "faces": 6,
+                "half_edges": 24,
+                "volume": 1,
+                "area": 7,
+                "radius": 0.25,
+                "center": [
+                  0,
+                  0,
+                  0
+                ],
+                "aabb": [
+                  -1,
+                  -0.5,
+                  -0.25,
+                  1,
+                  0.5,
+                  0.25
+                ],
+                "points_digest": "9da7e7e85fe48f03",
+                "draw_position": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "observed_null_frames": 18
+        }
+      ]
+    }
+  ],
+  "media": {
+    "before": [
+      {
+        "route": "cpu",
+        "state": "validpreviewbeforeoriginalNULLinput",
+        "path": "raw/geometry-null-debug-runs/cpu/before-null-input.png",
+        "sha256": "252667dc94047d66bc9195d6e51fd7085443fc8e8943d9d852f799164061b4c0"
+      }
+    ],
+    "after": [
+      {
+        "route": "cpu",
+        "fixture": "repair",
+        "state": "initial",
+        "path": "raw/ui12-runs/cpu/initial.png",
+        "sha256": "3d34afc64e82c3fc1e25e34452cca2250c7512cde2ff3c3028e38d91b3f2f131"
+      },
+      {
+        "route": "cpu",
+        "fixture": "repair",
+        "state": "fractional",
+        "path": "raw/ui12-runs/cpu/fractional.png",
+        "sha256": "c8fbd85384361d97c33e11803e5fbb43af5a05df91b9ea859d61afe38fa488f8"
+      },
+      {
+        "route": "cpu",
+        "fixture": "repair",
+        "state": "zero",
+        "path": "raw/ui12-runs/cpu/zero.png",
+        "sha256": "2341082b5ec8b40777ce850c56ecffaa4765576ba91ffb00e37525910a7d3eeb"
+      },
+      {
+        "route": "cpu",
+        "fixture": "repair",
+        "state": "restored",
+        "path": "raw/ui12-runs/cpu/restored.png",
+        "sha256": "8d8e6dd81bb559bc577f05e58666c47498b1647801efa330c1fc5a7ddb43e7c4"
+      },
+      {
+        "route": "cpu",
+        "fixture": "repair",
+        "state": "hull-reduction",
+        "path": "raw/ui12-runs/cpu/hull-reduction.png",
+        "sha256": "cf19fad3dd58d793eeaf44fc02271f6c4762a63e5ddbe50b0db77a9111b89286"
+      },
+      {
+        "route": "cpu",
+        "fixture": "repair",
+        "state": "picking",
+        "path": "raw/ui12-runs/cpu/picking.png",
+        "sha256": "154f1687387f21ea86f8eff1a40fe7b6acf1cc9beb365e5f9472f2a603044d60"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "repair",
+        "state": "initial",
+        "path": "raw/ui12-runs/ordinary-gpu/initial.png",
+        "sha256": "03acff2073670dde47f5b90c605163374db4b6deac99a2ee94185764a8e2c8fd"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "repair",
+        "state": "fractional",
+        "path": "raw/ui12-runs/ordinary-gpu/fractional.png",
+        "sha256": "e1f6403fd3207652b8d75b00a19a930ab0d93bf702d5905ba9f9ba1638a39438"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "repair",
+        "state": "zero",
+        "path": "raw/ui12-runs/ordinary-gpu/zero.png",
+        "sha256": "551c3fc87c9c7266e8ad892ebc2f116ec79ef981db7f811ef7080fae083329de"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "repair",
+        "state": "restored",
+        "path": "raw/ui12-runs/ordinary-gpu/restored.png",
+        "sha256": "61c77ee4930304889af5117d866beed49cc6574dbee41d73eed38a20eb1ca122"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "repair",
+        "state": "hull-reduction",
+        "path": "raw/ui12-runs/ordinary-gpu/hull-reduction.png",
+        "sha256": "44e9c4f98dc490c646bec0db37484c9dfd06f2f453df23c32597e43113c423f6"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "repair",
+        "state": "picking",
+        "path": "raw/ui12-runs/ordinary-gpu/picking.png",
+        "sha256": "7ab6d9146e485a3002c9e0fc15712c220bafdce09ae9011f527680850f36b8ba"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "repair",
+        "state": "initial",
+        "path": "raw/ui12-runs/native-gpu/initial.png",
+        "sha256": "e6d6aa63132384ad3033a4d81bbce5a6ec2b9dd4af98ab8e53f8d4160df85401"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "repair",
+        "state": "fractional",
+        "path": "raw/ui12-runs/native-gpu/fractional.png",
+        "sha256": "039ce81dc4b4b1e4f317d3fb2d843aca141e25f895e1bb16f57b7314eb303d0e"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "repair",
+        "state": "zero",
+        "path": "raw/ui12-runs/native-gpu/zero.png",
+        "sha256": "b1f319b1eef2a8766958a6f95573045450839d28460ae70a342e815465559a34"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "repair",
+        "state": "restored",
+        "path": "raw/ui12-runs/native-gpu/restored.png",
+        "sha256": "121fe425f7537b3c858bdf46174dacead206706f257113fff4c6dd144bbd513f"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "repair",
+        "state": "hull-reduction",
+        "path": "raw/ui12-runs/native-gpu/hull-reduction.png",
+        "sha256": "44e9c4f98dc490c646bec0db37484c9dfd06f2f453df23c32597e43113c423f6"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "repair",
+        "state": "picking",
+        "path": "raw/ui12-runs/native-gpu/picking.png",
+        "sha256": "1e6f983b613a9471ded4ec9788b2283bfd2e18ec69998e715c6dd6030f8c3b6c"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "repair",
+        "state": "initial",
+        "path": "raw/ui12-runs/ordinary-both/initial.png",
+        "sha256": "d2ceb321ed0a7346f0d89147589fb5c1233c4161013e7b40de7c74e60ce62c17"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "repair",
+        "state": "fractional",
+        "path": "raw/ui12-runs/ordinary-both/fractional.png",
+        "sha256": "44069e298da48b0f8a2218a429ec7e6897547afe0186a87b1ea16af463f912dd"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "repair",
+        "state": "zero",
+        "path": "raw/ui12-runs/ordinary-both/zero.png",
+        "sha256": "027871c96222b169772910d6b748cf9b729daa4eaa796b2a0e7ec516089b658a"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "repair",
+        "state": "restored",
+        "path": "raw/ui12-runs/ordinary-both/restored.png",
+        "sha256": "88528dddf01407ca96bf9d74881e81821849d795ca52bf9532efd39fb86254db"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "repair",
+        "state": "hull-reduction",
+        "path": "raw/ui12-runs/ordinary-both/hull-reduction.png",
+        "sha256": "5b5f11fd5b286ca77cf66f387160513eb362e8904d420ebf412f7e0fc50b8f9b"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "repair",
+        "state": "picking",
+        "path": "raw/ui12-runs/ordinary-both/picking.png",
+        "sha256": "93a1c9099f32beae7263aacf959656c414ddb929303919fdd001009a242d4113"
+      },
+      {
+        "route": "native-both",
+        "fixture": "repair",
+        "state": "initial",
+        "path": "raw/ui12-runs/native-both/initial.png",
+        "sha256": "723c96899781a443b4572d002956f78a90ea6ba7e6049e25b1e63a147b816f58"
+      },
+      {
+        "route": "native-both",
+        "fixture": "repair",
+        "state": "fractional",
+        "path": "raw/ui12-runs/native-both/fractional.png",
+        "sha256": "44069e298da48b0f8a2218a429ec7e6897547afe0186a87b1ea16af463f912dd"
+      },
+      {
+        "route": "native-both",
+        "fixture": "repair",
+        "state": "zero",
+        "path": "raw/ui12-runs/native-both/zero.png",
+        "sha256": "027871c96222b169772910d6b748cf9b729daa4eaa796b2a0e7ec516089b658a"
+      },
+      {
+        "route": "native-both",
+        "fixture": "repair",
+        "state": "restored",
+        "path": "raw/ui12-runs/native-both/restored.png",
+        "sha256": "88528dddf01407ca96bf9d74881e81821849d795ca52bf9532efd39fb86254db"
+      },
+      {
+        "route": "native-both",
+        "fixture": "repair",
+        "state": "hull-reduction",
+        "path": "raw/ui12-runs/native-both/hull-reduction.png",
+        "sha256": "5b5f11fd5b286ca77cf66f387160513eb362e8904d420ebf412f7e0fc50b8f9b"
+      },
+      {
+        "route": "native-both",
+        "fixture": "repair",
+        "state": "picking",
+        "path": "raw/ui12-runs/native-both/picking.png",
+        "sha256": "bb274103acbd3e98e3d9d4297039f2f674b196b0a6064e0b8470a9f7f15ea611"
+      }
+    ],
+    "grids": [
+      {
+        "path": "ui12-after-grid.png",
+        "sha256": "4b21d144b1883507fe2882df4e0a7ca8f97f40fd552c1a5eecb6b7d62c9543c8"
+      },
+      {
+        "path": "ui12-related-grid.png",
+        "sha256": "940862b814858f5fa9e96cc6006bda87ebc9967d904f2ea1d711ecaaf66a38ab"
+      }
+    ],
+    "inspection": "OriginalCPUbefore individually; all30afterimages in2CPUfirstgrids plusCPUfractional/nativeGPUzero/nativecombinedrestore individualimages inspected"
+  },
+  "applicability": {
+    "actual_runtime": [
+      "Geometry/Box Hull",
+      "Geometry/Hull Reduction",
+      "Stacking/Single Box"
+    ],
+    "routes": [
+      "cpu",
+      "ordinary-gpu",
+      "native-gpu",
+      "ordinary-both",
+      "native-both"
+    ],
+    "source_scope": "AllnativeDrawHull callers safelyacceptNULL; onlyBoxHull demonstratedfault, HullReductionvalidpath exercised. Otherhullpreviews useunchangedvalidpath; noadditionalper-samplecrashclaim."
+  },
+  "preserved_probes": "ui12-original-controls.ts/ui12-zero-probe-adjudication.json preserve3wrongCPUanalyticvolume0expectations. Actualnativeb3MakeScaledBoxHull keeps.02minimumhalfwidth; retainedXYZvolumes.02/.04/.08/bounds matchexistingrule.",
+  "limitations": [
+    "OriginalCPUbeforecause reused; no pre-fixGPUNULLruntimecrash repeated. AllfivepostfixroutesactuallyreceiveNULL safely andrestorevalidfractionalgeometry.",
+    "Allruns paused;0scriptedadvancingphysics. Geometrytools have0bodies/shapes, lifecycle/picking checkedonactualSingleBox. No solver/pixel/CPU-GPUtrajectory qualification.",
+    "Reviewhelper sizewalk observed atomicui.request.tmp disappearance duringnativeGPUcheck; unhandledintervalwarning madecompletionouterexit1 afterallfivechecks qualified. Manifest/receipts/linkinputs/PIDs independentlyverifiedatcloseout. Helpernow ignoresonlyENOENT vanishedfiles; no viewer rerun/productchange.",
+    "Finalprecommit affected-scene recordings/compatibility/PR10criterionaudit OPEN;no commitpush."
+  ],
+  "resources": {
+    "status": "CLOSED",
+    "retained_bytes": 4935744,
+    "raw_retained_bytes": 938364423,
+    "deleted_bytes": 12222286,
+    "owned_pids_absent": [
+      3737660,
+      3737645,
+      3741751,
+      3741736,
+      3742586,
+      3742567,
+      3743546,
+      3743526,
+      3744524,
+      3744509
+    ],
+    "owned_core_files": [],
+    "shared_cache_growth_bytes": 0,
+    "free_bytes": 1707984715776,
+    "consumer": "CurrentfiveUI12viewers/DrawHullobject+priorinputs nextPR10relink;selected30afterimages/2grids/originalCPUbefore/GDBevidence finalaudit",
+    "retained_diagnostic_bytes": 6784566,
+    "consumed_logs": [
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/capacity-generation.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exits/timings/drawmember identity andselectedgeometry/NULL/sourceproofs extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/split-generation.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exits/timings/drawmember identity andselectedgeometry/NULL/sourceproofs extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/draw-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exits/timings/drawmember identity andselectedgeometry/NULL/sourceproofs extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/cpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exits/timings/drawmember identity andselectedgeometry/NULL/sourceproofs extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/cpu-check.log",
+        "bytes": 1717,
+        "sha256": "4b68d3eb49e829c113ed9ac8dcb114c344a82957a1d4bd942d20252b7a3dd84e",
+        "consumer": "Commands/exits/timings/drawmember identity andselectedgeometry/NULL/sourceproofs extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/ordinary-gpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exits/timings/drawmember identity andselectedgeometry/NULL/sourceproofs extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/ordinary-gpu-check.log",
+        "bytes": 2032,
+        "sha256": "672d6bb5d09d6dd221c58fd0cb5ec1aa9ff47fd089c4a792e03e0218072f53d0",
+        "consumer": "Commands/exits/timings/drawmember identity andselectedgeometry/NULL/sourceproofs extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/native-gpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exits/timings/drawmember identity andselectedgeometry/NULL/sourceproofs extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/native-gpu-check.log",
+        "bytes": 1958,
+        "sha256": "3979e88d28b4e9097ce3ee1b4dfd3ed0702e71f4a997559293ce1d2732702e0d",
+        "consumer": "Commands/exits/timings/drawmember identity andselectedgeometry/NULL/sourceproofs extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/ordinary-both-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exits/timings/drawmember identity andselectedgeometry/NULL/sourceproofs extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/ordinary-both-check.log",
+        "bytes": 2134,
+        "sha256": "360c2fb65470022ee19548b373449287df39733d6be4285e94d0a7711665866b",
+        "consumer": "Commands/exits/timings/drawmember identity andselectedgeometry/NULL/sourceproofs extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/native-both-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exits/timings/drawmember identity andselectedgeometry/NULL/sourceproofs extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/native-both-check.log",
+        "bytes": 2058,
+        "sha256": "540cfbe7d651781cdfd0c73f87d362a947eac4d61fc9edda49d8599205a93bfb",
+        "consumer": "Commands/exits/timings/drawmember identity andselectedgeometry/NULL/sourceproofs extracted"
+      }
+    ],
+    "deleted_log_bytes": 9899,
+    "deleted_build_bytes": 166673809,
+    "owned_all_pids_absent": [
+      3737620,
+      3737621,
+      3737622,
+      3737623,
+      3737625,
+      3737626,
+      3737628,
+      3737630,
+      3737638,
+      3737645,
+      3741589,
+      3741736,
+      3742445,
+      3742567,
+      3743408,
+      3743526,
+      3744384,
+      3744509,
+      3737660,
+      3741751,
+      3742586,
+      3743546,
+      3744524
+    ],
+    "current_pool": "ui12-build.json/link_plan;fiveviewers/21neededtasklinkobjects/smalltaskAPIarchive nextrelinkconsumers",
+    "active_task_objects": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/draw.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui10-trace-completion-build/key-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui07-trace-completion-build/camera-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/cpu-adapter.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-material-build/material-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/hud-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui10-trace-completion-build/ui-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui10-build/cpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/cpu-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-build/cpu-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/cpu-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui10-build/gpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/gpu-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-build/ordinary-gpu-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-gpu-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-trace-build/selection-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/both-adapter.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/both-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui07-build/both-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-build/ordinary-both-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-both-replay.o"
+    ]
+  }
+}

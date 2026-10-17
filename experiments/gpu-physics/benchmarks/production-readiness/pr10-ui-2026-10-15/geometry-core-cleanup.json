@@ -1,0 +1,8 @@
+{
+  "temporary_core_deleted": true,
+  "task_system_core_path": "/var/lib/systemd/coredump/core.cpu.1000.66ef3aa9b02d450eb52aa48b0ee6af2f.2158015.1792086622000000.zst",
+  "system_core_bytes": 3000882,
+  "system_core_deleted": false,
+  "cleanup_exit": 1,
+  "cleanup_message": "sudo: a password is required\n"
+}

@@ -1,0 +1,5521 @@
+{
+  "status": "FIXED_VERIFIED_LOCAL",
+  "issue": "UI26",
+  "cause": "Native TreeBenchmark::LoadTree destroys m_tree and clears m_proxies before native Load returns an empty tree on failure; DrawControls then exits at proxyCount0, hiding recovery and no error pixels.",
+  "repair": {
+    "source": "scripts/inject-sample-controls.ts:treeControls;native-samples/CMakeLists.txt generated Tree class",
+    "scope": "Load into temporary candidate. Missing/empty/version-invalid load leaves live tree/proxies/stats/geometry unchanged and sets visible actionable failure message. Successful load commits candidate, then reconstructs metadata and clears failure. File rebuild/restart also clears error. No native tree algorithm/default/query/physics change.",
+    "build": "ui26-build.json/link_plan",
+    "source_deltas": [
+      {
+        "source": "box3d/samples/sample_tree.cpp",
+        "original_sha256": "2e63200723469f0e42f8d269b3a22e8af786170de52527610341d7a7d87ecc60",
+        "generated": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/sample_tree_ui.cpp",
+        "generated_sha256": "e0149a251bd87cbf68509ba180059c38930f6f087904f860242bd76a5b83d404",
+        "original_route_modules": [
+          {
+            "route": "cpu",
+            "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_tree.cpp.o",
+            "sha256": "0c8705a8923a88ad36dbadc9c8448447698f72bd95a00cd7793bdceec8af2656"
+          },
+          {
+            "route": "ordinary-gpu",
+            "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/CMakeFiles/samples_gpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_tree.cpp.o",
+            "sha256": "0c8705a8923a88ad36dbadc9c8448447698f72bd95a00cd7793bdceec8af2656"
+          },
+          {
+            "route": "native-gpu",
+            "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake/CMakeFiles/samples_gpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_tree.cpp.o",
+            "sha256": "0c8705a8923a88ad36dbadc9c8448447698f72bd95a00cd7793bdceec8af2656"
+          },
+          {
+            "route": "ordinary-both",
+            "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_tree.cpp.o",
+            "sha256": "0c8705a8923a88ad36dbadc9c8448447698f72bd95a00cd7793bdceec8af2656"
+          },
+          {
+            "route": "native-both",
+            "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_tree.cpp.o",
+            "sha256": "0c8705a8923a88ad36dbadc9c8448447698f72bd95a00cd7793bdceec8af2656"
+          }
+        ],
+        "scope": "Exactlytemporary-load ownership/failure flag+visible error/clear-on-rebuild; native algorithms/defaults/other controls unchanged. Originalfive modules byteidentical, onecandidateclass compile reused."
+      }
+    ],
+    "compiles": 1,
+    "dedup": "AllfiveoriginalTreeCPPmodules byteidentical;onecandidateclass reused across5routes andactuallychecked."
+  },
+  "before": {
+    "report": "UI26.md",
+    "acceptance": "tree-missing-file-acceptance.json",
+    "all_route_receipts": "raw/tree-missing-file-runs/<route>/receipt.json",
+    "original_failed_flags_preserved": true
+  },
+  "checks": {
+    "routes": 5,
+    "recorded": 95,
+    "original_false_TextWrapped_item_list_predicates": 3,
+    "adjudication": "ui26-cpu-text-adjudication.json",
+    "CPU_apps_repeated": 0,
+    "actual_failed_native_loads_preserve_tree": 15,
+    "actual_valid_loads": 10,
+    "default_proxies": 288,
+    "owned_tree_files_remaining": 0,
+    "scripted_advancing_physics": 0,
+    "all_applicable_checks_pass": true,
+    "error_pixels_manual_inspection": "PASS: allfive missing-load views display readable actionable error/recovery while retaining tree; loaded/scaled/restart views clear error. All20after gridcells and original10before/recovery gridcells inspected, ordinaryGPU missing/loaded individually inspected."
+  },
+  "after": [
+    {
+      "route": "cpu",
+      "receipt": "raw/ui26-runs/cpu/receipt.json",
+      "seconds": 5.748095031,
+      "checks": {
+        "Benchmark actual scene/no-body fixture": true,
+        "missing actual failed native load result": true,
+        "missing preserves actual live tree/proxies/bounds/digest": true,
+        "missing recovery controls and actionable error visible": false,
+        "empty actual failed native load result": true,
+        "empty preserves actual live tree/proxies/bounds/digest": true,
+        "empty recovery controls and actionable error visible": false,
+        "invalid version actual failed native load result": true,
+        "invalid version preserves actual live tree/proxies/bounds/digest": true,
+        "invalid version recovery controls and actionable error visible": false,
+        "valid Load commits original tree and clears error": true,
+        "Loaded tree actual overlap query runs": true,
+        "Load Scale actualvalue 0.5": true,
+        "Load Scale .5 actual native bounds applied": true,
+        "Scaled loaded tree query remains live": true,
+        "Restart restores native default tree/controls": true,
+        "No physics bodies/picking target invented": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": [
+        {
+          "check": "missing recovery controls and actionable error visible"
+        },
+        {
+          "check": "empty recovery controls and actionable error visible"
+        },
+        {
+          "check": "invalid version recovery controls and actionable error visible"
+        }
+      ],
+      "load_cases": [
+        {
+          "kind": "missing",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 29,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 290,
+              "tree_rebuilds": 1,
+              "tree_rays": 112,
+              "tree_queries": 115,
+              "tree_closest": 0,
+              "last_ray": {
+                "origin": [
+                  -0.08289913833141327,
+                  4.22618293762207,
+                  8.952739715576172
+                ],
+                "translation": [
+                  -828.908447,
+                  0,
+                  -1103.26758
+                ]
+              },
+              "last_overlap": [
+                [
+                  -100,
+                  -95.773819,
+                  -90.9369202
+                ],
+                [
+                  100,
+                  104.226181,
+                  109.06308
+                ]
+              ],
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": null,
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 65,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 37,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 290,
+              "tree_rebuilds": 1,
+              "tree_rays": 112,
+              "tree_queries": 115,
+              "tree_closest": 0,
+              "last_ray": {
+                "origin": [
+                  -0.08289913833141327,
+                  4.22618293762207,
+                  8.952739715576172
+                ],
+                "translation": [
+                  -828.908447,
+                  0,
+                  -1103.26758
+                ]
+              },
+              "last_overlap": [
+                [
+                  -100,
+                  -95.773819,
+                  -90.9369202
+                ],
+                [
+                  100,
+                  104.226181,
+                  109.06308
+                ]
+              ],
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 81,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "error": []
+        },
+        {
+          "kind": "empty",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 43,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 290,
+              "tree_rebuilds": 1,
+              "tree_rays": 112,
+              "tree_queries": 115,
+              "tree_closest": 0,
+              "last_ray": {
+                "origin": [
+                  -0.08289913833141327,
+                  4.22618293762207,
+                  8.952739715576172
+                ],
+                "translation": [
+                  -828.908447,
+                  0,
+                  -1103.26758
+                ]
+              },
+              "last_overlap": [
+                [
+                  -100,
+                  -95.773819,
+                  -90.9369202
+                ],
+                [
+                  100,
+                  104.226181,
+                  109.06308
+                ]
+              ],
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 99,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 51,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 290,
+              "tree_rebuilds": 1,
+              "tree_rays": 112,
+              "tree_queries": 115,
+              "tree_closest": 0,
+              "last_ray": {
+                "origin": [
+                  -0.08289913833141327,
+                  4.22618293762207,
+                  8.952739715576172
+                ],
+                "translation": [
+                  -828.908447,
+                  0,
+                  -1103.26758
+                ]
+              },
+              "last_overlap": [
+                [
+                  -100,
+                  -95.773819,
+                  -90.9369202
+                ],
+                [
+                  100,
+                  104.226181,
+                  109.06308
+                ]
+              ],
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 115,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "error": []
+        },
+        {
+          "kind": "invalid version",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 61,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 290,
+              "tree_rebuilds": 1,
+              "tree_rays": 112,
+              "tree_queries": 115,
+              "tree_closest": 0,
+              "last_ray": {
+                "origin": [
+                  -0.08289913833141327,
+                  4.22618293762207,
+                  8.952739715576172
+                ],
+                "translation": [
+                  -828.908447,
+                  0,
+                  -1103.26758
+                ]
+              },
+              "last_overlap": [
+                [
+                  -100,
+                  -95.773819,
+                  -90.9369202
+                ],
+                [
+                  100,
+                  104.226181,
+                  109.06308
+                ]
+              ],
+              "last_closest": null,
+              "tree_save": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 135,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 69,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 290,
+              "tree_rebuilds": 1,
+              "tree_rays": 112,
+              "tree_queries": 115,
+              "tree_closest": 0,
+              "last_ray": {
+                "origin": [
+                  -0.08289913833141327,
+                  4.22618293762207,
+                  8.952739715576172
+                ],
+                "translation": [
+                  -828.908447,
+                  0,
+                  -1103.26758
+                ]
+              },
+              "last_overlap": [
+                [
+                  -100,
+                  -95.773819,
+                  -90.9369202
+                ],
+                [
+                  100,
+                  104.226181,
+                  109.06308
+                ]
+              ],
+              "last_closest": null,
+              "tree_save": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 151,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "error": []
+        }
+      ],
+      "loaded": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 85,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_create_proxy": 290,
+          "tree_rebuilds": 1,
+          "tree_rays": 112,
+          "tree_queries": 120,
+          "tree_closest": 0,
+          "last_ray": {
+            "origin": [
+              -0.08289913833141327,
+              4.22618293762207,
+              8.952739715576172
+            ],
+            "translation": [
+              -828.908447,
+              0,
+              -1103.26758
+            ]
+          },
+          "last_overlap": [
+            [
+              -60.8963776,
+              -0.656243324,
+              11.4115067
+            ],
+            [
+              -55.5975189,
+              -0.374351501,
+              16.7103653
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 1,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -90.0399933,
+                  -4.78999996,
+                  -90.0399933
+                ],
+                [
+                  90.0399933,
+                  4.78999996,
+                  90.0399933
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "9b90c3d566ce7bfd"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 185,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      },
+      "scaled": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 116,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -45.0199966,
+                -2.39499998,
+                -45.0199966
+              ],
+              [
+                45.0199966,
+                2.39499998,
+                45.0199966
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "d46a259d84187749"
+          },
+          "tree_create_proxy": 290,
+          "tree_rebuilds": 1,
+          "tree_rays": 112,
+          "tree_queries": 197,
+          "tree_closest": 0,
+          "last_ray": {
+            "origin": [
+              -0.08289913833141327,
+              4.22618293762207,
+              8.952739715576172
+            ],
+            "translation": [
+              -828.908447,
+              0,
+              -1103.26758
+            ]
+          },
+          "last_overlap": [
+            [
+              -38.4308243,
+              -0.759218812,
+              32.456398
+            ],
+            [
+              -21.8110867,
+              0.12492767,
+              49.0761337
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 0.5,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -45.0199966,
+                  -2.39499998,
+                  -45.0199966
+                ],
+                [
+                  45.0199966,
+                  2.39499998,
+                  45.0199966
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "d46a259d84187749"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 263,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      },
+      "reset": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 124,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_create_proxy": 578,
+          "tree_rebuilds": 1,
+          "tree_rays": 112,
+          "tree_queries": 216,
+          "tree_closest": 0,
+          "last_ray": {
+            "origin": [
+              -0.08289913833141327,
+              4.22618293762207,
+              8.952739715576172
+            ],
+            "translation": [
+              -828.908447,
+              0,
+              -1103.26758
+            ]
+          },
+          "last_overlap": [
+            [
+              -38.4308243,
+              -0.759218812,
+              32.456398
+            ],
+            [
+              -21.8110867,
+              0.12492767,
+              49.0761337
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 0.5,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -45.0199966,
+                  -2.39499998,
+                  -45.0199966
+                ],
+                [
+                  45.0199966,
+                  2.39499998,
+                  45.0199966
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "d46a259d84187749"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 291,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      }
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/ui26-runs/ordinary-gpu/receipt.json",
+      "seconds": 7.614281968,
+      "checks": {
+        "Benchmark actual scene/no-body fixture": true,
+        "missing actual failed native load result": true,
+        "missing preserves actual live tree/proxies/bounds/digest": true,
+        "missing actual recovery controls retained": true,
+        "empty actual failed native load result": true,
+        "empty preserves actual live tree/proxies/bounds/digest": true,
+        "empty actual recovery controls retained": true,
+        "invalid version actual failed native load result": true,
+        "invalid version preserves actual live tree/proxies/bounds/digest": true,
+        "invalid version actual recovery controls retained": true,
+        "valid Load commits original tree": true,
+        "Loaded tree actual overlap query runs": true,
+        "Load Scale actualvalue 0.5": true,
+        "Load Scale .5 actual native bounds applied": true,
+        "Scaled loaded tree query remains live": true,
+        "Restart restores native default tree/controls": true,
+        "No physics bodies/picking target invented": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": [],
+      "load_cases": [
+        {
+          "kind": "missing",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 29,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": null,
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 62,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 49,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 113,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "error": []
+        },
+        {
+          "kind": "empty",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 55,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 133,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 63,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 150,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "error": []
+        },
+        {
+          "kind": "invalid version",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 73,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 169,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 81,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 186,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "error": []
+        }
+      ],
+      "loaded": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 97,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_create_proxy": 288,
+          "tree_rebuilds": 0,
+          "tree_rays": 0,
+          "tree_queries": 4,
+          "tree_closest": 0,
+          "last_ray": null,
+          "last_overlap": [
+            [
+              -60.8963776,
+              -0.656243324,
+              11.4115067
+            ],
+            [
+              -55.5975189,
+              -0.374351501,
+              16.7103653
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 1,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -90.0399933,
+                  -4.78999996,
+                  -90.0399933
+                ],
+                [
+                  90.0399933,
+                  4.78999996,
+                  90.0399933
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "9b90c3d566ce7bfd"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 220,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      },
+      "scaled": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 126,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -45.0199966,
+                -2.39499998,
+                -45.0199966
+              ],
+              [
+                45.0199966,
+                2.39499998,
+                45.0199966
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "d46a259d84187749"
+          },
+          "tree_create_proxy": 288,
+          "tree_rebuilds": 0,
+          "tree_rays": 0,
+          "tree_queries": 81,
+          "tree_closest": 0,
+          "last_ray": null,
+          "last_overlap": [
+            [
+              -38.4308243,
+              -0.759218812,
+              32.456398
+            ],
+            [
+              -21.8110867,
+              0.12492767,
+              49.0761337
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 0.5,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -45.0199966,
+                  -2.39499998,
+                  -45.0199966
+                ],
+                [
+                  45.0199966,
+                  2.39499998,
+                  45.0199966
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "d46a259d84187749"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 296,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      },
+      "reset": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 134,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_create_proxy": 576,
+          "tree_rebuilds": 0,
+          "tree_rays": 0,
+          "tree_queries": 98,
+          "tree_closest": 0,
+          "last_ray": null,
+          "last_overlap": [
+            [
+              -38.4308243,
+              -0.759218812,
+              32.456398
+            ],
+            [
+              -21.8110867,
+              0.12492767,
+              49.0761337
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 0.5,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -45.0199966,
+                  -2.39499998,
+                  -45.0199966
+                ],
+                [
+                  45.0199966,
+                  2.39499998,
+                  45.0199966
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "d46a259d84187749"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 323,
+          "world": [
+            1,
+            3
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      }
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/ui26-runs/native-gpu/receipt.json",
+      "seconds": 7.711153824,
+      "checks": {
+        "Benchmark actual scene/no-body fixture": true,
+        "missing actual failed native load result": true,
+        "missing preserves actual live tree/proxies/bounds/digest": true,
+        "missing actual recovery controls retained": true,
+        "empty actual failed native load result": true,
+        "empty preserves actual live tree/proxies/bounds/digest": true,
+        "empty actual recovery controls retained": true,
+        "invalid version actual failed native load result": true,
+        "invalid version preserves actual live tree/proxies/bounds/digest": true,
+        "invalid version actual recovery controls retained": true,
+        "valid Load commits original tree": true,
+        "Loaded tree actual overlap query runs": true,
+        "Load Scale actualvalue 0.5": true,
+        "Load Scale .5 actual native bounds applied": true,
+        "Scaled loaded tree query remains live": true,
+        "Restart restores native default tree/controls": true,
+        "No physics bodies/picking target invented": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": [],
+      "load_cases": [
+        {
+          "kind": "missing",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 29,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": null,
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 64,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 49,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 115,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "error": []
+        },
+        {
+          "kind": "empty",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 55,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 133,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 63,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 151,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "error": []
+        },
+        {
+          "kind": "invalid version",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 73,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 171,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 81,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 187,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "error": []
+        }
+      ],
+      "loaded": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 97,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_create_proxy": 288,
+          "tree_rebuilds": 0,
+          "tree_rays": 0,
+          "tree_queries": 5,
+          "tree_closest": 0,
+          "last_ray": null,
+          "last_overlap": [
+            [
+              -60.8963776,
+              -0.656243324,
+              11.4115067
+            ],
+            [
+              -55.5975189,
+              -0.374351501,
+              16.7103653
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 1,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -90.0399933,
+                  -4.78999996,
+                  -90.0399933
+                ],
+                [
+                  90.0399933,
+                  4.78999996,
+                  90.0399933
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "9b90c3d566ce7bfd"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 220,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      },
+      "scaled": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 126,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -45.0199966,
+                -2.39499998,
+                -45.0199966
+              ],
+              [
+                45.0199966,
+                2.39499998,
+                45.0199966
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "d46a259d84187749"
+          },
+          "tree_create_proxy": 288,
+          "tree_rebuilds": 0,
+          "tree_rays": 0,
+          "tree_queries": 82,
+          "tree_closest": 0,
+          "last_ray": null,
+          "last_overlap": [
+            [
+              -38.4308243,
+              -0.759218812,
+              32.456398
+            ],
+            [
+              -21.8110867,
+              0.12492767,
+              49.0761337
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 0.5,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -45.0199966,
+                  -2.39499998,
+                  -45.0199966
+                ],
+                [
+                  45.0199966,
+                  2.39499998,
+                  45.0199966
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "d46a259d84187749"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 296,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      },
+      "reset": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 134,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_create_proxy": 576,
+          "tree_rebuilds": 0,
+          "tree_rays": 0,
+          "tree_queries": 99,
+          "tree_closest": 0,
+          "last_ray": null,
+          "last_overlap": [
+            [
+              -38.4308243,
+              -0.759218812,
+              32.456398
+            ],
+            [
+              -21.8110867,
+              0.12492767,
+              49.0761337
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 0.5,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -45.0199966,
+                  -2.39499998,
+                  -45.0199966
+                ],
+                [
+                  45.0199966,
+                  2.39499998,
+                  45.0199966
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "d46a259d84187749"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 324,
+          "world": [
+            1,
+            3
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      }
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui26-runs/ordinary-both/receipt.json",
+      "seconds": 7.758601387000001,
+      "checks": {
+        "Benchmark actual scene/no-body fixture": true,
+        "missing actual failed native load result": true,
+        "missing preserves actual live tree/proxies/bounds/digest": true,
+        "missing actual recovery controls retained": true,
+        "empty actual failed native load result": true,
+        "empty preserves actual live tree/proxies/bounds/digest": true,
+        "empty actual recovery controls retained": true,
+        "invalid version actual failed native load result": true,
+        "invalid version preserves actual live tree/proxies/bounds/digest": true,
+        "invalid version actual recovery controls retained": true,
+        "valid Load commits original tree": true,
+        "Loaded tree actual overlap query runs": true,
+        "Load Scale actualvalue 0.5": true,
+        "Load Scale .5 actual native bounds applied": true,
+        "Scaled loaded tree query remains live": true,
+        "Restart restores native default tree/controls": true,
+        "No physics bodies/picking target invented": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": [],
+      "load_cases": [
+        {
+          "kind": "missing",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 29,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": null,
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 64,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 49,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 114,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "error": []
+        },
+        {
+          "kind": "empty",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 55,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 135,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 63,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 153,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "error": []
+        },
+        {
+          "kind": "invalid version",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 73,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 172,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 81,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 189,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "error": []
+        }
+      ],
+      "loaded": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 97,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_create_proxy": 288,
+          "tree_rebuilds": 0,
+          "tree_rays": 0,
+          "tree_queries": 5,
+          "tree_closest": 0,
+          "last_ray": null,
+          "last_overlap": [
+            [
+              -60.8963776,
+              -0.656243324,
+              11.4115067
+            ],
+            [
+              -55.5975189,
+              -0.374351501,
+              16.7103653
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 1,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -90.0399933,
+                  -4.78999996,
+                  -90.0399933
+                ],
+                [
+                  90.0399933,
+                  4.78999996,
+                  90.0399933
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "9b90c3d566ce7bfd"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 223,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0,
+          "cpu_world": [
+            1,
+            1
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "scaled": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 126,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -45.0199966,
+                -2.39499998,
+                -45.0199966
+              ],
+              [
+                45.0199966,
+                2.39499998,
+                45.0199966
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "d46a259d84187749"
+          },
+          "tree_create_proxy": 288,
+          "tree_rebuilds": 0,
+          "tree_rays": 0,
+          "tree_queries": 82,
+          "tree_closest": 0,
+          "last_ray": null,
+          "last_overlap": [
+            [
+              -38.4308243,
+              -0.759218812,
+              32.456398
+            ],
+            [
+              -21.8110867,
+              0.12492767,
+              49.0761337
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 0.5,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -45.0199966,
+                  -2.39499998,
+                  -45.0199966
+                ],
+                [
+                  45.0199966,
+                  2.39499998,
+                  45.0199966
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "d46a259d84187749"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 301,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0,
+          "cpu_world": [
+            1,
+            1
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "reset": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 134,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_create_proxy": 576,
+          "tree_rebuilds": 0,
+          "tree_rays": 0,
+          "tree_queries": 100,
+          "tree_closest": 0,
+          "last_ray": null,
+          "last_overlap": [
+            [
+              -38.4308243,
+              -0.759218812,
+              32.456398
+            ],
+            [
+              -21.8110867,
+              0.12492767,
+              49.0761337
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 0.5,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -45.0199966,
+                  -2.39499998,
+                  -45.0199966
+                ],
+                [
+                  45.0199966,
+                  2.39499998,
+                  45.0199966
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "d46a259d84187749"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 328,
+          "world": [
+            1,
+            3
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0,
+          "cpu_world": [
+            1,
+            2
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/ui26-runs/native-both/receipt.json",
+      "seconds": 7.768974536000001,
+      "checks": {
+        "Benchmark actual scene/no-body fixture": true,
+        "missing actual failed native load result": true,
+        "missing preserves actual live tree/proxies/bounds/digest": true,
+        "missing actual recovery controls retained": true,
+        "empty actual failed native load result": true,
+        "empty preserves actual live tree/proxies/bounds/digest": true,
+        "empty actual recovery controls retained": true,
+        "invalid version actual failed native load result": true,
+        "invalid version preserves actual live tree/proxies/bounds/digest": true,
+        "invalid version actual recovery controls retained": true,
+        "valid Load commits original tree": true,
+        "Loaded tree actual overlap query runs": true,
+        "Load Scale actualvalue 0.5": true,
+        "Load Scale .5 actual native bounds applied": true,
+        "Scaled loaded tree query remains live": true,
+        "Restart restores native default tree/controls": true,
+        "No physics bodies/picking target invented": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": [],
+      "load_cases": [
+        {
+          "kind": "missing",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 29,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": null,
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 64,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 49,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 115,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "error": []
+        },
+        {
+          "kind": "empty",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 55,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 136,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 63,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": null,
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 155,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "error": []
+        },
+        {
+          "kind": "invalid version",
+          "before": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 73,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 175,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "after": {
+            "h": {
+              "api": "sample_host_controls",
+              "request": 81,
+              "camera": {
+                "third_person": false,
+                "pivot": [
+                  0,
+                  0,
+                  0
+                ],
+                "radius": 250,
+                "yaw": 0.785398185,
+                "pitch": 0.785398185
+              },
+              "mover": null,
+              "tree": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_create_proxy": 288,
+              "tree_rebuilds": 0,
+              "tree_rays": 0,
+              "tree_queries": 0,
+              "tree_closest": 0,
+              "last_ray": null,
+              "last_overlap": null,
+              "last_closest": null,
+              "tree_save": {
+                "proxies": 288,
+                "nodes": 575,
+                "height": 11,
+                "bytes": 49184,
+                "bounds": [
+                  [
+                    -90.0399933,
+                    -4.78999996,
+                    -90.0399933
+                  ],
+                  [
+                    90.0399933,
+                    4.78999996,
+                    90.0399933
+                  ]
+                ],
+                "leaves": 288,
+                "leaf_digest": "9b90c3d566ce7bfd"
+              },
+              "tree_load": {
+                "scale": 1,
+                "tree": null
+              },
+              "screen_labels": []
+            },
+            "state": {
+              "frame": 191,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 0,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "error": []
+        }
+      ],
+      "loaded": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 97,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_create_proxy": 288,
+          "tree_rebuilds": 0,
+          "tree_rays": 0,
+          "tree_queries": 5,
+          "tree_closest": 0,
+          "last_ray": null,
+          "last_overlap": [
+            [
+              -60.8963776,
+              -0.656243324,
+              11.4115067
+            ],
+            [
+              -55.5975189,
+              -0.374351501,
+              16.7103653
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 1,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -90.0399933,
+                  -4.78999996,
+                  -90.0399933
+                ],
+                [
+                  90.0399933,
+                  4.78999996,
+                  90.0399933
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "9b90c3d566ce7bfd"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 226,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0,
+          "cpu_world": [
+            1,
+            1
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "scaled": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 126,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -45.0199966,
+                -2.39499998,
+                -45.0199966
+              ],
+              [
+                45.0199966,
+                2.39499998,
+                45.0199966
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "d46a259d84187749"
+          },
+          "tree_create_proxy": 288,
+          "tree_rebuilds": 0,
+          "tree_rays": 0,
+          "tree_queries": 81,
+          "tree_closest": 0,
+          "last_ray": null,
+          "last_overlap": [
+            [
+              -38.4308243,
+              -0.759218812,
+              32.456398
+            ],
+            [
+              -21.8110867,
+              0.12492767,
+              49.0761337
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 0.5,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -45.0199966,
+                  -2.39499998,
+                  -45.0199966
+                ],
+                [
+                  45.0199966,
+                  2.39499998,
+                  45.0199966
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "d46a259d84187749"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 302,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0,
+          "cpu_world": [
+            1,
+            1
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      "reset": {
+        "h": {
+          "api": "sample_host_controls",
+          "request": 134,
+          "camera": {
+            "third_person": false,
+            "pivot": [
+              0,
+              0,
+              0
+            ],
+            "radius": 250,
+            "yaw": 0.785398185,
+            "pitch": 0.785398185
+          },
+          "mover": null,
+          "tree": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_create_proxy": 576,
+          "tree_rebuilds": 0,
+          "tree_rays": 0,
+          "tree_queries": 100,
+          "tree_closest": 0,
+          "last_ray": null,
+          "last_overlap": [
+            [
+              -38.4308243,
+              -0.759218812,
+              32.456398
+            ],
+            [
+              -21.8110867,
+              0.12492767,
+              49.0761337
+            ]
+          ],
+          "last_closest": null,
+          "tree_save": {
+            "proxies": 288,
+            "nodes": 575,
+            "height": 11,
+            "bytes": 49184,
+            "bounds": [
+              [
+                -90.0399933,
+                -4.78999996,
+                -90.0399933
+              ],
+              [
+                90.0399933,
+                4.78999996,
+                90.0399933
+              ]
+            ],
+            "leaves": 288,
+            "leaf_digest": "9b90c3d566ce7bfd"
+          },
+          "tree_load": {
+            "scale": 0.5,
+            "tree": {
+              "proxies": 288,
+              "nodes": 575,
+              "height": 11,
+              "bytes": 49184,
+              "bounds": [
+                [
+                  -45.0199966,
+                  -2.39499998,
+                  -45.0199966
+                ],
+                [
+                  45.0199966,
+                  2.39499998,
+                  45.0199966
+                ]
+              ],
+              "leaves": 288,
+              "leaf_digest": "d46a259d84187749"
+            }
+          },
+          "screen_labels": []
+        },
+        "state": {
+          "frame": 329,
+          "world": [
+            1,
+            3
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0,
+          "cpu_world": [
+            1,
+            2
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    }
+  ],
+  "media": {
+    "grids": [
+      {
+        "path": "tree-missing-file-before-grid.png",
+        "sha256": "db69c23e154f372251b782919d139b54dec1f3d113788d3b73e281740095c337"
+      },
+      {
+        "path": "ui26-after-grid.png",
+        "sha256": "8bfd59d1433f49d5bae35a28930ecf7e30b193462da9753caf6fc9632cd29ab1"
+      }
+    ],
+    "after": [
+      {
+        "route": "cpu",
+        "fixture": "tree-load-repair",
+        "state": "missing-load",
+        "path": "raw/ui26-runs/cpu/missing-load.png",
+        "sha256": "571583debd66e4525b3cd4a53e454493ca50697f10b8d765ec66f595dc404736"
+      },
+      {
+        "route": "cpu",
+        "fixture": "tree-load-repair",
+        "state": "loaded",
+        "path": "raw/ui26-runs/cpu/loaded.png",
+        "sha256": "b9fb5407e307789722168607f0e673f045956b16e5930467d0940ae54f616248"
+      },
+      {
+        "route": "cpu",
+        "fixture": "tree-load-repair",
+        "state": "scaled",
+        "path": "raw/ui26-runs/cpu/scaled.png",
+        "sha256": "5ffdb01a319beefc7df464f20e7ef6b02a5042fa55c700f7a82dea854f6a6658"
+      },
+      {
+        "route": "cpu",
+        "fixture": "tree-load-repair",
+        "state": "restart",
+        "path": "raw/ui26-runs/cpu/restart.png",
+        "sha256": "ac1ce5ac55687204867d51a3f0b4752835c6b574df86f2ba58de5635ffbfc104"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "tree-load-repair",
+        "state": "missing-load",
+        "path": "raw/ui26-runs/ordinary-gpu/missing-load.png",
+        "sha256": "20d483e167f2bd72d09c1170cbaf4982a7b6c7cec02ae5ce630837f416aba6aa"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "tree-load-repair",
+        "state": "loaded",
+        "path": "raw/ui26-runs/ordinary-gpu/loaded.png",
+        "sha256": "968ff003c2399170973e646ab2ac3752a7aad567649d6ae02bd758009167c1ca"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "tree-load-repair",
+        "state": "scaled",
+        "path": "raw/ui26-runs/ordinary-gpu/scaled.png",
+        "sha256": "a422a5b731a5b2333b4490a1ac2c822658cb51585c29541af0993d3745659675"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "tree-load-repair",
+        "state": "restart",
+        "path": "raw/ui26-runs/ordinary-gpu/restart.png",
+        "sha256": "770bc886b0d6db1c8121dd6cc8cfa8917ac6125818f2cbb75a6d2f2057ff6beb"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "tree-load-repair",
+        "state": "missing-load",
+        "path": "raw/ui26-runs/native-gpu/missing-load.png",
+        "sha256": "19cbe1ec502169e1c70517ceeffa34a25d20402208ee92eda6872cbb2b8ad969"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "tree-load-repair",
+        "state": "loaded",
+        "path": "raw/ui26-runs/native-gpu/loaded.png",
+        "sha256": "968ff003c2399170973e646ab2ac3752a7aad567649d6ae02bd758009167c1ca"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "tree-load-repair",
+        "state": "scaled",
+        "path": "raw/ui26-runs/native-gpu/scaled.png",
+        "sha256": "a422a5b731a5b2333b4490a1ac2c822658cb51585c29541af0993d3745659675"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "tree-load-repair",
+        "state": "restart",
+        "path": "raw/ui26-runs/native-gpu/restart.png",
+        "sha256": "1b10a364fe994ea0eb2819156382e9c5b20c747bebe1c21275a8bd920fc88aa8"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "tree-load-repair",
+        "state": "missing-load",
+        "path": "raw/ui26-runs/ordinary-both/missing-load.png",
+        "sha256": "923a742d8c7fcab3289b45440a607f2b5527417436ca2045800b761231faa252"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "tree-load-repair",
+        "state": "loaded",
+        "path": "raw/ui26-runs/ordinary-both/loaded.png",
+        "sha256": "c6d78d32aa9c01d9ea916846d634c677ccc250aa4ac6c6d56099b7c3da09d058"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "tree-load-repair",
+        "state": "scaled",
+        "path": "raw/ui26-runs/ordinary-both/scaled.png",
+        "sha256": "d2e7866faeea6e86e79e46f3d356d6f84546cf779170327655b753996412295f"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "tree-load-repair",
+        "state": "restart",
+        "path": "raw/ui26-runs/ordinary-both/restart.png",
+        "sha256": "59456c401f47643a644288a87b24bf877cf7975be9db68b6eb32dc4d87a4cd36"
+      },
+      {
+        "route": "native-both",
+        "fixture": "tree-load-repair",
+        "state": "missing-load",
+        "path": "raw/ui26-runs/native-both/missing-load.png",
+        "sha256": "0764bacc67574f012059de2b3b4bd251658a5d724b65aa0f91dc20c23adc66e2"
+      },
+      {
+        "route": "native-both",
+        "fixture": "tree-load-repair",
+        "state": "loaded",
+        "path": "raw/ui26-runs/native-both/loaded.png",
+        "sha256": "c6d78d32aa9c01d9ea916846d634c677ccc250aa4ac6c6d56099b7c3da09d058"
+      },
+      {
+        "route": "native-both",
+        "fixture": "tree-load-repair",
+        "state": "scaled",
+        "path": "raw/ui26-runs/native-both/scaled.png",
+        "sha256": "d2e7866faeea6e86e79e46f3d356d6f84546cf779170327655b753996412295f"
+      },
+      {
+        "route": "native-both",
+        "fixture": "tree-load-repair",
+        "state": "restart",
+        "path": "raw/ui26-runs/native-both/restart.png",
+        "sha256": "828b2ab1817a89cd5dc673ae073b3119475dbfe0398301d5ee07d8ac30d1dd6a"
+      }
+    ],
+    "inspection": "Original CPU-first before/recovery grid and all20after gridcells inspected; actionable failure text/recovery visible allfive, error clears on valid Load. OrdinaryGPU missing/loaded also inspected individually",
+    "caption": "RealCPUfirst. Originalmissing Load destroys tree/hides controls; aftermissing Load retains288proxy tree and error/recovery. Valid load clears error, .5scale applies actual native bounds, restart restores original defaults."
+  },
+  "applicability": [
+    {
+      "cpu_identity": "Tree/Benchmark",
+      "routes": [
+        "cpu",
+        "ordinary-gpu",
+        "native-gpu",
+        "ordinary-both",
+        "native-both"
+      ],
+      "method": "ACTUAL_NATIVE_LOAD_RETURN_TREE_IDENTITY_BOUNDS_AND_UI",
+      "scope": "Missing/empty/version-invalid preserve live leaf digest/bounds/count; visible samefailurebranch message inspected perroute, validnativeSave/Load/.5scale/query/defaultrestart. Native no-world-body tool:0bodies/shapes, no picking target invented."
+    }
+  ],
+  "limitations": [
+    "CPU3error item-list predicates were invalid because observer doesnotwrap TextWrapped; native tree effects passed and actualmissing PNG shows error/recovery. Same native empty-result branch covers3failurecases. Originalflags preserved; CPUdata/images reused,0CPUretries. Other4routes use actualcontrol predicates plus manualerror/clearing screenshots.",
+    "Missing/empty and full-zero/version-invalid files checked. Arbitrary partially corrupt headers/pointers/node graphs remain native parser contract/unqualified; no parser hardening/fuzzing or Box3D engine edits.",
+    "Short paused UI/native tree fixtures, not PR11 numericalquery or solver qualification. OtherPR10issues/OBS01–03/freshcompatibility/finalaffectedscene recordings/criterionaudit remainopen;PR10unchecked/no commitpush."
+  ],
+  "resources": {
+    "status": "CLOSED",
+    "retained_bytes": 10900222,
+    "raw_retained_bytes": 877439451,
+    "deleted_bytes": 5583342,
+    "owned_pids_absent": [
+      722596,
+      722581,
+      727494,
+      727452,
+      728015,
+      728000,
+      728639,
+      728621,
+      729294,
+      729276
+    ],
+    "owned_core_files": [],
+    "shared_cache_growth_bytes": 0,
+    "free_bytes": 1707605876736,
+    "consumer": "Current5viewers/39directtaskobjects/generatedTreeclass plus priorinputs nextPR10relink; minimal tree failure/load/scale/query/native digest/UI evidence finalaudit",
+    "retained_diagnostic_bytes": 13184872,
+    "consumed_logs": [
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/tree-generation.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/timing/source/module identities/native load results/tree digests/UI pixels extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/tree-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/timing/source/module identities/native load results/tree digests/UI pixels extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/cpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/timing/source/module identities/native load results/tree digests/UI pixels extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/cpu-check.log",
+        "bytes": 259,
+        "sha256": "485e2d2364ee5745c959ff6bab400d120cb9e1519fc3619dec018479397d0804",
+        "consumer": "Commands/timing/source/module identities/native load results/tree digests/UI pixels extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/ordinary-gpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/timing/source/module identities/native load results/tree digests/UI pixels extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/ordinary-gpu-check.log",
+        "bytes": 61,
+        "sha256": "31f41f97f0227b21dc178625b88310792e86ee5a2e152cf77d29787b20ad31cf",
+        "consumer": "Commands/timing/source/module identities/native load results/tree digests/UI pixels extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/native-gpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/timing/source/module identities/native load results/tree digests/UI pixels extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/native-gpu-check.log",
+        "bytes": 57,
+        "sha256": "c36984272e10a6a903a98099870d7ce721c21d1d2ce219135d07c4969d9e4bd9",
+        "consumer": "Commands/timing/source/module identities/native load results/tree digests/UI pixels extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/ordinary-both-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/timing/source/module identities/native load results/tree digests/UI pixels extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/ordinary-both-check.log",
+        "bytes": 63,
+        "sha256": "af3572ba837ea8030e111709ed30cc08f6937a3a3a43cf66268f7b7d8271f809",
+        "consumer": "Commands/timing/source/module identities/native load results/tree digests/UI pixels extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/native-both-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/timing/source/module identities/native load results/tree digests/UI pixels extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/native-both-check.log",
+        "bytes": 59,
+        "sha256": "182cb1064943131285f11d40e2e045029662b61d19d707057fe7a8e944df28b5",
+        "consumer": "Commands/timing/source/module identities/native load results/tree digests/UI pixels extracted"
+      }
+    ],
+    "deleted_log_bytes": 499,
+    "deleted_build_bytes": 166630256,
+    "owned_all_pids_absent": [
+      722424,
+      722435,
+      722570,
+      722581,
+      727381,
+      727452,
+      727909,
+      728000,
+      728537,
+      728621,
+      729145,
+      729276,
+      722596,
+      727494,
+      728015,
+      728639,
+      729294
+    ],
+    "active_task_objects": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-build/diagnostic-human.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-build/lifetime-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/preview-bounds.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-overlay.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/projection-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui17-build/cache-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/draw.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/key-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui07-trace-completion-build/camera-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/cpu-adapter.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-material-build/material-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/hud-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui17-build/ui-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/sample_collision_ui.cpp.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-build/cpu-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui14-build/sample_manifold_ui.cpp.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/cpu-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/sample_tree_ui.cpp.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-renderer-observed.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/input-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/heightfield-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-build/replacement-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/key-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/ui-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/gpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/loading.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/gpu-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-build/ordinary-gpu-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-gpu-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/both-overlay.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-trace-build/selection-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/both-adapter.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/both-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/both-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-build/ordinary-both-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-both-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/both-renderer-observed.c.o"
+    ],
+    "active_carriers": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/libgpu_samples_api.a",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/libgpu_both_api.a",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/libgpu_both_samples_api.a"
+    ],
+    "needed_module_objects": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/shim.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/both_dual.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/api-standalone/samples_api.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/api-both/samples_api.c.o"
+    ],
+    "loading_objects": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/loading.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/gpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/both-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/ui-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/key-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/input-observer.o"
+    ],
+    "active_tree_object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui26-build/sample_tree_ui.cpp.o"
+  }
+}

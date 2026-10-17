@@ -1,0 +1,3788 @@
+{
+  "status": "THIRTEEN_WIDGET_REVIEW_DISPOSITIONS_WITH_UI29_AND_EXISTING_PR02_DEFAULT_FILTER_GAP",
+  "widget_entries": 13,
+  "samples": 3,
+  "custom_input_groups": 0,
+  "routes_CPU_first": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "rows": [
+    {
+      "fixture": "mesh",
+      "route": "cpu",
+      "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 37,
+      "findings": [
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 1",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 2",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 3",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop amplitude 0 actual mesh AABB",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/cpu/initial.png",
+          "sha256": "346ef18b6b970767882d782536f6c8e0e1e9c8286826f10173758b8cc8d6f82f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 77,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0
+          }
+        },
+        "flat": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/cpu/flat.png",
+          "sha256": "91f78fe2f05a31fbaea333dc490b509016af5705a9b846eff6655e0b1d229b80",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 304,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0
+          }
+        },
+        "auto-off": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/cpu/auto-off.png",
+          "sha256": "fcd5193339610f7a25fc417453d3d12887b2693fd14f17f385c218f15d8b0c07",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 511,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "wind",
+      "route": "cpu",
+      "receipt": "raw/mutation-force-runs/wind/cpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 38,
+      "findings": [
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 1",
+        "Wind actual body/shape counts 12",
+        "Wind actual body/shape counts 10"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/cpu/initial.png",
+          "sha256": "5936599aaf6b5b5968598eedffd80c4cb390e950e4633ae9055b88d4a32f9c04",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 11,
+            "move_count": 0
+          }
+        },
+        "one-link": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/cpu/one-link.png",
+          "sha256": "d016f869ce7d2ecd0e6d510a8a553c09ecff2b589380072f704c864f7c82e441",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 248,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        },
+        "restarted": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/cpu/restarted.png",
+          "sha256": "7f72ae5bc423f64994b751a2f09bffa43b5ab8d4796542ae35cb2dd545adafc1",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 643,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 11,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "trees",
+      "route": "cpu",
+      "receipt": "raw/mutation-force-runs/trees/cpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 15,
+      "findings": [
+        "Trees 1 actual original bodies/hulls",
+        "Trees 2 actual original bodies/hulls",
+        "Trees 4 actual original bodies/hulls",
+        "Trees 1 actual original bodies/hulls"
+      ],
+      "screenshots": {
+        "100cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/cpu/100cm.png",
+          "sha256": "3b3330455d0c9356c9a6d3138d68b1ef4caa4d1b69b4b0a08257d931006ca1a1",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 78,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0
+          }
+        },
+        "50cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/cpu/50cm.png",
+          "sha256": "f4efd880bad27751af80b127fc9f36389b0b9b29cd3e3ae70443bd2e3e1cc05a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 117,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0
+          }
+        },
+        "25cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/cpu/25cm.png",
+          "sha256": "430b8916e6b67c3d2c551c824a71d414aaba34aa9e528cb6c79c0c1f6c62576a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 159,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mesh",
+      "route": "ordinary-gpu",
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 37,
+      "findings": [
+        "MeshDrop actual counts/type 0",
+        "MeshDrop actual counts/type 1",
+        "MeshDrop actual counts/type 2",
+        "MeshDrop actual counts/type 3",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop amplitude 0 actual mesh AABB",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop actual counts/type 0",
+        "Auto Generate off stops recreation"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/ordinary-gpu/initial.png",
+          "sha256": "6c6a1b6bdc48b73d2067cd9e7d64cb876fd8949edffbf66d541852d7d7ef0343",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 78,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0
+          }
+        },
+        "flat": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/ordinary-gpu/flat.png",
+          "sha256": "dcb901c7b3b0936cc0041886ccacd64c3218bc16e237566b863338143cab6299",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 316,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0
+          }
+        },
+        "auto-off": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/ordinary-gpu/auto-off.png",
+          "sha256": "8cfd8359f4b5bfedb1199688c32f25343e3b9e030faf33a24461560ee89d600b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 478,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "wind",
+      "route": "ordinary-gpu",
+      "receipt": "raw/mutation-force-runs/wind/ordinary-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 38,
+      "findings": [
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 1",
+        "Wind actual body/shape counts 12",
+        "Wind actual body/shape counts 10"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/ordinary-gpu/initial.png",
+          "sha256": "233fac1fa9e73a986da12e27d78e3698d8011373ea85507c76525cabe8f5a507",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 11,
+            "move_count": 0
+          }
+        },
+        "one-link": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/ordinary-gpu/one-link.png",
+          "sha256": "76beda300492a8c35f4f009ebaf93ab70a1376b682f1bee8097d66bf56641564",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 264,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        },
+        "restarted": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/ordinary-gpu/restarted.png",
+          "sha256": "583c72962469bb4dfdac7cb28d523441bfa8ae008904a4c78956bb185ef1fad4",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 650,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 11,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "trees",
+      "route": "ordinary-gpu",
+      "receipt": "raw/mutation-force-runs/trees/ordinary-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 15,
+      "findings": [
+        "Trees 1 actual original bodies/hulls",
+        "Trees 2 actual original bodies/hulls",
+        "Trees 4 actual original bodies/hulls",
+        "Trees 1 actual original bodies/hulls"
+      ],
+      "screenshots": {
+        "100cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/ordinary-gpu/100cm.png",
+          "sha256": "bd92f1c214a4ff8bc3a0b4b41946a1faa6300046b602161e781e904607501cfd",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 80,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0
+          }
+        },
+        "50cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/ordinary-gpu/50cm.png",
+          "sha256": "de5bee3083b4293aae7889f21631c2b9e4afcc7f9ec4ff989b10f6b42ac41a54",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 139,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0
+          }
+        },
+        "25cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/ordinary-gpu/25cm.png",
+          "sha256": "c9ed18e42a99c7f2726b5fb9c18a8f933e5e9d598b0b3b79de56822c592f244b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 175,
+            "world": [
+              1,
+              4
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mesh",
+      "route": "native-gpu",
+      "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 37,
+      "findings": [
+        "MeshDrop actual counts/type 0",
+        "MeshDrop actual counts/type 1",
+        "MeshDrop actual counts/type 2",
+        "MeshDrop actual counts/type 3",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop amplitude 0 actual mesh AABB",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop actual counts/type 0",
+        "Auto Generate off stops recreation"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/native-gpu/initial.png",
+          "sha256": "835b6ed8acaa890e7837a99d8a564093c465feb51d41436656c41d856d2acea9",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 79,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0
+          }
+        },
+        "flat": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/native-gpu/flat.png",
+          "sha256": "77cda203997d9cd6e446a2ba7d35fea815c4d1d6f137e4b2bbf3c4fe631f9804",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 315,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0
+          }
+        },
+        "auto-off": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/native-gpu/auto-off.png",
+          "sha256": "8cfd8359f4b5bfedb1199688c32f25343e3b9e030faf33a24461560ee89d600b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 474,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "wind",
+      "route": "native-gpu",
+      "receipt": "raw/mutation-force-runs/wind/native-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 38,
+      "findings": [
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 1",
+        "Wind actual body/shape counts 12",
+        "Wind actual body/shape counts 10"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/native-gpu/initial.png",
+          "sha256": "cb6c289243875338fe973da6e3e08ed5ba1e605097a8bb3830eb058f2036e5fd",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 11,
+            "move_count": 0
+          }
+        },
+        "one-link": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/native-gpu/one-link.png",
+          "sha256": "a5e33ea3b4031b483c1d78a80def88c7e1b8a02e4ee4d5d537c839a750fd6495",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 269,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        },
+        "restarted": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/native-gpu/restarted.png",
+          "sha256": "ed6f0abac62d9237d23af2c30db408346dd091a9edf3d0233eaedb2d894439db",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 650,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 11,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "trees",
+      "route": "native-gpu",
+      "receipt": "raw/mutation-force-runs/trees/native-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 15,
+      "findings": [
+        "Trees 1 actual original bodies/hulls",
+        "Trees 2 actual original bodies/hulls",
+        "Trees 4 actual original bodies/hulls",
+        "Trees 1 actual original bodies/hulls"
+      ],
+      "screenshots": {
+        "100cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/native-gpu/100cm.png",
+          "sha256": "a70be4b7778228a72c683906515474f6c959c539591c4db210a11bfe5c37625f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 78,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0
+          }
+        },
+        "50cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/native-gpu/50cm.png",
+          "sha256": "78f8c0560c8eec8e32412934d35ca3647f054bc90a1c957411d262a22a13a581",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 133,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0
+          }
+        },
+        "25cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/native-gpu/25cm.png",
+          "sha256": "8a5917cba3e6e5cb37e81bf91c3e1f614b90faf1dc8534fa3108a2d19286198f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 168,
+            "world": [
+              1,
+              4
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mesh",
+      "route": "ordinary-both",
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 37,
+      "findings": [
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 1",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 2",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 3",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop amplitude 0 actual mesh AABB",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "Auto Generate off stops recreation"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/ordinary-both/initial.png",
+          "sha256": "f7cebbc1f97fae2675b9007a2cc409d53f98e9b89564bec37f93902d14f492eb",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 80,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "flat": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/ordinary-both/flat.png",
+          "sha256": "13301899f5e0a4fb8cc6b62f50994b310ba88b50cd73fde23d841500c8860437",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 328,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "auto-off": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/ordinary-both/auto-off.png",
+          "sha256": "8cfd8359f4b5bfedb1199688c32f25343e3b9e030faf33a24461560ee89d600b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 518,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "wind",
+      "route": "ordinary-both",
+      "receipt": "raw/mutation-force-runs/wind/ordinary-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 38,
+      "findings": [
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 1",
+        "Wind actual body/shape counts 12",
+        "Wind actual body/shape counts 10"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/ordinary-both/initial.png",
+          "sha256": "a3a5c201d58a7f5d84d748b94297de3e2fe3f1a5aad3cbe739b387e83ef997fd",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 11,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "one-link": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/ordinary-both/one-link.png",
+          "sha256": "aef6fe19367e8ab2719e5cfcfa0c1791961a560bed1fe4a7fe177181000a0a0d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 290,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 2,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "restarted": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/ordinary-both/restarted.png",
+          "sha256": "4951c3690b8d4ed117a159a94a6707cf4f5c38701896ec4de20011c452ff66bf",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 688,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 11,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              2
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "trees",
+      "route": "ordinary-both",
+      "receipt": "raw/mutation-force-runs/trees/ordinary-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 15,
+      "findings": [
+        "Trees 1 actual original bodies/hulls",
+        "Trees 2 actual original bodies/hulls",
+        "Trees 4 actual original bodies/hulls",
+        "Trees 1 actual original bodies/hulls"
+      ],
+      "screenshots": {
+        "100cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/ordinary-both/100cm.png",
+          "sha256": "dbf941eee478fb0a88d8237496b7747728215d31d9e780ebc0acca59416bd0cb",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 78,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "50cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/ordinary-both/50cm.png",
+          "sha256": "28feb71f27514cccec51ba7b174ec648f14bb54d20752cc668f6c46007324d83",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 138,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              2
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "25cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/ordinary-both/25cm.png",
+          "sha256": "957067d0275b365bccbde4176b9df60abbbcc7d3e949a8eaa8618b74497e38a1",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 171,
+            "world": [
+              1,
+              4
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              3
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mesh",
+      "route": "native-both",
+      "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 37,
+      "findings": [
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 1",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 2",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 3",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop amplitude 0 actual mesh AABB",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "MeshDrop actual counts/type 0",
+        "MeshDrop collide true actual filter and fixed setup",
+        "Auto Generate off stops recreation"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/native-both/initial.png",
+          "sha256": "267eda3eecb314f0a8294b22bd4599ea737a4c8e47eb783263c0dfcc53bdd9b5",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 78,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "flat": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/native-both/flat.png",
+          "sha256": "a90285f723a29789cf5734de471425968b8f597c0a2a960053b5b13b9be82d50",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 323,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "auto-off": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/mesh/native-both/auto-off.png",
+          "sha256": "8cfd8359f4b5bfedb1199688c32f25343e3b9e030faf33a24461560ee89d600b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 532,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "wind",
+      "route": "native-both",
+      "receipt": "raw/mutation-force-runs/wind/native-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 38,
+      "findings": [
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 10",
+        "Wind actual body/shape counts 1",
+        "Wind actual body/shape counts 12",
+        "Wind actual body/shape counts 10"
+      ],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/native-both/initial.png",
+          "sha256": "04e088dd4aaa7970889204e51c54f04ce8cb897f06b6b27035e69ec3abec1d5b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 11,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "one-link": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/native-both/one-link.png",
+          "sha256": "57758ea11ce057eac23f146e84bc41b9ffd502025010ca110f756e32f95cfe2f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 290,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 2,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "restarted": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/wind/native-both/restarted.png",
+          "sha256": "4951c3690b8d4ed117a159a94a6707cf4f5c38701896ec4de20011c452ff66bf",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 685,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 12,
+            "shape_count": 11,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              2
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "trees",
+      "route": "native-both",
+      "receipt": "raw/mutation-force-runs/trees/native-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 15,
+      "findings": [
+        "Trees 1 actual original bodies/hulls",
+        "Trees 2 actual original bodies/hulls",
+        "Trees 4 actual original bodies/hulls",
+        "Trees 1 actual original bodies/hulls"
+      ],
+      "screenshots": {
+        "100cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/native-both/100cm.png",
+          "sha256": "481a6c01f8201040ba1df5fd1b01c7c543f24f411f3acec607551f8fc5866c8d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 79,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "50cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/native-both/50cm.png",
+          "sha256": "40c3de59a0a7e1af285fba26bfdc4da8571be48f6e08cad4d9ce2a5cae360cd7",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 139,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              2
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "25cm": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-runs/trees/native-both/25cm.png",
+          "sha256": "3aa0b93fe06745ce68da56df5c26c2699d7b063c534e842df5fae2fd32002e17",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 175,
+            "world": [
+              1,
+              4
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 51,
+            "shape_count": 1101,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              3
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mesh-off-held",
+      "route": "ordinary-gpu",
+      "receipt": "raw/mutation-off-held-runs/ordinary-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 6,
+      "findings": [
+        "Actual held activation stops recreation",
+        "Both original ImGui buttons returned true"
+      ],
+      "screenshots": {
+        "held-off": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-off-held-runs/ordinary-gpu/held-off.png",
+          "sha256": "8cfd8359f4b5bfedb1199688c32f25343e3b9e030faf33a24461560ee89d600b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 111,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mesh-off-held",
+      "route": "native-gpu",
+      "receipt": "raw/mutation-off-held-runs/native-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 6,
+      "findings": [
+        "Actual held activation stops recreation",
+        "Both original ImGui buttons returned true"
+      ],
+      "screenshots": {
+        "held-off": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-off-held-runs/native-gpu/held-off.png",
+          "sha256": "aec19eb80626e407d3346cd1186c95cb349aa0fa742714d29c39c695ccf975f7",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 115,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mesh-off-held",
+      "route": "ordinary-both",
+      "receipt": "raw/mutation-off-held-runs/ordinary-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 6,
+      "findings": [
+        "Actual held activation stops recreation",
+        "Both original ImGui buttons returned true"
+      ],
+      "screenshots": {
+        "held-off": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-off-held-runs/ordinary-both/held-off.png",
+          "sha256": "8cfd8359f4b5bfedb1199688c32f25343e3b9e030faf33a24461560ee89d600b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 117,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mesh-off-held",
+      "route": "native-both",
+      "receipt": "raw/mutation-off-held-runs/native-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 6,
+      "findings": [
+        "Actual held activation stops recreation",
+        "Both original ImGui buttons returned true"
+      ],
+      "screenshots": {
+        "held-off": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-off-held-runs/native-both/held-off.png",
+          "sha256": "aec19eb80626e407d3346cd1186c95cb349aa0fa742714d29c39c695ccf975f7",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 120,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1025,
+            "shape_count": 1029,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "corrected_assertions": [
+    {
+      "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "label": "initial",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "label": "Type=1",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 1,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "label": "Type=2",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 2,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "label": "Type=3",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 3,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "label": "Type=0",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "label": "Amplitude=0",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "label": "Amplitude=1",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "label": "Collide=false",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": false
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "label": "Collide=true",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "label": "Generate=undefined",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/cpu/receipt.json",
+      "label": "initial",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/cpu/receipt.json",
+      "label": "Shape=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 0,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/cpu/receipt.json",
+      "label": "Shape=1",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 1,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/cpu/receipt.json",
+      "label": "Shape=2",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/cpu/receipt.json",
+      "label": "Count=1",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 1
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/cpu/receipt.json",
+      "label": "Count=12",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/cpu/receipt.json",
+      "label": "Wind=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/cpu/receipt.json",
+      "label": "Wind=-8",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/cpu/receipt.json",
+      "label": "Drag=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/cpu/receipt.json",
+      "label": "Lift=2",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/cpu/receipt.json",
+      "label": "restart",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/cpu/receipt.json",
+      "scale": 1,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/cpu/receipt.json",
+      "scale": 2,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/cpu/receipt.json",
+      "scale": 4,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/cpu/receipt.json",
+      "scale": 1,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "label": "initial",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "label": "Type=1",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 1,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "label": "Type=2",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 2,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "label": "Type=3",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 3,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "label": "Type=0",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "label": "Amplitude=0",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "label": "Amplitude=1",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "label": "Collide=false",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": false
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "label": "Collide=true",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "label": "Generate=undefined",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-gpu/receipt.json",
+      "label": "initial",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-gpu/receipt.json",
+      "label": "Shape=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 0,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-gpu/receipt.json",
+      "label": "Shape=1",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 1,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-gpu/receipt.json",
+      "label": "Shape=2",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-gpu/receipt.json",
+      "label": "Count=1",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 1
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-gpu/receipt.json",
+      "label": "Count=12",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-gpu/receipt.json",
+      "label": "Wind=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-gpu/receipt.json",
+      "label": "Wind=-8",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-gpu/receipt.json",
+      "label": "Drag=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-gpu/receipt.json",
+      "label": "Lift=2",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-gpu/receipt.json",
+      "label": "restart",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/ordinary-gpu/receipt.json",
+      "scale": 1,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/ordinary-gpu/receipt.json",
+      "scale": 2,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/ordinary-gpu/receipt.json",
+      "scale": 4,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/ordinary-gpu/receipt.json",
+      "scale": 1,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "label": "initial",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "label": "Type=1",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 1,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "label": "Type=2",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 2,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "label": "Type=3",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 3,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "label": "Type=0",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "label": "Amplitude=0",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "label": "Amplitude=1",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "label": "Collide=false",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": false
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "label": "Collide=true",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "label": "Generate=undefined",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-gpu/receipt.json",
+      "label": "initial",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-gpu/receipt.json",
+      "label": "Shape=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 0,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-gpu/receipt.json",
+      "label": "Shape=1",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 1,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-gpu/receipt.json",
+      "label": "Shape=2",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-gpu/receipt.json",
+      "label": "Count=1",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 1
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-gpu/receipt.json",
+      "label": "Count=12",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-gpu/receipt.json",
+      "label": "Wind=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-gpu/receipt.json",
+      "label": "Wind=-8",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-gpu/receipt.json",
+      "label": "Drag=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-gpu/receipt.json",
+      "label": "Lift=2",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-gpu/receipt.json",
+      "label": "restart",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/native-gpu/receipt.json",
+      "scale": 1,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/native-gpu/receipt.json",
+      "scale": 2,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/native-gpu/receipt.json",
+      "scale": 4,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/native-gpu/receipt.json",
+      "scale": 1,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "label": "initial",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "label": "Type=1",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 1,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "label": "Type=2",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 2,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "label": "Type=3",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 3,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "label": "Type=0",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "label": "Amplitude=0",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "label": "Amplitude=1",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "label": "Collide=false",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": false
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "label": "Collide=true",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "label": "Generate=undefined",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-both/receipt.json",
+      "label": "initial",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-both/receipt.json",
+      "label": "Shape=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 0,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-both/receipt.json",
+      "label": "Shape=1",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 1,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-both/receipt.json",
+      "label": "Shape=2",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-both/receipt.json",
+      "label": "Count=1",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 1
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-both/receipt.json",
+      "label": "Count=12",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-both/receipt.json",
+      "label": "Wind=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-both/receipt.json",
+      "label": "Wind=-8",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-both/receipt.json",
+      "label": "Drag=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-both/receipt.json",
+      "label": "Lift=2",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/ordinary-both/receipt.json",
+      "label": "restart",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/ordinary-both/receipt.json",
+      "scale": 1,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/ordinary-both/receipt.json",
+      "scale": 2,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/ordinary-both/receipt.json",
+      "scale": 4,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/ordinary-both/receipt.json",
+      "scale": 1,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "label": "initial",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "label": "Type=1",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 1,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "label": "Type=2",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 2,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "label": "Type=3",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 3,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "label": "Type=0",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0.5,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "label": "Amplitude=0",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 0,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "label": "Amplitude=1",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "label": "Collide=false",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": false
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "label": "Collide=true",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "label": "Generate=undefined",
+      "status": "COUNTS_GEOMETRY_FILTER_INPUTS_AND_GETTERS_CHECKED",
+      "type": 0,
+      "amplitude": 1,
+      "collide": true
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-both/receipt.json",
+      "label": "initial",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-both/receipt.json",
+      "label": "Shape=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 0,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-both/receipt.json",
+      "label": "Shape=1",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 1,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-both/receipt.json",
+      "label": "Shape=2",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-both/receipt.json",
+      "label": "Count=1",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 1
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-both/receipt.json",
+      "label": "Count=12",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-both/receipt.json",
+      "label": "Wind=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-both/receipt.json",
+      "label": "Wind=-8",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-both/receipt.json",
+      "label": "Drag=0",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-both/receipt.json",
+      "label": "Lift=2",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 12
+    },
+    {
+      "receipt": "raw/mutation-force-runs/wind/native-both/receipt.json",
+      "label": "restart",
+      "status": "ACTUAL_SHAPE_AND_BODY_COUNTS_CHECKED",
+      "type": 2,
+      "count": 10
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/native-both/receipt.json",
+      "scale": 1,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/native-both/receipt.json",
+      "scale": 2,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/native-both/receipt.json",
+      "scale": 4,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    },
+    {
+      "receipt": "raw/mutation-force-runs/trees/native-both/receipt.json",
+      "scale": 1,
+      "status": "ALL_ACTUAL_TREE_SHAPES_AND_MESH_RESOLUTION_CHECKED"
+    }
+  ],
+  "default_filter_gap": [
+    {
+      "route": "cpu",
+      "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "worlds": [
+        {
+          "owner": "public",
+          "category_bits": 18446744073709552000,
+          "mask_bits": 18446744073709552000
+        }
+      ],
+      "gate": "PR02_EXISTING_DEFAULT_CATEGORY_CONTRACT_GAP",
+      "note": "CPU/combined defaultcategory UINT64_MAX, standaloneGPU1. Collidefalse explicitly2/1matchesall. Toggleeffects checked; defaultcontract notpassed."
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "worlds": [
+        {
+          "owner": "public",
+          "category_bits": 1,
+          "mask_bits": 18446744073709552000
+        }
+      ],
+      "gate": "PR02_EXISTING_DEFAULT_CATEGORY_CONTRACT_GAP",
+      "note": "CPU/combined defaultcategory UINT64_MAX, standaloneGPU1. Collidefalse explicitly2/1matchesall. Toggleeffects checked; defaultcontract notpassed."
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "worlds": [
+        {
+          "owner": "public",
+          "category_bits": 1,
+          "mask_bits": 18446744073709552000
+        }
+      ],
+      "gate": "PR02_EXISTING_DEFAULT_CATEGORY_CONTRACT_GAP",
+      "note": "CPU/combined defaultcategory UINT64_MAX, standaloneGPU1. Collidefalse explicitly2/1matchesall. Toggleeffects checked; defaultcontract notpassed."
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "worlds": [
+        {
+          "owner": "public",
+          "category_bits": 18446744073709552000,
+          "mask_bits": 18446744073709552000
+        },
+        {
+          "owner": "mapped_cpu",
+          "category_bits": 18446744073709552000,
+          "mask_bits": 18446744073709552000
+        }
+      ],
+      "gate": "PR02_EXISTING_DEFAULT_CATEGORY_CONTRACT_GAP",
+      "note": "CPU/combined defaultcategory UINT64_MAX, standaloneGPU1. Collidefalse explicitly2/1matchesall. Toggleeffects checked; defaultcontract notpassed."
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "worlds": [
+        {
+          "owner": "public",
+          "category_bits": 18446744073709552000,
+          "mask_bits": 18446744073709552000
+        },
+        {
+          "owner": "mapped_cpu",
+          "category_bits": 18446744073709552000,
+          "mask_bits": 18446744073709552000
+        }
+      ],
+      "gate": "PR02_EXISTING_DEFAULT_CATEGORY_CONTRACT_GAP",
+      "note": "CPU/combined defaultcategory UINT64_MAX, standaloneGPU1. Collidefalse explicitly2/1matchesall. Toggleeffects checked; defaultcontract notpassed."
+    }
+  ],
+  "UI29": [
+    {
+      "route": "cpu",
+      "receipt": "raw/mutation-force-runs/mesh/cpu/receipt.json",
+      "button_activations": 2,
+      "off_created": 35845,
+      "settled_created": 35845,
+      "off_destroyed": 34818,
+      "settled_destroyed": 34818
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-gpu/receipt.json",
+      "button_activations": 1,
+      "off_created": 25605,
+      "settled_created": 27653,
+      "off_destroyed": 24578,
+      "settled_destroyed": 26626
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/mutation-force-runs/mesh/native-gpu/receipt.json",
+      "button_activations": 1,
+      "off_created": 21509,
+      "settled_created": 23557,
+      "off_destroyed": 20482,
+      "settled_destroyed": 22530
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/mutation-force-runs/mesh/ordinary-both/receipt.json",
+      "button_activations": 1,
+      "off_created": 45066,
+      "settled_created": 49162,
+      "off_destroyed": 43012,
+      "settled_destroyed": 47108
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/mutation-force-runs/mesh/native-both/receipt.json",
+      "button_activations": 1,
+      "off_created": 73738,
+      "settled_created": 77834,
+      "off_destroyed": 71684,
+      "settled_destroyed": 75780
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/mutation-off-held-runs/ordinary-gpu/receipt.json",
+      "stimulus": "Actualmousedown heldacross2UIframesbeforemouseup",
+      "button_activations": 1,
+      "off_created": 14339,
+      "settled_created": 16387,
+      "status": "ORIGINAL_FAILURE_REPRODUCED_WITH_DISTINCT_HELD_STIMULUS_NO_REPAIR"
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/mutation-off-held-runs/native-gpu/receipt.json",
+      "stimulus": "Actualmousedown heldacross2UIframesbeforemouseup",
+      "button_activations": 1,
+      "off_created": 17411,
+      "settled_created": 19459,
+      "status": "ORIGINAL_FAILURE_REPRODUCED_WITH_DISTINCT_HELD_STIMULUS_NO_REPAIR"
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/mutation-off-held-runs/ordinary-both/receipt.json",
+      "stimulus": "Actualmousedown heldacross2UIframesbeforemouseup",
+      "button_activations": 1,
+      "off_created": 43014,
+      "settled_created": 47110,
+      "status": "ORIGINAL_FAILURE_REPRODUCED_WITH_DISTINCT_HELD_STIMULUS_NO_REPAIR"
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/mutation-off-held-runs/native-both/receipt.json",
+      "stimulus": "Actualmousedown heldacross2UIframesbeforemouseup",
+      "button_activations": 1,
+      "off_created": 45062,
+      "settled_created": 49158,
+      "status": "ORIGINAL_FAILURE_REPRODUCED_WITH_DISTINCT_HELD_STIMULUS_NO_REPAIR"
+    }
+  ],
+  "images": [
+    {
+      "route": "cpu",
+      "fixture": "mesh",
+      "state": "initial",
+      "path": "raw/mutation-force-runs/mesh/cpu/initial.png",
+      "sha256": "346ef18b6b970767882d782536f6c8e0e1e9c8286826f10173758b8cc8d6f82f"
+    },
+    {
+      "route": "cpu",
+      "fixture": "mesh",
+      "state": "flat",
+      "path": "raw/mutation-force-runs/mesh/cpu/flat.png",
+      "sha256": "91f78fe2f05a31fbaea333dc490b509016af5705a9b846eff6655e0b1d229b80"
+    },
+    {
+      "route": "cpu",
+      "fixture": "mesh",
+      "state": "auto-off",
+      "path": "raw/mutation-force-runs/mesh/cpu/auto-off.png",
+      "sha256": "fcd5193339610f7a25fc417453d3d12887b2693fd14f17f385c218f15d8b0c07"
+    },
+    {
+      "route": "cpu",
+      "fixture": "wind",
+      "state": "initial",
+      "path": "raw/mutation-force-runs/wind/cpu/initial.png",
+      "sha256": "5936599aaf6b5b5968598eedffd80c4cb390e950e4633ae9055b88d4a32f9c04"
+    },
+    {
+      "route": "cpu",
+      "fixture": "wind",
+      "state": "one-link",
+      "path": "raw/mutation-force-runs/wind/cpu/one-link.png",
+      "sha256": "d016f869ce7d2ecd0e6d510a8a553c09ecff2b589380072f704c864f7c82e441"
+    },
+    {
+      "route": "cpu",
+      "fixture": "wind",
+      "state": "restarted",
+      "path": "raw/mutation-force-runs/wind/cpu/restarted.png",
+      "sha256": "7f72ae5bc423f64994b751a2f09bffa43b5ab8d4796542ae35cb2dd545adafc1"
+    },
+    {
+      "route": "cpu",
+      "fixture": "trees",
+      "state": "100cm",
+      "path": "raw/mutation-force-runs/trees/cpu/100cm.png",
+      "sha256": "3b3330455d0c9356c9a6d3138d68b1ef4caa4d1b69b4b0a08257d931006ca1a1"
+    },
+    {
+      "route": "cpu",
+      "fixture": "trees",
+      "state": "50cm",
+      "path": "raw/mutation-force-runs/trees/cpu/50cm.png",
+      "sha256": "f4efd880bad27751af80b127fc9f36389b0b9b29cd3e3ae70443bd2e3e1cc05a"
+    },
+    {
+      "route": "cpu",
+      "fixture": "trees",
+      "state": "25cm",
+      "path": "raw/mutation-force-runs/trees/cpu/25cm.png",
+      "sha256": "430b8916e6b67c3d2c551c824a71d414aaba34aa9e528cb6c79c0c1f6c62576a"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mesh",
+      "state": "initial",
+      "path": "raw/mutation-force-runs/mesh/ordinary-gpu/initial.png",
+      "sha256": "6c6a1b6bdc48b73d2067cd9e7d64cb876fd8949edffbf66d541852d7d7ef0343"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mesh",
+      "state": "flat",
+      "path": "raw/mutation-force-runs/mesh/ordinary-gpu/flat.png",
+      "sha256": "dcb901c7b3b0936cc0041886ccacd64c3218bc16e237566b863338143cab6299"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mesh",
+      "state": "auto-off",
+      "path": "raw/mutation-force-runs/mesh/ordinary-gpu/auto-off.png",
+      "sha256": "8cfd8359f4b5bfedb1199688c32f25343e3b9e030faf33a24461560ee89d600b"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "wind",
+      "state": "initial",
+      "path": "raw/mutation-force-runs/wind/ordinary-gpu/initial.png",
+      "sha256": "233fac1fa9e73a986da12e27d78e3698d8011373ea85507c76525cabe8f5a507"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "wind",
+      "state": "one-link",
+      "path": "raw/mutation-force-runs/wind/ordinary-gpu/one-link.png",
+      "sha256": "76beda300492a8c35f4f009ebaf93ab70a1376b682f1bee8097d66bf56641564"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "wind",
+      "state": "restarted",
+      "path": "raw/mutation-force-runs/wind/ordinary-gpu/restarted.png",
+      "sha256": "583c72962469bb4dfdac7cb28d523441bfa8ae008904a4c78956bb185ef1fad4"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "trees",
+      "state": "100cm",
+      "path": "raw/mutation-force-runs/trees/ordinary-gpu/100cm.png",
+      "sha256": "bd92f1c214a4ff8bc3a0b4b41946a1faa6300046b602161e781e904607501cfd"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "trees",
+      "state": "50cm",
+      "path": "raw/mutation-force-runs/trees/ordinary-gpu/50cm.png",
+      "sha256": "de5bee3083b4293aae7889f21631c2b9e4afcc7f9ec4ff989b10f6b42ac41a54"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "trees",
+      "state": "25cm",
+      "path": "raw/mutation-force-runs/trees/ordinary-gpu/25cm.png",
+      "sha256": "c9ed18e42a99c7f2726b5fb9c18a8f933e5e9d598b0b3b79de56822c592f244b"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mesh",
+      "state": "initial",
+      "path": "raw/mutation-force-runs/mesh/native-gpu/initial.png",
+      "sha256": "835b6ed8acaa890e7837a99d8a564093c465feb51d41436656c41d856d2acea9"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mesh",
+      "state": "flat",
+      "path": "raw/mutation-force-runs/mesh/native-gpu/flat.png",
+      "sha256": "77cda203997d9cd6e446a2ba7d35fea815c4d1d6f137e4b2bbf3c4fe631f9804"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mesh",
+      "state": "auto-off",
+      "path": "raw/mutation-force-runs/mesh/native-gpu/auto-off.png",
+      "sha256": "8cfd8359f4b5bfedb1199688c32f25343e3b9e030faf33a24461560ee89d600b"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "wind",
+      "state": "initial",
+      "path": "raw/mutation-force-runs/wind/native-gpu/initial.png",
+      "sha256": "cb6c289243875338fe973da6e3e08ed5ba1e605097a8bb3830eb058f2036e5fd"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "wind",
+      "state": "one-link",
+      "path": "raw/mutation-force-runs/wind/native-gpu/one-link.png",
+      "sha256": "a5e33ea3b4031b483c1d78a80def88c7e1b8a02e4ee4d5d537c839a750fd6495"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "wind",
+      "state": "restarted",
+      "path": "raw/mutation-force-runs/wind/native-gpu/restarted.png",
+      "sha256": "ed6f0abac62d9237d23af2c30db408346dd091a9edf3d0233eaedb2d894439db"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "trees",
+      "state": "100cm",
+      "path": "raw/mutation-force-runs/trees/native-gpu/100cm.png",
+      "sha256": "a70be4b7778228a72c683906515474f6c959c539591c4db210a11bfe5c37625f"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "trees",
+      "state": "50cm",
+      "path": "raw/mutation-force-runs/trees/native-gpu/50cm.png",
+      "sha256": "78f8c0560c8eec8e32412934d35ca3647f054bc90a1c957411d262a22a13a581"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "trees",
+      "state": "25cm",
+      "path": "raw/mutation-force-runs/trees/native-gpu/25cm.png",
+      "sha256": "8a5917cba3e6e5cb37e81bf91c3e1f614b90faf1dc8534fa3108a2d19286198f"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mesh",
+      "state": "initial",
+      "path": "raw/mutation-force-runs/mesh/ordinary-both/initial.png",
+      "sha256": "f7cebbc1f97fae2675b9007a2cc409d53f98e9b89564bec37f93902d14f492eb"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mesh",
+      "state": "flat",
+      "path": "raw/mutation-force-runs/mesh/ordinary-both/flat.png",
+      "sha256": "13301899f5e0a4fb8cc6b62f50994b310ba88b50cd73fde23d841500c8860437"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mesh",
+      "state": "auto-off",
+      "path": "raw/mutation-force-runs/mesh/ordinary-both/auto-off.png",
+      "sha256": "8cfd8359f4b5bfedb1199688c32f25343e3b9e030faf33a24461560ee89d600b"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "wind",
+      "state": "initial",
+      "path": "raw/mutation-force-runs/wind/ordinary-both/initial.png",
+      "sha256": "a3a5c201d58a7f5d84d748b94297de3e2fe3f1a5aad3cbe739b387e83ef997fd"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "wind",
+      "state": "one-link",
+      "path": "raw/mutation-force-runs/wind/ordinary-both/one-link.png",
+      "sha256": "aef6fe19367e8ab2719e5cfcfa0c1791961a560bed1fe4a7fe177181000a0a0d"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "wind",
+      "state": "restarted",
+      "path": "raw/mutation-force-runs/wind/ordinary-both/restarted.png",
+      "sha256": "4951c3690b8d4ed117a159a94a6707cf4f5c38701896ec4de20011c452ff66bf"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "trees",
+      "state": "100cm",
+      "path": "raw/mutation-force-runs/trees/ordinary-both/100cm.png",
+      "sha256": "dbf941eee478fb0a88d8237496b7747728215d31d9e780ebc0acca59416bd0cb"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "trees",
+      "state": "50cm",
+      "path": "raw/mutation-force-runs/trees/ordinary-both/50cm.png",
+      "sha256": "28feb71f27514cccec51ba7b174ec648f14bb54d20752cc668f6c46007324d83"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "trees",
+      "state": "25cm",
+      "path": "raw/mutation-force-runs/trees/ordinary-both/25cm.png",
+      "sha256": "957067d0275b365bccbde4176b9df60abbbcc7d3e949a8eaa8618b74497e38a1"
+    },
+    {
+      "route": "native-both",
+      "fixture": "mesh",
+      "state": "initial",
+      "path": "raw/mutation-force-runs/mesh/native-both/initial.png",
+      "sha256": "267eda3eecb314f0a8294b22bd4599ea737a4c8e47eb783263c0dfcc53bdd9b5"
+    },
+    {
+      "route": "native-both",
+      "fixture": "mesh",
+      "state": "flat",
+      "path": "raw/mutation-force-runs/mesh/native-both/flat.png",
+      "sha256": "a90285f723a29789cf5734de471425968b8f597c0a2a960053b5b13b9be82d50"
+    },
+    {
+      "route": "native-both",
+      "fixture": "mesh",
+      "state": "auto-off",
+      "path": "raw/mutation-force-runs/mesh/native-both/auto-off.png",
+      "sha256": "8cfd8359f4b5bfedb1199688c32f25343e3b9e030faf33a24461560ee89d600b"
+    },
+    {
+      "route": "native-both",
+      "fixture": "wind",
+      "state": "initial",
+      "path": "raw/mutation-force-runs/wind/native-both/initial.png",
+      "sha256": "04e088dd4aaa7970889204e51c54f04ce8cb897f06b6b27035e69ec3abec1d5b"
+    },
+    {
+      "route": "native-both",
+      "fixture": "wind",
+      "state": "one-link",
+      "path": "raw/mutation-force-runs/wind/native-both/one-link.png",
+      "sha256": "57758ea11ce057eac23f146e84bc41b9ffd502025010ca110f756e32f95cfe2f"
+    },
+    {
+      "route": "native-both",
+      "fixture": "wind",
+      "state": "restarted",
+      "path": "raw/mutation-force-runs/wind/native-both/restarted.png",
+      "sha256": "4951c3690b8d4ed117a159a94a6707cf4f5c38701896ec4de20011c452ff66bf"
+    },
+    {
+      "route": "native-both",
+      "fixture": "trees",
+      "state": "100cm",
+      "path": "raw/mutation-force-runs/trees/native-both/100cm.png",
+      "sha256": "481a6c01f8201040ba1df5fd1b01c7c543f24f411f3acec607551f8fc5866c8d"
+    },
+    {
+      "route": "native-both",
+      "fixture": "trees",
+      "state": "50cm",
+      "path": "raw/mutation-force-runs/trees/native-both/50cm.png",
+      "sha256": "40c3de59a0a7e1af285fba26bfdc4da8571be48f6e08cad4d9ce2a5cae360cd7"
+    },
+    {
+      "route": "native-both",
+      "fixture": "trees",
+      "state": "25cm",
+      "path": "raw/mutation-force-runs/trees/native-both/25cm.png",
+      "sha256": "3aa0b93fe06745ce68da56df5c26c2699d7b063c534e842df5fae2fd32002e17"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mesh-off-held",
+      "state": "held-off",
+      "path": "raw/mutation-off-held-runs/ordinary-gpu/held-off.png",
+      "sha256": "8cfd8359f4b5bfedb1199688c32f25343e3b9e030faf33a24461560ee89d600b"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mesh-off-held",
+      "state": "held-off",
+      "path": "raw/mutation-off-held-runs/native-gpu/held-off.png",
+      "sha256": "aec19eb80626e407d3346cd1186c95cb349aa0fa742714d29c39c695ccf975f7"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mesh-off-held",
+      "state": "held-off",
+      "path": "raw/mutation-off-held-runs/ordinary-both/held-off.png",
+      "sha256": "8cfd8359f4b5bfedb1199688c32f25343e3b9e030faf33a24461560ee89d600b"
+    },
+    {
+      "route": "native-both",
+      "fixture": "mesh-off-held",
+      "state": "held-off",
+      "path": "raw/mutation-off-held-runs/native-both/held-off.png",
+      "sha256": "aec19eb80626e407d3346cd1186c95cb349aa0fa742714d29c39c695ccf975f7"
+    }
+  ],
+  "visual_review": {
+    "status": "ALL49_CAPTURED_IMAGES_INSPECTED_CPU_FIRST",
+    "observations": "Three15cellCPU-firstgrids=45images plus4held-offGPUimages individuallyinspected. MeshDrop floor amplitude changes visible, includingflatfloorall5. WindCount1anddefault10/restart visible; FallingTreesresolutionchangesvisibleall5with50treespreserved. EveryGPUauto-off/held-offimage showsPreparingSimulationloadingUI, CPUoriginalauto-offremainsvisibleandstopped. SplitCPU/GPUmaterialcolors intentional. No exactpixel ortrajectoryqualification."
+  },
+  "checks": 474,
+  "cleanup": [
+    "mutation-force-main-cleanup.json",
+    "mutation-off-held-cleanup.json",
+    "mutation-force-build-retirement.json"
+  ],
+  "original207inputs_unchanged": true,
+  "source_pins": {
+    "box3d/include/box3d/types.h": "d39bd492bb6599b1ba8c308f8f3d901e19b190d2db65fff2e7b833a3511bc5b7",
+    "box3d/src/types.c": "d272b2b3bf59bbe48e0def2be7ce44402880323fbb0a212963122e5a01fea120",
+    "box3d/src/mesh.c": "065b9f21b08686312067392565150527e4cfd34193640235e8e9960f113d6960",
+    "box3d/shared/benchmarks.c": "78b4951b1a0658a1a8793e688570eee515af43b463554b287e8fa6be5eb688b9",
+    "box3d/samples/sample_continuous.cpp": "c66acb99e4b4887ea2018c8337bbeeffbf69cc12ac108eb6fd59faeeaf853a91",
+    "box3d/samples/sample_shapes.cpp": "d58cfe8aabd28cee012d31bbf9ca9a5b93cfe887ea2db0c08866746ff1d15395"
+  },
+  "limits": [
+    "Review dispositions include confirmed UI29 failure; not13featurepasses.",
+    "Original histogram had5bins, nativeenum6. Sphere count derivedfromallshape/filtercount minuscompleteother5bins, actualshape getters inboundedexamples confirmSphere5; alloriginal wrongassertions retained/no replay.",
+    "NativeCPU/combinedcategoryUINT64_MAX vs standaloneGPU1 is anexistingPR02defaultcontractgap, not a newUIrepair. Filtergetter exactu64 equality checkedinsideC++; displayedJSONUINT64_MAX losesintegerprecision.",
+    "Flat mesh AABBheight.04 is native broadphase/speculative margin, notactualfloor thickness. No geometry/defaults/seed/bodyorder changed.",
+    "All1024dynamicMeshDropbodies counted; detailedgeometryexamples limited8. Actual1029shape filters equality checkedall. AutoGenerateon/offCPU passes; all4GPUoff failsboth50ms and2frame-held clicks. FirstmissingboundaryImGuiButtonactivation; causeUNTRACED.",
+    "Windactualwidgetvalues/ApplyWindargs/shape+bodyregeneration andfour realsteps perroute checked. Nativepoststepforceordering preserved. Noindependentforce/solvernumericqualification ortrajectoryequivalence claim.",
+    "FallingTrees original50trees/1100hulls preserved; resolutions60000/240000/960000actualmeshtriangles. No worldphysicssteps inTrees/MeshDrop; no fullscene/performance/startupcampaign.",
+    "No engine/Rust/WGSL/Box3D/WASM edits; no productfix inthisreview.",
+    "UI29 loading screen is directly observed in all8GPUoffcaptures. Nativehost source gpu_loading_poll starts preparation when world_loading_needed and bypasses normal DrawUI whileactive. Event-to-button causal path remainsUNTRACED; heldtwoUIframes does not prove two interactiveInfoframes. Nextrepairtrace must distinguish actualloading/normalUIframes and event consumption. No genericcold-start campaign."
+  ]
+}

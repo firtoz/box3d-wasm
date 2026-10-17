@@ -1,0 +1,22 @@
+{
+  "status": "PROTOCOL_DEVIATION_RECORDED_NOT_RETROACTIVE_FREEZE",
+  "builds": 0,
+  "apps_CPUfirst": [
+    "cpu-focused-transport-tail"
+  ],
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "dialog_seconds": 8,
+  "native_dialog_enter_count_max": 2,
+  "native_dialog_screens_each": 2,
+  "app_screens_each": 6,
+  "actions_each": 160,
+  "api_each": 16777216,
+  "temporary_cap": 1073741824,
+  "retained_cap": 67108864,
+  "shared_cache_growth_cap": 134217728,
+  "retries": 0,
+  "reason": "Preparation script wrote CPUtaildriver then failed because a local index variable shadowed budget dict. Caller mistakenly launched tail despite failed preparation before writing this separate manifest. Driver retained existing120s/8screens/API16MiB/raw1GiB/timeouts andsamecode/inputs; app session64218, actualexit/elapsed inreceipt. This receipt is retrospective, not claimed pre-execution freeze. No additional apps or retries authorized by it.",
+  "outputs": "SelectedGTK/appscreens and receipt retained; existing2b3rec consumedbyCPUload+GPUexclusions then removed; fullstreams removed after extraction",
+  "driver_sha256": "d85f0b260e2a1fce1adc0a9e2890afb9afc0a214adac51f0265818932b7753d0"
+}

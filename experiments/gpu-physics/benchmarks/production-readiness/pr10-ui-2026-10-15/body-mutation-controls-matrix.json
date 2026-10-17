@@ -1,0 +1,51 @@
+{
+  "status": "CPU_PREREQUISITE_FAILED",
+  "budget": "body-mutation-controls-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "weeble",
+    "explosion",
+    "restitution",
+    "far-stack"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "weeble",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 28,
+      "findings": 2
+    },
+    {
+      "route": "cpu",
+      "fixture": "explosion",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 20,
+      "findings": 1
+    },
+    {
+      "route": "cpu",
+      "fixture": "restitution",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 10,
+      "findings": 3
+    },
+    {
+      "route": "cpu",
+      "fixture": "far-stack",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 20,
+      "findings": 6
+    }
+  ]
+}

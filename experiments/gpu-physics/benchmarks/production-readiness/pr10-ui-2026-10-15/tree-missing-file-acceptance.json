@@ -1,0 +1,550 @@
+{
+  "status": "CONFIRMED_SHARED_HOST_DEFECT_ALL_FIVE_ROUTES",
+  "issue": "UI26",
+  "rows": [
+    {
+      "route": "cpu",
+      "receipt": "raw/tree-missing-file-runs/cpu/receipt.json",
+      "findings": [
+        "FailedLoadretainsFilewidgetforrecovery",
+        "FailedLoaddisplaysactionableUIerror"
+      ],
+      "checks": 7,
+      "cleanup": "raw/tree-missing-file-runs/cpu/stream-cleanup.json",
+      "deleted_bytes": 258535,
+      "shared_cache_growth_bytes": 0,
+      "screenshots": {
+        "missing-load": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-missing-file-runs/cpu/missing-load.png",
+          "sha256": "47c9dfbdafd39a832d35eefb3be5ef69992b5326a7cb65a650a8d1acc730d101",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 90,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "restart-recovered": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-missing-file-runs/cpu/restart-recovered.png",
+          "sha256": "003f7469bb9acdaee4f9774b1256e2e49281838cc21ebe49cd8beed08f6936a1",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 115,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/tree-missing-file-runs/ordinary-gpu/receipt.json",
+      "findings": [
+        "FailedLoadretainsFilewidgetforrecovery",
+        "FailedLoaddisplaysactionableUIerror"
+      ],
+      "checks": 7,
+      "cleanup": "raw/tree-missing-file-runs/ordinary-gpu/stream-cleanup.json",
+      "deleted_bytes": 346403,
+      "shared_cache_growth_bytes": 0,
+      "screenshots": {
+        "missing-load": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-missing-file-runs/ordinary-gpu/missing-load.png",
+          "sha256": "5cdd41434d1bb945b6edc947f3c1d2a445d06a6a17dce808e667cd790c11f10c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 128,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "restart-recovered": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-missing-file-runs/ordinary-gpu/restart-recovered.png",
+          "sha256": "26fe9cb6836e5b1cb28bb05f8878d4e4546b5d2ca7c2746921dfb94b33133181",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 155,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/tree-missing-file-runs/native-gpu/receipt.json",
+      "findings": [
+        "FailedLoadretainsFilewidgetforrecovery",
+        "FailedLoaddisplaysactionableUIerror"
+      ],
+      "checks": 7,
+      "cleanup": "raw/tree-missing-file-runs/native-gpu/stream-cleanup.json",
+      "deleted_bytes": 344876,
+      "shared_cache_growth_bytes": 0,
+      "screenshots": {
+        "missing-load": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-missing-file-runs/native-gpu/missing-load.png",
+          "sha256": "5cdd41434d1bb945b6edc947f3c1d2a445d06a6a17dce808e667cd790c11f10c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 129,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "restart-recovered": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-missing-file-runs/native-gpu/restart-recovered.png",
+          "sha256": "1f74286470f56259c88f012b08ceb394addeb19ee0873e8964a12e3f91787337",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 154,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/tree-missing-file-runs/ordinary-both/receipt.json",
+      "findings": [
+        "FailedLoadretainsFilewidgetforrecovery",
+        "FailedLoaddisplaysactionableUIerror"
+      ],
+      "checks": 7,
+      "cleanup": "raw/tree-missing-file-runs/ordinary-both/stream-cleanup.json",
+      "deleted_bytes": 564146,
+      "shared_cache_growth_bytes": 0,
+      "screenshots": {
+        "missing-load": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-missing-file-runs/ordinary-both/missing-load.png",
+          "sha256": "3c645803c299e0fe9bdb346432109efa5f70c25474370f4726939b579c29b5a3",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 126,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "restart-recovered": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-missing-file-runs/ordinary-both/restart-recovered.png",
+          "sha256": "2a3056e823b9b6693c170afbcec4f24046658a0e1fcadd17f9450becaa400c81",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 152,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              2
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/tree-missing-file-runs/native-both/receipt.json",
+      "findings": [
+        "FailedLoadretainsFilewidgetforrecovery",
+        "FailedLoaddisplaysactionableUIerror"
+      ],
+      "checks": 7,
+      "cleanup": "raw/tree-missing-file-runs/native-both/stream-cleanup.json",
+      "deleted_bytes": 563758,
+      "shared_cache_growth_bytes": 0,
+      "screenshots": {
+        "missing-load": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-missing-file-runs/native-both/missing-load.png",
+          "sha256": "e300e5edc457e0cff8409cc427123d8aa5cd28cf7c04ffb114c1c3fe5a31d61f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 125,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "restart-recovered": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-missing-file-runs/native-both/restart-recovered.png",
+          "sha256": "0e42a06181837f5c2f1bd9e70a23b590a24ad06361290342a00094d5530fe43d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 153,
+            "world": [
+              1,
+              3
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              2
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "images": [
+    {
+      "route": "cpu",
+      "state": "missing-load",
+      "path": "raw/tree-missing-file-runs/cpu/missing-load.png",
+      "sha256": "47c9dfbdafd39a832d35eefb3be5ef69992b5326a7cb65a650a8d1acc730d101"
+    },
+    {
+      "route": "cpu",
+      "state": "restart-recovered",
+      "path": "raw/tree-missing-file-runs/cpu/restart-recovered.png",
+      "sha256": "003f7469bb9acdaee4f9774b1256e2e49281838cc21ebe49cd8beed08f6936a1"
+    },
+    {
+      "route": "ordinary-gpu",
+      "state": "missing-load",
+      "path": "raw/tree-missing-file-runs/ordinary-gpu/missing-load.png",
+      "sha256": "5cdd41434d1bb945b6edc947f3c1d2a445d06a6a17dce808e667cd790c11f10c"
+    },
+    {
+      "route": "ordinary-gpu",
+      "state": "restart-recovered",
+      "path": "raw/tree-missing-file-runs/ordinary-gpu/restart-recovered.png",
+      "sha256": "26fe9cb6836e5b1cb28bb05f8878d4e4546b5d2ca7c2746921dfb94b33133181"
+    },
+    {
+      "route": "native-gpu",
+      "state": "missing-load",
+      "path": "raw/tree-missing-file-runs/native-gpu/missing-load.png",
+      "sha256": "5cdd41434d1bb945b6edc947f3c1d2a445d06a6a17dce808e667cd790c11f10c"
+    },
+    {
+      "route": "native-gpu",
+      "state": "restart-recovered",
+      "path": "raw/tree-missing-file-runs/native-gpu/restart-recovered.png",
+      "sha256": "1f74286470f56259c88f012b08ceb394addeb19ee0873e8964a12e3f91787337"
+    },
+    {
+      "route": "ordinary-both",
+      "state": "missing-load",
+      "path": "raw/tree-missing-file-runs/ordinary-both/missing-load.png",
+      "sha256": "3c645803c299e0fe9bdb346432109efa5f70c25474370f4726939b579c29b5a3"
+    },
+    {
+      "route": "ordinary-both",
+      "state": "restart-recovered",
+      "path": "raw/tree-missing-file-runs/ordinary-both/restart-recovered.png",
+      "sha256": "2a3056e823b9b6693c170afbcec4f24046658a0e1fcadd17f9450becaa400c81"
+    },
+    {
+      "route": "native-both",
+      "state": "missing-load",
+      "path": "raw/tree-missing-file-runs/native-both/missing-load.png",
+      "sha256": "e300e5edc457e0cff8409cc427123d8aa5cd28cf7c04ffb114c1c3fe5a31d61f"
+    },
+    {
+      "route": "native-both",
+      "state": "restart-recovered",
+      "path": "raw/tree-missing-file-runs/native-both/restart-recovered.png",
+      "sha256": "0e42a06181837f5c2f1bd9e70a23b590a24ad06361290342a00094d5530fe43d"
+    }
+  ],
+  "visual_review": {
+    "status": "ALL10_CAPTURED_IMAGES_INSPECTED_CPU_FIRST",
+    "observations": "All five missing-load views have empty tree/no File recovery controls or visible failure error; global restart brings back tree and controls. CPUfirst grid inspected."
+  },
+  "cleanup": "tree-missing-file-cleanup.json",
+  "scope": "Negative Load without private tree.dt, actual null/empty tree, missing recovery File widget and missing visible error; global restart recovers288proxies. No Box3D edits or claim about every malformed file."
+}

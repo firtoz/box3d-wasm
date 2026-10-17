@@ -1,0 +1,16 @@
+{
+  "status": "FROZEN",
+  "seconds": 90,
+  "acceptance_files": 29,
+  "max_media_files": 2000,
+  "max_media_bytes": 1073741824,
+  "max_read_bytes_per_json": 33554432,
+  "apps": 0,
+  "builds": 0,
+  "captures": 0,
+  "git_checks": 3,
+  "git_check_seconds": 5,
+  "temporary_bytes": 1073741824,
+  "retained_summary_bytes": 8388608,
+  "scope": "Criterion audit and CPUfirst evidence index; verify current source/build/media identities, native/frontend/WASM results and observation dispositions. Then remove consumed task-owned current diagnostic viewers/objects/carriers and disposable demo output. Shared Rust/Box3D archives/caches/user work preserved. No commit/push; mandatory motion captures remain a condition on any later publication, not a completed gate."
+}

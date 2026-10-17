@@ -1,0 +1,111 @@
+{
+  "removed": [
+    {
+      "path": "raw/ui03-output-build/cpu",
+      "bytes": 7330104
+    },
+    {
+      "path": "raw/ui03-output-build/ordinary-gpu",
+      "bytes": 37424952
+    },
+    {
+      "path": "raw/ui03-output-build/native-gpu",
+      "bytes": 40304072
+    },
+    {
+      "path": "raw/ui03-output-build/ordinary-both",
+      "bytes": 38221488
+    },
+    {
+      "path": "raw/ui03-output-build/native-both",
+      "bytes": 41100624
+    },
+    {
+      "path": "raw/render-controls-build/cpu",
+      "bytes": 7330136
+    },
+    {
+      "path": "raw/render-controls-build/ordinary-gpu",
+      "bytes": 37424984
+    },
+    {
+      "path": "raw/render-controls-build/native-gpu",
+      "bytes": 40304104
+    },
+    {
+      "path": "raw/render-controls-build/ordinary-both",
+      "bytes": 38221528
+    },
+    {
+      "path": "raw/render-controls-build/native-both",
+      "bytes": 41100664
+    },
+    {
+      "path": "raw/render-controls-runs/cpu/api.jsonl",
+      "bytes": 610023
+    },
+    {
+      "path": "raw/render-controls-runs/cpu/observer.jsonl",
+      "bytes": 253002
+    },
+    {
+      "path": "raw/render-controls-runs/cpu-negative/api.jsonl",
+      "bytes": 394944
+    },
+    {
+      "path": "raw/render-controls-runs/cpu-negative/observer.jsonl",
+      "bytes": 164013
+    },
+    {
+      "path": "raw/render-controls-runs/cpu-contrast/api.jsonl",
+      "bytes": 172892
+    },
+    {
+      "path": "raw/render-controls-runs/cpu-contrast/observer.jsonl",
+      "bytes": 72209
+    },
+    {
+      "path": "raw/render-controls-runs/cpu-popup/api.jsonl",
+      "bytes": 219785
+    },
+    {
+      "path": "raw/render-controls-runs/cpu-popup/observer.jsonl",
+      "bytes": 91565
+    },
+    {
+      "path": "raw/render-controls-runs/ordinary-gpu-popup/api.jsonl",
+      "bytes": 1095959
+    },
+    {
+      "path": "raw/render-controls-runs/ordinary-gpu-popup/observer.jsonl",
+      "bytes": 570266
+    },
+    {
+      "path": "raw/render-controls-runs/native-gpu-popup/api.jsonl",
+      "bytes": 1123224
+    },
+    {
+      "path": "raw/render-controls-runs/native-gpu-popup/observer.jsonl",
+      "bytes": 581225
+    },
+    {
+      "path": "raw/render-controls-runs/ordinary-both-popup/api.jsonl",
+      "bytes": 1792387
+    },
+    {
+      "path": "raw/render-controls-runs/ordinary-both-popup/observer.jsonl",
+      "bytes": 648198
+    },
+    {
+      "path": "raw/render-controls-runs/native-both-popup/api.jsonl",
+      "bytes": 1851214
+    },
+    {
+      "path": "raw/render-controls-runs/native-both-popup/observer.jsonl",
+      "bytes": 667779
+    }
+  ],
+  "deleted_bytes": 339071341,
+  "retained_consumer": "Fivecurrentrender-popup-build diagnosticviewers+observer.o/main/Sample objects: remainingPR10sampleCombo andsharedcontrols. 20selectedimages+failureimages/receipts/actualstatewindows retained; sharedcaches preserved.",
+  "free_bytes": 1709316755456
+}

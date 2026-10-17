@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "runs": [
+    {
+      "route": "ordinary-both",
+      "exit": 0,
+      "complete": true,
+      "findings": []
+    },
+    {
+      "route": "native-both",
+      "exit": 0,
+      "complete": true,
+      "findings": []
+    }
+  ]
+}

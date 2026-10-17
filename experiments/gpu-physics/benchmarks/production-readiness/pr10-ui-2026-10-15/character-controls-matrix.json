@@ -1,0 +1,76 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "character-controls-budget.json",
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "mover",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "rigid-body",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mover",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "rigid-body",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mover",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "rigid-body",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mover",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "rigid-body",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "mover",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "rigid-body",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    }
+  ]
+}

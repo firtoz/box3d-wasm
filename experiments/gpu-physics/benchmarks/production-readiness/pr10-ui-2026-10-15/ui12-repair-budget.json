@@ -1,0 +1,101 @@
+{
+  "status": "FROZEN",
+  "cc_compiles": 1,
+  "compile_seconds": 30,
+  "generations": 2,
+  "generation_seconds": 10,
+  "links": 5,
+  "link_seconds": 25,
+  "archive_inspections": 5,
+  "archive_seconds": 5,
+  "viewers": 5,
+  "seconds_per_app": 60,
+  "screenshots_per_app": 6,
+  "actions_per_app": 190,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 16777216,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 6291456,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "shared_cache_growth_total_bytes": 33554432,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 550,
+  "raw_before_bytes": 933382473,
+  "pins_before": {
+    "draw": "f5828616bdf01df483519c692c091579b1177d842eeeb0e3b37813c92e5e2911",
+    "geometry": "d319973297455169569da9b6d7407a52b0a504b6b9efb1ed7b2778dd8e121987",
+    "capacity": "02b9392de253c23e35e25c1cc4d5be7e38b1dd155deec68418d3d2238f8491a7"
+  },
+  "source_units": [
+    {
+      "route": "cpu",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/receipt.json",
+      "unit": {
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_gfx",
+        "command": "/usr/bin/cc -DSOKOL_GLCORE -I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/.. -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_src -isystem /home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol -isystem /home/firtoz/work/2026/box3d-wasm/box3d/samples/shaders/generated -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/gfx.dir/__/capacity-gfx/draw.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/capacity-gfx/draw.c",
+        "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/capacity-gfx/draw.c",
+        "output": "box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/draw.c.o",
+        "source_sha256": "7c9f9e4fb60c1591def11ce05aa6f1aad72d5f1317bf2451f1956fc43afebd08",
+        "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_gfx/CMakeFiles/gfx.dir/__/capacity-gfx/draw.c.o",
+        "object_sha256": "3241b728578b1d7b90b975619976b23b79dc5673ff0eb98276e22d52147667c0"
+      }
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/VIS07/build-candidate-ordinary-both.json",
+      "unit": {
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/box3d_gfx",
+        "command": "/usr/bin/cc -DBOTH_SAMPLES -DSOKOL_GLCORE -I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/.. -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/box3d_src -isystem /home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol -isystem /home/firtoz/work/2026/box3d-wasm/box3d/samples/shaders/generated -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/gfx.dir/__/split-gfx/draw.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/split-gfx/draw.c",
+        "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/split-gfx/draw.c",
+        "output": "box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/draw.c.o",
+        "source_sha256": "e1fc79a55e06d27a73c5f03920967cf78d12b3bc37ec6c9fa9b459b0c126ada1",
+        "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/box3d_gfx/CMakeFiles/gfx.dir/__/split-gfx/draw.c.o",
+        "object_sha256": "3241b728578b1d7b90b975619976b23b79dc5673ff0eb98276e22d52147667c0"
+      }
+    }
+  ],
+  "archives": [
+    {
+      "route": "cpu",
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/libgfx.a"
+    },
+    {
+      "route": "ordinary-gpu",
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/ordinary-gpu/libgfx.a"
+    },
+    {
+      "route": "native-gpu",
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/native-gpu/libgfx.a"
+    },
+    {
+      "route": "ordinary-both",
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-repairs/VIS07-candidate/ordinary-both/libgfx.a"
+    },
+    {
+      "route": "native-both",
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-repairs/VIS07-candidate/native-both/libgfx.a"
+    }
+  ],
+  "scope": "ReuseexistingCPU GDBnullRDI0/coplanarinput cause;0beforecrash/core/debugreruns. Verifyoriginaldraw.c.o bytesall5gfxarchives; CPU/BOTHqualifiedsource units sameobject. OnlygeneratednativeDrawHull NULLreturn beforeanyhullread, validpathbyteexact.2filteredonefilegenerations,1C/5links/appsCPUfirst actualBoxHull leading0.7 transientNULL→valid1.4volume, zeroeachaxis/restoredefault1volume, HullReductionvalidpath andSingleBoxpicking/lifetime. Nohullalgorithm/inputclamp/default/Box3D/WASM/Rust/shader/sharedarchive changes. ExistingDrawHullobserver used,0newCPPwrapper.",
+  "outputs": [
+    {
+      "path": "raw/ui12-build",
+      "consumer": "5currentviewers/1sharedDrawHullobject pluspriorneededinputs fornextPR10relinks",
+      "delete": "Retireoldviewerperqualifiedroute; filteredinputsymlinkdir/canonicalBOTH/logs consumedafterproof; preservecanonicalCPU/sourceobject currentconsumer"
+    },
+    {
+      "path": "raw/ui12-runs",
+      "consumer": "Selectednull/validnativegeometry rows/30afterimages/identity/pick receipts",
+      "delete": "Consume API/observer/stderr terminalperroute;retainminimalreceipts/media"
+    },
+    {
+      "path": "geometry-null-debug.txt/raw/geometry-null-debug-runs/cpu/before-null-input.png",
+      "consumer": "OriginalCPUbeforecause/media reused, no newcrash/core",
+      "delete": "Preservehistoricalevidence"
+    }
+  ]
+}

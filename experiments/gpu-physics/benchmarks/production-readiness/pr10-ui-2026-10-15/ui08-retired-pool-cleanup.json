@@ -1,0 +1,34 @@
+{
+  "status": "CLOSED",
+  "deleted": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-observer-build/cpu",
+      "bytes": 7743608,
+      "sha256": "59246625372e90b53231455064bc42c5aac58ef0e2c99b81acaa9623f0a2b630"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-build/ordinary-gpu",
+      "bytes": 37816760,
+      "sha256": "5ff96c49cdc68d8d4746d8e8ac643492c8ba7fb56a3f2e0cbb553bffc2c84208"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-build/native-gpu",
+      "bytes": 40695880,
+      "sha256": "a530092a24289db5b6e3654665a9177ee73ddd173bd5e2cf761c30d1c9c7f87f"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-build/ordinary-both",
+      "bytes": 38594592,
+      "sha256": "f2fc3b126a1dd3255b645b880da7727112c5905cc4e62b6ae20f58508ddbe6e5"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/mutation-force-build/native-both",
+      "bytes": 41465536,
+      "sha256": "b39b7607350e0a718299f8b7c1a800e9a3e451ef088f94b1de3f11c01c61def2"
+    }
+  ],
+  "deleted_bytes": 166316376,
+  "retained_pool": "ui08-build.json",
+  "remaining_consumer": "Currentfiveviewers for nextPR10repairs; originalobserver.o neededrelinks. Alloriginal207sharedinputs retained.",
+  "raw_bytes": 875145255
+}

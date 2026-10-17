@@ -1,0 +1,137 @@
+{
+  "status": "PASS_FIRST_SHARED_CPU_SUBSET",
+  "checks": {
+    "paused_wait_stable": true,
+    "three_single_steps_exact": true,
+    "context_public_flags_equal": true,
+    "flags_off_on": true,
+    "restart_lifetime_and_retained_flags": true,
+    "Jenga_live_radio_lifetime": true,
+    "post_restart_and_Jenga_real_move_events": true,
+    "resize_dimensions": true,
+    "metrics_actual_context": true,
+    "screenshots_exact": true
+  },
+  "actions": 38,
+  "screenshots": 11,
+  "observer_records": 15172,
+  "step_event_windows": [
+    {
+      "before_frame": 2677,
+      "after_frame": 2709,
+      "world": [
+        1,
+        0
+      ],
+      "moved_rows": 0,
+      "first": null
+    },
+    {
+      "before_frame": 5282,
+      "after_frame": 5313,
+      "world": [
+        1,
+        1
+      ],
+      "moved_rows": 1,
+      "first": {
+        "frame": 5285,
+        "world": [
+          1,
+          1
+        ],
+        "sample_step": 1,
+        "submitted": 1,
+        "completed": 1,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          0,
+          0,
+          0
+        ],
+        "world_flags": [
+          0,
+          0,
+          0
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 2,
+        "shape_count": 2,
+        "move_count": 1,
+        "first_body": [
+          2,
+          0,
+          1
+        ],
+        "first_position": [
+          -1.53013825e-05,
+          0.49996832,
+          8.51445384e-06
+        ],
+        "fell_asleep": 0
+      }
+    },
+    {
+      "before_frame": 15049,
+      "after_frame": 15081,
+      "world": [
+        1,
+        4
+      ],
+      "moved_rows": 1,
+      "first": {
+        "frame": 15052,
+        "world": [
+          1,
+          4
+        ],
+        "sample_step": 1,
+        "submitted": 1,
+        "completed": 1,
+        "completed_known": 1,
+        "pause": 1,
+        "single_remaining": 0,
+        "context_flags": [
+          1,
+          1,
+          1
+        ],
+        "world_flags": [
+          1,
+          1,
+          1
+        ],
+        "hertz": 60,
+        "substeps": 4,
+        "show_metrics": 0,
+        "body_count": 61,
+        "shape_count": 61,
+        "move_count": 60,
+        "first_body": [
+          2,
+          0,
+          1
+        ],
+        "first_position": [
+          0.798862696,
+          0.0678851008,
+          -0.000491962011
+        ],
+        "fell_asleep": 0
+      }
+    }
+  ],
+  "visual_review": "All11originalscreens inspected: correct PAUSED/step/checkbox states, CPUProfile content,1280/1600layout, Jenga Hull\u2192Capsule\u2192Hull geometry visible.",
+  "remaining": "No full PR10 pass: sliders/menu matrix, actual hidden-UI intermediate frame, drag/pick/customkeys/allotherwidgets/remainingfourGPUroutes stillUNREVIEWED.",
+  "full_sample_interactions_done": 0,
+  "full_sample_interactions_left": 165,
+  "shared_subset_routes_done": 1,
+  "shared_subset_routes_left": 4,
+  "observer_sha256": "3382e4f59edd2a12d2f4bf8278c12fd9859788d914e7f2f5a719af2c91699958",
+  "consumed_observer_bytes_deleted": 3946650,
+  "required_event_windows_extracted": true
+}

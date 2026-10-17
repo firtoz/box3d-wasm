@@ -1,0 +1,93 @@
+           PID: 2158015 (cpu)
+           TID: 2158015 (cpu)
+           UID: 1000 (firtoz)
+           GID: 1000 (firtoz)
+        Signal: 11 (SEGV)
+     Timestamp: Thu 2026-10-15 18:50:22 BST (6min ago)
+  Command Line: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-control-build/cpu --sample-name $'Stacking/Single Box'
+    Executable: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-control-build/cpu
+ Control Group: /user.slice/user-1000.slice/user@1000.service/app.slice/app-org.chromium.Chromium-2421.scope
+          Unit: user@1000.service
+     User Unit: app-org.chromium.Chromium-2421.scope
+         Slice: user-1000.slice
+     Owner UID: 1000 (firtoz)
+       Boot ID: 66ef3aa9b02d450eb52aa48b0ee6af2f
+    Machine ID: 8115b858354443659dd6b53b98a6bbd0
+      Hostname: firtina-manjarodesk
+       Storage: /var/lib/systemd/coredump/core.cpu.1000.66ef3aa9b02d450eb52aa48b0ee6af2f.2158015.1792086622000000.zst (present)
+  Size on Disk: 2.8M
+       Message: Process 2158015 (cpu) of user 1000 dumped core.
+                
+                Stack trace of thread 2158015:
+                #0  0x0000562e34db5699 DrawHull (cpu + 0xe6699)
+                #1  0x0000562e34d6643f _ZN7BoxHull6RenderEv (cpu + 0x9743f)
+                #2  0x0000562e34d01102 _ZL7OnFramev (cpu + 0x32102)
+                #3  0x0000562e34d13e15 _sapp_linux_run (cpu + 0x44e15)
+                #4  0x0000562e34cf4272 main (cpu + 0x25272)
+                #5  0x00007f8a98a27781 n/a (libc.so.6 + 0x27781)
+                #6  0x00007f8a98a278b9 __libc_start_main (libc.so.6 + 0x278b9)
+                #7  0x0000562e34cf5e25 _start (cpu + 0x26e25)
+                
+                Stack trace of thread 2158132:
+                #0  0x00007f8a98aa0952 n/a (libc.so.6 + 0xa0952)
+                #1  0x00007f8a98a94cd9 n/a (libc.so.6 + 0x94cd9)
+                #2  0x00007f8a98aa0860 n/a (libc.so.6 + 0xa0860)
+                #3  0x0000562e3520e3ac b3SchedulerWorkerMain (cpu + 0x53f3ac)
+                #4  0x0000562e3522f31b b3ThreadStart (cpu + 0x56031b)
+                #5  0x00007f8a98a980a2 n/a (libc.so.6 + 0x980a2)
+                #6  0x00007f8a98b2080c n/a (libc.so.6 + 0x12080c)
+                
+                Stack trace of thread 2158133:
+                #0  0x00007f8a98aa0952 n/a (libc.so.6 + 0xa0952)
+                #1  0x00007f8a98a94cd9 n/a (libc.so.6 + 0x94cd9)
+                #2  0x00007f8a98aa0860 n/a (libc.so.6 + 0xa0860)
+                #3  0x0000562e3520e3ac b3SchedulerWorkerMain (cpu + 0x53f3ac)
+                #4  0x0000562e3522f31b b3ThreadStart (cpu + 0x56031b)
+                #5  0x00007f8a98a980a2 n/a (libc.so.6 + 0x980a2)
+                #6  0x00007f8a98b2080c n/a (libc.so.6 + 0x12080c)
+                
+                Stack trace of thread 2158135:
+                #0  0x00007f8a98aa0952 n/a (libc.so.6 + 0xa0952)
+                #1  0x00007f8a98a94cd9 n/a (libc.so.6 + 0x94cd9)
+                #2  0x00007f8a98aa0860 n/a (libc.so.6 + 0xa0860)
+                #3  0x0000562e3520e3ac b3SchedulerWorkerMain (cpu + 0x53f3ac)
+                #4  0x0000562e3522f31b b3ThreadStart (cpu + 0x56031b)
+                #5  0x00007f8a98a980a2 n/a (libc.so.6 + 0x980a2)
+                #6  0x00007f8a98b2080c n/a (libc.so.6 + 0x12080c)
+                
+                Stack trace of thread 2158138:
+                #0  0x00007f8a98aa0952 n/a (libc.so.6 + 0xa0952)
+                #1  0x00007f8a98a94cd9 n/a (libc.so.6 + 0x94cd9)
+                #2  0x00007f8a98aa0860 n/a (libc.so.6 + 0xa0860)
+                #3  0x0000562e3520e3ac b3SchedulerWorkerMain (cpu + 0x53f3ac)
+                #4  0x0000562e3522f31b b3ThreadStart (cpu + 0x56031b)
+                #5  0x00007f8a98a980a2 n/a (libc.so.6 + 0x980a2)
+                #6  0x00007f8a98b2080c n/a (libc.so.6 + 0x12080c)
+                
+                Stack trace of thread 2158137:
+                #0  0x00007f8a98aa0952 n/a (libc.so.6 + 0xa0952)
+                #1  0x00007f8a98a94cd9 n/a (libc.so.6 + 0x94cd9)
+                #2  0x00007f8a98aa0860 n/a (libc.so.6 + 0xa0860)
+                #3  0x0000562e3520e3ac b3SchedulerWorkerMain (cpu + 0x53f3ac)
+                #4  0x0000562e3522f31b b3ThreadStart (cpu + 0x56031b)
+                #5  0x00007f8a98a980a2 n/a (libc.so.6 + 0x980a2)
+                #6  0x00007f8a98b2080c n/a (libc.so.6 + 0x12080c)
+                
+                Stack trace of thread 2158134:
+                #0  0x00007f8a98aa0952 n/a (libc.so.6 + 0xa0952)
+                #1  0x00007f8a98a94cd9 n/a (libc.so.6 + 0x94cd9)
+                #2  0x00007f8a98aa0860 n/a (libc.so.6 + 0xa0860)
+                #3  0x0000562e3520e3ac b3SchedulerWorkerMain (cpu + 0x53f3ac)
+                #4  0x0000562e3522f31b b3ThreadStart (cpu + 0x56031b)
+                #5  0x00007f8a98a980a2 n/a (libc.so.6 + 0x980a2)
+                #6  0x00007f8a98b2080c n/a (libc.so.6 + 0x12080c)
+                
+                Stack trace of thread 2158136:
+                #0  0x00007f8a98aa0952 n/a (libc.so.6 + 0xa0952)
+                #1  0x00007f8a98a94cd9 n/a (libc.so.6 + 0x94cd9)
+                #2  0x00007f8a98aa0860 n/a (libc.so.6 + 0xa0860)
+                #3  0x0000562e3520e3ac b3SchedulerWorkerMain (cpu + 0x53f3ac)
+                #4  0x0000562e3522f31b b3ThreadStart (cpu + 0x56031b)
+                #5  0x00007f8a98a980a2 n/a (libc.so.6 + 0x980a2)
+                #6  0x00007f8a98b2080c n/a (libc.so.6 + 0x12080c)
+                ELF object binary architecture: AMD x86-64

@@ -1,0 +1,25 @@
+{
+  "status": "FROZEN_BEFORE_RUN",
+  "driver_sha256": "74cfaa20164661d1457f23bd42c9ba18ee3307a63b261d054f3c08dcf784e048",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "apps": 5,
+  "seconds_each": 60,
+  "ready_seconds": 25,
+  "screens_each": 3,
+  "actions_each": 40,
+  "retries": 0,
+  "actual_inputs": [
+    "pause",
+    "queued enter+wheel",
+    "queued leave+wheel",
+    "held world left button +panel wheel +release",
+    "popup outsidewheel/Escape",
+    "single step/CtrlQ"
+  ]
+}

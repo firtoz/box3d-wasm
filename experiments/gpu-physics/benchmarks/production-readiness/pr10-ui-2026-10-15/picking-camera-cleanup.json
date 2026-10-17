@@ -1,0 +1,104 @@
+{
+  "removed": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-runs/cpu/api.jsonl",
+      "bytes": 533469
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-runs/cpu/observer.jsonl",
+      "bytes": 114655
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-runs/cpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-corrected-runs/cpu/api.jsonl",
+      "bytes": 540395
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-corrected-runs/cpu/observer.jsonl",
+      "bytes": 114910
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-corrected-runs/cpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-text-capture-runs/cpu/api.jsonl",
+      "bytes": 71707
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-text-capture-runs/cpu/observer.jsonl",
+      "bytes": 15731
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-text-capture-runs/cpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/cpu/api.jsonl",
+      "bytes": 131053
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/cpu/observer.jsonl",
+      "bytes": 29002
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/cpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/ordinary-gpu/api.jsonl",
+      "bytes": 1112942
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/ordinary-gpu/observer.jsonl",
+      "bytes": 255018
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/ordinary-gpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/native-gpu/api.jsonl",
+      "bytes": 1151398
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/native-gpu/observer.jsonl",
+      "bytes": 262987
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/native-gpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/ordinary-both/api.jsonl",
+      "bytes": 2084387
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/ordinary-both/observer.jsonl",
+      "bytes": 312400
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/ordinary-both/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/native-both/api.jsonl",
+      "bytes": 2180245
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/native-both/observer.jsonl",
+      "bytes": 327537
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/picking-camera-picker-capture-runs/native-both/stdout.txt",
+      "bytes": 0
+    }
+  ],
+  "deleted_bytes": 9237836,
+  "raw_remaining_bytes": 325446380,
+  "free_bytes": 1709264257024,
+  "retained_pool": "same5overlaycallbackviewers forsamplewidgets; no newbinaries"
+}

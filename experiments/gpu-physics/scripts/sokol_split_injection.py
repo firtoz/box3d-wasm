@@ -22,6 +22,8 @@ def render_text_cursor(text):
         s_context.sample->m_textLine = splitRenderTextEnd;''')
 
 def main(text):
+    # Clear the comparison owner only at the Escape selection layer.
+    text = replace_once(text, "\t\t\t\t\t\t\tClearSelection();", "#if defined(BOTH_SAMPLES)\n                            both_clear_selection();\n#endif\n\t\t\t\t\t\t\tClearSelection();")
     text = INCLUDE + '#if defined(BOTH_SAMPLES)\n#include \"imgui.h\"\n#endif\n' + text
     text = text.replace('#include "sokol_split_text.h"', '#include "sokol_split_text.h"\nstatic int pointerPane = -1;\nstatic float splitMouseX = -1, splitMouseY = -1;\nstatic bool splitMouseInside = false;')
     text = replace_once(text, '\tcamera.Update( dt, W, H );', '''#if defined(BOTH_SAMPLES)
@@ -82,15 +84,17 @@ def main(text):
     }
 #endif''')
     text = replace_once(text, '\tDrawUI( &s_context );', '''#if defined(BOTH_SAMPLES)
-    ImGui::SetNextWindowPos(ImVec2(8.0f, (float)sapp_height() - 8.0f), ImGuiCond_Always, ImVec2(0.0f, 1.0f));
-    ImGui::Begin("Comparison view", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings);
-    bool split = both_split_enabled();
-    if (ImGui::Checkbox("Split: CPU left / GPU right", &split)) {
-        s_context.sample->MouseUp({0, 0}, 0);
-        both_set_split(split);
-        pointerPane = -1;
+    if (s_context.showUI) {
+        ImGui::SetNextWindowPos(ImVec2(8.0f, (float)sapp_height() - 8.0f), ImGuiCond_Always, ImVec2(0.0f, 1.0f));
+        ImGui::Begin("Comparison view", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoSavedSettings);
+        bool split = both_split_enabled();
+        if (ImGui::Checkbox("Split: CPU left / GPU right", &split)) {
+            s_context.sample->MouseUp({0, 0}, 0);
+            both_set_split(split);
+            pointerPane = -1;
+        }
+        ImGui::End();
     }
-    ImGui::End();
 #endif
     // UI layout uses the whole window; projection/picking keeps the pane size.
 #if defined(BOTH_SAMPLES)
@@ -126,6 +130,8 @@ def main(text):
 
 def sample(text):
     text = INCLUDE + text
+    # Frame Camera must use the pane aspect even while DrawUI widens layout.
+    text = replace_once(text, "\t\t\t\tfloat aspect = cam.m_height > 0 ? (float)cam.m_width / (float)cam.m_height : 1.0f;", "#if defined(BOTH_SAMPLES)\n                // DrawUI uses window width for layout; frame the actual viewport.\n                const int frameWidth = both_split_enabled() && sapp_width() >= 2 ? sapp_width() / 2 : cam.m_width;\n                float aspect = cam.m_height > 0 ? (float)frameWidth / (float)cam.m_height : 1.0f;\n#else\n\t\t\t\tfloat aspect = cam.m_height > 0 ? (float)cam.m_width / (float)cam.m_height : 1.0f;\n#endif")
     anchor = '\tif ( button == 0 && modifiers == 0 )'
     text = replace_once(text, anchor, '''#if defined(BOTH_SAMPLES)
     if (both_split_enabled() && button == 0 && (modifiers == 0 || modifiers == MOD_CTRL)) {

@@ -1,0 +1,186 @@
+{
+  "status": "CONFIRMED_WRONG_MENU_ASPECT",
+  "rows": [
+    {
+      "route": "cpu",
+      "checks": {
+        "Menu actualFrame operation captured": true,
+        "F actualFrame operation captured": true,
+        "Samefrozen worldbounds andpadding": true,
+        "ActualnativeFrame matches fitting calculation": true,
+        "Actualaspect exposes intended boundary": true,
+        "Paused IDs andposes unchanged": true,
+        "No advancingphysics": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "seconds": 1.924563371,
+      "frame_cases": {
+        "menu": {
+          "api": "ui07_camera_frame",
+          "width": 1600,
+          "height": 900,
+          "window": [
+            1600,
+            900
+          ],
+          "aspect": 1.77777779,
+          "padding": 0.75,
+          "fov": 0.87266463,
+          "aabb": [
+            [
+              -20.0400009,
+              -2.03999996,
+              -20.0400009
+            ],
+            [
+              20.0400009,
+              12.8012505,
+              20.0400009
+            ]
+          ],
+          "display_half": [
+            20.0400009,
+            7.42062521,
+            20.0400009
+          ],
+          "sphere_radius": 29.2962265,
+          "dist_v": 62.8259583,
+          "dist_h": 35.3395996,
+          "expected_unclamped_radius": 47.1194687,
+          "radius_before": 30,
+          "radius_after": 47.1194725
+        },
+        "key": {
+          "api": "ui07_camera_frame",
+          "width": 1600,
+          "height": 900,
+          "window": [
+            1600,
+            900
+          ],
+          "aspect": 1.77777779,
+          "padding": 0.75,
+          "fov": 0.87266463,
+          "aabb": [
+            [
+              -20.0400009,
+              -2.03999996,
+              -20.0400009
+            ],
+            [
+              20.0400009,
+              12.8012505,
+              20.0400009
+            ]
+          ],
+          "display_half": [
+            20.0400009,
+            7.42062521,
+            20.0400009
+          ],
+          "sphere_radius": 29.2962265,
+          "dist_v": 62.8259583,
+          "dist_h": 35.3395996,
+          "expected_unclamped_radius": 47.1194687,
+          "radius_before": 47.1194725,
+          "radius_after": 47.1194725
+        }
+      },
+      "receipt": "raw/ui07-trace-runs/cpu/receipt.json"
+    },
+    {
+      "route": "ordinary-both",
+      "checks": {
+        "Menu actualFrame operation captured": true,
+        "F actualFrame operation captured": true,
+        "Samefrozen worldbounds andpadding": true,
+        "ActualnativeFrame matches fitting calculation": true,
+        "Actualaspect exposes intended boundary": true,
+        "Paused IDs andposes unchanged": true,
+        "No advancingphysics": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "seconds": 3.117322393,
+      "frame_cases": {
+        "menu": {
+          "api": "ui07_camera_frame",
+          "width": 1600,
+          "height": 900,
+          "window": [
+            1600,
+            900
+          ],
+          "aspect": 1.77777779,
+          "padding": 0.75,
+          "fov": 0.87266463,
+          "aabb": [
+            [
+              -20.0400009,
+              -2.03999996,
+              -20.0400009
+            ],
+            [
+              20.0400009,
+              13,
+              20.0400009
+            ]
+          ],
+          "display_half": [
+            20.0400009,
+            7.51999998,
+            20.0400009
+          ],
+          "sphere_radius": 29.3215561,
+          "dist_v": 62.8802795,
+          "dist_h": 35.3701553,
+          "expected_unclamped_radius": 47.1602097,
+          "radius_before": 30,
+          "radius_after": 47.1602097
+        },
+        "key": {
+          "api": "ui07_camera_frame",
+          "width": 800,
+          "height": 900,
+          "window": [
+            1600,
+            900
+          ],
+          "aspect": 0.888888896,
+          "padding": 0.75,
+          "fov": 0.87266463,
+          "aabb": [
+            [
+              -20.0400009,
+              -2.03999996,
+              -20.0400009
+            ],
+            [
+              20.0400009,
+              13,
+              20.0400009
+            ]
+          ],
+          "display_half": [
+            20.0400009,
+            7.51999998,
+            20.0400009
+          ],
+          "sphere_radius": 29.3215561,
+          "dist_v": 62.8802795,
+          "dist_h": 70.7403107,
+          "expected_unclamped_radius": 53.055233,
+          "radius_before": 47.1602097,
+          "radius_after": 53.055233
+        }
+      },
+      "receipt": "raw/ui07-trace-runs/ordinary-both/receipt.json"
+    }
+  ],
+  "source_pins": {
+    "camera": "25c1de0c4fad9a23ebdefcada3d6b4e2a97c7cd45ea71a7488411c7d5924daf0",
+    "sample": "4b0de896d159fd6cf4528c2f4b906ddc527314ee85cb3b823351fc91e1d3b3a6",
+    "split": "8e844b5ab7d28b08eef3b49e8e54e2f1449c155cdc25a7beb94d1877284aa312"
+  }
+}

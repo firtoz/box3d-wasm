@@ -1,0 +1,24 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "builds": 0,
+  "apps_CPUfirst": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 240,
+  "ready_seconds": 25,
+  "scene_or_first_step_seconds": 90,
+  "screens_each": 8,
+  "actions_each": 160,
+  "api_cap_each": 33554432,
+  "temporary_cap": 1073741824,
+  "retained_cap": 67108864,
+  "shared_cache_growth_cap": 134217728,
+  "retries": 0,
+  "scope": "Remaining12sharedworlddrawoverlaycontrols onBodyType8bodies/8shapes/3joints; two controlledphysicssteps forlivecontacts, realcallbacks/inputdigests vs each frozenownscene. Joint/ForceScale actualsegmentinputs andrestore. SourceNoBox3D/WASM/enginechange; no solver/trajectoryqualification. AllUI03defects logged, no repair.",
+  "outputs": "Current5diagnosticviewers reused; actual API excerpts/checks/screens retained, fullstreams deleted after extraction; oldmetadata pool removed onlyafternewall5runtimequalification",
+  "driver_sha256": "8fad0737d4ae8300f5a2f7dba5fedf946e507063b507141c269fa183b8aabdda"
+}

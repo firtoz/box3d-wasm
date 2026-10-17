@@ -1,0 +1,28 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "Shareddiagnostics/Profile/Renderer/FrameTime controls, HelpControls/About, Solvercollapse, keyboardR focusbehavior, HideUI+Tabrestore. ActualCPUfirst5routes, recordproductfindingsandcontinueindependentcases. Fullcatalogmenu/picking/recording remainseparate.",
+  "builds": 0,
+  "apps": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "screens_each": 8,
+  "actions_each": 100,
+  "api_trace_cap": 8388608,
+  "temporary_bytes": 134217728,
+  "retained_bytes": 33554432,
+  "shared_cache_growth_allowance": 134217728,
+  "free_bytes": 1709446041600,
+  "retries": 0,
+  "outputs": {
+    "UI/world/APIstreams": "LatestUIpluscompactrequiredstatewindows; deleteconsumedfullstreamsafteracceptance",
+    "screens": "profiledefault/plots/framechart/controls/about/hidden/restored/oneoptionalmarker max8 each retainedCPUfirst",
+    "currentviewerpool": "Reuserender-popup-build5viewers, no newbinary/cachecopy"
+  },
+  "limits": "Widgetreview notsolverrepair. Rfocusfinding comparedCPU/GPU andnotfixedbeforefullreview."
+}

@@ -1,0 +1,50 @@
+{
+  "status": "FROZEN",
+  "cpp_compiles": 1,
+  "compile_seconds": 35,
+  "generations": 1,
+  "generation_seconds": 10,
+  "links": 5,
+  "link_seconds": 25,
+  "viewers": 5,
+  "seconds_per_app": 50,
+  "screenshots_per_app": 3,
+  "actions_per_app": 170,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 16777216,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 6291456,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "shared_cache_growth_total_bytes": 33554432,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 450,
+  "raw_before_bytes": 953962391,
+  "unit": {
+    "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake",
+    "command": "/usr/bin/c++ -DSOKOL_GLCORE -I/home/firtoz/work/2026/box3d-wasm/box3d/samples -I/home/firtoz/work/2026/box3d-wasm/box3d/data -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples -I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/.. -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/shared -I/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/include -isystem /home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o -c /home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp",
+    "file": "/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp",
+    "output": "CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o"
+  },
+  "old_object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui15-build/sample_collision_ui.cpp.o",
+  "pins_before": {
+    "generator": "11c5febfc5062cf5bc614b7d08aa59163829d8156cd2a1e369464f834cf3fec5",
+    "collision": "f1ff5ea97fc352b1f26f13c422554b2b8e5994e1c299bbeb58827f1829593932"
+  },
+  "scope": "UI16only: ShapeDistanceactualA/Btypecombo triangle/box clearsradiusstatebeforeproxyrebuild, matchingunroundedpreview/no-radiusUI. Point/segment radius preserved. DefaultsinitialtriA/boxB/radii0/engine/geometry unchanged. CacheOFF forboundarycases; UI17cacheinvalidation/UI18framing remainseparateopen. Allfiveactualpoint/segment/customradius→triangle/box/reset/display/radius/other-axisretention/GJKdistance/defaultpreviewdigest/restart. Onecompile/sharedbackendindependentCollisioncopy;0solver/query/engine/WASM/Rust/sharedarchive edits.",
+  "outputs": [
+    {
+      "path": "raw/ui16-build",
+      "consumer": "Fivecurrentviewers/newCollisionobject/source nextPR10relink",
+      "delete": "Retireoldviewerperqualifiedroute/oldCollisionobjectsourceafterallroutes;consumecompile/checklogs"
+    },
+    {
+      "path": "raw/ui16-runs",
+      "consumer": "A/Bsupportedradius/unsupportedtransition actualGJK+preview/defaults/15images finalaudit",
+      "delete": "Consume streams terminalperroute;retainminimalreceipts/media"
+    }
+  ]
+}

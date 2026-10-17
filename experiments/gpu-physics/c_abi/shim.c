@@ -1,6 +1,7 @@
 // Thin C wrappers so a Box3D sample can include box3d.h and link this crate instead of libbox3d.
 
 #include "box3d/box3d.h"
+#include "height_field_compat.h"
 #include "box3d/collision.h"
 
 #include <stdlib.h>
@@ -10,6 +11,7 @@
 #include <time.h>
 #include "native_clock.h"
 #include "growable_slots.h"
+void gpu_samples_on_mesh_shape_replaced(b3ShapeId, b3BodyId, const b3MeshData*, b3Vec3) __attribute__((weak));
 
 /* Separate per-compound resource guard, not a world shape-index limit.
    Shared mesh instances avoid duplicating geometry for each compound child. */
@@ -611,6 +613,8 @@ extern bool gpu_b3_shape_are_hit_events_enabled(GpuShapeId shape);
 extern void gpu_b3_shape_set_user_material_id(GpuShapeId shape, uint64_t value);
 
 void gpu_samples_on_world_created(b3WorldId world, const b3WorldDef* def) __attribute__((weak));
+void gpu_samples_on_world_step(b3WorldId world, float dt) __attribute__((weak));
+void gpu_samples_on_joint_created(b3JointId id, const b3JointDef* def) __attribute__((weak));
 void gpu_samples_on_world_destroyed(b3WorldId world) __attribute__((weak));
 void gpu_samples_on_shape_created(b3ShapeId shapeId, b3BodyId bodyId, b3ShapeType type, const b3Sphere* sphere,
 								  const b3Capsule* capsule, const b3HullData* hull) __attribute__((weak));
@@ -891,6 +895,7 @@ B3_API void b3World_SetRestitutionCallback(b3WorldId worldId, b3RestitutionCallb
 B3_API void b3World_Step(b3WorldId worldId, float timeStep, int subStepCount)
 {
 	gpu_b3_world_step(worldId, timeStep, subStepCount);
+	if (gpu_samples_on_world_step) gpu_samples_on_world_step(worldId, timeStep);
 	g_gpu_step_ms = gpu_b3_world_last_encode_ms(worldId);
 }
 
@@ -1435,10 +1440,11 @@ B3_API void b3Shape_SetHeightField(b3ShapeId shapeId, const b3HeightFieldData* h
 	{
 		return;
 	}
+	const GpuHeightFieldEncoding encoding = gpu_height_field_encoding(heightField);
 	bool replaced = gpu_b3_replace_height_field(
 		shapeId, b3GetHeightFieldCompressedHeights(heightField), heightField->columnCount, heightField->rowCount,
-		heightField->minHeight, heightField->heightScale, heightField->scale.x, heightField->scale.y,
-		heightField->scale.z, b3GetHeightFieldMaterialIndices(heightField), b3GetHeightFieldFlags(heightField),
+		encoding.minHeight, encoding.heightScale, encoding.scale.x, encoding.scale.y,
+		encoding.scale.z, b3GetHeightFieldMaterialIndices(heightField), b3GetHeightFieldFlags(heightField),
 		heightField->clockwise != 0);
 	if (replaced)
 	{
@@ -1493,17 +1499,23 @@ B3_API void b3Shape_SetMesh(b3ShapeId shapeId, const b3MeshData* mesh, b3Vec3 sc
 	{
 		return;
 	}
+	// Match native finite mesh scales; retain the existing invalid-input path.
+	const b3Vec3 gpuScale = b3IsValidVec3(scale) ? b3SafeScale(scale) : scale;
 	bool replaced = gpu_b3_replace_mesh(
 		shapeId, &b3GetMeshVertices(mesh)[0].x, mesh->vertexCount, &b3GetMeshTriangles(mesh)[0].index1,
 		mesh->triangleCount, b3GetMeshFlags(mesh), b3GetMeshMaterialIndices(mesh), b3GetMeshNodes(mesh),
-		mesh->nodeCount, scale.x, scale.y, scale.z);
+		mesh->nodeCount, gpuScale.x, gpuScale.y, gpuScale.z);
 	if (replaced)
 	{
 		GpuMeshMirror* mirror = find_mesh_mirror(shapeId, false);
 		if (mirror != NULL)
 		{
 			mirror->data = mesh;
-			mirror->scale = scale;
+			mirror->scale = gpuScale;
+		}
+		if (gpu_samples_on_mesh_shape_replaced)
+		{
+			gpu_samples_on_mesh_shape_replaced(shapeId, gpu_b3_shape_get_body(shapeId), mesh, gpuScale);
 		}
 	}
 }
@@ -1744,10 +1756,11 @@ B3_API b3ShapeId b3CreateHeightFieldShape(b3BodyId bodyId, const b3ShapeDef* def
 	float friction = def ? def->baseMaterial.friction : 0.6f;
 	float restitution = def ? def->baseMaterial.restitution : 0.0f;
 	float rolling = def ? def->baseMaterial.rollingResistance : 0.0f;
+	const GpuHeightFieldEncoding encoding = gpu_height_field_encoding(heightField);
 	GpuShapeId id = gpu_b3_create_height_field(
 		bodyId, b3GetHeightFieldCompressedHeights(heightField), heightField->columnCount, heightField->rowCount,
-		heightField->minHeight, heightField->heightScale, heightField->scale.x, heightField->scale.y,
-		heightField->scale.z, b3GetHeightFieldMaterialIndices(heightField), b3GetHeightFieldFlags(heightField),
+		encoding.minHeight, encoding.heightScale, encoding.scale.x, encoding.scale.y,
+		encoding.scale.z, b3GetHeightFieldMaterialIndices(heightField), b3GetHeightFieldFlags(heightField),
 		heightField->clockwise != 0, density, friction, restitution, rolling);
 	configure_shape(id, def);
 	if (id.index1 > 0)
@@ -2095,6 +2108,7 @@ B3_API b3ShapeId b3CreateCapsuleShape(b3BodyId bodyId, const b3ShapeDef* def, co
 
 static b3JointId finish_joint_create(b3JointId id, const b3JointDef* base)
 {
+	if (gpu_samples_on_joint_created) gpu_samples_on_joint_created(id, base);
 	gpu_b3_joint_set_force_threshold(id, base->forceThreshold);
 	gpu_b3_joint_set_torque_threshold(id, base->torqueThreshold);
 	gpu_b3_joint_set_user_data(id, (uintptr_t)base->userData);
@@ -2110,6 +2124,7 @@ B3_API b3RevoluteJointDef b3DefaultRevoluteJointDef(void)
 	def.base.constraintDampingRatio = 2.0f;
 	def.base.forceThreshold = FLT_MAX;
 	def.base.torqueThreshold = FLT_MAX;
+	def.base.drawScale = b3GetLengthUnitsPerMeter();
 	def.base.internalValue = 1152023;
 	return def;
 }
@@ -2123,6 +2138,7 @@ B3_API b3WeldJointDef b3DefaultWeldJointDef(void)
 	def.base.constraintDampingRatio = 2.0f;
 	def.base.forceThreshold = FLT_MAX;
 	def.base.torqueThreshold = FLT_MAX;
+	def.base.drawScale = b3GetLengthUnitsPerMeter();
 	def.base.internalValue = 1152023;
 	return def;
 }
@@ -2136,6 +2152,7 @@ B3_API b3WheelJointDef b3DefaultWheelJointDef(void)
 	def.base.constraintDampingRatio = 2.0f;
 	def.base.forceThreshold = FLT_MAX;
 	def.base.torqueThreshold = FLT_MAX;
+	def.base.drawScale = b3GetLengthUnitsPerMeter();
 	def.base.internalValue = 1152023;
 	def.enableSuspensionSpring = true;
 	def.suspensionHertz = 1.0f;
@@ -2154,6 +2171,7 @@ B3_API b3PrismaticJointDef b3DefaultPrismaticJointDef(void)
 	def.base.constraintDampingRatio = 2.0f;
 	def.base.forceThreshold = FLT_MAX;
 	def.base.torqueThreshold = FLT_MAX;
+	def.base.drawScale = b3GetLengthUnitsPerMeter();
 	def.base.internalValue = 1152023;
 	return def;
 }
@@ -2167,6 +2185,7 @@ B3_API b3DistanceJointDef b3DefaultDistanceJointDef(void)
 	def.base.constraintDampingRatio = 2.0f;
 	def.base.forceThreshold = FLT_MAX;
 	def.base.torqueThreshold = FLT_MAX;
+	def.base.drawScale = b3GetLengthUnitsPerMeter();
 	def.base.internalValue = 1152023;
 	def.length = 1.0f;
 	def.lowerSpringForce = -FLT_MAX;
@@ -2184,6 +2203,7 @@ B3_API b3MotorJointDef b3DefaultMotorJointDef(void)
 	def.base.constraintDampingRatio = 2.0f;
 	def.base.forceThreshold = FLT_MAX;
 	def.base.torqueThreshold = FLT_MAX;
+	def.base.drawScale = b3GetLengthUnitsPerMeter();
 	def.base.internalValue = 1152023;
 	return def;
 }
@@ -2197,6 +2217,7 @@ B3_API b3ParallelJointDef b3DefaultParallelJointDef(void)
 	def.base.constraintDampingRatio = 2.0f;
 	def.base.forceThreshold = FLT_MAX;
 	def.base.torqueThreshold = FLT_MAX;
+	def.base.drawScale = b3GetLengthUnitsPerMeter();
 	def.base.internalValue = 1152023;
 	def.hertz = 1.0f;
 	def.dampingRatio = 1.0f;
@@ -2213,6 +2234,7 @@ B3_API b3FilterJointDef b3DefaultFilterJointDef(void)
 	def.base.constraintDampingRatio = 2.0f;
 	def.base.forceThreshold = FLT_MAX;
 	def.base.torqueThreshold = FLT_MAX;
+	def.base.drawScale = b3GetLengthUnitsPerMeter();
 	def.base.internalValue = 1152023;
 	return def;
 }
@@ -2299,6 +2321,7 @@ B3_API b3SphericalJointDef b3DefaultSphericalJointDef(void)
 	def.base.constraintDampingRatio = 2.0f;
 	def.base.forceThreshold = FLT_MAX;
 	def.base.torqueThreshold = FLT_MAX;
+	def.base.drawScale = b3GetLengthUnitsPerMeter();
 	def.base.internalValue = 1152023;
 	def.targetRotation = b3Quat_identity;
 	return def;

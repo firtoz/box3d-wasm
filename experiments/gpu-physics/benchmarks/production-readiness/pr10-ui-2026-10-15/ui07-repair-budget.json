@@ -1,0 +1,49 @@
+{
+  "status": "FROZEN",
+  "cpp_compiles": 1,
+  "compile_seconds": 30,
+  "generations": 1,
+  "generation_seconds": 10,
+  "links": 6,
+  "link_seconds": 25,
+  "viewers": 6,
+  "seconds_per_app": 75,
+  "screenshots_per_app": 5,
+  "actions_per_app": 180,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 16777216,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 6291456,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "shared_cache_growth_total_bytes": 33554432,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 720,
+  "raw_before_bytes": 914623410,
+  "pins_before": {
+    "sample": "4b0de896d159fd6cf4528c2f4b906ddc527314ee85cb3b823351fc91e1d3b3a6",
+    "camera": "25c1de0c4fad9a23ebdefcada3d6b4e2a97c7cd45ea71a7488411c7d5924daf0",
+    "split": "8e844b5ab7d28b08eef3b49e8e54e2f1449c155cdc25a7beb94d1877284aa312"
+  },
+  "scope": "NativeBOTH firstbefore trace (1link/app/2screens,0compile), thenonlymenuAspect generatedcombinedSample delta,1CPP/5links/all5CPUfirstchecks. ActualFrame menu/key samebounds/aspect/fittingdistance, splitoff/on, resize1280x800, IDs/pausedposes/defaults/restart andSingleBoxbothpanes picking. StandaloneSample objects unchanged, wrapperread-only.0scriptphysics/Rust/shaders/core/sharedarchives/qualifiedretries.",
+  "outputs": [
+    {
+      "path": "raw/ui07-build",
+      "consumer": "5currentviewers and1combinedSample+cameraobserver for nextPR10relinks",
+      "delete": "Delete supersededviewer after qualifiedreplacement;oldcombinedSample afterbothqualified;nativebeforebinaryaftertrace;canonicalcopies/logs afterproofextraction"
+    },
+    {
+      "path": "raw/ui07-runs",
+      "consumer": "SelectedFrame/pick/lifecycle receipts/<=25afterimages",
+      "delete": "Consume API/observer/stderr terminalperroute;retainminimalreceipts/images"
+    },
+    {
+      "path": "raw/ui07-trace-runs/native-both",
+      "consumer": "2actualnativebeforeimages/Framepairs",
+      "delete": "Consume streams after terminalapp;retainminimalreceipt/media"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "removed": [
+    {
+      "path": "raw/geometry-controls-runs/cpu/api.jsonl",
+      "bytes": 485849,
+      "consumer": "Actual before/after/restored hulls extracted in receipt geometry_cases; UI12 boundary separately retained"
+    },
+    {
+      "path": "raw/geometry-controls-runs/cpu/observer.jsonl",
+      "bytes": 76049,
+      "consumer": "Actual before/after/restored hulls extracted in receipt geometry_cases; UI12 boundary separately retained"
+    },
+    {
+      "path": "raw/geometry-controls-ts-runs/cpu/api.jsonl",
+      "bytes": 5215735,
+      "consumer": "Actual before/after/restored hulls extracted in receipt geometry_cases; UI12 boundary separately retained"
+    },
+    {
+      "path": "raw/geometry-controls-ts-runs/cpu/observer.jsonl",
+      "bytes": 772699,
+      "consumer": "Actual before/after/restored hulls extracted in receipt geometry_cases; UI12 boundary separately retained"
+    }
+  ],
+  "total_deleted": 6550332
+}

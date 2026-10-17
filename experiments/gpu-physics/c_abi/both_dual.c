@@ -1,4 +1,5 @@
 #include "box3d/box3d.h"
+#include "height_field_compat.h"
 #include "both_ids.h"
 #include "both_view.h"
 #include <math.h>
@@ -8,6 +9,8 @@
 #include <string.h>
 #include <time.h>
 #include "native_clock.h"
+extern void gpu_samples_on_mesh_shape_replaced(b3ShapeId, b3BodyId, const b3MeshData*, b3Vec3);
+extern b3BodyId gpu_b3_shape_get_body(b3ShapeId);
 
 extern void gpu_shape_set_sphere(b3ShapeId, const b3Sphere*);
 extern void gpu_shape_set_capsule(b3ShapeId, const b3Capsule*);
@@ -458,6 +461,8 @@ extern void cpu_b3Body_SetAngularDamping(b3BodyId bodyId, float damping);
 extern void cpu_b3Body_SetGravityScale(b3BodyId bodyId, float scale);
 
 extern void gpu_samples_on_world_created(b3WorldId world, const b3WorldDef* def);
+extern void gpu_samples_on_world_step(b3WorldId world, float dt);
+extern void gpu_samples_on_joint_created(b3JointId id, const b3JointDef* def);
 extern void gpu_samples_on_world_destroyed(b3WorldId world);
 extern void gpu_samples_on_shape_created(b3ShapeId shapeId, b3BodyId bodyId, b3ShapeType type, const b3Sphere* sphere,
 										 const b3Capsule* capsule, const b3HullData* hull);
@@ -490,6 +495,14 @@ typedef struct BothDrag {
 static BothDrag g_drag;
 static void both_drag_step(b3WorldId world, float dt);
 bool both_split_enabled(void) { return g_split; }
+void both_clear_selection(void) {
+    // Selection is independent of an in-progress pointer grab.
+    memset(g_drag.selected, 0, sizeof(g_drag.selected));
+    extern void SetComparisonSelectedBody(b3BodyId);
+    extern void SetSelectedBody(b3BodyId);
+    SetComparisonSelectedBody((b3BodyId){0});
+    SetSelectedBody((b3BodyId){0});
+}
 void both_set_split(bool enabled) { both_pointer_up(); g_split = enabled; }
 void both_begin_frame(void) { g_draw_world = (b3WorldId){0}; g_second_view = false; }
 
@@ -931,6 +944,7 @@ B3_API void b3World_Step(b3WorldId worldId, float timeStep, int subStepCount)
 {
     both_drag_step(worldId, timeStep);
 	gpu_b3_world_step(worldId, timeStep, subStepCount);
+	gpu_samples_on_world_step(worldId, timeStep);
 	if (both_has_cpu_world(worldId))
 	{
 		cpu_b3World_Step(both_cpu_world(worldId), timeStep, subStepCount);
@@ -1498,10 +1512,11 @@ B3_API b3ShapeId b3CreateHeightFieldShape(b3BodyId bodyId, const b3ShapeDef* def
 	}
 	float density, friction, restitution, rolling;
 	materials(def, &density, &friction, &restitution, &rolling);
+	const GpuHeightFieldEncoding encoding = gpu_height_field_encoding(heightField);
 	GpuShapeId gpu = gpu_b3_create_height_field(
 		bodyId, b3GetHeightFieldCompressedHeights(heightField), heightField->columnCount, heightField->rowCount,
-		heightField->minHeight, heightField->heightScale, heightField->scale.x, heightField->scale.y,
-		heightField->scale.z, b3GetHeightFieldMaterialIndices(heightField), b3GetHeightFieldFlags(heightField),
+		encoding.minHeight, encoding.heightScale, encoding.scale.x, encoding.scale.y,
+		encoding.scale.z, b3GetHeightFieldMaterialIndices(heightField), b3GetHeightFieldFlags(heightField),
 		heightField->clockwise != 0, density, friction, restitution, rolling);
 	configure_gpu_shape(gpu, def);
 	int materialCount = def != NULL && def->materialCount > 0 ? def->materialCount : 1;
@@ -1676,10 +1691,16 @@ B3_API void b3Shape_SetMesh(b3ShapeId shapeId, const b3MeshData* mesh, b3Vec3 sc
 	{
 		return;
 	}
-	gpu_b3_replace_mesh(
+	// Match native finite mesh scales; retain the existing invalid-input path.
+	const b3Vec3 gpuScale = b3IsValidVec3(scale) ? b3SafeScale(scale) : scale;
+	bool replaced = gpu_b3_replace_mesh(
 		shapeId, &b3GetMeshVertices(mesh)[0].x, mesh->vertexCount, &b3GetMeshTriangles(mesh)[0].index1,
 		mesh->triangleCount, b3GetMeshFlags(mesh), b3GetMeshMaterialIndices(mesh), b3GetMeshNodes(mesh),
-		mesh->nodeCount, scale.x, scale.y, scale.z);
+		mesh->nodeCount, gpuScale.x, gpuScale.y, gpuScale.z);
+	if (replaced)
+	{
+		gpu_samples_on_mesh_shape_replaced(shapeId, gpu_b3_shape_get_body(shapeId), mesh, gpuScale);
+	}
 	if (both_has_cpu_shape(shapeId))
 	{
 		cpu_b3Shape_SetMesh(both_cpu_shape(shapeId), mesh, scale);
@@ -1688,6 +1709,7 @@ B3_API void b3Shape_SetMesh(b3ShapeId shapeId, const b3MeshData* mesh, b3Vec3 sc
 
 static void configure_gpu_joint(GpuJointId joint, const b3JointDef* base)
 {
+	gpu_samples_on_joint_created(joint, base);
 	gpu_b3_joint_set_force_threshold(joint, base->forceThreshold);
 	gpu_b3_joint_set_torque_threshold(joint, base->torqueThreshold);
 	gpu_b3_joint_set_user_data(joint, (uintptr_t)base->userData);
@@ -2579,6 +2601,11 @@ B3_API void b3Body_SetTargetTransform(b3BodyId bodyId, b3WorldTransform target, 
 
 B3_API b3BodyType b3Body_GetType(b3BodyId bodyId)
 {
+	// CPU debug callbacks carry raw CPU IDs, as in the shape-name lookup.
+	if (g_cpu_debug_draw)
+	{
+		return cpu_b3Body_GetType(bodyId);
+	}
 	return (b3BodyType)gpu_b3_body_get_type(bodyId);
 }
 
@@ -3267,7 +3294,14 @@ BothPointerState both_pointer_state(int engine) {
 }
 
 extern b3BodyId gpu_b3_shape_get_body(b3ShapeId shape);
-B3_API b3BodyId b3Shape_GetBody(b3ShapeId shape) { return gpu_b3_shape_get_body(shape); }
+B3_API b3BodyId b3Shape_GetBody(b3ShapeId shape)
+{
+	if (g_cpu_debug_draw)
+	{
+		return cpu_b3Shape_GetBody(shape);
+	}
+	return gpu_b3_shape_get_body(shape);
+}
 
 void both_pointer_impulse(b3WorldId world, b3Pos origin, b3Vec3 translation, b3Vec3 impulse) {
     b3QueryFilter filter = b3DefaultQueryFilter();

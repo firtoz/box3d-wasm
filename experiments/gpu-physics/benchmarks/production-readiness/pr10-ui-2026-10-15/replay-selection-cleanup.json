@@ -1,0 +1,14 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 1699554,
+  "raw_retained_bytes": 872874706,
+  "deleted_bytes": 4276360,
+  "owned_pids_absent": [
+    3167918,
+    3167823
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 870,
+  "free_bytes": 1708260524032,
+  "consumer": "9actualCPUwidgets/custommousefocuslayout/exit andstabletextfollowup; originalshapeslotprobeerrorsretained/source-dataadjudicated."
+}

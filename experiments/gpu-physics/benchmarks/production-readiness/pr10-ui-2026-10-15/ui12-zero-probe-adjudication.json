@@ -1,0 +1,256 @@
+{
+  "status": "PASS_RETAINED_ACTUAL_GEOMETRY_AND_NATIVE_MINIMUM",
+  "original_false_probes": [
+    {
+      "check": "Zeroaxis1 actualNULLhull safelyreturns",
+      "context": {
+        "api": "actual_geometry_frame",
+        "hull_calls": 2,
+        "factory_create": 6,
+        "factory_clone": 0,
+        "factory_box": 6,
+        "hulls": [
+          {
+            "valid": false
+          },
+          {
+            "valid": true,
+            "vertices": 8,
+            "faces": 6,
+            "half_edges": 24,
+            "volume": 0.0399999991,
+            "area": 2.20000005,
+            "radius": 0.0199999996,
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "aabb": [
+              -1,
+              -0.0199999996,
+              -0.25,
+              1,
+              0.0199999996,
+              0.25
+            ],
+            "points_digest": "08095f6797348393",
+            "draw_position": [
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "check": "Zeroaxis0 actualNULLhull safelyreturns",
+      "context": {
+        "api": "actual_geometry_frame",
+        "hull_calls": 2,
+        "factory_create": 8,
+        "factory_clone": 0,
+        "factory_box": 8,
+        "hulls": [
+          {
+            "valid": false
+          },
+          {
+            "valid": true,
+            "vertices": 8,
+            "faces": 6,
+            "half_edges": 24,
+            "volume": 0.0199999996,
+            "area": 1.12,
+            "radius": 0.0199999996,
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "aabb": [
+              -0.0199999996,
+              -0.5,
+              -0.25,
+              0.0199999996,
+              0.5,
+              0.25
+            ],
+            "points_digest": "3ac1d690e04648d3",
+            "draw_position": [
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "check": "Zeroaxis2 actualNULLhull safelyreturns",
+      "context": {
+        "api": "actual_geometry_frame",
+        "hull_calls": 2,
+        "factory_create": 10,
+        "factory_clone": 0,
+        "factory_box": 10,
+        "hulls": [
+          {
+            "valid": false
+          },
+          {
+            "valid": true,
+            "vertices": 8,
+            "faces": 6,
+            "half_edges": 24,
+            "volume": 0.0799999982,
+            "area": 4.23999977,
+            "radius": 0.0199999996,
+            "center": [
+              0,
+              0,
+              0
+            ],
+            "aabb": [
+              -1,
+              -0.5,
+              -0.0199999996,
+              1,
+              0.5,
+              0.0199999996
+            ],
+            "points_digest": "6b03e79da8f89843",
+            "draw_position": [
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "corrected": [
+    {
+      "axis": 1,
+      "computed_hull_null": true,
+      "actual_analytic": {
+        "valid": true,
+        "vertices": 8,
+        "faces": 6,
+        "half_edges": 24,
+        "volume": 0.0399999991,
+        "area": 2.20000005,
+        "radius": 0.0199999996,
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "aabb": [
+          -1,
+          -0.0199999996,
+          -0.25,
+          1,
+          0.0199999996,
+          0.25
+        ],
+        "points_digest": "08095f6797348393",
+        "draw_position": [
+          0,
+          0,
+          0
+        ]
+      },
+      "expected_half": [
+        1,
+        0.02,
+        0.25
+      ],
+      "pass": true
+    },
+    {
+      "axis": 0,
+      "computed_hull_null": true,
+      "actual_analytic": {
+        "valid": true,
+        "vertices": 8,
+        "faces": 6,
+        "half_edges": 24,
+        "volume": 0.0199999996,
+        "area": 1.12,
+        "radius": 0.0199999996,
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "aabb": [
+          -0.0199999996,
+          -0.5,
+          -0.25,
+          0.0199999996,
+          0.5,
+          0.25
+        ],
+        "points_digest": "3ac1d690e04648d3",
+        "draw_position": [
+          0,
+          0,
+          0
+        ]
+      },
+      "expected_half": [
+        0.02,
+        0.5,
+        0.25
+      ],
+      "pass": true
+    },
+    {
+      "axis": 2,
+      "computed_hull_null": true,
+      "actual_analytic": {
+        "valid": true,
+        "vertices": 8,
+        "faces": 6,
+        "half_edges": 24,
+        "volume": 0.0799999982,
+        "area": 4.23999977,
+        "radius": 0.0199999996,
+        "center": [
+          0,
+          0,
+          0
+        ],
+        "aabb": [
+          -1,
+          -0.5,
+          -0.0199999996,
+          1,
+          0.5,
+          0.0199999996
+        ],
+        "points_digest": "6b03e79da8f89843",
+        "draw_position": [
+          0,
+          0,
+          0
+        ]
+      },
+      "expected_half": [
+        1,
+        0.5,
+        0.02
+      ],
+      "pass": true
+    }
+  ],
+  "source": {
+    "path": "box3d/src/hull.c",
+    "sha256": "4ba4620e395724c8a2120ac29c32fd4a7df5271b53adbfe67d8d2cd6e1131023",
+    "rule": "b3MakeScaledBoxHull calls b3ScaleBox(...,4*B3_LINEAR_SLOP); b3ScaleBox maxes everyhalfwidth againstminimum. Default lengthunits1/B3_LINEAR_SLOP.005→.02. ActualCPU zeroXYZbounds/volumes match nativeexistingminimum."
+  },
+  "scope": "Onlyprobe expectation corrected; actualCPUcompleteddata reused, originalflags unchanged. No productchange/rerun."
+}

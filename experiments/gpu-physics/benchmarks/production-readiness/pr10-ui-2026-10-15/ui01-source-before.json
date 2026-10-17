@@ -1,0 +1,6 @@
+{
+  "path": "experiments/gpu-physics/scripts/inject-sokol-bench.py",
+  "sha256": "5bd8e8248f401f4bc0b03cc280e35780c7791312b15e16ea204bcd2239cb92ef",
+  "HEAD": "51ff8b06b4964d359386f08605d835ac6e2ea23d",
+  "change_scope": "OnlygeneratedInfoPanel textwrap; engine/library/Box3D/WASM inputsunchanged"
+}

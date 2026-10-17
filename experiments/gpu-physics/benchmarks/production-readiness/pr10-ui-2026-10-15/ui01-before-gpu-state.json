@@ -1,0 +1,25 @@
+{
+  "status": "NUMERIC_PASSES_VISUAL_REVIEW_PENDING",
+  "phases": [
+    {
+      "label": "ordinary-gpu",
+      "driver_exit": 0
+    },
+    {
+      "label": "native-gpu",
+      "driver_exit": 0
+    },
+    {
+      "label": "ordinary-both",
+      "driver_exit": 0
+    },
+    {
+      "label": "native-both",
+      "driver_exit": 0
+    }
+  ],
+  "started": 1792066417.8964658,
+  "current_child_pid": 1476572,
+  "current_label": "native-both",
+  "elapsed_seconds": 42.89242275498691
+}

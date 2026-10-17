@@ -1,0 +1,14 @@
+{
+  "status":"FROZEN",
+  "compile_seconds":20,
+  "link_seconds_each":25,
+  "compile_count":1,
+  "link_count":5,
+  "apps":0,
+  "retries":0,
+  "temporary_bytes":220200960,
+  "retained_bytes":8388608,
+  "scope":"Read-only native link observation of actual body creation/destruction, transform/awake and explosion inputs plus before/after live body/shape state. Engine/Rust/WGSL/Box3D/WASM unchanged.",
+  "consumer":"Bodies/Weeble3widgets, Benchmark/Explosion2, Shapes/Restitution2, World/FarStack1(loopfivepresets), and later mutation controls",
+  "deletion":"Currentdistancepool retained until replacement qualifies, then delete superseded viewers; new pool retained until next qualified replacement"
+}

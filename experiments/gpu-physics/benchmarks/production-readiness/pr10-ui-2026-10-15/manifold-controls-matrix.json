@@ -1,0 +1,21 @@
+{
+  "status": "CPU_PREREQUISITE_FAILED",
+  "budget": "manifold-controls-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "driver_sha256": "c96915e9f0c0de1cc89fc3240d22a07c8135561b9aa97f30822baaff5ad408a8",
+  "runs": [
+    {
+      "route": "cpu",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 193,
+      "findings": 30
+    }
+  ]
+}

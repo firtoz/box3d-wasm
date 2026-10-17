@@ -1,0 +1,97 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "joint-camera-controls-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "crash",
+    "village"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "crash",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "village",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 11,
+      "findings": 4
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "crash",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "village",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 11,
+      "findings": 3
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "crash",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "village",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 11,
+      "findings": 3
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "crash",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "village",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 10,
+      "findings": 4
+    },
+    {
+      "route": "native-both",
+      "fixture": "crash",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "village",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 10,
+      "findings": 4
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+Breakpoint 1 at 0x4cf3c0
+Breakpoint 2 at 0xe6690
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/libthread_db.so.1".
+PR10CREATE point_count=8 max_vertices=8
+0x7fffffffbe10:	1	0.5	0.25	1
+0x7fffffffbe20:	0.5	-0.25	1	-0.5
+0x7fffffffbe30:	0.25	1	-0.5	-0.25
+0x7fffffffbe40:	-1	0.5	0.25	-1
+0x7fffffffbe50:	0.5	-0.25	-1	-0.5
+0x7fffffffbe60:	0.25	-1	-0.5	-0.25
+PR10CREATE point_count=8 max_vertices=8
+0x7fffffffbe60:	1	0	0.25	1
+0x7fffffffbe70:	0	-0.25	1	0
+0x7fffffffbe80:	0.25	1	0	-0.25
+0x7fffffffbe90:	-1	0	0.25	-1
+0x7fffffffbea0:	0	-0.25	-1	0
+0x7fffffffbeb0:	0.25	-1	0	-0.25
+PR10NULLHULL before original DrawHull dereference
+#0  0x000055555563a690 in DrawHull ()
+#1  0x00005555555eb43f in BoxHull::Render() ()
+#2  0x0000555555586102 in OnFrame() ()
+#3  0x0000555555598e15 in _sapp_linux_run ()
+#4  0x0000555555579272 in main ()
+rdi            0x0                 0

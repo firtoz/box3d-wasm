@@ -1,0 +1,22 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 3921118,
+  "raw_retained_bytes": 950406693,
+  "deleted_bytes": 7639933,
+  "owned_pids_absent": [
+    168418,
+    168386,
+    171857,
+    171842,
+    172600,
+    172580,
+    173493,
+    173478,
+    174332,
+    174312
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707937169408,
+  "consumer": "CurrentfiveUI14viewers/newManifoldobject+priorinputs nextPR10relink;20afterimages/3grids/original10before finalaudit"
+}

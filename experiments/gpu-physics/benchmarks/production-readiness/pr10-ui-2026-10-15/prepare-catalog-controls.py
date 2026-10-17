@@ -1,0 +1,50 @@
+from pathlib import Path
+import json,hashlib
+D=Path(__file__).resolve().parent;o=(D/'menu-controls-clip-driver.py').read_text();helpers=o[o.index('\n def find(kind,field):'):o.index("\n open_menu('Sim');tap('MenuItem','Pause')")];s=(D/'ui-auto-driver.py').read_text().replace("D/('ui01-build-'+phase+'.json')","D/'render-popup-build.json'").replace("('ui01-'+phase+'-runs')","'catalog-controls-runs'").replace('time.monotonic()-start<180','time.monotonic()-start<120').replace("'180s overall automatic budget'","'120s catalog budget'").replace("len(r['actions'])<60","len(r['actions'])<100").replace("len(r['screenshots'])<9","len(r['screenshots'])<6").replace('until(state,90)','until(state,25)').replace("env['GPU_PR10_UI_TRACE']=str(dest/'ui.json');","env['GPU_PR10_UI_TRACE']=str(dest/'ui.json');env['GPU_PR10_API_TRACE']=str(dest/'api.jsonl');")
+s=s.replace("p=dest/'observer.jsonl';assert not p.exists()or p.stat().st_size<16*1024**2,'Observer cap'","p=dest/'observer.jsonl';assert not p.exists()or p.stat().st_size<16*1024**2,'Observer cap'\n p=dest/'api.jsonl';assert not p.exists()or p.stat().st_size<8*1024**2,'API cap'\n for name in ['stdout.txt','stderr.txt']:\n  p=dest/name;assert not p.exists()or p.stat().st_size<1024**2,'Appoutput cap'")
+a=s.index("\n key('p');until(");b=s.index('\nexcept BaseException',a)
+scenario=r'''
+ key('p');until(lambda:state()['pause']==1,3);inventory=json.loads((D/'inventory.json').read_text());expected={}
+ for row in inventory['native_samples']:
+  category,name=row['cpu_identity'].split('/',1);expected.setdefault(category,[]).append(name)
+ r['catalog_categories']=[];r['scene_transitions']=[]
+ def node(kind,field,root=False):
+  q=frames();rows=[x for x in q['items']if x['kind']==kind and x['label']==field and x['visible']and (not root or x['window']=='##MainMenuBar')];assert rows,(kind,field,root);return rows[-1]
+ def tap_node(n):
+  assert not n['disabled'];hover((n['rect'][0]+n['rect'][2])/2,(n['rect'][1]+n['rect'][3])/2)
+  def send():xdo('mousedown',1);held.add('mouse1');time.sleep(.04);xdo('mouseup',1);held.remove('mouse1')
+  return action('catalog '+n['kind']+' '+n['label'],send,n)
+ def samples_root():
+  n=node('Menu','Samples',True);hover((n['rect'][0]+n['rect'][2])/2,(n['rect'][1]+n['rect'][3])/2);n=node('Menu','Samples',True)
+  if n['value']!='true':tap_node(n)
+  until(lambda:any(x['kind']=='Menu'and x['label']=='Samples'and x['window']=='##MainMenuBar'and x['value']=='true'for x in ui()['items']),3)
+ def category_menu(field):
+  samples_root();q=frames();n=next(x for x in q['items']if x['kind']=='Menu'and x['label']==field and x['window']!='##MainMenuBar'and x['visible']);hover((n['rect'][0]+n['rect'][2])/2,(n['rect'][1]+n['rect'][3])/2);q=frames();n=next(x for x in q['items']if x['kind']=='Menu'and x['label']==field and x['window']!='##MainMenuBar'and x['visible'])
+  if n['value']!='true':tap_node(n)
+  until(lambda:any(x['kind']=='Menu'and x['label']==field and x['window']!='##MainMenuBar'and x['value']=='true'for x in ui()['items']),3)
+ for category,names in expected.items():
+  category_menu(category);q=frames();leaves=[x for x in q['items']if x['kind']=='MenuItem'];actual=[x['label']for x in leaves];check('catalog '+category+' exactnames',actual==names);r['catalog_categories'].append({'category':category,'expected':names,'actual_items':leaves});save()
+ check('catalog full165/22',sum(len(x['actual_items'])for x in r['catalog_categories'])==165 and len(r['catalog_categories'])==22);screenshot('catalog');tap_node(node('Menu','Samples',True))
+ key('ctrl+o');q=frames();rows=[x for x in q['items']if x['kind']=='Selectable'];all_expected=[x['cpu_identity'].replace('/','  >  ',1)for x in inventory['native_samples']];check('picker lists all165 exact identities',[x['label']for x in rows]==all_expected);r['picker_all_labels']=[x['label']for x in rows];screenshot('picker');old_selected=next(x['label']for x in rows if x['value']=='true');key('Down');q=frames();selected=next(x['label']for x in q['items']if x['kind']=='Selectable'and x['value']=='true');check('picker Down selects next',selected==all_expected[1]);key('Up');q=frames();check('picker Up restores first',next(x['label']for x in q['items']if x['kind']=='Selectable'and x['value']=='true')==old_selected)
+ action('picker filter Jenga',lambda:xdo('type','--clearmodifiers','--','Jenga'));q=frames();check('picker query displayed',any(x['kind']=='InputTextWithHint'and x['label']=='##q'and x['value']=='Jenga'for x in q['items']));rows=[x for x in q['items']if x['kind']=='Selectable'];check('picker Jenga unique result',len(rows)==1 and rows[0]['label']=='Stacking  >  Jenga Stack');old=state()['world'];tap_node(rows[0]);until(lambda:state()['world']!=old and state()['body_count']==61 and state()['shape_count']==61,25);until(lambda:any(w['name']=='Info'for w in ui()['windows']),25);r['scene_transitions'].append({'action':'picker mouse Jenga','before_world':old,'after_state':state()});check('Jenga newworld61bodies/shapes',state()['world']!=old and state()['body_count']==61);screenshot('jenga')
+ category_menu('Stacking');old=state()['world'];tap_node(node('MenuItem','Single Box'));until(lambda:state()['world']!=old and state()['body_count']==2 and state()['shape_count']==2,25);until(lambda:any(w['name']=='Info'for w in ui()['windows']),25);r['scene_transitions'].append({'action':'Samples menu SingleBox','before_world':old,'after_state':state()});check('menu SingleBox newworld2',state()['world']!=old and state()['body_count']==2)
+ open_menu('Sim');old=state()['world'];tap('MenuItem','Next Sample');until(lambda:state()['world']!=old and state()['body_count']==31 and state()['shape_count']==31,25);until(lambda:any(w['name']=='Info'for w in ui()['windows']),25);r['scene_transitions'].append({'action':'NextSample SphereStack','before_world':old,'after_state':state()});check('Next Sample creates SphereStack31',state()['body_count']==31)
+ open_menu('Sim');old=state()['world'];tap('MenuItem','Previous Sample');until(lambda:state()['world']!=old and state()['body_count']==2 and state()['shape_count']==2,25);until(lambda:any(w['name']=='Info'for w in ui()['windows']),25);r['scene_transitions'].append({'action':'PreviousSample SingleBox','before_world':old,'after_state':state()});check('Previous Sample returns SingleBox2',state()['body_count']==2);check('selection preserves solver defaults',state()['hertz']==60 and state()['substeps']==4 and state()['world_flags']==[1,1,1]);screenshot('returned')
+ open_menu('Sim');tap('MenuItem','Dump Mem Stats');r['memory_dump_requested_state']=state()
+ if 'both'in label:
+  initial=state();n=find('Checkbox','Split: CPU left / GPU right');check('combined initial split enabled',n['value']=='true');tap('Checkbox','Split: CPU left / GPU right');check('overlay checkbox state changes',find('Checkbox','Split: CPU left / GPU right')['value']=='false');check('overlay mode preserves identity/counts',state()['world']==initial['world']and state()['body_count']==2 and state()['shape_count']==2);screenshot('overlay');tap('Checkbox','Split: CPU left / GPU right');check('split checkbox restores',find('Checkbox','Split: CPU left / GPU right')['value']=='true');check('resplit preserves identity/counts',state()['world']==initial['world']and state()['body_count']==2 and state()['shape_count']==2);screenshot('resplit')
+  from PIL import Image
+  def actor_centroids(stage):
+   im=Image.open(dest/(stage+'.png')).convert('RGB');w,h=im.size;positions={'CPU':[],'GPU':[]}
+   for y in range(round(h*.25),round(h*.75),2):
+    for x in range(0,round(w*.79),2):
+     red,green,blue=im.getpixel((x,y))
+     if red>green and green>blue*1.2 and red>130 and green>100:positions['CPU'].append(x)
+     if blue>red*1.3 and green>red*1.15 and green>100 and red>70:positions['GPU'].append(x)
+   assert all(positions.values()),positions;return {k:sum(v)/len(v)for k,v in positions.items()}
+  split=actor_centroids('returned');overlay=actor_centroids('overlay');restored=actor_centroids('resplit');w=Image.open(dest/'overlay.png').width;r['split_image_effects']={'split':split,'overlay':overlay,'restored':restored};check('split actualCPUleftGPUright',split['CPU']<w*.45 and split['GPU']>w*.55);check('overlay actors share central viewport',abs(overlay['CPU']-overlay['GPU'])<w*.15 and all(w*.35<x<w*.65 for x in overlay.values()));check('resplit actualCPUleftGPUright',restored['CPU']<w*.45 and restored['GPU']>w*.55)
+ focus();xdo('key','--clearmodifiers','ctrl+q');app.wait(timeout=5);check('clean quit',app.returncode==0);text=(dest/'stdout.txt').read_text()+(dest/'stderr.txt').read_text();r['memory_dump_output']=[line for line in text.splitlines()if any(x in line for x in ['id pools','body ids:','static tree:','dynamic tree:','GPU primary owned physics buffer bytes:','reserved slots bodies/shapes/joints/contacts:','excludes staging, cache copies, pipelines'])];check('DumpMemStats actual output',('id pools'in text and 'body ids:'in text)if label=='cpu'else 'GPU primary owned physics buffer bytes:'in text and 'excludes staging, cache copies, pipelines'in text);r['status']='PASS_FULL_CATALOG_NAVIGATION_AND_SPLIT';save();emit('165catalog/picker andscene lifetimes verified; combinedsplit actualimages checked')
+'''
+s=s[:a]+helpers+scenario+s[b:];compile(s,str(D/'catalog-controls-driver.py'),'exec');(D/'catalog-controls-driver.py').write_text(s);(D/'catalog-controls-driver-protocol.json').write_text(json.dumps({'status':'FROZEN_BEFORE_RUN','sha256':hashlib.sha256(s.encode()).hexdigest(),'apps_CPUfirst':['cpu','ordinary-gpu','native-gpu','ordinary-both','native-both'],'seconds_each':120,'ready_seconds':25,'screens_each':6,'actions_each':100,'retries':0},indent=2)+'\n')
+s=(D/'run-render-popup.py').read_text().replace("'render-popup-matrix.json'","'catalog-controls-matrix.json'").replace("D/'render-popup-driver.py'","D/'catalog-controls-driver.py'").replace("label+'-popup'","label").replace("'PASS_FIVE_ROUTES_RENDER_CONTROLS'","'PASS_FIVE_ROUTES_FULL_CATALOG'");compile(s,str(D/'run-catalog-controls.py'),'exec');(D/'run-catalog-controls.py').write_text(s)
+print('catalogdriver syntax/protocol frozen')

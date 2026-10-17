@@ -1,0 +1,24 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "builds": 0,
+  "apps": [
+    "ordinary-gpu-focused-tail",
+    "native-gpu-full",
+    "ordinary-both-full",
+    "native-both-full"
+  ],
+  "seconds_each": 240,
+  "ready_seconds": 25,
+  "intentional_type_transition_or_first_step_seconds": 90,
+  "screens_each": 8,
+  "actions_each": 100,
+  "api_cap": 16777216,
+  "temporary_cap": 1073741824,
+  "retained_cap": 67108864,
+  "shared_cache_growth_cap": 134217728,
+  "retries": 0,
+  "reason": "Ordinary paused-entry retained15 checks+five setters Dynamic actual effects. Two kinematic steps pass; first29.896s, next.176s. Changing back Dynamic deliberately displays Preparing simulation / Scene collision shader at frame555; earlier harness incorrectly required immediate Info widget submission. Wait actual loading transition bounded90s. Preserve all completed checks; ordinary tail only enable/view/culling, other3unlaunched routes full. CPU not repeated.",
+  "outputs": "Extract selected receipts/screens, delete consumed fullstreams+superseded binaries after verification",
+  "driver_sha256": "e714e3b3e00577e3c1ac92ab3bb3d23470f9bbcb7e3b5b28f02a55268ace7d0e",
+  "tail_sha256": "48a486397fa6de678984601ba87ca1f42e68f85e4884218025bb5a82153bc4d8"
+}

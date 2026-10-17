@@ -1,0 +1,165 @@
+{
+  "status": "FROZEN",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "generations": 0,
+  "generation_seconds": 10,
+  "cc_compiles": 0,
+  "compile_seconds": 30,
+  "links": 2,
+  "link_seconds": 25,
+  "archive_inspections": 12,
+  "archive_seconds": 5,
+  "viewers": 2,
+  "seconds_per_app": 90,
+  "screenshots_per_app": 4,
+  "actions_per_app": 210,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 25165824,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 6291456,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "shared_cache_growth_total_bytes": 33554432,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 340,
+  "compositions": 2,
+  "seconds_per_composition": 8,
+  "source_units": [
+    {
+      "route": "cpu",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/receipt.json",
+      "unit": {
+        "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/gfx/debug_adapter.c",
+        "source_sha256": "3a3e277b5fb42b5e12da63e9f3db21efabaedfcb6c16333429d469acfdd5cecb",
+        "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/debug_adapter.c.o",
+        "object_sha256": "51de6b774fe2f455c98f37bb1007b3298c5666587f73d2f31a2d49955621b85c",
+        "command": [
+          "/usr/bin/cc",
+          "-DSOKOL_GLCORE",
+          "-I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/..",
+          "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+          "-I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include",
+          "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_src",
+          "-isystem",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol",
+          "-isystem",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/samples/shaders/generated",
+          "-O3",
+          "-DNDEBUG",
+          "-std=gnu17",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/debug_adapter.c.o",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/gfx/debug_adapter.c",
+          "-I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx"
+        ],
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_gfx"
+      }
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/VIS07/build-candidate-ordinary-both.json",
+      "unit": {
+        "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/ordinary-both/split/debug_adapter.c",
+        "source_sha256": "1212f13ae9a3415090406438c8e8a2ac3018c55deff30ad5c2e116404c51a4bd",
+        "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/ordinary-both/debug_adapter.c.o",
+        "object_sha256": "66a4194ad9dcdbda52626a3509e0046542aac65520e0cb614cf3edc74655b591",
+        "command": [
+          "/usr/bin/cc",
+          "-DBOTH_SAMPLES",
+          "-DSOKOL_GLCORE",
+          "-I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/..",
+          "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+          "-I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include",
+          "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/box3d_src",
+          "-isystem",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol",
+          "-isystem",
+          "/home/firtoz/work/2026/box3d-wasm/box3d/samples/shaders/generated",
+          "-O3",
+          "-DNDEBUG",
+          "-std=gnu17",
+          "-o",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/ordinary-both/debug_adapter.c.o",
+          "-c",
+          "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/ordinary-both/split/debug_adapter.c",
+          "-I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx"
+        ],
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/box3d_gfx"
+      }
+    }
+  ],
+  "both_dual_compiler": {
+    "producer": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH02/viewer-builds/state.json",
+    "operation": {
+      "label": "combined-dual-C",
+      "pid": 3774816,
+      "exit": 0,
+      "elapsed_seconds": 1.1165492460131645,
+      "command": [
+        "/usr/bin/cc",
+        "-O3",
+        "-DNDEBUG",
+        "-std=gnu17",
+        "-w",
+        "-I/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+        "-c",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH02/combined-routing-source/both_dual-candidate.c",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH02/viewer-builds/both_dual.c.o",
+        "-MMD",
+        "-MF",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH02/viewer-builds/both_dual.c.o.d"
+      ],
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outputs": {
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH02/viewer-builds/both_dual.c.o": "60894a0f5bf0b7e60435a3e0613899c67e85d9c450f614cdb9e5a6740477ecb6"
+      }
+    }
+  },
+  "material_observer": {
+    "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-material-build/material-observer.cpp",
+    "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-material-build/material-observer.o"
+  },
+  "raw_before_bytes": 905131497,
+  "pins_before": {
+    "native_adapter": "87389d84c35dc854ed163ac38e38fd007d57249a1d83775e97e795e9911258c7",
+    "capacity_generator": "546d9d919dcd9cd874197be677c9bf12906216af8e0510b5d17394560a0dcdaf",
+    "split_generator": "88656c92cfd40acf79e5ef528db13b74f7c3b44f5247e10477b7bf1d5b4bd522",
+    "both": "809f8a54fb18ff79bb8a31d8cb03d54eb6a02dabd1c32265210a2de619502524",
+    "diagnostic": "6d85954816e18f90595671107dd58099ee168b8e016a7f5468f011525561982a"
+  },
+  "scope": "Distinctlinkcarrier correction only: originalcombinedcmd forces wholeAPIarchive, so directoverride duplicatesexports. Originalordinary/native APIarchivebytes identical191168B. Copy1task-ownedarchive, replace onlyboth_dual.c.o withalreadycompilednewobject (temporarycorrect-basenamefile), verifyallothermembershashidentical/updatedmemberhash. Reuse3standalone48checkpasses. Firstactualordinary/nativecombined checks2links25s/2apps90s/8screens;0sourceedit/CC/Rust/repeatedqualifiedapps. Retainactivecopy fornextcombinedrelinks;sharedarchivesuntouched.",
+  "outputs": [
+    {
+      "path": "raw/ui06-build",
+      "consumer": "5repairedviewers +2adapterobjects+1bothDualoverrideobject andexisting12nativeUI/Joint/Replay objects+materialobserver for nextrelinks",
+      "delete": "Retireoldviewerperrouteafterchecks; nevermutatesharedarchives. Filteredsymlinkinput deletedaftergeneration; retainonly2canonicaladapter/2diagnostic sources andactiveobjects. Oldmaterialbaseline artifacts/logs consumed aftersource/primitive checks."
+    },
+    {
+      "path": "raw/ui06-runs",
+      "consumer": "Selectedactualmetadata/defaultPBR/opacity/picking/lifetime states and20CPUfirstafterimages",
+      "delete": "Consume3streams aftereachterminalapp; filterper-frameadapterrows toselectedsnapshots, retainreceipt/mediaonly"
+    },
+    {
+      "path": "ui06-before/after-grid.png",
+      "consumer": "CPUfirst repairreport;4newbeforecaptures+earlierfull5routebodyreviewimages reused",
+      "delete": "Retainselectedbeforeaftermedia"
+    }
+  ],
+  "archive_copies": 1,
+  "archive_copy_bytes": 1048576,
+  "archive_updates": 1,
+  "archive_update_seconds": 5
+}

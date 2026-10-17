@@ -1,0 +1,22 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 3784840,
+  "raw_retained_bytes": 910866930,
+  "deleted_bytes": 21864866,
+  "owned_pids_absent": [
+    214721,
+    214706,
+    216425,
+    216410,
+    218122,
+    218107,
+    219809,
+    219794,
+    221688,
+    221673
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707932803072,
+  "consumer": "CurrentfiveUI16viewers/newCollisionobject/source+priorinputs nextPR10relink;15afterimages/2grids/original5before finalaudit"
+}

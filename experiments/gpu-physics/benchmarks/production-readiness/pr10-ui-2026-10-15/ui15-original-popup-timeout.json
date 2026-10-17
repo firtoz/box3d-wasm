@@ -1,0 +1,47 @@
+{
+  "status": "INCOMPLETE_HARNESS_POPUP_SEQUENCE_RETAINED",
+  "receipt": "raw/ui15-runs/cpu/receipt.json",
+  "stream_cleanup": "raw/ui15-runs/cpu/stream-cleanup.json",
+  "checks": {
+    "Time of Impact actual scene/no-body fixture": true,
+    "OriginalTOIproxies/sweeps/defaultresultpreserved": true,
+    "shape A actualpopuphasnoinvalidfourthrow": true
+  },
+  "elapsed": 5.5905321599999995,
+  "original_error": "Error: Transition timed out 3s",
+  "actions": [
+    {
+      "kind": "key p",
+      "seconds": 0.12279321399999998
+    },
+    {
+      "kind": "key ctrl+o",
+      "seconds": 0.14760433
+    },
+    {
+      "kind": "picker Collision  >  Time of Impact",
+      "seconds": 0.07783509499999991
+    },
+    {
+      "kind": "select Collision  >  Time of Impact",
+      "target": "Collision  >  Time of Impact",
+      "seconds": 0.108799215
+    },
+    {
+      "kind": "click Combo shape A",
+      "target": "shape A",
+      "seconds": 0.10863400200000001
+    },
+    {
+      "kind": "key Escape",
+      "seconds": 0.12138247300000012
+    },
+    {
+      "kind": "click Combo shape B",
+      "target": "shape B",
+      "seconds": 0.10746018099999992
+    }
+  ],
+  "original_ui": "raw/ui15-runs/cpu/ui.json",
+  "scope": "CPUoriginaldefaults/shapeA3rowspassed. Escape didnotcloseA beforeBclick; finalAvalue0 suggestsBclickhitAfirstrow. No productfix/rerunofcompletedqualifiedcase. RecordOBS03watchpendingactualEscapeeventtrace; selectexistingoption/verifyclosed forcompletingmenu test."
+}

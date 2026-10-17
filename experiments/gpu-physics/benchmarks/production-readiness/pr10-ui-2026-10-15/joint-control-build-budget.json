@@ -1,0 +1,14 @@
+{
+ "status":"FROZEN",
+ "compile_count":1,
+ "compile_seconds":25,
+ "link_count":5,
+ "link_seconds_each":25,
+ "apps":0,
+ "retries":0,
+ "temporary_bytes":230686720,
+ "retained_bytes":8388608,
+ "scope":"Read-only native link wrappers: actual joint creation/setter/getter/awake/identity plus request-gated joint state. Preserve existing observer pool and all original engine/Rust/WGSL/Box3D/WASM inputs.",
+ "consumer":"Seven joint tools /64widgetentries (Distance10,Prismatic10,Revolute10,Spherical12,Parallel2,Weld4,Wheel16), then related remaining joint controls",
+ "deletion":"New pool retained only for qualification/remainingcontrols; old pool removed after allfive replacement viewers qualify. Compile/link logs bounded1MiB each. No full enginebuild."
+}

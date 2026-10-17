@@ -1,0 +1,16 @@
+{
+  "status": "FROZEN_PREFLIGHT_PASS",
+  "scope": "Correct new diagnostic marker-viewer allocation vs original raw cap. Prior attempt0inputs/1loading screenshot/appreaped; notwidgetfailure. All source/build/cache/budget prerequisiteschecked before next launch.",
+  "additional_ordinary_loading_viewers": 1,
+  "remaining_native_and_combined_viewers": 3,
+  "first_window_seconds": 25,
+  "loading_to_ready_seconds": 90,
+  "whole_viewer_seconds": 300,
+  "engine_builds": 0,
+  "diagnostic_rebuilds": 0,
+  "temporary_bytes": 536870912,
+  "retained_bytes": 67108864,
+  "raw_bytes_before": 166508714,
+  "free_bytes": 1709557919744,
+  "retries": 0
+}

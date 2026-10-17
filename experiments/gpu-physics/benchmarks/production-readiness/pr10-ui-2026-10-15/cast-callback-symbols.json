@@ -1,0 +1,145 @@
+{
+  "status": "PASS",
+  "viewers": [
+    {
+      "label": "cpu",
+      "binary_sha256": "a34d6998c0b270727fdb8555c08ec4d6e8dd076b8b91ee23f55daa6638e81530",
+      "elf_type": 3,
+      "pie": true,
+      "functions": [
+        {
+          "name": "RayCastAnyCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "b69d0"
+        },
+        {
+          "name": "RayCastSortedCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "b64f0"
+        },
+        {
+          "name": "RayCastClosestCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "b51c0"
+        },
+        {
+          "name": "RayCastMultipleCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "b68b0"
+        }
+      ],
+      "read_bytes": 584596,
+      "owned_pid_absent": true,
+      "nm_pid": 2931675,
+      "terminal_exit": 0
+    },
+    {
+      "label": "ordinary-gpu",
+      "binary_sha256": "c2dfb2e50133ccc1fad6def8366d8dde24e11aefadfb876f572a674c2aa2bda3",
+      "elf_type": 3,
+      "pie": true,
+      "functions": [
+        {
+          "name": "RayCastAnyCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "1e8450"
+        },
+        {
+          "name": "RayCastSortedCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "1e7f70"
+        },
+        {
+          "name": "RayCastClosestCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "1e6c40"
+        },
+        {
+          "name": "RayCastMultipleCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "1e8330"
+        }
+      ],
+      "read_bytes": 7811701,
+      "owned_pid_absent": true,
+      "nm_pid": 2931680,
+      "terminal_exit": 0
+    },
+    {
+      "label": "native-gpu",
+      "binary_sha256": "d8add9493b47237938a3fe7a0587afc289154c5f44d2163d412e0993bbd2b9b3",
+      "elf_type": 3,
+      "pie": true,
+      "functions": [
+        {
+          "name": "RayCastAnyCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "2075d0"
+        },
+        {
+          "name": "RayCastSortedCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "2070f0"
+        },
+        {
+          "name": "RayCastClosestCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "205dc0"
+        },
+        {
+          "name": "RayCastMultipleCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "2074b0"
+        }
+      ],
+      "read_bytes": 8513765,
+      "owned_pid_absent": true,
+      "nm_pid": 2931688,
+      "terminal_exit": 0
+    },
+    {
+      "label": "ordinary-both",
+      "binary_sha256": "e1ab5472e0e2427dc3601ff8c7f735c994d7c0aa925d492dc2dd2a51db61537d",
+      "elf_type": 3,
+      "pie": true,
+      "functions": [
+        {
+          "name": "RayCastAnyCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "1e6e50"
+        },
+        {
+          "name": "RayCastSortedCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "1e6970"
+        },
+        {
+          "name": "RayCastClosestCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "1e5640"
+        },
+        {
+          "name": "RayCastMultipleCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "1e6d30"
+        }
+      ],
+      "read_bytes": 7866523,
+      "owned_pid_absent": true,
+      "nm_pid": 2931691,
+      "terminal_exit": 0
+    },
+    {
+      "label": "native-both",
+      "binary_sha256": "4a0f504e923c39e24002029b36524cd4a34669b37079dfbec67f751914d97501",
+      "elf_type": 3,
+      "pie": true,
+      "functions": [
+        {
+          "name": "RayCastAnyCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "204fd0"
+        },
+        {
+          "name": "RayCastSortedCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "204af0"
+        },
+        {
+          "name": "RayCastClosestCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "2037c0"
+        },
+        {
+          "name": "RayCastMultipleCallback(b3ShapeId, b3Vec3, b3Vec3, float, unsigned long, int, int, void*)",
+          "offset_hex": "204eb0"
+        }
+      ],
+      "read_bytes": 8568858,
+      "owned_pid_absent": true,
+      "nm_pid": 2931692,
+      "terminal_exit": 0
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "status": "FAILURE_RETAINED",
+  "runs": [
+    {
+      "label": "ordinary-gpu",
+      "exit": 1,
+      "seconds": 40.09189628899912
+    }
+  ],
+  "error": "AssertionError(('ordinary-gpu', 1))",
+  "seconds": 40.09281104899128
+}

@@ -1,0 +1,52 @@
+{
+  "status": "FROZEN",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "cpp_compiles": 2,
+  "compile_seconds": 30,
+  "links": 4,
+  "link_seconds": 25,
+  "generations": 0,
+  "generation_seconds": 10,
+  "viewers": 5,
+  "seconds_per_app": 75,
+  "screenshots_per_app": 3,
+  "actions_per_app": 150,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 12582912,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 650,
+  "compositions": 2,
+  "seconds_per_composition": 8,
+  "raw_before_bytes": 890098653,
+  "source_pins_before": {
+    "generator": "59bd76fd0d05e74516ea2647c34e12df4dd19caf66873bc6c837053c841f21a1",
+    "native_joint": "6c8ac1603b4418b785e4055415d51ed31f09c759cfbc8c865a24d6353a78d592",
+    "prior_generated_joint": "83f1ba070668e24d5f01f9f694c4be39c3922a4e8183d66503c30cea6dc64cc3"
+  },
+  "scope": "OriginalCPU25torque+W/S/IDs/frontindependencepasses/2images retained. Actualthird-personlocks mouse; exitwithnativeTshortcut. CPUtailchecksTunlock/0→5/reset/Wheelrelatedonly. FourGPUfirstattemptfullcase, existingCPUobject/binary reused. No product/regeneration/CPUbuild changes, no physics/retry.",
+  "outputs": [
+    {
+      "path": "raw/ui20-build",
+      "consumer": "Currentqualifiedviewerperroute+3newJointobjects/linkplan for subsequentPR10repairs",
+      "delete": "Retireeacholdviewerafteritsnewroutechecks; retireold3Jointobjectsafterallroutesqualify; keeppinnedReplayobjects andnewJointobjects fornextrelinks"
+    },
+    {
+      "path": "raw/ui20-runs",
+      "consumer": "Actualtorque/key/identity/default/relatedcontrolproof+CPUfirstscreens",
+      "delete": "Consume3streamsaftereachterminalapp; retainselectednumericstates/filteredsetterevents/screens"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "UI02 only: event-position routing for unheld wheel; preserve original route for all other events and held buttons, UI-active items/popups captured. Shared CPU/GPU native host, no upstream modifications.",
+  "before_additional_links": 3,
+  "after_main_CPP_compiles": 5,
+  "compile_seconds_each": 25,
+  "after_links": 5,
+  "link_seconds_each": 20,
+  "before_additional_apps": [
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "after_apps": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "app_seconds_each": 60,
+  "window_seconds": 15,
+  "ready_seconds": 25,
+  "screens_each": 3,
+  "actions_each": 40,
+  "engine_Rust_WGSL_WASM_builds": 0,
+  "implicit_retries": 0,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_allowance": 134217728,
+  "cache_copies": 0,
+  "free_bytes": 1709387907072,
+  "outputs": {
+    "5 after viewers/source/objects": "PR10 remaining controls; remove replaced UI01/before binaries after successful verification, retain current until PR10 closure",
+    "3 extra before viewers": "Delete once after verified, retain screenshots/paired-event summaries",
+    "world/UI streams": "Extract compact acceptance then delete consumed streams",
+    "screenshots/reports": "Before/after CPU-first evidence retained"
+  },
+  "expected": "Enter+wheel: stale false still observed in original HandleEvent but camera unchanged. Leave+wheel: stale true still observed but camera changes. Active popup captures wheel; heldworlddrag preserves original route. World/body IDs/defaults unchanged."
+}

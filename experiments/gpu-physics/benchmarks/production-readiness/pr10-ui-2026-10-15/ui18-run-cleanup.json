@@ -1,0 +1,22 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 28734997,
+  "raw_retained_bytes": 946368220,
+  "deleted_bytes": 64997949,
+  "owned_pids_absent": [
+    373594,
+    373579,
+    378575,
+    378560,
+    381590,
+    381575,
+    384302,
+    384287,
+    387481,
+    387402
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707734687744,
+  "consumer": "CurrentfiveUI18viewers/newhostsamplecollisiongfx/helper/projectionobserver objects+priorinputs nextPR10relink;before/after19sceneprojections finalaudit"
+}

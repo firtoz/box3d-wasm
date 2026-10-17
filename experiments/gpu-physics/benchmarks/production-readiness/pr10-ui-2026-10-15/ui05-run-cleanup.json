@@ -1,0 +1,26 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 2684745,
+  "raw_retained_bytes": 903053480,
+  "deleted_bytes": 3777102,
+  "owned_pids_absent": [
+    3422574,
+    3422560,
+    3427887,
+    3427867,
+    3439876,
+    3439846,
+    3440320,
+    3440297,
+    3440716,
+    3440702,
+    3441314,
+    3441300,
+    3444957,
+    3444943
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 583017,
+  "free_bytes": 1708162846720,
+  "consumer": "Selected16new/4reusedbeforeimages, numericreceipts and CPUfirstgrids; current5UI05viewer pool/12objects have next-relink consumers"
+}

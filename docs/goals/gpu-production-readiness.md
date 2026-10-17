@@ -7,12 +7,19 @@ at the start of every continuation and after compaction or restart. Pursue the
 whole objective, maintain this file, and use the goal-scratchpad skill. This is
 the authoritative production-readiness queue for `feat/gpu`.
 
-Updated: 2026-10-15. The 22-group repair goal is COMPLETE: 21 fixed, 1 resolved without repair, 0 open; 165 native samples reviewed, 0 left. The user authorized PR09 acceptance closeout and commit/push to `feat/gpu`. This publication closes PR09 with explicit unavailable/unreviewed and nonvisual dispositions; later release gates remain open. Read the portable native review first on a fresh checkout; this machine also retains the original full-review log and local audit archives. Use the goal-scratchpad skill on recovery.
+Updated: 2026-10-17. The 22-group repair goal is COMPLETE: 21 fixed, 1 resolved without repair, 0 open; 165 native samples reviewed, 0 left. The user authorized PR09 acceptance closeout and commit/push to `feat/gpu`. This publication closes PR09 with explicit unavailable/unreviewed and nonvisual dispositions; later release gates remain open. Read the portable native review first on a fresh checkout; this machine also retains the original full-review log and local audit archives. Use the goal-scratchpad skill on recovery.
 
-Current task: commit and push the verified source, documentation, selected evidence and three required regression fixtures under the frozen publication budget. Zero new engine builds, scene runs or captures. Safe fetch confirmed baseline `c076092a86636ff33e4ff6a11b85a8695f78b08a` equals origin/feat/gpu. All historical execution budgets are closed; no scene job is running. The publication commit will be HEAD on feat/gpu; verify `git status` and remote correspondence before further work. Preserve all local changes and do not run old restoration scripts.
+PR10 completed locally, 2026-10-16: **165 native sample dispositions, 342 active widgets, 85 shared calls and 23 custom input groups reviewed; 29 repairs verified, 0 confirmed PR10 repair groups open.** The 165 comprise 71 actual specific-control fixtures and 94 explicit shared-code reuses, not 165 new runtime passes. Five inactive Ragdoll/Pose widgets are excluded explicitly.
 
-Next item: **PR10 UI/widgets**, then PR11 query qualification. Stop after this authorized publication; do not start PR10 or Rain physics automatically. The user selected option 1: Rain's timeout is fixed, while its original physical failures remain OPEN under PR04 at unchanged limits. Exact pixel and chaotic CPU/GPU trajectory matching remain deferred; this does not certify production readiness.
+[Final acceptance and before/after report index](../../experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/README.md), [criterion audit](../../experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/final-acceptance.json) and [simple recovery log](../../experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/log.md). Read that log first when recovering this completed task. Individual reports retain their original failures, exclusions, unsupported capabilities and finite test windows.
 
+All five delivery-source native CMake builds/startup checks, full typechecking, demo build and unchanged-source WASM runtime checks passed. The root now declares its existing Bun type catalog required by scripts. Box3D, WASM bridge/API, Rust and WGSL sources stayed unchanged. Temporary SDK/builds and consumed diagnostic viewers/objects/carriers were removed; shared caches/archives and user work were preserved. There is no live job or runnable PR10 diagnostic pool.
+
+OBS01 retains unconfirmed Body Cast query appearance under PR11; OBS02 native GTK acceptance reuses retained actual evidence while later helper timeouts remain archived; OBS03 inherits the native keyboard-navigation policy, with the original event untraced. These dispositions do not certify query appearance or GPU diagnostic/player parity.
+
+The activated goal stops after PR10. **PR10 commit and push authorized.** User direction, 2026-10-17: recordings and comparison grids are optional diagnostic tools, not commit/push prerequisites. Do not launch full-catalog capture campaigns just to publish verified work. Reuse applicable checks and evidence; targeted captures remain available when the task needs them. This supersedes older mandatory capture wording throughout the historical recovery notes. The unnecessary publication recordings and scripts were removed; original repair reports and before/after screenshots are preserved. PR09 is already pushed as 51ff8b06b4964d359386f08605d835ac6e2ea23d.
+
+On a new user request, PR11 is next. Rain physical failures remain open under PR04; exact pixels and chaotic CPU/GPU trajectories remain deferred. Do not resume historical exhausted experiments. PR10 completion does not certify the full release.
 ## Objective and release boundary
 
 Make `experiments/gpu-physics` ready for an initial **Linux/NVIDIA native release**
@@ -104,7 +111,7 @@ For each demonstrated discrepancy, use **calculation-first debugging**:
 5. Once focused checks pass, rerun the affected scene/interaction and relevant
    regressions, then final qualification at the appropriate gate. Full scenes are
    confirmation and release checks, not the inner loop for every hypothesis.
-   Record CPU-first before/after clips before visual or solver commits.
+   Retain applicable verification evidence. Additional recordings/comparison grids are optional and do not block commits.
 
 ### Storage budget and cleanup
 
@@ -176,7 +183,7 @@ that will immediately change. Physics failures remain release blockers.
   independent worlds and destruction/recreation. Verify convex/mesh cases and
   interaction with CCD on both backends using independent CPU/GPU fixtures.
   Relevant default-behavior, lifecycle and repeatability checks must pass.
-  Update API audit/docs and record affected scenes before a solver commit.
+  Update API audit/docs and retain applicable verification evidence.
   **Evidence:** [requirement audit](../../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/acceptance.json),
   [portable report/receipts/raw state/recordings](../../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md).
   Compiled ordinary/native inputs and library/test hashes are exact in those
@@ -249,11 +256,11 @@ that will immediately change. Physics failures remain release blockers.
   representations where used, camera framing and
   occlusion against the real Box3D CPU view. Preserve scene geometry and physics
   defaults; a rendering repair must not change collision/support behavior.
-  Record and review all affected scenes before committing, CPU first in the
-  comparison grid, and retain before/after evidence. The new [combined Village capture](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-ownership-captures-2026-10-01/README.md) reproduces missing nearby GPU compound ground/buildings while CPU geometry is visible. Unchanged shared65536-slot renderer pool cannot flatten both52500-child compounds; source audit and exact clip are retained. Village is one known case, not the inventory boundary. Fix/qualify every demonstrated floor omission and obvious visual/behavioral defect; triage severe performance differences. Route controls to PR10, queries to PR11 and concrete solver defects to calculation-first PR04 work without losing their sample inventory entries. PR09 closes only after every inventory entry is reviewed or has an explicit unavailable-gap disposition, required floor/render fixes pass, and other findings are linked to named open gates. Routing a solver/control/query/performance finding preserves it as an overall release blocker; it must not force completion of later gates before the sweep can advance. No finding is silently marked passed.
+  Review affected scenes and retain applicable before/after evidence. Additional
+  recordings and comparison grids are optional rather than a commit prerequisite. The new [combined Village capture](../../experiments/gpu-physics/benchmarks/production-readiness/pr02-compound-ownership-captures-2026-10-01/README.md) reproduces missing nearby GPU compound ground/buildings while CPU geometry is visible. Unchanged shared65536-slot renderer pool cannot flatten both52500-child compounds; source audit and exact clip are retained. Village is one known case, not the inventory boundary. Fix/qualify every demonstrated floor omission and obvious visual/behavioral defect; triage severe performance differences. Route controls to PR10, queries to PR11 and concrete solver defects to calculation-first PR04 work without losing their sample inventory entries. PR09 closes only after every inventory entry is reviewed or has an explicit unavailable-gap disposition, required floor/render fixes pass, and other findings are linked to named open gates. Routing a solver/control/query/performance finding preserves it as an overall release blocker; it must not force completion of later gates before the sweep can advance. No finding is silently marked passed.
   **Evidence:** [portable acceptance matrix](../../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/acceptance.json), [full inventory and original per-sample log](../../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/README.md), and 22 repair reports with original before/after media. All 165 native entries have individual bounded review dispositions; 174 browser entries include 13 explicit native-counterpart gaps and unreviewed browser-runtime status; 20 CPU oracle fixtures are nonvisual and remain numerical PR03/PR04 inputs. Seven shared heightfield scenes (008/039/041/065/091/096/121), compound ground, visibility, drawing and material defects are verified. Final source-specific applicability and unavailable/runtime limits remain explicit. The 21 fixes and one resolution are closed; remaining physical/control/query/lifecycle/performance findings are routed to the named open gates. Existing CPU-first affected recordings were completed before this commit; publication adds no build or capture. Full local audit archives remain excluded; selected media and required regression inputs are deliberately published within the frozen storage budget.
 
-- [ ] **PR10 — Qualify sample UI and widgets end to end.** After PR09, inventory
+- [x] **PR10 — Qualify sample UI and widgets end to end.** After PR09, inventory
   the controls and widgets for the full PR09 inventory, including samples outside
   the short list, then
   exercise actual mouse/keyboard interactions on ordinary/native GPU and
@@ -262,10 +269,12 @@ that will immediately change. Physics failures remain release blockers.
   resize/layout where available. Verify displayed state and the intended
   physics effect, including scene changes and destruction/recreation; a widget
   that accepts input but leaves stale state does not pass. Retain interaction
-  evidence and record affected scenes before committing fixes. PR02's required
+  evidence. Extra recordings/comparison grids are not a commit prerequisite. PR02's required
   truthful-control checks still belong in PR02; this is the sample-wide
   usability check requested by the user, now prioritized before PR04.
-  **Evidence:** OPEN.
+  **Evidence:** [Verified local acceptance and 29 before/after repair reports](../../experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/README.md), including complete control/applicability inventory, five fresh native builds, frontend/WASM compatibility and cleanup. Commit/push authorized; the user removed the additional recording/comparison prerequisite on2026-10-17. Existing verified checks and repair evidence support publication.
+
+PR10 watch disposition: [OBS01](../../experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/final-observations.json) retains the unconfirmed combined Bodies/Cast pale/white shape under PR11 appearance. Actual control/transform/identity behavior passed; material/selection provenance and exact original cause remain unqualified. OBS02 native chooser acceptance reuses retained actual GTK/load evidence; later helper timeouts remain archived. OBS03 inherits native disabled keyboard-navigation policy; no GPU defect or Escape-input pass inferred.
 
 - [ ] **PR11 — Qualify raycast behavior and appearance.** After PR10, reproduce
   the user's reported CPU/GPU difference in the supported raycast samples and
@@ -274,8 +283,8 @@ that will immediately change. Physics failures remain release blockers.
   independent fixtures and the real CPU reference at existing tolerances.
   Check the displayed ray, hit marker and normal against returned query values
   and camera coordinates, including misses and scene changes. Fix demonstrated
-  discrepancies and document intentional conventions. Record affected scenes
-  CPU first before committing; retain numeric and visual evidence. The user
+  discrepancies and document intentional conventions. Retain applicable numeric and visual evidence; additional recordings/comparison
+  grids are optional and do not block committing verified fixes. The user
   observation does not yet establish a query or rendering defect.
   **Evidence:** OPEN.
 
@@ -375,9 +384,8 @@ that will immediately change. Physics failures remain release blockers.
   laptop qualification/charts are deferred, and older datasets stay preserved.
   Display the fresh charts in the final user-facing delivery with links to their
   portable raw data and reproduction/provenance receipts.
-  Record every affected
-  scene before committing visual/solver changes, with real Box3D CPU first in
-  the comparison grid. Publish readable charts, portable raw timing/check data,
+  Use targeted recordings/comparisons when useful for the release evidence;
+  they are not a prerequisite for committing verified changes. Publish readable charts, portable raw timing/check data,
   build/source receipts, scene/recording hashes and a compact final coverage
   matrix. Document API semantics, capacity/failure behavior, performance limits,
   default/override selection and reproduction commands. Clearly state the
@@ -499,7 +507,7 @@ checks, limitations and open findings. Display actual before/after screenshots
 (CPU/ordinary/native comparisons and combined routes where affected), label
 scene/mode/settings/stage and link CPU-first clips. Approximate screenshot
 timing must be labeled; screenshots alone cannot close physics/query/runtime
-criteria. Record every affected scene before any future visual/solver commit.
+criteria. Additional recordings/comparison grids are optional and do not block commits.
 Reuse verified baseline media only with established source/settings applicability.
 
 [x] means the named acceptance criteria passed, not merely that a patch was
@@ -822,6 +830,8 @@ campaigns. Before any new item freeze its own finite budget and audit applicabil
 The following recovery is historical, not current job/scope authorization.
 
 ## Current recovery record
+
+The block below is a historical archive from before PR09 publication. Current PR09/PR10 completion and recovery are at the top of this file and in the linked PR10 log; these old next actions are not active.
 
 **Historical completed sweep (active repair recovery above takes precedence):** full visual-only C sample sweep, with durable per-scene log; no fixes before the list is complete. Authoritative current sweep state, frozen 825-cell/zero-build/zero-retry budget and findings: [review log](../../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/native-review.md). Read it first. Historical stop/job prose below applies to closed milestones, not this newly authorized sweep. No additional commit/push instruction for this pass. PR09 remains unchecked. Current sweep COMPLETE:165/165 reviewed/dispositioned,0 pending,825/825 unique capture cells; budget CLOSED with zero builds/tests/retries/performance runs.151 rows reviewed and14 include runtime/diagnostic limitations, not physical passes. No live capture remains; all issues stayed unfixed during the sweep. Confirmed heightfield floor omissions in008/039/041/065/091/096/121; Wave Pile065 best matches the user’s uneven-floor description, identity unconfirmed. Conveyor Belt135 transport, Static Invoke143 passive contact behavior and Far Mesh Drop162 fall-through remain untraced physical/API findings. Far Pyramid163 collapse difference needs setup/physical diagnosis. Detailed findings/evidence/audit and unavailable/browser gaps are in the linked log and README. PR09 remains unchecked. Fix work needs a separate finite calculation-first protocol; do not rerun this exhausted sweep or old campaigns. No new commit/push for this pass. The table below is historical PR04 recovery; current sweep process/cell state lives in the linked log and active-job.json.
 
@@ -1452,3 +1462,23 @@ Remote fetch2026-10-14 completed safely:HEAD/origin feat/gpu0ahead/0behind; loca
 2026-10-14 PROGRESS: contact60 cross-step native source blocks reproduce both friction values bitexact; that hypothesis closed/no repair. New mesh-unilateral scalar-fallback candidate fixes actualfloor677 numeric gate6→0 failures perbackend/all352values numericallyexact(342bits,signedzerosonly). 18branchcontrols/backend passed after retained orphan-entry-attribute harness failure/type-only correction; convex/both-active branches unchanged,declinesleave stateuntouched. Current7source actualordinary/native120 validation FROZEN231pins,2build90/2link25/2run90,500souter,1.5GiBexplicittemp/64MiBretained,0captures/retries. Ownedjob launched once; exacthandle in current-job.json. No productionpromotion;20fixed/1resolved/1open;165reviewed/0left.
 
 2026-10-14 PROGRESS: contact60 friction projection native2/2bits exact, hypothesis closed. New artifact-only mesh-unilateral scalar fallback clears floor677 native numeric failures6→0/backend;352values numericallyexact(342bits,signedzeros),2,848inputechoes/4,096backendwords exact.18branchcontrols/backend pass after retained annotation-only harness correction. Actual current7source Rain120 ordinary/native complete:build21.729/22.904,link1.271/1.466,run44.980/45.260s;134400body+joint records/backend andCPUcreationmatching,backendpublicstates bitexact. Firstchangedstep106. Physical18anchor/27angular/249cone unchangedFAIL;no productionpromotion. Audit276pins/2.281s,sources7/archives3restored,PIDsabsent/scopescollected. Cleanup537MB,~386KiB factoryrecords retained.20fixed/1resolved/1open;165reviewed/0left. NEXT completeCCDmesh-candidate coverage preflight (native16x16 torus/b3ShapeTimeOfImpact, respectbackfaces), not newtimingpolicy; verifyoldfrozen-inputapplicability first. No nextbudget/livejob.
+
+PR10 mutation/force diagnostic build budget FROZEN:1CPP30s/5links25s/230MiB/0apps/enginebuild/retries. Summary mutation observer/all-body filters/bounded examples; native original calls unchanged. Current297widgets/45left,160samples/5left,22custom/1left,26open/2verified.
+
+PR10 mutation/force build21924 CLOSED0/15.785s;15app review FROZEN90s/app/20s transitions/45screens/4Windsteps perroute/0othersteps/0retries/1GiBraw/64MiBretained. Counts297/45widgets,160/5samples,22/1custom,26open/2verified.
+
+PR10Ghostcontrols FROZEN:5CPUfirstapps90s/3screens/24stepscap/3realmouseoffsets/0builds/retries/1GiBraw/64MiBretained. Actualpausedslidersandnonzerocounterresetprecondition.310widgets32left/163samples2left/22custom1left/27open2verified.
+
+PR10Ghost93121 CLOSED1/CPUonly actualsliderspass,Resetnonzeropreconditionmissesnativeheightthreshold; no defect/passinvented. Distinct1wheelout+1pixelcounterinput FROZEN5apps90s/4stepcap/0builds/retries,CPUslidersreused/4GPUslidersfirstattempt.310/32widgets,163/2samples,22/1custom,27open/2verified.
+
+PR10ReplayfixtureprerequisiteREADY: replay-fixture-acceptance.json, actualCPU64frame76546Brecording withnativevalidation/bodylifecycle/joint/contact/all7querykinds. Originaldiagnosticcompile/overstrictcoveragefailuresretained; finalread-onlyscanPASS, no regeneration. First5typespositive/miss, moverhitlists0explicit/notnocollisionqualification.7PIDsabsent/0cores/executablesdeleted3451352/retained79773/raw864636534; allbudgetsclosed/0GPU/apps/engineedit. NextCPU-onlyplayer/UIobserver andremaining29Replaywidgets/custom1 underNEWnotyetfrozenbudget; counts313/29widgets164/1samples22/1custom27open2verified.
+
+PR10CPUReplayobserver31947 compile/linkPASS; popup64519 CPUonlyGTKdiscovery8stimeoutbeforewidgets, terminal/streamsconsumed/4GPUunusedclosed. Distinctownedwindow/phase/inputhandling correction FROZEN5apps60s/0build/retry/samecaps, no productdefectclaim.313/29widgets164/1samples22/1custom27open2verified.
+
+PR10GTK9624 CPUonlyfoundownedchooser/pathsentbutacceptancetimeoutbeforewidgets; OBS02probe/environmentunconfirmed/noproductdefect. Native --replay supportedsourceinput distinctpopupreview FROZEN6apps60s/0build/retry/samecaps, CPUcancel+Rpolicy/CPUapply/4GPUunsupportedCancel. OriginalGTKfailuresretained/no unchangedretry.313/29widgets164/1samples22/1custom27open2verified.
+
+PR10ReplayTimeline FROZEN1CPUapp90s/3screens/200actions/512step40seekcalls/3200recordedstepupperbound/0buildretry,24MiBAPI/1GiBraw64MiBretained.7widgets+Keyboardpartial/nativeCPUplayeractualeffects/GPUloadedunsupportedreuse.316/26widgets164/1samples22/1custom27open2verified.
+
+PR10ReplayQuery FROZEN1CPUapp120s/3screens/170actions/400step30seekcalls/2400recordedstepupperbound/0buildretry,32MiBAPI/1GiBraw64MiBretained;10widgets actualindex/filter/selection/draw/identity.323/19widgets164/1samples22/1custom27open2verified.
+
+PR10Query71394 CPU25.741s closed/all10effectswithoneweakimmediatetextassertion(knownfullnativechangevalue/64rows,actualbadvaluenotretained). Selection9widgets/custommousefocuslayout+textobservability FROZEN1CPUapp140s/5screens/220actions/400step30seekcalls/0buildretry/32MiBAPI/1GiBraw64MiBretained.323/19widgets164/1samples22/1custom27open2verified.

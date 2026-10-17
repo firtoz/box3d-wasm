@@ -1,0 +1,636 @@
+{
+  "status": "CONFIRMED_AUTHORITATIVE_SELECTION_RESTORE",
+  "rows": [
+    {
+      "route": "cpu",
+      "checks": {
+        "Actualnativepubliccube selected": true,
+        "Escape actualClearSelection called": true,
+        "ActualnativeClearSelection immediaterendererID null": true,
+        "CPU nextdraw remainscleared": true,
+        "IDs/poses/pauseddefaults preserved": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "seconds": 1.659591101,
+      "boundary": {
+        "selected": {
+          "api": "actual_body_metadata",
+          "request": 14,
+          "selected": {
+            "owner": "public",
+            "id": [
+              2,
+              1,
+              0
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -0.00000454869087,
+              0.499935031,
+              -0.00000201112471
+            ],
+            "velocity": [
+              0.00000452107452,
+              -0.00000902655302,
+              -0.0000165759702
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "selected_cpu": {
+            "owner": "mapped_cpu",
+            "id": [
+              0,
+              0,
+              0
+            ],
+            "valid": false
+          },
+          "watched": [],
+          "render_counts": {
+            "opaque": 2,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          }
+        },
+        "boundary": {
+          "api": "ui11_clear_selection",
+          "before": {
+            "rendered": [
+              2,
+              1,
+              0
+            ],
+            "owner_available": false,
+            "owners": [
+              {
+                "selected": [
+                  0,
+                  0,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "selected": [
+                  0,
+                  0,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "after": {
+            "rendered": [
+              0,
+              0,
+              0
+            ],
+            "owner_available": false,
+            "owners": [
+              {
+                "selected": [
+                  0,
+                  0,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "selected": [
+                  0,
+                  0,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        "later": {
+          "api": "actual_body_metadata",
+          "request": 20,
+          "selected": {
+            "owner": "public",
+            "id": [
+              0,
+              0,
+              0
+            ],
+            "valid": false
+          },
+          "selected_cpu": {
+            "owner": "mapped_cpu",
+            "id": [
+              0,
+              0,
+              0
+            ],
+            "valid": false
+          },
+          "watched": [],
+          "render_counts": {
+            "opaque": 2,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          }
+        }
+      },
+      "receipt": "raw/ui11-trace-runs/cpu/receipt.json"
+    },
+    {
+      "route": "ordinary-both",
+      "checks": {
+        "Actualnativepubliccube selected": true,
+        "ActualCPUcube selected": true,
+        "Escape actualClearSelection called": true,
+        "ActualnativeClearSelection immediaterendererID null": true,
+        "Authoritativebothowners surviveEscape": true,
+        "Nextdraw restores originalbothselectedIDs": true,
+        "IDs/poses/pauseddefaults preserved": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "seconds": 2.812288611,
+      "boundary": {
+        "selected": {
+          "api": "actual_body_metadata",
+          "request": 14,
+          "selected": {
+            "owner": "public",
+            "id": [
+              2,
+              1,
+              1
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              2.13919698e-11,
+              0.499940664,
+              1.21482694e-11
+            ],
+            "velocity": [
+              -4.81695905e-10,
+              -1.04983355e-9,
+              -7.50365492e-10
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "selected_cpu": {
+            "owner": "mapped_cpu",
+            "id": [
+              2,
+              1,
+              0
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -0.00000454869087,
+              0.499935031,
+              -0.00000201112471
+            ],
+            "velocity": [
+              0.00000452107452,
+              -0.00000902655302,
+              -0.0000165759702
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "watched": [],
+          "render_counts": {
+            "opaque": 2,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          }
+        },
+        "boundary": {
+          "api": "ui11_clear_selection",
+          "before": {
+            "rendered": [
+              2,
+              1,
+              1
+            ],
+            "owner_available": true,
+            "owners": [
+              {
+                "selected": [
+                  2,
+                  1,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "selected": [
+                  2,
+                  1,
+                  1
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "after": {
+            "rendered": [
+              0,
+              0,
+              0
+            ],
+            "owner_available": true,
+            "owners": [
+              {
+                "selected": [
+                  2,
+                  1,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "selected": [
+                  2,
+                  1,
+                  1
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        "later": {
+          "api": "actual_body_metadata",
+          "request": 20,
+          "selected": {
+            "owner": "public",
+            "id": [
+              2,
+              1,
+              1
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              2.13919698e-11,
+              0.499940664,
+              1.21482694e-11
+            ],
+            "velocity": [
+              -4.81695905e-10,
+              -1.04983355e-9,
+              -7.50365492e-10
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "selected_cpu": {
+            "owner": "mapped_cpu",
+            "id": [
+              2,
+              1,
+              0
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -0.00000454869087,
+              0.499935031,
+              -0.00000201112471
+            ],
+            "velocity": [
+              0.00000452107452,
+              -0.00000902655302,
+              -0.0000165759702
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "watched": [],
+          "render_counts": {
+            "opaque": 2,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          }
+        }
+      },
+      "receipt": "raw/ui11-trace-runs/ordinary-both/receipt.json"
+    },
+    {
+      "route": "native-both",
+      "checks": {
+        "Actualnativepubliccube selected": true,
+        "ActualCPUcube selected": true,
+        "Escape actualClearSelection called": true,
+        "ActualnativeClearSelection immediaterendererID null": true,
+        "Authoritativebothowners surviveEscape": true,
+        "Nextdraw restores originalbothselectedIDs": true,
+        "IDs/poses/pauseddefaults preserved": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "seconds": 2.857335478,
+      "boundary": {
+        "selected": {
+          "api": "actual_body_metadata",
+          "request": 14,
+          "selected": {
+            "owner": "public",
+            "id": [
+              2,
+              1,
+              1
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -8.32282333e-12,
+              0.499936461,
+              3.17578689e-12
+            ],
+            "velocity": [
+              -1.9168156e-9,
+              -1.00355824e-9,
+              -8.4702878e-10
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "selected_cpu": {
+            "owner": "mapped_cpu",
+            "id": [
+              2,
+              1,
+              0
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -0.00000441173415,
+              0.499932975,
+              -0.00000229548255
+            ],
+            "velocity": [
+              0.0000144823125,
+              -0.00000576396451,
+              -0.0000195655302
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "watched": [],
+          "render_counts": {
+            "opaque": 2,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          }
+        },
+        "boundary": {
+          "api": "ui11_clear_selection",
+          "before": {
+            "rendered": [
+              2,
+              1,
+              1
+            ],
+            "owner_available": true,
+            "owners": [
+              {
+                "selected": [
+                  2,
+                  1,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "selected": [
+                  2,
+                  1,
+                  1
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "after": {
+            "rendered": [
+              0,
+              0,
+              0
+            ],
+            "owner_available": true,
+            "owners": [
+              {
+                "selected": [
+                  2,
+                  1,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "selected": [
+                  2,
+                  1,
+                  1
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        "later": {
+          "api": "actual_body_metadata",
+          "request": 20,
+          "selected": {
+            "owner": "public",
+            "id": [
+              2,
+              1,
+              1
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -8.32282333e-12,
+              0.499936461,
+              3.17578689e-12
+            ],
+            "velocity": [
+              -1.9168156e-9,
+              -1.00355824e-9,
+              -8.4702878e-10
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "selected_cpu": {
+            "owner": "mapped_cpu",
+            "id": [
+              2,
+              1,
+              0
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -0.00000441173415,
+              0.499932975,
+              -0.00000229548255
+            ],
+            "velocity": [
+              0.0000144823125,
+              -0.00000576396451,
+              -0.0000195655302
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "watched": [],
+          "render_counts": {
+            "opaque": 2,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          }
+        }
+      },
+      "receipt": "raw/ui11-trace-runs/native-both/receipt.json"
+    }
+  ],
+  "source_pins": {
+    "both": "d6dbe00a9509c1935fc3b70eae91ca24f5dd99011281beeaab2cf8fed4fa695d",
+    "header": "d64c484e8cbe72fc1494b94032011924ce21bf0424267ce1a9f1ff9aca26615a",
+    "split": "f5400bff47a54ea6d6bf11ed0655918a5184771337103983a2c09f391fecb99b",
+    "native_adapter": "87389d84c35dc854ed163ac38e38fd007d57249a1d83775e97e795e9911258c7"
+  }
+}

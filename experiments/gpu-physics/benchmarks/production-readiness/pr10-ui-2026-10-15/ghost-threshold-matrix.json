@@ -1,0 +1,41 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "ghost-threshold-budget.json",
+  "runs": [
+    {
+      "route": "cpu",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "branch": "CHECKED_ACTUAL_NONZERO_TO_ZERO",
+      "complete": true
+    },
+    {
+      "route": "ordinary-gpu",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "branch": "CHECKED_ACTUAL_NONZERO_TO_ZERO",
+      "complete": true
+    },
+    {
+      "route": "native-gpu",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "branch": "CHECKED_ACTUAL_NONZERO_TO_ZERO",
+      "complete": true
+    },
+    {
+      "route": "ordinary-both",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "branch": "CHECKED_ACTUAL_NONZERO_TO_ZERO",
+      "complete": true
+    },
+    {
+      "route": "native-both",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "branch": "CHECKED_ACTUAL_NONZERO_TO_ZERO",
+      "complete": true
+    }
+  ]
+}

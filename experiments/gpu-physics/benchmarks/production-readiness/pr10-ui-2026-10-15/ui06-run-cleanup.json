@@ -1,0 +1,28 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 7770749,
+  "raw_retained_bytes": 913512054,
+  "deleted_bytes": 33579515,
+  "owned_pids_absent": [
+    3541977,
+    3541960,
+    3542664,
+    3542647,
+    3543501,
+    3543486,
+    3554345,
+    3554325,
+    3555183,
+    3555163,
+    3484997,
+    3484982,
+    3485442,
+    3485428,
+    3520628,
+    3520614
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708125020160,
+  "consumer": "Current5 UI06 viewers/16 active objects/task API archive for next PR10 relinks; selected receipts/media/grids for repair/final audit"
+}

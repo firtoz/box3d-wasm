@@ -1,0 +1,5114 @@
+{
+  "status": "PASS_FIVE_ROUTES_SOLVER_SLIDERS",
+  "routes": [
+    {
+      "label": "cpu",
+      "tag": "cpu",
+      "checks": {
+        "display Sub-steps##Solver=7": true,
+        "display Hertz##Solver=120": true,
+        "context hertz/substeps updated": true,
+        "b3World_Step edited args": true,
+        "display Recycle##Solver=3.5": true,
+        "b3World_SetContactRecycleDistance centimeters\u2192meters": true,
+        "display Workers##Solver=2": true,
+        "workers creates new world": true,
+        "edited settings retained across worker restart": true,
+        "display Workers##Solver=8": true,
+        "display Recycle##Solver=5.0": true,
+        "display Hertz##Solver=60.0": true,
+        "display Sub-steps##Solver=4": true,
+        "all original slider defaults restored": true,
+        "b3World_Step default args restored": true,
+        "clean quit": true
+      },
+      "seconds": 5.713575551984832,
+      "edited_step_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0.00833333377,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        }
+      ],
+      "edited_recycle_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0.0299999993,
+          "substeps": -1
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0.0350000001,
+          "substeps": -1
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        }
+      ],
+      "restored_step_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0.0166666675,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        }
+      ],
+      "initial_controls": {
+        "Sub-steps##Solver": 4.0,
+        "Hertz##Solver": 60.0,
+        "Workers##Solver": 8.0,
+        "Recycle##Solver": 5.0
+      },
+      "restored_controls": {
+        "Sub-steps##Solver": "4",
+        "Hertz##Solver": "60.000000",
+        "Workers##Solver": "8",
+        "Recycle##Solver": "5.000000"
+      },
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "ordinary-gpu",
+      "tag": "ordinary-gpu-policy",
+      "checks": {
+        "standalone GPU scheduling truthfully automatic": true,
+        "GPU recording unavailable explicitly": true,
+        "display Sub-steps##Solver=7": true,
+        "display Hertz##Solver=120": true,
+        "context hertz/substeps updated": true,
+        "b3World_Step edited args": true,
+        "gpu_b3_world_step edited args": true,
+        "display Recycle##Solver=3.5": true,
+        "b3World_SetContactRecycleDistance centimeters\u2192meters": true,
+        "gpu_b3_world_set_contact_recycle_distance centimeters\u2192meters": true,
+        "worker or restart creates new world": true,
+        "edited settings retained across worker restart": true,
+        "display Recycle##Solver=5.0": true,
+        "display Hertz##Solver=60.0": true,
+        "display Sub-steps##Solver=4": true,
+        "all original slider defaults restored": true,
+        "b3World_Step default args restored": true,
+        "gpu_b3_world_step default args restored": true,
+        "clean quit": true
+      },
+      "seconds": 6.800676667015068,
+      "edited_step_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.00833333377,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.00833333377,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        }
+      ],
+      "edited_recycle_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0299999993,
+          "substeps": -1
+        },
+        {
+          "api": "gpu_b3_world_set_contact_recycle_distance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0299999993,
+          "substeps": -1
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0350000001,
+          "substeps": -1
+        },
+        {
+          "api": "gpu_b3_world_set_contact_recycle_distance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0350000001,
+          "substeps": -1
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        }
+      ],
+      "restored_step_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0.0166666675,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0.0166666675,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        }
+      ],
+      "initial_controls": {
+        "Sub-steps##Solver": 4.0,
+        "Hertz##Solver": 60.0,
+        "Recycle##Solver": 5.0
+      },
+      "restored_controls": {
+        "Sub-steps##Solver": "4",
+        "Hertz##Solver": "60.000000",
+        "Recycle##Solver": "5.000000"
+      },
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "native-gpu",
+      "tag": "native-gpu-policy",
+      "checks": {
+        "standalone GPU scheduling truthfully automatic": true,
+        "GPU recording unavailable explicitly": true,
+        "display Sub-steps##Solver=7": true,
+        "display Hertz##Solver=120": true,
+        "context hertz/substeps updated": true,
+        "b3World_Step edited args": true,
+        "gpu_b3_world_step edited args": true,
+        "display Recycle##Solver=3.5": true,
+        "b3World_SetContactRecycleDistance centimeters\u2192meters": true,
+        "gpu_b3_world_set_contact_recycle_distance centimeters\u2192meters": true,
+        "worker or restart creates new world": true,
+        "edited settings retained across worker restart": true,
+        "display Recycle##Solver=5.0": true,
+        "display Hertz##Solver=60.0": true,
+        "display Sub-steps##Solver=4": true,
+        "all original slider defaults restored": true,
+        "b3World_Step default args restored": true,
+        "gpu_b3_world_step default args restored": true,
+        "clean quit": true
+      },
+      "seconds": 6.9139155139855575,
+      "edited_step_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.00833333377,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.00833333377,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        }
+      ],
+      "edited_recycle_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0299999993,
+          "substeps": -1
+        },
+        {
+          "api": "gpu_b3_world_set_contact_recycle_distance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0299999993,
+          "substeps": -1
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0350000001,
+          "substeps": -1
+        },
+        {
+          "api": "gpu_b3_world_set_contact_recycle_distance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0350000001,
+          "substeps": -1
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        }
+      ],
+      "restored_step_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0.0166666675,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0.0166666675,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        }
+      ],
+      "initial_controls": {
+        "Sub-steps##Solver": 4.0,
+        "Hertz##Solver": 60.0,
+        "Recycle##Solver": 5.0
+      },
+      "restored_controls": {
+        "Sub-steps##Solver": "4",
+        "Hertz##Solver": "60.000000",
+        "Recycle##Solver": "5.000000"
+      },
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "ordinary-both",
+      "tag": "ordinary-both-loading",
+      "checks": {
+        "GPU recording unavailable explicitly": true,
+        "display Sub-steps##Solver=7": true,
+        "display Hertz##Solver=120": true,
+        "context hertz/substeps updated": true,
+        "b3World_Step edited args": true,
+        "gpu_b3_world_step edited args": true,
+        "cpu_b3World_Step edited args": true,
+        "display Recycle##Solver=3.5": true,
+        "b3World_SetContactRecycleDistance centimeters\u2192meters": true,
+        "gpu_b3_world_set_contact_recycle_distance centimeters\u2192meters": true,
+        "cpu_b3World_SetContactRecycleDistance centimeters\u2192meters": true,
+        "display CPU Workers##Solver=2": true,
+        "worker or restart creates new world": true,
+        "edited settings retained across worker restart": true,
+        "display CPU Workers##Solver=8": true,
+        "display Recycle##Solver=5.0": true,
+        "display Hertz##Solver=60.0": true,
+        "display Sub-steps##Solver=4": true,
+        "all original slider defaults restored": true,
+        "b3World_Step default args restored": true,
+        "gpu_b3_world_step default args restored": true,
+        "cpu_b3World_Step default args restored": true,
+        "clean quit": true
+      },
+      "seconds": 7.367297780001536,
+      "edited_step_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.00833333377,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.00833333377,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0.00833333377,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        }
+      ],
+      "edited_recycle_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0299999993,
+          "substeps": -1
+        },
+        {
+          "api": "gpu_b3_world_set_contact_recycle_distance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0299999993,
+          "substeps": -1
+        },
+        {
+          "api": "cpu_b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0.0299999993,
+          "substeps": -1
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0350000001,
+          "substeps": -1
+        },
+        {
+          "api": "gpu_b3_world_set_contact_recycle_distance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0350000001,
+          "substeps": -1
+        },
+        {
+          "api": "cpu_b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0.0350000001,
+          "substeps": -1
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        }
+      ],
+      "restored_step_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0.0166666675,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0.0166666675,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0.0166666675,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        }
+      ],
+      "initial_controls": {
+        "Sub-steps##Solver": 4.0,
+        "Hertz##Solver": 60.0,
+        "Recycle##Solver": 5.0,
+        "CPU Workers##Solver": 8.0
+      },
+      "restored_controls": {
+        "Sub-steps##Solver": "4",
+        "Hertz##Solver": "60.000000",
+        "CPU Workers##Solver": "8",
+        "Recycle##Solver": "5.000000"
+      },
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "native-both",
+      "tag": "native-both-loading",
+      "checks": {
+        "GPU recording unavailable explicitly": true,
+        "display Sub-steps##Solver=7": true,
+        "display Hertz##Solver=120": true,
+        "context hertz/substeps updated": true,
+        "b3World_Step edited args": true,
+        "gpu_b3_world_step edited args": true,
+        "cpu_b3World_Step edited args": true,
+        "display Recycle##Solver=3.5": true,
+        "b3World_SetContactRecycleDistance centimeters\u2192meters": true,
+        "gpu_b3_world_set_contact_recycle_distance centimeters\u2192meters": true,
+        "cpu_b3World_SetContactRecycleDistance centimeters\u2192meters": true,
+        "display CPU Workers##Solver=2": true,
+        "worker or restart creates new world": true,
+        "edited settings retained across worker restart": true,
+        "display CPU Workers##Solver=8": true,
+        "display Recycle##Solver=5.0": true,
+        "display Hertz##Solver=60.0": true,
+        "display Sub-steps##Solver=4": true,
+        "all original slider defaults restored": true,
+        "b3World_Step default args restored": true,
+        "gpu_b3_world_step default args restored": true,
+        "cpu_b3World_Step default args restored": true,
+        "clean quit": true
+      },
+      "seconds": 7.490950912993867,
+      "edited_step_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.00833333377,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.00833333377,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0.00833333377,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        }
+      ],
+      "edited_recycle_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0299999993,
+          "substeps": -1
+        },
+        {
+          "api": "gpu_b3_world_set_contact_recycle_distance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0299999993,
+          "substeps": -1
+        },
+        {
+          "api": "cpu_b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0.0299999993,
+          "substeps": -1
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0350000001,
+          "substeps": -1
+        },
+        {
+          "api": "gpu_b3_world_set_contact_recycle_distance",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0.0350000001,
+          "substeps": -1
+        },
+        {
+          "api": "cpu_b3World_SetContactRecycleDistance",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0.0350000001,
+          "substeps": -1
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            1
+          ],
+          "value": 0,
+          "substeps": 7
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            0
+          ],
+          "value": 0,
+          "substeps": 7
+        }
+      ],
+      "restored_step_calls": [
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0.0166666675,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0.0166666675,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0.0166666675,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "b3World_Step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "gpu_b3_world_step",
+          "world": [
+            1,
+            3
+          ],
+          "value": 0,
+          "substeps": 4
+        },
+        {
+          "api": "cpu_b3World_Step",
+          "world": [
+            1,
+            2
+          ],
+          "value": 0,
+          "substeps": 4
+        }
+      ],
+      "initial_controls": {
+        "Sub-steps##Solver": 4.0,
+        "Hertz##Solver": 60.0,
+        "Recycle##Solver": 5.0,
+        "CPU Workers##Solver": 8.0
+      },
+      "restored_controls": {
+        "Sub-steps##Solver": "4",
+        "Hertz##Solver": "60.000000",
+        "CPU Workers##Solver": "8",
+        "Recycle##Solver": "5.000000"
+      },
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    }
+  ],
+  "checks": 100,
+  "screenshots": 10,
+  "full_interaction_samples_done": 0,
+  "full_interaction_samples_left": 165,
+  "limits": "4 sharedslider callsites withgeneratedGPUavailability reconciled; no sample-specific qualification, no solverphysicalaccuracy claim. Originalharnessfailures preserved."
+}

@@ -1,0 +1,13 @@
+{
+  "status": "FROZEN",
+  "builds": 0,
+  "viewers": 0,
+  "captures": 0,
+  "composites": 2,
+  "composite_seconds": 8,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 67108864,
+  "min_free_bytes": 21474836480,
+  "raw_before_bytes": 953974762,
+  "scope": "2CPUfirstgrids/actualmenus+all9pairs/defaultpreservation/currentpins/inputs/PIDs/cores/cache/storage/Box3Dclean/diffcheck. PreserveoriginalpartialCPUharnesstimeout/OBS03watch/originalnegativefaults;consumeui15logs/currentpoolnextrelink."
+}

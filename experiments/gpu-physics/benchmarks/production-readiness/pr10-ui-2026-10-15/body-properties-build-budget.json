@@ -1,0 +1,14 @@
+{
+ "status":"FROZEN",
+ "compile_count":1,
+ "compile_seconds":30,
+ "link_count":5,
+ "link_seconds_each":25,
+ "apps":0,
+ "retries":0,
+ "temporary_bytes":230686720,
+ "retained_bytes":8388608,
+ "scope":"Readonly native joint/body observer extension: Motor/Filter joints, constraint tuning, actual gravity/locks/bullet flags, impulses/target transforms and full dynamic property aggregates. Existing engine/gfx/main/Sample/Box3D/WASM/Rust/WGSL unchanged.",
+ "consumer":"Bridge1,MotionLocks6,MotorJoint4,Door6, RagdollBox4/Mesh4,GearLift3 =28widgetentries plusDoorMouseDown; later launch/replacementcontrols reuse bodyflags",
+ "deletion":"Currentjointpool retained until newall5routes qualify, then superseded viewers deleted; new pool retained for remaining namedcontrols. Logs bounded1MiB each, no fullenginebuild."
+}

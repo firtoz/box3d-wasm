@@ -1,0 +1,64 @@
+<!doctype html><meta charset="utf-8"><title>PR10 geometry widgets — CPU first</title><style>body{background:#17191d;color:#eee;font:16px system-ui}table{border-collapse:collapse}th,td{padding:8px;vertical-align:top;border:1px solid #444}img{width:420px}th{position:sticky;top:0;background:#17191d}small{display:block}</style><h1>Geometry widgets</h1><p>Actual valid input changes, followed by restoration. These are interaction states, not defect repair before/after images. UI12 remains open. Real Box3D CPU first; native/ordinary standalone and combined. Click images for full resolution.</p><table><tr><th>Tool / state</th>
+<th>cpu</th>
+<th>ordinary-gpu</th>
+<th>native-gpu</th>
+<th>ordinary-both</th>
+<th>native-both</th>
+</tr>
+<tr><th>box-hull before</th>
+<td><a href="evidence/geometry-controls-runs/cpu/box-hull-before.png"><img src="evidence/geometry-controls-runs/cpu/box-hull-before.png" alt="cpu box-hull before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/box-hull-before.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/box-hull-before.png" alt="ordinary-gpu box-hull before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-gpu/box-hull-before.png"><img src="evidence/geometry-controls-ts-tail-runs/native-gpu/box-hull-before.png" alt="native-gpu box-hull before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-both/box-hull-before.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-both/box-hull-before.png" alt="ordinary-both box-hull before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-both/box-hull-before.png"><img src="evidence/geometry-controls-ts-tail-runs/native-both/box-hull-before.png" alt="native-both box-hull before"></a></td>
+</tr>
+<tr><th>box-hull changed</th>
+<td><a href="evidence/geometry-controls-runs/cpu/box-hull-changed.png"><img src="evidence/geometry-controls-runs/cpu/box-hull-changed.png" alt="cpu box-hull changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/box-hull-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/box-hull-changed.png" alt="ordinary-gpu box-hull changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-gpu/box-hull-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/native-gpu/box-hull-changed.png" alt="native-gpu box-hull changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-both/box-hull-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-both/box-hull-changed.png" alt="ordinary-both box-hull changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-both/box-hull-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/native-both/box-hull-changed.png" alt="native-both box-hull changed"></a></td>
+</tr>
+<tr><th>capsule-mass before</th>
+<td><a href="evidence/geometry-controls-ts-tail-runs/cpu/capsule-mass-before.png"><img src="evidence/geometry-controls-ts-tail-runs/cpu/capsule-mass-before.png" alt="cpu capsule-mass before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/capsule-mass-before.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/capsule-mass-before.png" alt="ordinary-gpu capsule-mass before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-gpu/capsule-mass-before.png"><img src="evidence/geometry-controls-ts-tail-runs/native-gpu/capsule-mass-before.png" alt="native-gpu capsule-mass before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-both/capsule-mass-before.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-both/capsule-mass-before.png" alt="ordinary-both capsule-mass before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-both/capsule-mass-before.png"><img src="evidence/geometry-controls-ts-tail-runs/native-both/capsule-mass-before.png" alt="native-both capsule-mass before"></a></td>
+</tr>
+<tr><th>capsule-mass changed</th>
+<td><a href="evidence/geometry-controls-ts-tail-runs/cpu/capsule-mass-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/cpu/capsule-mass-changed.png" alt="cpu capsule-mass changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/capsule-mass-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/capsule-mass-changed.png" alt="ordinary-gpu capsule-mass changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-gpu/capsule-mass-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/native-gpu/capsule-mass-changed.png" alt="native-gpu capsule-mass changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-both/capsule-mass-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-both/capsule-mass-changed.png" alt="ordinary-both capsule-mass changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-both/capsule-mass-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/native-both/capsule-mass-changed.png" alt="native-both capsule-mass changed"></a></td>
+</tr>
+<tr><th>hull-reduction before</th>
+<td><a href="evidence/geometry-controls-ts-tail-runs/cpu/hull-reduction-before.png"><img src="evidence/geometry-controls-ts-tail-runs/cpu/hull-reduction-before.png" alt="cpu hull-reduction before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/hull-reduction-before.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/hull-reduction-before.png" alt="ordinary-gpu hull-reduction before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-gpu/hull-reduction-before.png"><img src="evidence/geometry-controls-ts-tail-runs/native-gpu/hull-reduction-before.png" alt="native-gpu hull-reduction before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-both/hull-reduction-before.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-both/hull-reduction-before.png" alt="ordinary-both hull-reduction before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-both/hull-reduction-before.png"><img src="evidence/geometry-controls-ts-tail-runs/native-both/hull-reduction-before.png" alt="native-both hull-reduction before"></a></td>
+</tr>
+<tr><th>hull-reduction changed</th>
+<td><a href="evidence/geometry-controls-ts-tail-runs/cpu/hull-reduction-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/cpu/hull-reduction-changed.png" alt="cpu hull-reduction changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/hull-reduction-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/hull-reduction-changed.png" alt="ordinary-gpu hull-reduction changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-gpu/hull-reduction-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/native-gpu/hull-reduction-changed.png" alt="native-gpu hull-reduction changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-both/hull-reduction-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-both/hull-reduction-changed.png" alt="ordinary-both hull-reduction changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-both/hull-reduction-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/native-both/hull-reduction-changed.png" alt="native-both hull-reduction changed"></a></td>
+</tr>
+<tr><th>hull-transform before</th>
+<td><a href="evidence/geometry-controls-ts-tail-runs/cpu/hull-transform-before.png"><img src="evidence/geometry-controls-ts-tail-runs/cpu/hull-transform-before.png" alt="cpu hull-transform before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/hull-transform-before.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/hull-transform-before.png" alt="ordinary-gpu hull-transform before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-gpu/hull-transform-before.png"><img src="evidence/geometry-controls-ts-tail-runs/native-gpu/hull-transform-before.png" alt="native-gpu hull-transform before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-both/hull-transform-before.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-both/hull-transform-before.png" alt="ordinary-both hull-transform before"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-both/hull-transform-before.png"><img src="evidence/geometry-controls-ts-tail-runs/native-both/hull-transform-before.png" alt="native-both hull-transform before"></a></td>
+</tr>
+<tr><th>hull-transform changed</th>
+<td><a href="evidence/geometry-controls-ts-tail-runs/cpu/hull-transform-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/cpu/hull-transform-changed.png" alt="cpu hull-transform changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/hull-transform-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-gpu/hull-transform-changed.png" alt="ordinary-gpu hull-transform changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-gpu/hull-transform-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/native-gpu/hull-transform-changed.png" alt="native-gpu hull-transform changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/ordinary-both/hull-transform-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/ordinary-both/hull-transform-changed.png" alt="ordinary-both hull-transform changed"></a></td>
+<td><a href="evidence/geometry-controls-ts-tail-runs/native-both/hull-transform-changed.png"><img src="evidence/geometry-controls-ts-tail-runs/native-both/hull-transform-changed.png" alt="native-both hull-transform changed"></a></td>
+</tr>
+</table>

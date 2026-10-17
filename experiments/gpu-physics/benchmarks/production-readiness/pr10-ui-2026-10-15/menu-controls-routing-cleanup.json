@@ -1,0 +1,95 @@
+{
+  "removed": [
+    {
+      "path": "raw/solver-controls-build/cpu",
+      "bytes": 7311592
+    },
+    {
+      "path": "raw/solver-controls-build/ordinary-gpu",
+      "bytes": 37410656
+    },
+    {
+      "path": "raw/solver-controls-build/native-gpu",
+      "bytes": 40289776
+    },
+    {
+      "path": "raw/solver-controls-build/ordinary-both",
+      "bytes": 38207176
+    },
+    {
+      "path": "raw/solver-controls-build/native-both",
+      "bytes": 41086312
+    },
+    {
+      "path": "raw/menu-controls-build/cpu",
+      "bytes": 7325440
+    },
+    {
+      "path": "raw/menu-controls-build/ordinary-gpu",
+      "bytes": 37424504
+    },
+    {
+      "path": "raw/menu-controls-build/native-gpu",
+      "bytes": 40303624
+    },
+    {
+      "path": "raw/menu-controls-build/ordinary-both",
+      "bytes": 38221040
+    },
+    {
+      "path": "raw/menu-controls-build/native-both",
+      "bytes": 41100176
+    },
+    {
+      "path": "raw/menu-controls-runs/cpu/api.jsonl",
+      "bytes": 2738
+    },
+    {
+      "path": "raw/menu-controls-runs/cpu/observer.jsonl",
+      "bytes": 3181
+    },
+    {
+      "path": "raw/menu-controls-runs/cpu-clip/api.jsonl",
+      "bytes": 385776
+    },
+    {
+      "path": "raw/menu-controls-runs/cpu-clip/observer.jsonl",
+      "bytes": 351963
+    },
+    {
+      "path": "raw/menu-controls-runs/ordinary-gpu-clip/api.jsonl",
+      "bytes": 488006
+    },
+    {
+      "path": "raw/menu-controls-runs/ordinary-gpu-clip/observer.jsonl",
+      "bytes": 361719
+    },
+    {
+      "path": "raw/menu-controls-runs/native-gpu-clip/api.jsonl",
+      "bytes": 480698
+    },
+    {
+      "path": "raw/menu-controls-runs/native-gpu-clip/observer.jsonl",
+      "bytes": 356298
+    },
+    {
+      "path": "raw/menu-controls-runs/ordinary-both-clip/api.jsonl",
+      "bytes": 628515
+    },
+    {
+      "path": "raw/menu-controls-runs/ordinary-both-clip/observer.jsonl",
+      "bytes": 450865
+    },
+    {
+      "path": "raw/menu-controls-runs/native-both-clip/api.jsonl",
+      "bytes": 603828
+    },
+    {
+      "path": "raw/menu-controls-runs/native-both-clip/observer.jsonl",
+      "bytes": 433165
+    }
+  ],
+  "deleted_bytes": 333227048,
+  "retained_consumer": "Five clip-corrected current viewers/objects foroutputconfirmation+remainingPR10; callback/APIwindows+screens/receipts retained",
+  "free_bytes": 1709301932032
+}

@@ -1,0 +1,98 @@
+{
+  "status": "PASS_UI25_ORIGINAL_DATA_UI29_CORRECTED_TARGET_SUPPLEMENT",
+  "ordinary_ui25": "raw/ui25-runs/ordinary-gpu/receipt.json",
+  "original_false_checks": [
+    "AutoGenerate off actually stops regeneration",
+    "Auto Generate two actual original button activations"
+  ],
+  "cause": "Two UI29 assertions used stale pre-on button rectangle. All UI25 inputs/actual geometry/loading queue/IDs/defaults/picking checks passed and are retained without re-execution.",
+  "ui29_correct_target": "raw/ui29-current-target-runs/ordinary-gpu/receipt.json",
+  "actual_button_targets": [
+    {
+      "kind": "Button",
+      "label": "Auto Generate",
+      "value": "",
+      "window": "Info",
+      "id": 1423705016,
+      "visible": true,
+      "disabled": false,
+      "changed": false,
+      "rect": [
+        1284,
+        744,
+        1421,
+        770
+      ],
+      "clip": [
+        1273,
+        35,
+        1576,
+        891
+      ]
+    },
+    {
+      "kind": "Button",
+      "label": "Auto Generate",
+      "value": "",
+      "window": "Info",
+      "id": 1423705016,
+      "visible": true,
+      "disabled": false,
+      "changed": false,
+      "rect": [
+        1284,
+        840,
+        1421,
+        866
+      ],
+      "clip": [
+        1273,
+        35,
+        1576,
+        891
+      ]
+    }
+  ],
+  "checks": {
+    "Mesh Drop actual scene/no-body fixture": true,
+    "Auto on actually regenerates": true,
+    "Auto off actual creation/destruction/IDs stop": true,
+    "Counts/pause/defaults remain original": true,
+    "paused original timing defaults": true,
+    "clean quit": true,
+    "Two original Auto Generate button activations": true
+  },
+  "input_trace": [
+    {
+      "api": "ui25_input_loading",
+      "stage": "button_after",
+      "frame": 93,
+      "active": 0,
+      "alive": 1423705016,
+      "temp_input": 0,
+      "loading": false,
+      "want_text": false,
+      "queued_events": 0,
+      "queued_chars": 0,
+      "changed": true,
+      "item": 1423705016
+    },
+    {
+      "api": "ui25_input_loading",
+      "stage": "button_after",
+      "frame": 105,
+      "active": 0,
+      "alive": 1423705016,
+      "temp_input": 0,
+      "loading": false,
+      "want_text": false,
+      "queued_events": 0,
+      "queued_chars": 0,
+      "changed": true,
+      "item": 1423705016
+    }
+  ],
+  "cleanup_harness_failure": "First focused-process consumer was called before its own driver exited; guard rejected before deleting streams. External consumer after confirmed exit passed. No app repeat.",
+  "unchanged_product_binary_sha256": "5aa21476e1719d456be5c0ac45c2a4f52e176cc40ea65e2510df2a511f7e9414",
+  "limits": "UI29 context-loss cause is inferred from original valid click failures/shared loader source plus corrected-target repaired behavior; saved-position diagnostic before trace is not a matched button cause proof."
+}

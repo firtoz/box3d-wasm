@@ -1,0 +1,47 @@
+{
+  "status": "FAILURE_RETAINED",
+  "budget": "replay-rich-corrected-budget.json",
+  "operations": [
+    {
+      "label": "compile",
+      "args": [
+        "/usr/bin/c++",
+        "-std=c++20",
+        "-O2",
+        "-I/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/replay-rich-corrected.cpp",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_src/libbox3d.a",
+        "-lpthread",
+        "-lm",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-rich-corrected/fixture"
+      ],
+      "pid": 3059676,
+      "exit": 0,
+      "seconds": 0.454210098,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "record-validate-scan",
+      "args": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-rich-corrected/fixture",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-rich-corrected/fixture.b3rec"
+      ],
+      "pid": 3059692,
+      "exit": null,
+      "seconds": 0.06781073700000002,
+      "log_sha256": "bfc13d26cbe6cb3ce682115a52b8dbaf2c76485a3b13facce6af14404612cb3d"
+    }
+  ],
+  "deleted": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-rich-corrected/fixture",
+      "bytes": 1153320,
+      "sha256": "f76ce5c60c0cb3d8b41e98ec639e1fd75237e4d1649a03a2e8f56e1e2b68193b"
+    }
+  ],
+  "error": "AssertionError [ERR_ASSERTION]: fixture: /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/replay-rich-corrected.cpp:17: int main(int, char**): Assertion `kindCount[i]>=64&&hitCount[i]>0&&missCount[i]>0' failed.\n\n\nnull !== 0\n",
+  "retained_bytes": 76785,
+  "cleanup_status": "CLOSED",
+  "core_limit_bytes": 0
+}

@@ -1,0 +1,138 @@
+{
+  "status": "INCOMPLETE_FAILURES_RETAINED",
+  "budget": "geometry-controls-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "heightfield",
+    "mesh-viewer",
+    "benchmark-heightfield"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "heightfield",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 47,
+      "findings": 1
+    },
+    {
+      "route": "cpu",
+      "fixture": "mesh-viewer",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 27,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "benchmark-heightfield",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 13,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "heightfield",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 47,
+      "findings": 3
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mesh-viewer",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 27,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "benchmark-heightfield",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 13,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "heightfield",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 47,
+      "findings": 3
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mesh-viewer",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 27,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "benchmark-heightfield",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 13,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "heightfield",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 47,
+      "findings": 3
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mesh-viewer",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 27,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "benchmark-heightfield",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 1,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "heightfield",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 47,
+      "findings": 3
+    },
+    {
+      "route": "native-both",
+      "fixture": "mesh-viewer",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 27,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "benchmark-heightfield",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 1,
+      "findings": 0
+    }
+  ]
+}

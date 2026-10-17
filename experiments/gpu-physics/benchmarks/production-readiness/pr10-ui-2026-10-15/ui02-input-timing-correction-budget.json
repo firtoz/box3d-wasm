@@ -1,0 +1,19 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "Input driver timing assumption only: XTEST flush is not a guarantee that motion/wheel dispatch occurs in one app frame. Keep required camera outcomes unchanged; record actual original capture flags/frame class rather than require stale flag after on every route. All5 before routes already reproduced stale flag. CPU/ordinary after stale and repair passed. Original native timing failure retained.",
+  "apps": [
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "tag_suffix": "timing-observed",
+  "seconds_each": 60,
+  "ready_seconds": 25,
+  "screens_each": 3,
+  "actions_each": 40,
+  "builds": 0,
+  "retries": 0,
+  "temporary_bytes": 134217728,
+  "retained_bytes": 16777216,
+  "shared_cache_growth_allowance": 134217728
+}

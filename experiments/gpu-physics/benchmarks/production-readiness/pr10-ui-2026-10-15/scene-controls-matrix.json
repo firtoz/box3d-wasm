@@ -1,0 +1,76 @@
+{
+  "status": "INCOMPLETE_FAILURES_RETAINED",
+  "budget": "scene-controls-budget.json",
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "recovery",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "static-invoke",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "recovery",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "findings": 1
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "static-invoke",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "recovery",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "findings": 1
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "static-invoke",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "recovery",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "findings": 1
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "static-invoke",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "recovery",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "findings": 1
+    },
+    {
+      "route": "native-both",
+      "fixture": "static-invoke",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    }
+  ]
+}

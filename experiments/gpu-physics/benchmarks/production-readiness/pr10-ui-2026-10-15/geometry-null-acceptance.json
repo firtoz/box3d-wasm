@@ -1,0 +1,30 @@
+{
+  "status": "CONFIRMED_NULL_HULL_AT_RENDER_BOUNDARY",
+  "original_crash_pid": 2158015,
+  "minimal_debug_session": 25245,
+  "gdb_stopped_before_dereference": true,
+  "original_points": [
+    [
+      -1,
+      -0.5,
+      -0.25
+    ],
+    [
+      1,
+      0.5,
+      0.25
+    ]
+  ],
+  "failing_points_context": "All8actualCreateHullpoints haveY0; see exactGDBdump",
+  "input": "BoxHullh:1 text0, prefixofvalidtarget0.7",
+  "first_failure": "Degenerate8coplanarpoints\u2192CreateHullnull\u2192DrawHullhullregisterRDI0",
+  "core_dumps_disabled_in_minimal_run": true,
+  "debugger_and_inferior_terminal": true,
+  "core_extraction": "Bounded256MiB extractionhitFSIZE;204181534bytepartialdeleted,no retry",
+  "evidence": [
+    "geometry-null-debug.txt",
+    "raw/geometry-controls-runs/cpu/receipt.json",
+    "raw/geometry-null-debug-runs/cpu/before-null-input.png"
+  ],
+  "no_fix": true
+}

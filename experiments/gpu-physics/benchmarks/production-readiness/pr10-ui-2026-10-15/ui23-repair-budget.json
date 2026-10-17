@@ -1,0 +1,114 @@
+{
+  "status": "FROZEN",
+  "cc_compiles": 2,
+  "compile_seconds": 25,
+  "cpp_compiles": 1,
+  "observer_compile_seconds": 20,
+  "archive_commands_max": 30,
+  "archive_seconds": 5,
+  "archive_copy_bytes": 8388608,
+  "links": 4,
+  "link_seconds": 25,
+  "viewers": 5,
+  "seconds_per_app": 90,
+  "seconds_per_transition": 3,
+  "screenshots_per_app": 6,
+  "actions_per_app": 260,
+  "physics_steps": 0,
+  "retries": 0,
+  "outer_seconds": 850,
+  "api_bytes_per_app": 12582912,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "shared_cache_growth_total_bytes": 33554432,
+  "min_free_bytes": 21474836480,
+  "raw_before_bytes": 978067129,
+  "shim_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH02/candidate-shared-completion/api-sources/shim.c",
+  "shim_compile": [
+    "/usr/bin/cc",
+    "-O3",
+    "-DNDEBUG",
+    "-std=gnu17",
+    "-w",
+    "-I/home/firtoz/work/2026/box3d-wasm/box3d/include",
+    "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+    "-c",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH02/candidate-shared-completion/api-sources/shim.c",
+    "-o",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH02/candidate-shared-completion/shim.c.o",
+    "-MMD",
+    "-MF",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr09-repairs-2026-10-02/BEH02/candidate-shared-completion/shim.c.o.d"
+  ],
+  "shim_archive": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-repairs/BEH02-shared-completion/portable-c/libgpu_samples_api.a",
+  "dual_compile": [
+    "/usr/bin/cc",
+    "-O3",
+    "-DNDEBUG",
+    "-std=gnu17",
+    "-w",
+    "-I/home/firtoz/work/2026/box3d-wasm/box3d/include",
+    "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+    "-c",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_dual.c",
+    "-o",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/both-dual.o"
+  ],
+  "dual_archive": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/libgpu_both_api.a",
+  "pins_before": {
+    "shim": "6e22c583b12d884dbdb643786c3518159d95b68c249915924baf671321d48548",
+    "both": "0d7beedfc0e562a913aec9af9a2a42d68bb3d008f1d188c9996b68926a3f05ef",
+    "generated_shim": "9555deba5a2d496d4e1d4254af87260a9e55606e2f74c544ebbb2792cdb7d7f2",
+    "native_shape": "d2ba06bc042e08142a872bdcc0e5fca5074e3140ea15d420d8b1dd7ff2cb83b3",
+    "native_math": "d9a0d6e1248f35f56d474aa1c4f616a279172f6a9cad53fa18da53dab89d0005"
+  },
+  "fixtures": [
+    [
+      "Mesh",
+      "Grid",
+      2
+    ],
+    [
+      "Mesh",
+      "Big Box",
+      2
+    ],
+    [
+      "Mesh",
+      "Box",
+      3
+    ],
+    [
+      "Collision",
+      "Mesh Scale",
+      1
+    ],
+    [
+      "Mesh",
+      "Reflection",
+      286
+    ]
+  ],
+  "scope": "OnlySetMeshfinite-input GPU scales useactualnativeb3SafeScale;nonfinitevalues forwardedunchanged;standalonemirrorstoresnormalizedscale;combinedCPUcallreceivesoriginalrawinput/nativeownnormalization. Preserveactualscenegeometry/defaults/body+shapeIDs/materials/picking. CPUviewer reusedfirst;4GPUlinks2taskAPIarchivecopies replaceonlyshim.c.o/both_dual.c.o,allothermembershashesunchanged/sharedarchivespreserved. Actual4affectedscenes/9zeroaxes perroute,±1controls/restoration/Reflection±1 andpicking;actualRustreplacementargs+return/nativeGPUAABB versusrealCPUfirstoracle,notcombinedCPU-backedmeshgetteronly. CreationzeroAPI notchanged/qualified,otherUIissuesremainopen.",
+  "outputs": [
+    {
+      "path": "raw/ui23-build",
+      "consumer": "2Cmodules/readonlyRustreplacementobserver/2APIcarrierarchives/4GPUviewers+reusedCPU nextPR10relink",
+      "delete": "Extractedarchivebytes/closedlogs consumed;oldGPUviewers sequentiallyretired;oldtaskBOTHarchive/dualobjectafterallGPUqualified;sharedoriginals preserved"
+    },
+    {
+      "path": "raw/ui23-runs",
+      "consumer": "Actualnativeinput→safeScale→Rustreplaceaccepted→GPUAABB/identity/defaults/picking/<=30images finalaudit",
+      "delete": "Consume fullstreams terminaleachroute;retainminimalreceipts/media<=64MiB"
+    },
+    {
+      "path": "raw/query-input-controls-runs/mesh-scale",
+      "consumer": "Actualoriginalzero-scaleCPUfirstbeforemedia/inputs reused",
+      "delete": "Preserveoriginalreceipts/media;0unchangednegativebeforeapps"
+    }
+  ]
+}

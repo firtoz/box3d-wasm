@@ -1,0 +1,30 @@
+{
+  "status": "ORIGINAL_CPU_SLIDERS_PASS_RESET_PRECONDITION_NOT_REACHED",
+  "receipt": "raw/ghost-controls-runs/cpu/receipt.json",
+  "grounded_threshold_f32": 1.0260000228881836,
+  "threshold_source": "box3d/samples/sample_issues.cpp:849",
+  "attempts": [
+    {
+      "pixels": 2,
+      "position_y": 1.0272733,
+      "velocity_y": 1.10636377,
+      "launches": 0,
+      "grounded": false
+    },
+    {
+      "pixels": 4,
+      "position_y": 1.04186404,
+      "velocity_y": 2.34320664,
+      "launches": 0,
+      "grounded": false
+    },
+    {
+      "pixels": 8,
+      "position_y": 1.07104492,
+      "velocity_y": 4.81684446,
+      "launches": 0,
+      "grounded": false
+    }
+  ],
+  "next": "Distinct1pixelatcameraonezoomout keepspositivevelocitywithinheightwindow; actualnative mousepick/step/counterrequired. Not a solver repair."
+}

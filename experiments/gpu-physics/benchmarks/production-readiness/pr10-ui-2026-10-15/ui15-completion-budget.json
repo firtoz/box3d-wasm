@@ -1,0 +1,103 @@
+{
+  "status": "FROZEN",
+  "cpp_compiles": 0,
+  "compile_seconds": 35,
+  "generations": 0,
+  "generation_seconds": 10,
+  "links": 4,
+  "link_seconds": 25,
+  "viewers": 5,
+  "seconds_per_app": 50,
+  "screenshots_per_app": 3,
+  "actions_per_app": 140,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 16777216,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 6291456,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "shared_cache_growth_total_bytes": 33554432,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 450,
+  "raw_before_bytes": 958598203,
+  "units": [
+    {
+      "route": "cpu",
+      "old": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o",
+      "sha256": "916758f9f41197a1a398d499d936b4f67da93723be00b150508c215ab6ac4185",
+      "unit": {
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake",
+        "command": "/usr/bin/c++ -DSOKOL_GLCORE -I/home/firtoz/work/2026/box3d-wasm/box3d/samples -I/home/firtoz/work/2026/box3d-wasm/box3d/data -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples -I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/.. -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/shared -I/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/include -isystem /home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o -c /home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp",
+        "file": "/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp",
+        "output": "CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o"
+      }
+    },
+    {
+      "route": "ordinary-gpu",
+      "old": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/CMakeFiles/samples_gpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o",
+      "sha256": "916758f9f41197a1a398d499d936b4f67da93723be00b150508c215ab6ac4185",
+      "unit": {
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake",
+        "command": "/usr/bin/c++ -DGPU_PHYSICS_SAMPLES=1 -DSOKOL_GLCORE -I/home/firtoz/work/2026/box3d-wasm/box3d/samples -I/home/firtoz/work/2026/box3d-wasm/box3d/data -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi -I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/.. -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/shared -I/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/include -isystem /home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/samples_gpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o -c /home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp",
+        "file": "/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp",
+        "output": "CMakeFiles/samples_gpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o"
+      }
+    },
+    {
+      "route": "native-gpu",
+      "old": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake/CMakeFiles/samples_gpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o",
+      "sha256": "916758f9f41197a1a398d499d936b4f67da93723be00b150508c215ab6ac4185",
+      "unit": {
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake",
+        "command": "/usr/bin/c++ -DGPU_PHYSICS_SAMPLES=1 -DSOKOL_GLCORE -I/home/firtoz/work/2026/box3d-wasm/box3d/samples -I/home/firtoz/work/2026/box3d-wasm/box3d/data -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi -I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/.. -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/shared -I/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/include -isystem /home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/samples_gpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o -c /home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp",
+        "file": "/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp",
+        "output": "CMakeFiles/samples_gpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o"
+      }
+    },
+    {
+      "route": "ordinary-both",
+      "old": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o",
+      "sha256": "916758f9f41197a1a398d499d936b4f67da93723be00b150508c215ab6ac4185",
+      "unit": {
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake",
+        "command": "/usr/bin/c++ -DBOTH_SAMPLES=1 -DGPU_PHYSICS_SAMPLES=1 -DSOKOL_GLCORE -I/home/firtoz/work/2026/box3d-wasm/box3d/samples -I/home/firtoz/work/2026/box3d-wasm/box3d/data -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi -I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/.. -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/shared -I/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/include -isystem /home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o -c /home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp",
+        "file": "/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp",
+        "output": "CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o"
+      }
+    },
+    {
+      "route": "native-both",
+      "old": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o",
+      "sha256": "916758f9f41197a1a398d499d936b4f67da93723be00b150508c215ab6ac4185",
+      "unit": {
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake",
+        "command": "/usr/bin/c++ -DBOTH_SAMPLES=1 -DGPU_PHYSICS_SAMPLES=1 -DSOKOL_GLCORE -I/home/firtoz/work/2026/box3d-wasm/box3d/samples -I/home/firtoz/work/2026/box3d-wasm/box3d/data -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi -I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/.. -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/shared -I/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/include -isystem /home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o -c /home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp",
+        "file": "/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp",
+        "output": "CMakeFiles/samples_both.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_collision.cpp.o"
+      }
+    }
+  ],
+  "pins_before": {
+    "collision": "f1ff5ea97fc352b1f26f13c422554b2b8e5994e1c299bbeb58827f1829593932",
+    "generator": "51f1cb553fc5831a5d5cef2f3df579932ec85c2bac2836f109d9cd5f38c2d3ea",
+    "cmake": "9c6c678a8e97dae9de9060c4f174f13d1ec3c5e590f9b596e9d66c8435cdeb7b"
+  },
+  "scope": "CompleteoneincompleteCPUfixture/4unrunGPUroutes withsamecandidate/source/object. CPUcandidatealreadylinked;0compile/gen/productedits. Actualpopupcloseviaexistingcurrentchoice+absencecheck;OB​​S03Escape watchrecorded. Originalfailedpartial/3passedchecks retained; nofullyqualifiedapprepeated.",
+  "outputs": [
+    {
+      "path": "raw/ui15-build",
+      "consumer": "Fivecurrentviewers/newCollisionobject/source nextPR10relink",
+      "delete": "Retirepriorviewerafterroutequalified;consumecompile/checklogs afterproof"
+    },
+    {
+      "path": "raw/ui15-runs",
+      "consumer": "Actualbothmenus/all9pairs/15afterimages/defaults/restart evidence finalaudit",
+      "delete": "Consume API/observer/stderr terminalperroute;keepminimalreceipts/media"
+    }
+  ],
+  "incomplete_harness_apps_replaced": 1,
+  "already_qualified_apps_repeated": 0
+}

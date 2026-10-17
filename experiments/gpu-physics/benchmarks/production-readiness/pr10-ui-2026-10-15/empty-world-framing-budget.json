@@ -1,0 +1,34 @@
+{
+  "status": "FROZEN",
+  "created": "2026-10-15T20:10:40.728Z",
+  "builds": 0,
+  "viewers": 5,
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_per_app": 60,
+  "ready_seconds": 25,
+  "scene_seconds": 30,
+  "screenshots_per_app": 2,
+  "actions_per_app": 30,
+  "retries": 0,
+  "core_bytes": 0,
+  "api_bytes_per_app": 16777216,
+  "observer_bytes_per_app": 8388608,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 134217728,
+  "min_free_bytes": 21474836480,
+  "scope": "Observed TOI default preview largely offscreen. Check F and View/FrameCamera at0bodyworld usingactual camera labels andactualrenderedcapsule poses/proxy radius. Panfirst toexpose no-op/retarget behavior. No invalid option, no solver/query/engine repair.",
+  "outputs": [
+    {
+      "path": "raw/empty-world-framing-runs",
+      "consumer": "Camera control applicability/cause boundary andCPU-first screenshots forobservedpreviewgap",
+      "delete": "Full streams/renderer timingstderr afterselectedstates extracted; retainreceipts/images"
+    }
+  ]
+}

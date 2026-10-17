@@ -1,0 +1,47 @@
+{
+  "removed": [
+    {
+      "path": "raw/catalog-controls-runs/cpu/api.jsonl",
+      "bytes": 611479
+    },
+    {
+      "path": "raw/catalog-controls-runs/cpu/observer.jsonl",
+      "bytes": 253366
+    },
+    {
+      "path": "raw/catalog-controls-runs/ordinary-gpu/api.jsonl",
+      "bytes": 720490
+    },
+    {
+      "path": "raw/catalog-controls-runs/ordinary-gpu/observer.jsonl",
+      "bytes": 355687
+    },
+    {
+      "path": "raw/catalog-controls-runs/native-gpu/api.jsonl",
+      "bytes": 708167
+    },
+    {
+      "path": "raw/catalog-controls-runs/native-gpu/observer.jsonl",
+      "bytes": 348446
+    },
+    {
+      "path": "raw/catalog-controls-runs/ordinary-both/api.jsonl",
+      "bytes": 1205338
+    },
+    {
+      "path": "raw/catalog-controls-runs/ordinary-both/observer.jsonl",
+      "bytes": 407323
+    },
+    {
+      "path": "raw/catalog-controls-runs/native-both/api.jsonl",
+      "bytes": 1214090
+    },
+    {
+      "path": "raw/catalog-controls-runs/native-both/observer.jsonl",
+      "bytes": 410938
+    }
+  ],
+  "deleted_bytes": 6235324,
+  "retained_consumer": "Current5render-popup diagnosticviewers/objects forremainingPR10. Originalscreens/catalognames/transitions/actualdumpoutput/receiptsretained; sharedcaches preserved.",
+  "free_bytes": 1709422047232
+}

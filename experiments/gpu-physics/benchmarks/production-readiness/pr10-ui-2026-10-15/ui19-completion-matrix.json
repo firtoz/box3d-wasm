@@ -1,0 +1,29 @@
+{
+  "status": "FAILURE_RETAINED",
+  "runs": [
+    {
+      "route": "cpu",
+      "exit": 0,
+      "complete": true,
+      "findings": []
+    },
+    {
+      "route": "ordinary-gpu",
+      "exit": 0,
+      "complete": true,
+      "findings": []
+    },
+    {
+      "route": "native-gpu",
+      "exit": 0,
+      "complete": true,
+      "findings": []
+    },
+    {
+      "route": "ordinary-both",
+      "exit": 1,
+      "complete": false,
+      "findings": []
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "status": "FROZEN_BEFORE_RUN",
+  "sha256": "dc623743285916b9e425a583de5790b3e3c90633d8f6253c8488f448aa336153",
+  "apps_CPUfirst": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "screens_each": 4,
+  "actions_each": 100,
+  "retries": 0,
+  "scope": "Render menu settings atactualRenderFrame +Exposure/normalimageeffects, initialdefaultsrestored. NotUI03overlayrepair."
+}

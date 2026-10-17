@@ -1,0 +1,32 @@
+{
+  "status": "TERMINAL_FIVE_ROUTE_POINTER_CAMERA_REVIEW",
+  "runs": [
+    {
+      "label": "cpu",
+      "exit": 0,
+      "seconds": 2.3678932969924062
+    },
+    {
+      "label": "ordinary-gpu",
+      "exit": 0,
+      "seconds": 16.694663717004005
+    },
+    {
+      "label": "native-gpu",
+      "exit": 0,
+      "seconds": 17.446379169006832
+    },
+    {
+      "label": "ordinary-both",
+      "exit": 0,
+      "seconds": 18.0964061729901
+    },
+    {
+      "label": "native-both",
+      "exit": 0,
+      "seconds": 19.09751675699954
+    }
+  ],
+  "failed_routes": [],
+  "seconds": 73.7064190400124
+}

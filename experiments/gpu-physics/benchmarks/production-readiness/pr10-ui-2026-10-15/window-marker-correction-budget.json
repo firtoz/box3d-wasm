@@ -1,0 +1,14 @@
+{
+  "scope": "Replace unsupported _NET_WM_PID prerequisite with exact owned-child marker + viewable X11 attributes. Distinct corrected harness, not engine/control failure.",
+  "prior_CPU_attempt": "FAILURE_RETAINED before input/app reaped",
+  "additional_CPU_viewers": 1,
+  "new_GPU_viewers": 4,
+  "maximum_total_including_failed_CPU": 6,
+  "per_viewer_seconds": 300,
+  "actions_per_viewer": 48,
+  "screenshots_per_viewer": 12,
+  "builds": 0,
+  "video_recorders": 0,
+  "implicit_retries": 0,
+  "original_storage_caps_unchanged": true
+}

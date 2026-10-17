@@ -1,0 +1,141 @@
+{
+  "status": "CLEANUP_COMPLETE_CONSUMED_INPUTS",
+  "removed": [
+    {
+      "path": "raw/ui02-before/input-observer.o",
+      "bytes": 3624,
+      "sha256": "3f616f3359b270044745acfbd257854d6402abc4c02fd6192e0840e95e90dec0",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-before/cpu",
+      "bytes": 7310736,
+      "sha256": "c0e4f20857593f2fb41fe47b3d61f43e938b525c4e034fd1a53b1ce015a7c8ca",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-before/ordinary-gpu",
+      "bytes": 37409872,
+      "sha256": "ad332aee33d7ddc9380a333191997302db878c3b0c10ef164cfe7fa093eab8a5",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-before/native-gpu",
+      "bytes": 40288992,
+      "sha256": "a29d750caaa9e189a66aba235d74d0a2f339896564615d6a6c03132a933c5c04",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-before/ordinary-both",
+      "bytes": 38206456,
+      "sha256": "d31f802c6995ea0a6a8e39f1beb16c22cabd239d72b2517066d2f7bdcc698459",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-before/native-both",
+      "bytes": 41085592,
+      "sha256": "8c20dcfd104de8c3b1d45075e1cfc159202aeb099c5d3ff769b7f5a48adb808c",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui01-after/bin/cpu",
+      "bytes": 7310664,
+      "sha256": "4e1d827a5a772f1d12be1ceb00acc03d72e59416d1df9b1a6d2ce1a287679f63",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui01-after/bin/ordinary-gpu",
+      "bytes": 37409800,
+      "sha256": "9bb18a2a8cbe800bcc79d973a582d2c763ce53da52512b5eb775831e5031500d",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui01-after/bin/native-gpu",
+      "bytes": 40288920,
+      "sha256": "aafb56f9984b691826b66aa4d807ec744f77cedd247a8e01f885851d232cc6eb",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui01-after/bin/ordinary-both",
+      "bytes": 38206384,
+      "sha256": "51d1555f69b12ca0a47ca72e994d42ed80e9df58e16b0abd661f6a4adc5e59f6",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui01-after/bin/native-both",
+      "bytes": 41081424,
+      "sha256": "20a9da0370ff35579acca12443fb89bb3107141790ea0600b1bbda4e832639cb",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-before-runs/cpu/observer.jsonl",
+      "bytes": 22106,
+      "sha256": "6a1f9eee641474b462dbe051e17d12ebb8d5b72d8e4acc25f21d56cf55f237c6",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-before-runs/ordinary-gpu/observer.jsonl",
+      "bytes": 31138,
+      "sha256": "1c65a9c121a1acb70709de7f7bc49c065c1cdac00e2ca1171cc32c94a6304fbd",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-before-runs/native-gpu/observer.jsonl",
+      "bytes": 30704,
+      "sha256": "0cdfb388fdedadf0e0cae385d1acbc25364885518bc462b55de91592427f1c58",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-before-runs/ordinary-both/observer.jsonl",
+      "bytes": 32914,
+      "sha256": "dcfc8b6743a19bf628cbdc0fb491f175730f85b06690fc036da866b7a78f3779",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-before-runs/native-both/observer.jsonl",
+      "bytes": 32522,
+      "sha256": "985c55fd88d68c9d963751d5ee7b5b8be81739f2bdea9e34e3fd514d47a97ae5",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-after-runs/cpu/observer.jsonl",
+      "bytes": 39398,
+      "sha256": "2f0c709ffd807487416826df88d8d0fbbfd192ab69cff4deb06aa550e0acbf64",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-after-runs/ordinary-gpu/observer.jsonl",
+      "bytes": 57031,
+      "sha256": "5f8f5d74aea4f22557ff0ac844fe7cc6c054aec9572f0c514fb185d878f10692",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-after-runs/native-gpu/observer.jsonl",
+      "bytes": 17290,
+      "sha256": "fff182c699f66829224f77e77ce8caecc64a0088a772d52d38cc388ff32652a7",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-after-runs/native-gpu-timing-observed/observer.jsonl",
+      "bytes": 53000,
+      "sha256": "5b93c1692e1e5c65a43e3be95f95bda9978d97061f81f43a79ad1f2d877806a4",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-after-runs/ordinary-both-timing-observed/observer.jsonl",
+      "bytes": 61292,
+      "sha256": "f6865478b08b1f5176b08d127f0503db85281a3e5a92fab9bdfdb1cc6d00e0b4",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    },
+    {
+      "path": "raw/ui02-after-runs/native-both-timing-observed/observer.jsonl",
+      "bytes": 61838,
+      "sha256": "eb35ba418c4bbfd5aba3ac683af2f91ca90492301c123012b72226f8791c3466",
+      "reason": "Consumed before-viewer/previousafter-viewer orworldstream; currentUI02after5viewers replace, requiredstate/input/screens retained"
+    }
+  ],
+  "deleted_bytes": 329041697,
+  "remaining_consumer": "5UI02after binaries and Sample/main objects/currentUIobserver.o: remainingPR10controls. No copied caches or enginebuilds; shared caches preserved. Exactbefore/after screenshots/receipts/pairedinput traces retained.",
+  "retained_ui02_run_bytes": 8599028,
+  "free_bytes": 1709258055680
+}

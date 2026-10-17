@@ -1,0 +1,622 @@
+{
+  "status": "PASS_RETAINED_ACTUAL_SAT_CACHE_HIT",
+  "original_false_probes": [
+    {
+      "check": "Hull vs Hull cacheonautomaticreuse",
+      "context": {
+        "off": {
+          "name": "b3CollideHulls",
+          "input": {
+            "p": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          "cache_before": {
+            "kind": "sat",
+            "type": 0,
+            "separation": 0,
+            "a": 0,
+            "b": 0,
+            "hit": 0
+          },
+          "cache_after": {
+            "kind": "sat",
+            "type": 3,
+            "separation": 0,
+            "a": 1,
+            "b": 1,
+            "hit": 0
+          },
+          "manifold": {
+            "count": 4,
+            "capacity": 64,
+            "normal": [
+              -1,
+              0,
+              0
+            ],
+            "feature": 0,
+            "points": [
+              [
+                0.5,
+                0.5,
+                0.5,
+                0
+              ],
+              [
+                0.5,
+                0.5,
+                -0.5,
+                0
+              ],
+              [
+                0.5,
+                -0.5,
+                -0.5,
+                0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.5,
+                0
+              ]
+            ]
+          }
+        },
+        "on": {
+          "name": "b3CollideHulls",
+          "input": {
+            "p": [
+              0,
+              0,
+              0
+            ],
+            "q": [
+              0,
+              0,
+              0,
+              1
+            ]
+          },
+          "cache_before": {
+            "kind": "sat",
+            "type": 3,
+            "separation": 0,
+            "a": 1,
+            "b": 1,
+            "hit": 1
+          },
+          "cache_after": {
+            "kind": "sat",
+            "type": 3,
+            "separation": 0,
+            "a": 1,
+            "b": 1,
+            "hit": 1
+          },
+          "manifold": {
+            "count": 4,
+            "capacity": 64,
+            "normal": [
+              -1,
+              0,
+              0
+            ],
+            "feature": 0,
+            "points": [
+              [
+                0.5,
+                0.5,
+                0.5,
+                0
+              ],
+              [
+                0.5,
+                0.5,
+                -0.5,
+                0
+              ],
+              [
+                0.5,
+                -0.5,
+                -0.5,
+                0
+              ],
+              [
+                0.5,
+                -0.5,
+                0.5,
+                0
+              ]
+            ]
+          }
+        }
+      }
+    },
+    {
+      "check": "Triangle vs Hull cacheonautomaticreuse",
+      "context": {
+        "off": {
+          "name": "b3CollideTriangleAndHull",
+          "input": {
+            "triangle": [
+              [
+                0.299769998,
+                -1.01549578,
+                -0.744717002
+              ],
+              [
+                0.299769998,
+                -1.01549578,
+                1.28728306
+              ],
+              [
+                0.299769998,
+                -0.913895786,
+                0.271283031
+              ]
+            ]
+          },
+          "cache_before": {
+            "kind": "sat",
+            "type": 0,
+            "separation": 0,
+            "a": 0,
+            "b": 0,
+            "hit": 0
+          },
+          "cache_after": {
+            "kind": "sat",
+            "type": 3,
+            "separation": -0.00050419569,
+            "a": 2,
+            "b": 2,
+            "hit": 0
+          },
+          "manifold": {
+            "count": 5,
+            "capacity": 8,
+            "normal": [
+              0,
+              1,
+              0
+            ],
+            "feature": 2,
+            "points": [
+              [
+                0.299769998,
+                -0.914399981,
+                -0.304800034,
+                0.0571041107
+              ],
+              [
+                0.299769998,
+                -0.914399981,
+                -0.304800004,
+                0.101095796
+              ],
+              [
+                0.299769998,
+                -0.914399981,
+                0.304800034,
+                0.101095796
+              ],
+              [
+                0.299769998,
+                -0.914399981,
+                0.304800034,
+                0.00284749269
+              ],
+              [
+                0.299769998,
+                -0.914399981,
+                0.271283031,
+                -0.00050419569
+              ]
+            ]
+          }
+        },
+        "on": {
+          "name": "b3CollideTriangleAndHull",
+          "input": {
+            "triangle": [
+              [
+                0.299769998,
+                -1.01549578,
+                -0.744717002
+              ],
+              [
+                0.299769998,
+                -1.01549578,
+                1.28728306
+              ],
+              [
+                0.299769998,
+                -0.913895786,
+                0.271283031
+              ]
+            ]
+          },
+          "cache_before": {
+            "kind": "sat",
+            "type": 3,
+            "separation": -0.00050419569,
+            "a": 2,
+            "b": 2,
+            "hit": 1
+          },
+          "cache_after": {
+            "kind": "sat",
+            "type": 3,
+            "separation": -0.00050419569,
+            "a": 2,
+            "b": 2,
+            "hit": 1
+          },
+          "manifold": {
+            "count": 5,
+            "capacity": 8,
+            "normal": [
+              0,
+              1,
+              0
+            ],
+            "feature": 2,
+            "points": [
+              [
+                0.299769998,
+                -0.914399981,
+                -0.304800034,
+                0.0571041107
+              ],
+              [
+                0.299769998,
+                -0.914399981,
+                -0.304800004,
+                0.101095796
+              ],
+              [
+                0.299769998,
+                -0.914399981,
+                0.304800034,
+                0.101095796
+              ],
+              [
+                0.299769998,
+                -0.914399981,
+                0.304800034,
+                0.00284749269
+              ],
+              [
+                0.299769998,
+                -0.914399981,
+                0.271283031,
+                -0.00050419569
+              ]
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "corrected": [
+    {
+      "scene": "Hull vs Hull",
+      "off": {
+        "name": "b3CollideHulls",
+        "input": {
+          "p": [
+            0,
+            0,
+            0
+          ],
+          "q": [
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        "cache_before": {
+          "kind": "sat",
+          "type": 0,
+          "separation": 0,
+          "a": 0,
+          "b": 0,
+          "hit": 0
+        },
+        "cache_after": {
+          "kind": "sat",
+          "type": 3,
+          "separation": 0,
+          "a": 1,
+          "b": 1,
+          "hit": 0
+        },
+        "manifold": {
+          "count": 4,
+          "capacity": 64,
+          "normal": [
+            -1,
+            0,
+            0
+          ],
+          "feature": 0,
+          "points": [
+            [
+              0.5,
+              0.5,
+              0.5,
+              0
+            ],
+            [
+              0.5,
+              0.5,
+              -0.5,
+              0
+            ],
+            [
+              0.5,
+              -0.5,
+              -0.5,
+              0
+            ],
+            [
+              0.5,
+              -0.5,
+              0.5,
+              0
+            ]
+          ]
+        }
+      },
+      "on": {
+        "name": "b3CollideHulls",
+        "input": {
+          "p": [
+            0,
+            0,
+            0
+          ],
+          "q": [
+            0,
+            0,
+            0,
+            1
+          ]
+        },
+        "cache_before": {
+          "kind": "sat",
+          "type": 3,
+          "separation": 0,
+          "a": 1,
+          "b": 1,
+          "hit": 1
+        },
+        "cache_after": {
+          "kind": "sat",
+          "type": 3,
+          "separation": 0,
+          "a": 1,
+          "b": 1,
+          "hit": 1
+        },
+        "manifold": {
+          "count": 4,
+          "capacity": 64,
+          "normal": [
+            -1,
+            0,
+            0
+          ],
+          "feature": 0,
+          "points": [
+            [
+              0.5,
+              0.5,
+              0.5,
+              0
+            ],
+            [
+              0.5,
+              0.5,
+              -0.5,
+              0
+            ],
+            [
+              0.5,
+              -0.5,
+              -0.5,
+              0
+            ],
+            [
+              0.5,
+              -0.5,
+              0.5,
+              0
+            ]
+          ]
+        }
+      },
+      "pass": true
+    },
+    {
+      "scene": "Triangle vs Hull",
+      "off": {
+        "name": "b3CollideTriangleAndHull",
+        "input": {
+          "triangle": [
+            [
+              0.299769998,
+              -1.01549578,
+              -0.744717002
+            ],
+            [
+              0.299769998,
+              -1.01549578,
+              1.28728306
+            ],
+            [
+              0.299769998,
+              -0.913895786,
+              0.271283031
+            ]
+          ]
+        },
+        "cache_before": {
+          "kind": "sat",
+          "type": 0,
+          "separation": 0,
+          "a": 0,
+          "b": 0,
+          "hit": 0
+        },
+        "cache_after": {
+          "kind": "sat",
+          "type": 3,
+          "separation": -0.00050419569,
+          "a": 2,
+          "b": 2,
+          "hit": 0
+        },
+        "manifold": {
+          "count": 5,
+          "capacity": 8,
+          "normal": [
+            0,
+            1,
+            0
+          ],
+          "feature": 2,
+          "points": [
+            [
+              0.299769998,
+              -0.914399981,
+              -0.304800034,
+              0.0571041107
+            ],
+            [
+              0.299769998,
+              -0.914399981,
+              -0.304800004,
+              0.101095796
+            ],
+            [
+              0.299769998,
+              -0.914399981,
+              0.304800034,
+              0.101095796
+            ],
+            [
+              0.299769998,
+              -0.914399981,
+              0.304800034,
+              0.00284749269
+            ],
+            [
+              0.299769998,
+              -0.914399981,
+              0.271283031,
+              -0.00050419569
+            ]
+          ]
+        }
+      },
+      "on": {
+        "name": "b3CollideTriangleAndHull",
+        "input": {
+          "triangle": [
+            [
+              0.299769998,
+              -1.01549578,
+              -0.744717002
+            ],
+            [
+              0.299769998,
+              -1.01549578,
+              1.28728306
+            ],
+            [
+              0.299769998,
+              -0.913895786,
+              0.271283031
+            ]
+          ]
+        },
+        "cache_before": {
+          "kind": "sat",
+          "type": 3,
+          "separation": -0.00050419569,
+          "a": 2,
+          "b": 2,
+          "hit": 1
+        },
+        "cache_after": {
+          "kind": "sat",
+          "type": 3,
+          "separation": -0.00050419569,
+          "a": 2,
+          "b": 2,
+          "hit": 1
+        },
+        "manifold": {
+          "count": 5,
+          "capacity": 8,
+          "normal": [
+            0,
+            1,
+            0
+          ],
+          "feature": 2,
+          "points": [
+            [
+              0.299769998,
+              -0.914399981,
+              -0.304800034,
+              0.0571041107
+            ],
+            [
+              0.299769998,
+              -0.914399981,
+              -0.304800004,
+              0.101095796
+            ],
+            [
+              0.299769998,
+              -0.914399981,
+              0.304800034,
+              0.101095796
+            ],
+            [
+              0.299769998,
+              -0.914399981,
+              0.304800034,
+              0.00284749269
+            ],
+            [
+              0.299769998,
+              -0.914399981,
+              0.271283031,
+              -0.00050419569
+            ]
+          ]
+        }
+      },
+      "pass": true
+    }
+  ],
+  "scope": "Originalwholecache equality wronglyincludedoutputhitflag. Nativecacheoff freshcalculation hit0;re-enabledretainedaxis sameandhit1 confirmsreuse.Originalflags/source retained;noCPUrerun/productchange.",
+  "source_pins": {
+    "convex": "e70eacbe8a49150d93182d6dd4518db42979b93fc80ad3a69f8d96a312d1c3c4",
+    "triangle": "dd2e473bad4a75ca0435ae8b1ec540cd4b6f260b55fa078844d4e622b0db7d55"
+  }
+}

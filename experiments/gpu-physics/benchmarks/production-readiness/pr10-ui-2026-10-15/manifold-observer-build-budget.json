@@ -1,0 +1,16 @@
+{
+  "status": "FROZEN",
+  "created": "2026-10-15T19:00:55.428Z",
+  "cpp_compiles": 1,
+  "compile_seconds": 20,
+  "links": 5,
+  "link_seconds_each": 25,
+  "apps": 0,
+  "captures": 0,
+  "retries": 0,
+  "temporary_bytes": 220200960,
+  "retained_bytes": 8388608,
+  "scope": "Readonly DrawSolidSphere/Capsule/Hull/Triangle poses and9actual Collide functions: transform/cachebeforeafter/manifold outputs; original called exactly once, no argument/state mutation.",
+  "consumer": "Nine Manifold tools45widget calls and9custom input handler groups; new viewer pool supersedesgeometry onlyafterall5runtimequalification",
+  "delete": "Build logs/manifests retained; superseded pool afterall5qualify; no engine/gfx/main/Sample builds"
+}

@@ -1,0 +1,62 @@
+{
+  "status": "CLOSED",
+  "retired": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/cpu",
+      "bytes": 7743608,
+      "sha256": "94d537829c75c3fa85f31a838fd7bd52fc356e21477ed147178e36e99aae1263",
+      "consumer": "Replacementrouteactualchecksqualified; beforecapturesretained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-gpu",
+      "bytes": 37838336,
+      "sha256": "7c894c44589ff3df57db24cb18cf505d94f371bfe167ab266549d6eb3f49dc7a",
+      "consumer": "Replacementrouteactualchecksqualified; beforecapturesretained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/native-gpu",
+      "bytes": 40721552,
+      "sha256": "39cd548167179512d9462b36bbace53203fcf74ab6fd49bf5660f99158b7c24a",
+      "consumer": "Replacementrouteactualchecksqualified; beforecapturesretained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-both",
+      "bytes": 38612072,
+      "sha256": "cb893358a17172da837494580bc6ab5fdc882315b37733a639d63ce19134e681",
+      "consumer": "Replacementrouteactualchecksqualified; beforecapturesretained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/native-both",
+      "bytes": 41491208,
+      "sha256": "fedfafebaf7328ebd8c04cf2079e2119f306e0494e1dba8ee91b02c8c74a31aa",
+      "consumer": "Replacementrouteactualchecksqualified; beforecapturesretained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/cpu-joint.o",
+      "bytes": 210768,
+      "sha256": "6a1e6ca6521044baa011b25f9036bcc8375b10335c5b30541948f5f288bb4d34",
+      "consumer": "NewJointobjectsqualifiedallroutes; unchangedReplayobjectsretained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-gpu-joint.o",
+      "bytes": 210768,
+      "sha256": "6a1e6ca6521044baa011b25f9036bcc8375b10335c5b30541948f5f288bb4d34",
+      "consumer": "NewJointobjectsqualifiedallroutes; unchangedReplayobjectsretained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-both-joint.o",
+      "bytes": 211272,
+      "sha256": "1991b848dbfb9a9367939b881b5901740aa4a2eff0a52be584af8e7ff1ca606d",
+      "consumer": "NewJointobjectsqualifiedallroutes; unchangedReplayobjectsretained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-build/main_bench.cpp",
+      "bytes": 28060,
+      "sha256": "97b11c29a5d40b3d26e9b8a05ad3e66cf7482c4380cbdb1e74bb07789f28e685",
+      "consumer": "UnusedmaincopyneededonlyexistinggeneratorCLI; consumed"
+    }
+  ],
+  "deleted_bytes": 167067644,
+  "raw_bytes": 897774108,
+  "consumer": "Current5UI20viewers,3newJointobjects+3reusedReplayobjects/link_plan for nextPR10repairs"
+}

@@ -1,0 +1,21 @@
+{
+  "status": "FROZEN",
+  "cpp_compiles": 1,
+  "compile_seconds": 30,
+  "links": 5,
+  "link_seconds_each": 25,
+  "apps": 0,
+  "retries": 0,
+  "temporary_bytes": 230686720,
+  "retained_metadata_bytes": 8388608,
+  "log_bytes_each": 1048576,
+  "min_free_bytes": 21474836480,
+  "scope": "Read-only CameraUpdate/CharacterMoverStep state and DynamicTree widget-operation wrappers, screenHUD labels. Sameoriginal207inputhashes, noengine/Rust/WGSL/WASM edits/build. Needed toreplaceinvalidVillageHUD/world-label and asynchronouspivot predicates andqualifyTree12widgets. Corrective build after statically rejected observer fragment; original build terminal, zero apps ran. One additional compile/five links, no retries.",
+  "outputs": [
+    {
+      "path": "raw/host-controls-build",
+      "consumer": "Village/Tree review then remaininghost/inputcontrols",
+      "delete": "After qualifiedreplacement; oldgeometryviewers/objectremovedafternewall5routequalification"
+    }
+  ]
+}

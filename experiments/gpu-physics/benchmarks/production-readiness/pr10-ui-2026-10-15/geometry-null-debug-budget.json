@@ -1,0 +1,18 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "builds": 0,
+  "apps": 1,
+  "route": "realCPUunderGDB",
+  "seconds": 45,
+  "ready_seconds": 25,
+  "screens": 1,
+  "actions": 30,
+  "api_cap": 16777216,
+  "temporary_cap": 33554432,
+  "retained_cap": 1048576,
+  "core_dumps": 0,
+  "retries": 0,
+  "reason": "Existingcore extraction hit256MiBfilelimit andwasdeleted; no extractionretry. Minimalinteractiveinputh:1=0 (prefixof0.7) onoriginalBoxHull. GDBrecordsactualCreateHull8points andstopsbeforeDrawHull(null); no solver orBox3d edit. Debuggerquitkillsinferior; drivertracksownedPID/starttime andfinallycleanup.",
+  "outputs_consumer_cleanup": "Retain small actualpoints/backtrace/onebeforeimage andselectedreceipt, deletefullstreams afterextraction; no core files produced.",
+  "driver_sha256": "ba3c4ae5f17a0501cddfbcebe694fd122cecabaeb7472efb2966d465075359c7"
+}

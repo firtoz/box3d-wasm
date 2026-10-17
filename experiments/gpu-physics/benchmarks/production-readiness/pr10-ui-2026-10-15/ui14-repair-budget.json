@@ -1,0 +1,50 @@
+{
+  "status": "FROZEN",
+  "cpp_compiles": 1,
+  "compile_seconds": 35,
+  "generations": 1,
+  "generation_seconds": 10,
+  "links": 5,
+  "link_seconds": 25,
+  "viewers": 5,
+  "seconds_per_app": 40,
+  "screenshots_per_app": 4,
+  "actions_per_app": 120,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 16777216,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 6291456,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "shared_cache_growth_total_bytes": 33554432,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 400,
+  "raw_before_bytes": 946485247,
+  "unit": {
+    "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake",
+    "command": "/usr/bin/c++ -DSOKOL_GLCORE -I/home/firtoz/work/2026/box3d-wasm/box3d/samples -I/home/firtoz/work/2026/box3d-wasm/box3d/data -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples -I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/.. -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_src -I/home/firtoz/work/2026/box3d-wasm/box3d/shared -I/home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/nfd-src/src/include -isystem /home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/imgui-src -isystem /home/firtoz/work/2026/box3d-wasm/box3d/.fetchcontent-cache/implot-src -O3 -DNDEBUG -std=gnu++20 -o CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_manifold.cpp.o -c /home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_manifold.cpp",
+    "file": "/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_manifold.cpp",
+    "output": "CMakeFiles/samples_cpu.dir/home/firtoz/work/2026/box3d-wasm/box3d/samples/sample_manifold.cpp.o"
+  },
+  "old_object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui13-build/sample_manifold_ui.cpp.o",
+  "pins_before": {
+    "generator": "50910c5b20c3cd5d6525b7d3a5705ce8dbf4e528325b85484a61ff70e12c7265",
+    "manifold": "65287c1cd47e2bb29f9f7b1c4ac4cd56a3ca3df452023f73c7bea5595db83afd"
+  },
+  "scope": "UI14only. ActualautoRadioButtonclick resetsSATcacheonce; preserveautomaticreuse onsubsequentframes. HullvsHullconfirmedstale8before all5routes priorrecord;TrianglevsHullunaffected before/closelyrelated sharedtransition regression. Allmanual6/7/8→autoactualautomatic0<type<6/manifoldrestored/subsequentcache reuse/off0/on/restart/defaults/geometry allfive.0solver/inputclamp/Box3D/WASM/Rust/sharedarchive edits.",
+  "outputs": [
+    {
+      "path": "raw/ui14-build",
+      "consumer": "5replacementviewers/newManifoldobject nextPR10relink",
+      "delete": "Retirepriorviewerperqualifiedroute/oldUI13Manifoldobjectsourceafterallroutes/canonicalcopyafterexpected-deltaproof;logsconsumed"
+    },
+    {
+      "path": "raw/ui14-runs",
+      "consumer": "2SATpairs×5actualroutes/cacheinputs/20images finalaudit",
+      "delete": "Consume streams terminalperroute;minimalreceipts/media retained"
+    }
+  ]
+}

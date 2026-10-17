@@ -1,0 +1,3441 @@
+{
+  "status": "THIRTEEN_WIDGETS_AND_VILLAGE_INPUT_REVIEWED_ALL_FIVE_ROUTES",
+  "widget_entries": 13,
+  "samples": 3,
+  "custom_input_sample_groups": 1,
+  "routes_CPU_first": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "per_receipt_final_check_keys": 399,
+  "original_finding_events": 18,
+  "new_product_issues": 0,
+  "rows": [
+    {
+      "folder": "raw/joint-camera-controls-runs/crash/cpu",
+      "kind": "original",
+      "fixture": "crash",
+      "route": "cpu",
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": [],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/crash/cpu/before.png",
+          "sha256": "343a0a788e317a096de13bf7bee1c7949d8ef047229b7570f9ec4c56feaff301",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        },
+        "two-joints": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/crash/cpu/two-joints.png",
+          "sha256": "f5109315843ca901381459dad52a33ab1b937c2bdcb54b2f38461f336205c105",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 124,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/joint-camera-controls-runs/crash/cpu/receipt.json"
+    },
+    {
+      "folder": "raw/joint-camera-controls-runs/village/cpu",
+      "kind": "original",
+      "fixture": "village",
+      "route": "cpu",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 11,
+      "findings": [
+        "VillageinitialorbitHUD",
+        "Tpresstrue togglesactualHUDonce",
+        "thirdpersoncamera followsactualmover",
+        "Tpressfalse togglesactualHUDonce"
+      ],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/village/cpu/before.png",
+          "sha256": "70c5fe52cc3d8c90267dcd6018a0f1a918c62261c83817c94ae873f6924fe677",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 79,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/village/cpu/third-person.png",
+          "sha256": "a7a5935dc49145f20b10fe1ffcb9e11ed7e5bde66fd830290a066be262a0247e",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 115,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/joint-camera-controls-runs/village/cpu/receipt.json"
+    },
+    {
+      "folder": "raw/joint-camera-controls-runs/crash/ordinary-gpu",
+      "kind": "original",
+      "fixture": "crash",
+      "route": "ordinary-gpu",
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": [],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/crash/ordinary-gpu/before.png",
+          "sha256": "e5cb5bdc463e2680c16734fcfd6b90c2123c8c24c803c77894099ca7b2b7d2b4",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 71,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        },
+        "two-joints": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/crash/ordinary-gpu/two-joints.png",
+          "sha256": "4b1021fd95e697552c2f9d2d1c5d6c350ce825338ffe99b0da7950d82e26b56b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 122,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/joint-camera-controls-runs/crash/ordinary-gpu/receipt.json"
+    },
+    {
+      "folder": "raw/joint-camera-controls-runs/village/ordinary-gpu",
+      "kind": "original",
+      "fixture": "village",
+      "route": "ordinary-gpu",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 11,
+      "findings": [
+        "VillageinitialorbitHUD",
+        "Tpresstrue togglesactualHUDonce",
+        "Tpressfalse togglesactualHUDonce"
+      ],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/village/ordinary-gpu/before.png",
+          "sha256": "c6340987836e80503b3e9cee06b2a50fb62751e65f45437aad9f787e248e4960",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 69,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/village/ordinary-gpu/third-person.png",
+          "sha256": "9aee62cc3813d11ad29267abb2f05c5617b761a63050bd1080efa7eda4ba6405",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 90,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/joint-camera-controls-runs/village/ordinary-gpu/receipt.json"
+    },
+    {
+      "folder": "raw/joint-camera-controls-runs/crash/native-gpu",
+      "kind": "original",
+      "fixture": "crash",
+      "route": "native-gpu",
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": [],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/crash/native-gpu/before.png",
+          "sha256": "2caab0d1f8d154fd65102e404b69a39172ec2f6efef5b6a9f11d47fdaaa07eb2",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 71,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        },
+        "two-joints": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/crash/native-gpu/two-joints.png",
+          "sha256": "38e1794464aae46d46442d02b6ac713371d4c06a7ae67c57307335c921ba057c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 122,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/joint-camera-controls-runs/crash/native-gpu/receipt.json"
+    },
+    {
+      "folder": "raw/joint-camera-controls-runs/village/native-gpu",
+      "kind": "original",
+      "fixture": "village",
+      "route": "native-gpu",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 11,
+      "findings": [
+        "VillageinitialorbitHUD",
+        "Tpresstrue togglesactualHUDonce",
+        "Tpressfalse togglesactualHUDonce"
+      ],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/village/native-gpu/before.png",
+          "sha256": "598c85c784c62c665d26933c7f195de5839b8678e9c0320f2106d002c7aa8787",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 68,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/village/native-gpu/third-person.png",
+          "sha256": "a1cfba1719cab8179c027ea6d18aa32d6f6edf7ac04d4b3c076974d010779677",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 92,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/joint-camera-controls-runs/village/native-gpu/receipt.json"
+    },
+    {
+      "folder": "raw/joint-camera-controls-runs/crash/ordinary-both",
+      "kind": "original",
+      "fixture": "crash",
+      "route": "ordinary-both",
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": [],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/crash/ordinary-both/before.png",
+          "sha256": "99c529dda09524f1af6e2de7f0b2316d0b93129212948db218f4b3dfcd276041",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 71,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "two-joints": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/crash/ordinary-both/two-joints.png",
+          "sha256": "4ce504a44696629f8dfd4cbe1fba3450caa6c15a89840fd089a35451e6b10655",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 142,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "receipt": "raw/joint-camera-controls-runs/crash/ordinary-both/receipt.json"
+    },
+    {
+      "folder": "raw/joint-camera-controls-runs/village/ordinary-both",
+      "kind": "original",
+      "fixture": "village",
+      "route": "ordinary-both",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 10,
+      "findings": [
+        "VillageinitialorbitHUD",
+        "Tpresstrue togglesactualHUDonce",
+        "thirdpersoncamera followsactualmover",
+        "Tpressfalse togglesactualHUDonce"
+      ],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/village/ordinary-both/before.png",
+          "sha256": "0a8eaa2982f696df374d05eb95f77eab3f3ae07449323957f4f66ee6cf2c1170",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 68,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/village/ordinary-both/third-person.png",
+          "sha256": "fded2b29d5ffff01da96f77c6bd26ef335b4943c8ded86a3f714412b4b1f89a0",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 92,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "receipt": "raw/joint-camera-controls-runs/village/ordinary-both/receipt.json"
+    },
+    {
+      "folder": "raw/joint-camera-controls-runs/crash/native-both",
+      "kind": "original",
+      "fixture": "crash",
+      "route": "native-both",
+      "status": "PASS_CONTROLS",
+      "checks": 10,
+      "findings": [],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/crash/native-both/before.png",
+          "sha256": "0f7781d85427b848f95455b17c8f038f08eb80b67a0bdf1386fca089791ac1b1",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 71,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "two-joints": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/crash/native-both/two-joints.png",
+          "sha256": "b89a700be6fdd9969601476c7ec2292b9e33ebdfc11cc7bb91dd0adfd48bd818",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 142,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 3,
+            "shape_count": 3,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "receipt": "raw/joint-camera-controls-runs/crash/native-both/receipt.json"
+    },
+    {
+      "folder": "raw/joint-camera-controls-runs/village/native-both",
+      "kind": "original",
+      "fixture": "village",
+      "route": "native-both",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 10,
+      "findings": [
+        "VillageinitialorbitHUD",
+        "Tpresstrue togglesactualHUDonce",
+        "thirdpersoncamera followsactualmover",
+        "Tpressfalse togglesactualHUDonce"
+      ],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/village/native-both/before.png",
+          "sha256": "8a290dfd5e5a4ef66c4162792c3580c089ea4e124297175501a78343809f24c8",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 69,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/joint-camera-controls-runs/village/native-both/third-person.png",
+          "sha256": "1e3e5d6998c387ff37549be862810b62daf80e3b5dc8b9b03b3dae065b7d0d3f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 92,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "receipt": "raw/joint-camera-controls-runs/village/native-both/receipt.json"
+    },
+    {
+      "folder": "raw/host-controls-runs/village/cpu",
+      "kind": "direct-camera",
+      "fixture": "village",
+      "route": "cpu",
+      "status": "PASS_CONTROLS",
+      "checks": 13,
+      "findings": [],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-runs/village/cpu/before.png",
+          "sha256": "53a93dd9607fea1edc1a14e7d0ebe3092781cb07ace809a0116b45bc2f89ffbf",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 77,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-runs/village/cpu/third-person.png",
+          "sha256": "bf67441c0d9b54b3514a958ead8f73d57d3c1b9f3549f39affea2b9153ef6810",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 108,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "orbit-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-runs/village/cpu/orbit-restored.png",
+          "sha256": "aab877fd88989ae769558de736620f0aa8c52caa1c0e99168ae434718038ff05",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 138,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/host-controls-runs/village/cpu/receipt.json"
+    },
+    {
+      "folder": "raw/host-controls-runs/tree/cpu",
+      "kind": "unscoped-preflight",
+      "fixture": "tree",
+      "route": "cpu",
+      "status": "FAILURE_RETAINED",
+      "error": "AssertionError [ERR_ASSERTION]: false == true",
+      "checks": 1,
+      "findings": [],
+      "screenshots": {},
+      "receipt": "raw/host-controls-runs/tree/cpu/receipt.json"
+    },
+    {
+      "folder": "raw/host-controls-qualified-runs/tree/cpu",
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "cpu",
+      "status": "PASS_CONTROLS",
+      "checks": 37,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/cpu/initial.png",
+          "sha256": "1d3482f1276a8c17ee7eb86f51855d2a446f3720a7b3940cbb033ae153913bae",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "root": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/cpu/root.png",
+          "sha256": "1377d33cfe8817065cdb7e27b2faf19ca5daf380647849784f5a17807a31583a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 648,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "loaded-half": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/cpu/loaded-half.png",
+          "sha256": "86060e5db9a43f1aeeb8d8562cad66c498bc658a95887dec58c7cefb0d42a1fa",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 941,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/host-controls-qualified-runs/tree/cpu/receipt.json"
+    },
+    {
+      "folder": "raw/host-controls-qualified-runs/village/ordinary-gpu",
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "ordinary-gpu",
+      "status": "PASS_CONTROLS",
+      "checks": 13,
+      "findings": [],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/village/ordinary-gpu/before.png",
+          "sha256": "953e5a760270017d3139020a33a8db8ece460b758b3296d5c1179920b675e86d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 68,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/village/ordinary-gpu/third-person.png",
+          "sha256": "4a5c70dd60126c1a8e7b5f1b255c37f92ff778d6be81939a7349fc55b6388239",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 86,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "orbit-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/village/ordinary-gpu/orbit-restored.png",
+          "sha256": "16c3efc68d5a70a9f234cd4df9377cc0ac6e1d7a7935dde6756b1d62d1912b7c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 99,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/host-controls-qualified-runs/village/ordinary-gpu/receipt.json"
+    },
+    {
+      "folder": "raw/host-controls-qualified-runs/tree/ordinary-gpu",
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "ordinary-gpu",
+      "status": "PASS_CONTROLS",
+      "checks": 37,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/ordinary-gpu/initial.png",
+          "sha256": "777058ba80fa3fa7c1d95330ff8b1516c20b2a76f3d28f58d6babbd44fd8ae71",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "root": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/ordinary-gpu/root.png",
+          "sha256": "6687634d79ee476d2362dacfc54b4ebc6c1a1b0c696f5fcaf9fa77f39df8b425",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 663,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "loaded-half": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/ordinary-gpu/loaded-half.png",
+          "sha256": "b4f4a5a9e7f93833fbad8402625dd129a9aa6aeef0283c0f28e782cef5231811",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 975,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/host-controls-qualified-runs/tree/ordinary-gpu/receipt.json"
+    },
+    {
+      "folder": "raw/host-controls-qualified-runs/village/native-gpu",
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "native-gpu",
+      "status": "PASS_CONTROLS",
+      "checks": 13,
+      "findings": [],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/village/native-gpu/before.png",
+          "sha256": "57156d41c24da14941f4559d75de6c0ce6c230c31db94b79e6253d2bbc83dcbd",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 67,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/village/native-gpu/third-person.png",
+          "sha256": "2c60612c49da5bfefefc023876d8e2507f03b224c06235711fd3d069cb9acc31",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 87,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        },
+        "orbit-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/village/native-gpu/orbit-restored.png",
+          "sha256": "a51e7339b7ee0a30fdf1cb8d216b9dccb12e44be61d79a3e80e54f180b81c525",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 101,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/host-controls-qualified-runs/village/native-gpu/receipt.json"
+    },
+    {
+      "folder": "raw/host-controls-qualified-runs/tree/native-gpu",
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "native-gpu",
+      "status": "PASS_CONTROLS",
+      "checks": 37,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/native-gpu/initial.png",
+          "sha256": "632b6121156fa0adb7bca89c98b4e40412b55e0ee65d73af332592033cbf4527",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "root": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/native-gpu/root.png",
+          "sha256": "6c6c9e8528103cbcd1dcda4396dbba0b4832354bc3a284d793c758443f1634fc",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 667,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "loaded-half": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/native-gpu/loaded-half.png",
+          "sha256": "5ba1ac84ad5f55b61a8582cf0da99bf2f6f777d9bae5e569f8ce92345937a90a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 978,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/host-controls-qualified-runs/tree/native-gpu/receipt.json"
+    },
+    {
+      "folder": "raw/host-controls-qualified-runs/village/ordinary-both",
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "ordinary-both",
+      "status": "PASS_CONTROLS",
+      "checks": 13,
+      "findings": [],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/village/ordinary-both/before.png",
+          "sha256": "61cedfee34701e3a37576de913a5785d4d3a318a78cda950fb41812df08a7268",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 68,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/village/ordinary-both/third-person.png",
+          "sha256": "b48afacf59cbd573b7ec1bb6b9a9733b5be880e8c397137290ca7b62e1864ff4",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 87,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "orbit-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/village/ordinary-both/orbit-restored.png",
+          "sha256": "e76b4d90e82a0ccff582955a72fa40cc2299f4f9a27065b98e98d445191abf75",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 100,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "receipt": "raw/host-controls-qualified-runs/village/ordinary-both/receipt.json"
+    },
+    {
+      "folder": "raw/host-controls-qualified-runs/tree/ordinary-both",
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "ordinary-both",
+      "status": "PASS_CONTROLS",
+      "checks": 37,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/ordinary-both/initial.png",
+          "sha256": "6cfb5d66daa5c90c13b48fe2bdf630994e20963e853ca3d555141006d07f689e",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "root": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/ordinary-both/root.png",
+          "sha256": "2ad4acf566a4cac5052a2d7a2a66b148bebd95f97a193a17a1bc072e9826e0a4",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 689,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "loaded-half": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/ordinary-both/loaded-half.png",
+          "sha256": "67d1b7389464a3aa6d76d10b1434c94856fd2461a0764b382330cdf4791a3e9a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 984,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "receipt": "raw/host-controls-qualified-runs/tree/ordinary-both/receipt.json"
+    },
+    {
+      "folder": "raw/host-controls-qualified-runs/village/native-both",
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "native-both",
+      "status": "PASS_CONTROLS",
+      "checks": 13,
+      "findings": [],
+      "screenshots": {
+        "before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/village/native-both/before.png",
+          "sha256": "28e9b3f05930383a7a91c17d94ab624d693eec74f205b1432a2daacb91f368da",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 67,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "third-person": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/village/native-both/third-person.png",
+          "sha256": "31842dfd5ac9570fde9ec0c30374e7cc58c85e68d467db6958fe9023dcf321fb",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 87,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "orbit-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/village/native-both/orbit-restored.png",
+          "sha256": "e9a1affb981014879af3aab8b464beca876051ff872ea46de3db3a0bbd54f38d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 101,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 1,
+            "shape_count": 1,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "receipt": "raw/host-controls-qualified-runs/village/native-both/receipt.json"
+    },
+    {
+      "folder": "raw/host-controls-qualified-runs/tree/native-both",
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "native-both",
+      "status": "PASS_CONTROLS",
+      "checks": 37,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/native-both/initial.png",
+          "sha256": "1a0f71eab79abb0525f06a522c3e32e8629dba9e424266912bd856c15c57e21d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "root": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/native-both/root.png",
+          "sha256": "83c7cc72fb35adb1a6e1e70f9ba8b715c85b3b3e73d764d073d1c675d8cbde52",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 693,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "loaded-half": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/host-controls-qualified-runs/tree/native-both/loaded-half.png",
+          "sha256": "b656078499fa08144cf81f9f85e15ba14c84adce34c00a709dda8cacb93ddc59",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 990,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "receipt": "raw/host-controls-qualified-runs/tree/native-both/receipt.json"
+    },
+    {
+      "folder": "raw/tree-culling-runs/cpu",
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "cpu",
+      "status": "PASS_CONTROLS",
+      "checks": 9,
+      "findings": [],
+      "screenshots": {
+        "near-cull": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-culling-runs/cpu/near-cull.png",
+          "sha256": "9bf295c625e52fc7ee475ea290fa9b626bcba3091dd8656905105fcf1139890c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 153,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "wide-cull": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-culling-runs/cpu/wide-cull.png",
+          "sha256": "a15dfb64a7de76311a531997191a8ef5bb8028758702dd3a70ad08b46e97124c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 216,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/tree-culling-runs/cpu/receipt.json"
+    },
+    {
+      "folder": "raw/tree-culling-runs/ordinary-gpu",
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "ordinary-gpu",
+      "status": "PASS_CONTROLS",
+      "checks": 9,
+      "findings": [],
+      "screenshots": {
+        "near-cull": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-culling-runs/ordinary-gpu/near-cull.png",
+          "sha256": "0f1a677ca762031c353eedcb3b11c4458cb9d14c360181ae5fc3619f33ce8d0d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 188,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "wide-cull": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-culling-runs/ordinary-gpu/wide-cull.png",
+          "sha256": "55adb79d55462ee602b36898e2f023644669e8a26839516c1e281e963843415c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 250,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/tree-culling-runs/ordinary-gpu/receipt.json"
+    },
+    {
+      "folder": "raw/tree-culling-runs/native-gpu",
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "native-gpu",
+      "status": "PASS_CONTROLS",
+      "checks": 9,
+      "findings": [],
+      "screenshots": {
+        "near-cull": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-culling-runs/native-gpu/near-cull.png",
+          "sha256": "c3a21890eaba8c7917f913d5add797971f995ebc8ea500d88c8e244b479019cf",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 187,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "wide-cull": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-culling-runs/native-gpu/wide-cull.png",
+          "sha256": "d9fc72c6149f483cb191f0ec1c802c706a48b8e4a855f4ba6ab81240dabee459",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 250,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      },
+      "receipt": "raw/tree-culling-runs/native-gpu/receipt.json"
+    },
+    {
+      "folder": "raw/tree-culling-runs/ordinary-both",
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "ordinary-both",
+      "status": "PASS_CONTROLS",
+      "checks": 9,
+      "findings": [],
+      "screenshots": {
+        "near-cull": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-culling-runs/ordinary-both/near-cull.png",
+          "sha256": "0d0b5d8dfa0565637bd9a5a5d0f3f7cd85f36afa154a19955194c2043e0fc530",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 187,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "wide-cull": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-culling-runs/ordinary-both/wide-cull.png",
+          "sha256": "9a5cfb3ab12eac81e7307d0c2bd25405c2084aea763aac7ea4b2db2e4adc2422",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 249,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "receipt": "raw/tree-culling-runs/ordinary-both/receipt.json"
+    },
+    {
+      "folder": "raw/tree-culling-runs/native-both",
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "native-both",
+      "status": "PASS_CONTROLS",
+      "checks": 9,
+      "findings": [],
+      "screenshots": {
+        "near-cull": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-culling-runs/native-both/near-cull.png",
+          "sha256": "19dd852a97a3068c97dcf5037880831f5a1e10b58f4c8bba2b217d6b4ce55cdf",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 189,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "wide-cull": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/tree-culling-runs/native-both/wide-cull.png",
+          "sha256": "42d0f2d52ad2b3289da4f720c15a1d0f1b54b3a61858cedde807f6bf05b05560",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 251,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "receipt": "raw/tree-culling-runs/native-both/receipt.json"
+    }
+  ],
+  "images": [
+    {
+      "kind": "original",
+      "fixture": "crash",
+      "route": "cpu",
+      "state": "before",
+      "path": "raw/joint-camera-controls-runs/crash/cpu/before.png",
+      "sha256": "343a0a788e317a096de13bf7bee1c7949d8ef047229b7570f9ec4c56feaff301"
+    },
+    {
+      "kind": "original",
+      "fixture": "crash",
+      "route": "cpu",
+      "state": "two-joints",
+      "path": "raw/joint-camera-controls-runs/crash/cpu/two-joints.png",
+      "sha256": "f5109315843ca901381459dad52a33ab1b937c2bdcb54b2f38461f336205c105"
+    },
+    {
+      "kind": "original",
+      "fixture": "village",
+      "route": "cpu",
+      "state": "before",
+      "path": "raw/joint-camera-controls-runs/village/cpu/before.png",
+      "sha256": "70c5fe52cc3d8c90267dcd6018a0f1a918c62261c83817c94ae873f6924fe677"
+    },
+    {
+      "kind": "original",
+      "fixture": "village",
+      "route": "cpu",
+      "state": "third-person",
+      "path": "raw/joint-camera-controls-runs/village/cpu/third-person.png",
+      "sha256": "a7a5935dc49145f20b10fe1ffcb9e11ed7e5bde66fd830290a066be262a0247e"
+    },
+    {
+      "kind": "original",
+      "fixture": "crash",
+      "route": "ordinary-gpu",
+      "state": "before",
+      "path": "raw/joint-camera-controls-runs/crash/ordinary-gpu/before.png",
+      "sha256": "e5cb5bdc463e2680c16734fcfd6b90c2123c8c24c803c77894099ca7b2b7d2b4"
+    },
+    {
+      "kind": "original",
+      "fixture": "crash",
+      "route": "ordinary-gpu",
+      "state": "two-joints",
+      "path": "raw/joint-camera-controls-runs/crash/ordinary-gpu/two-joints.png",
+      "sha256": "4b1021fd95e697552c2f9d2d1c5d6c350ce825338ffe99b0da7950d82e26b56b"
+    },
+    {
+      "kind": "original",
+      "fixture": "village",
+      "route": "ordinary-gpu",
+      "state": "before",
+      "path": "raw/joint-camera-controls-runs/village/ordinary-gpu/before.png",
+      "sha256": "c6340987836e80503b3e9cee06b2a50fb62751e65f45437aad9f787e248e4960"
+    },
+    {
+      "kind": "original",
+      "fixture": "village",
+      "route": "ordinary-gpu",
+      "state": "third-person",
+      "path": "raw/joint-camera-controls-runs/village/ordinary-gpu/third-person.png",
+      "sha256": "9aee62cc3813d11ad29267abb2f05c5617b761a63050bd1080efa7eda4ba6405"
+    },
+    {
+      "kind": "original",
+      "fixture": "crash",
+      "route": "native-gpu",
+      "state": "before",
+      "path": "raw/joint-camera-controls-runs/crash/native-gpu/before.png",
+      "sha256": "2caab0d1f8d154fd65102e404b69a39172ec2f6efef5b6a9f11d47fdaaa07eb2"
+    },
+    {
+      "kind": "original",
+      "fixture": "crash",
+      "route": "native-gpu",
+      "state": "two-joints",
+      "path": "raw/joint-camera-controls-runs/crash/native-gpu/two-joints.png",
+      "sha256": "38e1794464aae46d46442d02b6ac713371d4c06a7ae67c57307335c921ba057c"
+    },
+    {
+      "kind": "original",
+      "fixture": "village",
+      "route": "native-gpu",
+      "state": "before",
+      "path": "raw/joint-camera-controls-runs/village/native-gpu/before.png",
+      "sha256": "598c85c784c62c665d26933c7f195de5839b8678e9c0320f2106d002c7aa8787"
+    },
+    {
+      "kind": "original",
+      "fixture": "village",
+      "route": "native-gpu",
+      "state": "third-person",
+      "path": "raw/joint-camera-controls-runs/village/native-gpu/third-person.png",
+      "sha256": "a1cfba1719cab8179c027ea6d18aa32d6f6edf7ac04d4b3c076974d010779677"
+    },
+    {
+      "kind": "original",
+      "fixture": "crash",
+      "route": "ordinary-both",
+      "state": "before",
+      "path": "raw/joint-camera-controls-runs/crash/ordinary-both/before.png",
+      "sha256": "99c529dda09524f1af6e2de7f0b2316d0b93129212948db218f4b3dfcd276041"
+    },
+    {
+      "kind": "original",
+      "fixture": "crash",
+      "route": "ordinary-both",
+      "state": "two-joints",
+      "path": "raw/joint-camera-controls-runs/crash/ordinary-both/two-joints.png",
+      "sha256": "4ce504a44696629f8dfd4cbe1fba3450caa6c15a89840fd089a35451e6b10655"
+    },
+    {
+      "kind": "original",
+      "fixture": "village",
+      "route": "ordinary-both",
+      "state": "before",
+      "path": "raw/joint-camera-controls-runs/village/ordinary-both/before.png",
+      "sha256": "0a8eaa2982f696df374d05eb95f77eab3f3ae07449323957f4f66ee6cf2c1170"
+    },
+    {
+      "kind": "original",
+      "fixture": "village",
+      "route": "ordinary-both",
+      "state": "third-person",
+      "path": "raw/joint-camera-controls-runs/village/ordinary-both/third-person.png",
+      "sha256": "fded2b29d5ffff01da96f77c6bd26ef335b4943c8ded86a3f714412b4b1f89a0"
+    },
+    {
+      "kind": "original",
+      "fixture": "crash",
+      "route": "native-both",
+      "state": "before",
+      "path": "raw/joint-camera-controls-runs/crash/native-both/before.png",
+      "sha256": "0f7781d85427b848f95455b17c8f038f08eb80b67a0bdf1386fca089791ac1b1"
+    },
+    {
+      "kind": "original",
+      "fixture": "crash",
+      "route": "native-both",
+      "state": "two-joints",
+      "path": "raw/joint-camera-controls-runs/crash/native-both/two-joints.png",
+      "sha256": "b89a700be6fdd9969601476c7ec2292b9e33ebdfc11cc7bb91dd0adfd48bd818"
+    },
+    {
+      "kind": "original",
+      "fixture": "village",
+      "route": "native-both",
+      "state": "before",
+      "path": "raw/joint-camera-controls-runs/village/native-both/before.png",
+      "sha256": "8a290dfd5e5a4ef66c4162792c3580c089ea4e124297175501a78343809f24c8"
+    },
+    {
+      "kind": "original",
+      "fixture": "village",
+      "route": "native-both",
+      "state": "third-person",
+      "path": "raw/joint-camera-controls-runs/village/native-both/third-person.png",
+      "sha256": "1e3e5d6998c387ff37549be862810b62daf80e3b5dc8b9b03b3dae065b7d0d3f"
+    },
+    {
+      "kind": "direct-camera",
+      "fixture": "village",
+      "route": "cpu",
+      "state": "before",
+      "path": "raw/host-controls-runs/village/cpu/before.png",
+      "sha256": "53a93dd9607fea1edc1a14e7d0ebe3092781cb07ace809a0116b45bc2f89ffbf"
+    },
+    {
+      "kind": "direct-camera",
+      "fixture": "village",
+      "route": "cpu",
+      "state": "third-person",
+      "path": "raw/host-controls-runs/village/cpu/third-person.png",
+      "sha256": "bf67441c0d9b54b3514a958ead8f73d57d3c1b9f3549f39affea2b9153ef6810"
+    },
+    {
+      "kind": "direct-camera",
+      "fixture": "village",
+      "route": "cpu",
+      "state": "orbit-restored",
+      "path": "raw/host-controls-runs/village/cpu/orbit-restored.png",
+      "sha256": "aab877fd88989ae769558de736620f0aa8c52caa1c0e99168ae434718038ff05"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "cpu",
+      "state": "initial",
+      "path": "raw/host-controls-qualified-runs/tree/cpu/initial.png",
+      "sha256": "1d3482f1276a8c17ee7eb86f51855d2a446f3720a7b3940cbb033ae153913bae"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "cpu",
+      "state": "root",
+      "path": "raw/host-controls-qualified-runs/tree/cpu/root.png",
+      "sha256": "1377d33cfe8817065cdb7e27b2faf19ca5daf380647849784f5a17807a31583a"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "cpu",
+      "state": "loaded-half",
+      "path": "raw/host-controls-qualified-runs/tree/cpu/loaded-half.png",
+      "sha256": "86060e5db9a43f1aeeb8d8562cad66c498bc658a95887dec58c7cefb0d42a1fa"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "ordinary-gpu",
+      "state": "before",
+      "path": "raw/host-controls-qualified-runs/village/ordinary-gpu/before.png",
+      "sha256": "953e5a760270017d3139020a33a8db8ece460b758b3296d5c1179920b675e86d"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "ordinary-gpu",
+      "state": "third-person",
+      "path": "raw/host-controls-qualified-runs/village/ordinary-gpu/third-person.png",
+      "sha256": "4a5c70dd60126c1a8e7b5f1b255c37f92ff778d6be81939a7349fc55b6388239"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "ordinary-gpu",
+      "state": "orbit-restored",
+      "path": "raw/host-controls-qualified-runs/village/ordinary-gpu/orbit-restored.png",
+      "sha256": "16c3efc68d5a70a9f234cd4df9377cc0ac6e1d7a7935dde6756b1d62d1912b7c"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "ordinary-gpu",
+      "state": "initial",
+      "path": "raw/host-controls-qualified-runs/tree/ordinary-gpu/initial.png",
+      "sha256": "777058ba80fa3fa7c1d95330ff8b1516c20b2a76f3d28f58d6babbd44fd8ae71"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "ordinary-gpu",
+      "state": "root",
+      "path": "raw/host-controls-qualified-runs/tree/ordinary-gpu/root.png",
+      "sha256": "6687634d79ee476d2362dacfc54b4ebc6c1a1b0c696f5fcaf9fa77f39df8b425"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "ordinary-gpu",
+      "state": "loaded-half",
+      "path": "raw/host-controls-qualified-runs/tree/ordinary-gpu/loaded-half.png",
+      "sha256": "b4f4a5a9e7f93833fbad8402625dd129a9aa6aeef0283c0f28e782cef5231811"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "native-gpu",
+      "state": "before",
+      "path": "raw/host-controls-qualified-runs/village/native-gpu/before.png",
+      "sha256": "57156d41c24da14941f4559d75de6c0ce6c230c31db94b79e6253d2bbc83dcbd"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "native-gpu",
+      "state": "third-person",
+      "path": "raw/host-controls-qualified-runs/village/native-gpu/third-person.png",
+      "sha256": "2c60612c49da5bfefefc023876d8e2507f03b224c06235711fd3d069cb9acc31"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "native-gpu",
+      "state": "orbit-restored",
+      "path": "raw/host-controls-qualified-runs/village/native-gpu/orbit-restored.png",
+      "sha256": "a51e7339b7ee0a30fdf1cb8d216b9dccb12e44be61d79a3e80e54f180b81c525"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "native-gpu",
+      "state": "initial",
+      "path": "raw/host-controls-qualified-runs/tree/native-gpu/initial.png",
+      "sha256": "632b6121156fa0adb7bca89c98b4e40412b55e0ee65d73af332592033cbf4527"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "native-gpu",
+      "state": "root",
+      "path": "raw/host-controls-qualified-runs/tree/native-gpu/root.png",
+      "sha256": "6c6c9e8528103cbcd1dcda4396dbba0b4832354bc3a284d793c758443f1634fc"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "native-gpu",
+      "state": "loaded-half",
+      "path": "raw/host-controls-qualified-runs/tree/native-gpu/loaded-half.png",
+      "sha256": "5ba1ac84ad5f55b61a8582cf0da99bf2f6f777d9bae5e569f8ce92345937a90a"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "ordinary-both",
+      "state": "before",
+      "path": "raw/host-controls-qualified-runs/village/ordinary-both/before.png",
+      "sha256": "61cedfee34701e3a37576de913a5785d4d3a318a78cda950fb41812df08a7268"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "ordinary-both",
+      "state": "third-person",
+      "path": "raw/host-controls-qualified-runs/village/ordinary-both/third-person.png",
+      "sha256": "b48afacf59cbd573b7ec1bb6b9a9733b5be880e8c397137290ca7b62e1864ff4"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "ordinary-both",
+      "state": "orbit-restored",
+      "path": "raw/host-controls-qualified-runs/village/ordinary-both/orbit-restored.png",
+      "sha256": "e76b4d90e82a0ccff582955a72fa40cc2299f4f9a27065b98e98d445191abf75"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "ordinary-both",
+      "state": "initial",
+      "path": "raw/host-controls-qualified-runs/tree/ordinary-both/initial.png",
+      "sha256": "6cfb5d66daa5c90c13b48fe2bdf630994e20963e853ca3d555141006d07f689e"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "ordinary-both",
+      "state": "root",
+      "path": "raw/host-controls-qualified-runs/tree/ordinary-both/root.png",
+      "sha256": "2ad4acf566a4cac5052a2d7a2a66b148bebd95f97a193a17a1bc072e9826e0a4"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "ordinary-both",
+      "state": "loaded-half",
+      "path": "raw/host-controls-qualified-runs/tree/ordinary-both/loaded-half.png",
+      "sha256": "67d1b7389464a3aa6d76d10b1434c94856fd2461a0764b382330cdf4791a3e9a"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "native-both",
+      "state": "before",
+      "path": "raw/host-controls-qualified-runs/village/native-both/before.png",
+      "sha256": "28e9b3f05930383a7a91c17d94ab624d693eec74f205b1432a2daacb91f368da"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "native-both",
+      "state": "third-person",
+      "path": "raw/host-controls-qualified-runs/village/native-both/third-person.png",
+      "sha256": "31842dfd5ac9570fde9ec0c30374e7cc58c85e68d467db6958fe9023dcf321fb"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "village",
+      "route": "native-both",
+      "state": "orbit-restored",
+      "path": "raw/host-controls-qualified-runs/village/native-both/orbit-restored.png",
+      "sha256": "e9a1affb981014879af3aab8b464beca876051ff872ea46de3db3a0bbd54f38d"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "native-both",
+      "state": "initial",
+      "path": "raw/host-controls-qualified-runs/tree/native-both/initial.png",
+      "sha256": "1a0f71eab79abb0525f06a522c3e32e8629dba9e424266912bd856c15c57e21d"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "native-both",
+      "state": "root",
+      "path": "raw/host-controls-qualified-runs/tree/native-both/root.png",
+      "sha256": "83c7cc72fb35adb1a6e1e70f9ba8b715c85b3b3e73d764d073d1c675d8cbde52"
+    },
+    {
+      "kind": "qualified",
+      "fixture": "tree",
+      "route": "native-both",
+      "state": "loaded-half",
+      "path": "raw/host-controls-qualified-runs/tree/native-both/loaded-half.png",
+      "sha256": "b656078499fa08144cf81f9f85e15ba14c84adce34c00a709dda8cacb93ddc59"
+    },
+    {
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "cpu",
+      "state": "near-cull",
+      "path": "raw/tree-culling-runs/cpu/near-cull.png",
+      "sha256": "9bf295c625e52fc7ee475ea290fa9b626bcba3091dd8656905105fcf1139890c"
+    },
+    {
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "cpu",
+      "state": "wide-cull",
+      "path": "raw/tree-culling-runs/cpu/wide-cull.png",
+      "sha256": "a15dfb64a7de76311a531997191a8ef5bb8028758702dd3a70ad08b46e97124c"
+    },
+    {
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "ordinary-gpu",
+      "state": "near-cull",
+      "path": "raw/tree-culling-runs/ordinary-gpu/near-cull.png",
+      "sha256": "0f1a677ca762031c353eedcb3b11c4458cb9d14c360181ae5fc3619f33ce8d0d"
+    },
+    {
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "ordinary-gpu",
+      "state": "wide-cull",
+      "path": "raw/tree-culling-runs/ordinary-gpu/wide-cull.png",
+      "sha256": "55adb79d55462ee602b36898e2f023644669e8a26839516c1e281e963843415c"
+    },
+    {
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "native-gpu",
+      "state": "near-cull",
+      "path": "raw/tree-culling-runs/native-gpu/near-cull.png",
+      "sha256": "c3a21890eaba8c7917f913d5add797971f995ebc8ea500d88c8e244b479019cf"
+    },
+    {
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "native-gpu",
+      "state": "wide-cull",
+      "path": "raw/tree-culling-runs/native-gpu/wide-cull.png",
+      "sha256": "d9fc72c6149f483cb191f0ec1c802c706a48b8e4a855f4ba6ab81240dabee459"
+    },
+    {
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "ordinary-both",
+      "state": "near-cull",
+      "path": "raw/tree-culling-runs/ordinary-both/near-cull.png",
+      "sha256": "0d0b5d8dfa0565637bd9a5a5d0f3f7cd85f36afa154a19955194c2043e0fc530"
+    },
+    {
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "ordinary-both",
+      "state": "wide-cull",
+      "path": "raw/tree-culling-runs/ordinary-both/wide-cull.png",
+      "sha256": "9a5cfb3ab12eac81e7307d0c2bd25405c2084aea763aac7ea4b2db2e4adc2422"
+    },
+    {
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "native-both",
+      "state": "near-cull",
+      "path": "raw/tree-culling-runs/native-both/near-cull.png",
+      "sha256": "19dd852a97a3068c97dcf5037880831f5a1e10b58f4c8bba2b217d6b4ce55cdf"
+    },
+    {
+      "kind": "culling",
+      "fixture": "tree",
+      "route": "native-both",
+      "state": "wide-cull",
+      "path": "raw/tree-culling-runs/native-both/wide-cull.png",
+      "sha256": "42d0f2d52ad2b3289da4f720c15a1d0f1b54b3a61858cedde807f6bf05b05560"
+    }
+  ],
+  "harness_resolutions": [
+    {
+      "route": "cpu",
+      "receipt": "raw/joint-camera-controls-runs/village/cpu/receipt.json",
+      "original_failures": [
+        "VillageinitialorbitHUD",
+        "Tpresstrue togglesactualHUDonce",
+        "thirdpersoncamera followsactualmover",
+        "Tpressfalse togglesactualHUDonce"
+      ],
+      "rejected_passes": [
+        "Trelease true/false predicates used empty.every(); not evidence"
+      ],
+      "resolution": "DrawTextLine is screen text, not world_labels; original HUD queries saw empty arrays. Camera-follow predicate compared a later rounded Info field against an earlier moving capsule; combined tool capture could be empty. Actual same-frame camera/mover/screenHUD probes below replace these assertions, original receipts retained."
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/joint-camera-controls-runs/village/ordinary-gpu/receipt.json",
+      "original_failures": [
+        "VillageinitialorbitHUD",
+        "Tpresstrue togglesactualHUDonce",
+        "Tpressfalse togglesactualHUDonce"
+      ],
+      "rejected_passes": [
+        "Trelease true/false predicates used empty.every(); not evidence"
+      ],
+      "resolution": "DrawTextLine is screen text, not world_labels; original HUD queries saw empty arrays. Camera-follow predicate compared a later rounded Info field against an earlier moving capsule; combined tool capture could be empty. Actual same-frame camera/mover/screenHUD probes below replace these assertions, original receipts retained."
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/joint-camera-controls-runs/village/native-gpu/receipt.json",
+      "original_failures": [
+        "VillageinitialorbitHUD",
+        "Tpresstrue togglesactualHUDonce",
+        "Tpressfalse togglesactualHUDonce"
+      ],
+      "rejected_passes": [
+        "Trelease true/false predicates used empty.every(); not evidence"
+      ],
+      "resolution": "DrawTextLine is screen text, not world_labels; original HUD queries saw empty arrays. Camera-follow predicate compared a later rounded Info field against an earlier moving capsule; combined tool capture could be empty. Actual same-frame camera/mover/screenHUD probes below replace these assertions, original receipts retained."
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/joint-camera-controls-runs/village/ordinary-both/receipt.json",
+      "original_failures": [
+        "VillageinitialorbitHUD",
+        "Tpresstrue togglesactualHUDonce",
+        "thirdpersoncamera followsactualmover",
+        "Tpressfalse togglesactualHUDonce"
+      ],
+      "rejected_passes": [
+        "Trelease true/false predicates used empty.every(); not evidence"
+      ],
+      "resolution": "DrawTextLine is screen text, not world_labels; original HUD queries saw empty arrays. Camera-follow predicate compared a later rounded Info field against an earlier moving capsule; combined tool capture could be empty. Actual same-frame camera/mover/screenHUD probes below replace these assertions, original receipts retained."
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/joint-camera-controls-runs/village/native-both/receipt.json",
+      "original_failures": [
+        "VillageinitialorbitHUD",
+        "Tpresstrue togglesactualHUDonce",
+        "thirdpersoncamera followsactualmover",
+        "Tpressfalse togglesactualHUDonce"
+      ],
+      "rejected_passes": [
+        "Trelease true/false predicates used empty.every(); not evidence"
+      ],
+      "resolution": "DrawTextLine is screen text, not world_labels; original HUD queries saw empty arrays. Camera-follow predicate compared a later rounded Info field against an earlier moving capsule; combined tool capture could be empty. Actual same-frame camera/mover/screenHUD probes below replace these assertions, original receipts retained."
+    },
+    {
+      "receipt": "raw/host-controls-runs/tree/cpu/receipt.json",
+      "resolution": "ActualTree288leafboundsdrawn, but lastobserverpointer overwritten by empty physics-world picking/culling tree. Scoped observer ignores empty world trees; no product failure. Original CPU preflight stopped8unlaunchedGPUapps."
+    },
+    {
+      "route": "cpu",
+      "receipt": "raw/host-controls-qualified-runs/tree/cpu/receipt.json",
+      "resolution": "MainKilometers.5/20bothdraw288: defaultcamera/datawithin500m. Originalnondecreasingpredicatewasinsufficient foractualculling-effectqualification; focusedwheel/cullingprobe below suppliesmissingcoverage without fullTree replay."
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/host-controls-qualified-runs/tree/ordinary-gpu/receipt.json",
+      "resolution": "MainKilometers.5/20bothdraw288: defaultcamera/datawithin500m. Originalnondecreasingpredicatewasinsufficient foractualculling-effectqualification; focusedwheel/cullingprobe below suppliesmissingcoverage without fullTree replay."
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/host-controls-qualified-runs/tree/native-gpu/receipt.json",
+      "resolution": "MainKilometers.5/20bothdraw288: defaultcamera/datawithin500m. Originalnondecreasingpredicatewasinsufficient foractualculling-effectqualification; focusedwheel/cullingprobe below suppliesmissingcoverage without fullTree replay."
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/host-controls-qualified-runs/tree/ordinary-both/receipt.json",
+      "resolution": "MainKilometers.5/20bothdraw288: defaultcamera/datawithin500m. Originalnondecreasingpredicatewasinsufficient foractualculling-effectqualification; focusedwheel/cullingprobe below suppliesmissingcoverage without fullTree replay."
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/host-controls-qualified-runs/tree/native-both/receipt.json",
+      "resolution": "MainKilometers.5/20bothdraw288: defaultcamera/datawithin500m. Originalnondecreasingpredicatewasinsufficient foractualculling-effectqualification; focusedwheel/cullingprobe below suppliesmissingcoverage without fullTree replay."
+    }
+  ],
+  "culling": [
+    {
+      "route": "cpu",
+      "receipt": "raw/tree-culling-runs/cpu/receipt.json",
+      "radius_initial": 250,
+      "radius_zoomed": 885.177063,
+      "radius_restored": 250.000092,
+      "near_draws": 0,
+      "wide_draws": 288,
+      "tree_digest": "9b90c3d566ce7bfd"
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/tree-culling-runs/ordinary-gpu/receipt.json",
+      "radius_initial": 250,
+      "radius_zoomed": 885.177063,
+      "radius_restored": 250.000092,
+      "near_draws": 0,
+      "wide_draws": 288,
+      "tree_digest": "9b90c3d566ce7bfd"
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/tree-culling-runs/native-gpu/receipt.json",
+      "radius_initial": 250,
+      "radius_zoomed": 885.177063,
+      "radius_restored": 250.000092,
+      "near_draws": 0,
+      "wide_draws": 288,
+      "tree_digest": "9b90c3d566ce7bfd"
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/tree-culling-runs/ordinary-both/receipt.json",
+      "radius_initial": 250,
+      "radius_zoomed": 885.177063,
+      "radius_restored": 250.000092,
+      "near_draws": 0,
+      "wide_draws": 288,
+      "tree_digest": "9b90c3d566ce7bfd"
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/tree-culling-runs/native-both/receipt.json",
+      "radius_initial": 250,
+      "radius_zoomed": 885.177063,
+      "radius_restored": 250.000092,
+      "near_draws": 0,
+      "wide_draws": 288,
+      "tree_digest": "9b90c3d566ce7bfd"
+    }
+  ],
+  "cpu_village_compatibility": {
+    "reconstructed_unscoped_include_sha256": "2fa20adeef9a817ec281c68befc00473431308487ebb05790555723fa7a5cc78",
+    "original_unscoped_include_sha256": "2fa20adeef9a817ec281c68befc00473431308487ebb05790555723fa7a5cc78",
+    "scope": "Onlytree_tracepredicate changed; CPUVillagehadnoTREEtrace, Camera/mover/screenHUDcodeidentical. Reuse originalcorrectedCPUVillagepass, noCPUcamera replay."
+  },
+  "visual_review": {
+    "status": "ALL60_CAPTURED_IMAGES_INSPECTED_CPU_FIRST",
+    "observations": "Five CPU-first grids inspected: Crash10, original Village10, direct Village15, Tree15, culling10. Actual weld creation, camera HUD/toggle, unchanged Village geometry, tree level/scale and0versus288culling visible. No product finding from positive controls; original18Village predicates and empty-tree observer alias adjudicated explicitly."
+  },
+  "original207hashes_unchanged": true,
+  "limitations": [
+    "CrashAddJoint actualweldbodyidentity/repeatcreation/restart, no constraintsolverqualification.",
+    "VillageonlyKeyboardTactualcamera/moverpivot/HUDpolicy andstaticidentity; moverrunsperUIframewhenpaused byupstreamdesign, no exactcrossengineposes/queryphysicsqualification. Otherpollingmovement inputs willreuse separatelyreviewedsharedmovercode whereapplicable.",
+    "Treebuttons operateactualnativeC hosttree inallviewers; doesnotqualifyGPUphysicsbroadphase/querynumericaccuracy. File/profile/queries/draw/SaveLoadScaleeffects observed; IOprivatefilehashed/consumed.",
+    "OriginalVillageworld-label/roundedasynchronousexpectations andempty.every passes rejected. CPUtreeobserveraliaspreflightretained. MainKilometersweakpredicate superseded byactualcullingcountchange.",
+    "Firstunusedhostobserverbuild staticallyrejectedpotentialOOB, noappsran; nextobserverCPUtreealias corrected, discardedbuilds cleaned underseparatefinitebudgets.",
+    "Imagesare review states, not repaired before/after; no new product fix."
+  ],
+  "cleanup": "host-controls-cleanup.json"
+}

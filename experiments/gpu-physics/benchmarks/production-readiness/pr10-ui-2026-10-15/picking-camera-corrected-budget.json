@@ -1,0 +1,26 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "builds": 0,
+  "apps_CPUfirst": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 240,
+  "ready_seconds": 25,
+  "first_drag_step_or_scene_transition_seconds": 90,
+  "screens_each": 8,
+  "actions_each": 160,
+  "api_cap_each": 33554432,
+  "temporary_cap": 1073741824,
+  "retained_cap": 67108864,
+  "shared_cache_growth_cap": 134217728,
+  "retries": 0,
+  "scope": "Actual SingleBox selection/staticground/empty/Escape/F, Ctrlmouse motor drag andownbodymovement/identity, world/panel/focus-loss release, bothpane capture acrossdivider, orbit/pan/dolly/flyWASDQE andkeyreleaseunderactualUItextcapture. Sourcegeometry/defaults preserved, no crossenginetrajectory/pixel gate orsolverrepair. Newissuesloggedonly.",
+  "outputs": "Current5overlaycallbackviewers reused. Selected metadata/setter/callback/state/capturewindows andscreens retained; fullstreamsextractedthendeleted. Allheldmousebuttons/keysreleased in finally onfailure; appprocessgroupterminated. One currentpoolonly.",
+  "driver_sha256": "b770e0303a4af99ee12a4cc5bb6e58c4efc7483ed0c1e2bc6fcd6a9e65c172bf",
+  "reason": "CPU13checks passedincludingactualdragandpanelrelease (ImGuiheldworldgestureWantCaptureMousefalse, so no drop confirmed). Original stopped only missing xwininfo CLI beforefocuscase. Use availablelibX11 read-onlyXDefaultRootWindow; CPUremainingfocus/camera only+4unlaunchedGPUfullroutes. No newproductfinding/fix; preservepartialreceipt.",
+  "cpu_tail_sha256": "d13471edb8d123bc9118058f6aaaa65b23064e2dd8f11c1952b21f504bd42298"
+}

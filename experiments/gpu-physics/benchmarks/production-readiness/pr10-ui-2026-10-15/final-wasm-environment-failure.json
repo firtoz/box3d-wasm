@@ -1,0 +1,185 @@
+{
+  "status": "FAILURE_RETAINED",
+  "started_ms": 1792181441093,
+  "operations": [
+    {
+      "label": "sdk-source-download",
+      "command": [
+        "curl",
+        "--fail",
+        "--location",
+        "--max-time",
+        "30",
+        "--max-filesize",
+        "33554432",
+        "--output",
+        "/home/firtoz/.cache/box3d-pr10-wasm-2026-10-16/emsdk.tar.gz",
+        "https://github.com/emscripten-core/emsdk/archive/refs/tags/6.0.2.tar.gz"
+      ],
+      "pid": 1006305,
+      "exit": 0,
+      "seconds": 0.248229791,
+      "log_sha256": "7c316985b38d1f947255e619dafed1101d74fa3e9a92a0fa819abd55291dbb0b",
+      "log_bytes": 704
+    },
+    {
+      "label": "sdk-source-extract",
+      "command": [
+        "tar",
+        "-xzf",
+        "/home/firtoz/.cache/box3d-pr10-wasm-2026-10-16/emsdk.tar.gz",
+        "-C",
+        "/home/firtoz/.cache/box3d-pr10-wasm-2026-10-16/sdk",
+        "--strip-components=1"
+      ],
+      "pid": 1006317,
+      "exit": 0,
+      "seconds": 0.00776160699999997,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log_bytes": 0
+    },
+    {
+      "label": "sdk-install",
+      "command": [
+        "/home/firtoz/.cache/box3d-pr10-wasm-2026-10-16/sdk/emsdk",
+        "install",
+        "6.0.2"
+      ],
+      "pid": 1006319,
+      "exit": 0,
+      "seconds": 11.996823404,
+      "log_sha256": "6e4d0a3e68ab49071d1bd681e1d49c3b5444a62ac8dcc1dbfbe6dd0901e2e642",
+      "log_bytes": 1562
+    },
+    {
+      "label": "sdk-activate",
+      "command": [
+        "/home/firtoz/.cache/box3d-pr10-wasm-2026-10-16/sdk/emsdk",
+        "activate",
+        "6.0.2",
+        "--embedded"
+      ],
+      "pid": 1006779,
+      "exit": 0,
+      "seconds": 0.14967907100000047,
+      "log_sha256": "60d479f2e2d75267be85aed6cd4f362e524cb86a5335224e7960ad4f795afc12",
+      "log_bytes": 814
+    },
+    {
+      "label": "sdk-environment",
+      "command": [
+        "bash",
+        "-c",
+        "set -e; source \"$1\" >/dev/null; printf '%s\\0' \"PATH=$PATH\" \"EMSDK=$EMSDK\" \"EMSDK_NODE=$EMSDK_NODE\" \"EM_CONFIG=$EM_CONFIG\" \"EMSDK_PYTHON=$EMSDK_PYTHON\"",
+        "wasm-compat-env",
+        "/home/firtoz/.cache/box3d-pr10-wasm-2026-10-16/sdk/emsdk_env.sh"
+      ],
+      "pid": 1006785,
+      "exit": 0,
+      "seconds": 0.12798563900000046,
+      "log_sha256": "8b7216dafce7eec310c909709bb6f2d002219cb469638ff92407ab29d55c17ea",
+      "log_bytes": 2095,
+      "environment_log_consumed": true
+    },
+    {
+      "label": "prepare-source",
+      "command": [
+        "bun",
+        "packages/box3d-wasm/scripts/prepare-box3d.ts"
+      ],
+      "pid": 1006793,
+      "exit": 0,
+      "seconds": 0.11287450200000057,
+      "log_sha256": "2d996610a711764bb650029fc7ad87e149938579e41345c2d6d0ae952f598e01",
+      "log_bytes": 204
+    },
+    {
+      "label": "wasm-configure",
+      "command": [
+        "/home/firtoz/.cache/box3d-pr10-wasm-2026-10-16/sdk/upstream/emscripten/emcmake",
+        "cmake",
+        "-S",
+        "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake",
+        "-B",
+        "/home/firtoz/.cache/box3d-pr10-wasm-2026-10-16/build",
+        "-DBOX3D_SOURCE_DIR=/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/.box3d-patched",
+        "-DBOX3D_SAMPLES=OFF",
+        "-DBOX3D_BENCHMARKS=OFF",
+        "-DBOX3D_DOCS=OFF",
+        "-DBOX3D_UNIT_TESTS=OFF",
+        "-DBOX3D_VALIDATE=OFF",
+        "-DBOX3D_DISABLE_SIMD=OFF",
+        "-DBOX3D_WASM_PROFILE_NAMES=OFF",
+        "-DBOX3D_WASM_ALLOW_MEMORY_GROWTH=OFF",
+        "-DBOX3D_WASM_INITIAL_MEMORY=268435456",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
+        "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=/home/firtoz/.cache/box3d-pr10-wasm-2026-10-16/out"
+      ],
+      "pid": 1006820,
+      "exit": 1,
+      "seconds": 0.07572593600000073,
+      "log_sha256": "3a7662f269e941490d19f221e830290dca8f1a6ad989a4a2ddae3b2f8980841f",
+      "log_bytes": 188
+    }
+  ],
+  "pins_before": {
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/CMakeLists.txt": "4a566ed4375c0005ff99ba5b738b0774419115437a661e03dcca233efd431991",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web.c": "2aba1cb34694ab5c8a0cc933641a1ff24299f8591f04eafd966d9b15a92c9582",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_body.c": "fb384587f88bb0c30c31f7f686b8374935f65f95eed206c2825ba385abb990c5",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_collision.c": "f31adaf37af07d9c3d37e893f539054f80848fb69e6ceb2206b7d446c379a9d4",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_compound.c": "c9588a57facebe5b782289db2c9f0c9df82a7315c5af93c4aba632f80ea7b0fb",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_events.c": "d027839907cd0ae664c40813adaff29e2bc7d813c0725e472f759b31067295ab",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_heightfield.c": "a86d4c0d4f56a665a4a37128b7edff7c6035c181c049f8eb549231d0046af37c",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_hull.c": "b0d3d3ac9665e46d934031c2493b59de943e60bd93dd1ef2cd8455b6b83166a0",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_human.c": "3440067fcbfce5d7292f85b9240957e65e497f7bc62d244381765f429c6df91d",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_joint.c": "4c1ab304a805d4d2e707846785b8007eca5a4b7bc9f09168500017009681fe8e",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_math.c": "1040e15931279de2fa07ce4329179e023dd585d89b8e74fbdba2a97b5424cb62",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_mesh.c": "33d618e8142c33e79b60937b19eee38ca611fbe3d6aa1ae70e211d14ad456107",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_mover.c": "036b3c370328269138848cec7900c0d75a816c8f512719b0acd5634bd231bc88",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_query.c": "cb6e86d16e835dee2272efc17b9ba677b14dfc0fe39e5a4772e3648ebe3dcd0e",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_shape.c": "51bdd3fb8c7741c1ba35e493fac6498a1da6e109439c7ccc25445ea16e9ef389",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_shared.h": "91ab6258dc85722017f2dce5d416d9687a28bd7146890319312e6799801f8758",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_slots.c": "1d1c613279b0fe05cd9ef0a9e42779771f0663d4b187a629417774c4f8e38fd5",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_tree.c": "845a966de9231a649c40d25899227eeaecf299ae38219c35cbdff90b1e9a1fb6",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/cmake/box3d_web_world.c": "64f84d0b3ed144578a10d72139a1219b9450252a4e6639c86dd60b039fee61d1",
+    "/home/firtoz/work/2026/box3d-wasm/patches/box3d/0001-profile-levels.patch": "adfd4e420fc0575e30443230e4fc225869a27f84115d2652bd3c74c150762f3c",
+    "/home/firtoz/work/2026/box3d-wasm/patches/box3d/BASE_SHA": "b16490c11e18eccb17fe466282b3b6f0339174d4e8bdf3de36e6cbfab95c822e",
+    "/home/firtoz/work/2026/box3d-wasm/patches/box3d/README.md": "f79bfbcce3370fe6e77dc6e87989e996c1e3f6911f6037e7154e635d0cabc0fe",
+    "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/src/index.ts": "cd7ed5368fd39b62e7793514c58283c311221c53f70c9719480ede5fae4a7178",
+    "/home/firtoz/work/2026/box3d-wasm/scripts/wasm-dump.ts": "19e50b0ebb568d0da8a55b2989616d417c212f2fcd84d7ff678e42282c353f4d",
+    "/home/firtoz/work/2026/box3d-wasm/tools/emsdk-version": "8adcc17e039842d2f4d92ca25f72a8963ede072c885ef5f762c0682b87c6d872"
+  },
+  "deleted": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/.box3d-patched",
+      "bytes": 12173915,
+      "consumer": "Task-owned unchanged-source archive+patch copy consumed"
+    },
+    {
+      "path": "/home/firtoz/.cache/box3d-pr10-wasm-2026-10-16",
+      "bytes": 1654374421,
+      "consumer": "Pinned SDK/download/build/generatedWASM consumed; no persistent dependency or binary change"
+    }
+  ],
+  "before": {
+    "scratch": false,
+    "patched": false,
+    "publicDir": false
+  },
+  "sdk_source_sha256": "5cb39d8f6787a236ab4783a5088df73360d5b21f87ca295c95d620369fcde4f5",
+  "max_owned_processes": 3,
+  "owned_patched": true,
+  "error": "AssertionError [ERR_ASSERTION]: emcmake: warning: config file not found: .  You can create one by hand or run `emcc --generate-config`\nemcmake: error: BINARYEN_ROOT not set in config (), and `wasm-opt` not found in PATH\n",
+  "seconds": 13.216,
+  "raw_after_bytes": 929750827,
+  "owned_leaders_absent": [
+    1006305,
+    1006317,
+    1006319,
+    1006779,
+    1006785,
+    1006793,
+    1006820
+  ]
+}

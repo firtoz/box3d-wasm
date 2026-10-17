@@ -1,0 +1,45 @@
+{
+  "status": "CLOSED",
+  "retired": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/cpu",
+      "bytes": 7748056,
+      "sha256": "09ea69a24d70d08e7d99786c249da1947014b6948697fecebd7d832081fe5065",
+      "consumer": "Repaired route actualtype/opacity/PBR/picking/compound/lifetime checks qualified; oldbeforemedia retained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/ordinary-gpu",
+      "bytes": 37846912,
+      "sha256": "e00fa5ccef62e044a996a0b2db9023872d702960be8e443aa8a64e94990543ef",
+      "consumer": "Repaired route actualtype/opacity/PBR/picking/compound/lifetime checks qualified; oldbeforemedia retained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/native-gpu",
+      "bytes": 40721936,
+      "sha256": "34551af94d022c01c7bd09f939e13070ba4ce9be893d21da1b35c168203c1012",
+      "consumer": "Repaired route actualtype/opacity/PBR/picking/compound/lifetime checks qualified; oldbeforemedia retained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/both_dual.c.o",
+      "bytes": 147408,
+      "sha256": "c59866ab256e2169964c74b623504b011d6d41cf441b4a2d07dd34cfb267e8b4",
+      "consumer": "Temporarycorrectmemberbasename consumed by archiveupdate; compiledobjectretainedseparately"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/ordinary-both",
+      "bytes": 38616584,
+      "sha256": "a6fabd1119e30ab2e5f45b2b2340ae72c6831d65b48be6ab51c228eb1b371192",
+      "consumer": "Firstactualcombinedtype/material/picking/compound/lifetime checks qualified; oldbeforemedia retained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/native-both",
+      "bytes": 41495720,
+      "sha256": "93865b904dc1148029cb8901ce11876e5f70bb6769d5f3db33c6acb0888c2101",
+      "consumer": "Firstactualcombinedtype/material/picking/compound/lifetime checks qualified; oldbeforemedia retained"
+    }
+  ],
+  "deleted_bytes": 166576616,
+  "raw_bytes": 913715162,
+  "shared_archives_mutated": false,
+  "consumer": "Current5 UI06viewers/full link_plan;2adapter+1dualobject+1smallAPIarchive+materialobserver+previous12nativeUI/Joint/Replay objects retain nextrelink consumers"
+}

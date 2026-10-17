@@ -1,0 +1,13 @@
+{
+  "status": "FROZEN",
+  "compiles": 2,
+  "seconds_per_compile": 35,
+  "outer_seconds": 90,
+  "max_output_bytes": 1048576,
+  "temporary_bytes": 1073741824,
+  "extra_links": 1,
+  "remaining_links": 5,
+  "remaining_apps": 5,
+  "source": "Exact currently linked renderer sources plus only preview include/calls",
+  "cleanup": "Delete unused unqualified renderer objects after replacement; preserve qualified shared objects"
+}

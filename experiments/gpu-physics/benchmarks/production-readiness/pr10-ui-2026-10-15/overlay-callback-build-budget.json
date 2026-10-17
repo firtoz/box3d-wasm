@@ -1,0 +1,21 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "cpp_compiles": 1,
+  "compile_seconds": 15,
+  "links": 5,
+  "link_seconds_each": 20,
+  "apps": 0,
+  "screens": 0,
+  "engine_builds": 0,
+  "wasm_changes": 0,
+  "temporary_cap_bytes": 220200960,
+  "retained_cap_bytes": 8388608,
+  "retries": 0,
+  "scope": "Read-only9actualDebugDrawcallbackcounts/scalarargumentdigests, originalcallbackonce andoriginalcontext. CaptureGPUinnerseparately evenafterCPUouterreturnsinsplit. Allphysics/gfx/main/sampleoriginalinputs pinned unchanged. Not a UI03repair.",
+  "outputs": {
+    "observer CPP/object": "next overlaycontrols runtime; object retainedonlyifneededforfuturelinks",
+    "five executables": "nextCPUfirstactualoverlayreview; removeoldcurrentpoolafternewqualified",
+    "manifest/logs": "retainedqualificationprovenance"
+  },
+  "source_sha256": "4397b7424a416539544b466699d1e56833b6c20976184643e2bb7ad202c93e14"
+}

@@ -1,0 +1,61 @@
+{
+  "status": "PASS_ALL_ACTIVE_NATIVE_WIDGET_CALLS_ACCOUNTED_WITH_FIVE_DISABLED_POSE_EXCLUSIONS",
+  "unaccounted": [
+    {
+      "source": "box3d/samples/sample_ragdoll.cpp",
+      "line": 402,
+      "kind": "Checkbox",
+      "context": "ImGui::Checkbox( \"motors\", &m_motorized ) )\n\t\t{\n\t\t\tm_human.EnableMotors( m_motorized );\n\t\t\tm_human.AdjustMotors( m_motorHertz );\n\t\t}\n\n\t\tif ( ImGui::SliderFloat( \"motor hertz\", &m_motorHertz, 0.01f, 20.0f, \"%.2f\" ) )\n\t\t{\n",
+      "disposition": "EXCLUDED_DISABLED_RAGDOLL_POSE_CLASS_NOT_IN_NATIVE_REGISTRY",
+      "guard": {
+        "start_line": 337,
+        "end_line": 462
+      }
+    },
+    {
+      "source": "box3d/samples/sample_ragdoll.cpp",
+      "line": 408,
+      "kind": "SliderFloat",
+      "context": "ImGui::SliderFloat( \"motor hertz\", &m_motorHertz, 0.01f, 20.0f, \"%.2f\" ) )\n\t\t{\n\t\t\tm_human.AdjustMotors( m_motorHertz );\n\t\t}\n\n\t\tif ( ImGui::Checkbox( \"pose\", &m_poseControl ) )\n\t\t{\n\t\t\tm_human.EnablePoseControl( m_worldId,",
+      "disposition": "EXCLUDED_DISABLED_RAGDOLL_POSE_CLASS_NOT_IN_NATIVE_REGISTRY",
+      "guard": {
+        "start_line": 337,
+        "end_line": 462
+      }
+    },
+    {
+      "source": "box3d/samples/sample_ragdoll.cpp",
+      "line": 413,
+      "kind": "Checkbox",
+      "context": "ImGui::Checkbox( \"pose\", &m_poseControl ) )\n\t\t{\n\t\t\tm_human.EnablePoseControl( m_worldId, m_poseHertz, m_poseControl );\n\t\t}\n\n\t\tif ( ImGui::SliderFloat( \"pose hertz\", &m_poseHertz, 0.01f, 8.0f, \"%.2f\" ) )\n\t\t{\n\t\t\tm_human.Ad",
+      "disposition": "EXCLUDED_DISABLED_RAGDOLL_POSE_CLASS_NOT_IN_NATIVE_REGISTRY",
+      "guard": {
+        "start_line": 337,
+        "end_line": 462
+      }
+    },
+    {
+      "source": "box3d/samples/sample_ragdoll.cpp",
+      "line": 418,
+      "kind": "SliderFloat",
+      "context": "ImGui::SliderFloat( \"pose hertz\", &m_poseHertz, 0.01f, 8.0f, \"%.2f\" ) )\n\t\t{\n\t\t\tm_human.AdjustPoseControl( m_poseHertz );\n\t\t}\n\n\t\tImGui::SliderFloat( \"omega\", &m_angularVelocity, 0.0f, 8.0f, \"%.1f\" );\n\n\t\tImGui::End();\n\t}\n\n",
+      "disposition": "EXCLUDED_DISABLED_RAGDOLL_POSE_CLASS_NOT_IN_NATIVE_REGISTRY",
+      "guard": {
+        "start_line": 337,
+        "end_line": 462
+      }
+    },
+    {
+      "source": "box3d/samples/sample_ragdoll.cpp",
+      "line": 423,
+      "kind": "SliderFloat",
+      "context": "ImGui::SliderFloat( \"omega\", &m_angularVelocity, 0.0f, 8.0f, \"%.1f\" );\n\n\t\tImGui::End();\n\t}\n\n\tvoid OnUpdate() override\n\t{\n\t\tfloat timeStep = 1.0f / m_context->Settings.Frequency;\n\t\tm_time += timeStep;\n\n\t\tif ( m_poseContro",
+      "disposition": "EXCLUDED_DISABLED_RAGDOLL_POSE_CLASS_NOT_IN_NATIVE_REGISTRY",
+      "guard": {
+        "start_line": 337,
+        "end_line": 462
+      }
+    }
+  ],
+  "source_paths": 22
+}

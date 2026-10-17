@@ -1,0 +1,55 @@
+{
+  "status": "FROZEN",
+  "generations": 1,
+  "generation_seconds": 10,
+  "cpp_compiles": 1,
+  "compile_seconds": 30,
+  "links": 1,
+  "link_seconds": 25,
+  "preprocessors": 6,
+  "preprocess_seconds": 10,
+  "viewers": 1,
+  "seconds_per_app": 90,
+  "screenshots_per_app": 4,
+  "actions_per_app": 130,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 16777216,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 50331648,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 0,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 260,
+  "compositions": 2,
+  "seconds_per_composition": 8,
+  "raw_before_bytes": 906851210,
+  "source_pins_before": {
+    "generator": "abb2a297eb632cadd804009cd8a9b31eb78f5d00ff65c2aa3eed277b8557e2e1",
+    "native_sample": "4b0de896d159fd6cf4528c2f4b906ddc527314ee85cb3b823351fc91e1d3b3a6",
+    "imgui_widgets": "b4435b3ce1d36bbf5b7f1500a5d944a89469c687febd45fd1877cd6201df4cc2",
+    "observer": "d98a2267cc344da246bb494f359edf6b6dea743880bf2973ca9f278fe46e460f"
+  },
+  "scope": "Only CPU Profile section width. Max native CalcTextSize(name)+indent*fontSize+GetTreeNodeToLabelSpacing across all22definitions. Exact generated source delta; GPU/BOTH preprocessed CPU branch exclusion proves unaffected views (no new GPU runtime passes). Actual CPU plots on/off, both subtrees open/restore,1280x800 resize, paused identity/poses/defaults and 4captures. All165CPU samples inherit DrawMetrics; no physics/state change. Original preflight stopped before production edits: current generation includes existing BOTH-only split_step hooks absent in old CPU generated file. Compare exact known delta and actual CPU preprocessing before changing width; reuse baseline generation, no unchanged retry.",
+  "outputs": [
+    {
+      "path": "raw/ui04-build",
+      "consumer": "Current repaired CPU viewer/sample object and measured observer needed for next PR10 repairs; four GPU/combined UI20 viewers reused unchanged",
+      "delete": "Retire trace CPU and old current CPU after repair verification; remove consumed generated main/preprocessor copies; retain active link inputs only"
+    },
+    {
+      "path": "raw/ui04-repair-runs",
+      "consumer": "Selected label extents, actual controls and CPU screenshots",
+      "delete": "Consume API/observer/stderr after terminal app; retain minimal receipt/screens for acceptance"
+    },
+    {
+      "path": "ui04-before/after-grid.png",
+      "consumer": "CPU-first repair report, with four routes explicitly source-unaffected",
+      "delete": "Retain selected evidence"
+    }
+  ],
+  "baseline_generated_sha256": "2d3b8c741f6d5c4ddb570e41d4bfa9fcf09a7173d27a1662d996703388e58af3",
+  "original_closed": "ui04-generation-preflight-failure.json"
+}

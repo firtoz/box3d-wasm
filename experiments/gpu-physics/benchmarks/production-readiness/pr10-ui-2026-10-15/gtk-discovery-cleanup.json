@@ -1,0 +1,14 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 39094,
+  "raw_retained_bytes": 876026561,
+  "deleted_bytes": 122894,
+  "owned_pids_absent": [
+    3091085,
+    3091064
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708281892864,
+  "consumer": "OriginalGTKhelperfailures, no widgetreview; OBS02triage beforefinalacceptance."
+}

@@ -1,0 +1,79 @@
+{
+  "status": "CLOSED",
+  "per_app": [
+    {
+      "receipt": "raw/driving-controls-runs/driving/cpu/stream-cleanup.json",
+      "deleted_bytes": 10754874
+    },
+    {
+      "receipt": "raw/driving-controls-tail-runs/top-down/cpu/stream-cleanup.json",
+      "deleted_bytes": 772578
+    },
+    {
+      "receipt": "raw/driving-controls-tail-runs/driving/ordinary-gpu/stream-cleanup.json",
+      "deleted_bytes": 11502193
+    },
+    {
+      "receipt": "raw/driving-controls-tail-runs/top-down/ordinary-gpu/stream-cleanup.json",
+      "deleted_bytes": 783652
+    },
+    {
+      "receipt": "raw/driving-controls-tail-runs/driving/native-gpu/stream-cleanup.json",
+      "deleted_bytes": 11567463
+    },
+    {
+      "receipt": "raw/driving-controls-tail-runs/top-down/native-gpu/stream-cleanup.json",
+      "deleted_bytes": 781891
+    },
+    {
+      "receipt": "raw/driving-controls-tail-runs/driving/ordinary-both/stream-cleanup.json",
+      "deleted_bytes": 22926450
+    },
+    {
+      "receipt": "raw/driving-controls-tail-runs/top-down/ordinary-both/stream-cleanup.json",
+      "deleted_bytes": 1862086
+    },
+    {
+      "receipt": "raw/driving-controls-tail-runs/driving/native-both/stream-cleanup.json",
+      "deleted_bytes": 22947106
+    },
+    {
+      "receipt": "raw/driving-controls-tail-runs/top-down/native-both/stream-cleanup.json",
+      "deleted_bytes": 1865681
+    },
+    {
+      "receipt": "raw/driving-controls-runs/top-down/cpu/stream-cleanup.json",
+      "deleted_bytes": 566143
+    }
+  ],
+  "deleted_bytes": 86330117,
+  "raw_retained_bytes": 486692130,
+  "owned_pids_absent": [
+    2544098,
+    2544082,
+    2547910,
+    2547892,
+    2548127,
+    2548106,
+    2549057,
+    2549042,
+    2549267,
+    2549248,
+    2550664,
+    2550644,
+    2550990,
+    2550934,
+    2552905,
+    2552891,
+    2553214,
+    2553200,
+    2554260,
+    2554246,
+    2544991,
+    2544977
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708984492032,
+  "retained_consumer": "Currentqualifiedjoint5viewers reusedforremainingcontrols; selectedscreens/receipts/acceptance forPR10audit/UI19–UI20repairs; existinglinkobjects/CPUReplayfixture retained. Sharedcaches preserved."
+}

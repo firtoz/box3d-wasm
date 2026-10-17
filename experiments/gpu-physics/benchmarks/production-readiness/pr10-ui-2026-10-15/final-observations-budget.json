@@ -1,0 +1,12 @@
+{
+  "status": "FROZEN",
+  "seconds": 20,
+  "observations": 3,
+  "max_source_files": 12,
+  "max_receipts": 8,
+  "retained_bytes": 131072,
+  "apps": 0,
+  "builds": 0,
+  "captures": 0,
+  "scope": "Use source/saved actual UI evidence to disposition unconfirmed OBS01–03. Preserve uncertain original event/material causes; no unchanged GTK/cold/query retry or new product repair."
+}

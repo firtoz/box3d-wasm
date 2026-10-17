@@ -1,0 +1,46 @@
+{
+  "status": "FROZEN",
+  "builds": 0,
+  "viewers": 5,
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "ghost"
+  ],
+  "seconds_per_app": 90,
+  "screenshots_per_app": 3,
+  "actions_per_app": 120,
+  "physics_steps_per_app": 4,
+  "mouse_counter_attempts_per_app": 1,
+  "retries": 0,
+  "api_bytes_per_app": 12582912,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 134217728,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 520,
+  "scope": "Distinct source/retaineddata-supported counterthreshold input: one barewheelout camera zoom then1pixel actualCtrlmouse upwarddrag andone realstep. EarlierCPU2/4/8pixeldrags legitimatelyexceededgroundedheight1.026 andcannotexerciseReset. ReusepassedCPUsliders/initialimage, no repeatedCPUsliderchecks. All4GPUsliders unlaunchedpreviously, executeoncehere. No geometry/default/body/counterinjection/enginechanges/solverqualification/coldcampaign.",
+  "prior": "ghost-controls-budget.json CLOSED CPUonly;4GPUapps unlaunched/unusedbudget closed",
+  "baseline_script_sha256": "767406067dd8d8417534561771040412d4073ccf9ba7886e372cc9facc6525fa",
+  "closeout": {
+    "compositions": 1,
+    "seconds_per_composition": 8,
+    "total_seconds": 25,
+    "apps": 0,
+    "builds": 0
+  },
+  "outputs": [
+    {
+      "path": "raw/ghost-threshold-runs",
+      "consumer": "Actualnonzero-to-zeroCPUfirstcontrolreceipts/screens plusfirstGPUsliders",
+      "delete": "Consume streams perterminalapp, retainminimalreceipts/screens"
+    }
+  ]
+}

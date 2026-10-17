@@ -1,0 +1,12 @@
+{
+  "status": "FROZEN",
+  "created": "2026-10-15T18:56:04.062Z",
+  "apps": 0,
+  "builds": 0,
+  "checks": 1,
+  "seconds": 60,
+  "temporary_bytes": 2097152,
+  "retained_bytes": 2097152,
+  "consumer": "Per-sample source applicability and explicit reuse of actual shared-control evidence; audit unaccounted widget call sites first",
+  "deletion": "No large scratch outputs"
+}

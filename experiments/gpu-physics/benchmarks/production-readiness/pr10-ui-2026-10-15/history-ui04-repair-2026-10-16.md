@@ -1,0 +1,37 @@
+# UI04 repair history — 2026-10-16
+
+Closed execution history; do not resume old scripts/budgets.
+
+## Current evidence and resources
+
+Review remains complete: 342 active widgets, 165 sample dispositions, 23 custom input groups and 85 shared calls; 0 left. The165=71actual specific-control fixtures+94explicit shared-code reuses, with known defects/exclusions preserved. **23 issues open,6 fixes verified locally.** Goal active,PR10 unchecked.
+
+UI20 is [x]: ui20-acceptance.json/UI20-repair.md. Driving Max Torque only changed a variable; actual rear caps stayed5 when the UI showed25, even under W/S. Generated native Joint code now calls SetMaxSpinTorque on rearLeft/rearRight. The exact source comparison against the qualifiedUI19copy shows only this callback change; defaults, geometry and earlier repairs are unchanged. All5routes have actual25/0/5 setters/getters, W/S±30→0 commands retainingcap25, unchanged front/Parallel/other settings, IDs/body mapping/paused poses, default reset and relatedWheel25→20/Motor checks.199evaluations:198true plus1retained mouse-lock probe, separately adjudicated by actualTunlock. All15new+5beforeimages inspected CPUfirst; five repaired-control images also inspected full resolution. Before other review settings differ (speed40 versus focused default30); numeric traces establish the repair. No advancing physics/trajectory/solver qualification claim.
+
+OriginalCPU25/W/S/ID/front-independence passes and2captures were reused after the probe tried clicking a checkbox while native third-person had locked the pointer. ActualTshortcut unlock+0/5/reset/Wheel checks passed in a separateCPUtail. FourGPUroutes ran the corrected full case once. Original failure9933 retained; completion49594/closeout63053 are terminal. No product defect was inferred from the invalid mouse stimulus.
+
+**Currentpool ui20-build.json/link_plan** contains all5correct commands and6active objects:3newJoint objects inraw/ui20-build plus3unchangedReplay objects inraw/ui19-build. Keep active objects for next relinks. OldUI19Joint objects/viewers are retired; old manifests are historical/unrunnable. Original207sharedinputs+3flagfiles unchanged; Box3D/WASM/Rust/WGSL/sharedarchives and other local work preserved. Never rerun old restoration/build scripts.
+
+Interleaved build/link/check/consume/retire avoided a second full viewer pool. It deleted167067644bytes of old binaries/Joint objects/unusedmain. All12app/driverPIDs absent,0cores, sharedcachegrowth0; streams consumed45509789bytes. Retained UI20diagnostics7579132bytes, with filtered setter events and selected states rather than duplicate per-frame snapshots. Currentraw897774108bytes/free1708186640384bytes, below1GiB. Cleanup receipts are linked from acceptance. All budgets closed/no livejob.
+
+Earlier verified UI01/UI02/UI08/UI09/UI19 evidence remains valid. GPUReplay is explicitly unsupported, not a player implementation. Keep the76546-byte64-frame and old28KB recording fixtures for final compatibility. Preserve selected before/after media/minimal inputs; never stage raw/. Current objects/viewers remain only for subsequent repairs/final qualification.
+
+## Next actions
+
+Continue one cause at a time. NextUI04: CPUProfile labels clip because the section column is fixed8font units despite tree indentation/arrow/text. ReadUI04.md, navigation/metrics evidence and sample.cpp profile table. Trace the actual text extent/indent/column clip first, then repair the generated native sample copy without modifyingBox3D. Verify actual expanded labels/plots/resize/interaction on realCPU; GPU/combinedProfile uses separate native timestamps and is explicitly unaffected. Freeze finite trace/build/check/capture/storage limits first. Use current ui20-build.json/link_plan and retain required objects.
+
+Then remainingUI03–UI29 repairs and OBS01/OBS02 triage. No unchanged GTK/cold/general-mesh/core/solver retries. PR11queries/PR02category/RainPR04 remain separate. FinalPR10criterion audit/native+WASM compatibility/applicable pre-commit scene recordings remain open. No newPR10commit/push authorization. Continue active goal untilPR10complete, then stop.
+
+FinalUI20recoverycheck: diff--checkPASS/Box3Dsubmoduleclean; ui20-build.json/link_plan verifiedcurrent. UI04sourcepreflight confirms sectionWidth8fontUnits atsample.cpp807; exacttext/indentcliptracenextundernewbudget. No livejob/nextbudget; goalACTIVE/23open6verified/full34216523reviewcomplete.
+
+UI04 trace FROZEN:1observerCPP30s/1CPUlink25s/1CPUapp60s/2captures/0physicsGPUproductioneditsretries/150souter/48MiBnewbuild/1GiBwholeRaw64MiBretained. Actual TreeNode cursor+font+spacing+CalcTextSize versus clip boundary; observer reused for repair.342widgets0left165samples0left23custom0left23open6verified.
+
+UI04 actualCPUtrace PASS:13checks/5.045s/2screens; constraintsactualtext[72,171],columnright155=16pxcut,source8*16=128px excludes indentation16+arrowspacing36+text99. Identity/pausedposes preserved. RepairFROZEN2generation10s/1CPP30s/1link25s/4preprocess10s/1CPUapp90s/4screens/240souter/48MiBnewbuild/1GiBwholeRaw64MiBretained/0physicsGPUappsretries. Dynamicwidthall22labels; exactgenerateddelta/GPUconditionalpreprocessing exclusions.342widgets0left165samples0left23custom0left23open6verified.
+
+UI04 originalrepair CLOSED at baseline-generation sourcepreflight: existing BOTH-only split_step header/drawhooks differfrom historicCPUcopy. No productionedit/compile/link/app occurred; originalfailure retained ui04-generation-preflight-failure.json. Distinct correction FROZEN: reusebaseline/verifyexactknownBOTHdelta+2CPUpreprocess equality;1generation10s/1CPP30s/1link25s/6preprocess10s/1CPUapp90s/4screens/260souter/samestoragecaps.23open6verified/full34216523reviewcomplete.
+
+UI04 generationcorrection CLOSED: CPUhistorical/currentbaseline preprocessorSHAequal; productionwidthgenerationexactdelta; GPUbefore/afterSHAequal. Combinedpreprocessor failed missingexistingVIS07candidate-observer.h include path (Jointflags omitSamplediagnosticinclude). No viewercompile/link/appyet. Distinct completionFROZEN: reuse5passedoperations+generatedrepair, addpinnedexistingVIS07include;2combinedpreprocess10s/1CPUCPP30s/link25s/app90s/4captures/210souter/samestorage/0generationGPUappsretries. Originalfailurepreserved.23open6verified/full34216523reviewcomplete.
+
+UI04 repairCPU PASS17checks/5.143s/4captures; clipright212vs171label. All6preprocessor comparisons/sourcewidth pass; oldCPU/trace/object retired15,760,466B. ActualTreeonly observer means broad submittedlabels claims cover2trees, notnativeleafcalls. Distinct read-onlyleafqualification FROZEN:1observerCPP30s/1CPUlink25s/1CPUapp60s/2screens/140souter/samestoragecaps/0productioneditsphysicsGPUappsretries. Add actualTextUnformattedrectangles, widest/deepestsubmittedleafscroll/capture; preservepriorpasses.23open6verified/full34216523reviewcomplete.
+
+UI04 closeout firstaudit stopped beforecompositions on originalcachebudget breach: trace+leaf each sharedNVIDIAcache grew583017B vs frozen0; repair0. Original receipts false flags retained. CPU physics viewer stillusesOpenGL, so 0cachegrowth assumptionwrong; attributionto thisappunproved. Sharedcachespreserved. Metadata-only adjudicationFROZEN2unlaunchedgrids8s+audit30s/50souter/0appbuildretry; resourcebreachreported separately fromfunctionalpasses, aggregateactualtemp+cachebelow1GiB. FutureCPU/GPU viewer budgets mustallow16MiBsharedcachegrowth.23open6verified/full34216523reviewcomplete.

@@ -1,0 +1,62 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "mesh-remaining-controls-budget.json",
+  "runs": [
+    {
+      "route": "ordinary-gpu",
+      "fixture": "grid",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 4
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "big-box",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 4
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "grid",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 4
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "big-box",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 4
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "grid",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 2
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "big-box",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 2
+    },
+    {
+      "route": "native-both",
+      "fixture": "grid",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 2
+    },
+    {
+      "route": "native-both",
+      "fixture": "big-box",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 2
+    }
+  ]
+}

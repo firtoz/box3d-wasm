@@ -1,0 +1,1959 @@
+{
+  "status": "UI03_CONFIRMED_UNFIXED",
+  "routes": [
+    {
+      "label": "cpu",
+      "checks": {
+        "initial Bounds/Mass disabled": true,
+        "Bounds input reaches drawing": true,
+        "Bounds CPU emits callback": true,
+        "Bounds restored": true,
+        "Mass input reaches drawing": true,
+        "Mass CPU emits callback": true,
+        "Mass restored": true,
+        "clean quit": true
+      },
+      "output_cases": [
+        {
+          "control": "Bounds",
+          "actual_draw_flags": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              0
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 1,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          },
+          "callback_outputs": [
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            }
+          ],
+          "actual_gpu_outputs": [],
+          "all_recorded_output_count": 38,
+          "scene_state": {
+            "frame": 69,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 7,
+            "submitted": 7,
+            "completed": 7,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        },
+        {
+          "control": "Mass",
+          "actual_draw_flags": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              0
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 1,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          },
+          "callback_outputs": [
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                0
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            }
+          ],
+          "actual_gpu_outputs": [],
+          "all_recorded_output_count": 40,
+          "scene_state": {
+            "frame": 155,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 7,
+            "submitted": 7,
+            "completed": 7,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        }
+      ],
+      "elapsed_seconds": 3.987266105017625,
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "ordinary-gpu",
+      "checks": {
+        "initial Bounds/Mass disabled": true,
+        "Bounds input reaches drawing": true,
+        "Bounds GPU missing callback demonstrated": true,
+        "Bounds restored": true,
+        "Mass input reaches drawing": true,
+        "Mass GPU missing callback demonstrated": true,
+        "Mass restored": true,
+        "clean quit": true
+      },
+      "output_cases": [
+        {
+          "control": "Bounds",
+          "actual_draw_flags": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 1,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          },
+          "callback_outputs": [
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            }
+          ],
+          "actual_gpu_outputs": [],
+          "all_recorded_output_count": 36,
+          "scene_state": {
+            "frame": 63,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 7,
+            "submitted": 7,
+            "completed": 7,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              7.05499721e-12,
+              0.499933809,
+              -5.00360864e-12
+            ],
+            "fell_asleep": 0
+          }
+        },
+        {
+          "control": "Mass",
+          "actual_draw_flags": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 1,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          },
+          "callback_outputs": [
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            }
+          ],
+          "actual_gpu_outputs": [],
+          "all_recorded_output_count": 38,
+          "scene_state": {
+            "frame": 146,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 7,
+            "submitted": 7,
+            "completed": 7,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              7.05499721e-12,
+              0.499933809,
+              -5.00360864e-12
+            ],
+            "fell_asleep": 0
+          }
+        }
+      ],
+      "elapsed_seconds": 5.1817924849747214,
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "native-gpu",
+      "checks": {
+        "initial Bounds/Mass disabled": true,
+        "Bounds input reaches drawing": true,
+        "Bounds GPU missing callback demonstrated": true,
+        "Bounds restored": true,
+        "Mass input reaches drawing": true,
+        "Mass GPU missing callback demonstrated": true,
+        "Mass restored": true,
+        "clean quit": true
+      },
+      "output_cases": [
+        {
+          "control": "Bounds",
+          "actual_draw_flags": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 1,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          },
+          "callback_outputs": [
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            }
+          ],
+          "actual_gpu_outputs": [],
+          "all_recorded_output_count": 39,
+          "scene_state": {
+            "frame": 67,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 8,
+            "submitted": 8,
+            "completed": 8,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              2.77827553e-11,
+              0.49993217,
+              -7.40009269e-12
+            ],
+            "fell_asleep": 0
+          }
+        },
+        {
+          "control": "Mass",
+          "actual_draw_flags": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 1,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          },
+          "callback_outputs": [
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            }
+          ],
+          "actual_gpu_outputs": [],
+          "all_recorded_output_count": 41,
+          "scene_state": {
+            "frame": 155,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 8,
+            "submitted": 8,
+            "completed": 8,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              2.77827553e-11,
+              0.49993217,
+              -7.40009269e-12
+            ],
+            "fell_asleep": 0
+          }
+        }
+      ],
+      "elapsed_seconds": 5.292857118998654,
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "ordinary-both",
+      "checks": {
+        "initial Bounds/Mass disabled": true,
+        "Bounds input reaches drawing": true,
+        "Bounds combined CPU emits callback": true,
+        "Bounds combined GPU missing callback demonstrated": true,
+        "Bounds restored": true,
+        "Mass input reaches drawing": true,
+        "Mass combined CPU emits callback": true,
+        "Mass combined GPU missing callback demonstrated": true,
+        "Mass restored": true,
+        "clean quit": true
+      },
+      "output_cases": [
+        {
+          "control": "Bounds",
+          "actual_draw_flags": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 1,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          },
+          "callback_outputs": [
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            }
+          ],
+          "actual_gpu_outputs": [
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            }
+          ],
+          "all_recorded_output_count": 37,
+          "scene_state": {
+            "frame": 66,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 8,
+            "submitted": 8,
+            "completed": 8,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              2.77827553e-11,
+              0.49993217,
+              -7.40009269e-12
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "control": "Mass",
+          "actual_draw_flags": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 1,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          },
+          "callback_outputs": [
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            }
+          ],
+          "actual_gpu_outputs": [
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            }
+          ],
+          "all_recorded_output_count": 38,
+          "scene_state": {
+            "frame": 156,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 8,
+            "submitted": 8,
+            "completed": 8,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              2.77827553e-11,
+              0.49993217,
+              -7.40009269e-12
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 5.265413282002555,
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "native-both",
+      "checks": {
+        "initial Bounds/Mass disabled": true,
+        "Bounds input reaches drawing": true,
+        "Bounds combined CPU emits callback": true,
+        "Bounds combined GPU missing callback demonstrated": true,
+        "Bounds restored": true,
+        "Mass input reaches drawing": true,
+        "Mass combined CPU emits callback": true,
+        "Mass combined GPU missing callback demonstrated": true,
+        "Mass restored": true,
+        "clean quit": true
+      },
+      "output_cases": [
+        {
+          "control": "Bounds",
+          "actual_draw_flags": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 1,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          },
+          "callback_outputs": [
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 2,
+              "transform_callbacks": 0
+            }
+          ],
+          "actual_gpu_outputs": [
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            }
+          ],
+          "all_recorded_output_count": 38,
+          "scene_state": {
+            "frame": 65,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 7,
+            "submitted": 7,
+            "completed": 7,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              7.05499721e-12,
+              0.499933809,
+              -5.00360864e-12
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        {
+          "control": "Mass",
+          "actual_draw_flags": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 1,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          },
+          "callback_outputs": [
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            },
+            {
+              "api": "actual_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 2
+            }
+          ],
+          "actual_gpu_outputs": [
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            },
+            {
+              "api": "actual_gpu_draw_outputs",
+              "world": [
+                1,
+                1
+              ],
+              "bounds_callbacks": 0,
+              "transform_callbacks": 0
+            }
+          ],
+          "all_recorded_output_count": 38,
+          "scene_state": {
+            "frame": 149,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 7,
+            "submitted": 7,
+            "completed": 7,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              7.05499721e-12,
+              0.499933809,
+              -5.00360864e-12
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      ],
+      "elapsed_seconds": 5.148377153003821,
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    }
+  ],
+  "source_scope": "gpu_samples_world_draw sharednativeGPUdraw ignoresalloverlayflags exceptdrawShapes. ActualoutputconfirmedBounds/Massonly; otheroverlaysrequireapplicablefixtures/explicitreview.",
+  "limits": "No repair oraftercapture. 20beforeoriginalscreens; all5routes realCPUfirst. Fullsample reviews0complete165remaining.",
+  "source_sha256": "20aac34949c7ea2d48c9ec495480ff1bc61b725ca2d33eda616ef9e99a043388",
+  "checks": 44
+}

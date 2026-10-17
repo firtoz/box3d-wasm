@@ -1,0 +1,44 @@
+{
+  "status": "FROZEN",
+  "cpp_compiles": 1,
+  "compile_seconds": 30,
+  "links": 1,
+  "link_seconds": 25,
+  "viewers": 1,
+  "seconds_per_app": 45,
+  "screenshots_per_app": 1,
+  "actions_per_app": 50,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 12582912,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 25165824,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 125,
+  "raw_before_bytes": 900635478,
+  "pins_before": {
+    "generator": "c0fee43c2a69f3f51df0ad9395b1553bbe740ccbb89ad476846a16932abc8d78",
+    "split_generator": "5e7a7a4eedf657177168d2f18168118e963221843a40eb33c88e33e2c2b24933",
+    "native_sample": "4b0de896d159fd6cf4528c2f4b906ddc527314ee85cb3b823351fc91e1d3b3a6",
+    "gui": "dae46c68a2edb0c26c55d7d60eff1d5074182670a335a1597d634c2812f443ae",
+    "text_header": "b487f63ffd8bca8249b706ba1156829413adf88ee4ad2a06cdc0cb12febef6a3",
+    "observer": "23196a7b94d7baf3c205d3450531963ca24b67edc9b5cca1091d283f94def09d"
+  },
+  "scope": "Distinct diagnostic-only UIframe clock repair: flush uses actualImGuiFrameCount and clears staleitems when no widgets. ReuseHUDobserver.o;1newUIobserverCPP30s/1CPUlink25s/app45s/1beforecapture/125souter. Actual HUD boundary inputs already retained; no productedit/GPUapps/advancingphysics/retries.",
+  "outputs": [
+    {
+      "path": "raw/ui05-build",
+      "consumer": "HUDobserver.o for repair5routes; traceCPU binary until beforeevidenceconsumed",
+      "delete": "RetiretraceCPU after repairedCPU qualification;retain HUDobserver withnext-relinkconsumer"
+    },
+    {
+      "path": "raw/ui05-trace-runs",
+      "consumer": "Selectedactualfinalscreenlabelinputs/bounds+before screenshot",
+      "delete": "Consume API/observer/stderr after terminal app; retain compact receipt/image"
+    }
+  ]
+}

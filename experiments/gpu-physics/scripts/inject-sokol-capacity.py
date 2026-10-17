@@ -14,6 +14,8 @@ def generate(src, dst):
             continue
         text = path.read_text()
         if path.name == 'debug_adapter.c':
+            # Body type can change while retained shape/body IDs stay stable.
+            text = replace(text, "\tDebugShape* us = (DebugShape*)userShape;\n\n\tRefreshMaterialFromOverride( us );", "\tDebugShape* us = (DebugShape*)userShape;\n\n\t// Type mutations preserve body identity but change transparency and defaults.\n\tus->bodyType = b3Body_GetType( us->bodyId );\n\tRefreshMaterialFromOverride( us );")
             text = '#include <limits.h>\n#include "../c_abi/growable_slots.h"\n' + text
             text = replace(text, '#define BOX3D_USER_SHAPE_CAPACITY 65536', '#define BOX3D_USER_SHAPE_CAPACITY (sample_renderer_capacity())')
             text = replace(text, 'DebugShape pool[BOX3D_USER_SHAPE_CAPACITY];', 'GpuSlots pool;\n    int poolCapacity;')
@@ -69,6 +71,9 @@ void sample_renderer_release_adapter(void)
     s_adapter.firstFree = BOX3D_FREELIST_END;
 }
 '''
+        elif path.name == 'draw.c':
+            # Geometry editors can temporarily produce a null solid hull.
+            text = replace(text, "void DrawHull( b3WorldTransform transform, const b3HullData* hull, Vec4 color )\n{", "void DrawHull( b3WorldTransform transform, const b3HullData* hull, Vec4 color )\n{\n\t// Geometry tools may temporarily produce no solid hull while editing.\n\tif ( hull == NULL )\n\t{\n\t\treturn;\n\t}")
         elif path.name == 'renderer.c':
             text = replace(text, '#define SHAPE_CAPACITY 65536', '#define SHAPE_CAPACITY (sample_renderer_capacity())\nstatic uint64_t sample_uploaded_instances;\nuint64_t sample_renderer_instance_count(void) { return sample_uploaded_instances; }')
             text = replace(text, '\tUploadMeshInstances();', '''    sample_uploaded_instances = (uint64_t)UploadMeshInstances()

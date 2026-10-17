@@ -1,0 +1,14 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 1306749,
+  "raw_retained_bytes": 872874706,
+  "deleted_bytes": 4972303,
+  "owned_pids_absent": [
+    3146737,
+    3146592
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708260524032,
+  "consumer": "10actualCPUquerywidgets/originalimmediatetextpredicate/nativechangehistory retained; GPUloadedplayerunsupportedreuse."
+}

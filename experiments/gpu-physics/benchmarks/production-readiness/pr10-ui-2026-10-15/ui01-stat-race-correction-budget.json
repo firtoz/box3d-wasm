@@ -1,0 +1,15 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "cause": "is_file\u2192stat raced atomic ui.json.tmp rename; originalordinaryboth16checks/6screens retained, appreaped. Accounting nowuses one stat and skips vanishedfiles.",
+  "old_driver_sha256": "546affe06364bee0fffbf5a8b1649ff2461efcb6c56f30babecaeb73d0064e76",
+  "corrected_ordinary_both_apps": 1,
+  "first_native_both_apps": 1,
+  "other_CPU_GPU_repeats": 0,
+  "new_builds": 0,
+  "per_app_seconds": 180,
+  "ready_seconds": 90,
+  "maxactions": 60,
+  "maxscreens": 9,
+  "implicit_retries": 0,
+  "storage_caps_unchanged": true
+}

@@ -1,0 +1,64 @@
+{
+  "status": "FROZEN",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "cpp_compiles": 0,
+  "compile_seconds": 30,
+  "links": 0,
+  "link_seconds": 25,
+  "generations": 0,
+  "generation_seconds": 10,
+  "viewers": 5,
+  "seconds_per_app": 75,
+  "screenshots_per_app": 4,
+  "actions_per_app": 180,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 16777216,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 400,
+  "compositions": 2,
+  "seconds_per_composition": 8,
+  "raw_before_bytes": 1047377215,
+  "source_pins_before": {
+    "box3d/samples/sample_joint.cpp": "6c8ac1603b4418b785e4055415d51ed31f09c759cfbc8c865a24d6353a78d592",
+    "experiments/gpu-physics/scripts/inject-sokol-bench.py": "1f4bc5c641ab549d29313edf8d63fa1c5d9eb8aafc32e9b212fb1b1652eef9dd",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/sample_joint_bench.cpp": "3f0f86a4b35e75689ac3f5a9c57ae0196997b58ba175163e42b2fc859b69df61",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/sample_joint_bench.cpp": "3f0f86a4b35e75689ac3f5a9c57ae0196997b58ba175163e42b2fc859b69df61",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake/sample_joint_bench.cpp": "3f0f86a4b35e75689ac3f5a9c57ae0196997b58ba175163e42b2fc859b69df61",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/sample_joint_bench.cpp": "3f0f86a4b35e75689ac3f5a9c57ae0196997b58ba175163e42b2fc859b69df61",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/sample_joint_bench.cpp": "3f0f86a4b35e75689ac3f5a9c57ae0196997b58ba175163e42b2fc859b69df61"
+  },
+  "joint_sources": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/sample_joint_bench.cpp",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/sample_joint_bench.cpp",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake/sample_joint_bench.cpp",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/sample_joint_bench.cpp",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/sample_joint_bench.cpp"
+  ],
+  "scope": "Reuseall6actualCPUWheeldampingtransitions+enableflags/wake/ID/pose/resetpasses and3captures. CPUDrivingonly followupcorrectskindfilter(frontWheelonly,Parallelpreserved). FourGPUfullWheel+Drivingfirstattempt. No product/buildchanges/steps/retry. OriginalParallelmiscountandCPUreceiptsretained.",
+  "outputs": [
+    {
+      "path": "raw/ui19-build",
+      "consumer": "UI19all5checks/currentpoolfornextPR10repairs",
+      "delete": "Threeobjects/unrelatedgeneratedmainafterlinkqualification;oldcurrentpoolafterreplacementchecks;newviewersafterreplacement/finalqualification"
+    },
+    {
+      "path": "raw/ui19-runs",
+      "consumer": "Actualsetterinput/getter/unchangedsuspension/bodyidentity/wake/restartandDrivingregression/screens",
+      "delete": "Consume3streamsaftereachterminalapp;keepselectedsmallstates/images"
+    }
+  ],
+  "builds": 0
+}

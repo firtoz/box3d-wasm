@@ -1,0 +1,43 @@
+{
+  "status": "FAILURE_RETAINED",
+  "runs": [
+    {
+      "phase": "before",
+      "label": "native-gpu",
+      "exit": 0,
+      "seconds": 3.2204979349917267
+    },
+    {
+      "phase": "before",
+      "label": "ordinary-both",
+      "exit": 0,
+      "seconds": 3.0698157329752576
+    },
+    {
+      "phase": "before",
+      "label": "native-both",
+      "exit": 0,
+      "seconds": 3.1699981600104365
+    },
+    {
+      "phase": "after",
+      "label": "cpu",
+      "exit": 0,
+      "seconds": 2.97042761000921
+    },
+    {
+      "phase": "after",
+      "label": "ordinary-gpu",
+      "exit": 0,
+      "seconds": 4.3223774610087276
+    },
+    {
+      "phase": "after",
+      "label": "native-gpu",
+      "exit": 1,
+      "seconds": 2.4185266379790846
+    }
+  ],
+  "error": "AssertionError(('after', 'native-gpu', 1))",
+  "seconds": 19.172949964005966
+}

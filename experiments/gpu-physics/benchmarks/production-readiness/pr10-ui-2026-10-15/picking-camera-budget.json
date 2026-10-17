@@ -1,0 +1,24 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "builds": 0,
+  "apps_CPUfirst": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 240,
+  "ready_seconds": 25,
+  "first_drag_step_or_scene_transition_seconds": 90,
+  "screens_each": 8,
+  "actions_each": 160,
+  "api_cap_each": 33554432,
+  "temporary_cap": 1073741824,
+  "retained_cap": 67108864,
+  "shared_cache_growth_cap": 134217728,
+  "retries": 0,
+  "scope": "Actual SingleBox selection/staticground/empty/Escape/F, Ctrlmouse motor drag andownbodymovement/identity, world/panel/focus-loss release, bothpane capture acrossdivider, orbit/pan/dolly/flyWASDQE andkeyreleaseunderactualUItextcapture. Sourcegeometry/defaults preserved, no crossenginetrajectory/pixel gate orsolverrepair. Newissuesloggedonly.",
+  "outputs": "Current5overlaycallbackviewers reused. Selected metadata/setter/callback/state/capturewindows andscreens retained; fullstreamsextractedthendeleted. Allheldmousebuttons/keysreleased in finally onfailure; appprocessgroupterminated. One currentpoolonly.",
+  "driver_sha256": "72cbfe3cc98122f78eec38059da8a81e4ef3944777f79dd51545b2dd920793a1"
+}

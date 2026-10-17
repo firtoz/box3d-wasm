@@ -1,0 +1,20 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 1645569,
+  "raw_retained_bytes": 857678962,
+  "deleted_bytes": 4077351,
+  "owned_pids_absent": [
+    3016929,
+    3016913,
+    3017273,
+    3017257,
+    3017705,
+    3017689,
+    3018169,
+    3018146
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708318498816,
+  "consumer": "Distinctheldinputfailures retained; no unchanged retry. Current observer pool for remaining controls."
+}

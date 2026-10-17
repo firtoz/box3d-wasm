@@ -1,0 +1,23 @@
+{
+  "status": "FROZEN_BEFORE_CLEANUP",
+  "seconds": 60,
+  "retained_bytes": 67108864,
+  "git_stage_seconds": 120,
+  "git_commit_seconds": 90,
+  "git_push_seconds": 300,
+  "git_checks_seconds": 30,
+  "paths": [
+    "publication-media",
+    "publication.ts",
+    "publication-budget.json",
+    "publication-receipt.json",
+    "publication-review.ts",
+    "publication-review-budget.json",
+    "publication-review.json",
+    "publication-pack.ts",
+    "publication-pack-budget.json",
+    "raw/publication-review",
+    "raw/publication"
+  ],
+  "scope": "User removed mandatory recording/comparison commit gate2026-10-17. Remove only newly generated publication clips/sheets/orchestrators/scratch; retain existing verified repairs, original before/after evidence and portable media mapping. No new viewer/build/capture. Commit/push verified PR10 and revised guidance."
+}

@@ -1,0 +1,44 @@
+{
+  "status": "FROZEN",
+  "builds": 0,
+  "viewers": 5,
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "popup"
+  ],
+  "seconds_per_app": 60,
+  "screenshots_per_app": 3,
+  "actions_per_app": 120,
+  "physics_steps": 0,
+  "replay_recorded_steps_per_CPU_app": 64,
+  "retries": 0,
+  "api_bytes_per_app": 16777216,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 134217728,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 360,
+  "scope": "3previouslyunreviewedReplaypopupwidgetsMemorybudget/Mininterval/Cancel all5routes. ActualGTKfilechoice, deferrededits/cancel/persistedrestore, CPUactualpolicy/player/64framepregen.4GPUunsupported/UI09explicit, no fakeplayerfeaturepass. PriorLoadbasicbuttonnotrequalifiedasnewwidget.0liveworldphysics/enginechanges/retries.",
+  "closeout": {
+    "compositions": 1,
+    "seconds_per_composition": 8,
+    "total_seconds": 25,
+    "apps": 0,
+    "builds": 0
+  },
+  "outputs": [
+    {
+      "path": "raw/replay-popup-runs",
+      "consumer": "Actualpopup/policy/cancel/unsupported evidence andCPUfirstscreens",
+      "delete": "Consume streams perterminalapp, retaincompactstates/screens; retireoldCPUbinary/objectafternewCPUqualifies"
+    }
+  ]
+}

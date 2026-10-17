@@ -1,0 +1,4347 @@
+{
+  "status": "PASS_ROUTING_ONLY_OUTPUT_QUALIFICATION_OPEN",
+  "routes": [
+    {
+      "label": "cpu",
+      "checks": {
+        "menu pause stable": true,
+        "menu single step exact": true,
+        "menu restart new world": true,
+        "Shapes UI initial state": true,
+        "Shapes actual draw changed": true,
+        "Shapes UI changed state": true,
+        "Shapes actual draw restored": true,
+        "Joints UI initial state": true,
+        "Joints actual draw changed": true,
+        "Joints UI changed state": true,
+        "Joints actual draw restored": true,
+        "Joint Extras UI initial state": true,
+        "Joint Extras actual draw changed": true,
+        "Joint Extras UI changed state": true,
+        "Joint Extras actual draw restored": true,
+        "Bounds UI initial state": true,
+        "Bounds actual draw changed": true,
+        "Bounds UI changed state": true,
+        "Bounds actual draw restored": true,
+        "Mass UI initial state": true,
+        "Mass actual draw changed": true,
+        "Mass UI changed state": true,
+        "Mass actual draw restored": true,
+        "Sleep UI initial state": true,
+        "Sleep actual draw changed": true,
+        "Sleep UI changed state": true,
+        "Sleep actual draw restored": true,
+        "Body Names UI initial state": true,
+        "Body Names actual draw changed": true,
+        "Body Names UI changed state": true,
+        "Body Names actual draw restored": true,
+        "Graph Colors UI initial state": true,
+        "Graph Colors actual draw changed": true,
+        "Graph Colors UI changed state": true,
+        "Graph Colors actual draw restored": true,
+        "Islands UI initial state": true,
+        "Islands actual draw changed": true,
+        "Islands UI changed state": true,
+        "Islands actual draw restored": true,
+        "Contact Points UI initial state": true,
+        "Contact Points actual draw changed": true,
+        "Contact Points UI changed state": true,
+        "Contact Points actual draw restored": true,
+        "Contact Normals UI initial state": true,
+        "Contact Normals actual draw changed": true,
+        "Contact Normals UI changed state": true,
+        "Contact Normals actual draw restored": true,
+        "Contact Features UI initial state": true,
+        "Contact Features actual draw changed": true,
+        "Contact Features UI changed state": true,
+        "Contact Features actual draw restored": true,
+        "Contact Forces UI initial state": true,
+        "Contact Forces actual draw changed": true,
+        "Contact Forces UI changed state": true,
+        "Contact Forces actual draw restored": true,
+        "anchor actual draw changed": true,
+        "anchor actual draw restored": true,
+        "diagnostics menu opens metrics": true,
+        "diagnostics restores": true,
+        "all draw defaults restored": true,
+        "menu quit clean": true
+      },
+      "initial_draw_flags": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          1
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 0,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "final_draw_flags": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          1
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 0,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "toggle_proofs": [
+        {
+          "item": "Shapes",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 0,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Shapes",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joints",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 1,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joints",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joint Extras",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 1,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joint Extras",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Bounds",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 1,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Bounds",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Mass",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 1,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Mass",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Sleep",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 1,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Sleep",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Body Names",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 1,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Body Names",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Graph Colors",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 1,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Graph Colors",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Islands",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 1,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Islands",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Points",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 1,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Points",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Normals",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 1,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Normals",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Features",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 1,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Features",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Forces",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 1,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Forces",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              1
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        }
+      ],
+      "anchor_changed": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          1
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 1,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "elapsed_seconds": 23.671521374984877,
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067192904
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067193322
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "ordinary-gpu",
+      "checks": {
+        "menu pause stable": true,
+        "menu single step exact": true,
+        "menu restart new world": true,
+        "Shapes UI initial state": true,
+        "Shapes actual draw changed": true,
+        "Shapes UI changed state": true,
+        "Shapes actual draw restored": true,
+        "Joints UI initial state": true,
+        "Joints actual draw changed": true,
+        "Joints UI changed state": true,
+        "Joints actual draw restored": true,
+        "Joint Extras UI initial state": true,
+        "Joint Extras actual draw changed": true,
+        "Joint Extras UI changed state": true,
+        "Joint Extras actual draw restored": true,
+        "Bounds UI initial state": true,
+        "Bounds actual draw changed": true,
+        "Bounds UI changed state": true,
+        "Bounds actual draw restored": true,
+        "Mass UI initial state": true,
+        "Mass actual draw changed": true,
+        "Mass UI changed state": true,
+        "Mass actual draw restored": true,
+        "Sleep UI initial state": true,
+        "Sleep actual draw changed": true,
+        "Sleep UI changed state": true,
+        "Sleep actual draw restored": true,
+        "Body Names UI initial state": true,
+        "Body Names actual draw changed": true,
+        "Body Names UI changed state": true,
+        "Body Names actual draw restored": true,
+        "Graph Colors UI initial state": true,
+        "Graph Colors actual draw changed": true,
+        "Graph Colors UI changed state": true,
+        "Graph Colors actual draw restored": true,
+        "Islands UI initial state": true,
+        "Islands actual draw changed": true,
+        "Islands UI changed state": true,
+        "Islands actual draw restored": true,
+        "Contact Points UI initial state": true,
+        "Contact Points actual draw changed": true,
+        "Contact Points UI changed state": true,
+        "Contact Points actual draw restored": true,
+        "Contact Normals UI initial state": true,
+        "Contact Normals actual draw changed": true,
+        "Contact Normals UI changed state": true,
+        "Contact Normals actual draw restored": true,
+        "Contact Features UI initial state": true,
+        "Contact Features actual draw changed": true,
+        "Contact Features UI changed state": true,
+        "Contact Features actual draw restored": true,
+        "Contact Forces UI initial state": true,
+        "Contact Forces actual draw changed": true,
+        "Contact Forces UI changed state": true,
+        "Contact Forces actual draw restored": true,
+        "anchor actual draw changed": true,
+        "anchor actual draw restored": true,
+        "diagnostics menu opens metrics": true,
+        "diagnostics restores": true,
+        "all draw defaults restored": true,
+        "menu quit clean": true
+      },
+      "initial_draw_flags": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          2
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 0,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "final_draw_flags": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          2
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 0,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "toggle_proofs": [
+        {
+          "item": "Shapes",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 0,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Shapes",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joints",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 1,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joints",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joint Extras",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 1,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joint Extras",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Bounds",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 1,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Bounds",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Mass",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 1,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Mass",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Sleep",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 1,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Sleep",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Body Names",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 1,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Body Names",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Graph Colors",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 1,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Graph Colors",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Islands",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 1,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Islands",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Points",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 1,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Points",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Normals",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 1,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Normals",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Features",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 1,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Features",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Forces",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 1,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Forces",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        }
+      ],
+      "anchor_changed": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          2
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 1,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "elapsed_seconds": 25.620514715003083,
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067193322
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067193740
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "native-gpu",
+      "checks": {
+        "menu pause stable": true,
+        "menu single step exact": true,
+        "menu restart new world": true,
+        "Shapes UI initial state": true,
+        "Shapes actual draw changed": true,
+        "Shapes UI changed state": true,
+        "Shapes actual draw restored": true,
+        "Joints UI initial state": true,
+        "Joints actual draw changed": true,
+        "Joints UI changed state": true,
+        "Joints actual draw restored": true,
+        "Joint Extras UI initial state": true,
+        "Joint Extras actual draw changed": true,
+        "Joint Extras UI changed state": true,
+        "Joint Extras actual draw restored": true,
+        "Bounds UI initial state": true,
+        "Bounds actual draw changed": true,
+        "Bounds UI changed state": true,
+        "Bounds actual draw restored": true,
+        "Mass UI initial state": true,
+        "Mass actual draw changed": true,
+        "Mass UI changed state": true,
+        "Mass actual draw restored": true,
+        "Sleep UI initial state": true,
+        "Sleep actual draw changed": true,
+        "Sleep UI changed state": true,
+        "Sleep actual draw restored": true,
+        "Body Names UI initial state": true,
+        "Body Names actual draw changed": true,
+        "Body Names UI changed state": true,
+        "Body Names actual draw restored": true,
+        "Graph Colors UI initial state": true,
+        "Graph Colors actual draw changed": true,
+        "Graph Colors UI changed state": true,
+        "Graph Colors actual draw restored": true,
+        "Islands UI initial state": true,
+        "Islands actual draw changed": true,
+        "Islands UI changed state": true,
+        "Islands actual draw restored": true,
+        "Contact Points UI initial state": true,
+        "Contact Points actual draw changed": true,
+        "Contact Points UI changed state": true,
+        "Contact Points actual draw restored": true,
+        "Contact Normals UI initial state": true,
+        "Contact Normals actual draw changed": true,
+        "Contact Normals UI changed state": true,
+        "Contact Normals actual draw restored": true,
+        "Contact Features UI initial state": true,
+        "Contact Features actual draw changed": true,
+        "Contact Features UI changed state": true,
+        "Contact Features actual draw restored": true,
+        "Contact Forces UI initial state": true,
+        "Contact Forces actual draw changed": true,
+        "Contact Forces UI changed state": true,
+        "Contact Forces actual draw restored": true,
+        "anchor actual draw changed": true,
+        "anchor actual draw restored": true,
+        "diagnostics menu opens metrics": true,
+        "diagnostics restores": true,
+        "all draw defaults restored": true,
+        "menu quit clean": true
+      },
+      "initial_draw_flags": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          2
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 0,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "final_draw_flags": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          2
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 0,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "toggle_proofs": [
+        {
+          "item": "Shapes",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 0,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Shapes",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joints",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 1,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joints",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joint Extras",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 1,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joint Extras",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Bounds",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 1,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Bounds",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Mass",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 1,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Mass",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Sleep",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 1,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Sleep",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Body Names",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 1,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Body Names",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Graph Colors",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 1,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Graph Colors",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Islands",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 1,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Islands",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Points",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 1,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Points",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Normals",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 1,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Normals",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Features",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 1,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Features",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Forces",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 1,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Forces",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        }
+      ],
+      "anchor_changed": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          2
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 1,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "elapsed_seconds": 25.19084236799972,
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067193740
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067194158
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "ordinary-both",
+      "checks": {
+        "menu pause stable": true,
+        "menu single step exact": true,
+        "menu restart new world": true,
+        "Shapes UI initial state": true,
+        "Shapes actual draw changed": true,
+        "Shapes UI changed state": true,
+        "Shapes actual draw restored": true,
+        "Joints UI initial state": true,
+        "Joints actual draw changed": true,
+        "Joints UI changed state": true,
+        "Joints actual draw restored": true,
+        "Joint Extras UI initial state": true,
+        "Joint Extras actual draw changed": true,
+        "Joint Extras UI changed state": true,
+        "Joint Extras actual draw restored": true,
+        "Bounds UI initial state": true,
+        "Bounds actual draw changed": true,
+        "Bounds UI changed state": true,
+        "Bounds actual draw restored": true,
+        "Mass UI initial state": true,
+        "Mass actual draw changed": true,
+        "Mass UI changed state": true,
+        "Mass actual draw restored": true,
+        "Sleep UI initial state": true,
+        "Sleep actual draw changed": true,
+        "Sleep UI changed state": true,
+        "Sleep actual draw restored": true,
+        "Body Names UI initial state": true,
+        "Body Names actual draw changed": true,
+        "Body Names UI changed state": true,
+        "Body Names actual draw restored": true,
+        "Graph Colors UI initial state": true,
+        "Graph Colors actual draw changed": true,
+        "Graph Colors UI changed state": true,
+        "Graph Colors actual draw restored": true,
+        "Islands UI initial state": true,
+        "Islands actual draw changed": true,
+        "Islands UI changed state": true,
+        "Islands actual draw restored": true,
+        "Contact Points UI initial state": true,
+        "Contact Points actual draw changed": true,
+        "Contact Points UI changed state": true,
+        "Contact Points actual draw restored": true,
+        "Contact Normals UI initial state": true,
+        "Contact Normals actual draw changed": true,
+        "Contact Normals UI changed state": true,
+        "Contact Normals actual draw restored": true,
+        "Contact Features UI initial state": true,
+        "Contact Features actual draw changed": true,
+        "Contact Features UI changed state": true,
+        "Contact Features actual draw restored": true,
+        "Contact Forces UI initial state": true,
+        "Contact Forces actual draw changed": true,
+        "Contact Forces UI changed state": true,
+        "Contact Forces actual draw restored": true,
+        "anchor actual draw changed": true,
+        "anchor actual draw restored": true,
+        "diagnostics menu opens metrics": true,
+        "diagnostics restores": true,
+        "all draw defaults restored": true,
+        "menu quit clean": true
+      },
+      "initial_draw_flags": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          2
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 0,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "final_draw_flags": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          2
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 0,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "toggle_proofs": [
+        {
+          "item": "Shapes",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 0,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Shapes",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joints",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 1,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joints",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joint Extras",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 1,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joint Extras",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Bounds",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 1,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Bounds",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Mass",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 1,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Mass",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Sleep",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 1,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Sleep",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Body Names",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 1,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Body Names",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Graph Colors",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 1,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Graph Colors",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Islands",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 1,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Islands",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Points",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 1,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Points",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Normals",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 1,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Normals",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Features",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 1,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Features",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Forces",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 1,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Forces",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        }
+      ],
+      "anchor_changed": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          2
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 1,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "elapsed_seconds": 28.78028753300896,
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067194158
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067194975
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    },
+    {
+      "label": "native-both",
+      "checks": {
+        "menu pause stable": true,
+        "menu single step exact": true,
+        "menu restart new world": true,
+        "Shapes UI initial state": true,
+        "Shapes actual draw changed": true,
+        "Shapes UI changed state": true,
+        "Shapes actual draw restored": true,
+        "Joints UI initial state": true,
+        "Joints actual draw changed": true,
+        "Joints UI changed state": true,
+        "Joints actual draw restored": true,
+        "Joint Extras UI initial state": true,
+        "Joint Extras actual draw changed": true,
+        "Joint Extras UI changed state": true,
+        "Joint Extras actual draw restored": true,
+        "Bounds UI initial state": true,
+        "Bounds actual draw changed": true,
+        "Bounds UI changed state": true,
+        "Bounds actual draw restored": true,
+        "Mass UI initial state": true,
+        "Mass actual draw changed": true,
+        "Mass UI changed state": true,
+        "Mass actual draw restored": true,
+        "Sleep UI initial state": true,
+        "Sleep actual draw changed": true,
+        "Sleep UI changed state": true,
+        "Sleep actual draw restored": true,
+        "Body Names UI initial state": true,
+        "Body Names actual draw changed": true,
+        "Body Names UI changed state": true,
+        "Body Names actual draw restored": true,
+        "Graph Colors UI initial state": true,
+        "Graph Colors actual draw changed": true,
+        "Graph Colors UI changed state": true,
+        "Graph Colors actual draw restored": true,
+        "Islands UI initial state": true,
+        "Islands actual draw changed": true,
+        "Islands UI changed state": true,
+        "Islands actual draw restored": true,
+        "Contact Points UI initial state": true,
+        "Contact Points actual draw changed": true,
+        "Contact Points UI changed state": true,
+        "Contact Points actual draw restored": true,
+        "Contact Normals UI initial state": true,
+        "Contact Normals actual draw changed": true,
+        "Contact Normals UI changed state": true,
+        "Contact Normals actual draw restored": true,
+        "Contact Features UI initial state": true,
+        "Contact Features actual draw changed": true,
+        "Contact Features UI changed state": true,
+        "Contact Features actual draw restored": true,
+        "Contact Forces UI initial state": true,
+        "Contact Forces actual draw changed": true,
+        "Contact Forces UI changed state": true,
+        "Contact Forces actual draw restored": true,
+        "anchor actual draw changed": true,
+        "anchor actual draw restored": true,
+        "diagnostics menu opens metrics": true,
+        "diagnostics restores": true,
+        "all draw defaults restored": true,
+        "menu quit clean": true
+      },
+      "initial_draw_flags": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          2
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 0,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "final_draw_flags": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          2
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 0,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "toggle_proofs": [
+        {
+          "item": "Shapes",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 0,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Shapes",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joints",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 1,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joints",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joint Extras",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 1,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Joint Extras",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Bounds",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 1,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Bounds",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Mass",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 1,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Mass",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Sleep",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 1,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Sleep",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Body Names",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 1,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Body Names",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Graph Colors",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 1,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Graph Colors",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Islands",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 1,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Islands",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Points",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 1,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Points",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Normals",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 1,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Normals",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Features",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 1,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Features",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Forces",
+          "phase": "changed",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 1,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        },
+        {
+          "item": "Contact Forces",
+          "phase": "restored",
+          "actual_draw": {
+            "api": "b3World_Draw",
+            "world": [
+              1,
+              2
+            ],
+            "shapes": 1,
+            "joints": 0,
+            "extras": 0,
+            "bounds": 0,
+            "mass": 0,
+            "sleep": 0,
+            "names": 0,
+            "contacts": 0,
+            "anchorA": 0,
+            "graph": 0,
+            "features": 0,
+            "normals": 0,
+            "forces": 0,
+            "islands": 0,
+            "jointScale": 1,
+            "forceScale": 1
+          }
+        }
+      ],
+      "anchor_changed": {
+        "api": "b3World_Draw",
+        "world": [
+          1,
+          2
+        ],
+        "shapes": 1,
+        "joints": 0,
+        "extras": 0,
+        "bounds": 0,
+        "mass": 0,
+        "sleep": 0,
+        "names": 0,
+        "contacts": 0,
+        "anchorA": 1,
+        "graph": 0,
+        "features": 0,
+        "normals": 0,
+        "forces": 0,
+        "islands": 0,
+        "jointScale": 1,
+        "forceScale": 1
+      },
+      "elapsed_seconds": 27.633307194017107,
+      "shared_cache_before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067194975
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      },
+      "shared_cache_after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+          "files": 2,
+          "logical_bytes": 175791454
+        },
+        "/home/firtoz/.cache/nvidia": {
+          "files": 358,
+          "logical_bytes": 1067195792
+        },
+        "/home/firtoz/.nv/ComputeCache": {
+          "files": 0,
+          "logical_bytes": 0
+        }
+      }
+    }
+  ],
+  "limit": "61checks perroute verifymenuinput/stateandactualdrawarguments; doNOTqualifyignoredGPUoverlays. UI03 missingGPUoverlaysneedsoutputproof. Shapesbeforeaftergeometryimagesretained, allotherdebugoverlayrenderingstillopen.",
+  "checks": 305
+}

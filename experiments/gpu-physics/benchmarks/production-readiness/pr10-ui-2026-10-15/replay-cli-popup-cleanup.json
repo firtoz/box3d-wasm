@@ -1,0 +1,24 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 2763445,
+  "raw_retained_bytes": 876026561,
+  "deleted_bytes": 4033825,
+  "owned_pids_absent": [
+    3100635,
+    3100579,
+    3101088,
+    3101061,
+    3101381,
+    3101348,
+    3101854,
+    3101832,
+    3102360,
+    3102342,
+    3102897,
+    3102879
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 399,
+  "free_bytes": 1708281892864,
+  "consumer": "Actualpopup/policy/cancel/unsupported evidence. CurrentmixedpoolCPUnew/GPU4old retained for remaining26widgets."
+}

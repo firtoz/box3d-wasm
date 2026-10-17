@@ -1,0 +1,22 @@
+{
+  "status": "CLOSED",
+  "open_issues": 22,
+  "verified_fixes": 7,
+  "sample_widgets": 342,
+  "samples": 165,
+  "custom_groups": 23,
+  "remaining_review": 0,
+  "acceptance_sha256": "114da070e5b76919f50c1b62276be70d851720516bcad658d6978c999db63b75",
+  "next": "UI05hiddenHUD layout/sharedcombinedvisibility;readreport/source,freeze newfinitebudgetfirst",
+  "goal": "ACTIVE;PR10unchecked;no commitpush",
+  "current_pool": "ui04-leaf-build.json/link_plan",
+  "final_checks": {
+    "diff_check": "PASS",
+    "box3d_submodule": "CLEAN",
+    "all_link_inputs_present": true,
+    "all_current_pins_verified": true,
+    "all21_recorded_pids_absent": true,
+    "owned_cores": [],
+    "raw_bytes": 900635478
+  }
+}

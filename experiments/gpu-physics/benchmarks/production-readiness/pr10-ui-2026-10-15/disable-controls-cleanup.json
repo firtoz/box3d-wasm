@@ -1,0 +1,47 @@
+{
+  "removed": [
+    {
+      "path": "raw/disable-controls-runs/cpu/api.jsonl",
+      "bytes": 352967
+    },
+    {
+      "path": "raw/disable-controls-runs/cpu/observer.jsonl",
+      "bytes": 71002
+    },
+    {
+      "path": "raw/disable-controls-runs/ordinary-gpu/api.jsonl",
+      "bytes": 378016
+    },
+    {
+      "path": "raw/disable-controls-runs/ordinary-gpu/observer.jsonl",
+      "bytes": 83333
+    },
+    {
+      "path": "raw/disable-controls-runs/native-gpu/api.jsonl",
+      "bytes": 370955
+    },
+    {
+      "path": "raw/disable-controls-runs/native-gpu/observer.jsonl",
+      "bytes": 81537
+    },
+    {
+      "path": "raw/disable-controls-runs/ordinary-both/api.jsonl",
+      "bytes": 650413
+    },
+    {
+      "path": "raw/disable-controls-runs/ordinary-both/observer.jsonl",
+      "bytes": 93878
+    },
+    {
+      "path": "raw/disable-controls-runs/native-both/api.jsonl",
+      "bytes": 657103
+    },
+    {
+      "path": "raw/disable-controls-runs/native-both/observer.jsonl",
+      "bytes": 94989
+    }
+  ],
+  "deleted_bytes": 2834193,
+  "retained_consumer": "Receipts/selected three-state screenshots and shared viewer pool for remaining309widgets/23handlers.",
+  "free_bytes": 1709232455680
+}

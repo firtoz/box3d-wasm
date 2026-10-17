@@ -1,0 +1,10 @@
+{
+  "status": "FROZEN",
+  "seconds": 25,
+  "montages": 1,
+  "apps": 0,
+  "builds": 0,
+  "captures": 0,
+  "output_bytes": 1048576,
+  "scope": "Extract exact first differing input/loading boundary and original CPU/GPU before grid; consume only terminal diagnostic GPU viewer/build logs; retain CPU/three chained objects for named next UI25 verification/relink."
+}

@@ -1,0 +1,48 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "cache-shallow-controls-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 15,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 15,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 15,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 15,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 15,
+      "findings": 0
+    }
+  ]
+}

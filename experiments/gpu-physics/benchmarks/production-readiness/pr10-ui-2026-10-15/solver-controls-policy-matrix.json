@@ -1,0 +1,22 @@
+{
+  "status": "FAILURE_RETAINED",
+  "runs": [
+    {
+      "label": "ordinary-gpu",
+      "exit": 0,
+      "seconds": 6.876307694008574
+    },
+    {
+      "label": "native-gpu",
+      "exit": 0,
+      "seconds": 6.976377513987245
+    },
+    {
+      "label": "ordinary-both",
+      "exit": 1,
+      "seconds": 4.772853942005895
+    }
+  ],
+  "error": "AssertionError(('ordinary-both', 1))",
+  "seconds": 18.62763138001901
+}

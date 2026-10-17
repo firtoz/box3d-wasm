@@ -1,0 +1,31 @@
+{
+  "status": "PASS_FIVE_ROUTES_RENDER_CONTROLS",
+  "runs": [
+    {
+      "label": "cpu",
+      "exit": 0,
+      "seconds": 6.575876666000113
+    },
+    {
+      "label": "ordinary-gpu",
+      "exit": 0,
+      "seconds": 29.216111657995498
+    },
+    {
+      "label": "native-gpu",
+      "exit": 0,
+      "seconds": 29.920578560006106
+    },
+    {
+      "label": "ordinary-both",
+      "exit": 0,
+      "seconds": 29.868080498010386
+    },
+    {
+      "label": "native-both",
+      "exit": 0,
+      "seconds": 30.871432788000675
+    }
+  ],
+  "seconds": 126.45571647697943
+}

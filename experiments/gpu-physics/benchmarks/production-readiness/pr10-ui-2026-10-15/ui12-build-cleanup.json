@@ -1,0 +1,74 @@
+{
+  "status": "CLOSED",
+  "retired": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/cpu-draw-module.log",
+      "bytes": 28888,
+      "sha256": "3241b728578b1d7b90b975619976b23b79dc5673ff0eb98276e22d52147667c0",
+      "consumer": "Allfive actualoriginal DrawC modules byteidentical; compactSHA retained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/ordinary-gpu-draw-module.log",
+      "bytes": 28888,
+      "sha256": "3241b728578b1d7b90b975619976b23b79dc5673ff0eb98276e22d52147667c0",
+      "consumer": "Allfive actualoriginal DrawC modules byteidentical; compactSHA retained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/native-gpu-draw-module.log",
+      "bytes": 28888,
+      "sha256": "3241b728578b1d7b90b975619976b23b79dc5673ff0eb98276e22d52147667c0",
+      "consumer": "Allfive actualoriginal DrawC modules byteidentical; compactSHA retained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/ordinary-both-draw-module.log",
+      "bytes": 28888,
+      "sha256": "3241b728578b1d7b90b975619976b23b79dc5673ff0eb98276e22d52147667c0",
+      "consumer": "Allfive actualoriginal DrawC modules byteidentical; compactSHA retained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/native-both-draw-module.log",
+      "bytes": 28888,
+      "sha256": "3241b728578b1d7b90b975619976b23b79dc5673ff0eb98276e22d52147667c0",
+      "consumer": "Allfive actualoriginal DrawC modules byteidentical; compactSHA retained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/both-source/draw.c",
+      "bytes": 17353,
+      "sha256": "89e4cc5182e0965573bc11fc677db465ca8f03b668e96a58954d3d6338b1244e",
+      "consumer": "BOTHsource equalsqualifiedoriginal plusmacroindependentguard; identicaloriginalmodule reuse"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui10-build/cpu",
+      "bytes": 7766256,
+      "sha256": "3a41f4cd7ad919ec106d318e8f0fe9bd3e22979481a2b110add5ed5a823c139a",
+      "consumer": "CompletedCPUqualified;3originalwronganalyticprobe flags adjudicatedfromretainedsameactualdata,noCPUrerun"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui10-build/ordinary-gpu",
+      "bytes": 37856888,
+      "sha256": "ec1c1e1092695c1e4e46ab553cb7f3a8fe2691a7c588d6047a7dc32d95d15aa8",
+      "consumer": "ReplacementrouteNULL/fraction/zeroaxis/restore/relatedpreview/pick checks qualified"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui10-build/native-gpu",
+      "bytes": 40740104,
+      "sha256": "aa2b8770dfe0ba13ee80b3869bbff427c8c9c6b095d494dce5ed3687aa1f6475",
+      "consumer": "ReplacementrouteNULL/fraction/zeroaxis/restore/relatedpreview/pick checks qualified"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/ordinary-both",
+      "bytes": 38634816,
+      "sha256": "c1d1b8edbd166552420c4728181d8007a3298050ef6a621f2c09251a48e78a53",
+      "consumer": "ReplacementrouteNULL/fraction/zeroaxis/restore/relatedpreview/pick checks qualified"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/native-both",
+      "bytes": 41513952,
+      "sha256": "efc7555626541082227ef016b4da00ff3edeb7e31aca7823aff0b5b92f9e74e5",
+      "consumer": "ReplacementrouteNULL/fraction/zeroaxis/restore/relatedpreview/pick checks qualified"
+    }
+  ],
+  "deleted_bytes": 166673809,
+  "raw_bytes": 938374322,
+  "next_consumer": "CurrentfiveUI12viewers/DrawHullobject/priorneededinputs nextPR10relink"
+}

@@ -1,0 +1,22 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "cpp_compiles": 1,
+  "compile_seconds": 15,
+  "links": 5,
+  "link_seconds_each": 20,
+  "apps": 0,
+  "screens": 0,
+  "engine_builds": 0,
+  "wasm_changes": 0,
+  "temporary_cap_bytes": 220200960,
+  "retained_cap_bytes": 8388608,
+  "retries": 0,
+  "scope": "Read-only9actualDebugDrawcallbackcounts/scalarargumentdigests, originalcallbackonce andoriginalcontext. CaptureGPUinnerseparately evenafterCPUouterreturnsinsplit. Allphysics/gfx/main/sampleoriginalinputs pinned unchanged. Not a UI03repair.",
+  "outputs": {
+    "observer CPP/object": "next overlaycontrols runtime; object retainedonlyifneededforfuturelinks",
+    "five executables": "nextCPUfirstactualoverlayreview; removeoldcurrentpoolafternewqualified",
+    "manifest/logs": "retainedqualificationprovenance"
+  },
+  "source_sha256": "3925bc9b947b94528ea4f3205f2db7bc8ab764e891c8ea4760466ad71c65589c",
+  "reason": "Original diagnostic compile failed on missingcstring andworldgetter declaration; zero links/apps. Add requiredheaders, preserve original compile receipt/log, one correcteddiagnosticcompile+fiveoriginalunlaunchedlinks. No engine/sourceinput changes."
+}

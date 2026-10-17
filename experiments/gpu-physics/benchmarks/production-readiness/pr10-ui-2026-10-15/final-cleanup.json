@@ -1,0 +1,500 @@
+{
+  "status": "CLOSED",
+  "deleted": [
+    {
+      "path": "raw/ui03-observer-fix/cpu",
+      "bytes": 7795224,
+      "sha256": "39d69096c73a746fbca383186abe687c4bce74f05f24977247c7fbdaaddfdae6",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-observer-fix/ordinary-gpu",
+      "bytes": 37906704,
+      "sha256": "c29e6617187cb758f36b1bd3b24f91066a55034fa61e676902d3666c09e503f8",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-observer-fix/native-gpu",
+      "bytes": 40785824,
+      "sha256": "81b86f49dea705ee9983d351199b66708ca744c2cdf0fc311ff3de45500d8909",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-observer-fix/ordinary-both",
+      "bytes": 38680592,
+      "sha256": "32d7d1ca91dd79fe1dedf2461701cb04c8542ff1f80004314dd13132fa2b8d9d",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-observer-fix/native-both",
+      "bytes": 41559728,
+      "sha256": "0f162a9a98c8c93220304bab2a43bf9fd50629b54dfd3fbd16b359ff69aca32f",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-observer-fix/boundary-observer.o",
+      "bytes": 22928,
+      "sha256": "31e8066700e5a17ac4cc56a01656a637385fdf28d50f5c04d0c473f9ccdb3ed7",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui21-build/diagnostic-human.c.o",
+      "bytes": 27264,
+      "sha256": "3cf85321b486c722028a713dcc1a896c68f22a63f2b4515037d6ef05486b71f4",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui21-build/lifetime-observer.o",
+      "bytes": 4200,
+      "sha256": "8b3da5c3176bc30e6b5bf9eda7a53e193483fb65ef928bdbcd0bc69ea171d860",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui18-build/preview-bounds.o",
+      "bytes": 8072,
+      "sha256": "c11f764644c536e4bb1cc9b644aca27e2bde7f16bc49ef76f41ea0190440eb4d",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui18-build/cpu-overlay.c.o",
+      "bytes": 45424,
+      "sha256": "f3d5a5170c558f37d9fe7e76aeea544b470cb2ca6e6a9a824ca9f6b7682feb69",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui18-build/projection-observer.o",
+      "bytes": 13424,
+      "sha256": "f0ce275a3a371c6840c9d62fac8c921d1656bbe33e8b7f0388f42dc8c553e8ef",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui17-build/cache-observer.o",
+      "bytes": 3576,
+      "sha256": "926ef38fc0ca29280091dfbb16641b3c1a27b73d96b3f01950ffb7c92ff62655",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui12-build/draw.c.o",
+      "bytes": 28912,
+      "sha256": "628e825e865ed6804bdfa1bb1f3bf0659565dd5c0d0ab1a7c1ad91b943fcc4c1",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui18-build/key-observer.o",
+      "bytes": 8816,
+      "sha256": "e1280a08b5564ad4b10781cd3244541320bb7a03369fb2ec167f801c0058db1d",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui07-trace-completion-build/camera-observer.o",
+      "bytes": 4616,
+      "sha256": "c29db5104d8218cff3a9136eb36a6dca04c0190b8a950cc8ad0423d9554642c3",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui06-build/cpu-adapter.o",
+      "bytes": 38664,
+      "sha256": "a08d99a84982ac0201dcc0e954e50db4d060dc522ce6a09e3a4dc6a1ca11e35f",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui06-material-build/material-observer.o",
+      "bytes": 17880,
+      "sha256": "2448ba4868a98e330baf006f0adcd5d0cea654ab12014b6a7dacbec02a8962dc",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui05-build/hud-observer.o",
+      "bytes": 7368,
+      "sha256": "47c31338f5f05684ac61a0777e414b97e1a109cc9fb40ad205ebbc60f48137af",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-build/cpu-ui-chain.o",
+      "bytes": 808856,
+      "sha256": "332e5dc9c2aeff63255353fb81b189010fa2810910d591ea5a076e760332c731",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui18-build/cpu-main.o",
+      "bytes": 37208,
+      "sha256": "91851201e69b6e5f5268a6f29f8093568b6c3d29f8cfd152dfc5fcec0e3aad58",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui18-build/cpu-sample.o",
+      "bytes": 105080,
+      "sha256": "809c154ec4103d182dbd4af783c8eb80f1cb318f4710d53dd1192d42f506536b",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui28-build/sample_collision_ui.cpp.o",
+      "bytes": 186720,
+      "sha256": "605ffe6c9114f04b4db3154f4d54adc212627304e8d9e92ab27d7d5c861ed6ae",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui22-build/cpu-joint.o",
+      "bytes": 210912,
+      "sha256": "cbe459c6e0241485650bbfbf4fb27c980c0287aefdd17f8cb097367bee6b5c81",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui14-build/sample_manifold_ui.cpp.o",
+      "bytes": 92992,
+      "sha256": "df2cec9278f26d22d879d8526bcec6b2c6098442b4c3d03634bcb65ec013502d",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui19-build/cpu-replay.o",
+      "bytes": 89416,
+      "sha256": "6cb343c71cc0bf1ce5aabc323b5f6a5f0df6a7eeeb5a82360e9d835dbebb0afc",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui26-build/sample_tree_ui.cpp.o",
+      "bytes": 37944,
+      "sha256": "f73f10c429212d35e887bfd596dd0c80630365cb0003ea17d1a03d8964675e1d",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui18-build/cpu-renderer-observed.c.o",
+      "bytes": 469472,
+      "sha256": "9fde284ec598450d1b34970a5c99d2ebbc36ca7f285a6d4b91cecfe3db0e476f",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui25-trace-build/input-observer.o",
+      "bytes": 6264,
+      "sha256": "4667ced3d52879683436b770d83e7db234b5666e57e6dd07be7bb9f766213798",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui24-build/heightfield-observer.o",
+      "bytes": 4224,
+      "sha256": "6a61563a7f4422d59ed113c12bbbb9f5eabdb2016d7940943eeb01563b01ff16",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui23-build/replacement-observer.o",
+      "bytes": 2488,
+      "sha256": "3a538d821c5012a0699675cb791e10e2a66c821c9f6774ce2804ec439fa286a5",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui25-trace-build/key-observer.o",
+      "bytes": 8800,
+      "sha256": "551654653ef11c76582fe4866499a5b3f932b28dd5604ebb374d8426ee750e76",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-build/gpu-ui-chain.o",
+      "bytes": 808840,
+      "sha256": "e1fbe14bffcacc3079e57fc0de9f81d0d0a50bdbcaf9d60776ebf73d108cd9a6",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui25-build/gpu-main.o",
+      "bytes": 37656,
+      "sha256": "2a44b1718b41509a43bbb3bff0ac98d76ee5ed0d002a732dedf07d89c56b19f0",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui25-build/loading.o",
+      "bytes": 32160,
+      "sha256": "9d7ac805ce7c6a5ed51310003e8e89bd6894b026811124c1dc9efafcb6322ba5",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-build/gpu-sample.cpp.o",
+      "bytes": 88224,
+      "sha256": "1944fc8f13d735beeb264d09b8e50aa1e7d0717f260f4da41e07264db64135bf",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui22-build/ordinary-gpu-joint.o",
+      "bytes": 210912,
+      "sha256": "cbe459c6e0241485650bbfbf4fb27c980c0287aefdd17f8cb097367bee6b5c81",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui19-build/ordinary-gpu-replay.o",
+      "bytes": 85192,
+      "sha256": "3f94f38ff01973729144021b28345e4e3c19569f5c7e1574de2e9225a89f1c0b",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-build/libgpu_samples_api.a",
+      "bytes": 190288,
+      "sha256": "ede2a304ef441278d29b752469c79442fe80d812487d47ffed9940114e24ef92",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui18-build/both-overlay.c.o",
+      "bytes": 50992,
+      "sha256": "224f97191d57c99eeae167a97e92ed7a7766e7ed806776161ffb420f51f13c1b",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui11-trace-build/selection-observer.o",
+      "bytes": 4048,
+      "sha256": "409a45719156a039d9b8d862e6869dd956ae6333a032a610525d86e83ae961c0",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui06-build/both-adapter.o",
+      "bytes": 38832,
+      "sha256": "f70d4b3a0ecd3177bfe0426de38c2f928e922554017e64907ded254e79510147",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui25-build/both-main.o",
+      "bytes": 58176,
+      "sha256": "6e28b140ddb75ed37c13a3b55333e1361e5168d7fcdb1ddc3d68cbbafa8b74be",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-build/both-sample.cpp.o",
+      "bytes": 89288,
+      "sha256": "81f233585b8079ec88c04cf0742e6f45b133cd356f59e192bef2635ed85368df",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui22-build/ordinary-both-joint.o",
+      "bytes": 211416,
+      "sha256": "1333c3b81f71c180f8fb95fd2febfd6a459ca96c1a41d1fb3c74c54682e2fb01",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui19-build/ordinary-both-replay.o",
+      "bytes": 85192,
+      "sha256": "3f94f38ff01973729144021b28345e4e3c19569f5c7e1574de2e9225a89f1c0b",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui18-build/both-renderer-observed.c.o",
+      "bytes": 475664,
+      "sha256": "54149f8ceb1e43a2a7ea2295ec678f37adb70ee444ed2d63e5467865d31091b7",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-build/libgpu_both_api.a",
+      "bytes": 193792,
+      "sha256": "2873b068e41de95ff3bf6dde6360433fa2a769c902f6d7b55314c162b4aa2893",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-build/libgpu_both_samples_api.a",
+      "bytes": 73346,
+      "sha256": "86b9481bf018381ea902c818768e64217eed2adfed9cc19c63ea10787b0116aa",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-build/shim/shim.c.o",
+      "bytes": 113936,
+      "sha256": "a55ba647e137bfa261d21e9584608c2b0e83e83058a1bd5b36c9e52b4ffc04b2",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-build/dual/both_dual.c.o",
+      "bytes": 149544,
+      "sha256": "9fe6859220808bfa95f54ef9d90d619237bd29ac9d893d233dbb4eb58ec43b42",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-build/api-standalone/samples_api.c.o",
+      "bytes": 38408,
+      "sha256": "7106cc6d2f41a437510bab1a3814a23f660bc3564fe7df9a855b89a77c7a30db",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/ui03-build/api-both/samples_api.c.o",
+      "bytes": 36136,
+      "sha256": "b28a638b5d66c2c2ec4ed386fc5ead306a8f24ce96ceaf1382fa30ef51016fe6",
+      "consumer": "PR10 qualification and fresh delivery-source compatibility complete; no remaining authorized runtime/capture consumer. Preserve source/media/hashes; rebuild from repository for future authorized publication."
+    },
+    {
+      "path": "raw/final-compatibility/demo-dist",
+      "bytes": 20825214,
+      "sha256": null,
+      "consumer": "Fresh frontend build passed; disposableoutput consumed"
+    }
+  ],
+  "deleted_bytes": 192916848,
+  "raw_retained_bytes": 736846342,
+  "free_bytes": 1707489980416,
+  "owned_leaders_absent": [
+    911524,
+    911609,
+    911662,
+    911734,
+    911789,
+    911790,
+    911791,
+    911792,
+    911793,
+    911794,
+    911795,
+    911796,
+    911797,
+    911798,
+    911799,
+    911800,
+    911801,
+    911802,
+    911803,
+    911804,
+    911805,
+    911806,
+    911807,
+    911808,
+    911809,
+    911810,
+    911811,
+    911812,
+    911813,
+    911814,
+    911815,
+    911816,
+    911817,
+    911818,
+    911819,
+    911820,
+    911821,
+    911907,
+    912021,
+    912022,
+    912024,
+    912974,
+    912983,
+    913106,
+    913185,
+    913287,
+    923369,
+    930324,
+    932379,
+    938765,
+    938828,
+    938904,
+    938987,
+    939070,
+    939166,
+    940309,
+    941815,
+    943997,
+    972292,
+    972374,
+    972376,
+    972766,
+    976954,
+    977058,
+    977353,
+    981590,
+    981863,
+    982163,
+    986136,
+    986267,
+    986631,
+    990961,
+    991151,
+    991442,
+    995932,
+    996085,
+    1001582,
+    1001601,
+    1001727,
+    1011678,
+    1011688,
+    1011690,
+    1012095,
+    1012106,
+    1012112,
+    1012139,
+    1012173,
+    1012991,
+    1003326,
+    1003343,
+    1003345,
+    1006305,
+    1006317,
+    1006319,
+    1006779,
+    1006785,
+    1006793,
+    1006820
+  ],
+  "lingering_owned_processes": [],
+  "shared_caches_preserved": true,
+  "native_sdk_build_cleanup": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/final-compatibility/build",
+      "bytes": 31616789,
+      "consumer": "Fresh root-source native build/health/source identities extracted"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/final-compatibility/cpu-cwd",
+      "bytes": 458,
+      "consumer": "Owned settings/data symlink consumed; shared data preserved"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/final-compatibility/build",
+      "bytes": 62588328,
+      "consumer": "Fresh root-source native build/health/source identities extracted"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/final-compatibility/ordinary-gpu-cwd",
+      "bytes": 458,
+      "consumer": "Owned settings/data symlink consumed; shared data preserved"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/final-compatibility/build",
+      "bytes": 65467514,
+      "consumer": "Fresh root-source native build/health/source identities extracted"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/final-compatibility/native-gpu-cwd",
+      "bytes": 458,
+      "consumer": "Owned settings/data symlink consumed; shared data preserved"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/final-compatibility/build",
+      "bytes": 70172337,
+      "consumer": "Fresh root-source native build/health/source identities extracted"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/final-compatibility/ordinary-both-cwd",
+      "bytes": 458,
+      "consumer": "Owned settings/data symlink consumed; shared data preserved"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/final-compatibility/build",
+      "bytes": 73051550,
+      "consumer": "Fresh root-source native build/health/source identities extracted"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/final-compatibility/native-both-cwd",
+      "bytes": 458,
+      "consumer": "Owned settings/data symlink consumed; shared data preserved"
+    }
+  ],
+  "wasm_cleanup": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/demo/public/wasm",
+      "bytes": 0,
+      "consumer": "Official runtime workflow consumed temporary link; original absent path restored"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/packages/box3d-wasm/.box3d-patched",
+      "bytes": 12173915,
+      "consumer": "Task-owned unchanged-source archive+patch copy consumed"
+    },
+    {
+      "path": "/home/firtoz/.cache/box3d-pr10-wasm-2026-10-16",
+      "bytes": 1662777084,
+      "consumer": "Pinned SDK/download/build/generatedWASM consumed; no persistent dependency or binary change"
+    }
+  ],
+  "max_owned_processes": 16,
+  "current_pool_retired": true,
+  "source_and_media_preserved": true
+}

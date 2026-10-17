@@ -1,0 +1,145 @@
+{
+  "removed": [
+    {
+      "path": "raw/manifold-controls-runs/cpu/api.jsonl",
+      "bytes": 1786821,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/manifold-controls-runs/cpu/observer.jsonl",
+      "bytes": 658332,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/cpu/api.jsonl",
+      "bytes": 760875,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/cpu/observer.jsonl",
+      "bytes": 254082,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/ordinary-gpu/api.jsonl",
+      "bytes": 2495004,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/ordinary-gpu/observer.jsonl",
+      "bytes": 918357,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/native-gpu/api.jsonl",
+      "bytes": 2494749,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/native-gpu/observer.jsonl",
+      "bytes": 918983,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/ordinary-both/api.jsonl",
+      "bytes": 3394569,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/ordinary-both/observer.jsonl",
+      "bytes": 1061478,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/native-both/api.jsonl",
+      "bytes": 3393043,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/manifold-controls-tail-runs/native-both/observer.jsonl",
+      "bytes": 1060538,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/cpu/api.jsonl",
+      "bytes": 282425,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/cpu/observer.jsonl",
+      "bytes": 85634,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/ordinary-gpu/api.jsonl",
+      "bytes": 279076,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/ordinary-gpu/observer.jsonl",
+      "bytes": 90529,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/native-gpu/api.jsonl",
+      "bytes": 277660,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/native-gpu/observer.jsonl",
+      "bytes": 89919,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/ordinary-both/api.jsonl",
+      "bytes": 411109,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/ordinary-both/observer.jsonl",
+      "bytes": 108819,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/native-both/api.jsonl",
+      "bytes": 410764,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "raw/cache-shallow-controls-runs/native-both/observer.jsonl",
+      "bytes": 108475,
+      "reason": "Selected collision/cache/renderpose cases extracted; original receipts retained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-control-build/cpu",
+      "bytes": 7350032,
+      "reason": "Superseded afterall5Manifoldobserverviewersqualified; newpool retainedforremainingcontrols"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-control-build/ordinary-gpu",
+      "bytes": 37448944,
+      "reason": "Superseded afterall5Manifoldobserverviewersqualified; newpool retainedforremainingcontrols"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-control-build/native-gpu",
+      "bytes": 40328064,
+      "reason": "Superseded afterall5Manifoldobserverviewersqualified; newpool retainedforremainingcontrols"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-control-build/ordinary-both",
+      "bytes": 38245152,
+      "reason": "Superseded afterall5Manifoldobserverviewersqualified; newpool retainedforremainingcontrols"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/geometry-control-build/native-both",
+      "bytes": 41124288,
+      "reason": "Superseded afterall5Manifoldobserverviewersqualified; newpool retainedforremainingcontrols"
+    }
+  ],
+  "deleted_bytes": 185837721,
+  "raw_bytes": 379021261,
+  "free_bytes": 1709151641600,
+  "shared_cache_growth_bytes": 0,
+  "current_viewers": "manifold-control-build.json/raw/manifold-control-build5binaries",
+  "consumer": "Remaining264widgets/14customhandlergroups; currentobserverpooluntilqualifiedreplacement. Main/Sampleobjects andtinyCPUReplayfixture stillneeded."
+}

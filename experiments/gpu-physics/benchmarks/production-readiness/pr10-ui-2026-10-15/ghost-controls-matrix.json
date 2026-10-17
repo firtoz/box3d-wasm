@@ -1,0 +1,13 @@
+{
+  "status": "CPU_PREREQUISITE_FAILED",
+  "budget": "ghost-controls-budget.json",
+  "runs": [
+    {
+      "route": "cpu",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "branch": "ACTUAL_NONZERO_PRECONDITION_NOT_REACHED_IN_THREE_BOUNDED_MOUSE_ATTEMPTS",
+      "complete": false
+    }
+  ]
+}

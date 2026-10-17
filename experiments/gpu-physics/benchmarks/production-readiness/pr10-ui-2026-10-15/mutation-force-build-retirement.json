@@ -1,0 +1,39 @@
+{
+  "status": "CLOSED",
+  "removed": [
+    {
+      "path": "raw/cast-controls-build/cpu",
+      "bytes": 7717824,
+      "sha256": "a34d6998c0b270727fdb8555c08ec4d6e8dd076b8b91ee23f55daa6638e81530"
+    },
+    {
+      "path": "raw/cast-controls-build/ordinary-gpu",
+      "bytes": 37812520,
+      "sha256": "c2dfb2e50133ccc1fad6def8366d8dde24e11aefadfb876f572a674c2aa2bda3"
+    },
+    {
+      "path": "raw/cast-controls-build/native-gpu",
+      "bytes": 40691640,
+      "sha256": "d8add9493b47237938a3fe7a0587afc289154c5f44d2163d412e0993bbd2b9b3"
+    },
+    {
+      "path": "raw/cast-controls-build/ordinary-both",
+      "bytes": 38590416,
+      "sha256": "e1ab5472e0e2427dc3601ff8c7f735c994d7c0aa925d492dc2dd2a51db61537d"
+    },
+    {
+      "path": "raw/cast-controls-build/native-both",
+      "bytes": 41461360,
+      "sha256": "4a0f504e923c39e24002029b36524cd4a34669b37079dfbec67f751914d97501"
+    },
+    {
+      "path": "raw/cast-controls-build/observer.o",
+      "bytes": 757248,
+      "sha256": "12459acb7d2d552a50c37f8c44ed5c7bb008ee8e00032d95f288cbbaae539fd0"
+    }
+  ],
+  "deleted_bytes": 167031008,
+  "raw_bytes": 856033393,
+  "current_pool": "mutation-force-build.json",
+  "consumer": "Remaining GhostCollisions, Replay and PR10 repair qualification; no need to retain superseded cast executables."
+}

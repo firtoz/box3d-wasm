@@ -15,7 +15,20 @@ def require(haystack: str, needle: str, label: str) -> None:
         )
 
 
+def inject_ui_event_capture(text: str) -> str:
+    include = '#include "sokol_glue.h"\n'
+    call = 'uiCaptured = HandleEvent( e );'
+    require(text, include, "UI event include")
+    require(text, call, "UI event capture")
+    text = text.replace(include, include + '#include "sokol_ui_input.h"\n').replace(
+        call, "uiCaptured = gpu_ui_capture_event( e, HandleEvent( e ) );\n\t\t// Captured presses stay in the UI; releases must clear prior host input.\n\t\tif ( uiCaptured && e->type == SAPP_EVENTTYPE_KEY_UP )\n\t\t{\n\t\t\tSetKeyDown( e->key_code, false );\n\t\t}")
+    condition = "\tif ( uiCaptured == false || releaseOrUnfocus )"
+    require(text, condition, "captured camera key release")
+    return text.replace(condition, "\tif ( uiCaptured == false || releaseOrUnfocus || e->type == SAPP_EVENTTYPE_KEY_UP )")
+
+
 def inject_main(text: str) -> str:
+    text = inject_ui_event_capture(text)
     # Loading must precede bench clocks and any world access. Only the loading
     # callback runs while the worker owns the world; OpenGL remains on UI thread.
     for anchor in ['\tDrawUI( &s_context );', 'static void OnFrame( void )\n{',
@@ -23,7 +36,7 @@ def inject_main(text: str) -> str:
         require(text, anchor, "loading hooks")
     text = text.replace('#include "sokol_glue.h"\n', '#include "sokol_loading.h"\n#include "sokol_glue.h"\n')
     text = text.replace('\tDrawUI( &s_context );', '\tif (gpu_loading_active()) { gpu_loading_draw(); return; }\n\tDrawUI( &s_context );')
-    text = text.replace('static void OnFrame( void )\n{', 'static void OnFrame( void )\n{\n    if (gpu_loading_active() ? gpu_loading_poll(b3_nullWorldId) : (s_context.sample && gpu_loading_poll(s_context.sample->m_worldId))) {\n        if (sapp_width() > 0 && sapp_height() > 0) {\n            ResetFrameArena();\n            const sg_swapchain sc = sglue_swapchain();\n            sg_pass pass{};\n            pass.swapchain = sc;\n            pass.action.colors[0].load_action = SG_LOADACTION_CLEAR;\n            pass.action.colors[0].clear_value = {0.035f, 0.045f, 0.065f, 1.0f};\n            sg_begin_pass(&pass);\n            sg_end_pass();\n            StartUIFrame((float)sapp_frame_duration());\n            RenderUI(&sc);\n            sg_commit();\n        }\n        std::this_thread::sleep_for(std::chrono::milliseconds(16));\n        return;\n    }\n    if (gpu_loading_close_pending()) { sapp_quit(); return; }\n')
+    text = text.replace('static void OnFrame( void )\n{', 'static void OnFrame( void )\n{\n    if (gpu_loading_active() ? gpu_loading_poll(b3_nullWorldId) : (s_context.sample && gpu_loading_poll(s_context.sample->m_worldId))) {\n        if (sapp_width() > 0 && sapp_height() > 0) {\n            ResetFrameArena();\n            const sg_swapchain sc = sglue_swapchain();\n            sg_pass pass{};\n            pass.swapchain = sc;\n            pass.action.colors[0].load_action = SG_LOADACTION_CLEAR;\n            pass.action.colors[0].clear_value = {0.035f, 0.045f, 0.065f, 1.0f};\n            sg_begin_pass(&pass);\n            sg_end_pass();\n            gpu_loading_ui_begin();\n            StartUIFrame((float)sapp_frame_duration());\n            RenderUI(&sc);\n            gpu_loading_ui_end();\n            sg_commit();\n        }\n        std::this_thread::sleep_for(std::chrono::milliseconds(16));\n        return;\n    }\n    if (gpu_loading_close_pending()) { sapp_quit(); return; }\n')
     text = text.replace('static void OnEvent( const sapp_event* e )\n{', 'static void OnEvent( const sapp_event* e )\n{\n    if (gpu_loading_active()) { if (e->type == SAPP_EVENTTYPE_QUIT_REQUESTED) { gpu_loading_request_close(); sapp_cancel_quit(); } else { HandleEvent(e); } return; }')
     text = text.replace('static void OnCleanup( void )\n{', 'static void OnCleanup( void )\n{\n    gpu_loading_shutdown();')
     anchors = [
@@ -390,6 +403,25 @@ def inject_sample(text: str) -> str:
     return text
 
 
+def inject_hidden_hud_layout(text: str) -> str:
+    # The hidden HUD owns a second row while PAUSED is visible.
+    original = "\t\tm_textLine = (int)( 3.0f * fontSize );"
+    replacement = "\t\t// Reserve the PAUSED row only while that HUD label is present.\n\t\tm_textLine = (int)( ( m_context->pause ? 4.5f : 3.0f ) * fontSize );"
+    require(text, original, "hidden sample text row")
+    assert text.count(original) == 1, "hidden sample text row drift"
+    return text.replace(original, replacement)
+
+
+def inject_profile_column_width(text: str) -> str:
+    # Native CPU labels include an arrow/leaf spacer and per-row indentation.
+    # Measure the complete tree, even when rows are collapsed or currently zero.
+    original = "\t\t\tImGui::TableSetupColumn( \"section\", ImGuiTableColumnFlags_WidthFixed, 8.0f * fontSize );"
+    replacement = "\t\t\t// Include the same indentation and arrow spacing used to draw every row.\n\t\t\t// Measure collapsed/zero rows too, so expanding a subtree keeps labels visible.\n\t\t\tfloat sectionWidth = ImGui::CalcTextSize( \"section\" ).x;\n\t\t\tconst float labelSpacing = ImGui::GetTreeNodeToLabelSpacing();\n\t\t\tfor ( const RowDef& row : rows )\n\t\t\t{\n\t\t\t\tfloat width = row.indent * fontSize + labelSpacing + ImGui::CalcTextSize( row.name ).x;\n\t\t\t\tsectionWidth = b3MaxFloat( sectionWidth, width );\n\t\t\t}\n\t\t\tImGui::TableSetupColumn( \"section\", ImGuiTableColumnFlags_WidthFixed, sectionWidth );"
+    require(text, original, "CPU profile section width")
+    assert text.count(original) == 1, "CPU profile section width drift"
+    return text.replace(original, replacement)
+
+
 def inject_native_diagnostics(text: str) -> str:
     # Replace only GPU/combined metrics tabs in the generated copy. CPU keeps
     # its original profiler; partial GPU phases must not feed CPU flame bars.
@@ -406,6 +438,26 @@ def inject_native_diagnostics(text: str) -> str:
     return ('#include "box3d/box3d.h"\n'
             'extern "C" void gpu_samples_draw_native_profile(b3WorldId);\n'
             'extern "C" void gpu_samples_draw_native_counters(b3WorldId);\n' + text)
+
+
+def inject_info_text_wrap(text: str) -> str:
+    # Scope wrapping to the Info window, including sample text and the native
+    # diagnostics/unsupported-feature explanation inserted below. Keep sliders,
+    # other windows and all scene/physics code unchanged.
+    start = "static void DrawInfoPanel( SampleContext* context )\n{"
+    end = "\n// Minimal in-world HUD"
+    require(text, start, "Info panel start")
+    require(text, end, "Info panel end")
+    first = text.index(start)
+    last = text.index(end, first)
+    panel = text[first:last]
+    title = '\tImGui::TextColored( HexColor( b3_colorGoldenRod ), "%s", entry.Name );'
+    close = "\n\tImGui::End();"
+    require(panel, title, "Info panel first text")
+    require(panel, close, "Info panel close")
+    panel = panel.replace(title, "\tImGui::PushTextWrapPos( 0.0f );\n\n" + title)
+    panel = panel.replace(close, "\n\tImGui::PopTextWrapPos();" + close)
+    return text[:first] + panel + text[last:]
 
 
 def inject_gpu_limitations(text: str) -> str:
@@ -427,6 +479,23 @@ def inject_gpu_limitations(text: str) -> str:
 
 
 def inject_joint(text: str) -> str:
+    # Wheel's steering slider must update steering, preserving the independently
+    # configured suspension damping. Keep the upstream source untouched.
+    steering = ('\t\t\tif ( ImGui::SliderFloat( "Damping##Steering", &m_steeringDampingRatio, 0.0f, 2.0f, "%.1f" ) )\n'
+                '\t\t\t{\n'
+                '\t\t\t\tb3WheelJoint_SetSuspensionDampingRatio( m_jointId, m_suspensionDampingRatio );')
+    require(text, steering, "Wheel steering damping")
+    text = text.replace(steering, steering.replace(
+        'b3WheelJoint_SetSuspensionDampingRatio( m_jointId, m_suspensionDampingRatio )',
+        'b3WheelJoint_SetSteeringDampingRatio( m_jointId, m_steeringDampingRatio )'))
+    torque = '\t\tImGui::SliderFloat( "Max Torque", &m_maxSpinTorque, 0.0f, 100.0f, "%.0f" );\n'
+    require(text, torque, "Driving rear motor torque")
+    text = text.replace(torque,
+        torque.replace('\t\tImGui::', '\t\tif ( ImGui::').replace(' );\n', ' ) )\n') +
+        '\t\t{\n'
+        '\t\t\tb3WheelJoint_SetMaxSpinTorque( m_rearLeftId, m_maxSpinTorque );\n'
+        '\t\t\tb3WheelJoint_SetMaxSpinTorque( m_rearRightId, m_maxSpinTorque );\n'
+        '\t\t}\n')
     start = text.index("class GearLift : public Sample")
     end = text.index("static int sampleGearLift", start)
     gear = text[start:end]
@@ -443,6 +512,37 @@ def inject_joint(text: str) -> str:
     return '#include "sokol_loading.h"\n#include "sokol_bench_hooks.h"\n' + (text[:start] + gear + text[end:]).replace('sapp_lock_mouse(', 'gpu_loading_lock_mouse(')
 
 
+def inject_replay(text: str) -> str:
+    # The player still receives the full path. Only the modal's display name
+    # changes; accept either separator, including paths with both kinds.
+    anchor = "\t\tconst char* slash = strrchr( m_path, '\\\\' );"
+    require(text, anchor, "Replay file name")
+    text = text.replace(anchor,
+        "\t\tconst char* slash = strrchr( m_path, '/' );\n"
+        "\t\tconst char* backslash = strrchr( m_path, '\\\\' );\n"
+        "\t\tif ( backslash != nullptr && ( slash == nullptr || backslash > slash ) )\n"
+        "\t\t{\n\t\t\tslash = backslash;\n\t\t}")
+    gpu = "#if defined(GPU_PHYSICS_SAMPLES) || defined(BOTH_SAMPLES)\n"
+    message = "GPU replay is unavailable. Use the CPU viewer."
+    status = '\t\tsnprintf( m_status, sizeof( m_status ), "%s", kGpuReplayUnavailable );\n'
+    constructor = "\t\telse\n\t\t{\n\t\t\tCreatePlayer();\n\t\t}\n\t}\n\n\t~ReplayViewer()"
+    require(text, constructor, "Replay initial unsupported status")
+    text = text.replace(constructor, constructor.replace(
+        "\n\t}\n\n\t~ReplayViewer()", "\n" + gpu + status + "#endif\n\t}\n\n\t~ReplayViewer()"))
+    create = "\tvoid CreatePlayer()\n\t{\n\t\tClosePlayer();\n"
+    require(text, create, "Replay unsupported player guard")
+    text = text.replace(create, create + "\n" + gpu +
+        "\t\tm_info = b3RecPlayerInfo{};\n\t\tm_frameAccumulator = 0.0f;\n" +
+        status + "\t\treturn;\n#endif\n")
+    filename = '\t\tImGui::TextUnformatted( slash != nullptr ? slash + 1 : m_path );\n\t\tImGui::Separator();\n'
+    require(text, filename, "Replay unsupported modal")
+    text = text.replace(filename, filename + "\n" + gpu +
+        '\t\tImGui::TextWrapped( "%s", kGpuReplayUnavailable );\n'
+        '\t\tif ( ImGui::Button( "Close" ) )\n\t\t{\n\t\t\tImGui::CloseCurrentPopup();\n\t\t}\n'
+        '\t\tImGui::EndPopup();\n\t\treturn;\n#endif\n')
+    return gpu + 'static const char* kGpuReplayUnavailable = "' + message + '";\n#endif\n' + text
+
+
 def main() -> int:
     p = argparse.ArgumentParser()
     p.add_argument("--src", required=True)
@@ -455,11 +555,17 @@ def main() -> int:
     p.add_argument("--character-dst")
     p.add_argument("--joint-src")
     p.add_argument("--joint-dst")
+    p.add_argument("--replay-src")
+    p.add_argument("--replay-dst")
     p.add_argument("--gpu-sidebar", action="store_true")
     args = p.parse_args()
     main_text = inject_main(Path(args.src).read_text())
     Path(args.dst).parent.mkdir(parents=True, exist_ok=True)
     Path(args.dst).write_text(sokol_split_injection.main(main_text))
+    if args.replay_src:
+        if not args.replay_dst:
+            raise SystemExit("--replay-dst required")
+        Path(args.replay_dst).write_text(inject_replay(Path(args.replay_src).read_text()))
     if args.character_src:
         if not args.character_dst: raise SystemExit("--character-dst required")
         character = Path(args.character_src).read_text()
@@ -481,7 +587,7 @@ def main() -> int:
     if args.sample_src:
         if not args.sample_dst:
             raise SystemExit("sokol-bench inject: --sample-dst required with --sample-src")
-        sample_text = inject_sample(Path(args.sample_src).read_text())
+        sample_text = inject_hidden_hud_layout(inject_profile_column_width(inject_info_text_wrap(inject_sample(Path(args.sample_src).read_text()))))
         if args.gpu_sidebar:
             sample_text = inject_native_diagnostics(inject_gpu_limitations(sample_text))
             needle = (

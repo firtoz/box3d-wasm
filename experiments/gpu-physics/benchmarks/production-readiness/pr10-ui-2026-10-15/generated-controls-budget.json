@@ -1,0 +1,11 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "Inventory source-only correction for combined-only split Checkbox emitted fromPythonliteral; AST+C++ scanner, preserveallpriorreviewstatuses whenmergingnewcall.",
+  "builds": 0,
+  "apps": 0,
+  "source_commands": 1,
+  "seconds": 5,
+  "temporary_bytes": 2097152,
+  "retained_bytes": 65536,
+  "output": "raw/generated-controls.json consumed tocompare165/342/84+1 counts/identities then deleted"
+}

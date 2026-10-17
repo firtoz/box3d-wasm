@@ -1,0 +1,26 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 13444335,
+  "raw_retained_bytes": 866485083,
+  "deleted_bytes": 20497464,
+  "owned_pids_absent": [
+    667240,
+    667225,
+    667877,
+    667855,
+    686913,
+    686897,
+    697275,
+    697260,
+    698157,
+    698142,
+    699152,
+    699133,
+    694508,
+    694488
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707604959232,
+  "consumer": "Current5viewers/38directtaskobjects/sharedC++loading module/2generatedmain/3chainedinputdiagnostics and priorAPIcarriers/modules nextPR10relink; minimal inputs/beforeafter/screenshots finalaudit"
+}

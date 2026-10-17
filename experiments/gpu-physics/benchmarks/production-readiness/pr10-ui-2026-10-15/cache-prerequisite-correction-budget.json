@@ -1,0 +1,18 @@
+{
+  "status": "FROZEN_BEFORE_CORRECTED_LAUNCH",
+  "reason": "Historical cache_source no longer exists; verified normal sharedcache has85,372,704compatiblebytes",
+  "additional_ordinary_GPU_launches": 1,
+  "remaining_native_GPU_and_both_launches": 3,
+  "maximum_total_viewers_including_failures": 7,
+  "startup_seconds_unchanged": 25,
+  "per_viewer_watchdog_seconds": 300,
+  "per_viewer_actions": 48,
+  "per_viewer_screenshots": 12,
+  "temporary_bytes": 268435456,
+  "shared_cache_growth_bytes": 134217728,
+  "retained_diagnostics_bytes": 67108864,
+  "new_engine_builds": 0,
+  "recorders": 0,
+  "implicit_retries": 0,
+  "cache_copies": 0
+}

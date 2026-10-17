@@ -1,0 +1,29 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "Read-onlyactualpopupwindow geometry for nativeCombo mouse selection; nativehostdoesnotenablekeyboardnavigation, previousHomeDown assumptioninvalid/actualtierunchanged1. Preservefailure. CPUtailonlyqualitymousechangedtier+Exposurecontrast; priorCPU23+14checks retained;4GPUfullunlaunchedroutes. LargerExposurestimulus-6/unchanged15percentgate aspriorbudget.",
+  "diagnostic_CPP_compiles": 1,
+  "compile_seconds": 15,
+  "diagnostic_links": 5,
+  "link_seconds_each": 20,
+  "apps": [
+    "cpu-tail",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "screens_each": 4,
+  "actions_each": 100,
+  "engine_builds": 0,
+  "retries": 0,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 33554432,
+  "shared_cache_growth_allowance": 134217728,
+  "outputs": {
+    "newcurrent5viewers": "RenderandremainingPR10Combo/samplewidgets; delete supersededpoolafterqualification",
+    "UIwindows": "Actualpopuprect/cursorstart/font/rowspacing forboundedmouse target, latestsnapshotonly",
+    "screens/API": "Selectedstate/effect evidence extractedthenconsumedstreams removed"
+  }
+}

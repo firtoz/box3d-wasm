@@ -23,6 +23,7 @@ typedef struct WorldVis
 	b3CreateDebugShapeCallback* create;
 	b3DestroyDebugShapeCallback* destroy;
 	void* ctx;
+	float inv_dt;
 } WorldVis;
 
 typedef struct ShapeVis
@@ -44,6 +45,7 @@ typedef struct ShapeVis
 	char name[64];
 } ShapeVis;
 
+static void overlay_release_joints(unsigned world);
 static WorldVis g_worlds[GPU_SAMPLES_WORLD_CAP];
 static GpuSlots g_shapes[GPU_SAMPLES_WORLD_CAP];
 static float g_last_draw_list_ms;
@@ -145,6 +147,7 @@ void gpu_samples_on_world_destroyed(b3WorldId world)
         }
     }
     gpu_slots_release(slots);
+    overlay_release_joints(world.index1);
     memset(w, 0, sizeof(*w));
 }
 
@@ -208,6 +211,17 @@ void gpu_samples_on_mesh_shape_created(b3ShapeId shapeId, b3BodyId bodyId, const
 	s->id = shapeId;
 	s->type = b3_meshShape;
 	s->body = bodyId;
+	s->mesh = (b3Mesh){mesh, scale};
+}
+
+void gpu_samples_on_mesh_shape_replaced(b3ShapeId id, b3BodyId body, const b3MeshData* mesh, b3Vec3 scale)
+{
+	ShapeVis* s = shape_vis(id, false);
+	if (s == NULL || !s->live) return;
+	b3WorldId world = {id.world0, 1};
+	destroy_user_shape(world, s);
+	s->body = body;
+	s->type = b3_meshShape;
 	s->mesh = (b3Mesh){mesh, scale};
 }
 
@@ -437,12 +451,13 @@ extern void gpu_gl_import_pose_fd(int fd, uint64_t size, const uint8_t* uuid);
 extern bool gpu_gl_poses_imported(void);
 
 #include "draw_color.h"
+#include "debug_overlays.h"
 
 void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskBits)
 {
 	(void)maskBits;
 	g_last_draw_shape_count = 0;
-	if (draw == NULL || draw->drawShapes == false || draw->DrawShapeFcn == NULL || world_vis(worldId) == NULL)
+	if (draw == NULL || world_vis(worldId) == NULL)
 	{
 		return;
 	}
@@ -461,6 +476,7 @@ void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskB
 	gpu_b3_world_prepare_pose_snapshot(worldId);
 	g_last_pose_prep_ms = duration_ms_from_ns(t_prep, monotonic_ns());
 	uint64_t t_draw = monotonic_ns();
+	DrawSet bodies = {0}, joints = {0}, contacts = {0};
 	for (uint32_t i = 1; i < g_shapes[worldId.index1].high_water; ++i)
 	{
 		ShapeVis* s = (ShapeVis*)gpu_slots_get(&g_shapes[worldId.index1], (int32_t)i, sizeof(ShapeVis), false);
@@ -476,6 +492,10 @@ void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskB
 		{
 			continue;
 		}
+		if (draw->drawBounds && draw->DrawBoundsFcn) draw->DrawBoundsFcn(bounds, b3_colorGold, draw->context);
+		if (draw_set_add(&bodies, (DrawKey){s->body.index1,s->body.world0,s->body.generation}))
+			overlay_body(worldId, s->body, draw, &joints, &contacts);
+		if (!draw->drawShapes || !draw->DrawShapeFcn) continue;
 		void* userShape = ensure_user_shape(worldId, shapeId, s);
 		if (userShape == NULL)
 		{
@@ -508,6 +528,7 @@ void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskB
 		draw->DrawShapeFcn(userShape, xf, (b3HexColor)color, draw->context);
 		++g_last_draw_shape_count;
 	}
+	free(bodies.keys); free(joints.keys); free(contacts.keys);
 	g_last_draw_list_ms = duration_ms_from_ns(t_draw, monotonic_ns());
 }
 

@@ -1,0 +1,26 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 14864792,
+  "raw_retained_bytes": 968093616,
+  "deleted_bytes": 64931139,
+  "owned_pids_absent": [
+    416568,
+    416546,
+    417243,
+    417228,
+    417919,
+    417904,
+    422031,
+    422011,
+    442587,
+    442572,
+    442082,
+    442067,
+    442936,
+    442916
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707725180928,
+  "consumer": "FivecurrentUI21viewers/newHumanhelper/lifetimeobserver+priorneededinputs nextPR10relink;originalleak/actualIDlifecycle/beforeafterimages finalaudit"
+}

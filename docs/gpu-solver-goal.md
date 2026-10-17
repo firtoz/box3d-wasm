@@ -2720,7 +2720,7 @@ Native runtime requires sourcing `scripts/native-samples-cache-env.sh`; the buil
 
 ## Authorization and repository constraints
 
-User explicitly authorized commit and push of this checkpoint on 2026-09-28. Preserve unrelated dirty work. Do not modify the upstream `box3d/` submodule or grow the WASM library for this experiment. No subagent delegation currently authorized. Before committing solver/visual changes, repository instructions require affected scene snapshots and a real Box3D C comparison column; read AGENTS.md for the commands. Do not claim this scratchpad or a diagnostic hook completes the solver goal.
+User explicitly authorized commit and push of this checkpoint on 2026-09-28. Preserve unrelated dirty work. Do not modify the upstream `box3d/` submodule or grow the WASM library for this experiment. No subagent delegation currently authorized. Recordings and comparison grids are optional diagnostics, not commit/push prerequisites; current AGENTS.md and user direction2026-10-17 supersede the older capture requirement. Do not claim this scratchpad or a diagnostic hook completes the solver goal.
 
 ## Consequential decisions
 

@@ -1,0 +1,20 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "Contrast fixture uses actualinitialexposure -2.5; -3 isonlyhalfstop, originalinvented15percentimagegatefails despiteactual9.95percentdarkening. Preservefailure, keepgate, changeonlystimulus -6. CPUpreviousall5debugmodes/image delta51.5 retained; CPUtailonlyqualitychangedtier/Exposure/defaults (no repeatdebugmodes). Qualityprevious1\u21921weakstimulus corrected to(actualinitial+1)%3 andrestore. GPU4unlaunchedfullcorrectedroutes.",
+  "apps": [
+    "cpu-tail",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "screens_each": 4,
+  "actions_each": 100,
+  "builds": 0,
+  "retries": 0,
+  "temporary_bytes": 134217728,
+  "retained_bytes": 16777216,
+  "shared_cache_growth_allowance": 134217728
+}

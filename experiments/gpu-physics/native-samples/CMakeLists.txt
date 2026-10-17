@@ -27,6 +27,8 @@ include(FetchContent)
 add_subdirectory("${BOX3D_DIR}/src" box3d_src)
 add_subdirectory("${BOX3D_DIR}/shared" box3d_shared)
 
+find_program(BUN_EXECUTABLE NAMES bun REQUIRED)
+
 # Diagnostic creation identities come from the shared Human creation order.
 # Generate a local copy so the upstream submodule remains untouched.
 file(READ "${BOX3D_DIR}/shared/human.c" HUMAN_SOURCE)
@@ -39,10 +41,15 @@ string(REPLACE "human->isSpawned = true;"
   "human->isSpawned = true;\n\textern void gpu_bench_human_created(const Human*);\n\tgpu_bench_human_created(human);"
   HUMAN_SOURCE "${HUMAN_SOURCE}")
 file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/diagnostic-human.c" "${HUMAN_SOURCE}")
+execute_process(
+  COMMAND "${BUN_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/inject-sample-controls.ts"
+    human "${CMAKE_CURRENT_BINARY_DIR}/diagnostic-human.c" "${CMAKE_CURRENT_BINARY_DIR}/diagnostic-human.c"
+  COMMAND_ERROR_IS_FATAL ANY
+)
 get_target_property(SHARED_SOURCES shared SOURCES)
 list(REMOVE_ITEM SHARED_SOURCES human.c)
 set_property(TARGET shared PROPERTY SOURCES ${SHARED_SOURCES} "${CMAKE_CURRENT_BINARY_DIR}/diagnostic-human.c")
-set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${BOX3D_DIR}/shared/human.c")
+set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${BOX3D_DIR}/shared/human.c" "${GPU_PHYSICS_DIR}/scripts/inject-sample-controls.ts")
 
 
 FetchContent_Declare(imgui
@@ -116,8 +123,12 @@ find_package(Python3 3.10 REQUIRED COMPONENTS Interpreter)
 set(CAPACITY_GFX_DIR "${CMAKE_CURRENT_BINARY_DIR}/capacity-gfx")
 execute_process(COMMAND "${Python3_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/inject-sokol-capacity.py"
   "${BOX3D_DIR}/samples/gfx" "${CAPACITY_GFX_DIR}" COMMAND_ERROR_IS_FATAL ANY)
+execute_process(COMMAND "${BUN_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/preview-framing.ts"
+  gfx "${CAPACITY_GFX_DIR}" COMMAND_ERROR_IS_FATAL ANY)
 set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS
-  "${GPU_PHYSICS_DIR}/scripts/inject-sokol-capacity.py")
+  "${GPU_PHYSICS_DIR}/scripts/inject-sokol-capacity.py"
+  "${GPU_PHYSICS_DIR}/scripts/preview-framing.ts"
+  "${CMAKE_CURRENT_SOURCE_DIR}/sokol_preview_bounds.h")
 file(GLOB LOCAL_GFX_INPUTS CONFIGURE_DEPENDS "${BOX3D_DIR}/samples/gfx/*.c")
 set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${LOCAL_GFX_INPUTS})
 set(LOCAL_GFX_DIR "${CAPACITY_GFX_DIR}")
@@ -138,7 +149,8 @@ foreach(SOURCE IN LISTS GFX_SOURCES)
     list(APPEND LOCAL_GFX_SOURCES "${BOX3D_DIR}/samples/gfx/${SOURCE}")
   endif()
 endforeach()
-set_property(TARGET gfx PROPERTY SOURCES ${LOCAL_GFX_SOURCES} "${CMAKE_CURRENT_SOURCE_DIR}/sokol_capacity.c")
+set_property(TARGET gfx PROPERTY SOURCES ${LOCAL_GFX_SOURCES} "${CMAKE_CURRENT_SOURCE_DIR}/sokol_capacity.c"
+  "${CMAKE_CURRENT_SOURCE_DIR}/sokol_preview_bounds.c")
 if(BOTH_SAMPLES)
   target_sources(gfx PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/sokol_split_stream.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/sokol_split_step.c")
@@ -150,12 +162,44 @@ set(SAMPLE_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_bench.cpp")
 set(CONTINUOUS_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_continuous_bench.cpp")
 set(CHARACTER_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_character_loading.cpp")
 set(JOINT_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_joint_bench.cpp")
+set(REPLAY_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_replay_ui.cpp")
+set(MANIFOLD_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_manifold_ui.cpp")
+set(COLLISION_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_collision_ui.cpp")
+set(TREE_CPP "${CMAKE_CURRENT_BINARY_DIR}/sample_tree_ui.cpp")
+add_custom_command(
+  OUTPUT "${TREE_CPP}"
+  COMMAND "${BUN_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/inject-sample-controls.ts"
+    tree "${BOX3D_DIR}/samples/sample_tree.cpp" "${TREE_CPP}"
+  DEPENDS "${BOX3D_DIR}/samples/sample_tree.cpp"
+    "${GPU_PHYSICS_DIR}/scripts/inject-sample-controls.ts"
+  VERBATIM
+)
+add_custom_command(
+  OUTPUT "${MANIFOLD_CPP}"
+  COMMAND "${BUN_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/inject-sample-controls.ts"
+    manifold "${BOX3D_DIR}/samples/sample_manifold.cpp" "${MANIFOLD_CPP}"
+  DEPENDS "${BOX3D_DIR}/samples/sample_manifold.cpp"
+    "${GPU_PHYSICS_DIR}/scripts/inject-sample-controls.ts"
+  VERBATIM
+)
+add_custom_command(
+  OUTPUT "${COLLISION_CPP}"
+  COMMAND "${BUN_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/inject-sample-controls.ts"
+    collision "${BOX3D_DIR}/samples/sample_collision.cpp" "${COLLISION_CPP}"
+  COMMAND "${BUN_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/preview-framing.ts"
+    collision "${COLLISION_CPP}" "${COLLISION_CPP}"
+  DEPENDS "${BOX3D_DIR}/samples/sample_collision.cpp"
+    "${GPU_PHYSICS_DIR}/scripts/inject-sample-controls.ts"
+    "${GPU_PHYSICS_DIR}/scripts/preview-framing.ts"
+    "${CMAKE_CURRENT_SOURCE_DIR}/sokol_preview_bounds.h"
+  VERBATIM
+)
 set(INJECT_EXTRA)
 if(GPU_SAMPLES OR BOTH_SAMPLES)
   list(APPEND INJECT_EXTRA --gpu-sidebar)
 endif()
 add_custom_command(
-  OUTPUT "${MAIN_CPP}" "${SAMPLE_CPP}" "${CONTINUOUS_CPP}" "${JOINT_CPP}" "${CHARACTER_CPP}"
+  OUTPUT "${MAIN_CPP}" "${SAMPLE_CPP}" "${CONTINUOUS_CPP}" "${JOINT_CPP}" "${CHARACTER_CPP}" "${REPLAY_CPP}"
   COMMAND "${Python3_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/inject-sokol-bench.py"
     --src "${BOX3D_DIR}/samples/main.cpp"
     --dst "${MAIN_CPP}"
@@ -167,7 +211,17 @@ add_custom_command(
     --character-dst "${CHARACTER_CPP}"
     --joint-src "${BOX3D_DIR}/samples/sample_joint.cpp"
     --joint-dst "${JOINT_CPP}"
+    --replay-src "${BOX3D_DIR}/samples/sample_replay.cpp"
+    --replay-dst "${REPLAY_CPP}"
     ${INJECT_EXTRA}
+  COMMAND "${BUN_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/inject-sample-controls.ts"
+    joint "${JOINT_CPP}" "${JOINT_CPP}"
+  COMMAND "${BUN_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/inject-sample-controls.ts"
+    overlays "${SAMPLE_CPP}" "${SAMPLE_CPP}"
+  COMMAND "${BUN_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/preview-framing.ts"
+    main "${MAIN_CPP}" "${MAIN_CPP}"
+  COMMAND "${BUN_EXECUTABLE}" "${GPU_PHYSICS_DIR}/scripts/preview-framing.ts"
+    sample "${SAMPLE_CPP}" "${SAMPLE_CPP}"
   DEPENDS
     "${GPU_PHYSICS_DIR}/scripts/sokol_split_injection.py"
     "${GPU_PHYSICS_DIR}/scripts/sokol_split_step_injection.py"
@@ -176,7 +230,11 @@ add_custom_command(
     "${BOX3D_DIR}/samples/sample_continuous.cpp"
     "${BOX3D_DIR}/samples/sample_character.cpp"
     "${BOX3D_DIR}/samples/sample_joint.cpp"
+    "${BOX3D_DIR}/samples/sample_replay.cpp"
+    "${GPU_PHYSICS_DIR}/scripts/inject-sample-controls.ts"
     "${GPU_PHYSICS_DIR}/scripts/inject-sokol-bench.py"
+    "${GPU_PHYSICS_DIR}/scripts/preview-framing.ts"
+    "${CMAKE_CURRENT_SOURCE_DIR}/sokol_preview_bounds.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/sokol_bench_hooks.h"
   VERBATIM
 )
@@ -202,7 +260,7 @@ set(SAMPLE_FILES
   "${BOX3D_DIR}/samples/sample_benchmark.cpp"
   "${BOX3D_DIR}/samples/sample_bodies.cpp"
   "${CHARACTER_CPP}"
-  "${BOX3D_DIR}/samples/sample_collision.cpp"
+  "${COLLISION_CPP}"
   "${BOX3D_DIR}/samples/sample_compound.cpp"
   "${CONTINUOUS_CPP}"
   "${BOX3D_DIR}/samples/sample_determinism.cpp"
@@ -210,14 +268,14 @@ set(SAMPLE_FILES
   "${BOX3D_DIR}/samples/sample_geometry.cpp"
   "${BOX3D_DIR}/samples/sample_issues.cpp"
   "${JOINT_CPP}"
-  "${BOX3D_DIR}/samples/sample_manifold.cpp"
+  "${MANIFOLD_CPP}"
   "${BOX3D_DIR}/samples/sample_mesh.cpp"
   "${BOX3D_DIR}/samples/sample_ragdoll.cpp"
-  "${BOX3D_DIR}/samples/sample_replay.cpp"
+  "${REPLAY_CPP}"
   "${BOX3D_DIR}/samples/sample_robustness.cpp"
   "${BOX3D_DIR}/samples/sample_shapes.cpp"
   "${BOX3D_DIR}/samples/sample_stacking.cpp"
-  "${BOX3D_DIR}/samples/sample_tree.cpp"
+  "${TREE_CPP}"
   "${BOX3D_DIR}/samples/sample_world.cpp"
 )
 

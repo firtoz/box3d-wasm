@@ -1,0 +1,3142 @@
+{
+  "status": "FIXED_VERIFIED_LOCAL",
+  "issue": "UI11",
+  "cause": {
+    "boundary": "ActualClearSelection clearsrendererGPU[2,1,1]→null butboth_pointer_state owners CPU[2,1,0]/GPU[2,1,1] remain; nextdraw restoresbothselectedIDs. CPUreference stayscleared.",
+    "operation": "Sharedcombinedb3World_Draw/both_draw_second resetrenderer selection fromg_drag.selected"
+  },
+  "repair": {
+    "source": "both_clear_selection inboth_dual.c clearsselected[2] +bothrenderer selections, calledonlyatgeneratedBOTHmainEscape selectionlayer",
+    "preserved": "Grabbedbody/mousebody/joint IDs/world untouched; originalClearSelection stillruns; popup/Controlsrouting unchanged; no pointerup onEscape",
+    "source_deltas": [
+      {
+        "source": "experiments/gpu-physics/c_abi/both_dual.c",
+        "before_sha256": "d6dbe00a9509c1935fc3b70eae91ca24f5dd99011281beeaab2cf8fed4fa695d",
+        "after_sha256": "0d7beedfc0e562a913aec9af9a2a42d68bb3d008f1d188c9996b68926a3f05ef",
+        "only_expected_delta": true,
+        "scope": "Onlynewselectionhelper clearsselectedIDs andrenderer IDs; grabbed/mouse/joint/world/physics unaffected"
+      },
+      {
+        "source": "experiments/gpu-physics/c_abi/both_view.h",
+        "before_sha256": "d64c484e8cbe72fc1494b94032011924ce21bf0424267ce1a9f1ff9aca26615a",
+        "after_sha256": "2565a10b859ea9d5364271fbc1344ef34f5432faabc04f80d6cd11e011d908b5",
+        "only_expected_delta": true,
+        "scope": "Onlynewhelperprototype, alltypes/layout unchanged"
+      },
+      {
+        "source": "experiments/gpu-physics/scripts/sokol_split_injection.py",
+        "before_sha256": "f5400bff47a54ea6d6bf11ed0655918a5184771337103983a2c09f391fecb99b",
+        "after_sha256": "889f38117c18f29a5ec1b1665c8447c832e54d499def437bbbd190d977b78d69",
+        "only_expected_delta": true,
+        "scope": "OnlyEscape selectionlayerBOTHguardedhelpercall"
+      },
+      {
+        "before_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui10-build/both-main.cpp",
+        "before_sha256": "ec5e1ffa8362d83934a659405814da069437b8dcd05f8576a5fbaad67d822504",
+        "after_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/both-main.cpp",
+        "after_sha256": "c79792b14f091542c8c696f050fadb0086e2212f5057227d82751e3ed7306d82",
+        "only_expected_delta": true,
+        "scope": "OnlyBOTHselectionowner call; allpriorUI10keyrelease/otherUIrepairs preserved"
+      }
+    ],
+    "archive_carrier": {
+      "original": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/libgpu_both_api.a",
+      "original_sha256": "f3042efe00094ab1140224b4df289fc926cd7b1be26d70c49c8e020155c9153c",
+      "candidate": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/libgpu_both_api.a",
+      "bytes": 191632,
+      "candidate_sha256": "f69d38a36a71b23e080cda4aea1f8348afd91b955479e888c04863b3f87bec46",
+      "changed_member": "both_dual.c.o",
+      "replacement_sha256": "c3b851848e3f27438a7b89e91c210e1a7260d98abcefc25dc333b126c4b7a52f",
+      "unchanged_members": [
+        {
+          "member": "both_map.c.o",
+          "sha256": "11134ac1e61577d686efff306085a4881aa15ff7fc84e7b7fa1b66e5526dd2c3"
+        },
+        {
+          "member": "both_passthrough.c.o",
+          "sha256": "7e5455d53e7c5275a9c3cc9cdebe0b4b7c84850c1f7c000a18c6e09d60a7d79a"
+        }
+      ],
+      "shared_archives_mutated": false
+    },
+    "standalone_binaries_reused_unchanged": true,
+    "build": "ui11-build.json/link_plan"
+  },
+  "evaluations": {
+    "before": 25,
+    "repair": 86,
+    "total": 111,
+    "original_positive": 109,
+    "original_wrong_probe_assertions": 2,
+    "adjudicated_from_same_actual_data": 2,
+    "no_qualified_runtime_repeated": true
+  },
+  "before": [
+    {
+      "route": "cpu",
+      "receipt": "raw/ui11-trace-runs/cpu/receipt.json",
+      "checks": 7,
+      "seconds": 1.659591101,
+      "boundary": {
+        "selected": {
+          "api": "actual_body_metadata",
+          "request": 14,
+          "selected": {
+            "owner": "public",
+            "id": [
+              2,
+              1,
+              0
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -0.00000454869087,
+              0.499935031,
+              -0.00000201112471
+            ],
+            "velocity": [
+              0.00000452107452,
+              -0.00000902655302,
+              -0.0000165759702
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "selected_cpu": {
+            "owner": "mapped_cpu",
+            "id": [
+              0,
+              0,
+              0
+            ],
+            "valid": false
+          },
+          "watched": [],
+          "render_counts": {
+            "opaque": 2,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          }
+        },
+        "boundary": {
+          "api": "ui11_clear_selection",
+          "before": {
+            "rendered": [
+              2,
+              1,
+              0
+            ],
+            "owner_available": false,
+            "owners": [
+              {
+                "selected": [
+                  0,
+                  0,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "selected": [
+                  0,
+                  0,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "after": {
+            "rendered": [
+              0,
+              0,
+              0
+            ],
+            "owner_available": false,
+            "owners": [
+              {
+                "selected": [
+                  0,
+                  0,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "selected": [
+                  0,
+                  0,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        "later": {
+          "api": "actual_body_metadata",
+          "request": 20,
+          "selected": {
+            "owner": "public",
+            "id": [
+              0,
+              0,
+              0
+            ],
+            "valid": false
+          },
+          "selected_cpu": {
+            "owner": "mapped_cpu",
+            "id": [
+              0,
+              0,
+              0
+            ],
+            "valid": false
+          },
+          "watched": [],
+          "render_counts": {
+            "opaque": 2,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          }
+        }
+      }
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui11-trace-runs/ordinary-both/receipt.json",
+      "checks": 9,
+      "seconds": 2.812288611,
+      "boundary": {
+        "selected": {
+          "api": "actual_body_metadata",
+          "request": 14,
+          "selected": {
+            "owner": "public",
+            "id": [
+              2,
+              1,
+              1
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              2.13919698e-11,
+              0.499940664,
+              1.21482694e-11
+            ],
+            "velocity": [
+              -4.81695905e-10,
+              -1.04983355e-9,
+              -7.50365492e-10
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "selected_cpu": {
+            "owner": "mapped_cpu",
+            "id": [
+              2,
+              1,
+              0
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -0.00000454869087,
+              0.499935031,
+              -0.00000201112471
+            ],
+            "velocity": [
+              0.00000452107452,
+              -0.00000902655302,
+              -0.0000165759702
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "watched": [],
+          "render_counts": {
+            "opaque": 2,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          }
+        },
+        "boundary": {
+          "api": "ui11_clear_selection",
+          "before": {
+            "rendered": [
+              2,
+              1,
+              1
+            ],
+            "owner_available": true,
+            "owners": [
+              {
+                "selected": [
+                  2,
+                  1,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "selected": [
+                  2,
+                  1,
+                  1
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "after": {
+            "rendered": [
+              0,
+              0,
+              0
+            ],
+            "owner_available": true,
+            "owners": [
+              {
+                "selected": [
+                  2,
+                  1,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "selected": [
+                  2,
+                  1,
+                  1
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        "later": {
+          "api": "actual_body_metadata",
+          "request": 20,
+          "selected": {
+            "owner": "public",
+            "id": [
+              2,
+              1,
+              1
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              2.13919698e-11,
+              0.499940664,
+              1.21482694e-11
+            ],
+            "velocity": [
+              -4.81695905e-10,
+              -1.04983355e-9,
+              -7.50365492e-10
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "selected_cpu": {
+            "owner": "mapped_cpu",
+            "id": [
+              2,
+              1,
+              0
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -0.00000454869087,
+              0.499935031,
+              -0.00000201112471
+            ],
+            "velocity": [
+              0.00000452107452,
+              -0.00000902655302,
+              -0.0000165759702
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "watched": [],
+          "render_counts": {
+            "opaque": 2,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          }
+        }
+      }
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/ui11-trace-runs/native-both/receipt.json",
+      "checks": 9,
+      "seconds": 2.857335478,
+      "boundary": {
+        "selected": {
+          "api": "actual_body_metadata",
+          "request": 14,
+          "selected": {
+            "owner": "public",
+            "id": [
+              2,
+              1,
+              1
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -8.32282333e-12,
+              0.499936461,
+              3.17578689e-12
+            ],
+            "velocity": [
+              -1.9168156e-9,
+              -1.00355824e-9,
+              -8.4702878e-10
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "selected_cpu": {
+            "owner": "mapped_cpu",
+            "id": [
+              2,
+              1,
+              0
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -0.00000441173415,
+              0.499932975,
+              -0.00000229548255
+            ],
+            "velocity": [
+              0.0000144823125,
+              -0.00000576396451,
+              -0.0000195655302
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "watched": [],
+          "render_counts": {
+            "opaque": 2,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          }
+        },
+        "boundary": {
+          "api": "ui11_clear_selection",
+          "before": {
+            "rendered": [
+              2,
+              1,
+              1
+            ],
+            "owner_available": true,
+            "owners": [
+              {
+                "selected": [
+                  2,
+                  1,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "selected": [
+                  2,
+                  1,
+                  1
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          },
+          "after": {
+            "rendered": [
+              0,
+              0,
+              0
+            ],
+            "owner_available": true,
+            "owners": [
+              {
+                "selected": [
+                  2,
+                  1,
+                  0
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              },
+              {
+                "selected": [
+                  2,
+                  1,
+                  1
+                ],
+                "mouse": [
+                  0,
+                  0,
+                  0
+                ],
+                "joint": [
+                  0,
+                  0,
+                  0
+                ]
+              }
+            ]
+          }
+        },
+        "later": {
+          "api": "actual_body_metadata",
+          "request": 20,
+          "selected": {
+            "owner": "public",
+            "id": [
+              2,
+              1,
+              1
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -8.32282333e-12,
+              0.499936461,
+              3.17578689e-12
+            ],
+            "velocity": [
+              -1.9168156e-9,
+              -1.00355824e-9,
+              -8.4702878e-10
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "selected_cpu": {
+            "owner": "mapped_cpu",
+            "id": [
+              2,
+              1,
+              0
+            ],
+            "valid": true,
+            "type": 2,
+            "enabled": true,
+            "position": [
+              -0.00000441173415,
+              0.499932975,
+              -0.00000229548255
+            ],
+            "velocity": [
+              0.0000144823125,
+              -0.00000576396451,
+              -0.0000195655302
+            ],
+            "mass": 1000,
+            "name": "cube"
+          },
+          "watched": [],
+          "render_counts": {
+            "opaque": 2,
+            "transparent": 0,
+            "lines": 0,
+            "points": 0
+          }
+        }
+      }
+    }
+  ],
+  "after": [
+    {
+      "route": "cpu",
+      "receipt": "raw/ui11-runs/cpu/receipt.json",
+      "checks": 10,
+      "seconds": 2.9223871910000003,
+      "findings": [],
+      "adjudication": null,
+      "owner_cases": null
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/ui11-runs/ordinary-gpu/receipt.json",
+      "checks": 10,
+      "seconds": 4.007609911,
+      "findings": [],
+      "adjudication": null,
+      "owner_cases": null
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/ui11-runs/native-gpu/receipt.json",
+      "checks": 10,
+      "seconds": 4.160213821999999,
+      "findings": [],
+      "adjudication": null,
+      "owner_cases": null
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui11-runs/ordinary-both/receipt.json",
+      "checks": 28,
+      "seconds": 6.21398074,
+      "findings": [
+        "Activegrabactualmousebody perworld",
+        "Selectionclear preservesactivegrab bodies/joints"
+      ],
+      "adjudication": "ui11-grab-probe-adjudication.json",
+      "owner_cases": [
+        {
+          "tag": "Escape",
+          "boundary": {
+            "api": "ui11_clear_selection",
+            "before": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            "after": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            }
+          },
+          "metadata": {
+            "api": "actual_body_metadata",
+            "request": 28,
+            "selected": {
+              "owner": "public",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "selected_cpu": {
+              "owner": "mapped_cpu",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "watched": [],
+            "render_counts": {
+              "opaque": 2,
+              "transparent": 0,
+              "lines": 0,
+              "points": 0
+            }
+          }
+        },
+        {
+          "tag": "RepeatEscape",
+          "boundary": {
+            "api": "ui11_clear_selection",
+            "before": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            "after": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            }
+          },
+          "metadata": {
+            "api": "actual_body_metadata",
+            "request": 34,
+            "selected": {
+              "owner": "public",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "selected_cpu": {
+              "owner": "mapped_cpu",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "watched": [],
+            "render_counts": {
+              "opaque": 2,
+              "transparent": 0,
+              "lines": 0,
+              "points": 0
+            }
+          }
+        },
+        {
+          "tag": "OverlayEscape returntosplit",
+          "boundary": {
+            "api": "ui11_clear_selection",
+            "before": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            "after": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            }
+          },
+          "metadata": {
+            "api": "actual_body_metadata",
+            "request": 58,
+            "selected": {
+              "owner": "public",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "selected_cpu": {
+              "owner": "mapped_cpu",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "watched": [],
+            "render_counts": {
+              "opaque": 2,
+              "transparent": 0,
+              "lines": 0,
+              "points": 0
+            }
+          }
+        },
+        {
+          "tag": "Escape duringgrab",
+          "boundary": {
+            "api": "ui11_clear_selection",
+            "before": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    3,
+                    1,
+                    0
+                  ],
+                  "joint": [
+                    1,
+                    1,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    3,
+                    1,
+                    1
+                  ],
+                  "joint": [
+                    1,
+                    1,
+                    1
+                  ]
+                }
+              ]
+            },
+            "after": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    3,
+                    1,
+                    0
+                  ],
+                  "joint": [
+                    1,
+                    1,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    3,
+                    1,
+                    1
+                  ],
+                  "joint": [
+                    1,
+                    1,
+                    1
+                  ]
+                }
+              ]
+            }
+          },
+          "metadata": {
+            "api": "actual_body_metadata",
+            "request": 72,
+            "selected": {
+              "owner": "public",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "selected_cpu": {
+              "owner": "mapped_cpu",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "watched": [],
+            "render_counts": {
+              "opaque": 2,
+              "transparent": 0,
+              "lines": 0,
+              "points": 0
+            }
+          }
+        }
+      ]
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/ui11-runs/native-both/receipt.json",
+      "checks": 28,
+      "seconds": 6.278364750000001,
+      "findings": [],
+      "adjudication": null,
+      "owner_cases": [
+        {
+          "tag": "Escape",
+          "boundary": {
+            "api": "ui11_clear_selection",
+            "before": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            "after": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            }
+          },
+          "metadata": {
+            "api": "actual_body_metadata",
+            "request": 28,
+            "selected": {
+              "owner": "public",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "selected_cpu": {
+              "owner": "mapped_cpu",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "watched": [],
+            "render_counts": {
+              "opaque": 2,
+              "transparent": 0,
+              "lines": 0,
+              "points": 0
+            }
+          }
+        },
+        {
+          "tag": "RepeatEscape",
+          "boundary": {
+            "api": "ui11_clear_selection",
+            "before": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            "after": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            }
+          },
+          "metadata": {
+            "api": "actual_body_metadata",
+            "request": 34,
+            "selected": {
+              "owner": "public",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "selected_cpu": {
+              "owner": "mapped_cpu",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "watched": [],
+            "render_counts": {
+              "opaque": 2,
+              "transparent": 0,
+              "lines": 0,
+              "points": 0
+            }
+          }
+        },
+        {
+          "tag": "OverlayEscape returntosplit",
+          "boundary": {
+            "api": "ui11_clear_selection",
+            "before": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            "after": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "joint": [
+                    0,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            }
+          },
+          "metadata": {
+            "api": "actual_body_metadata",
+            "request": 58,
+            "selected": {
+              "owner": "public",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "selected_cpu": {
+              "owner": "mapped_cpu",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "watched": [],
+            "render_counts": {
+              "opaque": 2,
+              "transparent": 0,
+              "lines": 0,
+              "points": 0
+            }
+          }
+        },
+        {
+          "tag": "Escape duringgrab",
+          "boundary": {
+            "api": "ui11_clear_selection",
+            "before": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    3,
+                    1,
+                    0
+                  ],
+                  "joint": [
+                    1,
+                    1,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    3,
+                    1,
+                    1
+                  ],
+                  "joint": [
+                    1,
+                    1,
+                    1
+                  ]
+                }
+              ]
+            },
+            "after": {
+              "rendered": [
+                0,
+                0,
+                0
+              ],
+              "owner_available": true,
+              "owners": [
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    3,
+                    1,
+                    0
+                  ],
+                  "joint": [
+                    1,
+                    1,
+                    0
+                  ]
+                },
+                {
+                  "selected": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "mouse": [
+                    3,
+                    1,
+                    1
+                  ],
+                  "joint": [
+                    1,
+                    1,
+                    1
+                  ]
+                }
+              ]
+            }
+          },
+          "metadata": {
+            "api": "actual_body_metadata",
+            "request": 72,
+            "selected": {
+              "owner": "public",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "selected_cpu": {
+              "owner": "mapped_cpu",
+              "id": [
+                0,
+                0,
+                0
+              ],
+              "valid": false
+            },
+            "watched": [],
+            "render_counts": {
+              "opaque": 2,
+              "transparent": 0,
+              "lines": 0,
+              "points": 0
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "media": {
+    "before": [
+      {
+        "route": "cpu",
+        "fixture": "before",
+        "state": "selected-before",
+        "path": "raw/ui11-trace-runs/cpu/selected-before.png",
+        "sha256": "2f2e87ea9fa1c603ef2f2a712a9b39535fc42d0ed57847e3f4e1e7518b207ebd"
+      },
+      {
+        "route": "cpu",
+        "fixture": "before",
+        "state": "escape-before",
+        "path": "raw/ui11-trace-runs/cpu/escape-before.png",
+        "sha256": "b4b6a5f2cca29a9b5c4daddf0b4d5ce3206ebb0a939796f251a47570f397e6ad"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "before",
+        "state": "selected-before",
+        "path": "raw/ui11-trace-runs/ordinary-both/selected-before.png",
+        "sha256": "02466942d245cbd845d4e0c23a176dfdaa4da3ae319a6735dedb2436feaf0f46"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "before",
+        "state": "escape-before",
+        "path": "raw/ui11-trace-runs/ordinary-both/escape-before.png",
+        "sha256": "2dc9acd7b9a639ac7da67f66adb96b698f2f13029ffc2e2c6b298bdddabb32ca"
+      },
+      {
+        "route": "native-both",
+        "fixture": "before",
+        "state": "selected-before",
+        "path": "raw/ui11-trace-runs/native-both/selected-before.png",
+        "sha256": "4269ae942147a1d360c7c7fdcb2569bbebfab62f90cbe9112cb88d491bba2699"
+      },
+      {
+        "route": "native-both",
+        "fixture": "before",
+        "state": "escape-before",
+        "path": "raw/ui11-trace-runs/native-both/escape-before.png",
+        "sha256": "5e2bf6afd9e43e96d4103f19b9aaa280a2cbe71138d41abe3ca1fca4a5633af9"
+      }
+    ],
+    "after": [
+      {
+        "route": "cpu",
+        "fixture": "repair",
+        "state": "selected",
+        "path": "raw/ui11-runs/cpu/selected.png",
+        "sha256": "1a54ddf148378f06ac09ad03ca3f1da09cbb9159e9bb21850f268a1700db20e1"
+      },
+      {
+        "route": "cpu",
+        "fixture": "repair",
+        "state": "escape",
+        "path": "raw/ui11-runs/cpu/escape.png",
+        "sha256": "cc2e9673f327d1eee0a05a1a2bbb4c079939e07abac9512d07a7eb5659cb70e5"
+      },
+      {
+        "route": "cpu",
+        "fixture": "repair",
+        "state": "picking",
+        "path": "raw/ui11-runs/cpu/picking.png",
+        "sha256": "154f1687387f21ea86f8eff1a40fe7b6acf1cc9beb365e5f9472f2a603044d60"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "repair",
+        "state": "selected",
+        "path": "raw/ui11-runs/ordinary-gpu/selected.png",
+        "sha256": "068ab5118308bbf818f239bc15a31ac4d54c5b906417fc07dbe5aca54949b50b"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "repair",
+        "state": "escape",
+        "path": "raw/ui11-runs/ordinary-gpu/escape.png",
+        "sha256": "7aef273622e1d614825d73c4ecf6729b138ef54b509a6fb89e907cfba4d82135"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "repair",
+        "state": "picking",
+        "path": "raw/ui11-runs/ordinary-gpu/picking.png",
+        "sha256": "d405dfafc719b4b3b964b8cc74fe0077b578e0aa10ea4ce30f576a1249883144"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "repair",
+        "state": "selected",
+        "path": "raw/ui11-runs/native-gpu/selected.png",
+        "sha256": "fd2c3e57db5251aac2148656cae067bcb442ec9242ed0a5bc648b3030ba8abcc"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "repair",
+        "state": "escape",
+        "path": "raw/ui11-runs/native-gpu/escape.png",
+        "sha256": "e2d6e234a8b3c0f6b92325260aa67aba8b1ae1169dc499992fb18f444f9b72de"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "repair",
+        "state": "picking",
+        "path": "raw/ui11-runs/native-gpu/picking.png",
+        "sha256": "2be811ed73c10293133bb8fe888fafe4bef5c867cb5ecb5230aaec898c3898ee"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "repair",
+        "state": "selected",
+        "path": "raw/ui11-runs/ordinary-both/selected.png",
+        "sha256": "2f42bbe625bbb1ffd5c30375c2cf59e7eba42af8694555606f48577051866c11"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "repair",
+        "state": "escape",
+        "path": "raw/ui11-runs/ordinary-both/escape.png",
+        "sha256": "bdf58aec24aea00159a9326b3d20779cd776bf912f3cf6ed45add360c7b38af4"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "repair",
+        "state": "split-restored",
+        "path": "raw/ui11-runs/ordinary-both/split-restored.png",
+        "sha256": "454ab01089568651a87f6d81386cad0939796c76a89b02fd3b0d25cbc2deb799"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "repair",
+        "state": "grab-cleared",
+        "path": "raw/ui11-runs/ordinary-both/grab-cleared.png",
+        "sha256": "7f04577b1b652b7fa91971e3f072b89733581b5485859c8076986dfd4bf6976c"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "repair",
+        "state": "picking",
+        "path": "raw/ui11-runs/ordinary-both/picking.png",
+        "sha256": "07c06bd66a7af21f99a008ab057824612e6d6070e40c30698f6148748e9ef0b4"
+      },
+      {
+        "route": "native-both",
+        "fixture": "repair",
+        "state": "selected",
+        "path": "raw/ui11-runs/native-both/selected.png",
+        "sha256": "635a872dd1a04c2a8805349255e1784216e44094479969be704ca5206b9f68b1"
+      },
+      {
+        "route": "native-both",
+        "fixture": "repair",
+        "state": "escape",
+        "path": "raw/ui11-runs/native-both/escape.png",
+        "sha256": "75c947fad874c14bfcd12eb57d00bcafadc9299ab22343f5d821d921fd94deb1"
+      },
+      {
+        "route": "native-both",
+        "fixture": "repair",
+        "state": "split-restored",
+        "path": "raw/ui11-runs/native-both/split-restored.png",
+        "sha256": "a61d09ac9554b33337c6db440d83ea5c4232da8bfbee174c6b11eb3636cb0f27"
+      },
+      {
+        "route": "native-both",
+        "fixture": "repair",
+        "state": "grab-cleared",
+        "path": "raw/ui11-runs/native-both/grab-cleared.png",
+        "sha256": "e9e56338c09cb65daa964b53b82bae8f85761f2b1098c24b1ff3282abdcda113"
+      },
+      {
+        "route": "native-both",
+        "fixture": "repair",
+        "state": "picking",
+        "path": "raw/ui11-runs/native-both/picking.png",
+        "sha256": "752b8ce74e49d19fd11b7ba25c53013712442fea0813b7b02cad98adc31a6eff"
+      }
+    ],
+    "grids": [
+      {
+        "path": "ui11-before-grid.png",
+        "sha256": "0e1d7695390d52f322d94a1fb4fa0daf2fd50158caed5ef0c78f4693adb5df21"
+      },
+      {
+        "path": "ui11-after-grid.png",
+        "sha256": "f78627cba3b81c476684db64bc171c3845e9028b03d34352a8f9ad20d9f1a507"
+      }
+    ],
+    "inspection": "All25individualbeforeafterimages andbothCPUfirstgrids inspected"
+  },
+  "applicability": [
+    {
+      "id": 1,
+      "cpu_identity": "Benchmark/Candy Cups",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 2,
+      "cpu_identity": "Benchmark/Chains",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 3,
+      "cpu_identity": "Benchmark/Convex Pile",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 4,
+      "cpu_identity": "Benchmark/Destruction",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 5,
+      "cpu_identity": "Benchmark/Explosion",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 6,
+      "cpu_identity": "Benchmark/Falling Boxes",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 7,
+      "cpu_identity": "Benchmark/Falling Trees",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 8,
+      "cpu_identity": "Benchmark/Height Field",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 9,
+      "cpu_identity": "Benchmark/Hull",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 10,
+      "cpu_identity": "Benchmark/Joint Grid",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 11,
+      "cpu_identity": "Benchmark/Junkyard",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 12,
+      "cpu_identity": "Benchmark/Large Pyramid",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 13,
+      "cpu_identity": "Benchmark/Large World",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 14,
+      "cpu_identity": "Benchmark/Many Pyramids",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 15,
+      "cpu_identity": "Benchmark/Rain",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 16,
+      "cpu_identity": "Benchmark/Sensor",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 17,
+      "cpu_identity": "Benchmark/Washer",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 18,
+      "cpu_identity": "Benchmark/Wide Pyramid",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 19,
+      "cpu_identity": "Bodies/Body Type",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 20,
+      "cpu_identity": "Bodies/Cast",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 21,
+      "cpu_identity": "Bodies/Class Ring",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 22,
+      "cpu_identity": "Bodies/Disable",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 23,
+      "cpu_identity": "Bodies/Fixed Rotation",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 24,
+      "cpu_identity": "Bodies/Gyroscopic Precession",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 25,
+      "cpu_identity": "Bodies/Gyroscopic Torque",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 26,
+      "cpu_identity": "Bodies/Kinematic",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 27,
+      "cpu_identity": "Bodies/Lock Mixing",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 28,
+      "cpu_identity": "Bodies/Offset Kinematic",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 29,
+      "cpu_identity": "Bodies/Spinning Book",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 30,
+      "cpu_identity": "Bodies/Weeble",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 31,
+      "cpu_identity": "Character/CapsulePlane",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 32,
+      "cpu_identity": "Character/Mover",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 33,
+      "cpu_identity": "Character/MoverOverlap",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 34,
+      "cpu_identity": "Character/Rigid Body",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 35,
+      "cpu_identity": "Collision/Capsule Cast Ray",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 36,
+      "cpu_identity": "Collision/Cast World",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 37,
+      "cpu_identity": "Collision/Distance Debug",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 38,
+      "cpu_identity": "Collision/Initial Overlap",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 39,
+      "cpu_identity": "Collision/Long Ray Cast",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 40,
+      "cpu_identity": "Collision/Mesh Scale",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 41,
+      "cpu_identity": "Collision/Overlap World",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 42,
+      "cpu_identity": "Collision/Ray Curtain",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 43,
+      "cpu_identity": "Collision/Shape Cast",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 44,
+      "cpu_identity": "Collision/Shape Cast Debug",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 45,
+      "cpu_identity": "Collision/Shape Distance",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 46,
+      "cpu_identity": "Collision/Time of Impact",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 47,
+      "cpu_identity": "Compound/Hulls",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 48,
+      "cpu_identity": "Compound/Mesh Tile",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 49,
+      "cpu_identity": "Compound/Simple",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 50,
+      "cpu_identity": "Compound/Spheres",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 51,
+      "cpu_identity": "Compound/Tile Floor",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 52,
+      "cpu_identity": "Compound/Village",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 53,
+      "cpu_identity": "Continuous/Bounce House",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 54,
+      "cpu_identity": "Continuous/Bullet vs Stack",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 55,
+      "cpu_identity": "Continuous/Hump Mesh",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 56,
+      "cpu_identity": "Continuous/Is Fast",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 57,
+      "cpu_identity": "Continuous/Mesh Drop",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 58,
+      "cpu_identity": "Continuous/Needle Mesh",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 59,
+      "cpu_identity": "Continuous/Spinning Stick",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 60,
+      "cpu_identity": "Continuous/Stall",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 61,
+      "cpu_identity": "Continuous/Thin Wall",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 62,
+      "cpu_identity": "Determinism/Falling Ragdolls",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 63,
+      "cpu_identity": "Determinism/Mesh Drop",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 64,
+      "cpu_identity": "Determinism/Query Spawn",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 65,
+      "cpu_identity": "Determinism/Wave Pile",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 66,
+      "cpu_identity": "Events/Contact",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 67,
+      "cpu_identity": "Events/Hit",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 68,
+      "cpu_identity": "Events/Joint",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 69,
+      "cpu_identity": "Events/Move",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 70,
+      "cpu_identity": "Events/Persistent Contact",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 71,
+      "cpu_identity": "Events/Sensor Hits",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 72,
+      "cpu_identity": "Events/Sensor Visit",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 73,
+      "cpu_identity": "GPU API/Shape Replacement",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 74,
+      "cpu_identity": "GPU Bench/Falling Cubes",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 75,
+      "cpu_identity": "GPU Bench/Mixed Stacks 4096",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 76,
+      "cpu_identity": "GPU Bench/Mixed Stacks 600",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 77,
+      "cpu_identity": "Geometry/Box Hull",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 78,
+      "cpu_identity": "Geometry/Capsule Mass",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 79,
+      "cpu_identity": "Geometry/Hull",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 80,
+      "cpu_identity": "Geometry/Hull Reduction",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 81,
+      "cpu_identity": "Geometry/Hull Transform",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 82,
+      "cpu_identity": "Issues/Capsule Mesh",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 83,
+      "cpu_identity": "Issues/Convex Jitter",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 84,
+      "cpu_identity": "Issues/Crash",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 85,
+      "cpu_identity": "Issues/GMod Wheel Stack",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 86,
+      "cpu_identity": "Issues/Hull Crash",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 87,
+      "cpu_identity": "Issues/Multiple Prismatic",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 88,
+      "cpu_identity": "Issues/Restitution Overshoot",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 89,
+      "cpu_identity": "Issues/Slide Twist Off Center Shape",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 90,
+      "cpu_identity": "Issues/s&box Ghost Collisions",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 91,
+      "cpu_identity": "Issues/s&box mover",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 92,
+      "cpu_identity": "Joints/Ball and Chain",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 93,
+      "cpu_identity": "Joints/Bridge",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 94,
+      "cpu_identity": "Joints/Distance Joint",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 95,
+      "cpu_identity": "Joints/Door",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 96,
+      "cpu_identity": "Joints/Driving",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 97,
+      "cpu_identity": "Joints/Filter",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 98,
+      "cpu_identity": "Joints/Gear Lift",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 99,
+      "cpu_identity": "Joints/Motion Locks",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 100,
+      "cpu_identity": "Joints/Motor Joint",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 101,
+      "cpu_identity": "Joints/Parallel Spring",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 102,
+      "cpu_identity": "Joints/Prismatic",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 103,
+      "cpu_identity": "Joints/Revolute",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 104,
+      "cpu_identity": "Joints/Spherical",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 105,
+      "cpu_identity": "Joints/Top Down Friction",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 106,
+      "cpu_identity": "Joints/Weld",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 107,
+      "cpu_identity": "Joints/Wheel",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 108,
+      "cpu_identity": "Manifold/Capsule vs Capsule",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 109,
+      "cpu_identity": "Manifold/Capsule vs Hull",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 110,
+      "cpu_identity": "Manifold/Capsule vs Sphere",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 111,
+      "cpu_identity": "Manifold/Hull vs Hull",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 112,
+      "cpu_identity": "Manifold/Hull vs Sphere",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 113,
+      "cpu_identity": "Manifold/Sphere vs Sphere",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 114,
+      "cpu_identity": "Manifold/Triangle vs Capsule",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 115,
+      "cpu_identity": "Manifold/Triangle vs Hull",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 116,
+      "cpu_identity": "Manifold/Triangle vs Sphere",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 117,
+      "cpu_identity": "Mesh/Big Box",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 118,
+      "cpu_identity": "Mesh/Box",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 119,
+      "cpu_identity": "Mesh/Creation Benchmark",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 120,
+      "cpu_identity": "Mesh/Grid",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 121,
+      "cpu_identity": "Mesh/Height Field",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 122,
+      "cpu_identity": "Mesh/Hollow Box",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 123,
+      "cpu_identity": "Mesh/Reflection",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 124,
+      "cpu_identity": "Mesh/Viewer",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 125,
+      "cpu_identity": "Mesh/Voxel",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 126,
+      "cpu_identity": "Ragdoll/Box",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 127,
+      "cpu_identity": "Ragdoll/Incline",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 128,
+      "cpu_identity": "Ragdoll/Mesh",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 129,
+      "cpu_identity": "Ragdoll/Pile",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 130,
+      "cpu_identity": "Replay/Viewer",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 131,
+      "cpu_identity": "Robustness/HighMassRatio1",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 132,
+      "cpu_identity": "Robustness/Overflow Color Pile",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 133,
+      "cpu_identity": "Robustness/Overlap Recovery",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 134,
+      "cpu_identity": "Robustness/Tiny Pyramid",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 135,
+      "cpu_identity": "Shapes/Conveyor Belt",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 136,
+      "cpu_identity": "Shapes/Conveyor Mesh",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 137,
+      "cpu_identity": "Shapes/High Resistance",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 138,
+      "cpu_identity": "Shapes/Inclined Plane",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 139,
+      "cpu_identity": "Shapes/Isotropic Friction",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 140,
+      "cpu_identity": "Shapes/Restitution",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 141,
+      "cpu_identity": "Shapes/Rolling Resistance",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 142,
+      "cpu_identity": "Shapes/Slide Twist",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 143,
+      "cpu_identity": "Shapes/Static Invoke",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 144,
+      "cpu_identity": "Shapes/Wind",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 145,
+      "cpu_identity": "Shapes/Wind Drop",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 146,
+      "cpu_identity": "Shapes/Wind Flap",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 147,
+      "cpu_identity": "Stacking/Arch",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 148,
+      "cpu_identity": "Stacking/Box Stack",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 149,
+      "cpu_identity": "Stacking/Capsule Stack",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 150,
+      "cpu_identity": "Stacking/Card House",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 151,
+      "cpu_identity": "Stacking/Cylinder",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 152,
+      "cpu_identity": "Stacking/Cylinder Stack",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 153,
+      "cpu_identity": "Stacking/Dominoes",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 154,
+      "cpu_identity": "Stacking/Double Domino",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 155,
+      "cpu_identity": "Stacking/Edge Crossing",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 156,
+      "cpu_identity": "Stacking/Jenga Stack",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 157,
+      "cpu_identity": "Stacking/Pyramid2D",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 158,
+      "cpu_identity": "Stacking/Single Box",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 159,
+      "cpu_identity": "Stacking/Sphere Stack",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 160,
+      "cpu_identity": "Stacking/Wedge",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 161,
+      "cpu_identity": "Tree/Benchmark",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 162,
+      "cpu_identity": "World/Far Mesh Drop",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 163,
+      "cpu_identity": "World/Far Pyramid",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 164,
+      "cpu_identity": "World/Far Ragdolls",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    },
+    {
+      "id": 165,
+      "cpu_identity": "World/Far Stack",
+      "method": "SHARED_COMBINED_SELECTION_HOST_SOURCE_REUSE_NOT_PER_SAMPLE_RUNTIME",
+      "scope": "CombinedEscape selectionlayer clearsauthoritativeowner. ActualSingleBoxall5routes,popupEscape,overlayreturn,grabIDs/lifetime/picking;165rowsnot165newruntimes."
+    }
+  ],
+  "preserved_probes": {
+    "original": "ui11-original-grab-probes.json",
+    "adjudication": "ui11-grab-probe-adjudication.json",
+    "reason": "Actualmutationworld.bodies iscreationregistrycount; internalGPUmousebody creationbypassespublicwrapper. RetainedactualGPUcounter3→3→2/CPUregistry3 andsameBothPointerState mouse/jointIDs verifypreservation. Original2falseflags kept; nativefirstcaseusesactualcounter."
+  },
+  "limitations": [
+    "SingleBoxruntime5routes;165sharedsource applicabilityrows are notnewper-sampleruns.",
+    "25before+86repairevaluations include2originalwrongprobes;109originalpositive,2same-dataadjudicated. Do notdescribeoriginalflags asalltrue/0findings.",
+    "Pausedafter5–7native startupsteps;0scriptedadvancingphysics. Activegrab lifecycle/IDs/countschecked, notjointsolverphysicalqualification.",
+    "PickerEscape preservesselection; nativeControlsEscape selectionlayer placement verifiedbyexactsource delta, notadditionalControlswindowruntime.",
+    "UI11actualworldcounter distinctfrommutationcreationregistry; GPUinternalmousebodyobservedbyrealcounter/ownerAPI, notpubliccreationregistryexamples.",
+    "BeforegridCPU+bothaffectedcombinedroutes; afterall5includes3unchangedstandalonebinaries.",
+    "SmalltaskAPIarchive onlyboth_dual.c.o changed, map/passthroughbyteexact; sharedarchives nevermutated.",
+    "Finalprecommit affected-scene recordings/compatibility/PR10criterionaudit OPEN;no commitpush."
+  ],
+  "resources": {
+    "status": "CLOSED",
+    "retained_bytes": 4790747,
+    "raw_retained_bytes": 933382473,
+    "deleted_bytes": 4771004,
+    "owned_pids_absent": [
+      3670169,
+      3670155,
+      3670450,
+      3670436,
+      3670778,
+      3670757,
+      3683986,
+      3683955,
+      3684244,
+      3684221,
+      3684555,
+      3684541,
+      3684955,
+      3684941,
+      3692132,
+      3692118
+    ],
+    "owned_core_files": [],
+    "shared_cache_growth_bytes": 0,
+    "free_bytes": 1707997126656,
+    "consumer": "Current5UI11viewers/neededobjects/taskarchive nextPR10relink; selected25images/receipts/2grids finalaudit",
+    "retained_diagnostic_bytes": 8964891,
+    "consumed_logs": [
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-trace-build/selection-observer-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-trace-build/cpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-trace-build/cpu-check.log",
+        "bytes": 331,
+        "sha256": "8bd735eab8f58fc88d746cd57ee3e9d4cff5813a4cbc9a512eb0a03f24358104",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-trace-build/ordinary-both-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-trace-build/ordinary-both-check.log",
+        "bytes": 534,
+        "sha256": "3d73d2493afb004e7e35c8246ec53bdbcc9f987ed380b9b3e2ed108d77fccfc8",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-trace-build/native-both-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-trace-build/native-both-check.log",
+        "bytes": 512,
+        "sha256": "e9aa2ecc4e6c0ada3142138c6f3075c428a942b5df659b56159240d4d1240c6d",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/canonical-generation.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/both-main-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/both-dual-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/replace-only-dual-member.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/candidate-api-members.log",
+        "bytes": 48,
+        "sha256": "ac9581d236205d6623f05567f9b74f10749190f49eb6c7e2b579fc86fb10f415",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/candidate-dual-member.log",
+        "bytes": 147616,
+        "sha256": "c3b851848e3f27438a7b89e91c210e1a7260d98abcefc25dc333b126c4b7a52f",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/old-both_map.c.o.log",
+        "bytes": 8168,
+        "sha256": "11134ac1e61577d686efff306085a4881aa15ff7fc84e7b7fa1b66e5526dd2c3",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/new-both_map.c.o.log",
+        "bytes": 8168,
+        "sha256": "11134ac1e61577d686efff306085a4881aa15ff7fc84e7b7fa1b66e5526dd2c3",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/old-both_passthrough.c.o.log",
+        "bytes": 21344,
+        "sha256": "7e5455d53e7c5275a9c3cc9cdebe0b4b7c84850c1f7c000a18c6e09d60a7d79a",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/new-both_passthrough.c.o.log",
+        "bytes": 21344,
+        "sha256": "7e5455d53e7c5275a9c3cc9cdebe0b4b7c84850c1f7c000a18c6e09d60a7d79a",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/cpu-check.log",
+        "bytes": 430,
+        "sha256": "153308493f472e1296de24534c254d023272fedb194a7ab85be6f404b04621c2",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/ordinary-gpu-check.log",
+        "bytes": 538,
+        "sha256": "b0a3a296b820c9a7be881e052351c04a75e75a0a05d630d500c0bcfb5be51798",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/native-gpu-check.log",
+        "bytes": 514,
+        "sha256": "b826b53076187cc485354d8f1afc06515d4b2318f523eca98464a3ac92d3e9e1",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/ordinary-both-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/ordinary-both-check.log",
+        "bytes": 1592,
+        "sha256": "e6c66bdcb355d351c0f9168ccc1d146eb13a9ffcb907227fdd8c75759d67bffa",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/native-both-first-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/native-both-first-check.log",
+        "bytes": 1517,
+        "sha256": "cb0463f03a9495ac80b58776cbe5fc588c170ce4464e570ae50a6fe32c5a1fb7",
+        "consumer": "Commands/exit/timing, exactmember/source proof, compact selection/owner rows andoriginalprobes extracted"
+      }
+    ],
+    "deleted_log_bytes": 212656,
+    "deleted_build_bytes": 168488180,
+    "owned_all_pids_absent": [
+      3683780,
+      3683781,
+      3683909,
+      3683946,
+      3683948,
+      3683949,
+      3683950,
+      3683952,
+      3683953,
+      3683954,
+      3683955,
+      3684221,
+      3684541,
+      3684842,
+      3684941,
+      3692002,
+      3692118,
+      3670111,
+      3670147,
+      3670155,
+      3670338,
+      3670436,
+      3670676,
+      3670757,
+      3670169,
+      3670450,
+      3670778,
+      3683986,
+      3684244,
+      3684555,
+      3684955,
+      3692132
+    ],
+    "current_pool": "ui11-build.json/link_plan;5viewers (3standalone reused), neededobjects/taskAPIarchive, exactactive tasklinkobjects below",
+    "active_task_objects": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui10-trace-completion-build/key-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui07-trace-completion-build/camera-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/cpu-adapter.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-material-build/material-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/hud-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui10-trace-completion-build/ui-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui10-build/cpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/cpu-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-build/cpu-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/cpu-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui10-build/gpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/gpu-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-build/ordinary-gpu-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-gpu-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-trace-build/selection-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/both-adapter.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-build/both-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui07-build/both-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-build/ordinary-both-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-both-replay.o"
+    ]
+  }
+}

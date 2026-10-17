@@ -1,0 +1,29 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "reason": "Preserve CPU29 completed checks and original query failure. CPU focused confirmation/tail plus four previously unlaunched GPU routes. Correct actual leaf+label selection; pair nested ABI setter records by owner/API/full identity. No product changes.",
+  "apps_CPUfirst": [
+    "cpu-tail",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "builds": 0,
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "positive_step_seconds": 25,
+  "screens_each": 8,
+  "actions_each": 100,
+  "api_bytes_each": 16777216,
+  "raw_cap_bytes": 1073741824,
+  "retained_cap_bytes": 67108864,
+  "shared_cache_growth_cap_bytes": 134217728,
+  "retries": 0,
+  "outputs": {
+    "raw streams": "extract selected state/ABI receipts then delete",
+    "screenshots": "retained before evidence",
+    "binaries": "reuse existing metadata pool; remove older pool after actual qualification"
+  },
+  "driver_sha256": "7399da3db12d1d0f2aae53d46be1f9655845d71f93e1c7de04a25c85b4e859a0",
+  "tail_sha256": "b65ab116fd87912f364d054dd73fe153aa2c6947ee5d39543fd45d7d8d127b5f"
+}

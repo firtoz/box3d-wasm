@@ -1,0 +1,179 @@
+{
+  "status": "INCOMPLETE_FAILURES_RETAINED",
+  "budget": "mesh-controls-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "grid",
+    "big-box",
+    "box",
+    "reflection"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "grid",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 55,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "big-box",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 55,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "box",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 55,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "reflection",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 29,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "grid",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 7,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "big-box",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 7,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "box",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 55,
+      "findings": 2
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "reflection",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 29,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "grid",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 7,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "big-box",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 7,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "box",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 55,
+      "findings": 2
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "reflection",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 29,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "grid",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 9,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "big-box",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 9,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "box",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 63,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "reflection",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 29,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "grid",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 9,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "big-box",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 9,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "box",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 63,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "reflection",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 29,
+      "findings": 0
+    }
+  ]
+}

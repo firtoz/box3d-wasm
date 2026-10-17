@@ -1,0 +1,1902 @@
+[
+  {
+    "run": "raw/ui01-before-runs/cpu",
+    "status": "PASS_NUMERIC_SUBSET_VISUAL_REVIEW_PENDING",
+    "records": 392,
+    "stream_sha256": "1553941e827b2f9cc21d957a2897fb7765733b3b728124cc5a2a49a99afbf6f8",
+    "flags_every_record_match": true,
+    "both_CPU_flags_every_record_match": true,
+    "step_event_windows": [
+      {
+        "frame_window": [
+          20,
+          27
+        ],
+        "world": [
+          1,
+          0
+        ],
+        "records": 7,
+        "moved_records": 1,
+        "first_moved": {
+          "frame": 21,
+          "world": [
+            1,
+            0
+          ],
+          "sample_step": 5,
+          "submitted": 5,
+          "completed": 5,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            0,
+            1
+          ],
+          "first_position": [
+            -4.54869087e-06,
+            0.499935031,
+            -2.01112471e-06
+          ],
+          "fell_asleep": 0
+        }
+      },
+      {
+        "frame_window": [
+          129,
+          137
+        ],
+        "world": [
+          1,
+          1
+        ],
+        "records": 8,
+        "moved_records": 1,
+        "first_moved": {
+          "frame": 131,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            0,
+            0,
+            0
+          ],
+          "world_flags": [
+            0,
+            0,
+            0
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            0,
+            1
+          ],
+          "first_position": [
+            -1.53013825e-05,
+            0.49996832,
+            8.51445384e-06
+          ],
+          "fell_asleep": 0
+        }
+      },
+      {
+        "frame_window": [
+          347,
+          355
+        ],
+        "world": [
+          1,
+          4
+        ],
+        "records": 8,
+        "moved_records": 1,
+        "first_moved": {
+          "frame": 348,
+          "world": [
+            1,
+            4
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 61,
+          "shape_count": 61,
+          "move_count": 60,
+          "first_body": [
+            2,
+            0,
+            1
+          ],
+          "first_position": [
+            0.798862696,
+            0.0678851008,
+            -0.000491962011
+          ],
+          "fell_asleep": 0
+        }
+      }
+    ]
+  },
+  {
+    "run": "raw/ui01-before-runs/ordinary-gpu",
+    "status": "PASS_NUMERIC_SUBSET_VISUAL_REVIEW_PENDING",
+    "records": 431,
+    "stream_sha256": "def2658ad89832b90ed1df47b5b57f5de7d2a15814266fcd26e6b8f9ac23c7fb",
+    "flags_every_record_match": true,
+    "both_CPU_flags_every_record_match": true,
+    "step_event_windows": [
+      {
+        "frame_window": [
+          21,
+          28
+        ],
+        "world": [
+          1,
+          1
+        ],
+        "records": 7,
+        "moved_records": 7,
+        "first_moved": {
+          "frame": 22,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 6,
+          "submitted": 6,
+          "completed": 6,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            1
+          ],
+          "first_position": [
+            -8.32282333e-12,
+            0.499936461,
+            3.17578689e-12
+          ],
+          "fell_asleep": 0
+        }
+      },
+      {
+        "frame_window": [
+          168,
+          175
+        ],
+        "world": [
+          1,
+          2
+        ],
+        "records": 7,
+        "moved_records": 7,
+        "first_moved": {
+          "frame": 169,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            0,
+            0,
+            0
+          ],
+          "world_flags": [
+            0,
+            0,
+            0
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            2
+          ],
+          "first_position": [
+            2.98805512e-12,
+            0.499987781,
+            -2.70853457e-12
+          ],
+          "fell_asleep": 0
+        }
+      },
+      {
+        "frame_window": [
+          385,
+          393
+        ],
+        "world": [
+          1,
+          5
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 386,
+          "world": [
+            1,
+            5
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 61,
+          "shape_count": 61,
+          "move_count": 60,
+          "first_body": [
+            2,
+            1,
+            5
+          ],
+          "first_position": [
+            0.800426126,
+            0.0714715421,
+            3.43900901e-05
+          ],
+          "fell_asleep": 0
+        }
+      }
+    ]
+  },
+  {
+    "run": "raw/ui01-before-runs/native-gpu",
+    "status": "PASS_NUMERIC_SUBSET_VISUAL_REVIEW_PENDING",
+    "records": 427,
+    "stream_sha256": "2fe83e70ad6cd48e48d1039db3ac93f17cc7fe3d25324ef23c49fd0a15f32610",
+    "flags_every_record_match": true,
+    "both_CPU_flags_every_record_match": true,
+    "step_event_windows": [
+      {
+        "frame_window": [
+          22,
+          30
+        ],
+        "world": [
+          1,
+          1
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 23,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 7,
+          "submitted": 7,
+          "completed": 7,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            1
+          ],
+          "first_position": [
+            7.05499721e-12,
+            0.499933809,
+            -5.00360864e-12
+          ],
+          "fell_asleep": 0
+        }
+      },
+      {
+        "frame_window": [
+          170,
+          177
+        ],
+        "world": [
+          1,
+          2
+        ],
+        "records": 7,
+        "moved_records": 7,
+        "first_moved": {
+          "frame": 171,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            0,
+            0,
+            0
+          ],
+          "world_flags": [
+            0,
+            0,
+            0
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            2
+          ],
+          "first_position": [
+            2.98805512e-12,
+            0.499987781,
+            -2.70853457e-12
+          ],
+          "fell_asleep": 0
+        }
+      },
+      {
+        "frame_window": [
+          384,
+          390
+        ],
+        "world": [
+          1,
+          5
+        ],
+        "records": 6,
+        "moved_records": 6,
+        "first_moved": {
+          "frame": 385,
+          "world": [
+            1,
+            5
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 61,
+          "shape_count": 61,
+          "move_count": 60,
+          "first_body": [
+            2,
+            1,
+            5
+          ],
+          "first_position": [
+            0.800426126,
+            0.0714715421,
+            3.43900901e-05
+          ],
+          "fell_asleep": 0
+        }
+      }
+    ]
+  },
+  {
+    "run": "raw/ui01-before-runs/ordinary-both",
+    "status": "PASS_NUMERIC_SUBSET_VISUAL_REVIEW_PENDING",
+    "records": 423,
+    "stream_sha256": "26728ae9220f23ca0c94eb2971178d1e01cd291571237fb409443ee089bfb15d",
+    "flags_every_record_match": true,
+    "both_CPU_flags_every_record_match": true,
+    "step_event_windows": [
+      {
+        "frame_window": [
+          21,
+          27
+        ],
+        "world": [
+          1,
+          1
+        ],
+        "records": 6,
+        "moved_records": 6,
+        "first_moved": {
+          "frame": 22,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 6,
+          "submitted": 6,
+          "completed": 6,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            1
+          ],
+          "first_position": [
+            -8.32282333e-12,
+            0.499936461,
+            3.17578689e-12
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            0
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "frame_window": [
+          164,
+          172
+        ],
+        "world": [
+          1,
+          2
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 165,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            0,
+            0,
+            0
+          ],
+          "world_flags": [
+            0,
+            0,
+            0
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            2
+          ],
+          "first_position": [
+            2.98805512e-12,
+            0.499987781,
+            -2.70853457e-12
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            1
+          ],
+          "cpu_flags": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "frame_window": [
+          383,
+          389
+        ],
+        "world": [
+          1,
+          5
+        ],
+        "records": 6,
+        "moved_records": 6,
+        "first_moved": {
+          "frame": 384,
+          "world": [
+            1,
+            5
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 61,
+          "shape_count": 61,
+          "move_count": 60,
+          "first_body": [
+            2,
+            1,
+            5
+          ],
+          "first_position": [
+            0.800426126,
+            0.0714715421,
+            3.43900901e-05
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            4
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "run": "raw/ui01-before-runs/native-both",
+    "status": "PASS_NUMERIC_SUBSET_VISUAL_REVIEW_PENDING",
+    "records": 425,
+    "stream_sha256": "621620d92de1a186169b7dfa74a9327a677c3fb8cc94a765b19969515268c868",
+    "flags_every_record_match": true,
+    "both_CPU_flags_every_record_match": true,
+    "step_event_windows": [
+      {
+        "frame_window": [
+          20,
+          26
+        ],
+        "world": [
+          1,
+          1
+        ],
+        "records": 6,
+        "moved_records": 6,
+        "first_moved": {
+          "frame": 21,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 5,
+          "submitted": 5,
+          "completed": 5,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            1
+          ],
+          "first_position": [
+            2.13919698e-11,
+            0.499940664,
+            1.21482694e-11
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            0
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "frame_window": [
+          162,
+          170
+        ],
+        "world": [
+          1,
+          2
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 163,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            0,
+            0,
+            0
+          ],
+          "world_flags": [
+            0,
+            0,
+            0
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            2
+          ],
+          "first_position": [
+            2.98805512e-12,
+            0.499987781,
+            -2.70853457e-12
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            1
+          ],
+          "cpu_flags": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "frame_window": [
+          381,
+          389
+        ],
+        "world": [
+          1,
+          5
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 382,
+          "world": [
+            1,
+            5
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 61,
+          "shape_count": 61,
+          "move_count": 60,
+          "first_body": [
+            2,
+            1,
+            5
+          ],
+          "first_position": [
+            0.800426126,
+            0.0714715421,
+            3.43900901e-05
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            4
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "run": "raw/ui01-after-runs/cpu",
+    "status": "PASS_NUMERIC_SUBSET_VISUAL_REVIEW_PENDING",
+    "records": 404,
+    "stream_sha256": "2cf157b7c7bead07fdfc3b266fcdd9ff01d008eb3c1248b6c5886baa53bca5f8",
+    "flags_every_record_match": true,
+    "both_CPU_flags_every_record_match": true,
+    "step_event_windows": [
+      {
+        "frame_window": [
+          23,
+          31
+        ],
+        "world": [
+          1,
+          0
+        ],
+        "records": 8,
+        "moved_records": 1,
+        "first_moved": {
+          "frame": 24,
+          "world": [
+            1,
+            0
+          ],
+          "sample_step": 7,
+          "submitted": 7,
+          "completed": 7,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            0,
+            1
+          ],
+          "first_position": [
+            -4.23470965e-06,
+            0.499931693,
+            -2.52855853e-06
+          ],
+          "fell_asleep": 0
+        }
+      },
+      {
+        "frame_window": [
+          137,
+          143
+        ],
+        "world": [
+          1,
+          1
+        ],
+        "records": 6,
+        "moved_records": 1,
+        "first_moved": {
+          "frame": 138,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            0,
+            0,
+            0
+          ],
+          "world_flags": [
+            0,
+            0,
+            0
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            0,
+            1
+          ],
+          "first_position": [
+            -1.53013825e-05,
+            0.49996832,
+            8.51445384e-06
+          ],
+          "fell_asleep": 0
+        }
+      },
+      {
+        "frame_window": [
+          359,
+          367
+        ],
+        "world": [
+          1,
+          4
+        ],
+        "records": 8,
+        "moved_records": 1,
+        "first_moved": {
+          "frame": 360,
+          "world": [
+            1,
+            4
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 61,
+          "shape_count": 61,
+          "move_count": 60,
+          "first_body": [
+            2,
+            0,
+            1
+          ],
+          "first_position": [
+            0.798862696,
+            0.0678851008,
+            -0.000491962011
+          ],
+          "fell_asleep": 0
+        }
+      }
+    ]
+  },
+  {
+    "run": "raw/ui01-after-runs/ordinary-gpu",
+    "status": "PASS_NUMERIC_SUBSET_VISUAL_REVIEW_PENDING",
+    "records": 459,
+    "stream_sha256": "a03f96648748254ac71759f1425d26e56a419fad8794b1f4001432bc33f1afad",
+    "flags_every_record_match": true,
+    "both_CPU_flags_every_record_match": true,
+    "step_event_windows": [
+      {
+        "frame_window": [
+          22,
+          30
+        ],
+        "world": [
+          1,
+          1
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 23,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 8,
+          "submitted": 8,
+          "completed": 8,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            1
+          ],
+          "first_position": [
+            2.77827553e-11,
+            0.49993217,
+            -7.40009269e-12
+          ],
+          "fell_asleep": 0
+        }
+      },
+      {
+        "frame_window": [
+          195,
+          201
+        ],
+        "world": [
+          1,
+          2
+        ],
+        "records": 6,
+        "moved_records": 6,
+        "first_moved": {
+          "frame": 196,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            0,
+            0,
+            0
+          ],
+          "world_flags": [
+            0,
+            0,
+            0
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            2
+          ],
+          "first_position": [
+            2.98805512e-12,
+            0.499987781,
+            -2.70853457e-12
+          ],
+          "fell_asleep": 0
+        }
+      },
+      {
+        "frame_window": [
+          414,
+          422
+        ],
+        "world": [
+          1,
+          5
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 415,
+          "world": [
+            1,
+            5
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 61,
+          "shape_count": 61,
+          "move_count": 60,
+          "first_body": [
+            2,
+            1,
+            5
+          ],
+          "first_position": [
+            0.800426126,
+            0.0714715421,
+            3.43900901e-05
+          ],
+          "fell_asleep": 0
+        }
+      }
+    ]
+  },
+  {
+    "run": "raw/ui01-after-runs/native-gpu",
+    "status": "PASS_NUMERIC_SUBSET_VISUAL_REVIEW_PENDING",
+    "records": 467,
+    "stream_sha256": "05004a78ab6849d15dcd089b8b38ee8ab8543d07f1a6bdbc4175628e39ab0b46",
+    "flags_every_record_match": true,
+    "both_CPU_flags_every_record_match": true,
+    "step_event_windows": [
+      {
+        "frame_window": [
+          23,
+          31
+        ],
+        "world": [
+          1,
+          1
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 24,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 7,
+          "submitted": 7,
+          "completed": 7,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            1
+          ],
+          "first_position": [
+            7.05499721e-12,
+            0.499933809,
+            -5.00360864e-12
+          ],
+          "fell_asleep": 0
+        }
+      },
+      {
+        "frame_window": [
+          198,
+          205
+        ],
+        "world": [
+          1,
+          2
+        ],
+        "records": 7,
+        "moved_records": 7,
+        "first_moved": {
+          "frame": 199,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            0,
+            0,
+            0
+          ],
+          "world_flags": [
+            0,
+            0,
+            0
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            2
+          ],
+          "first_position": [
+            2.98805512e-12,
+            0.499987781,
+            -2.70853457e-12
+          ],
+          "fell_asleep": 0
+        }
+      },
+      {
+        "frame_window": [
+          421,
+          427
+        ],
+        "world": [
+          1,
+          5
+        ],
+        "records": 6,
+        "moved_records": 6,
+        "first_moved": {
+          "frame": 422,
+          "world": [
+            1,
+            5
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 61,
+          "shape_count": 61,
+          "move_count": 60,
+          "first_body": [
+            2,
+            1,
+            5
+          ],
+          "first_position": [
+            0.800426126,
+            0.0714715421,
+            3.43900901e-05
+          ],
+          "fell_asleep": 0
+        }
+      }
+    ]
+  },
+  {
+    "run": "raw/ui01-after-runs/ordinary-both",
+    "status": "FAILURE_RETAINED",
+    "records": 375,
+    "stream_sha256": "16e4887fb2f187702213cc82ba09f3464720fa61d148a8447386fa5b55006cf8",
+    "flags_every_record_match": true,
+    "both_CPU_flags_every_record_match": true,
+    "step_event_windows": [
+      {
+        "frame_window": [
+          24,
+          32
+        ],
+        "world": [
+          1,
+          1
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 25,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 8,
+          "submitted": 8,
+          "completed": 8,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            1
+          ],
+          "first_position": [
+            2.77827553e-11,
+            0.49993217,
+            -7.40009269e-12
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            0
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "frame_window": [
+          194,
+          203
+        ],
+        "world": [
+          1,
+          2
+        ],
+        "records": 9,
+        "moved_records": 9,
+        "first_moved": {
+          "frame": 195,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            0,
+            0,
+            0
+          ],
+          "world_flags": [
+            0,
+            0,
+            0
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            2
+          ],
+          "first_position": [
+            2.98805512e-12,
+            0.499987781,
+            -2.70853457e-12
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            1
+          ],
+          "cpu_flags": [
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "run": "raw/ui01-after-runs/ordinary-both-stat-safe",
+    "status": "PASS_NUMERIC_SUBSET_VISUAL_REVIEW_PENDING",
+    "records": 463,
+    "stream_sha256": "60fe4c58e60e0b35a46c97eeaa7d9a3a378c22e2bcf564857d0b255f45f4f831",
+    "flags_every_record_match": true,
+    "both_CPU_flags_every_record_match": true,
+    "step_event_windows": [
+      {
+        "frame_window": [
+          21,
+          29
+        ],
+        "world": [
+          1,
+          1
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 22,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 5,
+          "submitted": 5,
+          "completed": 5,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            1
+          ],
+          "first_position": [
+            2.13919698e-11,
+            0.499940664,
+            1.21482694e-11
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            0
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "frame_window": [
+          191,
+          199
+        ],
+        "world": [
+          1,
+          2
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 192,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            0,
+            0,
+            0
+          ],
+          "world_flags": [
+            0,
+            0,
+            0
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            2
+          ],
+          "first_position": [
+            2.98805512e-12,
+            0.499987781,
+            -2.70853457e-12
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            1
+          ],
+          "cpu_flags": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "frame_window": [
+          415,
+          422
+        ],
+        "world": [
+          1,
+          5
+        ],
+        "records": 7,
+        "moved_records": 7,
+        "first_moved": {
+          "frame": 416,
+          "world": [
+            1,
+            5
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 61,
+          "shape_count": 61,
+          "move_count": 60,
+          "first_body": [
+            2,
+            1,
+            5
+          ],
+          "first_position": [
+            0.800426126,
+            0.0714715421,
+            3.43900901e-05
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            4
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "run": "raw/ui01-after-runs/native-both",
+    "status": "PASS_NUMERIC_SUBSET_VISUAL_REVIEW_PENDING",
+    "records": 468,
+    "stream_sha256": "651365b701a9e5e7ebdb33f273e18827babf287bf741309152bc3f3c5882c5d3",
+    "flags_every_record_match": true,
+    "both_CPU_flags_every_record_match": true,
+    "step_event_windows": [
+      {
+        "frame_window": [
+          23,
+          31
+        ],
+        "world": [
+          1,
+          1
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 24,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 8,
+          "submitted": 8,
+          "completed": 8,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            1
+          ],
+          "first_position": [
+            2.77827553e-11,
+            0.49993217,
+            -7.40009269e-12
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            0
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "frame_window": [
+          192,
+          200
+        ],
+        "world": [
+          1,
+          2
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 193,
+          "world": [
+            1,
+            2
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            0,
+            0,
+            0
+          ],
+          "world_flags": [
+            0,
+            0,
+            0
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            1,
+            2
+          ],
+          "first_position": [
+            2.98805512e-12,
+            0.499987781,
+            -2.70853457e-12
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            1
+          ],
+          "cpu_flags": [
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      {
+        "frame_window": [
+          421,
+          429
+        ],
+        "world": [
+          1,
+          5
+        ],
+        "records": 8,
+        "moved_records": 8,
+        "first_moved": {
+          "frame": 422,
+          "world": [
+            1,
+            5
+          ],
+          "sample_step": 1,
+          "submitted": 1,
+          "completed": 1,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 61,
+          "shape_count": 61,
+          "move_count": 60,
+          "first_body": [
+            2,
+            1,
+            5
+          ],
+          "first_position": [
+            0.800426126,
+            0.0714715421,
+            3.43900901e-05
+          ],
+          "fell_asleep": 0,
+          "cpu_world": [
+            1,
+            4
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    ]
+  }
+]

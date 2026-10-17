@@ -1,0 +1,20 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "plane-controls-remaining-budget.json",
+  "runs": [
+    {
+      "route": "ordinary-both",
+      "fixture": "body-cast",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "body-cast",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    }
+  ]
+}

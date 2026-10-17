@@ -1,0 +1,19 @@
+{
+  "status": "FROZEN",
+  "cause": "typecheck:scripts explicitly requests types bun, but no workspace manifest declares @types/bun. Catalog entry alone does not install it. Workspace API/demo typecheck already passed; scripts fails TS2688 before checking code.",
+  "scope": "Declare existing Bun type catalog in root devDependencies, restore missing compile-time dependency only. No runtime/WASM/engine source change.",
+  "package_before_sha256": "395701a1c5f55c55fab6e16fdce752836e244a682c1403a8d7acb2b2f45a6b6a",
+  "lock_before_sha256": "c1a87495ed7a96f0a9f0d73500ef85424f2cda0365ada691cc909b22219fb50e",
+  "install_commands": 1,
+  "install_seconds": 60,
+  "typecheck_commands": 1,
+  "typecheck_seconds": 60,
+  "vite_commands": 1,
+  "vite_seconds": 45,
+  "outer_seconds": 180,
+  "logs_max_bytes": 1048576,
+  "dependency_growth_bytes": 67108864,
+  "retained_bytes": 2097152,
+  "large_builds": 0,
+  "apps": 0
+}

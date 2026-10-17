@@ -1,0 +1,20 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 651754,
+  "raw_retained_bytes": 869868403,
+  "deleted_bytes": 566544,
+  "owned_pids_absent": [
+    3123942,
+    3123894,
+    3124141,
+    3124125,
+    3124312,
+    3124296,
+    3124563,
+    3124545
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708277428224,
+  "consumer": "ActualavailableGPUtabclicks; loadedplayerwidgetsremainexplicitunsupported/UI09."
+}

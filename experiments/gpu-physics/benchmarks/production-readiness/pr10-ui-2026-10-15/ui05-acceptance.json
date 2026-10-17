@@ -1,0 +1,2364 @@
+{
+  "status": "FIXED_VERIFIED_LOCAL",
+  "issue": "UI05",
+  "cause": {
+    "operation": "Actual native StartUIFrame after GUI callback and RenderText; original final text bounds overlap",
+    "font_size": 16,
+    "original_sample_bounds": [
+      5,
+      48,
+      339,
+      64
+    ],
+    "original_paused_bounds": [
+      5,
+      48,
+      131,
+      64
+    ],
+    "source": "ResetText hidden3fontunits equals DrawHudPAUSED3fontunits; combined ComparisonView unconditional"
+  },
+  "repair": {
+    "sample": "Hidden paused sample start4.5fontunits/y72, below native PAUSEDy48–64; hiddenrunning start3fontunits/y48; shown sampley34 unchanged",
+    "combined": "ComparisonView window and checkbox callback emitted only when s_context.showUI. Split choice/pane text/pointer/render policies preserved",
+    "source_deltas": [
+      {
+        "variant": "cpu",
+        "before_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/sample_bench.cpp",
+        "before_sha256": "d95bf41cc454d0319a93683ba69e65976c2c529fa8968dbafd87420c48a59287",
+        "after_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/cpu-sample.cpp",
+        "after_sha256": "80f37738dfc8a55558237fb4052a203a26d456cad01bfb5158fbde1160fb932a",
+        "only": "Hidden paused sample text row; previously qualified UI04 width included for source consistency (GPU CPU-profile branch excluded)",
+        "geometry_physics_defaults_identity_picking": "Exact rest of qualified source unchanged"
+      },
+      {
+        "variant": "gpu",
+        "before_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui01-after/gpu/sample_bench.cpp",
+        "before_sha256": "36bc134dd91799c40db6db59fa1bae5e53e47909e0235b54b62d4a9cd43d7327",
+        "after_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/gpu-sample.cpp",
+        "after_sha256": "07a7a0bdcd45965916143679df6a22a8b3367c1a081d6d1cd29926c52cc69f5e",
+        "only": "Hidden paused sample text row; previously qualified UI04 width included for source consistency (GPU CPU-profile branch excluded)",
+        "geometry_physics_defaults_identity_picking": "Exact rest of qualified source unchanged"
+      },
+      {
+        "variant": "both",
+        "before_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui01-after/both/sample_bench.cpp",
+        "before_sha256": "e685bbedf7990ad490755fcc7748eddbeb94008777fc5d1ec648d7747a455140",
+        "after_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/both-sample.cpp",
+        "after_sha256": "702aff8e71b833e587748672a3735065ddceaa8d15c9dd4b45e43fbc595ec778",
+        "only": "Hidden paused sample text row; previously qualified UI04 width included for source consistency (GPU CPU-profile branch excluded)",
+        "geometry_physics_defaults_identity_picking": "Exact rest of qualified source unchanged"
+      },
+      {
+        "variant": "both-main",
+        "before_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui02-after/ordinary-both/main_bench.cpp",
+        "before_sha256": "1f55117fb494a97e693effba89eb2ab33d3cbe3b037a783ac9ae6b94f82dac91",
+        "after_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/both-main.cpp",
+        "after_sha256": "ff54285de0f4dac9ec9de041a418cc964883cb828f7b978a8cb1bbcf390a428f",
+        "only": "ComparisonView window and checkbox callback guarded by showUI; rest byte-exact unchanged"
+      }
+    ],
+    "production_generators": {
+      "injector": "be58c8d324436a6302c0e84bd7a045778d0e3465600172bfe90623a6a6f53751",
+      "split": "8e844b5ab7d28b08eef3b49e8e54e2f1449c155cdc25a7beb94d1877284aa312"
+    },
+    "build": "ui05-build.json/link_plan"
+  },
+  "routes": [
+    {
+      "route": "cpu",
+      "receipt": "raw/ui05-runs/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 23,
+      "findings": [],
+      "adjudication": null,
+      "seconds": 2.507052796,
+      "short_running_steps": 28,
+      "screenshots": {
+        "hidden-paused": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/cpu/hidden-paused.png",
+          "sha256": "7aabbe587749a92c4a87f25b0308c1fdc91850f9f241c533cdf795297b72153e",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 43,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 5,
+            "submitted": 5,
+            "completed": 5,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        },
+        "hidden-resized": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/cpu/hidden-resized.png",
+          "sha256": "92f4b6a016a79b31d5b7c9f4173fc30ea95549f3ab7435dd906a4d72ca773225",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "state": {
+            "frame": 69,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 5,
+            "submitted": 5,
+            "completed": 5,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        },
+        "hidden-running": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/cpu/hidden-running.png",
+          "sha256": "48df831562045e67f0cc80921b29f7e81c01b96e8e91b294134ed2dd433fb1d2",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "state": {
+            "frame": 101,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 33,
+            "submitted": 33,
+            "completed": 33,
+            "completed_known": 1,
+            "pause": 0,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/ui05-runs/ordinary-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 23,
+      "findings": [],
+      "adjudication": null,
+      "seconds": 3.73100472,
+      "short_running_steps": 28,
+      "screenshots": {
+        "hidden-paused": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/ordinary-gpu/hidden-paused.png",
+          "sha256": "a0b467381818a131e12170d389baf620d0719977f1bc84ee95620080b37db91b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 45,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 6,
+            "submitted": 6,
+            "completed": 6,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              -8.32282333e-12,
+              0.499936461,
+              3.17578689e-12
+            ],
+            "fell_asleep": 0
+          }
+        },
+        "hidden-resized": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/ordinary-gpu/hidden-resized.png",
+          "sha256": "cf0928cad1fbefd52966daab5ce8d8a1dbf0928268c389de84e0ab10e3db19db",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 6,
+            "submitted": 6,
+            "completed": 6,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              -8.32282333e-12,
+              0.499936461,
+              3.17578689e-12
+            ],
+            "fell_asleep": 0
+          }
+        },
+        "hidden-running": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/ordinary-gpu/hidden-running.png",
+          "sha256": "5b66485fef5ab4ffe77aea3e7306e34b50f42d93156a36994e47894e3d0e8b5d",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "state": {
+            "frame": 103,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 33,
+            "submitted": 33,
+            "completed": 33,
+            "completed_known": 1,
+            "pause": 0,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/ui05-runs/native-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 23,
+      "findings": [],
+      "adjudication": null,
+      "seconds": 4.026381388,
+      "short_running_steps": 31,
+      "screenshots": {
+        "hidden-paused": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/native-gpu/hidden-paused.png",
+          "sha256": "4db6e730a007d80f2fc05e52d5594d6dd5e6d1e899ad3b21ce2b29540ab24cc0",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 44,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 5,
+            "submitted": 5,
+            "completed": 5,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              2.13919698e-11,
+              0.499940664,
+              1.21482694e-11
+            ],
+            "fell_asleep": 0
+          }
+        },
+        "hidden-resized": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/native-gpu/hidden-resized.png",
+          "sha256": "ddaea2bb264746d17a4b94712ca89e794eecf97e4db951c79af63c4de3f5f39d",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "state": {
+            "frame": 69,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 5,
+            "submitted": 5,
+            "completed": 5,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              2.13919698e-11,
+              0.499940664,
+              1.21482694e-11
+            ],
+            "fell_asleep": 0
+          }
+        },
+        "hidden-running": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/native-gpu/hidden-running.png",
+          "sha256": "9929c761aa3307c813413b2b840b8728a4cc0a89c32a0d31a5ada5b417a03da5",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "state": {
+            "frame": 103,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 35,
+            "submitted": 35,
+            "completed": 35,
+            "completed_known": 1,
+            "pause": 0,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui05-runs/ordinary-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 26,
+      "findings": [
+        "hidden-paused PAUSED label visibility",
+        "hidden-resized PAUSED label visibility"
+      ],
+      "adjudication": "ui05-two-pane-adjudication.json",
+      "seconds": 4.538367058,
+      "short_running_steps": 28,
+      "screenshots": {
+        "hidden-paused": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/ordinary-both/hidden-paused.png",
+          "sha256": "5249206602c90702a9835a9569a46dee69c4c42709d34fdeac6e6f7b1e3eb77a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 81,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 5,
+            "submitted": 5,
+            "completed": 5,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              2.13919698e-11,
+              0.499940664,
+              1.21482694e-11
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "hidden-resized": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/ordinary-both/hidden-resized.png",
+          "sha256": "99087b93a7debd68cba8c0f9feb51962922f3252fa06caa3f23c350ae9febf67",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "state": {
+            "frame": 108,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 5,
+            "submitted": 5,
+            "completed": 5,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              2.13919698e-11,
+              0.499940664,
+              1.21482694e-11
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "hidden-running": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/ordinary-both/hidden-running.png",
+          "sha256": "2f44db57c427415152041efdbebf1bfee5fa03f819691aac32c6e428c2e501b5",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "state": {
+            "frame": 139,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 32,
+            "submitted": 32,
+            "completed": 32,
+            "completed_known": 1,
+            "pause": 0,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/ui05-runs/native-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 26,
+      "findings": [],
+      "adjudication": null,
+      "seconds": 4.678771226,
+      "short_running_steps": 29,
+      "screenshots": {
+        "hidden-paused": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/native-both/hidden-paused.png",
+          "sha256": "5249206602c90702a9835a9569a46dee69c4c42709d34fdeac6e6f7b1e3eb77a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 81,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 5,
+            "submitted": 5,
+            "completed": 5,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              2.13919698e-11,
+              0.499940664,
+              1.21482694e-11
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "hidden-resized": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/native-both/hidden-resized.png",
+          "sha256": "99087b93a7debd68cba8c0f9feb51962922f3252fa06caa3f23c350ae9febf67",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "state": {
+            "frame": 109,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 5,
+            "submitted": 5,
+            "completed": 5,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 1,
+            "first_body": [
+              2,
+              1,
+              1
+            ],
+            "first_position": [
+              2.13919698e-11,
+              0.499940664,
+              1.21482694e-11
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "hidden-running": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-runs/native-both/hidden-running.png",
+          "sha256": "e695529fc938132902eac331264350c37b34b4fe2e06aaa52c3c6932fdf20034",
+          "dimensions": [
+            1280,
+            800
+          ],
+          "state": {
+            "frame": 142,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 34,
+            "submitted": 34,
+            "completed": 34,
+            "completed_known": 1,
+            "pause": 0,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "evaluations": {
+    "qualified_case_evaluations": 130,
+    "positive_native": 128,
+    "original_wrong_probe_assertions": 2,
+    "original_trace_positive_check": 1,
+    "original_wrong_probes_disposition": "Original2false single-pane cardinality assertions preserved; actual retained2pane PAUSED positions and allotherchecks validated, no rerun"
+  },
+  "before": [
+    {
+      "route": "cpu",
+      "path": "raw/ui05-trace-completion-runs/cpu/hidden-paused-before.png",
+      "sha256": "123bb0fadcc8a30e230473abca8a8ae0ca3cf6808c14a27646a7c6032df90987",
+      "receipt": "raw/ui05-trace-completion-runs/cpu/receipt.json",
+      "scope": "Current qualified source actual before trace"
+    },
+    {
+      "route": "ordinary-gpu",
+      "path": "raw/navigation-metrics-runs/ordinary-gpu-gpu-policy/hidden.png",
+      "sha256": "8be58f85ec2da7d0fbb3d3a047b30cfd2a08594f7c9ada543b04ba761f4255ba",
+      "receipt": "raw/navigation-metrics-runs/ordinary-gpu-gpu-policy/receipt.json",
+      "scope": "Original sharedUIreview before; same SingleBox/hiddenpaused policy, olderbuild/otherfixes present in currentafter"
+    },
+    {
+      "route": "native-gpu",
+      "path": "raw/navigation-metrics-runs/native-gpu-gpu-policy/hidden.png",
+      "sha256": "8be58f85ec2da7d0fbb3d3a047b30cfd2a08594f7c9ada543b04ba761f4255ba",
+      "receipt": "raw/navigation-metrics-runs/native-gpu-gpu-policy/receipt.json",
+      "scope": "Original sharedUIreview before; same SingleBox/hiddenpaused policy, olderbuild/otherfixes present in currentafter"
+    },
+    {
+      "route": "ordinary-both",
+      "path": "raw/navigation-metrics-runs/ordinary-both-gpu-policy/hidden.png",
+      "sha256": "ccfc044ccbdda7612b212847ba394d42e322c86475c2a8b607ff14eb9d40fa0a",
+      "receipt": "raw/navigation-metrics-runs/ordinary-both-gpu-policy/receipt.json",
+      "scope": "Original sharedUIreview before; same SingleBox/hiddenpaused policy, olderbuild/otherfixes present in currentafter"
+    },
+    {
+      "route": "native-both",
+      "path": "raw/navigation-metrics-runs/native-both-gpu-policy/hidden.png",
+      "sha256": "ccfc044ccbdda7612b212847ba394d42e322c86475c2a8b607ff14eb9d40fa0a",
+      "receipt": "raw/navigation-metrics-runs/native-both-gpu-policy/receipt.json",
+      "scope": "Original sharedUIreview before; same SingleBox/hiddenpaused policy, olderbuild/otherfixes present in currentafter"
+    }
+  ],
+  "after_images": [
+    {
+      "route": "cpu",
+      "fixture": "repair",
+      "state": "hidden-paused",
+      "path": "raw/ui05-runs/cpu/hidden-paused.png",
+      "sha256": "7aabbe587749a92c4a87f25b0308c1fdc91850f9f241c533cdf795297b72153e"
+    },
+    {
+      "route": "cpu",
+      "fixture": "repair",
+      "state": "hidden-resized",
+      "path": "raw/ui05-runs/cpu/hidden-resized.png",
+      "sha256": "92f4b6a016a79b31d5b7c9f4173fc30ea95549f3ab7435dd906a4d72ca773225"
+    },
+    {
+      "route": "cpu",
+      "fixture": "repair",
+      "state": "hidden-running",
+      "path": "raw/ui05-runs/cpu/hidden-running.png",
+      "sha256": "48df831562045e67f0cc80921b29f7e81c01b96e8e91b294134ed2dd433fb1d2"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "repair",
+      "state": "hidden-paused",
+      "path": "raw/ui05-runs/ordinary-gpu/hidden-paused.png",
+      "sha256": "a0b467381818a131e12170d389baf620d0719977f1bc84ee95620080b37db91b"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "repair",
+      "state": "hidden-resized",
+      "path": "raw/ui05-runs/ordinary-gpu/hidden-resized.png",
+      "sha256": "cf0928cad1fbefd52966daab5ce8d8a1dbf0928268c389de84e0ab10e3db19db"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "repair",
+      "state": "hidden-running",
+      "path": "raw/ui05-runs/ordinary-gpu/hidden-running.png",
+      "sha256": "5b66485fef5ab4ffe77aea3e7306e34b50f42d93156a36994e47894e3d0e8b5d"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "repair",
+      "state": "hidden-paused",
+      "path": "raw/ui05-runs/native-gpu/hidden-paused.png",
+      "sha256": "4db6e730a007d80f2fc05e52d5594d6dd5e6d1e899ad3b21ce2b29540ab24cc0"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "repair",
+      "state": "hidden-resized",
+      "path": "raw/ui05-runs/native-gpu/hidden-resized.png",
+      "sha256": "ddaea2bb264746d17a4b94712ca89e794eecf97e4db951c79af63c4de3f5f39d"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "repair",
+      "state": "hidden-running",
+      "path": "raw/ui05-runs/native-gpu/hidden-running.png",
+      "sha256": "9929c761aa3307c813413b2b840b8728a4cc0a89c32a0d31a5ada5b417a03da5"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "repair",
+      "state": "hidden-paused",
+      "path": "raw/ui05-runs/ordinary-both/hidden-paused.png",
+      "sha256": "5249206602c90702a9835a9569a46dee69c4c42709d34fdeac6e6f7b1e3eb77a"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "repair",
+      "state": "hidden-resized",
+      "path": "raw/ui05-runs/ordinary-both/hidden-resized.png",
+      "sha256": "99087b93a7debd68cba8c0f9feb51962922f3252fa06caa3f23c350ae9febf67"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "repair",
+      "state": "hidden-running",
+      "path": "raw/ui05-runs/ordinary-both/hidden-running.png",
+      "sha256": "2f44db57c427415152041efdbebf1bfee5fa03f819691aac32c6e428c2e501b5"
+    },
+    {
+      "route": "native-both",
+      "fixture": "repair",
+      "state": "hidden-paused",
+      "path": "raw/ui05-runs/native-both/hidden-paused.png",
+      "sha256": "5249206602c90702a9835a9569a46dee69c4c42709d34fdeac6e6f7b1e3eb77a"
+    },
+    {
+      "route": "native-both",
+      "fixture": "repair",
+      "state": "hidden-resized",
+      "path": "raw/ui05-runs/native-both/hidden-resized.png",
+      "sha256": "99087b93a7debd68cba8c0f9feb51962922f3252fa06caa3f23c350ae9febf67"
+    },
+    {
+      "route": "native-both",
+      "fixture": "repair",
+      "state": "hidden-running",
+      "path": "raw/ui05-runs/native-both/hidden-running.png",
+      "sha256": "e695529fc938132902eac331264350c37b34b4fe2e06aaa52c3c6932fdf20034"
+    }
+  ],
+  "grids": [
+    {
+      "path": "ui05-before-grid.png",
+      "sha256": "cf3eb23088d0e73e3c881431ed4fdea74862abdb6cf7166ef03a7af98b32a333"
+    },
+    {
+      "path": "ui05-after-grid.png",
+      "sha256": "c4302ec6323ae221610384b06fa347975db26a4bd4ce9a87afa25f3ffe5b9279"
+    }
+  ],
+  "media_inspection": "All20selectedbefore/afterimages and2CPU-firstgrids inspected atnativesize/overview;16newimages+4olderGPUbeforeimages.",
+  "applicability": [
+    {
+      "id": 1,
+      "cpu_identity": "Benchmark/Candy Cups",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 2,
+      "cpu_identity": "Benchmark/Chains",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 3,
+      "cpu_identity": "Benchmark/Convex Pile",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 4,
+      "cpu_identity": "Benchmark/Destruction",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 5,
+      "cpu_identity": "Benchmark/Explosion",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 6,
+      "cpu_identity": "Benchmark/Falling Boxes",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 7,
+      "cpu_identity": "Benchmark/Falling Trees",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 8,
+      "cpu_identity": "Benchmark/Height Field",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 9,
+      "cpu_identity": "Benchmark/Hull",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 10,
+      "cpu_identity": "Benchmark/Joint Grid",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 11,
+      "cpu_identity": "Benchmark/Junkyard",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 12,
+      "cpu_identity": "Benchmark/Large Pyramid",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 13,
+      "cpu_identity": "Benchmark/Large World",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 14,
+      "cpu_identity": "Benchmark/Many Pyramids",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 15,
+      "cpu_identity": "Benchmark/Rain",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 16,
+      "cpu_identity": "Benchmark/Sensor",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 17,
+      "cpu_identity": "Benchmark/Washer",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 18,
+      "cpu_identity": "Benchmark/Wide Pyramid",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 19,
+      "cpu_identity": "Bodies/Body Type",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 20,
+      "cpu_identity": "Bodies/Cast",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 21,
+      "cpu_identity": "Bodies/Class Ring",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 22,
+      "cpu_identity": "Bodies/Disable",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 23,
+      "cpu_identity": "Bodies/Fixed Rotation",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 24,
+      "cpu_identity": "Bodies/Gyroscopic Precession",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 25,
+      "cpu_identity": "Bodies/Gyroscopic Torque",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 26,
+      "cpu_identity": "Bodies/Kinematic",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 27,
+      "cpu_identity": "Bodies/Lock Mixing",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 28,
+      "cpu_identity": "Bodies/Offset Kinematic",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 29,
+      "cpu_identity": "Bodies/Spinning Book",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 30,
+      "cpu_identity": "Bodies/Weeble",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 31,
+      "cpu_identity": "Character/CapsulePlane",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 32,
+      "cpu_identity": "Character/Mover",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 33,
+      "cpu_identity": "Character/MoverOverlap",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 34,
+      "cpu_identity": "Character/Rigid Body",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 35,
+      "cpu_identity": "Collision/Capsule Cast Ray",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 36,
+      "cpu_identity": "Collision/Cast World",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 37,
+      "cpu_identity": "Collision/Distance Debug",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 38,
+      "cpu_identity": "Collision/Initial Overlap",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 39,
+      "cpu_identity": "Collision/Long Ray Cast",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 40,
+      "cpu_identity": "Collision/Mesh Scale",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 41,
+      "cpu_identity": "Collision/Overlap World",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 42,
+      "cpu_identity": "Collision/Ray Curtain",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 43,
+      "cpu_identity": "Collision/Shape Cast",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 44,
+      "cpu_identity": "Collision/Shape Cast Debug",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 45,
+      "cpu_identity": "Collision/Shape Distance",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 46,
+      "cpu_identity": "Collision/Time of Impact",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 47,
+      "cpu_identity": "Compound/Hulls",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 48,
+      "cpu_identity": "Compound/Mesh Tile",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 49,
+      "cpu_identity": "Compound/Simple",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 50,
+      "cpu_identity": "Compound/Spheres",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 51,
+      "cpu_identity": "Compound/Tile Floor",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 52,
+      "cpu_identity": "Compound/Village",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 53,
+      "cpu_identity": "Continuous/Bounce House",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 54,
+      "cpu_identity": "Continuous/Bullet vs Stack",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 55,
+      "cpu_identity": "Continuous/Hump Mesh",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 56,
+      "cpu_identity": "Continuous/Is Fast",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 57,
+      "cpu_identity": "Continuous/Mesh Drop",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 58,
+      "cpu_identity": "Continuous/Needle Mesh",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 59,
+      "cpu_identity": "Continuous/Spinning Stick",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 60,
+      "cpu_identity": "Continuous/Stall",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 61,
+      "cpu_identity": "Continuous/Thin Wall",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 62,
+      "cpu_identity": "Determinism/Falling Ragdolls",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 63,
+      "cpu_identity": "Determinism/Mesh Drop",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 64,
+      "cpu_identity": "Determinism/Query Spawn",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 65,
+      "cpu_identity": "Determinism/Wave Pile",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 66,
+      "cpu_identity": "Events/Contact",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 67,
+      "cpu_identity": "Events/Hit",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 68,
+      "cpu_identity": "Events/Joint",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 69,
+      "cpu_identity": "Events/Move",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 70,
+      "cpu_identity": "Events/Persistent Contact",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 71,
+      "cpu_identity": "Events/Sensor Hits",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 72,
+      "cpu_identity": "Events/Sensor Visit",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 73,
+      "cpu_identity": "GPU API/Shape Replacement",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 74,
+      "cpu_identity": "GPU Bench/Falling Cubes",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 75,
+      "cpu_identity": "GPU Bench/Mixed Stacks 4096",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 76,
+      "cpu_identity": "GPU Bench/Mixed Stacks 600",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 77,
+      "cpu_identity": "Geometry/Box Hull",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 78,
+      "cpu_identity": "Geometry/Capsule Mass",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 79,
+      "cpu_identity": "Geometry/Hull",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 80,
+      "cpu_identity": "Geometry/Hull Reduction",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 81,
+      "cpu_identity": "Geometry/Hull Transform",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 82,
+      "cpu_identity": "Issues/Capsule Mesh",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 83,
+      "cpu_identity": "Issues/Convex Jitter",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 84,
+      "cpu_identity": "Issues/Crash",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 85,
+      "cpu_identity": "Issues/GMod Wheel Stack",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 86,
+      "cpu_identity": "Issues/Hull Crash",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 87,
+      "cpu_identity": "Issues/Multiple Prismatic",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 88,
+      "cpu_identity": "Issues/Restitution Overshoot",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 89,
+      "cpu_identity": "Issues/Slide Twist Off Center Shape",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 90,
+      "cpu_identity": "Issues/s&box Ghost Collisions",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 91,
+      "cpu_identity": "Issues/s&box mover",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 92,
+      "cpu_identity": "Joints/Ball and Chain",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 93,
+      "cpu_identity": "Joints/Bridge",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 94,
+      "cpu_identity": "Joints/Distance Joint",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 95,
+      "cpu_identity": "Joints/Door",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 96,
+      "cpu_identity": "Joints/Driving",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 97,
+      "cpu_identity": "Joints/Filter",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 98,
+      "cpu_identity": "Joints/Gear Lift",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 99,
+      "cpu_identity": "Joints/Motion Locks",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 100,
+      "cpu_identity": "Joints/Motor Joint",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 101,
+      "cpu_identity": "Joints/Parallel Spring",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 102,
+      "cpu_identity": "Joints/Prismatic",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 103,
+      "cpu_identity": "Joints/Revolute",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 104,
+      "cpu_identity": "Joints/Spherical",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 105,
+      "cpu_identity": "Joints/Top Down Friction",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 106,
+      "cpu_identity": "Joints/Weld",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 107,
+      "cpu_identity": "Joints/Wheel",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 108,
+      "cpu_identity": "Manifold/Capsule vs Capsule",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 109,
+      "cpu_identity": "Manifold/Capsule vs Hull",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 110,
+      "cpu_identity": "Manifold/Capsule vs Sphere",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 111,
+      "cpu_identity": "Manifold/Hull vs Hull",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 112,
+      "cpu_identity": "Manifold/Hull vs Sphere",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 113,
+      "cpu_identity": "Manifold/Sphere vs Sphere",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 114,
+      "cpu_identity": "Manifold/Triangle vs Capsule",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 115,
+      "cpu_identity": "Manifold/Triangle vs Hull",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 116,
+      "cpu_identity": "Manifold/Triangle vs Sphere",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 117,
+      "cpu_identity": "Mesh/Big Box",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 118,
+      "cpu_identity": "Mesh/Box",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 119,
+      "cpu_identity": "Mesh/Creation Benchmark",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 120,
+      "cpu_identity": "Mesh/Grid",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 121,
+      "cpu_identity": "Mesh/Height Field",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 122,
+      "cpu_identity": "Mesh/Hollow Box",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 123,
+      "cpu_identity": "Mesh/Reflection",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 124,
+      "cpu_identity": "Mesh/Viewer",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 125,
+      "cpu_identity": "Mesh/Voxel",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 126,
+      "cpu_identity": "Ragdoll/Box",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 127,
+      "cpu_identity": "Ragdoll/Incline",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 128,
+      "cpu_identity": "Ragdoll/Mesh",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 129,
+      "cpu_identity": "Ragdoll/Pile",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 130,
+      "cpu_identity": "Replay/Viewer",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 131,
+      "cpu_identity": "Robustness/HighMassRatio1",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 132,
+      "cpu_identity": "Robustness/Overflow Color Pile",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 133,
+      "cpu_identity": "Robustness/Overlap Recovery",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 134,
+      "cpu_identity": "Robustness/Tiny Pyramid",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 135,
+      "cpu_identity": "Shapes/Conveyor Belt",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 136,
+      "cpu_identity": "Shapes/Conveyor Mesh",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 137,
+      "cpu_identity": "Shapes/High Resistance",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 138,
+      "cpu_identity": "Shapes/Inclined Plane",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 139,
+      "cpu_identity": "Shapes/Isotropic Friction",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 140,
+      "cpu_identity": "Shapes/Restitution",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 141,
+      "cpu_identity": "Shapes/Rolling Resistance",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 142,
+      "cpu_identity": "Shapes/Slide Twist",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 143,
+      "cpu_identity": "Shapes/Static Invoke",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 144,
+      "cpu_identity": "Shapes/Wind",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 145,
+      "cpu_identity": "Shapes/Wind Drop",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 146,
+      "cpu_identity": "Shapes/Wind Flap",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 147,
+      "cpu_identity": "Stacking/Arch",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 148,
+      "cpu_identity": "Stacking/Box Stack",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 149,
+      "cpu_identity": "Stacking/Capsule Stack",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 150,
+      "cpu_identity": "Stacking/Card House",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 151,
+      "cpu_identity": "Stacking/Cylinder",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 152,
+      "cpu_identity": "Stacking/Cylinder Stack",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 153,
+      "cpu_identity": "Stacking/Dominoes",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 154,
+      "cpu_identity": "Stacking/Double Domino",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 155,
+      "cpu_identity": "Stacking/Edge Crossing",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 156,
+      "cpu_identity": "Stacking/Jenga Stack",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 157,
+      "cpu_identity": "Stacking/Pyramid2D",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 158,
+      "cpu_identity": "Stacking/Single Box",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 159,
+      "cpu_identity": "Stacking/Sphere Stack",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 160,
+      "cpu_identity": "Stacking/Wedge",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 161,
+      "cpu_identity": "Tree/Benchmark",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 162,
+      "cpu_identity": "World/Far Mesh Drop",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 163,
+      "cpu_identity": "World/Far Pyramid",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 164,
+      "cpu_identity": "World/Far Ragdolls",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    },
+    {
+      "id": 165,
+      "cpu_identity": "World/Far Stack",
+      "text": "Shared Sample::ResetText path reserves pausedHUDrow; sampleswithoutscreenmessages unaffected",
+      "combined": "Shared OnDrawUI ComparisonView respects showUI for every sample",
+      "method": "Explicit shared implementation reuse; actualSingleBox across5routes,not165newruntimechecks"
+    }
+  ],
+  "preserved_failures": [
+    {
+      "file": "ui05-original-hidden-boundary.json",
+      "reason": "Original diagnostic record-only frame stopped updating while nativehiddenframes advanced;3stimeout beforecapture, finalnativeoverlapinputs preserved. Newdiagnostic usesactualImGuiFrameCount/clearsstaleitems;no productfreeze."
+    },
+    {
+      "file": "ui05-original-two-pane-probe.json",
+      "reason": "Two originalordinarycombined assertions assumed1PAUSED label. Native2pane text expected2; originalfalseflags retained/adjudicated fromsameactualdata. Three standalonepasses reused; nativecombinedfirstattemptusescorrectcount."
+    }
+  ],
+  "limitations": [
+    "Actual runtimeSingleBox only;165 shared applicability rows are not165 new executions.",
+    "Defaultshown andhiddenpaused/shortunpaused states;1600x900 and1280x800 checked. Arbitrarily narrow windows andeverypossiblelongtext message unqualified.",
+    "Short unpaused window28/28/31/28/29steps thenpause verifiesstate/layout transitions only;no solver/physical/trajectoryqualification.",
+    "Combined sharedsample text and pointerassist remain currentnative behavior; unrelatedUI06getterprovenance/otherissues not addressed.",
+    "FourGPU beforeimages from originalcontrolreview, samehiddenpaused policy/fixture but olderbuild/settings; numericinputs/sourceandcurrentactualchecks establish repair, noexactpixelmatchingclaim.",
+    "FinalPR10criterion audit/compatibility/precommitaffectedscene recordings remainOPEN;no commitpush authorization."
+  ],
+  "resources": {
+    "status": "CLOSED",
+    "retained_bytes": 2684745,
+    "raw_retained_bytes": 903053480,
+    "deleted_bytes": 3777102,
+    "owned_pids_absent": [
+      3422574,
+      3422560,
+      3427887,
+      3427867,
+      3439876,
+      3439846,
+      3440320,
+      3440297,
+      3440716,
+      3440702,
+      3441314,
+      3441300,
+      3444957,
+      3444943
+    ],
+    "owned_core_files": [],
+    "shared_cache_growth_bytes": 583017,
+    "free_bytes": 1708162846720,
+    "consumer": "Selected16new/4reusedbeforeimages, numericreceipts and CPUfirstgrids; current5UI05viewer pool/12objects have next-relink consumers",
+    "retained_diagnostic_bytes": 4595545,
+    "deleted_build_bytes": 184007262,
+    "deleted_operation_logs": [
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/hud-observer-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/cpu-trace-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/cpu-trace-check.log",
+        "bytes": 1910,
+        "sha256": "dec8304ce4ab141a79d586daae17243bd3b2317a426ea1f8de965a83a0323bdf",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/ui-observer-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/cpu-trace-completion-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/cpu-trace-completion-check.log",
+        "bytes": 368,
+        "sha256": "5db29951f79e951727b1f10cc14966a3b36861bc3e045a89a8370a04b8f9115e",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/canonical-generation.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/cpu-sample-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/cpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/cpu-check.log",
+        "bytes": 1100,
+        "sha256": "b9f9262d4cb09fa17292fdfacc2bed1f8f838a686c0a5bdb1b28701d49fede1a",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/gpu-sample-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/ordinary-gpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/ordinary-gpu-check.log",
+        "bytes": 1325,
+        "sha256": "f12dd452e85009c7198725da78ef648579e86a66da3832a60d15d78ff8e49c18",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/native-gpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/native-gpu-check.log",
+        "bytes": 1275,
+        "sha256": "c6ef987e4e2482366b6933f1903824b5f7b4a5958ea795921a5836617b4208a6",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/both-sample-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/both-main-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/ordinary-both-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/ordinary-both-check.log",
+        "bytes": 1544,
+        "sha256": "1d99a8e0bd8b7b0deea7257ea074a32cd263f6cdbbd622da4bf39b3699656b66",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/native-both-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/native-both-check.log",
+        "bytes": 1473,
+        "sha256": "53080a0791b8ac7b332961201f1907f5d72eeaeace27226429b3092e30a5fc6c",
+        "consumer": "Operation command/exit/timing, compact actual-state receipt and original failure summary extracted"
+      }
+    ],
+    "deleted_bytes_total": 187793359,
+    "owned_all_pids_absent": [
+      3422513,
+      3422555,
+      3422560,
+      3427542,
+      3427862,
+      3427867,
+      3439732,
+      3439733,
+      3439810,
+      3439846,
+      3440071,
+      3440163,
+      3440297,
+      3440522,
+      3440702,
+      3440976,
+      3441070,
+      3441159,
+      3441300,
+      3444742,
+      3444943,
+      3422574,
+      3427887,
+      3439876,
+      3440320,
+      3440716,
+      3441314,
+      3444957
+    ],
+    "owned_all_core_files": [],
+    "cache_budget": {
+      "per_app_bytes": 16777216,
+      "repair_total_bytes": 33554432,
+      "repair_measured_growth_bytes": 0,
+      "original_trace_growth_bytes": 0,
+      "corrected_trace_growth_bytes": 583017,
+      "disposition": "Measuredsharedcachegrowth583017B total,withinbudget;preserved,attributionunproved"
+    },
+    "aggregate_raw_plus_measured_cache": 903636497,
+    "current_pool": "ui05-build.json/link_plan;5currentviewers,3Sample+1combinedMain+2UI/HUDobserver+6Joint/Replay objects retained fornextPR10relinks"
+  }
+}

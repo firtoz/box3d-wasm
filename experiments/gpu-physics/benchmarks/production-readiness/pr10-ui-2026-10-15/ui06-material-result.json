@@ -1,0 +1,258 @@
+{
+  "status": "CONFIRMED_NATIVE_DEFAULT_MATERIAL_CAUSE",
+  "receipt": "raw/ui06-material-runs/cpu/receipt.json",
+  "checks": {
+    "Frozen default-color inputs havezero preset": true,
+    "Five realgetter types1 versuscached2": true,
+    "Demonstrated native default-material roughness stale.40": true,
+    "Normalrender geometry not duplicated byprobe": true,
+    "Normalstatepresets retain.35 roughness": true,
+    "Body/shapeIDs andworld stable": true,
+    "Defaulttypes restored/no advancingsteps": true,
+    "paused original timing defaults": true,
+    "clean quit": true
+  },
+  "seconds": 1.679854768,
+  "input_policy": "Same actualDebugShape copied onstack, same transform/low24bitcolor, presetbyte0; actualDrawShape returnsbeforeappend, normalgeometrycounts unchanged",
+  "kinematic_rows": [
+    {
+      "api": "ui06_adapter",
+      "request": 20,
+      "phase": "default-material-probe",
+      "cpu_callback": false,
+      "user_pointer": "0x5644e1d8f3a0",
+      "shape": [
+        8,
+        1,
+        0
+      ],
+      "cached_body": [
+        8,
+        1,
+        0
+      ],
+      "cached_type": 2,
+      "public_body_valid": true,
+      "live_public_type": 1,
+      "public_shape_body": [
+        8,
+        1,
+        0
+      ],
+      "expected_cpu_body": [
+        0,
+        0,
+        0
+      ],
+      "expected_cpu_type": -1,
+      "expected_cpu_valid": false,
+      "resolved": {
+        "packed_color": 4620980,
+        "preset": 0,
+        "metallic": 0,
+        "roughness": 0.400000006,
+        "alpha": 1
+      },
+      "transparency_inputs": [
+        false,
+        false
+      ],
+      "material_override": false
+    },
+    {
+      "api": "ui06_adapter",
+      "request": 20,
+      "phase": "default-material-probe",
+      "cpu_callback": false,
+      "user_pointer": "0x5644e1d8f430",
+      "shape": [
+        7,
+        1,
+        0
+      ],
+      "cached_body": [
+        7,
+        1,
+        0
+      ],
+      "cached_type": 2,
+      "public_body_valid": true,
+      "live_public_type": 1,
+      "public_shape_body": [
+        7,
+        1,
+        0
+      ],
+      "expected_cpu_body": [
+        0,
+        0,
+        0
+      ],
+      "expected_cpu_type": -1,
+      "expected_cpu_valid": false,
+      "resolved": {
+        "packed_color": 4620980,
+        "preset": 0,
+        "metallic": 0,
+        "roughness": 0.400000006,
+        "alpha": 1
+      },
+      "transparency_inputs": [
+        false,
+        false
+      ],
+      "material_override": false
+    },
+    {
+      "api": "ui06_adapter",
+      "request": 20,
+      "phase": "default-material-probe",
+      "cpu_callback": false,
+      "user_pointer": "0x5644e1d8f4c0",
+      "shape": [
+        6,
+        1,
+        0
+      ],
+      "cached_body": [
+        6,
+        1,
+        0
+      ],
+      "cached_type": 2,
+      "public_body_valid": true,
+      "live_public_type": 1,
+      "public_shape_body": [
+        6,
+        1,
+        0
+      ],
+      "expected_cpu_body": [
+        0,
+        0,
+        0
+      ],
+      "expected_cpu_type": -1,
+      "expected_cpu_valid": false,
+      "resolved": {
+        "packed_color": 4620980,
+        "preset": 0,
+        "metallic": 0,
+        "roughness": 0.400000006,
+        "alpha": 1
+      },
+      "transparency_inputs": [
+        false,
+        false
+      ],
+      "material_override": false
+    },
+    {
+      "api": "ui06_adapter",
+      "request": 20,
+      "phase": "default-material-probe",
+      "cpu_callback": false,
+      "user_pointer": "0x5644e1d8f670",
+      "shape": [
+        3,
+        1,
+        0
+      ],
+      "cached_body": [
+        3,
+        1,
+        0
+      ],
+      "cached_type": 2,
+      "public_body_valid": true,
+      "live_public_type": 1,
+      "public_shape_body": [
+        3,
+        1,
+        0
+      ],
+      "expected_cpu_body": [
+        0,
+        0,
+        0
+      ],
+      "expected_cpu_type": -1,
+      "expected_cpu_valid": false,
+      "resolved": {
+        "packed_color": 4620980,
+        "preset": 0,
+        "metallic": 0,
+        "roughness": 0.400000006,
+        "alpha": 1
+      },
+      "transparency_inputs": [
+        false,
+        false
+      ],
+      "material_override": false
+    },
+    {
+      "api": "ui06_adapter",
+      "request": 20,
+      "phase": "default-material-probe",
+      "cpu_callback": false,
+      "user_pointer": "0x5644e1d8f5e0",
+      "shape": [
+        4,
+        1,
+        0
+      ],
+      "cached_body": [
+        4,
+        1,
+        0
+      ],
+      "cached_type": 2,
+      "public_body_valid": true,
+      "live_public_type": 1,
+      "public_shape_body": [
+        4,
+        1,
+        0
+      ],
+      "expected_cpu_body": [
+        0,
+        0,
+        0
+      ],
+      "expected_cpu_type": -1,
+      "expected_cpu_valid": false,
+      "resolved": {
+        "packed_color": 4620980,
+        "preset": 0,
+        "metallic": 0,
+        "roughness": 0.400000006,
+        "alpha": 1
+      },
+      "transparency_inputs": [
+        false,
+        false
+      ],
+      "material_override": false
+    }
+  ],
+  "cache_growth_bytes": 0,
+  "next_consumer": {
+    "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-material-build/material-observer.cpp",
+    "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-material-build/material-observer.o"
+  },
+  "retired": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-material-build/cpu",
+      "bytes": 7761776,
+      "sha256": "b6262dcd0c7b711c8928a7ee13672e5084bcdec594b6a815a51f538f94e66395",
+      "consumer": "Actualnativefrozeninput/defaultmaterial results consumed; no baselineexecutable/object consumer remains"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-material-build/baseline-adapter.o",
+      "bytes": 38576,
+      "sha256": "81d343ac1b51439d18176a1b82f09c66fa0f15b14ea63fc97e0109111455b720",
+      "consumer": "Actualnativefrozeninput/defaultmaterial results consumed; no baselineexecutable/object consumer remains"
+    }
+  ]
+}

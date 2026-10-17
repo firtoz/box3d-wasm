@@ -1,0 +1,29 @@
+{
+  "status": "STARTUP_LIMITED_NO_WIDGET_INPUT",
+  "classification": "Harness intended to reuse cache but selected historical cache directory has0files/bytes; actual startup was cold. Not a demonstrated UI/widget or solver regression.",
+  "facts": {
+    "first_window_cap_seconds": 25,
+    "elapsed_seconds": 25.122716733982088,
+    "owned_app_reaped": true,
+    "actions": 0,
+    "cache_before_bytes": 0,
+    "cache_after_bytes": 0,
+    "last_pipeline": "collide_pairs",
+    "mesh_triangles": 0,
+    "shape_count": 2,
+    "collision_constants": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "actual_UUID": "8630c1e8656103274ce2c594064a4787"
+  },
+  "next": "Read-only bounded cache discovery/validate current UUID; reuse existing compatible shared cache if present. No engine changes or repeat cold campaign. Correct prerequisite before any next launch.",
+  "cache_discovery_budget": {
+    "seconds": 15,
+    "engine_builds_runs": 0,
+    "retained_bytes": 16384,
+    "implicit_retries": 0
+  }
+}

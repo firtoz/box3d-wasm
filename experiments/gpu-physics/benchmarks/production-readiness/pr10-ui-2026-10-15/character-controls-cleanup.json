@@ -1,0 +1,32 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 23538764,
+  "raw_retained_bytes": 726623961,
+  "deleted_bytes": 33479634,
+  "owned_pids_absent": [
+    2880119,
+    2880103,
+    2880488,
+    2880472,
+    2881003,
+    2880986,
+    2881425,
+    2881404,
+    2881976,
+    2881954,
+    2882449,
+    2882428,
+    2882939,
+    2882915,
+    2883388,
+    2883370,
+    2883954,
+    2883937,
+    2884402,
+    2884377
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708501671936,
+  "consumer": "Current scene-controls-build.json for remaining control inputs, original207pins/CPUReplayfixture and selected evidence; no consumed trace retained."
+}

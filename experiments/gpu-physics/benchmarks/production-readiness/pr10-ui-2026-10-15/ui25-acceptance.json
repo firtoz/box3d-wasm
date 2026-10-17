@@ -1,0 +1,3729 @@
+{
+  "status": "FIXED_VERIFIED_LOCAL",
+  "repair": {
+    "source": [
+      "native-samples/sokol_loading.cpp",
+      "native-samples/sokol_loading.h",
+      "scripts/inject-sokol-bench.py"
+    ],
+    "scope": "Loading-only UI uses a separate ImGui context sharing the existing font atlas/style and backend renderer flags. It restores the sample context before events; loading frames do not advance the main context or consume its queue/active widget. Worker/world ownership and native scene semantics remain unchanged. One loading context reused for process lifetime and destroyed on shutdown.",
+    "build": "ui25-build.json/link_plan",
+    "source_deltas": [
+      {
+        "kind": "gpu",
+        "original": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/gpu-main.cpp",
+        "before_sha256": "a03943a9d0130741ac6c4e996d408f5755e0fcf69c0c0582e8923af1a5104de1",
+        "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/gpu-main.cpp",
+        "sha256": "d7898c5bb823b999955a6f6f5891e5f988213358045845d38f8fc0f320ea294f",
+        "scope": "Exactlyloading UI begin/end context isolation; allpriormainpreview/input/benchmark/combinedrender hooks preserved"
+      },
+      {
+        "kind": "both",
+        "original": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/both-main.cpp",
+        "before_sha256": "f4b5a9332026614a7e28324dcdf59b690b50b20c0be1a4c96796a284b7f23b7e",
+        "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/both-main.cpp",
+        "sha256": "4169614457df5836d2d17630391ca82e1e4e7757cf371ef7c718d21d586729b1",
+        "scope": "Exactlyloading UI begin/end context isolation; allpriormainpreview/input/benchmark/combinedrender hooks preserved"
+      }
+    ]
+  },
+  "checks": {
+    "complete_routes": 5,
+    "cpu_reused": true,
+    "cpu_reference_receipt": "raw/ui25-trace-runs/cpu/receipt.json",
+    "first_changed_GPU_route_apps": 4,
+    "extra_ordinary_UI25_apps": 0,
+    "current_target_ordinary_UI29_supplement": 1,
+    "final_recorded": 115,
+    "original_false_stale_target_flags": 2,
+    "adjudication": "ui25-ordinary-adjudication.json;ui29-trace-target-adjudication.json",
+    "all_applicable_checks_pass": true
+  },
+  "after": [
+    {
+      "route": "cpu",
+      "receipt": "raw/ui25-trace-runs/cpu/receipt.json",
+      "seconds": 8.844626523999999,
+      "checks": {
+        "Overlap Recovery actual scene/no-body fixture": true,
+        "Extent trace captures actual applied value": true,
+        "Height Field actual scene/no-body fixture": true,
+        "columns actualvalue 8": true,
+        "rows actualvalue 6": true,
+        "amplitude actualvalue 0": true,
+        "amplitude trace captures actual applied value": true,
+        "Mesh Drop actual scene/no-body fixture": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": []
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/ui25-runs/ordinary-gpu/receipt.json",
+      "seconds": 24.307727261,
+      "checks": {
+        "Overlap Recovery actual scene/no-body fixture": true,
+        "Extent actualvalue 0.25": true,
+        "Extent .25 actual geometry/mass/positions match realCPU": true,
+        "Extent actual intended recreation": true,
+        "Height Field actual scene/no-body fixture": true,
+        "columns actualvalue 8": true,
+        "rows actualvalue 6": true,
+        "amplitude actualvalue 0": true,
+        "UI24 flat floor remains valid": true,
+        "amplitude actualvalue 0.75": true,
+        "amplitude .75 actual native data equals realCPU": true,
+        "HeightField restart defaults preserved": true,
+        "Mesh Drop actual scene/no-body fixture": true,
+        "AutoGenerate on actually regenerates paused": true,
+        "AutoGenerate off actually stops regeneration": false,
+        "AutoGenerate preserves counts/identity correspondence": true,
+        "Single Box actual scene/no-body fixture": true,
+        "public fresh projected picking preserved": true,
+        "Extent actual complete slider value through loading": true,
+        "amplitude actual complete slider value through loading": true,
+        "Main input queue/activeID held during each loading frame": true,
+        "Auto Generate two actual original button activations": false,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": [
+        {
+          "check": "AutoGenerate off actually stops regeneration",
+          "context": {
+            "on": {
+              "a": {
+                "api": "actual_mutation_frame",
+                "request": 229,
+                "created": 3114,
+                "destroyed": 2073,
+                "shapes_created": 3118,
+                "teleport_reference": [
+                  0,
+                  0,
+                  0.996831059,
+                  0.0795476362
+                ],
+                "worlds": [
+                  {
+                    "owner": "public",
+                    "bodies": 1025,
+                    "dynamic": 1024,
+                    "moving_dynamic": 1024,
+                    "velocity_squared_sum": 1035.0659752794734,
+                    "velocity_min": [
+                      -0.999328613,
+                      -0.999084473,
+                      -0.998657167
+                    ],
+                    "velocity_max": [
+                      0.999328613,
+                      0.992370367,
+                      0.998046756
+                    ],
+                    "id_digest": "10c255817aaa11f0",
+                    "examples": [
+                      {
+                        "owner": "public",
+                        "id": [
+                          1,
+                          13,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 0,
+                        "mass": 0,
+                        "enabled": true,
+                        "position": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "velocity": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "awake": false,
+                        "creation_position": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              1,
+                              13,
+                              1
+                            ],
+                            "kind": "Mesh",
+                            "actual_type": 4,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 0,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -20.0200005,
+                                -0.47183165,
+                                -20.0200005
+                              ],
+                              [
+                                20.0200005,
+                                0.47183159,
+                                20.0200005
+                              ]
+                            ],
+                            "mesh": {
+                              "scale": [
+                                1,
+                                1,
+                                1
+                              ],
+                              "data_valid": true,
+                              "triangles": 3200,
+                              "vertices": 1681
+                            }
+                          },
+                          {
+                            "id": [
+                              2,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -20.0200005,
+                                -0.0199999996,
+                                -20.1200008
+                              ],
+                              [
+                                20.0200005,
+                                2.01999998,
+                                -19.8799992
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -20,
+                                  0,
+                                  -20.1000004
+                                ],
+                                [
+                                  20,
+                                  2,
+                                  -19.8999996
+                                ]
+                              ]
+                            }
+                          },
+                          {
+                            "id": [
+                              3,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -20.0200005,
+                                -0.0199999996,
+                                19.8799992
+                              ],
+                              [
+                                20.0200005,
+                                2.01999998,
+                                20.1200008
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -20,
+                                  0,
+                                  19.8999996
+                                ],
+                                [
+                                  20,
+                                  2,
+                                  20.1000004
+                                ]
+                              ]
+                            }
+                          },
+                          {
+                            "id": [
+                              4,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -20.1200008,
+                                -0.0199999996,
+                                -20.0200005
+                              ],
+                              [
+                                -19.8799992,
+                                2.01999998,
+                                20.0200005
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -20.1000004,
+                                  0,
+                                  -20
+                                ],
+                                [
+                                  -19.8999996,
+                                  2,
+                                  20
+                                ]
+                              ]
+                            }
+                          },
+                          {
+                            "id": [
+                              5,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                19.8799992,
+                                -0.0199999996,
+                                -20.0200005
+                              ],
+                              [
+                                20.1200008,
+                                2.01999998,
+                                20.0200005
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  19.8999996,
+                                  0,
+                                  -20
+                                ],
+                                [
+                                  20.1000004,
+                                  2,
+                                  20
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          2,
+                          15,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -8
+                        ],
+                        "velocity": [
+                          0.945127726,
+                          -0.935056627,
+                          0.206335664
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          1.39667988,
+                          2.74803925,
+                          2.72759199
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -8
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              2054,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -8.06000042
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -7.94000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          3,
+                          15,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -7.5
+                        ],
+                        "velocity": [
+                          -0.345011771,
+                          0.732230544,
+                          0.486983895
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          -2.62962747,
+                          1.51600742,
+                          -0.941343307
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -7.5
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              2055,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -7.55999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -7.44000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          4,
+                          15,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -7
+                        ],
+                        "velocity": [
+                          -0.240211189,
+                          0.232642651,
+                          -0.941465497
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          2.24143219,
+                          1.4906764,
+                          3.55220222
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -7
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              2056,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -7.05999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -6.94000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          5,
+                          15,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -6.5
+                        ],
+                        "velocity": [
+                          0.939146042,
+                          0.746086001,
+                          -0.635303855
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          4.70000362,
+                          -3.94772196,
+                          1.21692562
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -6.5
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              2057,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -6.55999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -6.44000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          6,
+                          15,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -6
+                        ],
+                        "velocity": [
+                          -0.791131318,
+                          -0.0881679654,
+                          -0.47837764
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          -4.01455736,
+                          4.63560867,
+                          -3.50703454
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -6
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              2058,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -6.05999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -5.94000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          7,
+                          15,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -5.5
+                        ],
+                        "velocity": [
+                          -0.58861053,
+                          0.485457897,
+                          -0.978392899
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          0.280007362,
+                          2.0036931,
+                          0.835139275
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -5.5
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              2059,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -5.55999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -5.44000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          8,
+                          15,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -5
+                        ],
+                        "velocity": [
+                          0.574938178,
+                          0.980590224,
+                          0.93639946
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          2.79931021,
+                          -3.99288917,
+                          -2.20145249
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -5
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              2060,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -5.05999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -4.94000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    ],
+                    "gravity_range": [
+                      1,
+                      1
+                    ],
+                    "locks_histogram": [
+                      [
+                        0,
+                        1024
+                      ]
+                    ],
+                    "shape_totals": [
+                      0,
+                      0,
+                      0,
+                      1028,
+                      1
+                    ],
+                    "filter_count": 1029,
+                    "filters_match_definition": 1029
+                  }
+                ]
+              },
+              "state": {
+                "frame": 475,
+                "world": [
+                  1,
+                  6
+                ],
+                "sample_step": 0,
+                "submitted": 0,
+                "completed": 0,
+                "completed_known": 1,
+                "pause": 1,
+                "single_remaining": 0,
+                "context_flags": [
+                  1,
+                  1,
+                  1
+                ],
+                "world_flags": [
+                  1,
+                  1,
+                  1
+                ],
+                "hertz": 60,
+                "substeps": 4,
+                "show_metrics": 0,
+                "body_count": 1025,
+                "shape_count": 1029,
+                "move_count": 0
+              },
+              "g": {
+                "api": "sample_geometry_controls",
+                "request": 229,
+                "mesh_build": null,
+                "preview_sphere": {
+                  "radius": 0.200000003,
+                  "position": [
+                    5.5,
+                    0.2027444839477539,
+                    1.0099999904632568
+                  ]
+                },
+                "bounds_draw_calls": 0,
+                "bounds_digest": "14650fb0739d0383",
+                "queries": [
+                  {
+                    "owner": "public",
+                    "operation": "b3World_CastRayClosest",
+                    "calls": 769,
+                    "hits": 1,
+                    "input": {
+                      "origin": [
+                        0.057304028421640396,
+                        9.922449111938477,
+                        17.24981117248535
+                      ],
+                      "translation": [
+                        572.982971,
+                        -775.427063,
+                        -706.891907
+                      ]
+                    },
+                    "callback": null,
+                    "context_before": null,
+                    "context_after": null,
+                    "responses": []
+                  },
+                  {
+                    "owner": "mapped_cpu",
+                    "operation": "",
+                    "calls": 0,
+                    "hits": 0,
+                    "input": null,
+                    "callback": null,
+                    "context_before": null,
+                    "context_after": null,
+                    "responses": []
+                  }
+                ],
+                "screen_targets": []
+              }
+            },
+            "off": {
+              "a": {
+                "api": "actual_mutation_frame",
+                "request": 237,
+                "created": 10283,
+                "destroyed": 9242,
+                "shapes_created": 10291,
+                "teleport_reference": [
+                  0,
+                  0,
+                  0.996831059,
+                  0.0795476362
+                ],
+                "worlds": [
+                  {
+                    "owner": "public",
+                    "bodies": 1025,
+                    "dynamic": 1024,
+                    "moving_dynamic": 1024,
+                    "velocity_squared_sum": 1023.6314894443713,
+                    "velocity_min": [
+                      -0.997497499,
+                      -0.999084473,
+                      -0.999694824
+                    ],
+                    "velocity_max": [
+                      0.999328613,
+                      0.999084473,
+                      0.995117068
+                    ],
+                    "id_digest": "9cd7cb5cc8f9dbdb",
+                    "examples": [
+                      {
+                        "owner": "public",
+                        "id": [
+                          1,
+                          14,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 0,
+                        "mass": 0,
+                        "enabled": true,
+                        "position": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "velocity": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "awake": false,
+                        "creation_position": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              6150,
+                              13,
+                              1
+                            ],
+                            "kind": "Mesh",
+                            "actual_type": 4,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 0,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -20.0200005,
+                                -0.708591461,
+                                -20.0200005
+                              ],
+                              [
+                                20.0200005,
+                                0.708591342,
+                                20.0200005
+                              ]
+                            ],
+                            "mesh": {
+                              "scale": [
+                                1,
+                                1,
+                                1
+                              ],
+                              "data_valid": true,
+                              "triangles": 3200,
+                              "vertices": 1681
+                            }
+                          },
+                          {
+                            "id": [
+                              6151,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -20.0200005,
+                                -0.0199999996,
+                                -20.1200008
+                              ],
+                              [
+                                20.0200005,
+                                2.01999998,
+                                -19.8799992
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -20,
+                                  0,
+                                  -20.1000004
+                                ],
+                                [
+                                  20,
+                                  2,
+                                  -19.8999996
+                                ]
+                              ]
+                            }
+                          },
+                          {
+                            "id": [
+                              6152,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -20.0200005,
+                                -0.0199999996,
+                                19.8799992
+                              ],
+                              [
+                                20.0200005,
+                                2.01999998,
+                                20.1200008
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -20,
+                                  0,
+                                  19.8999996
+                                ],
+                                [
+                                  20,
+                                  2,
+                                  20.1000004
+                                ]
+                              ]
+                            }
+                          },
+                          {
+                            "id": [
+                              6153,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -20.1200008,
+                                -0.0199999996,
+                                -20.0200005
+                              ],
+                              [
+                                -19.8799992,
+                                2.01999998,
+                                20.0200005
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -20.1000004,
+                                  0,
+                                  -20
+                                ],
+                                [
+                                  -19.8999996,
+                                  2,
+                                  20
+                                ]
+                              ]
+                            }
+                          },
+                          {
+                            "id": [
+                              6154,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                19.8799992,
+                                -0.0199999996,
+                                -20.0200005
+                              ],
+                              [
+                                20.1200008,
+                                2.01999998,
+                                20.0200005
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  19.8999996,
+                                  0,
+                                  -20
+                                ],
+                                [
+                                  20.1000004,
+                                  2,
+                                  20
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1025,
+                          22,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -8
+                        ],
+                        "velocity": [
+                          0.887874961,
+                          -0.015900135,
+                          0.497421145
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          -4.35514402,
+                          -2.90246272,
+                          3.75453949
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -8
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              9227,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -8.06000042
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -7.94000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1024,
+                          22,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -7.5
+                        ],
+                        "velocity": [
+                          -0.714529872,
+                          0.613208413,
+                          -0.0204168558
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          -1.17206335,
+                          -1.64693141,
+                          -2.32535791
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -7.5
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              9228,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -7.55999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -7.44000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1023,
+                          22,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -7
+                        ],
+                        "velocity": [
+                          0.523545027,
+                          -0.428144157,
+                          -0.5568102
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          -0.529038429,
+                          3.30622292,
+                          0.935544968
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -7
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              9229,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -7.05999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -6.94000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1022,
+                          22,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -6.5
+                        ],
+                        "velocity": [
+                          -0.677541435,
+                          -0.923154414,
+                          0.895443559
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          -3.27112651,
+                          1.78518009,
+                          3.84365368
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -6.5
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              9230,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -6.55999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -6.44000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1021,
+                          22,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -6
+                        ],
+                        "velocity": [
+                          0.821527719,
+                          -0.889095724,
+                          -0.424665034
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          0.00595092773,
+                          4.53001499,
+                          -0.449690342
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -6
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              9231,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -6.05999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -5.94000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1020,
+                          22,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -5.5
+                        ],
+                        "velocity": [
+                          0.877498746,
+                          -0.791436493,
+                          0.184667468
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          -4.23978376,
+                          -1.35761595,
+                          -0.433820724
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -5.5
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              9232,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -5.55999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -5.44000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1019,
+                          22,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -5
+                        ],
+                        "velocity": [
+                          0.103732467,
+                          0.0542924404,
+                          0.0610675812
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          -4.395123,
+                          3.66329002,
+                          0.61876297
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -5
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              9233,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -5.05999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -4.94000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    ],
+                    "gravity_range": [
+                      1,
+                      1
+                    ],
+                    "locks_histogram": [
+                      [
+                        0,
+                        1024
+                      ]
+                    ],
+                    "shape_totals": [
+                      0,
+                      0,
+                      0,
+                      1028,
+                      1
+                    ],
+                    "filter_count": 1029,
+                    "filters_match_definition": 1029
+                  }
+                ]
+              },
+              "state": {
+                "frame": 481,
+                "world": [
+                  1,
+                  6
+                ],
+                "sample_step": 0,
+                "submitted": 0,
+                "completed": 0,
+                "completed_known": 1,
+                "pause": 1,
+                "single_remaining": 0,
+                "context_flags": [
+                  1,
+                  1,
+                  1
+                ],
+                "world_flags": [
+                  1,
+                  1,
+                  1
+                ],
+                "hertz": 60,
+                "substeps": 4,
+                "show_metrics": 0,
+                "body_count": 1025,
+                "shape_count": 1029,
+                "move_count": 0
+              },
+              "g": {
+                "api": "sample_geometry_controls",
+                "request": 237,
+                "mesh_build": null,
+                "preview_sphere": {
+                  "radius": 0.200000003,
+                  "position": [
+                    5.5,
+                    0.2027444839477539,
+                    1.0099999904632568
+                  ]
+                },
+                "bounds_draw_calls": 0,
+                "bounds_digest": "14650fb0739d0383",
+                "queries": [
+                  {
+                    "owner": "public",
+                    "operation": "b3World_CastRayClosest",
+                    "calls": 781,
+                    "hits": 1,
+                    "input": {
+                      "origin": [
+                        0.057304028421640396,
+                        9.922449111938477,
+                        17.24981117248535
+                      ],
+                      "translation": [
+                        572.982971,
+                        -775.427063,
+                        -706.891907
+                      ]
+                    },
+                    "callback": null,
+                    "context_before": null,
+                    "context_after": null,
+                    "responses": []
+                  },
+                  {
+                    "owner": "mapped_cpu",
+                    "operation": "",
+                    "calls": 0,
+                    "hits": 0,
+                    "input": null,
+                    "callback": null,
+                    "context_before": null,
+                    "context_after": null,
+                    "responses": []
+                  }
+                ],
+                "screen_targets": []
+              }
+            },
+            "later": {
+              "a": {
+                "api": "actual_mutation_frame",
+                "request": 240,
+                "created": 12331,
+                "destroyed": 11290,
+                "shapes_created": 12339,
+                "teleport_reference": [
+                  0,
+                  0,
+                  0.996831059,
+                  0.0795476362
+                ],
+                "worlds": [
+                  {
+                    "owner": "public",
+                    "bodies": 1025,
+                    "dynamic": 1024,
+                    "moving_dynamic": 1024,
+                    "velocity_squared_sum": 1028.7866782715425,
+                    "velocity_min": [
+                      -0.992492437,
+                      -0.998168886,
+                      -0.994262516
+                    ],
+                    "velocity_max": [
+                      0.997497439,
+                      0.999633789,
+                      0.998840332
+                    ],
+                    "id_digest": "a746164129c2dbdb",
+                    "examples": [
+                      {
+                        "owner": "public",
+                        "id": [
+                          1,
+                          14,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 0,
+                        "mass": 0,
+                        "enabled": true,
+                        "position": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "velocity": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "awake": false,
+                        "creation_position": [
+                          0,
+                          0,
+                          0
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              6150,
+                              13,
+                              1
+                            ],
+                            "kind": "Mesh",
+                            "actual_type": 4,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 0,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -20.0200005,
+                                -0.708591461,
+                                -20.0200005
+                              ],
+                              [
+                                20.0200005,
+                                0.708591342,
+                                20.0200005
+                              ]
+                            ],
+                            "mesh": {
+                              "scale": [
+                                1,
+                                1,
+                                1
+                              ],
+                              "data_valid": true,
+                              "triangles": 3200,
+                              "vertices": 1681
+                            }
+                          },
+                          {
+                            "id": [
+                              6151,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -20.0200005,
+                                -0.0199999996,
+                                -20.1200008
+                              ],
+                              [
+                                20.0200005,
+                                2.01999998,
+                                -19.8799992
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -20,
+                                  0,
+                                  -20.1000004
+                                ],
+                                [
+                                  20,
+                                  2,
+                                  -19.8999996
+                                ]
+                              ]
+                            }
+                          },
+                          {
+                            "id": [
+                              6152,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -20.0200005,
+                                -0.0199999996,
+                                19.8799992
+                              ],
+                              [
+                                20.0200005,
+                                2.01999998,
+                                20.1200008
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -20,
+                                  0,
+                                  19.8999996
+                                ],
+                                [
+                                  20,
+                                  2,
+                                  20.1000004
+                                ]
+                              ]
+                            }
+                          },
+                          {
+                            "id": [
+                              6153,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -20.1200008,
+                                -0.0199999996,
+                                -20.0200005
+                              ],
+                              [
+                                -19.8799992,
+                                2.01999998,
+                                20.0200005
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -20.1000004,
+                                  0,
+                                  -20
+                                ],
+                                [
+                                  -19.8999996,
+                                  2,
+                                  20
+                                ]
+                              ]
+                            }
+                          },
+                          {
+                            "id": [
+                              6154,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                19.8799992,
+                                -0.0199999996,
+                                -20.0200005
+                              ],
+                              [
+                                20.1200008,
+                                2.01999998,
+                                20.0200005
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  19.8999996,
+                                  0,
+                                  -20
+                                ],
+                                [
+                                  20.1000004,
+                                  2,
+                                  20
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1025,
+                          24,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -8
+                        ],
+                        "velocity": [
+                          0.689626813,
+                          0.0318307877,
+                          -0.417462707
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          2.85637951,
+                          0.125888824,
+                          1.06646967
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -8
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              11275,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -8.06000042
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -7.94000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1024,
+                          24,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -7.5
+                        ],
+                        "velocity": [
+                          0.621631503,
+                          0.566026807,
+                          -0.861140788
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          -0.994140625,
+                          2.64275026,
+                          1.23615217
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -7.5
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              11276,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -7.55999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -7.44000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1023,
+                          24,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -7
+                        ],
+                        "velocity": [
+                          0.225196123,
+                          0.198156714,
+                          -0.138340414
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          -4.21872616,
+                          -0.304727077,
+                          0.648365498
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -7
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              11277,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -7.05999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -6.94000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1022,
+                          24,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -6.5
+                        ],
+                        "velocity": [
+                          -0.407086372,
+                          -0.948850989,
+                          -0.598559499
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          2.68669701,
+                          1.72780514,
+                          -3.83419275
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -6.5
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              11278,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -6.55999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -6.44000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1021,
+                          24,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -6
+                        ],
+                        "velocity": [
+                          0.717154503,
+                          0.538987398,
+                          -0.585009336
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          2.27835941,
+                          -1.82119179,
+                          1.41773748
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -6
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              11279,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -6.05999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -5.94000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1020,
+                          24,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -5.5
+                        ],
+                        "velocity": [
+                          0.29361856,
+                          -0.174108088,
+                          -0.740043342
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          4.5709095,
+                          -0.758842945,
+                          -0.402691841
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -5.5
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              11280,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -5.55999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -5.44000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "owner": "public",
+                        "id": [
+                          1019,
+                          24,
+                          1
+                        ],
+                        "valid": true,
+                        "type": 2,
+                        "mass": 1.28000009,
+                        "enabled": true,
+                        "position": [
+                          -8,
+                          5,
+                          -5
+                        ],
+                        "velocity": [
+                          0.990050912,
+                          0.535386205,
+                          -0.521347702
+                        ],
+                        "gravity_scale": 1,
+                        "lock_bits": 0,
+                        "is_bullet": false,
+                        "rotation": [
+                          0,
+                          0,
+                          0,
+                          1
+                        ],
+                        "angular_velocity": [
+                          0.0383005142,
+                          3.76674747,
+                          -3.72920942
+                        ],
+                        "awake": true,
+                        "creation_position": [
+                          -8,
+                          5,
+                          -5
+                        ],
+                        "shapes": [
+                          {
+                            "id": [
+                              11281,
+                              13,
+                              1
+                            ],
+                            "kind": "Hull",
+                            "actual_type": 3,
+                            "restitution": 0,
+                            "definition_restitution": 0,
+                            "definition_invoke": true,
+                            "radius": 0,
+                            "vertices": 8,
+                            "definition_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_filter": [
+                              1,
+                              18446744073709552000,
+                              0
+                            ],
+                            "actual_aabb": [
+                              [
+                                -8.04000092,
+                                4.78000021,
+                                -5.05999994
+                              ],
+                              [
+                                -7.96000004,
+                                5.21999979,
+                                -4.94000006
+                              ]
+                            ],
+                            "hull": {
+                              "vertex_count": 8,
+                              "bounds": [
+                                [
+                                  -0.0199999996,
+                                  -0.200000003,
+                                  -0.0399999991
+                                ],
+                                [
+                                  0.0199999996,
+                                  0.200000003,
+                                  0.0399999991
+                                ]
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    ],
+                    "gravity_range": [
+                      1,
+                      1
+                    ],
+                    "locks_histogram": [
+                      [
+                        0,
+                        1024
+                      ]
+                    ],
+                    "shape_totals": [
+                      0,
+                      0,
+                      0,
+                      1028,
+                      1
+                    ],
+                    "filter_count": 1029,
+                    "filters_match_definition": 1029
+                  }
+                ]
+              },
+              "state": {
+                "frame": 483,
+                "world": [
+                  1,
+                  6
+                ],
+                "sample_step": 0,
+                "submitted": 0,
+                "completed": 0,
+                "completed_known": 1,
+                "pause": 1,
+                "single_remaining": 0,
+                "context_flags": [
+                  1,
+                  1,
+                  1
+                ],
+                "world_flags": [
+                  1,
+                  1,
+                  1
+                ],
+                "hertz": 60,
+                "substeps": 4,
+                "show_metrics": 0,
+                "body_count": 1025,
+                "shape_count": 1029,
+                "move_count": 0
+              },
+              "g": {
+                "api": "sample_geometry_controls",
+                "request": 240,
+                "mesh_build": null,
+                "preview_sphere": {
+                  "radius": 0.200000003,
+                  "position": [
+                    5.5,
+                    0.2027444839477539,
+                    1.0099999904632568
+                  ]
+                },
+                "bounds_draw_calls": 0,
+                "bounds_digest": "14650fb0739d0383",
+                "queries": [
+                  {
+                    "owner": "public",
+                    "operation": "b3World_CastRayClosest",
+                    "calls": 785,
+                    "hits": 1,
+                    "input": {
+                      "origin": [
+                        0.057304028421640396,
+                        9.922449111938477,
+                        17.24981117248535
+                      ],
+                      "translation": [
+                        572.982971,
+                        -775.427063,
+                        -706.891907
+                      ]
+                    },
+                    "callback": null,
+                    "context_before": null,
+                    "context_after": null,
+                    "responses": []
+                  },
+                  {
+                    "owner": "mapped_cpu",
+                    "operation": "",
+                    "calls": 0,
+                    "hits": 0,
+                    "input": null,
+                    "callback": null,
+                    "context_before": null,
+                    "context_after": null,
+                    "responses": []
+                  }
+                ],
+                "screen_targets": []
+              }
+            }
+          }
+        },
+        {
+          "check": "Auto Generate two actual original button activations"
+        }
+      ]
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/ui25-runs/native-gpu/receipt.json",
+      "seconds": 15.163023185,
+      "checks": {
+        "Overlap Recovery actual scene/no-body fixture": true,
+        "Extent actualvalue 0.25": true,
+        "Extent .25 actual geometry/mass/positions match realCPU": true,
+        "Extent actual intended recreation": true,
+        "Height Field actual scene/no-body fixture": true,
+        "columns actualvalue 8": true,
+        "rows actualvalue 6": true,
+        "amplitude actualvalue 0": true,
+        "UI24 flat floor remains valid": true,
+        "amplitude actualvalue 0.75": true,
+        "amplitude .75 actual native data equals realCPU": true,
+        "HeightField restart defaults preserved": true,
+        "Mesh Drop actual scene/no-body fixture": true,
+        "AutoGenerate on actually regenerates paused": true,
+        "AutoGenerate off actually stops regeneration": true,
+        "AutoGenerate preserves counts/identity correspondence": true,
+        "Single Box actual scene/no-body fixture": true,
+        "public fresh projected picking preserved": true,
+        "Extent actual complete slider value through loading": true,
+        "amplitude actual complete slider value through loading": true,
+        "Main input queue/activeID held during each loading frame": true,
+        "Auto Generate two actual original button activations": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": []
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui25-runs/ordinary-both/receipt.json",
+      "seconds": 17.100915995,
+      "checks": {
+        "Overlap Recovery actual scene/no-body fixture": true,
+        "Extent actualvalue 0.25": true,
+        "Extent .25 actual geometry/mass/positions match realCPU": true,
+        "Extent actual intended recreation": true,
+        "Height Field actual scene/no-body fixture": true,
+        "columns actualvalue 8": true,
+        "rows actualvalue 6": true,
+        "amplitude actualvalue 0": true,
+        "UI24 flat floor remains valid": true,
+        "amplitude actualvalue 0.75": true,
+        "amplitude .75 actual native data equals realCPU": true,
+        "HeightField restart defaults preserved": true,
+        "Mesh Drop actual scene/no-body fixture": true,
+        "AutoGenerate on actually regenerates paused": true,
+        "AutoGenerate off actually stops regeneration": true,
+        "AutoGenerate preserves counts/identity correspondence": true,
+        "Single Box actual scene/no-body fixture": true,
+        "mapped_cpu fresh projected picking preserved": true,
+        "public fresh projected picking preserved": true,
+        "Extent actual complete slider value through loading": true,
+        "amplitude actual complete slider value through loading": true,
+        "Main input queue/activeID held during each loading frame": true,
+        "Auto Generate two actual original button activations": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": []
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/ui25-runs/native-both/receipt.json",
+      "seconds": 17.164867682,
+      "checks": {
+        "Overlap Recovery actual scene/no-body fixture": true,
+        "Extent actualvalue 0.25": true,
+        "Extent .25 actual geometry/mass/positions match realCPU": true,
+        "Extent actual intended recreation": true,
+        "Height Field actual scene/no-body fixture": true,
+        "columns actualvalue 8": true,
+        "rows actualvalue 6": true,
+        "amplitude actualvalue 0": true,
+        "UI24 flat floor remains valid": true,
+        "amplitude actualvalue 0.75": true,
+        "amplitude .75 actual native data equals realCPU": true,
+        "HeightField restart defaults preserved": true,
+        "Mesh Drop actual scene/no-body fixture": true,
+        "AutoGenerate on actually regenerates paused": true,
+        "AutoGenerate off actually stops regeneration": true,
+        "AutoGenerate preserves counts/identity correspondence": true,
+        "Single Box actual scene/no-body fixture": true,
+        "mapped_cpu fresh projected picking preserved": true,
+        "public fresh projected picking preserved": true,
+        "Extent actual complete slider value through loading": true,
+        "amplitude actual complete slider value through loading": true,
+        "Main input queue/activeID held during each loading frame": true,
+        "Auto Generate two actual original button activations": true,
+        "paused original timing defaults": true,
+        "clean quit": true
+      },
+      "findings": []
+    }
+  ],
+  "diagnostics": {
+    "source": "ui25-input-observer.cpp",
+    "scope": "Task-only objcopy symbol chains preserve actual prior poll/SliderFloat/Button/HandleEvent/Camera/key/geometry observers. Calls actual implementations once and records native event entry/queued input/active IDs/actual widget return/actual geometry/body lifecycle. Product code does not depend on diagnostics.",
+    "original_cause": "ui25-ui29-cause.json",
+    "cause_limit_adjudication": "ui29-trace-target-adjudication.json"
+  },
+  "limitations": [
+    "Two stale-position UI29 predicates in the original ordinary repaired run remain false. Actual .25/.75/geometry/active queue/defaults/picking data passed and were reused; one distinct current-target MeshDrop app supplies two original native Button returns and stopped creation/destruction/IDs.",
+    "The diagnostic saved-position UI29 before trace did not target the moved button and is not a matched cause proof. Original full-review UI29 current-position failures remain valid. Shared context cause for UI29 is inferred from those failures/source plus corrected-target repaired behavior; exact before event trace is unavailable.",
+    "A link-plan harness map-key guard failed before any link/app; corrected map keys and failure retained. Focused consumer initially rejected its own still-live driver before deletion; external after-exit cleanup succeeded. No app reruns for these errors.",
+    "GPU preparation/scene mutations stay outside the main thread while its worker owns the world. Paused/short UI fixtures do not qualify solver behavior, full PR11 queries, cold startup or arbitrary-duration input floods.",
+    "Box3D/WASM/Rust/WGSL/shared archives unchanged; fresh compatibility/final affected-scene recordings/criteria audit remain open. PR10 unchecked; no new commit/push."
+  ],
+  "resources": {
+    "status": "CLOSED",
+    "retained_bytes": 13444335,
+    "raw_retained_bytes": 866485083,
+    "deleted_bytes": 20497464,
+    "owned_pids_absent": [
+      667240,
+      667225,
+      667877,
+      667855,
+      686913,
+      686897,
+      697275,
+      697260,
+      698157,
+      698142,
+      699152,
+      699133,
+      694508,
+      694488
+    ],
+    "owned_core_files": [],
+    "shared_cache_growth_bytes": 0,
+    "free_bytes": 1707604959232,
+    "consumer": "Current5viewers/38directtaskobjects/sharedC++loading module/2generatedmain/3chainedinputdiagnostics and priorAPIcarriers/modules nextPR10relink; minimal inputs/beforeafter/screenshots finalaudit",
+    "retained_diagnostic_bytes": 22162961,
+    "consumed_logs": [
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/gpu-main-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Source delta/commands/exit/timing/actual context-isolated input+effect evidence extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/both-main-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Source delta/commands/exit/timing/actual context-isolated input+effect evidence extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/loading-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Source delta/commands/exit/timing/actual context-isolated input+effect evidence extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/ordinary-gpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Source delta/commands/exit/timing/actual context-isolated input+effect evidence extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/ordinary-gpu-check.log",
+        "bytes": 210,
+        "sha256": "7ac24da0e281b771b7b0b5d4ca7028b6b80f70cab9bf0c10c9d528071f8e0572",
+        "consumer": "Source delta/commands/exit/timing/actual context-isolated input+effect evidence extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/native-gpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Source delta/commands/exit/timing/actual context-isolated input+effect evidence extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/native-gpu-check.log",
+        "bytes": 57,
+        "sha256": "494be99cd517e3e9ebfc6cd697ca6676fd4a0895d131005ccf3aee969e98c31d",
+        "consumer": "Source delta/commands/exit/timing/actual context-isolated input+effect evidence extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/ordinary-both-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Source delta/commands/exit/timing/actual context-isolated input+effect evidence extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/ordinary-both-check.log",
+        "bytes": 63,
+        "sha256": "4b35f242a0adaa220ab9eef7ce236b4f0b98df241eb50848f2959567264e25a5",
+        "consumer": "Source delta/commands/exit/timing/actual context-isolated input+effect evidence extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/native-both-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Source delta/commands/exit/timing/actual context-isolated input+effect evidence extracted"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/native-both-check.log",
+        "bytes": 59,
+        "sha256": "fe9dcda582a4653eb0f0cd02ca1017839fc4a69220d417ac55d32b0e2fdf95ab",
+        "consumer": "Source delta/commands/exit/timing/actual context-isolated input+effect evidence extracted"
+      }
+    ],
+    "deleted_log_bytes": 389,
+    "deleted_build_bytes": 204659562,
+    "owned_all_pids_absent": [
+      682675,
+      682789,
+      682889,
+      686819,
+      686897,
+      697071,
+      697260,
+      698025,
+      698142,
+      698963,
+      699133,
+      667110,
+      667111,
+      667112,
+      667190,
+      667225,
+      667726,
+      667855,
+      667240,
+      667877,
+      686913,
+      697275,
+      698157,
+      699152,
+      694508,
+      694488
+    ],
+    "active_task_objects": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-build/diagnostic-human.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui21-build/lifetime-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/preview-bounds.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-overlay.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/projection-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui17-build/cache-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/draw.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/key-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui07-trace-completion-build/camera-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/cpu-adapter.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-material-build/material-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/hud-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui17-build/ui-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/sample_collision_ui.cpp.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-build/cpu-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui14-build/sample_manifold_ui.cpp.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/cpu-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu-renderer-observed.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/input-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/heightfield-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-build/replacement-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/key-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/ui-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/gpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/loading.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/gpu-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-build/ordinary-gpu-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-gpu-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/both-overlay.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui11-trace-build/selection-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui06-build/both-adapter.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/both-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/both-sample.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui22-build/ordinary-both-joint.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui19-build/ordinary-both-replay.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/both-renderer-observed.c.o"
+    ],
+    "active_carriers": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/libgpu_samples_api.a",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/libgpu_both_api.a",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/libgpu_both_samples_api.a"
+    ],
+    "needed_module_objects": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/shim.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui24-build/both_dual.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/api-standalone/samples_api.c.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui23-render-build/api-both/samples_api.c.o"
+    ],
+    "loading_objects": [
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/loading.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/gpu-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-build/both-main.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/ui-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/key-observer.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui25-trace-build/input-observer.o"
+    ]
+  },
+  "issue": "UI25",
+  "cause": "After partial .2/.7 SliderFloat update/rebuild, a loading-only frame on the same ImGui context consumes queued final digit5 while the actual field is absent and clears its activeID. Actual char5 reached HandleEvent; CPU keeps field alive and completes .25/.75.",
+  "media": {
+    "grids": [
+      {
+        "path": "ui25-before-grid.png",
+        "sha256": "b7896161b8571132258c54f22af0e70a6f2c6f75da303c705a7dd0a2f3b3747d"
+      },
+      {
+        "path": "ui25-after-grid.png",
+        "sha256": "f4021413ea703fe64e7060b44d4746275eb65fac9dfea9a6ac3ad2dafbe42d57"
+      },
+      {
+        "path": "ui25-regressions-grid.png",
+        "sha256": "4209ac925e462b17c55497a329d4467b67c8c2e30f17667186b0396f799bc498"
+      }
+    ],
+    "inspection": "All five CPU-first before/after/regression grids inspected; complete values and geometry, restored Autooff scene, restart and picking visible",
+    "caption": "Real CPU first. Before: traced CPU/ordinaryGPU .25/.2 and .75/.7. After: allfourGPU routes retain complete values and actual geometry. Before originalallfourGPU cases also retained in UI25.md review receipts."
+  },
+  "applicability": [
+    {
+      "cpu_identity": "Robustness/Overlap Recovery",
+      "routes": [
+        "cpu",
+        "ordinary-gpu",
+        "native-gpu",
+        "ordinary-both",
+        "native-both"
+      ],
+      "method": "ACTUAL_COMPLETE_NATIVE_TEXT_AND_GEOMETRY_EFFECT",
+      "scope": "Same real1ms multi-character inputs, actual extent hull bounds/mass/creation and amplitude native heightfield/hash/scale; queue/activeID held across loading; defaults/restart/picking preserved. Shared main loading context fix also applies to other sample controls without claiming new per-widget passes."
+    },
+    {
+      "cpu_identity": "Mesh/Height Field",
+      "routes": [
+        "cpu",
+        "ordinary-gpu",
+        "native-gpu",
+        "ordinary-both",
+        "native-both"
+      ],
+      "method": "ACTUAL_COMPLETE_NATIVE_TEXT_AND_GEOMETRY_EFFECT",
+      "scope": "Same real1ms multi-character inputs, actual extent hull bounds/mass/creation and amplitude native heightfield/hash/scale; queue/activeID held across loading; defaults/restart/picking preserved. Shared main loading context fix also applies to other sample controls without claiming new per-widget passes."
+    }
+  ]
+}

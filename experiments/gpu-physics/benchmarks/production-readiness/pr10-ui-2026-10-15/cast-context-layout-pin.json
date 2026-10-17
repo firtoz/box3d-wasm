@@ -1,0 +1,6 @@
+{
+  "source": "box3d/samples/sample_collision.cpp",
+  "source_sha256": "f1ff5ea97fc352b1f26f13c422554b2b8e5994e1c299bbeb58827f1829593932",
+  "layout_sha256": "8b288bab9d706348f9281ba9c01f3930eb9e27a466a29a17cb92d45e52509571",
+  "scope": "Only4whitelistednativeCastContextcallbacks, memcpycopyofexactsource-derivedlayout. Othercontextsneverread."
+}

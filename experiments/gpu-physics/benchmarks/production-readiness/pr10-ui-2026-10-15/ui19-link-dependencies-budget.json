@@ -1,0 +1,20 @@
+{
+  "status": "FROZEN",
+  "cpp_compiles": 3,
+  "compile_seconds": 20,
+  "links": 5,
+  "link_seconds": 25,
+  "engine_builds": 0,
+  "joint_compiles": 0,
+  "generations": 0,
+  "apps": 0,
+  "retries": 0,
+  "outer_seconds": 200,
+  "source": {
+    "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-build/sample_replay_ui.cpp",
+    "sha256": "c8475df63c358e7afd74ae81ade068819763d82237917751c8733a65e3414d5d"
+  },
+  "scope": "Recreate3smallcurrentReplayobjectsdeletedinearliercleanup; exactacceptedshortReplaysource/flags pinned. Reuse3completedJointobjects; onlycorrectedlinkinputs. Retainactiveobjects/linkplansfornextrepairs. FiveUIchecksremainunlaunchedunderoriginalbudget.",
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592
+}

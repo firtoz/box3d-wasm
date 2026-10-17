@@ -1,0 +1,7121 @@
+{
+  "status": "REVIEWED_TWENTYEIGHT_WIDGETS_AND_DOOR_MOUSE_WITH_UI21_UI22_UNFIXED",
+  "routes_CPU_first": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "widget_entries": 28,
+  "custom_input_sample_groups": 1,
+  "per_receipt_final_check_keys": 686,
+  "finding_events": 33,
+  "product_finding_events": 26,
+  "harness_finding_events": 7,
+  "rows": [
+    {
+      "route": "cpu",
+      "fixture": "bridge",
+      "receipt": "raw/body-properties-controls-runs/bridge/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 1,
+      "check_keys": 17,
+      "findings": [],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Gravity scale",
+          "value": 0
+        },
+        {
+          "control": "Gravity scale",
+          "value": -1
+        },
+        {
+          "control": "Gravity scale",
+          "value": 1
+        }
+      ],
+      "screenshots": {
+        "bridge-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/cpu/bridge-before.png",
+          "sha256": "c3d63d17c535bd1e9aeb6d4a495aec61c4b37ab552fafd9392f7a3cf3cf0c554",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 152,
+            "shape_count": 151,
+            "move_count": 0
+          }
+        },
+        "bridge-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/cpu/bridge-restored.png",
+          "sha256": "2b76f37b25f6e9f88ea4a9c7e7be861f096770cf1d070f2d09147f8dd692ca89",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 259,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 152,
+            "shape_count": 151,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 5.094101318,
+      "stream_cleanup": "raw/body-properties-controls-runs/bridge/cpu/stream-cleanup.json"
+    },
+    {
+      "route": "cpu",
+      "fixture": "locks",
+      "receipt": "raw/body-properties-controls-runs/locks/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 6,
+      "check_keys": 26,
+      "findings": [],
+      "steps": 2,
+      "controls": [
+        {
+          "control": "Lock Linear X",
+          "mask": 1
+        },
+        {
+          "control": "Lock Linear Y",
+          "mask": 3
+        },
+        {
+          "control": "Lock Linear Z",
+          "mask": 7
+        },
+        {
+          "control": "Lock Angular X",
+          "mask": 15
+        },
+        {
+          "control": "Lock Angular Y",
+          "mask": 31
+        },
+        {
+          "control": "Lock Angular Z",
+          "mask": 63
+        }
+      ],
+      "screenshots": {
+        "locks-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/cpu/locks-before.png",
+          "sha256": "74768cde8c2056459116495180e116be230d38e5010ab84674d48abde72e0c0d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 5,
+            "move_count": 0
+          }
+        },
+        "locks-all-enabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/cpu/locks-all-enabled.png",
+          "sha256": "19726dba93b924d3f239beffc0937b0af5b26a0c1bd198517b4002bb2b5aa24a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 218,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 5,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 6.317935192,
+      "stream_cleanup": "raw/body-properties-controls-runs/locks/cpu/stream-cleanup.json"
+    },
+    {
+      "route": "cpu",
+      "fixture": "motor",
+      "receipt": "raw/body-properties-controls-runs/motor/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 4,
+      "check_keys": 16,
+      "findings": [],
+      "steps": 1,
+      "controls": [
+        {
+          "control": "Max Force",
+          "value": 600000
+        },
+        {
+          "control": "Max Torque",
+          "value": 650000
+        },
+        {
+          "control": "Apply Impulse"
+        },
+        {
+          "control": "Speed",
+          "value": 2
+        }
+      ],
+      "screenshots": {
+        "motor-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/cpu/motor-before.png",
+          "sha256": "f0af3d538270125ecaee7c0890f6a576f22c553d2558288952bfc815ebbca51f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 5,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        },
+        "motor-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/cpu/motor-configured.png",
+          "sha256": "24d3203c28443df1046c4fb066bc5d783985f1492791c992d9735275b79c689c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 268,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 5,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 5.252948066000001,
+      "stream_cleanup": "raw/body-properties-controls-runs/motor/cpu/stream-cleanup.json"
+    },
+    {
+      "route": "cpu",
+      "fixture": "door",
+      "receipt": "raw/body-properties-controls-runs/door/cpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 6,
+      "check_keys": 23,
+      "findings": [
+        "Door initial limit checkbox reflects actual policy",
+        "Two joints false preserves unchecked limit",
+        "Two joints true preserves unchecked limit"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Limit##Door"
+        },
+        {
+          "control": "Two joints##Door",
+          "value": false
+        },
+        {
+          "control": "Two joints##Door",
+          "value": true
+        },
+        {
+          "control": "Hertz##Door",
+          "value": 60
+        },
+        {
+          "control": "Damping##Door",
+          "value": 1.2
+        },
+        {
+          "control": "Magnitude##Door",
+          "value": 30000
+        },
+        {
+          "control": "Impulse##Door"
+        }
+      ],
+      "screenshots": {
+        "door-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/cpu/door-before.png",
+          "sha256": "b2bf4faa5886a58ea126662c5a40b6e50d2fcbe1d8aedc7d2f2b3cdd034dfbe8",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 77,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        },
+        "door-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/cpu/door-configured.png",
+          "sha256": "ccc7851f8c086637594b6e9dd74e1fad5d390cd89ab414c37a2e2913d3ae12c0",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 452,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 8.470896295000001,
+      "stream_cleanup": "raw/body-properties-controls-runs/door/cpu/stream-cleanup.json"
+    },
+    {
+      "route": "cpu",
+      "fixture": "ragdoll-box",
+      "receipt": "raw/body-properties-controls-runs/ragdoll-box/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 4,
+      "check_keys": 17,
+      "findings": [],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Joint Friction",
+          "value": 8
+        },
+        {
+          "control": "Hertz",
+          "value": 4
+        },
+        {
+          "control": "Damping",
+          "value": 1.2
+        },
+        {
+          "control": "Respawn",
+          "iteration": 0
+        }
+      ],
+      "screenshots": {
+        "ragdoll-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/cpu/ragdoll-before.png",
+          "sha256": "ea2006f532de86ddfbd5a844b3a5c9b52aba41801c5ec70f1d439e19ae91e774",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 15,
+            "shape_count": 15,
+            "move_count": 0
+          }
+        },
+        "ragdoll-respawned": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/cpu/ragdoll-respawned.png",
+          "sha256": "e678d0e0a0878403cb00bbcaa9c740fab0797c90fc37cd7b0f808feb3b795ee1",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 272,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 15,
+            "shape_count": 15,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 5.408394518,
+      "stream_cleanup": "raw/body-properties-controls-runs/ragdoll-box/cpu/stream-cleanup.json"
+    },
+    {
+      "route": "cpu",
+      "fixture": "ragdoll-mesh",
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/cpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 4,
+      "check_keys": 20,
+      "findings": [
+        "Respawn0 releases replaced anchor bodies",
+        "Respawn1 releases replaced anchor bodies"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Joint Friction",
+          "value": 8
+        },
+        {
+          "control": "Hertz",
+          "value": 4
+        },
+        {
+          "control": "Damping",
+          "value": 1.2
+        },
+        {
+          "control": "Respawn",
+          "iteration": 0
+        },
+        {
+          "control": "Respawn",
+          "iteration": 1
+        }
+      ],
+      "screenshots": {
+        "ragdoll-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/cpu/ragdoll-before.png",
+          "sha256": "8946bb79958bc28f9da63922100481ca6339d7343c43864eef2fc41eec14e909",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 29,
+            "shape_count": 19,
+            "move_count": 0
+          }
+        },
+        "ragdoll-respawned": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/cpu/ragdoll-respawned.png",
+          "sha256": "83d98c2f9e62c9083123c847f88a7c695ffb50a6786a9c0bd8a3a3d5fff90c3a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 299,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 57,
+            "shape_count": 19,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 5.88082614,
+      "stream_cleanup": "raw/body-properties-controls-runs/ragdoll-mesh/cpu/stream-cleanup.json"
+    },
+    {
+      "route": "cpu",
+      "fixture": "gear",
+      "receipt": "raw/body-properties-controls-runs/gear/cpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 3,
+      "check_keys": 15,
+      "findings": [
+        "Gear Lift actual scene counts"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Motor",
+          "value": false
+        },
+        {
+          "control": "Motor",
+          "value": true
+        },
+        {
+          "control": "Max Torque",
+          "value": 40000
+        },
+        {
+          "control": "Speed",
+          "value": 0.2
+        }
+      ],
+      "screenshots": {
+        "gear-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/cpu/gear-before.png",
+          "sha256": "80decf8a2ea8367470a1b36c93137c4388cafa84d226d6bb1b942506890dfb19",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 205,
+            "shape_count": 274,
+            "move_count": 0
+          }
+        },
+        "gear-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/cpu/gear-configured.png",
+          "sha256": "6b22dc671b815522bec1d86903d54e415ffe3bd79b2c24547f993f3064211cc9",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 247,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 205,
+            "shape_count": 274,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 4.902015506,
+      "stream_cleanup": "raw/body-properties-controls-runs/gear/cpu/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "bridge",
+      "receipt": "raw/body-properties-controls-runs/bridge/ordinary-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 1,
+      "check_keys": 17,
+      "findings": [],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Gravity scale",
+          "value": 0
+        },
+        {
+          "control": "Gravity scale",
+          "value": -1
+        },
+        {
+          "control": "Gravity scale",
+          "value": 1
+        }
+      ],
+      "screenshots": {
+        "bridge-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/ordinary-gpu/bridge-before.png",
+          "sha256": "3c19596f0b367eb26383204e11fff2bec7e97f773ac337968fe0ff7fc60cea8c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 152,
+            "shape_count": 151,
+            "move_count": 0
+          }
+        },
+        "bridge-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/ordinary-gpu/bridge-restored.png",
+          "sha256": "30668da40d4dab89c3a81f1b73bacaf969184d9f7967aeab45a5760ac22e85c2",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 253,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 152,
+            "shape_count": 151,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 6.189613416,
+      "stream_cleanup": "raw/body-properties-controls-runs/bridge/ordinary-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "locks",
+      "receipt": "raw/body-properties-controls-runs/locks/ordinary-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 6,
+      "check_keys": 26,
+      "findings": [],
+      "steps": 2,
+      "controls": [
+        {
+          "control": "Lock Linear X",
+          "mask": 1
+        },
+        {
+          "control": "Lock Linear Y",
+          "mask": 3
+        },
+        {
+          "control": "Lock Linear Z",
+          "mask": 7
+        },
+        {
+          "control": "Lock Angular X",
+          "mask": 15
+        },
+        {
+          "control": "Lock Angular Y",
+          "mask": 31
+        },
+        {
+          "control": "Lock Angular Z",
+          "mask": 63
+        }
+      ],
+      "screenshots": {
+        "locks-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/ordinary-gpu/locks-before.png",
+          "sha256": "6dccfabcae9e65c5e7d06513d82714ff947ebe280fe5603bc5fe1bf0c40ce8f5",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 5,
+            "move_count": 0
+          }
+        },
+        "locks-all-enabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/ordinary-gpu/locks-all-enabled.png",
+          "sha256": "081d1fdf4ae5766408802269a25113b9124d9f16c12e27f8222b993c437e792e",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 233,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 5,
+            "move_count": 4,
+            "first_body": [
+              3,
+              1,
+              2
+            ],
+            "first_position": [
+              -12.5,
+              10,
+              0
+            ],
+            "fell_asleep": 0
+          }
+        }
+      },
+      "elapsed_seconds": 7.908461802,
+      "stream_cleanup": "raw/body-properties-controls-runs/locks/ordinary-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "motor",
+      "receipt": "raw/body-properties-controls-runs/motor/ordinary-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 4,
+      "check_keys": 16,
+      "findings": [],
+      "steps": 1,
+      "controls": [
+        {
+          "control": "Max Force",
+          "value": 600000
+        },
+        {
+          "control": "Max Torque",
+          "value": 650000
+        },
+        {
+          "control": "Apply Impulse"
+        },
+        {
+          "control": "Speed",
+          "value": 2
+        }
+      ],
+      "screenshots": {
+        "motor-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/ordinary-gpu/motor-before.png",
+          "sha256": "58070a63808cabbed6c88ca9e37c976f00c683effbdef187137898bef7770ab4",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 5,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        },
+        "motor-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/ordinary-gpu/motor-configured.png",
+          "sha256": "977dd929999fd0cec3b2567f4c964f691163b4e435cad4bba372c578a8fff45a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 289,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 5,
+            "shape_count": 3,
+            "move_count": 3,
+            "first_body": [
+              3,
+              1,
+              2
+            ],
+            "first_position": [
+              0.399703771,
+              10.1333084,
+              0
+            ],
+            "fell_asleep": 0
+          }
+        }
+      },
+      "elapsed_seconds": 6.832259495000001,
+      "stream_cleanup": "raw/body-properties-controls-runs/motor/ordinary-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "door",
+      "receipt": "raw/body-properties-controls-runs/door/ordinary-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 6,
+      "check_keys": 23,
+      "findings": [
+        "Limit control actual false",
+        "Two joints false preserves unchecked limit",
+        "Two joints true preserves unchecked limit"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Limit##Door"
+        },
+        {
+          "control": "Two joints##Door",
+          "value": false
+        },
+        {
+          "control": "Two joints##Door",
+          "value": true
+        },
+        {
+          "control": "Hertz##Door",
+          "value": 60
+        },
+        {
+          "control": "Damping##Door",
+          "value": 1.2
+        },
+        {
+          "control": "Magnitude##Door",
+          "value": 30000
+        },
+        {
+          "control": "Impulse##Door"
+        }
+      ],
+      "screenshots": {
+        "door-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/ordinary-gpu/door-before.png",
+          "sha256": "4f60ad7afcb522bcb855f320beec4d141e7e54e52bb22b17419e858d8ab5342f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 95,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        },
+        "door-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/ordinary-gpu/door-configured.png",
+          "sha256": "d50754d5e74d65276522ca211d01e8ee1d1f84381c044b64c5b4b013ccbc4501",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 435,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 9.425921595999998,
+      "stream_cleanup": "raw/body-properties-controls-runs/door/ordinary-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "ragdoll-box",
+      "receipt": "raw/body-properties-controls-runs/ragdoll-box/ordinary-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 4,
+      "check_keys": 17,
+      "findings": [],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Joint Friction",
+          "value": 8
+        },
+        {
+          "control": "Hertz",
+          "value": 4
+        },
+        {
+          "control": "Damping",
+          "value": 1.2
+        },
+        {
+          "control": "Respawn",
+          "iteration": 0
+        }
+      ],
+      "screenshots": {
+        "ragdoll-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/ordinary-gpu/ragdoll-before.png",
+          "sha256": "6a7b8b0e35854981fa4970693a31e68f365a943972651f724954786686b555fe",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 15,
+            "shape_count": 15,
+            "move_count": 0
+          }
+        },
+        "ragdoll-respawned": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/ordinary-gpu/ragdoll-respawned.png",
+          "sha256": "26c274a529491b5b63dadb99c6e8b53964096c5e563f8afd5220941143c16250",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 290,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 15,
+            "shape_count": 15,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 6.967914874,
+      "stream_cleanup": "raw/body-properties-controls-runs/ragdoll-box/ordinary-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "ragdoll-mesh",
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 4,
+      "check_keys": 20,
+      "findings": [
+        "Respawn0 releases replaced anchor bodies",
+        "Respawn1 releases replaced anchor bodies"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Joint Friction",
+          "value": 8
+        },
+        {
+          "control": "Hertz",
+          "value": 4
+        },
+        {
+          "control": "Damping",
+          "value": 1.2
+        },
+        {
+          "control": "Respawn",
+          "iteration": 0
+        },
+        {
+          "control": "Respawn",
+          "iteration": 1
+        }
+      ],
+      "screenshots": {
+        "ragdoll-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/ordinary-gpu/ragdoll-before.png",
+          "sha256": "d426a6cb9b3e1b6fe3071d4df11be0bc2707cb91864a61abefa947db92f82bcb",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 29,
+            "shape_count": 19,
+            "move_count": 0
+          }
+        },
+        "ragdoll-respawned": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/ordinary-gpu/ragdoll-respawned.png",
+          "sha256": "cfb739ea221645650c30390bf3f23f886c3b6d6ba2bb01744c5fe5c7cc7024f7",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 317,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 57,
+            "shape_count": 19,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 7.570936852999999,
+      "stream_cleanup": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "gear",
+      "receipt": "raw/body-properties-controls-runs/gear/ordinary-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 3,
+      "check_keys": 15,
+      "findings": [
+        "Gear Lift actual scene counts"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Motor",
+          "value": false
+        },
+        {
+          "control": "Motor",
+          "value": true
+        },
+        {
+          "control": "Max Torque",
+          "value": 40000
+        },
+        {
+          "control": "Speed",
+          "value": 0.2
+        }
+      ],
+      "screenshots": {
+        "gear-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/ordinary-gpu/gear-before.png",
+          "sha256": "da8f86b94179ee5cd0ddebb7423d20b8f970aa04d918c06e9b9e3c3a551f9fec",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 205,
+            "shape_count": 274,
+            "move_count": 0
+          }
+        },
+        "gear-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/ordinary-gpu/gear-configured.png",
+          "sha256": "8259ef91c34b8f2036f767df0807167c44a473146e1510d06309d73578f3755a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 266,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 205,
+            "shape_count": 274,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 6.645536964,
+      "stream_cleanup": "raw/body-properties-controls-runs/gear/ordinary-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "bridge",
+      "receipt": "raw/body-properties-controls-runs/bridge/native-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 1,
+      "check_keys": 17,
+      "findings": [],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Gravity scale",
+          "value": 0
+        },
+        {
+          "control": "Gravity scale",
+          "value": -1
+        },
+        {
+          "control": "Gravity scale",
+          "value": 1
+        }
+      ],
+      "screenshots": {
+        "bridge-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/native-gpu/bridge-before.png",
+          "sha256": "76d8401e30a32f134905683d334df722f18263544ccb59b654e0a4404ae71fd6",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 152,
+            "shape_count": 151,
+            "move_count": 0
+          }
+        },
+        "bridge-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/native-gpu/bridge-restored.png",
+          "sha256": "8a0786713d5e22c99dfdf0acdfbfde2e923664d65ceb30201cdd8a131f4d9859",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 259,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 152,
+            "shape_count": 151,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 6.5101341349999995,
+      "stream_cleanup": "raw/body-properties-controls-runs/bridge/native-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "locks",
+      "receipt": "raw/body-properties-controls-runs/locks/native-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 6,
+      "check_keys": 26,
+      "findings": [],
+      "steps": 2,
+      "controls": [
+        {
+          "control": "Lock Linear X",
+          "mask": 1
+        },
+        {
+          "control": "Lock Linear Y",
+          "mask": 3
+        },
+        {
+          "control": "Lock Linear Z",
+          "mask": 7
+        },
+        {
+          "control": "Lock Angular X",
+          "mask": 15
+        },
+        {
+          "control": "Lock Angular Y",
+          "mask": 31
+        },
+        {
+          "control": "Lock Angular Z",
+          "mask": 63
+        }
+      ],
+      "screenshots": {
+        "locks-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/native-gpu/locks-before.png",
+          "sha256": "6f1a88336424e86cc4cd84e21534741c0b61dbe2f6120fdbd0311ca80289740d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 5,
+            "move_count": 0
+          }
+        },
+        "locks-all-enabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/native-gpu/locks-all-enabled.png",
+          "sha256": "bcdacbb29ce3d6ddc950fa37eb9264f95b1a721b455d46a5fde40210648710ee",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 234,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 5,
+            "move_count": 4,
+            "first_body": [
+              3,
+              1,
+              2
+            ],
+            "first_position": [
+              -12.5,
+              10,
+              0
+            ],
+            "fell_asleep": 0
+          }
+        }
+      },
+      "elapsed_seconds": 8.098989224,
+      "stream_cleanup": "raw/body-properties-controls-runs/locks/native-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "motor",
+      "receipt": "raw/body-properties-controls-runs/motor/native-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 4,
+      "check_keys": 16,
+      "findings": [],
+      "steps": 1,
+      "controls": [
+        {
+          "control": "Max Force",
+          "value": 600000
+        },
+        {
+          "control": "Max Torque",
+          "value": 650000
+        },
+        {
+          "control": "Apply Impulse"
+        },
+        {
+          "control": "Speed",
+          "value": 2
+        }
+      ],
+      "screenshots": {
+        "motor-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/native-gpu/motor-before.png",
+          "sha256": "cdc1704a767fad857e7d00984540bbdd9e3306d279fc34030c5c1600e4c22053",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 5,
+            "shape_count": 3,
+            "move_count": 0
+          }
+        },
+        "motor-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/native-gpu/motor-configured.png",
+          "sha256": "b57a8ccb48f3ca066368b3be29f9ad7ce6d35ed21f330112b45381fdc64d461e",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 283,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 5,
+            "shape_count": 3,
+            "move_count": 3,
+            "first_body": [
+              3,
+              1,
+              2
+            ],
+            "first_position": [
+              0.399703771,
+              10.1333084,
+              0
+            ],
+            "fell_asleep": 0
+          }
+        }
+      },
+      "elapsed_seconds": 6.897960654,
+      "stream_cleanup": "raw/body-properties-controls-runs/motor/native-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "door",
+      "receipt": "raw/body-properties-controls-runs/door/native-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 6,
+      "check_keys": 23,
+      "findings": [
+        "Two joints false preserves unchecked limit",
+        "Two joints true preserves unchecked limit",
+        "Limit control actual false"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Limit##Door"
+        },
+        {
+          "control": "Two joints##Door",
+          "value": false
+        },
+        {
+          "control": "Two joints##Door",
+          "value": true
+        },
+        {
+          "control": "Hertz##Door",
+          "value": 60
+        },
+        {
+          "control": "Damping##Door",
+          "value": 1.2
+        },
+        {
+          "control": "Magnitude##Door",
+          "value": 30000
+        },
+        {
+          "control": "Impulse##Door"
+        }
+      ],
+      "screenshots": {
+        "door-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/native-gpu/door-before.png",
+          "sha256": "84411cf9b243de7495898b48bbf03a2b7aff16f08ff949b4c413e53b9c7afc5f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 95,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        },
+        "door-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/native-gpu/door-configured.png",
+          "sha256": "a33967b7526139e3e94f3e8f8926664fe40f766346714a66b05e63744084a767",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 436,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 9.955526493999999,
+      "stream_cleanup": "raw/body-properties-controls-runs/door/native-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "ragdoll-box",
+      "receipt": "raw/body-properties-controls-runs/ragdoll-box/native-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 4,
+      "check_keys": 17,
+      "findings": [],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Joint Friction",
+          "value": 8
+        },
+        {
+          "control": "Hertz",
+          "value": 4
+        },
+        {
+          "control": "Damping",
+          "value": 1.2
+        },
+        {
+          "control": "Respawn",
+          "iteration": 0
+        }
+      ],
+      "screenshots": {
+        "ragdoll-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/native-gpu/ragdoll-before.png",
+          "sha256": "838e7af9e1fb3046dd90a744b8764b708de20eb9fc9c7ecb35270e5879369869",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 15,
+            "shape_count": 15,
+            "move_count": 0
+          }
+        },
+        "ragdoll-respawned": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/native-gpu/ragdoll-respawned.png",
+          "sha256": "d2f0f7d74e7823d3296f8019c42e06e6b931de637cb1e2472f9a2862e7fc7c20",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 289,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 15,
+            "shape_count": 15,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 6.9303785179999995,
+      "stream_cleanup": "raw/body-properties-controls-runs/ragdoll-box/native-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "ragdoll-mesh",
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/native-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 4,
+      "check_keys": 20,
+      "findings": [
+        "Respawn0 releases replaced anchor bodies",
+        "Respawn1 releases replaced anchor bodies"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Joint Friction",
+          "value": 8
+        },
+        {
+          "control": "Hertz",
+          "value": 4
+        },
+        {
+          "control": "Damping",
+          "value": 1.2
+        },
+        {
+          "control": "Respawn",
+          "iteration": 0
+        },
+        {
+          "control": "Respawn",
+          "iteration": 1
+        }
+      ],
+      "screenshots": {
+        "ragdoll-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/native-gpu/ragdoll-before.png",
+          "sha256": "a3cd41c35908a8db6182bb56f76ee7b6cba2801755f6589868463458fc9dcc68",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 29,
+            "shape_count": 19,
+            "move_count": 0
+          }
+        },
+        "ragdoll-respawned": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/native-gpu/ragdoll-respawned.png",
+          "sha256": "b104f1a6eb189812253827003c196512add0723b3248b7cb2e65585c15c288b6",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 318,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 57,
+            "shape_count": 19,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 7.670874003,
+      "stream_cleanup": "raw/body-properties-controls-runs/ragdoll-mesh/native-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "gear",
+      "receipt": "raw/body-properties-controls-runs/gear/native-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 3,
+      "check_keys": 15,
+      "findings": [
+        "Gear Lift actual scene counts"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Motor",
+          "value": false
+        },
+        {
+          "control": "Motor",
+          "value": true
+        },
+        {
+          "control": "Max Torque",
+          "value": 40000
+        },
+        {
+          "control": "Speed",
+          "value": 0.2
+        }
+      ],
+      "screenshots": {
+        "gear-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/native-gpu/gear-before.png",
+          "sha256": "b06f3b9c2c324d6cf815f70183c5588f6427c1a0975fb9b7fc0b74d46bdc3e33",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 205,
+            "shape_count": 274,
+            "move_count": 0
+          }
+        },
+        "gear-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/native-gpu/gear-configured.png",
+          "sha256": "7a5e4fdfae4dcf144e46160622f5d9820b18e8ff3a768b1764979cc23492f35f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 264,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 205,
+            "shape_count": 274,
+            "move_count": 0
+          }
+        }
+      },
+      "elapsed_seconds": 6.628696241000001,
+      "stream_cleanup": "raw/body-properties-controls-runs/gear/native-gpu/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "bridge",
+      "receipt": "raw/body-properties-controls-runs/bridge/ordinary-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 1,
+      "check_keys": 17,
+      "findings": [],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Gravity scale",
+          "value": 0
+        },
+        {
+          "control": "Gravity scale",
+          "value": -1
+        },
+        {
+          "control": "Gravity scale",
+          "value": 1
+        }
+      ],
+      "screenshots": {
+        "bridge-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/ordinary-both/bridge-before.png",
+          "sha256": "74fd6079bdc8ffffb7b16e45f00c04608104c2b716dbf46450b81c3b48cd4635",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 152,
+            "shape_count": 151,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "bridge-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/ordinary-both/bridge-restored.png",
+          "sha256": "71eccdea491660193043222e619c454b7f4c8a70bf3482fbd9d1c2243ea742f5",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 277,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 152,
+            "shape_count": 151,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 6.657928762,
+      "stream_cleanup": "raw/body-properties-controls-runs/bridge/ordinary-both/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "locks",
+      "receipt": "raw/body-properties-controls-runs/locks/ordinary-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 6,
+      "check_keys": 26,
+      "findings": [],
+      "steps": 2,
+      "controls": [
+        {
+          "control": "Lock Linear X",
+          "mask": 1
+        },
+        {
+          "control": "Lock Linear Y",
+          "mask": 3
+        },
+        {
+          "control": "Lock Linear Z",
+          "mask": 7
+        },
+        {
+          "control": "Lock Angular X",
+          "mask": 15
+        },
+        {
+          "control": "Lock Angular Y",
+          "mask": 31
+        },
+        {
+          "control": "Lock Angular Z",
+          "mask": 63
+        }
+      ],
+      "screenshots": {
+        "locks-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/ordinary-both/locks-before.png",
+          "sha256": "ea63f680df38af342f180a9d7a47a288b9e34903cac939246f52b0d22d30b978",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 5,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "locks-all-enabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/ordinary-both/locks-all-enabled.png",
+          "sha256": "9c126482631cb1b544a44e422fd9404f7720b78c982df51854ae01bbcb2c3dd4",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 241,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 5,
+            "move_count": 4,
+            "first_body": [
+              3,
+              1,
+              2
+            ],
+            "first_position": [
+              -12.5,
+              10,
+              0
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 8.790055766,
+      "stream_cleanup": "raw/body-properties-controls-runs/locks/ordinary-both/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "motor",
+      "receipt": "raw/body-properties-controls-runs/motor/ordinary-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 4,
+      "check_keys": 16,
+      "findings": [],
+      "steps": 1,
+      "controls": [
+        {
+          "control": "Max Force",
+          "value": 600000
+        },
+        {
+          "control": "Max Torque",
+          "value": 650000
+        },
+        {
+          "control": "Apply Impulse"
+        },
+        {
+          "control": "Speed",
+          "value": 2
+        }
+      ],
+      "screenshots": {
+        "motor-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/ordinary-both/motor-before.png",
+          "sha256": "5481d1656869afa5ea5ea8e1619ce5534f28eba2d4816ac73b9f7dc136289e9f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 5,
+            "shape_count": 3,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "motor-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/ordinary-both/motor-configured.png",
+          "sha256": "377d346307dc466f15a1cfe810ba8192de6a27baa9c8b53378c647196aee7e62",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 291,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 5,
+            "shape_count": 3,
+            "move_count": 3,
+            "first_body": [
+              3,
+              1,
+              2
+            ],
+            "first_position": [
+              0.399703771,
+              10.1333084,
+              0
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 7.062405152,
+      "stream_cleanup": "raw/body-properties-controls-runs/motor/ordinary-both/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "door",
+      "receipt": "raw/body-properties-controls-runs/door/ordinary-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 6,
+      "check_keys": 23,
+      "findings": [
+        "Door initial limit checkbox reflects actual policy",
+        "Two joints false preserves unchecked limit",
+        "Two joints true preserves unchecked limit"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Limit##Door"
+        },
+        {
+          "control": "Two joints##Door",
+          "value": false
+        },
+        {
+          "control": "Two joints##Door",
+          "value": true
+        },
+        {
+          "control": "Hertz##Door",
+          "value": 60
+        },
+        {
+          "control": "Damping##Door",
+          "value": 1.2
+        },
+        {
+          "control": "Magnitude##Door",
+          "value": 30000
+        },
+        {
+          "control": "Impulse##Door"
+        }
+      ],
+      "screenshots": {
+        "door-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/ordinary-both/door-before.png",
+          "sha256": "d0160d0043289fb8124ffd6d9bc98dad517218f7d7e29893c5f14b91968bff7f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 95,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "door-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/ordinary-both/door-configured.png",
+          "sha256": "61c902d033360824cd15323cbfbe1ff934e141adb12137911380f5bf687fc0af",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 478,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 10.118042714000001,
+      "stream_cleanup": "raw/body-properties-controls-runs/door/ordinary-both/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "ragdoll-box",
+      "receipt": "raw/body-properties-controls-runs/ragdoll-box/ordinary-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 4,
+      "check_keys": 17,
+      "findings": [],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Joint Friction",
+          "value": 8
+        },
+        {
+          "control": "Hertz",
+          "value": 4
+        },
+        {
+          "control": "Damping",
+          "value": 1.2
+        },
+        {
+          "control": "Respawn",
+          "iteration": 0
+        }
+      ],
+      "screenshots": {
+        "ragdoll-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/ordinary-both/ragdoll-before.png",
+          "sha256": "c3d87dcfdffcbcb1898ab85285d5ed796870378f50dd53deae19e6131bfd7543",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 15,
+            "shape_count": 15,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "ragdoll-respawned": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/ordinary-both/ragdoll-respawned.png",
+          "sha256": "d5c6a914fb6d45a55896792cb3940eac8bd9e2f1982a7c3e3a78d08eb0aea26a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 291,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 15,
+            "shape_count": 15,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 6.993425638999999,
+      "stream_cleanup": "raw/body-properties-controls-runs/ragdoll-box/ordinary-both/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "ragdoll-mesh",
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 4,
+      "check_keys": 20,
+      "findings": [
+        "Respawn0 releases replaced anchor bodies",
+        "Respawn1 releases replaced anchor bodies"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Joint Friction",
+          "value": 8
+        },
+        {
+          "control": "Hertz",
+          "value": 4
+        },
+        {
+          "control": "Damping",
+          "value": 1.2
+        },
+        {
+          "control": "Respawn",
+          "iteration": 0
+        },
+        {
+          "control": "Respawn",
+          "iteration": 1
+        }
+      ],
+      "screenshots": {
+        "ragdoll-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/ordinary-both/ragdoll-before.png",
+          "sha256": "2d923e9c48909881cfcec91b05f846e7222d74fa99847b08f3ddea0e11650a67",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 29,
+            "shape_count": 19,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "ragdoll-respawned": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/ordinary-both/ragdoll-respawned.png",
+          "sha256": "d9db7f8f40b351e308ef89b9d5cdb84f92dd0bf3353e13b63ab33a10987b5170",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 324,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 57,
+            "shape_count": 19,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 7.733900466,
+      "stream_cleanup": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-both/stream-cleanup.json"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "gear",
+      "receipt": "raw/body-properties-controls-runs/gear/ordinary-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 3,
+      "check_keys": 15,
+      "findings": [
+        "Gear Lift actual scene counts"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Motor",
+          "value": false
+        },
+        {
+          "control": "Motor",
+          "value": true
+        },
+        {
+          "control": "Max Torque",
+          "value": 40000
+        },
+        {
+          "control": "Speed",
+          "value": 0.2
+        }
+      ],
+      "screenshots": {
+        "gear-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/ordinary-both/gear-before.png",
+          "sha256": "9d408efa7563afc9ce5c5746d0ae48ec4e228249b832969846ca6b1478ab8049",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 76,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 205,
+            "shape_count": 274,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "gear-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/ordinary-both/gear-configured.png",
+          "sha256": "48e9c29e165f5a286556285d4d2759aa4c357987c0440045190abd3404d05070",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 275,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 205,
+            "shape_count": 274,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 6.711107675,
+      "stream_cleanup": "raw/body-properties-controls-runs/gear/ordinary-both/stream-cleanup.json"
+    },
+    {
+      "route": "native-both",
+      "fixture": "bridge",
+      "receipt": "raw/body-properties-controls-runs/bridge/native-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 1,
+      "check_keys": 17,
+      "findings": [],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Gravity scale",
+          "value": 0
+        },
+        {
+          "control": "Gravity scale",
+          "value": -1
+        },
+        {
+          "control": "Gravity scale",
+          "value": 1
+        }
+      ],
+      "screenshots": {
+        "bridge-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/native-both/bridge-before.png",
+          "sha256": "f37dd97868f1f5135da414b51a75624f8cfee10a8e2ff37e0a6a9eceb4275152",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 152,
+            "shape_count": 151,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "bridge-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/bridge/native-both/bridge-restored.png",
+          "sha256": "8060a0c646dac0e12dc84a53aaf582be98fdb37a1c4cf2a24624d728ac04ee3d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 281,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 152,
+            "shape_count": 151,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 6.915546519,
+      "stream_cleanup": "raw/body-properties-controls-runs/bridge/native-both/stream-cleanup.json"
+    },
+    {
+      "route": "native-both",
+      "fixture": "locks",
+      "receipt": "raw/body-properties-controls-runs/locks/native-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 6,
+      "check_keys": 26,
+      "findings": [],
+      "steps": 2,
+      "controls": [
+        {
+          "control": "Lock Linear X",
+          "mask": 1
+        },
+        {
+          "control": "Lock Linear Y",
+          "mask": 3
+        },
+        {
+          "control": "Lock Linear Z",
+          "mask": 7
+        },
+        {
+          "control": "Lock Angular X",
+          "mask": 15
+        },
+        {
+          "control": "Lock Angular Y",
+          "mask": 31
+        },
+        {
+          "control": "Lock Angular Z",
+          "mask": 63
+        }
+      ],
+      "screenshots": {
+        "locks-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/native-both/locks-before.png",
+          "sha256": "72bea7d381fc9ddfbe081276da5d2c01e9c5305ce373545cdfb187b822e50430",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 5,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "locks-all-enabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/locks/native-both/locks-all-enabled.png",
+          "sha256": "37f72bfca5f5cdbfee7dfbe7ae303f2b918883007a7550fb8cec873af420d4f0",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 242,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 6,
+            "shape_count": 5,
+            "move_count": 4,
+            "first_body": [
+              3,
+              1,
+              2
+            ],
+            "first_position": [
+              -12.5,
+              10,
+              0
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 8.646069589000001,
+      "stream_cleanup": "raw/body-properties-controls-runs/locks/native-both/stream-cleanup.json"
+    },
+    {
+      "route": "native-both",
+      "fixture": "motor",
+      "receipt": "raw/body-properties-controls-runs/motor/native-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 4,
+      "check_keys": 16,
+      "findings": [],
+      "steps": 1,
+      "controls": [
+        {
+          "control": "Max Force",
+          "value": 600000
+        },
+        {
+          "control": "Max Torque",
+          "value": 650000
+        },
+        {
+          "control": "Apply Impulse"
+        },
+        {
+          "control": "Speed",
+          "value": 2
+        }
+      ],
+      "screenshots": {
+        "motor-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/native-both/motor-before.png",
+          "sha256": "7b202733c19e6be718a93b5ee9bad6cba6ad5f61e14f551f9ec5b950a5e9166e",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 71,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 5,
+            "shape_count": 3,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "motor-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/motor/native-both/motor-configured.png",
+          "sha256": "e87a5d946b1dbee436111e144242c158fc8bacec9c5314ef2f59d89e87732490",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 287,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 1,
+            "submitted": 1,
+            "completed": 1,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 5,
+            "shape_count": 3,
+            "move_count": 3,
+            "first_body": [
+              3,
+              1,
+              2
+            ],
+            "first_position": [
+              0.399703771,
+              10.1333084,
+              0
+            ],
+            "fell_asleep": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 7.039303354,
+      "stream_cleanup": "raw/body-properties-controls-runs/motor/native-both/stream-cleanup.json"
+    },
+    {
+      "route": "native-both",
+      "fixture": "door",
+      "receipt": "raw/body-properties-controls-runs/door/native-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 6,
+      "check_keys": 23,
+      "findings": [
+        "Limit control actual false",
+        "Two joints false preserves unchecked limit",
+        "Two joints true preserves unchecked limit",
+        "Limit control actual false"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Limit##Door"
+        },
+        {
+          "control": "Two joints##Door",
+          "value": false
+        },
+        {
+          "control": "Two joints##Door",
+          "value": true
+        },
+        {
+          "control": "Hertz##Door",
+          "value": 60
+        },
+        {
+          "control": "Damping##Door",
+          "value": 1.2
+        },
+        {
+          "control": "Magnitude##Door",
+          "value": 30000
+        },
+        {
+          "control": "Impulse##Door"
+        }
+      ],
+      "screenshots": {
+        "door-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/native-both/door-before.png",
+          "sha256": "1ec1d9d9f40449af5724629d142b83b24a3ab7eb865f81929ae8496c0fa57b75",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 94,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "door-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/door/native-both/door-configured.png",
+          "sha256": "bea57c857a335bc43d15e0fa643605d305032fe9412542e12b67f284da599f32",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 441,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 2,
+            "shape_count": 2,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 9.617593569,
+      "stream_cleanup": "raw/body-properties-controls-runs/door/native-both/stream-cleanup.json"
+    },
+    {
+      "route": "native-both",
+      "fixture": "ragdoll-box",
+      "receipt": "raw/body-properties-controls-runs/ragdoll-box/native-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "widget_entries": 4,
+      "check_keys": 17,
+      "findings": [],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Joint Friction",
+          "value": 8
+        },
+        {
+          "control": "Hertz",
+          "value": 4
+        },
+        {
+          "control": "Damping",
+          "value": 1.2
+        },
+        {
+          "control": "Respawn",
+          "iteration": 0
+        }
+      ],
+      "screenshots": {
+        "ragdoll-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/native-both/ragdoll-before.png",
+          "sha256": "1cc6ab3a045faa6d08808488b815fa21b2617713c258fd3da06393b99a122b90",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 15,
+            "shape_count": 15,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "ragdoll-respawned": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-box/native-both/ragdoll-respawned.png",
+          "sha256": "727e8b7bcd5a6845414d9e4fe13ca94893afb392e58bebc3b012516fb56dffad",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 296,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 15,
+            "shape_count": 15,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 7.196790125,
+      "stream_cleanup": "raw/body-properties-controls-runs/ragdoll-box/native-both/stream-cleanup.json"
+    },
+    {
+      "route": "native-both",
+      "fixture": "ragdoll-mesh",
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/native-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 4,
+      "check_keys": 20,
+      "findings": [
+        "Respawn0 releases replaced anchor bodies",
+        "Respawn1 releases replaced anchor bodies"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Joint Friction",
+          "value": 8
+        },
+        {
+          "control": "Hertz",
+          "value": 4
+        },
+        {
+          "control": "Damping",
+          "value": 1.2
+        },
+        {
+          "control": "Respawn",
+          "iteration": 0
+        },
+        {
+          "control": "Respawn",
+          "iteration": 1
+        }
+      ],
+      "screenshots": {
+        "ragdoll-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/native-both/ragdoll-before.png",
+          "sha256": "c341ebb9e511608bcc55fc0ad01a40a9a2ec32d5a21c4aef4c9a804f19246903",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 29,
+            "shape_count": 19,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "ragdoll-respawned": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/ragdoll-mesh/native-both/ragdoll-respawned.png",
+          "sha256": "3094217124192cff589b3f6abbb8d7f047b2c178d377f499cd561003e3c71bf3",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 320,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 57,
+            "shape_count": 19,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 7.77479098,
+      "stream_cleanup": "raw/body-properties-controls-runs/ragdoll-mesh/native-both/stream-cleanup.json"
+    },
+    {
+      "route": "native-both",
+      "fixture": "gear",
+      "receipt": "raw/body-properties-controls-runs/gear/native-both/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "widget_entries": 3,
+      "check_keys": 15,
+      "findings": [
+        "Gear Lift actual scene counts"
+      ],
+      "steps": 0,
+      "controls": [
+        {
+          "control": "Motor",
+          "value": false
+        },
+        {
+          "control": "Motor",
+          "value": true
+        },
+        {
+          "control": "Max Torque",
+          "value": 40000
+        },
+        {
+          "control": "Speed",
+          "value": 0.2
+        }
+      ],
+      "screenshots": {
+        "gear-before": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/native-both/gear-before.png",
+          "sha256": "9f897c008c93cacfcf9f15c67b08621c44c865f7f2548b948b31f795dbed4330",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 205,
+            "shape_count": 274,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "gear-configured": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-properties-controls-runs/gear/native-both/gear-configured.png",
+          "sha256": "730e6be58801185c562956132ac2728a9401ffa97b6f8df8f22d2e7e205a71ec",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 275,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 205,
+            "shape_count": 274,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      },
+      "elapsed_seconds": 6.872815976,
+      "stream_cleanup": "raw/body-properties-controls-runs/gear/native-both/stream-cleanup.json"
+    }
+  ],
+  "UI21": [
+    {
+      "route": "cpu",
+      "respawn": 0,
+      "owner": "public",
+      "bodies_before": 29,
+      "bodies_after": 43,
+      "old_anchor_ids": [
+        [
+          16,
+          1,
+          0
+        ],
+        [
+          17,
+          1,
+          0
+        ],
+        [
+          18,
+          1,
+          0
+        ],
+        [
+          19,
+          1,
+          0
+        ],
+        [
+          20,
+          1,
+          0
+        ],
+        [
+          21,
+          1,
+          0
+        ],
+        [
+          22,
+          1,
+          0
+        ],
+        [
+          23,
+          1,
+          0
+        ],
+        [
+          24,
+          1,
+          0
+        ],
+        [
+          25,
+          1,
+          0
+        ],
+        [
+          26,
+          1,
+          0
+        ],
+        [
+          27,
+          1,
+          0
+        ],
+        [
+          28,
+          1,
+          0
+        ],
+        [
+          29,
+          1,
+          0
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 28,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/cpu/receipt.json"
+    },
+    {
+      "route": "cpu",
+      "respawn": 1,
+      "owner": "public",
+      "bodies_before": 43,
+      "bodies_after": 57,
+      "old_anchor_ids": [
+        [
+          16,
+          1,
+          0
+        ],
+        [
+          17,
+          1,
+          0
+        ],
+        [
+          18,
+          1,
+          0
+        ],
+        [
+          19,
+          1,
+          0
+        ],
+        [
+          20,
+          1,
+          0
+        ],
+        [
+          21,
+          1,
+          0
+        ],
+        [
+          22,
+          1,
+          0
+        ],
+        [
+          23,
+          1,
+          0
+        ],
+        [
+          24,
+          1,
+          0
+        ],
+        [
+          25,
+          1,
+          0
+        ],
+        [
+          26,
+          1,
+          0
+        ],
+        [
+          27,
+          1,
+          0
+        ],
+        [
+          28,
+          1,
+          0
+        ],
+        [
+          29,
+          1,
+          0
+        ],
+        [
+          30,
+          1,
+          0
+        ],
+        [
+          31,
+          1,
+          0
+        ],
+        [
+          32,
+          1,
+          0
+        ],
+        [
+          33,
+          1,
+          0
+        ],
+        [
+          34,
+          1,
+          0
+        ],
+        [
+          35,
+          1,
+          0
+        ],
+        [
+          36,
+          1,
+          0
+        ],
+        [
+          37,
+          1,
+          0
+        ],
+        [
+          38,
+          1,
+          0
+        ],
+        [
+          39,
+          1,
+          0
+        ],
+        [
+          40,
+          1,
+          0
+        ],
+        [
+          41,
+          1,
+          0
+        ],
+        [
+          42,
+          1,
+          0
+        ],
+        [
+          43,
+          1,
+          0
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 42,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/cpu/receipt.json"
+    },
+    {
+      "route": "ordinary-gpu",
+      "respawn": 0,
+      "owner": "public",
+      "bodies_before": 29,
+      "bodies_after": 43,
+      "old_anchor_ids": [
+        [
+          16,
+          2,
+          1
+        ],
+        [
+          17,
+          2,
+          1
+        ],
+        [
+          18,
+          2,
+          1
+        ],
+        [
+          19,
+          2,
+          1
+        ],
+        [
+          20,
+          2,
+          1
+        ],
+        [
+          21,
+          2,
+          1
+        ],
+        [
+          22,
+          2,
+          1
+        ],
+        [
+          23,
+          2,
+          1
+        ],
+        [
+          24,
+          2,
+          1
+        ],
+        [
+          25,
+          2,
+          1
+        ],
+        [
+          26,
+          2,
+          1
+        ],
+        [
+          27,
+          2,
+          1
+        ],
+        [
+          28,
+          2,
+          1
+        ],
+        [
+          29,
+          2,
+          1
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 28,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-gpu/receipt.json"
+    },
+    {
+      "route": "ordinary-gpu",
+      "respawn": 1,
+      "owner": "public",
+      "bodies_before": 43,
+      "bodies_after": 57,
+      "old_anchor_ids": [
+        [
+          16,
+          2,
+          1
+        ],
+        [
+          17,
+          2,
+          1
+        ],
+        [
+          18,
+          2,
+          1
+        ],
+        [
+          19,
+          2,
+          1
+        ],
+        [
+          20,
+          2,
+          1
+        ],
+        [
+          21,
+          2,
+          1
+        ],
+        [
+          22,
+          2,
+          1
+        ],
+        [
+          23,
+          2,
+          1
+        ],
+        [
+          24,
+          2,
+          1
+        ],
+        [
+          25,
+          2,
+          1
+        ],
+        [
+          26,
+          2,
+          1
+        ],
+        [
+          27,
+          2,
+          1
+        ],
+        [
+          28,
+          2,
+          1
+        ],
+        [
+          29,
+          2,
+          1
+        ],
+        [
+          30,
+          2,
+          1
+        ],
+        [
+          31,
+          2,
+          1
+        ],
+        [
+          32,
+          2,
+          1
+        ],
+        [
+          33,
+          2,
+          1
+        ],
+        [
+          34,
+          2,
+          1
+        ],
+        [
+          35,
+          2,
+          1
+        ],
+        [
+          36,
+          2,
+          1
+        ],
+        [
+          37,
+          2,
+          1
+        ],
+        [
+          38,
+          2,
+          1
+        ],
+        [
+          39,
+          2,
+          1
+        ],
+        [
+          40,
+          2,
+          1
+        ],
+        [
+          41,
+          2,
+          1
+        ],
+        [
+          42,
+          2,
+          1
+        ],
+        [
+          43,
+          2,
+          1
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 42,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-gpu/receipt.json"
+    },
+    {
+      "route": "native-gpu",
+      "respawn": 0,
+      "owner": "public",
+      "bodies_before": 29,
+      "bodies_after": 43,
+      "old_anchor_ids": [
+        [
+          16,
+          2,
+          1
+        ],
+        [
+          17,
+          2,
+          1
+        ],
+        [
+          18,
+          2,
+          1
+        ],
+        [
+          19,
+          2,
+          1
+        ],
+        [
+          20,
+          2,
+          1
+        ],
+        [
+          21,
+          2,
+          1
+        ],
+        [
+          22,
+          2,
+          1
+        ],
+        [
+          23,
+          2,
+          1
+        ],
+        [
+          24,
+          2,
+          1
+        ],
+        [
+          25,
+          2,
+          1
+        ],
+        [
+          26,
+          2,
+          1
+        ],
+        [
+          27,
+          2,
+          1
+        ],
+        [
+          28,
+          2,
+          1
+        ],
+        [
+          29,
+          2,
+          1
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 28,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/native-gpu/receipt.json"
+    },
+    {
+      "route": "native-gpu",
+      "respawn": 1,
+      "owner": "public",
+      "bodies_before": 43,
+      "bodies_after": 57,
+      "old_anchor_ids": [
+        [
+          16,
+          2,
+          1
+        ],
+        [
+          17,
+          2,
+          1
+        ],
+        [
+          18,
+          2,
+          1
+        ],
+        [
+          19,
+          2,
+          1
+        ],
+        [
+          20,
+          2,
+          1
+        ],
+        [
+          21,
+          2,
+          1
+        ],
+        [
+          22,
+          2,
+          1
+        ],
+        [
+          23,
+          2,
+          1
+        ],
+        [
+          24,
+          2,
+          1
+        ],
+        [
+          25,
+          2,
+          1
+        ],
+        [
+          26,
+          2,
+          1
+        ],
+        [
+          27,
+          2,
+          1
+        ],
+        [
+          28,
+          2,
+          1
+        ],
+        [
+          29,
+          2,
+          1
+        ],
+        [
+          30,
+          2,
+          1
+        ],
+        [
+          31,
+          2,
+          1
+        ],
+        [
+          32,
+          2,
+          1
+        ],
+        [
+          33,
+          2,
+          1
+        ],
+        [
+          34,
+          2,
+          1
+        ],
+        [
+          35,
+          2,
+          1
+        ],
+        [
+          36,
+          2,
+          1
+        ],
+        [
+          37,
+          2,
+          1
+        ],
+        [
+          38,
+          2,
+          1
+        ],
+        [
+          39,
+          2,
+          1
+        ],
+        [
+          40,
+          2,
+          1
+        ],
+        [
+          41,
+          2,
+          1
+        ],
+        [
+          42,
+          2,
+          1
+        ],
+        [
+          43,
+          2,
+          1
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 42,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/native-gpu/receipt.json"
+    },
+    {
+      "route": "ordinary-both",
+      "respawn": 0,
+      "owner": "public",
+      "bodies_before": 29,
+      "bodies_after": 43,
+      "old_anchor_ids": [
+        [
+          16,
+          2,
+          1
+        ],
+        [
+          17,
+          2,
+          1
+        ],
+        [
+          18,
+          2,
+          1
+        ],
+        [
+          19,
+          2,
+          1
+        ],
+        [
+          20,
+          2,
+          1
+        ],
+        [
+          21,
+          2,
+          1
+        ],
+        [
+          22,
+          2,
+          1
+        ],
+        [
+          23,
+          2,
+          1
+        ],
+        [
+          24,
+          2,
+          1
+        ],
+        [
+          25,
+          2,
+          1
+        ],
+        [
+          26,
+          2,
+          1
+        ],
+        [
+          27,
+          2,
+          1
+        ],
+        [
+          28,
+          2,
+          1
+        ],
+        [
+          29,
+          2,
+          1
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 28,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-both/receipt.json"
+    },
+    {
+      "route": "ordinary-both",
+      "respawn": 0,
+      "owner": "mapped_cpu",
+      "bodies_before": 29,
+      "bodies_after": 43,
+      "old_anchor_ids": [
+        [
+          16,
+          1,
+          0
+        ],
+        [
+          17,
+          1,
+          0
+        ],
+        [
+          18,
+          1,
+          0
+        ],
+        [
+          19,
+          1,
+          0
+        ],
+        [
+          20,
+          1,
+          0
+        ],
+        [
+          21,
+          1,
+          0
+        ],
+        [
+          22,
+          1,
+          0
+        ],
+        [
+          23,
+          1,
+          0
+        ],
+        [
+          24,
+          1,
+          0
+        ],
+        [
+          25,
+          1,
+          0
+        ],
+        [
+          26,
+          1,
+          0
+        ],
+        [
+          27,
+          1,
+          0
+        ],
+        [
+          28,
+          1,
+          0
+        ],
+        [
+          29,
+          1,
+          0
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 28,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-both/receipt.json"
+    },
+    {
+      "route": "ordinary-both",
+      "respawn": 1,
+      "owner": "public",
+      "bodies_before": 43,
+      "bodies_after": 57,
+      "old_anchor_ids": [
+        [
+          16,
+          2,
+          1
+        ],
+        [
+          17,
+          2,
+          1
+        ],
+        [
+          18,
+          2,
+          1
+        ],
+        [
+          19,
+          2,
+          1
+        ],
+        [
+          20,
+          2,
+          1
+        ],
+        [
+          21,
+          2,
+          1
+        ],
+        [
+          22,
+          2,
+          1
+        ],
+        [
+          23,
+          2,
+          1
+        ],
+        [
+          24,
+          2,
+          1
+        ],
+        [
+          25,
+          2,
+          1
+        ],
+        [
+          26,
+          2,
+          1
+        ],
+        [
+          27,
+          2,
+          1
+        ],
+        [
+          28,
+          2,
+          1
+        ],
+        [
+          29,
+          2,
+          1
+        ],
+        [
+          30,
+          2,
+          1
+        ],
+        [
+          31,
+          2,
+          1
+        ],
+        [
+          32,
+          2,
+          1
+        ],
+        [
+          33,
+          2,
+          1
+        ],
+        [
+          34,
+          2,
+          1
+        ],
+        [
+          35,
+          2,
+          1
+        ],
+        [
+          36,
+          2,
+          1
+        ],
+        [
+          37,
+          2,
+          1
+        ],
+        [
+          38,
+          2,
+          1
+        ],
+        [
+          39,
+          2,
+          1
+        ],
+        [
+          40,
+          2,
+          1
+        ],
+        [
+          41,
+          2,
+          1
+        ],
+        [
+          42,
+          2,
+          1
+        ],
+        [
+          43,
+          2,
+          1
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 42,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-both/receipt.json"
+    },
+    {
+      "route": "ordinary-both",
+      "respawn": 1,
+      "owner": "mapped_cpu",
+      "bodies_before": 43,
+      "bodies_after": 57,
+      "old_anchor_ids": [
+        [
+          16,
+          1,
+          0
+        ],
+        [
+          17,
+          1,
+          0
+        ],
+        [
+          18,
+          1,
+          0
+        ],
+        [
+          19,
+          1,
+          0
+        ],
+        [
+          20,
+          1,
+          0
+        ],
+        [
+          21,
+          1,
+          0
+        ],
+        [
+          22,
+          1,
+          0
+        ],
+        [
+          23,
+          1,
+          0
+        ],
+        [
+          24,
+          1,
+          0
+        ],
+        [
+          25,
+          1,
+          0
+        ],
+        [
+          26,
+          1,
+          0
+        ],
+        [
+          27,
+          1,
+          0
+        ],
+        [
+          28,
+          1,
+          0
+        ],
+        [
+          29,
+          1,
+          0
+        ],
+        [
+          30,
+          1,
+          0
+        ],
+        [
+          31,
+          1,
+          0
+        ],
+        [
+          32,
+          1,
+          0
+        ],
+        [
+          33,
+          1,
+          0
+        ],
+        [
+          34,
+          1,
+          0
+        ],
+        [
+          35,
+          1,
+          0
+        ],
+        [
+          36,
+          1,
+          0
+        ],
+        [
+          37,
+          1,
+          0
+        ],
+        [
+          38,
+          1,
+          0
+        ],
+        [
+          39,
+          1,
+          0
+        ],
+        [
+          40,
+          1,
+          0
+        ],
+        [
+          41,
+          1,
+          0
+        ],
+        [
+          42,
+          1,
+          0
+        ],
+        [
+          43,
+          1,
+          0
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 42,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-both/receipt.json"
+    },
+    {
+      "route": "native-both",
+      "respawn": 0,
+      "owner": "public",
+      "bodies_before": 29,
+      "bodies_after": 43,
+      "old_anchor_ids": [
+        [
+          16,
+          2,
+          1
+        ],
+        [
+          17,
+          2,
+          1
+        ],
+        [
+          18,
+          2,
+          1
+        ],
+        [
+          19,
+          2,
+          1
+        ],
+        [
+          20,
+          2,
+          1
+        ],
+        [
+          21,
+          2,
+          1
+        ],
+        [
+          22,
+          2,
+          1
+        ],
+        [
+          23,
+          2,
+          1
+        ],
+        [
+          24,
+          2,
+          1
+        ],
+        [
+          25,
+          2,
+          1
+        ],
+        [
+          26,
+          2,
+          1
+        ],
+        [
+          27,
+          2,
+          1
+        ],
+        [
+          28,
+          2,
+          1
+        ],
+        [
+          29,
+          2,
+          1
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 28,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/native-both/receipt.json"
+    },
+    {
+      "route": "native-both",
+      "respawn": 0,
+      "owner": "mapped_cpu",
+      "bodies_before": 29,
+      "bodies_after": 43,
+      "old_anchor_ids": [
+        [
+          16,
+          1,
+          0
+        ],
+        [
+          17,
+          1,
+          0
+        ],
+        [
+          18,
+          1,
+          0
+        ],
+        [
+          19,
+          1,
+          0
+        ],
+        [
+          20,
+          1,
+          0
+        ],
+        [
+          21,
+          1,
+          0
+        ],
+        [
+          22,
+          1,
+          0
+        ],
+        [
+          23,
+          1,
+          0
+        ],
+        [
+          24,
+          1,
+          0
+        ],
+        [
+          25,
+          1,
+          0
+        ],
+        [
+          26,
+          1,
+          0
+        ],
+        [
+          27,
+          1,
+          0
+        ],
+        [
+          28,
+          1,
+          0
+        ],
+        [
+          29,
+          1,
+          0
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 28,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/native-both/receipt.json"
+    },
+    {
+      "route": "native-both",
+      "respawn": 1,
+      "owner": "public",
+      "bodies_before": 43,
+      "bodies_after": 57,
+      "old_anchor_ids": [
+        [
+          16,
+          2,
+          1
+        ],
+        [
+          17,
+          2,
+          1
+        ],
+        [
+          18,
+          2,
+          1
+        ],
+        [
+          19,
+          2,
+          1
+        ],
+        [
+          20,
+          2,
+          1
+        ],
+        [
+          21,
+          2,
+          1
+        ],
+        [
+          22,
+          2,
+          1
+        ],
+        [
+          23,
+          2,
+          1
+        ],
+        [
+          24,
+          2,
+          1
+        ],
+        [
+          25,
+          2,
+          1
+        ],
+        [
+          26,
+          2,
+          1
+        ],
+        [
+          27,
+          2,
+          1
+        ],
+        [
+          28,
+          2,
+          1
+        ],
+        [
+          29,
+          2,
+          1
+        ],
+        [
+          30,
+          2,
+          1
+        ],
+        [
+          31,
+          2,
+          1
+        ],
+        [
+          32,
+          2,
+          1
+        ],
+        [
+          33,
+          2,
+          1
+        ],
+        [
+          34,
+          2,
+          1
+        ],
+        [
+          35,
+          2,
+          1
+        ],
+        [
+          36,
+          2,
+          1
+        ],
+        [
+          37,
+          2,
+          1
+        ],
+        [
+          38,
+          2,
+          1
+        ],
+        [
+          39,
+          2,
+          1
+        ],
+        [
+          40,
+          2,
+          1
+        ],
+        [
+          41,
+          2,
+          1
+        ],
+        [
+          42,
+          2,
+          1
+        ],
+        [
+          43,
+          2,
+          1
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 42,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/native-both/receipt.json"
+    },
+    {
+      "route": "native-both",
+      "respawn": 1,
+      "owner": "mapped_cpu",
+      "bodies_before": 43,
+      "bodies_after": 57,
+      "old_anchor_ids": [
+        [
+          16,
+          1,
+          0
+        ],
+        [
+          17,
+          1,
+          0
+        ],
+        [
+          18,
+          1,
+          0
+        ],
+        [
+          19,
+          1,
+          0
+        ],
+        [
+          20,
+          1,
+          0
+        ],
+        [
+          21,
+          1,
+          0
+        ],
+        [
+          22,
+          1,
+          0
+        ],
+        [
+          23,
+          1,
+          0
+        ],
+        [
+          24,
+          1,
+          0
+        ],
+        [
+          25,
+          1,
+          0
+        ],
+        [
+          26,
+          1,
+          0
+        ],
+        [
+          27,
+          1,
+          0
+        ],
+        [
+          28,
+          1,
+          0
+        ],
+        [
+          29,
+          1,
+          0
+        ],
+        [
+          30,
+          1,
+          0
+        ],
+        [
+          31,
+          1,
+          0
+        ],
+        [
+          32,
+          1,
+          0
+        ],
+        [
+          33,
+          1,
+          0
+        ],
+        [
+          34,
+          1,
+          0
+        ],
+        [
+          35,
+          1,
+          0
+        ],
+        [
+          36,
+          1,
+          0
+        ],
+        [
+          37,
+          1,
+          0
+        ],
+        [
+          38,
+          1,
+          0
+        ],
+        [
+          39,
+          1,
+          0
+        ],
+        [
+          40,
+          1,
+          0
+        ],
+        [
+          41,
+          1,
+          0
+        ],
+        [
+          42,
+          1,
+          0
+        ],
+        [
+          43,
+          1,
+          0
+        ]
+      ],
+      "old_anchors_still_valid": true,
+      "current_anchor_count": 42,
+      "dynamic": 14,
+      "shape_count": 19,
+      "receipt": "raw/body-properties-controls-runs/ragdoll-mesh/native-both/receipt.json"
+    }
+  ],
+  "UI22": [
+    {
+      "route": "cpu",
+      "receipt": "raw/body-properties-controls-runs/door/cpu/receipt.json",
+      "initial_ui": false,
+      "initial_actual_limits": [
+        {
+          "owner": "public",
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "enabled": true
+        },
+        {
+          "owner": "public",
+          "id": [
+            2,
+            1,
+            0
+          ],
+          "enabled": true
+        }
+      ],
+      "recreated": [
+        {
+          "two": false,
+          "ui_limit": "false",
+          "limits": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                2,
+                0
+              ],
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "two": true,
+          "ui_limit": "false",
+          "limits": [
+            {
+              "owner": "public",
+              "id": [
+                2,
+                3,
+                0
+              ],
+              "enabled": true
+            },
+            {
+              "owner": "public",
+              "id": [
+                1,
+                2,
+                0
+              ],
+              "enabled": true
+            }
+          ]
+        }
+      ],
+      "failed_checks": [
+        "Door initial limit checkbox reflects actual policy",
+        "Two joints false preserves unchecked limit",
+        "Two joints true preserves unchecked limit"
+      ],
+      "note": "Where UI stays true, unchecked-preservation was not a valid stimulus; the checkbox failed to clear instead. Source constructor leaves m_enableLimit uninitialized; CreateJoints hardcodes true. Noncanonical raw-byte hypothesis not yet instrumented; do not claim its byte value."
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/body-properties-controls-runs/door/ordinary-gpu/receipt.json",
+      "initial_ui": true,
+      "initial_actual_limits": [
+        {
+          "owner": "public",
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "enabled": true
+        },
+        {
+          "owner": "public",
+          "id": [
+            2,
+            2,
+            1
+          ],
+          "enabled": true
+        }
+      ],
+      "recreated": [
+        {
+          "two": false,
+          "ui_limit": "true",
+          "limits": [
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "two": true,
+          "ui_limit": "true",
+          "limits": [
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "enabled": true
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "enabled": true
+            }
+          ]
+        }
+      ],
+      "failed_checks": [
+        "Limit control actual false",
+        "Two joints false preserves unchecked limit",
+        "Two joints true preserves unchecked limit"
+      ],
+      "note": "Where UI stays true, unchecked-preservation was not a valid stimulus; the checkbox failed to clear instead. Source constructor leaves m_enableLimit uninitialized; CreateJoints hardcodes true. Noncanonical raw-byte hypothesis not yet instrumented; do not claim its byte value."
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/body-properties-controls-runs/door/native-gpu/receipt.json",
+      "initial_ui": true,
+      "initial_actual_limits": [
+        {
+          "owner": "public",
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "enabled": true
+        },
+        {
+          "owner": "public",
+          "id": [
+            2,
+            2,
+            1
+          ],
+          "enabled": true
+        }
+      ],
+      "recreated": [
+        {
+          "two": false,
+          "ui_limit": "true",
+          "limits": [
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "two": true,
+          "ui_limit": "true",
+          "limits": [
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "enabled": true
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "enabled": true
+            }
+          ]
+        }
+      ],
+      "failed_checks": [
+        "Two joints false preserves unchecked limit",
+        "Two joints true preserves unchecked limit",
+        "Limit control actual false"
+      ],
+      "note": "Where UI stays true, unchecked-preservation was not a valid stimulus; the checkbox failed to clear instead. Source constructor leaves m_enableLimit uninitialized; CreateJoints hardcodes true. Noncanonical raw-byte hypothesis not yet instrumented; do not claim its byte value."
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/body-properties-controls-runs/door/ordinary-both/receipt.json",
+      "initial_ui": false,
+      "initial_actual_limits": [
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "enabled": true
+        },
+        {
+          "owner": "public",
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "enabled": true
+        },
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            2,
+            1,
+            0
+          ],
+          "enabled": true
+        },
+        {
+          "owner": "public",
+          "id": [
+            2,
+            2,
+            1
+          ],
+          "enabled": true
+        }
+      ],
+      "recreated": [
+        {
+          "two": false,
+          "ui_limit": "false",
+          "limits": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                2,
+                0
+              ],
+              "enabled": true
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "two": true,
+          "ui_limit": "false",
+          "limits": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                3,
+                0
+              ],
+              "enabled": true
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "enabled": true
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                1,
+                2,
+                0
+              ],
+              "enabled": true
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "enabled": true
+            }
+          ]
+        }
+      ],
+      "failed_checks": [
+        "Door initial limit checkbox reflects actual policy",
+        "Two joints false preserves unchecked limit",
+        "Two joints true preserves unchecked limit"
+      ],
+      "note": "Where UI stays true, unchecked-preservation was not a valid stimulus; the checkbox failed to clear instead. Source constructor leaves m_enableLimit uninitialized; CreateJoints hardcodes true. Noncanonical raw-byte hypothesis not yet instrumented; do not claim its byte value."
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/body-properties-controls-runs/door/native-both/receipt.json",
+      "initial_ui": true,
+      "initial_actual_limits": [
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            1,
+            1,
+            0
+          ],
+          "enabled": true
+        },
+        {
+          "owner": "public",
+          "id": [
+            1,
+            2,
+            1
+          ],
+          "enabled": true
+        },
+        {
+          "owner": "mapped_cpu",
+          "id": [
+            2,
+            1,
+            0
+          ],
+          "enabled": true
+        },
+        {
+          "owner": "public",
+          "id": [
+            2,
+            2,
+            1
+          ],
+          "enabled": true
+        }
+      ],
+      "recreated": [
+        {
+          "two": false,
+          "ui_limit": "true",
+          "limits": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                2,
+                0
+              ],
+              "enabled": true
+            },
+            {
+              "owner": "public",
+              "id": [
+                3,
+                2,
+                1
+              ],
+              "enabled": true
+            }
+          ]
+        },
+        {
+          "two": true,
+          "ui_limit": "true",
+          "limits": [
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                2,
+                3,
+                0
+              ],
+              "enabled": true
+            },
+            {
+              "owner": "public",
+              "id": [
+                4,
+                2,
+                1
+              ],
+              "enabled": true
+            },
+            {
+              "owner": "mapped_cpu",
+              "id": [
+                1,
+                2,
+                0
+              ],
+              "enabled": true
+            },
+            {
+              "owner": "public",
+              "id": [
+                5,
+                2,
+                1
+              ],
+              "enabled": true
+            }
+          ]
+        }
+      ],
+      "failed_checks": [
+        "Limit control actual false",
+        "Two joints false preserves unchecked limit",
+        "Two joints true preserves unchecked limit",
+        "Limit control actual false"
+      ],
+      "note": "Where UI stays true, unchecked-preservation was not a valid stimulus; the checkbox failed to clear instead. Source constructor leaves m_enableLimit uninitialized; CreateJoints hardcodes true. Noncanonical raw-byte hypothesis not yet instrumented; do not claim its byte value."
+    }
+  ],
+  "combined_right": [
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/door-right-pane-runs/ordinary-both/receipt.json",
+      "cases": [
+        {
+          "kind": "control",
+          "pane": "right",
+          "point": [
+            1200,
+            477.4012741734022
+          ],
+          "body_response": [
+            {
+              "owner": "public",
+              "velocity_squared_before": 0,
+              "velocity_squared_after": 3086.419068569492,
+              "id_digest": "fa40c4dc27cf7662"
+            },
+            {
+              "owner": "mapped_cpu",
+              "velocity_squared_before": 0,
+              "velocity_squared_after": 3086.419068569492,
+              "id_digest": "80562953498addd6"
+            }
+          ]
+        },
+        {
+          "kind": "plain",
+          "pane": "right",
+          "point": [
+            1200,
+            477.4012741734022
+          ],
+          "body_response": [
+            {
+              "owner": "public",
+              "velocity_squared_before": 3086.419068569492,
+              "velocity_squared_after": 3086.419068569492,
+              "id_digest": "fa40c4dc27cf7662"
+            },
+            {
+              "owner": "mapped_cpu",
+              "velocity_squared_before": 3086.419068569492,
+              "velocity_squared_after": 3086.419068569492,
+              "id_digest": "80562953498addd6"
+            }
+          ]
+        },
+        {
+          "kind": "alt",
+          "pane": "right",
+          "point": [
+            1200,
+            477.4012741734022
+          ],
+          "body_response": [
+            {
+              "owner": "public",
+              "velocity_squared_before": 3086.419068569492,
+              "velocity_squared_after": 3086.419068569492,
+              "id_digest": "fa40c4dc27cf7662"
+            },
+            {
+              "owner": "mapped_cpu",
+              "velocity_squared_before": 3086.419068569492,
+              "velocity_squared_after": 3086.419068569492,
+              "id_digest": "80562953498addd6"
+            }
+          ]
+        }
+      ],
+      "resolution": "both_pointer_impulse (both_dual.c:3272) independently casts both engines, calls cpu_b3Body_ApplyLinearImpulse and gpu_b3_body_apply_linear_impulse directly. The GPU low-level call bypasses the public wrapper, but actual public GPU velocity proves the effect. Original left-pane tests also changed both engines, not CPU alone. Original failed predicate preserved; no product bug or rerun."
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/door-right-pane-runs/native-both/receipt.json",
+      "cases": [
+        {
+          "kind": "control",
+          "pane": "right",
+          "point": [
+            1200,
+            477.4012741734022
+          ],
+          "body_response": [
+            {
+              "owner": "public",
+              "velocity_squared_before": 0,
+              "velocity_squared_after": 3086.419068569492,
+              "id_digest": "fa40c4dc27cf7662"
+            },
+            {
+              "owner": "mapped_cpu",
+              "velocity_squared_before": 0,
+              "velocity_squared_after": 3086.419068569492,
+              "id_digest": "80562953498addd6"
+            }
+          ]
+        },
+        {
+          "kind": "plain",
+          "pane": "right",
+          "point": [
+            1200,
+            477.4012741734022
+          ],
+          "body_response": [
+            {
+              "owner": "public",
+              "velocity_squared_before": 3086.419068569492,
+              "velocity_squared_after": 3086.419068569492,
+              "id_digest": "fa40c4dc27cf7662"
+            },
+            {
+              "owner": "mapped_cpu",
+              "velocity_squared_before": 3086.419068569492,
+              "velocity_squared_after": 3086.419068569492,
+              "id_digest": "80562953498addd6"
+            }
+          ]
+        },
+        {
+          "kind": "alt",
+          "pane": "right",
+          "point": [
+            1200,
+            477.4012741734022
+          ],
+          "body_response": [
+            {
+              "owner": "public",
+              "velocity_squared_before": 3086.419068569492,
+              "velocity_squared_after": 3086.419068569492,
+              "id_digest": "fa40c4dc27cf7662"
+            },
+            {
+              "owner": "mapped_cpu",
+              "velocity_squared_before": 3086.419068569492,
+              "velocity_squared_after": 3086.419068569492,
+              "id_digest": "80562953498addd6"
+            }
+          ]
+        }
+      ],
+      "resolution": "both_pointer_impulse (both_dual.c:3272) independently casts both engines, calls cpu_b3Body_ApplyLinearImpulse and gpu_b3_body_apply_linear_impulse directly. The GPU low-level call bypasses the public wrapper, but actual public GPU velocity proves the effect. Original left-pane tests also changed both engines, not CPU alone. Original failed predicate preserved; no product bug or rerun."
+    }
+  ],
+  "harness_resolutions": [
+    {
+      "route": "cpu",
+      "receipt": "raw/body-properties-controls-runs/gear/cpu/receipt.json",
+      "original_predicate": "GearLift205bodies/273shapes",
+      "actual": {
+        "bodies": 205,
+        "shapes": 274
+      },
+      "resolution": "Source CreateMesh also creates a back-wall hull (sample_joint.cpp:2811). Correct total=1floor+1mesh+1backwall+70gearhulls+80capsules+1door+120debris=274. All control effects already passed; original count failure retained, no rerun."
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/body-properties-controls-runs/gear/ordinary-gpu/receipt.json",
+      "original_predicate": "GearLift205bodies/273shapes",
+      "actual": {
+        "bodies": 205,
+        "shapes": 274
+      },
+      "resolution": "Source CreateMesh also creates a back-wall hull (sample_joint.cpp:2811). Correct total=1floor+1mesh+1backwall+70gearhulls+80capsules+1door+120debris=274. All control effects already passed; original count failure retained, no rerun."
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/body-properties-controls-runs/gear/native-gpu/receipt.json",
+      "original_predicate": "GearLift205bodies/273shapes",
+      "actual": {
+        "bodies": 205,
+        "shapes": 274
+      },
+      "resolution": "Source CreateMesh also creates a back-wall hull (sample_joint.cpp:2811). Correct total=1floor+1mesh+1backwall+70gearhulls+80capsules+1door+120debris=274. All control effects already passed; original count failure retained, no rerun."
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/body-properties-controls-runs/gear/ordinary-both/receipt.json",
+      "original_predicate": "GearLift205bodies/273shapes",
+      "actual": {
+        "bodies": 205,
+        "shapes": 274
+      },
+      "resolution": "Source CreateMesh also creates a back-wall hull (sample_joint.cpp:2811). Correct total=1floor+1mesh+1backwall+70gearhulls+80capsules+1door+120debris=274. All control effects already passed; original count failure retained, no rerun."
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/body-properties-controls-runs/gear/native-both/receipt.json",
+      "original_predicate": "GearLift205bodies/273shapes",
+      "actual": {
+        "bodies": 205,
+        "shapes": 274
+      },
+      "resolution": "Source CreateMesh also creates a back-wall hull (sample_joint.cpp:2811). Correct total=1floor+1mesh+1backwall+70gearhulls+80capsules+1door+120debris=274. All control effects already passed; original count failure retained, no rerun."
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/door-right-pane-runs/ordinary-both/receipt.json",
+      "original_predicate": "right pane impulse reaches actual GPU body",
+      "resolution": "both_pointer_impulse (both_dual.c:3272) independently casts both engines, calls cpu_b3Body_ApplyLinearImpulse and gpu_b3_body_apply_linear_impulse directly. The GPU low-level call bypasses the public wrapper, but actual public GPU velocity proves the effect. Original left-pane tests also changed both engines, not CPU alone. Original failed predicate preserved; no product bug or rerun."
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/door-right-pane-runs/native-both/receipt.json",
+      "original_predicate": "right pane impulse reaches actual GPU body",
+      "resolution": "both_pointer_impulse (both_dual.c:3272) independently casts both engines, calls cpu_b3Body_ApplyLinearImpulse and gpu_b3_body_apply_linear_impulse directly. The GPU low-level call bypasses the public wrapper, but actual public GPU velocity proves the effect. Original left-pane tests also changed both engines, not CPU alone. Original failed predicate preserved; no product bug or rerun."
+    }
+  ],
+  "images": [
+    {
+      "fixture": "bridge",
+      "route": "cpu",
+      "state": "bridge-before",
+      "path": "raw/body-properties-controls-runs/bridge/cpu/bridge-before.png",
+      "sha256": "c3d63d17c535bd1e9aeb6d4a495aec61c4b37ab552fafd9392f7a3cf3cf0c554"
+    },
+    {
+      "fixture": "bridge",
+      "route": "ordinary-gpu",
+      "state": "bridge-before",
+      "path": "raw/body-properties-controls-runs/bridge/ordinary-gpu/bridge-before.png",
+      "sha256": "3c19596f0b367eb26383204e11fff2bec7e97f773ac337968fe0ff7fc60cea8c"
+    },
+    {
+      "fixture": "bridge",
+      "route": "native-gpu",
+      "state": "bridge-before",
+      "path": "raw/body-properties-controls-runs/bridge/native-gpu/bridge-before.png",
+      "sha256": "76d8401e30a32f134905683d334df722f18263544ccb59b654e0a4404ae71fd6"
+    },
+    {
+      "fixture": "bridge",
+      "route": "ordinary-both",
+      "state": "bridge-before",
+      "path": "raw/body-properties-controls-runs/bridge/ordinary-both/bridge-before.png",
+      "sha256": "74fd6079bdc8ffffb7b16e45f00c04608104c2b716dbf46450b81c3b48cd4635"
+    },
+    {
+      "fixture": "bridge",
+      "route": "native-both",
+      "state": "bridge-before",
+      "path": "raw/body-properties-controls-runs/bridge/native-both/bridge-before.png",
+      "sha256": "f37dd97868f1f5135da414b51a75624f8cfee10a8e2ff37e0a6a9eceb4275152"
+    },
+    {
+      "fixture": "bridge",
+      "route": "cpu",
+      "state": "bridge-restored",
+      "path": "raw/body-properties-controls-runs/bridge/cpu/bridge-restored.png",
+      "sha256": "2b76f37b25f6e9f88ea4a9c7e7be861f096770cf1d070f2d09147f8dd692ca89"
+    },
+    {
+      "fixture": "bridge",
+      "route": "ordinary-gpu",
+      "state": "bridge-restored",
+      "path": "raw/body-properties-controls-runs/bridge/ordinary-gpu/bridge-restored.png",
+      "sha256": "30668da40d4dab89c3a81f1b73bacaf969184d9f7967aeab45a5760ac22e85c2"
+    },
+    {
+      "fixture": "bridge",
+      "route": "native-gpu",
+      "state": "bridge-restored",
+      "path": "raw/body-properties-controls-runs/bridge/native-gpu/bridge-restored.png",
+      "sha256": "8a0786713d5e22c99dfdf0acdfbfde2e923664d65ceb30201cdd8a131f4d9859"
+    },
+    {
+      "fixture": "bridge",
+      "route": "ordinary-both",
+      "state": "bridge-restored",
+      "path": "raw/body-properties-controls-runs/bridge/ordinary-both/bridge-restored.png",
+      "sha256": "71eccdea491660193043222e619c454b7f4c8a70bf3482fbd9d1c2243ea742f5"
+    },
+    {
+      "fixture": "bridge",
+      "route": "native-both",
+      "state": "bridge-restored",
+      "path": "raw/body-properties-controls-runs/bridge/native-both/bridge-restored.png",
+      "sha256": "8060a0c646dac0e12dc84a53aaf582be98fdb37a1c4cf2a24624d728ac04ee3d"
+    },
+    {
+      "fixture": "locks",
+      "route": "cpu",
+      "state": "locks-before",
+      "path": "raw/body-properties-controls-runs/locks/cpu/locks-before.png",
+      "sha256": "74768cde8c2056459116495180e116be230d38e5010ab84674d48abde72e0c0d"
+    },
+    {
+      "fixture": "locks",
+      "route": "ordinary-gpu",
+      "state": "locks-before",
+      "path": "raw/body-properties-controls-runs/locks/ordinary-gpu/locks-before.png",
+      "sha256": "6dccfabcae9e65c5e7d06513d82714ff947ebe280fe5603bc5fe1bf0c40ce8f5"
+    },
+    {
+      "fixture": "locks",
+      "route": "native-gpu",
+      "state": "locks-before",
+      "path": "raw/body-properties-controls-runs/locks/native-gpu/locks-before.png",
+      "sha256": "6f1a88336424e86cc4cd84e21534741c0b61dbe2f6120fdbd0311ca80289740d"
+    },
+    {
+      "fixture": "locks",
+      "route": "ordinary-both",
+      "state": "locks-before",
+      "path": "raw/body-properties-controls-runs/locks/ordinary-both/locks-before.png",
+      "sha256": "ea63f680df38af342f180a9d7a47a288b9e34903cac939246f52b0d22d30b978"
+    },
+    {
+      "fixture": "locks",
+      "route": "native-both",
+      "state": "locks-before",
+      "path": "raw/body-properties-controls-runs/locks/native-both/locks-before.png",
+      "sha256": "72bea7d381fc9ddfbe081276da5d2c01e9c5305ce373545cdfb187b822e50430"
+    },
+    {
+      "fixture": "locks",
+      "route": "cpu",
+      "state": "locks-all-enabled",
+      "path": "raw/body-properties-controls-runs/locks/cpu/locks-all-enabled.png",
+      "sha256": "19726dba93b924d3f239beffc0937b0af5b26a0c1bd198517b4002bb2b5aa24a"
+    },
+    {
+      "fixture": "locks",
+      "route": "ordinary-gpu",
+      "state": "locks-all-enabled",
+      "path": "raw/body-properties-controls-runs/locks/ordinary-gpu/locks-all-enabled.png",
+      "sha256": "081d1fdf4ae5766408802269a25113b9124d9f16c12e27f8222b993c437e792e"
+    },
+    {
+      "fixture": "locks",
+      "route": "native-gpu",
+      "state": "locks-all-enabled",
+      "path": "raw/body-properties-controls-runs/locks/native-gpu/locks-all-enabled.png",
+      "sha256": "bcdacbb29ce3d6ddc950fa37eb9264f95b1a721b455d46a5fde40210648710ee"
+    },
+    {
+      "fixture": "locks",
+      "route": "ordinary-both",
+      "state": "locks-all-enabled",
+      "path": "raw/body-properties-controls-runs/locks/ordinary-both/locks-all-enabled.png",
+      "sha256": "9c126482631cb1b544a44e422fd9404f7720b78c982df51854ae01bbcb2c3dd4"
+    },
+    {
+      "fixture": "locks",
+      "route": "native-both",
+      "state": "locks-all-enabled",
+      "path": "raw/body-properties-controls-runs/locks/native-both/locks-all-enabled.png",
+      "sha256": "37f72bfca5f5cdbfee7dfbe7ae303f2b918883007a7550fb8cec873af420d4f0"
+    },
+    {
+      "fixture": "motor",
+      "route": "cpu",
+      "state": "motor-before",
+      "path": "raw/body-properties-controls-runs/motor/cpu/motor-before.png",
+      "sha256": "f0af3d538270125ecaee7c0890f6a576f22c553d2558288952bfc815ebbca51f"
+    },
+    {
+      "fixture": "motor",
+      "route": "ordinary-gpu",
+      "state": "motor-before",
+      "path": "raw/body-properties-controls-runs/motor/ordinary-gpu/motor-before.png",
+      "sha256": "58070a63808cabbed6c88ca9e37c976f00c683effbdef187137898bef7770ab4"
+    },
+    {
+      "fixture": "motor",
+      "route": "native-gpu",
+      "state": "motor-before",
+      "path": "raw/body-properties-controls-runs/motor/native-gpu/motor-before.png",
+      "sha256": "cdc1704a767fad857e7d00984540bbdd9e3306d279fc34030c5c1600e4c22053"
+    },
+    {
+      "fixture": "motor",
+      "route": "ordinary-both",
+      "state": "motor-before",
+      "path": "raw/body-properties-controls-runs/motor/ordinary-both/motor-before.png",
+      "sha256": "5481d1656869afa5ea5ea8e1619ce5534f28eba2d4816ac73b9f7dc136289e9f"
+    },
+    {
+      "fixture": "motor",
+      "route": "native-both",
+      "state": "motor-before",
+      "path": "raw/body-properties-controls-runs/motor/native-both/motor-before.png",
+      "sha256": "7b202733c19e6be718a93b5ee9bad6cba6ad5f61e14f551f9ec5b950a5e9166e"
+    },
+    {
+      "fixture": "motor",
+      "route": "cpu",
+      "state": "motor-configured",
+      "path": "raw/body-properties-controls-runs/motor/cpu/motor-configured.png",
+      "sha256": "24d3203c28443df1046c4fb066bc5d783985f1492791c992d9735275b79c689c"
+    },
+    {
+      "fixture": "motor",
+      "route": "ordinary-gpu",
+      "state": "motor-configured",
+      "path": "raw/body-properties-controls-runs/motor/ordinary-gpu/motor-configured.png",
+      "sha256": "977dd929999fd0cec3b2567f4c964f691163b4e435cad4bba372c578a8fff45a"
+    },
+    {
+      "fixture": "motor",
+      "route": "native-gpu",
+      "state": "motor-configured",
+      "path": "raw/body-properties-controls-runs/motor/native-gpu/motor-configured.png",
+      "sha256": "b57a8ccb48f3ca066368b3be29f9ad7ce6d35ed21f330112b45381fdc64d461e"
+    },
+    {
+      "fixture": "motor",
+      "route": "ordinary-both",
+      "state": "motor-configured",
+      "path": "raw/body-properties-controls-runs/motor/ordinary-both/motor-configured.png",
+      "sha256": "377d346307dc466f15a1cfe810ba8192de6a27baa9c8b53378c647196aee7e62"
+    },
+    {
+      "fixture": "motor",
+      "route": "native-both",
+      "state": "motor-configured",
+      "path": "raw/body-properties-controls-runs/motor/native-both/motor-configured.png",
+      "sha256": "e87a5d946b1dbee436111e144242c158fc8bacec9c5314ef2f59d89e87732490"
+    },
+    {
+      "fixture": "door",
+      "route": "cpu",
+      "state": "door-before",
+      "path": "raw/body-properties-controls-runs/door/cpu/door-before.png",
+      "sha256": "b2bf4faa5886a58ea126662c5a40b6e50d2fcbe1d8aedc7d2f2b3cdd034dfbe8"
+    },
+    {
+      "fixture": "door",
+      "route": "ordinary-gpu",
+      "state": "door-before",
+      "path": "raw/body-properties-controls-runs/door/ordinary-gpu/door-before.png",
+      "sha256": "4f60ad7afcb522bcb855f320beec4d141e7e54e52bb22b17419e858d8ab5342f"
+    },
+    {
+      "fixture": "door",
+      "route": "native-gpu",
+      "state": "door-before",
+      "path": "raw/body-properties-controls-runs/door/native-gpu/door-before.png",
+      "sha256": "84411cf9b243de7495898b48bbf03a2b7aff16f08ff949b4c413e53b9c7afc5f"
+    },
+    {
+      "fixture": "door",
+      "route": "ordinary-both",
+      "state": "door-before",
+      "path": "raw/body-properties-controls-runs/door/ordinary-both/door-before.png",
+      "sha256": "d0160d0043289fb8124ffd6d9bc98dad517218f7d7e29893c5f14b91968bff7f"
+    },
+    {
+      "fixture": "door",
+      "route": "native-both",
+      "state": "door-before",
+      "path": "raw/body-properties-controls-runs/door/native-both/door-before.png",
+      "sha256": "1ec1d9d9f40449af5724629d142b83b24a3ab7eb865f81929ae8496c0fa57b75"
+    },
+    {
+      "fixture": "door",
+      "route": "cpu",
+      "state": "door-configured",
+      "path": "raw/body-properties-controls-runs/door/cpu/door-configured.png",
+      "sha256": "ccc7851f8c086637594b6e9dd74e1fad5d390cd89ab414c37a2e2913d3ae12c0"
+    },
+    {
+      "fixture": "door",
+      "route": "ordinary-gpu",
+      "state": "door-configured",
+      "path": "raw/body-properties-controls-runs/door/ordinary-gpu/door-configured.png",
+      "sha256": "d50754d5e74d65276522ca211d01e8ee1d1f84381c044b64c5b4b013ccbc4501"
+    },
+    {
+      "fixture": "door",
+      "route": "native-gpu",
+      "state": "door-configured",
+      "path": "raw/body-properties-controls-runs/door/native-gpu/door-configured.png",
+      "sha256": "a33967b7526139e3e94f3e8f8926664fe40f766346714a66b05e63744084a767"
+    },
+    {
+      "fixture": "door",
+      "route": "ordinary-both",
+      "state": "door-configured",
+      "path": "raw/body-properties-controls-runs/door/ordinary-both/door-configured.png",
+      "sha256": "61c902d033360824cd15323cbfbe1ff934e141adb12137911380f5bf687fc0af"
+    },
+    {
+      "fixture": "door",
+      "route": "native-both",
+      "state": "door-configured",
+      "path": "raw/body-properties-controls-runs/door/native-both/door-configured.png",
+      "sha256": "bea57c857a335bc43d15e0fa643605d305032fe9412542e12b67f284da599f32"
+    },
+    {
+      "fixture": "ragdoll-box",
+      "route": "cpu",
+      "state": "ragdoll-before",
+      "path": "raw/body-properties-controls-runs/ragdoll-box/cpu/ragdoll-before.png",
+      "sha256": "ea2006f532de86ddfbd5a844b3a5c9b52aba41801c5ec70f1d439e19ae91e774"
+    },
+    {
+      "fixture": "ragdoll-box",
+      "route": "ordinary-gpu",
+      "state": "ragdoll-before",
+      "path": "raw/body-properties-controls-runs/ragdoll-box/ordinary-gpu/ragdoll-before.png",
+      "sha256": "6a7b8b0e35854981fa4970693a31e68f365a943972651f724954786686b555fe"
+    },
+    {
+      "fixture": "ragdoll-box",
+      "route": "native-gpu",
+      "state": "ragdoll-before",
+      "path": "raw/body-properties-controls-runs/ragdoll-box/native-gpu/ragdoll-before.png",
+      "sha256": "838e7af9e1fb3046dd90a744b8764b708de20eb9fc9c7ecb35270e5879369869"
+    },
+    {
+      "fixture": "ragdoll-box",
+      "route": "ordinary-both",
+      "state": "ragdoll-before",
+      "path": "raw/body-properties-controls-runs/ragdoll-box/ordinary-both/ragdoll-before.png",
+      "sha256": "c3d87dcfdffcbcb1898ab85285d5ed796870378f50dd53deae19e6131bfd7543"
+    },
+    {
+      "fixture": "ragdoll-box",
+      "route": "native-both",
+      "state": "ragdoll-before",
+      "path": "raw/body-properties-controls-runs/ragdoll-box/native-both/ragdoll-before.png",
+      "sha256": "1cc6ab3a045faa6d08808488b815fa21b2617713c258fd3da06393b99a122b90"
+    },
+    {
+      "fixture": "ragdoll-box",
+      "route": "cpu",
+      "state": "ragdoll-respawned",
+      "path": "raw/body-properties-controls-runs/ragdoll-box/cpu/ragdoll-respawned.png",
+      "sha256": "e678d0e0a0878403cb00bbcaa9c740fab0797c90fc37cd7b0f808feb3b795ee1"
+    },
+    {
+      "fixture": "ragdoll-box",
+      "route": "ordinary-gpu",
+      "state": "ragdoll-respawned",
+      "path": "raw/body-properties-controls-runs/ragdoll-box/ordinary-gpu/ragdoll-respawned.png",
+      "sha256": "26c274a529491b5b63dadb99c6e8b53964096c5e563f8afd5220941143c16250"
+    },
+    {
+      "fixture": "ragdoll-box",
+      "route": "native-gpu",
+      "state": "ragdoll-respawned",
+      "path": "raw/body-properties-controls-runs/ragdoll-box/native-gpu/ragdoll-respawned.png",
+      "sha256": "d2f0f7d74e7823d3296f8019c42e06e6b931de637cb1e2472f9a2862e7fc7c20"
+    },
+    {
+      "fixture": "ragdoll-box",
+      "route": "ordinary-both",
+      "state": "ragdoll-respawned",
+      "path": "raw/body-properties-controls-runs/ragdoll-box/ordinary-both/ragdoll-respawned.png",
+      "sha256": "d5c6a914fb6d45a55896792cb3940eac8bd9e2f1982a7c3e3a78d08eb0aea26a"
+    },
+    {
+      "fixture": "ragdoll-box",
+      "route": "native-both",
+      "state": "ragdoll-respawned",
+      "path": "raw/body-properties-controls-runs/ragdoll-box/native-both/ragdoll-respawned.png",
+      "sha256": "727e8b7bcd5a6845414d9e4fe13ca94893afb392e58bebc3b012516fb56dffad"
+    },
+    {
+      "fixture": "ragdoll-mesh",
+      "route": "cpu",
+      "state": "ragdoll-before",
+      "path": "raw/body-properties-controls-runs/ragdoll-mesh/cpu/ragdoll-before.png",
+      "sha256": "8946bb79958bc28f9da63922100481ca6339d7343c43864eef2fc41eec14e909"
+    },
+    {
+      "fixture": "ragdoll-mesh",
+      "route": "ordinary-gpu",
+      "state": "ragdoll-before",
+      "path": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-gpu/ragdoll-before.png",
+      "sha256": "d426a6cb9b3e1b6fe3071d4df11be0bc2707cb91864a61abefa947db92f82bcb"
+    },
+    {
+      "fixture": "ragdoll-mesh",
+      "route": "native-gpu",
+      "state": "ragdoll-before",
+      "path": "raw/body-properties-controls-runs/ragdoll-mesh/native-gpu/ragdoll-before.png",
+      "sha256": "a3cd41c35908a8db6182bb56f76ee7b6cba2801755f6589868463458fc9dcc68"
+    },
+    {
+      "fixture": "ragdoll-mesh",
+      "route": "ordinary-both",
+      "state": "ragdoll-before",
+      "path": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-both/ragdoll-before.png",
+      "sha256": "2d923e9c48909881cfcec91b05f846e7222d74fa99847b08f3ddea0e11650a67"
+    },
+    {
+      "fixture": "ragdoll-mesh",
+      "route": "native-both",
+      "state": "ragdoll-before",
+      "path": "raw/body-properties-controls-runs/ragdoll-mesh/native-both/ragdoll-before.png",
+      "sha256": "c341ebb9e511608bcc55fc0ad01a40a9a2ec32d5a21c4aef4c9a804f19246903"
+    },
+    {
+      "fixture": "ragdoll-mesh",
+      "route": "cpu",
+      "state": "ragdoll-respawned",
+      "path": "raw/body-properties-controls-runs/ragdoll-mesh/cpu/ragdoll-respawned.png",
+      "sha256": "83d98c2f9e62c9083123c847f88a7c695ffb50a6786a9c0bd8a3a3d5fff90c3a"
+    },
+    {
+      "fixture": "ragdoll-mesh",
+      "route": "ordinary-gpu",
+      "state": "ragdoll-respawned",
+      "path": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-gpu/ragdoll-respawned.png",
+      "sha256": "cfb739ea221645650c30390bf3f23f886c3b6d6ba2bb01744c5fe5c7cc7024f7"
+    },
+    {
+      "fixture": "ragdoll-mesh",
+      "route": "native-gpu",
+      "state": "ragdoll-respawned",
+      "path": "raw/body-properties-controls-runs/ragdoll-mesh/native-gpu/ragdoll-respawned.png",
+      "sha256": "b104f1a6eb189812253827003c196512add0723b3248b7cb2e65585c15c288b6"
+    },
+    {
+      "fixture": "ragdoll-mesh",
+      "route": "ordinary-both",
+      "state": "ragdoll-respawned",
+      "path": "raw/body-properties-controls-runs/ragdoll-mesh/ordinary-both/ragdoll-respawned.png",
+      "sha256": "d9db7f8f40b351e308ef89b9d5cdb84f92dd0bf3353e13b63ab33a10987b5170"
+    },
+    {
+      "fixture": "ragdoll-mesh",
+      "route": "native-both",
+      "state": "ragdoll-respawned",
+      "path": "raw/body-properties-controls-runs/ragdoll-mesh/native-both/ragdoll-respawned.png",
+      "sha256": "3094217124192cff589b3f6abbb8d7f047b2c178d377f499cd561003e3c71bf3"
+    },
+    {
+      "fixture": "gear",
+      "route": "cpu",
+      "state": "gear-before",
+      "path": "raw/body-properties-controls-runs/gear/cpu/gear-before.png",
+      "sha256": "80decf8a2ea8367470a1b36c93137c4388cafa84d226d6bb1b942506890dfb19"
+    },
+    {
+      "fixture": "gear",
+      "route": "ordinary-gpu",
+      "state": "gear-before",
+      "path": "raw/body-properties-controls-runs/gear/ordinary-gpu/gear-before.png",
+      "sha256": "da8f86b94179ee5cd0ddebb7423d20b8f970aa04d918c06e9b9e3c3a551f9fec"
+    },
+    {
+      "fixture": "gear",
+      "route": "native-gpu",
+      "state": "gear-before",
+      "path": "raw/body-properties-controls-runs/gear/native-gpu/gear-before.png",
+      "sha256": "b06f3b9c2c324d6cf815f70183c5588f6427c1a0975fb9b7fc0b74d46bdc3e33"
+    },
+    {
+      "fixture": "gear",
+      "route": "ordinary-both",
+      "state": "gear-before",
+      "path": "raw/body-properties-controls-runs/gear/ordinary-both/gear-before.png",
+      "sha256": "9d408efa7563afc9ce5c5746d0ae48ec4e228249b832969846ca6b1478ab8049"
+    },
+    {
+      "fixture": "gear",
+      "route": "native-both",
+      "state": "gear-before",
+      "path": "raw/body-properties-controls-runs/gear/native-both/gear-before.png",
+      "sha256": "9f897c008c93cacfcf9f15c67b08621c44c865f7f2548b948b31f795dbed4330"
+    },
+    {
+      "fixture": "gear",
+      "route": "cpu",
+      "state": "gear-configured",
+      "path": "raw/body-properties-controls-runs/gear/cpu/gear-configured.png",
+      "sha256": "6b22dc671b815522bec1d86903d54e415ffe3bd79b2c24547f993f3064211cc9"
+    },
+    {
+      "fixture": "gear",
+      "route": "ordinary-gpu",
+      "state": "gear-configured",
+      "path": "raw/body-properties-controls-runs/gear/ordinary-gpu/gear-configured.png",
+      "sha256": "8259ef91c34b8f2036f767df0807167c44a473146e1510d06309d73578f3755a"
+    },
+    {
+      "fixture": "gear",
+      "route": "native-gpu",
+      "state": "gear-configured",
+      "path": "raw/body-properties-controls-runs/gear/native-gpu/gear-configured.png",
+      "sha256": "7a5e4fdfae4dcf144e46160622f5d9820b18e8ff3a768b1764979cc23492f35f"
+    },
+    {
+      "fixture": "gear",
+      "route": "ordinary-both",
+      "state": "gear-configured",
+      "path": "raw/body-properties-controls-runs/gear/ordinary-both/gear-configured.png",
+      "sha256": "48e9c29e165f5a286556285d4d2759aa4c357987c0440045190abd3404d05070"
+    },
+    {
+      "fixture": "gear",
+      "route": "native-both",
+      "state": "gear-configured",
+      "path": "raw/body-properties-controls-runs/gear/native-both/gear-configured.png",
+      "sha256": "730e6be58801185c562956132ac2728a9401ffa97b6f8df8f22d2e7e205a71ec"
+    }
+  ],
+  "limitations": [
+    "Repeated Door toggle assertions reuse check keys;686is final distinct keys summed per receipt, not all historical evaluations.33findingevents include26productfailures and7adjudicated harnessfailures. Originalreceipts unchanged.",
+    "Bridge fullgravity/locks aggregates cover everydynamicbody;64examples are bounded. Bridgejointtrace disabled; gravity UI qualification is not302-joint solver qualification.",
+    "MotionLocks all6axes/setters on4bodies andtwo bounded steps; Motor actualforce/torque/centerimpulse/kinematic-target speed. No solver/constraint/trajectory accuracy claim.",
+    "Gear paused driver motor/torque/speed state and sourcecounts; no meshphysics pipeline campaign resumed.",
+    "Ragdoll14source boneposes/masses and jointpolicy preserved; Mesh accumulates14valid oldkinematicanchors perRespawn, Box(noanchors) countremains15. NotRain qualification.",
+    "Door sourceuninitialized bool and hardcodedlimit policy confirmed; some checkboxclear requests fail. Do not claim unchecked state where UI stayedtrue; raw boolbyte not yetcaptured. Button andCtrl impulses/plainselection/Altignore checked; bothcombinedpanes haveactualCPU/GPU response despiteGPUdirectcall bypassingpublicwrapper.",
+    "Images are review states, not repairbeforeafter. All new productfindings remainunfixed pendingcomplete review."
+  ],
+  "resource": {
+    "owned_pids_absent": [
+      2603879,
+      2603860,
+      2604263,
+      2604248,
+      2604693,
+      2604673,
+      2605077,
+      2605060,
+      2605608,
+      2605591,
+      2605990,
+      2605968,
+      2606387,
+      2606372,
+      2606766,
+      2606748,
+      2607219,
+      2607203,
+      2607700,
+      2607675,
+      2608110,
+      2608086,
+      2608663,
+      2608641,
+      2609055,
+      2609038,
+      2609509,
+      2609489,
+      2609904,
+      2609888,
+      2610403,
+      2610387,
+      2610902,
+      2610887,
+      2611313,
+      2611296,
+      2611994,
+      2611979,
+      2612495,
+      2612478,
+      2612981,
+      2612966,
+      2613419,
+      2613403,
+      2613925,
+      2613909,
+      2614512,
+      2614492,
+      2614936,
+      2614914,
+      2615484,
+      2615466,
+      2615960,
+      2615943,
+      2616405,
+      2616358,
+      2616990,
+      2616966,
+      2617396,
+      2617360,
+      2617921,
+      2617903,
+      2618357,
+      2618341,
+      2618978,
+      2618961,
+      2619387,
+      2619371,
+      2619871,
+      2619856,
+      2625003,
+      2624986,
+      2625294,
+      2625270
+    ],
+    "owned_core_files": [],
+    "unchanged_original_input_pins": 207
+  },
+  "observer_extra_current_sha256": "1b500c7a569481d9549764c522d9597eae340009c4e860ba6cbc77621568d275",
+  "visual_review": {
+    "status": "REVIEWED_ALL70_CPU_FIRST_GRID_CELLS",
+    "grids": 7,
+    "cells": 70,
+    "findings": "Bridge/floor, lock bodies, motor bodies, Door, ragdoll/mesh and GearLift geometry preserved across all5routes. Default RagdollBox upper body and Mesh head are clipped inactualCPU andGPU alike; recorded camera observation, no newly demonstrated control failure. Anchor leak is established by realcounts/validIDs, not visibleextra shapes.",
+    "limits": "No exact pixel/trajectory match; some sourcecamera framing remainsclipped. Numeric actual effects/identity receipts establish control qualification."
+  }
+}

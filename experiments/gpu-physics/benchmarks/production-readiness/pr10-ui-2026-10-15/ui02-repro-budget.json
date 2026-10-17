@@ -1,0 +1,29 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "UI02 actualeventboundaryreproduction: one queuedpointerenter+wheel andpointerleave+wheel onCPU thenordinaryGPU, usingcurrentUI01qualifiedsource. TraceactualHandleEvent inputs/return/capture andactualcamera text; no productionfix beforecauseconfirmed.",
+  "diagnostic_cpp_compiles": 1,
+  "compile_seconds": 10,
+  "diagnostic_links": 2,
+  "link_seconds_each": 15,
+  "CPU_before_apps": 1,
+  "ordinary_GPU_before_apps": 1,
+  "per_app_seconds": 60,
+  "first_window_seconds": 15,
+  "physics_ready_seconds": 25,
+  "screenshots_each": 3,
+  "input_actions_each": 20,
+  "new_Rust_engine_builds": 0,
+  "implicit_retries": 0,
+  "temporary_bytes": 134217728,
+  "retained_bytes": 8388608,
+  "cache_copies": 0,
+  "video_recorders": 0,
+  "outputs": {
+    "event_observer_source_object": "Readonlyfunctionwrapper foractualcapture/point/frame;neededbeforeaftertrace,deleteobjectafterlinksfinished",
+    "two_diagnostic_viewers": "Inputboundaryrepro; deletewhenqualifiedreplacementisready",
+    "inputJSONL/latestUI/worldstream": "Keepminimalpairedinput/outputtrace; extractandsmallreceipts thenremoveconsumedfullstreams",
+    "screenshots": "CPUfirstbeforeafterevidence;originalspreserved"
+  },
+  "expected": "Ifsameframe GUIentry seesinsideInfo=true butactualHandleEventcaptured=false andcameraradiuschanges, firstcauseprevious-framecaptureconfirmed. Outsidefirstwheel swallowedshowsrelatedinverse. No fixedtrajectory/pixeltest.",
+  "free_bytes": 1709420695552
+}

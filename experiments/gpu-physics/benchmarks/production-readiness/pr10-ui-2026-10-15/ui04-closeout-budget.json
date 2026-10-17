@@ -1,0 +1,12 @@
+{
+  "status": "FROZEN",
+  "viewers": 0,
+  "builds": 0,
+  "compositions": 2,
+  "seconds_per_composition": 8,
+  "audit_seconds": 30,
+  "outer_seconds": 50,
+  "new_bytes": 8388608,
+  "retained_bytes": 67108864,
+  "scope": "UI04 existing evidence/hash/applicability/resource audit;2CPUfirstgrids; no new app/builds"
+}

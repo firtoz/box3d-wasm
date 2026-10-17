@@ -197,7 +197,7 @@ Details: `docs/reference-dump-plan.md`, `tools/reference-dump/README.md`.
 
 Greenfield Rust/WGSL engine on `feat/gpu`. Do **not** patch `box3d/` or grow `box3d-web.wasm` for this work.
 
-Before committing visual or solver changes, record a snapshot of every affected scene (`./scripts/record-snapshot.sh YYYY-MM-DD-<label>`). Clips are columns in `compare/index.html` (rows = samples; CPU pinned on the left, then latest GPU, older versions further right). Put a real Box3D C column first with `./scripts/record-box3d-oracle.sh`. That is a **pre-commit comparison** grid, not “record every physics tick as its own video.”
+Recordings and comparison grids are optional diagnostic tools, not prerequisites for committing or pushing. Do not start a full sample recording campaign merely to publish a verified change. Reuse applicable checks and existing evidence; make targeted captures only when the task needs them or the user requests them. If producing a CPU/GPU comparison, use real Box3D CPU as the reference. This user direction (2026-10-17) supersedes older mandatory pre-commit capture guidance in goal notes and historical reports.
 
 GPU experiment storage: follow the storage budget and cleanup rules in
 `docs/goals/gpu-production-readiness.md`. Before a run, name the required outputs,

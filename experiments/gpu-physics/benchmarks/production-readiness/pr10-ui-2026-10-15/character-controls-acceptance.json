@@ -1,0 +1,1557 @@
+{
+  "status": "FOUR_WIDGETS_AND_TWO_KEYBOARD_GROUPS_CHECKED_ALL_FIVE_ROUTES",
+  "widget_entries": 4,
+  "samples": 2,
+  "custom_input_groups": 2,
+  "routes_CPU_first": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "rows": [
+    {
+      "fixture": "mover",
+      "route": "cpu",
+      "receipt": "raw/character-controls-runs/mover/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 19,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/cpu/initial.png",
+          "sha256": "b7bc283d44c14795b947129379c464d11245013387d280769b8d15818779ad1f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 73,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0
+          }
+        },
+        "clip-disabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/cpu/clip-disabled.png",
+          "sha256": "325a400d85333ecef48c296ac6ef25a0ad8b9441ea131efcb8a71169b60b02a9",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 176,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0
+          }
+        },
+        "restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/cpu/restored.png",
+          "sha256": "a4ce0ec13e8b4c7bf5639293136af26d52d8699b1f2a81f666faeebe28525008",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 210,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "rigid-body",
+      "route": "cpu",
+      "receipt": "raw/character-controls-runs/rigid-body/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 22,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/cpu/initial.png",
+          "sha256": "c8876443795bb0f0756cb1f93ff98ddfc6dd2510afe82e86dae908a573a37b2d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0
+          }
+        },
+        "debug-disabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/cpu/debug-disabled.png",
+          "sha256": "30ad5807e4d7391c0ec43d0e5851a91ccbe141093516763c161dd608a338fb42",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 205,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0
+          }
+        },
+        "debug-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/cpu/debug-restored.png",
+          "sha256": "f8a8d51f3959bc4d2c15eb237170ef35894563c0d958de1e91006ab11d4837fb",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 295,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mover",
+      "route": "ordinary-gpu",
+      "receipt": "raw/character-controls-runs/mover/ordinary-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 19,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/ordinary-gpu/initial.png",
+          "sha256": "74d89acfc1531cb55d09bcf2f86be20f90283239bdf334fa7fa6ff6bc6f9150f",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0
+          }
+        },
+        "clip-disabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/ordinary-gpu/clip-disabled.png",
+          "sha256": "9822e2afa8ddb5cacb0036462bd668bde57615f5056d7caa9fdad1bcca11d9d5",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 194,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0
+          }
+        },
+        "restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/ordinary-gpu/restored.png",
+          "sha256": "b8274c501aa3e0c5942ed760c2fd13f42d8b97192d0815be2b5f739e2730bd64",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 230,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "rigid-body",
+      "route": "ordinary-gpu",
+      "receipt": "raw/character-controls-runs/rigid-body/ordinary-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 22,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/ordinary-gpu/initial.png",
+          "sha256": "39eac7eb17b0fed923b5493b8d9f517c21447b033df2ce1772c68ff7fb37a11d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0
+          }
+        },
+        "debug-disabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/ordinary-gpu/debug-disabled.png",
+          "sha256": "d7270ef3f118986f5636878336fba28c9051b9dfc236d80d4aff89e63b713ba1",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 220,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0
+          }
+        },
+        "debug-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/ordinary-gpu/debug-restored.png",
+          "sha256": "f63ec1aa3618ca364bdd30c74ab570b33ca2fe33d10571f1c30d29576898b871",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 311,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mover",
+      "route": "native-gpu",
+      "receipt": "raw/character-controls-runs/mover/native-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 19,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/native-gpu/initial.png",
+          "sha256": "a923501b577821a6d0d93dad9bf93db97c3c215fb4b4c116a2f40a1e53f4c053",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0
+          }
+        },
+        "clip-disabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/native-gpu/clip-disabled.png",
+          "sha256": "1952d3aac61f2b38f7e051d20cc62c97cf59e67e08a25f650a6d853e798f38c8",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 193,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0
+          }
+        },
+        "restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/native-gpu/restored.png",
+          "sha256": "16d50ebce91ffcf65074907b37754ae984dc1035c1a6e20ce3dee82e9686ab73",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 227,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "rigid-body",
+      "route": "native-gpu",
+      "receipt": "raw/character-controls-runs/rigid-body/native-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 22,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/native-gpu/initial.png",
+          "sha256": "83039b523641c1cf4a6ef5879e149ad7416689048b5570734dfccd4a9762c576",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0
+          }
+        },
+        "debug-disabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/native-gpu/debug-disabled.png",
+          "sha256": "4ef88eb13a31278e2cfebff2d60d450dba37c8f3fd83278b99970469cca0ca49",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 221,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0
+          }
+        },
+        "debug-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/native-gpu/debug-restored.png",
+          "sha256": "7f56af47b35ca9d695514adb4d9620035740a17f4b93d482d9ca52d24290350e",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 309,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mover",
+      "route": "ordinary-both",
+      "receipt": "raw/character-controls-runs/mover/ordinary-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 19,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/ordinary-both/initial.png",
+          "sha256": "5423ca7e5c18604df6c5978c47f53d6b27ba601bd1ad0b691b2d3cf73ac25799",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 75,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "clip-disabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/ordinary-both/clip-disabled.png",
+          "sha256": "928aab3a9c9963d07f4201dda6b7bd4ec146dbd1ce4b7a51a81edd89903d05ac",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 207,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/ordinary-both/restored.png",
+          "sha256": "f98779cf77f1e7f2b05d487382bd80a636370d92dae71faee1a057c264670d9b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 244,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "rigid-body",
+      "route": "ordinary-both",
+      "receipt": "raw/character-controls-runs/rigid-body/ordinary-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 22,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/ordinary-both/initial.png",
+          "sha256": "b687692cf47394997d3dfad54086e6bbe413afb65541fd2ae00eccd9ee519e51",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "debug-disabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/ordinary-both/debug-disabled.png",
+          "sha256": "2762bb8a0efaab52d0f6725d28d4be9f9df3337fb18e787cbeff6846a127671d",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 244,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "debug-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/ordinary-both/debug-restored.png",
+          "sha256": "1028f30c6e9dce895168384769350dd195e06c2b315e5e950ab139849a2a8254",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 340,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "mover",
+      "route": "native-both",
+      "receipt": "raw/character-controls-runs/mover/native-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 19,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/native-both/initial.png",
+          "sha256": "327cff51b4402c4bbadbbeff07a5a66d75128cccf0a968e5fa804531ba64e61b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 74,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "clip-disabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/native-both/clip-disabled.png",
+          "sha256": "dc0ce5f36bc57ad99656c941438b2fb811d331dff37a679e20db4e9086e3de3b",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 207,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/mover/native-both/restored.png",
+          "sha256": "6d12f8b58cc77135a9695f6e5e08b3aa12cd7d4cc9c8836aaa15143fd4e60df2",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 244,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 10,
+            "shape_count": 12,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "rigid-body",
+      "route": "native-both",
+      "receipt": "raw/character-controls-runs/rigid-body/native-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 22,
+      "findings": [],
+      "screenshots": {
+        "initial": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/native-both/initial.png",
+          "sha256": "47eb9f842f9b4d86d8e50d11f11ee443cc5013cf6798060cd495e963fb22ba92",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 72,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "debug-disabled": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/native-both/debug-disabled.png",
+          "sha256": "1ddded1c0882d8901e3d472951cc8307b9a627cb1fe35dd358badbec39ad090c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 246,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "debug-restored": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/character-controls-runs/rigid-body/native-both/debug-restored.png",
+          "sha256": "e583a412f19e3cd8a5a6b6882f8ea1838a974ef037e715b0d78613870ac4d83a",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 345,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 0,
+            "body_count": 22,
+            "shape_count": 23,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "images": [
+    {
+      "route": "cpu",
+      "fixture": "mover",
+      "state": "initial",
+      "path": "raw/character-controls-runs/mover/cpu/initial.png",
+      "sha256": "b7bc283d44c14795b947129379c464d11245013387d280769b8d15818779ad1f"
+    },
+    {
+      "route": "cpu",
+      "fixture": "mover",
+      "state": "clip-disabled",
+      "path": "raw/character-controls-runs/mover/cpu/clip-disabled.png",
+      "sha256": "325a400d85333ecef48c296ac6ef25a0ad8b9441ea131efcb8a71169b60b02a9"
+    },
+    {
+      "route": "cpu",
+      "fixture": "mover",
+      "state": "restored",
+      "path": "raw/character-controls-runs/mover/cpu/restored.png",
+      "sha256": "a4ce0ec13e8b4c7bf5639293136af26d52d8699b1f2a81f666faeebe28525008"
+    },
+    {
+      "route": "cpu",
+      "fixture": "rigid-body",
+      "state": "initial",
+      "path": "raw/character-controls-runs/rigid-body/cpu/initial.png",
+      "sha256": "c8876443795bb0f0756cb1f93ff98ddfc6dd2510afe82e86dae908a573a37b2d"
+    },
+    {
+      "route": "cpu",
+      "fixture": "rigid-body",
+      "state": "debug-disabled",
+      "path": "raw/character-controls-runs/rigid-body/cpu/debug-disabled.png",
+      "sha256": "30ad5807e4d7391c0ec43d0e5851a91ccbe141093516763c161dd608a338fb42"
+    },
+    {
+      "route": "cpu",
+      "fixture": "rigid-body",
+      "state": "debug-restored",
+      "path": "raw/character-controls-runs/rigid-body/cpu/debug-restored.png",
+      "sha256": "f8a8d51f3959bc4d2c15eb237170ef35894563c0d958de1e91006ab11d4837fb"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mover",
+      "state": "initial",
+      "path": "raw/character-controls-runs/mover/ordinary-gpu/initial.png",
+      "sha256": "74d89acfc1531cb55d09bcf2f86be20f90283239bdf334fa7fa6ff6bc6f9150f"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mover",
+      "state": "clip-disabled",
+      "path": "raw/character-controls-runs/mover/ordinary-gpu/clip-disabled.png",
+      "sha256": "9822e2afa8ddb5cacb0036462bd668bde57615f5056d7caa9fdad1bcca11d9d5"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mover",
+      "state": "restored",
+      "path": "raw/character-controls-runs/mover/ordinary-gpu/restored.png",
+      "sha256": "b8274c501aa3e0c5942ed760c2fd13f42d8b97192d0815be2b5f739e2730bd64"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "rigid-body",
+      "state": "initial",
+      "path": "raw/character-controls-runs/rigid-body/ordinary-gpu/initial.png",
+      "sha256": "39eac7eb17b0fed923b5493b8d9f517c21447b033df2ce1772c68ff7fb37a11d"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "rigid-body",
+      "state": "debug-disabled",
+      "path": "raw/character-controls-runs/rigid-body/ordinary-gpu/debug-disabled.png",
+      "sha256": "d7270ef3f118986f5636878336fba28c9051b9dfc236d80d4aff89e63b713ba1"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "rigid-body",
+      "state": "debug-restored",
+      "path": "raw/character-controls-runs/rigid-body/ordinary-gpu/debug-restored.png",
+      "sha256": "f63ec1aa3618ca364bdd30c74ab570b33ca2fe33d10571f1c30d29576898b871"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mover",
+      "state": "initial",
+      "path": "raw/character-controls-runs/mover/native-gpu/initial.png",
+      "sha256": "a923501b577821a6d0d93dad9bf93db97c3c215fb4b4c116a2f40a1e53f4c053"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mover",
+      "state": "clip-disabled",
+      "path": "raw/character-controls-runs/mover/native-gpu/clip-disabled.png",
+      "sha256": "1952d3aac61f2b38f7e051d20cc62c97cf59e67e08a25f650a6d853e798f38c8"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mover",
+      "state": "restored",
+      "path": "raw/character-controls-runs/mover/native-gpu/restored.png",
+      "sha256": "16d50ebce91ffcf65074907b37754ae984dc1035c1a6e20ce3dee82e9686ab73"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "rigid-body",
+      "state": "initial",
+      "path": "raw/character-controls-runs/rigid-body/native-gpu/initial.png",
+      "sha256": "83039b523641c1cf4a6ef5879e149ad7416689048b5570734dfccd4a9762c576"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "rigid-body",
+      "state": "debug-disabled",
+      "path": "raw/character-controls-runs/rigid-body/native-gpu/debug-disabled.png",
+      "sha256": "4ef88eb13a31278e2cfebff2d60d450dba37c8f3fd83278b99970469cca0ca49"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "rigid-body",
+      "state": "debug-restored",
+      "path": "raw/character-controls-runs/rigid-body/native-gpu/debug-restored.png",
+      "sha256": "7f56af47b35ca9d695514adb4d9620035740a17f4b93d482d9ca52d24290350e"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mover",
+      "state": "initial",
+      "path": "raw/character-controls-runs/mover/ordinary-both/initial.png",
+      "sha256": "5423ca7e5c18604df6c5978c47f53d6b27ba601bd1ad0b691b2d3cf73ac25799"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mover",
+      "state": "clip-disabled",
+      "path": "raw/character-controls-runs/mover/ordinary-both/clip-disabled.png",
+      "sha256": "928aab3a9c9963d07f4201dda6b7bd4ec146dbd1ce4b7a51a81edd89903d05ac"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mover",
+      "state": "restored",
+      "path": "raw/character-controls-runs/mover/ordinary-both/restored.png",
+      "sha256": "f98779cf77f1e7f2b05d487382bd80a636370d92dae71faee1a057c264670d9b"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "rigid-body",
+      "state": "initial",
+      "path": "raw/character-controls-runs/rigid-body/ordinary-both/initial.png",
+      "sha256": "b687692cf47394997d3dfad54086e6bbe413afb65541fd2ae00eccd9ee519e51"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "rigid-body",
+      "state": "debug-disabled",
+      "path": "raw/character-controls-runs/rigid-body/ordinary-both/debug-disabled.png",
+      "sha256": "2762bb8a0efaab52d0f6725d28d4be9f9df3337fb18e787cbeff6846a127671d"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "rigid-body",
+      "state": "debug-restored",
+      "path": "raw/character-controls-runs/rigid-body/ordinary-both/debug-restored.png",
+      "sha256": "1028f30c6e9dce895168384769350dd195e06c2b315e5e950ab139849a2a8254"
+    },
+    {
+      "route": "native-both",
+      "fixture": "mover",
+      "state": "initial",
+      "path": "raw/character-controls-runs/mover/native-both/initial.png",
+      "sha256": "327cff51b4402c4bbadbbeff07a5a66d75128cccf0a968e5fa804531ba64e61b"
+    },
+    {
+      "route": "native-both",
+      "fixture": "mover",
+      "state": "clip-disabled",
+      "path": "raw/character-controls-runs/mover/native-both/clip-disabled.png",
+      "sha256": "dc0ce5f36bc57ad99656c941438b2fb811d331dff37a679e20db4e9086e3de3b"
+    },
+    {
+      "route": "native-both",
+      "fixture": "mover",
+      "state": "restored",
+      "path": "raw/character-controls-runs/mover/native-both/restored.png",
+      "sha256": "6d12f8b58cc77135a9695f6e5e08b3aa12cd7d4cc9c8836aaa15143fd4e60df2"
+    },
+    {
+      "route": "native-both",
+      "fixture": "rigid-body",
+      "state": "initial",
+      "path": "raw/character-controls-runs/rigid-body/native-both/initial.png",
+      "sha256": "47eb9f842f9b4d86d8e50d11f11ee443cc5013cf6798060cd495e963fb22ba92"
+    },
+    {
+      "route": "native-both",
+      "fixture": "rigid-body",
+      "state": "debug-disabled",
+      "path": "raw/character-controls-runs/rigid-body/native-both/debug-disabled.png",
+      "sha256": "1ddded1c0882d8901e3d472951cc8307b9a627cb1fe35dd358badbec39ad090c"
+    },
+    {
+      "route": "native-both",
+      "fixture": "rigid-body",
+      "state": "debug-restored",
+      "path": "raw/character-controls-runs/rigid-body/native-both/debug-restored.png",
+      "sha256": "e583a412f19e3cd8a5a6b6882f8ea1838a974ef037e715b0d78613870ac4d83a"
+    }
+  ],
+  "checks": 205,
+  "visual_review": {
+    "status": "ALL30_CAPTURED_IMAGES_INSPECTED_CPU_FIRST",
+    "observations": "15Mover and15RigidBody cells inspected. Nativecapsule/floor/obstacles retained; enabled/disabled clip and debug states visible. GPU/combined capsule remains visible, intentionalsplitcolor retained. Actual effect comes from flag/argument/camera/draw observations, noexactpixel/trajectoryclaim."
+  },
+  "original207hashes_unchanged": true,
+  "cleanup": "character-controls-cleanup.json",
+  "limits": [
+    "Paused0worldphysics; virtualMover and nativeRigidBodyCharacter pre/post logic still run perUIframe upstream. No chaotictrajectory comparison orWASD/jump/sprintphysicalqualification.",
+    "Camera checkbox/Tpressrelease flags and sameframe pivot actual; MoverClipVelocity actualStep argument; RigidBody debug checkbox/V removes/restores actuallines/points; bodyIDs/poses preserved.",
+    "Restart/defaultcontrols and sampleexit orbit reset checked. Physics/querynumerical performance remain separate existing limits."
+  ]
+}

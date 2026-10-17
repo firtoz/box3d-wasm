@@ -1,0 +1,39 @@
+{
+  "status": "FROZEN",
+  "cpp_compile_and_link": 1,
+  "compile_seconds": 25,
+  "cpu_runs": 1,
+  "run_seconds": 8,
+  "gpu_builds": 0,
+  "viewers": 0,
+  "captures": 0,
+  "retries": 0,
+  "recorded_world_steps": 0,
+  "validate_world_steps": 0,
+  "scan_world_steps": 64,
+  "temporary_bytes": 20971520,
+  "recording_bytes": 4194304,
+  "retained_bytes": 4194304,
+  "log_bytes_each": 1048576,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 40,
+  "source_sha256": "4862bfad7702569d0f348d2582a6eaf0ff911ad841f2665989fa8655d1ad67a6",
+  "input_pins": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_src/libbox3d.a": "b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c"
+  },
+  "scope": "Read-onlyexistingfixture counts, print/flushall7querytypecounts beforecoverageasserts. Priorpositive-per-kind diagnosticassumptionfailed; retainthatfailureandactualcounts, notfakepositivehitstomanipulatefixture. UIkind/minhits canlegitimatelyreturnemptyrows. Requireactualall7types/misses/bodylifecycle/key/contactcoverage; inspectavailablepositivequeries forsearchselection. No newrecording/validate/GPU/viewer/engine/capture/retry.",
+  "outputs": [
+    {
+      "path": "raw/replay-counts",
+      "consumer": "Finalactualquerycountsummary",
+      "delete": "Deleteexecutableafterextraction; compactmetadataretained"
+    }
+  ],
+  "prior_compile_failure": "replay-rich-fixture.json",
+  "recording_input": {
+    "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-rich-corrected/fixture.b3rec",
+    "bytes": 76546,
+    "sha256": "1955ae5cfd0238b67d071276c698b87ac79e3c78d964f2f212aff9d6c9cbe9e5"
+  },
+  "prior": "replay-rich-extract.json failedpositivecoveragepredicate, executabledeleted/recordingunchanged"
+}

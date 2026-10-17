@@ -1,0 +1,89 @@
+{
+  "removed": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/cpu/api.jsonl",
+      "bytes": 2577918
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/cpu/observer.jsonl",
+      "bytes": 543659
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/cpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-gpu/api.jsonl",
+      "bytes": 2684413
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-gpu/observer.jsonl",
+      "bytes": 705143
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-gpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-gpu/api.jsonl",
+      "bytes": 2715223
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-gpu/observer.jsonl",
+      "bytes": 714074
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-gpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-both/api.jsonl",
+      "bytes": 4685893
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-both/observer.jsonl",
+      "bytes": 807464
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/ordinary-both/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-both/api.jsonl",
+      "bytes": 4716406
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-both/observer.jsonl",
+      "bytes": 813036
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/overlay-controls-runs/native-both/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-metadata-build/cpu",
+      "bytes": 7340304
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-metadata-build/ordinary-gpu",
+      "bytes": 37439216
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-metadata-build/native-gpu",
+      "bytes": 40314240
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-metadata-build/ordinary-both",
+      "bytes": 38235360
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/body-metadata-build/native-both",
+      "bytes": 41106304
+    }
+  ],
+  "deleted_bytes": 185398653,
+  "raw_remaining_bytes": 315751362,
+  "free_bytes": 1709180690432,
+  "retained_pool": "raw/overlay-callback-build five viewers consumedbyremainingPR10mouse/camera/samplewidgets",
+  "remaining_fixture": "28432byteCPUrecording forReplayremainingcontrols"
+}

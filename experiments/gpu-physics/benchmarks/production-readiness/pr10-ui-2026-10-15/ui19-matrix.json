@@ -1,0 +1,11 @@
+{
+  "status": "FAILURE_RETAINED",
+  "runs": [
+    {
+      "route": "cpu",
+      "exit": 1,
+      "complete": false,
+      "findings": []
+    }
+  ]
+}

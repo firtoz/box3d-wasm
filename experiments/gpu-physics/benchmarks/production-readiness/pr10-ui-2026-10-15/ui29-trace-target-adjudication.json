@@ -1,0 +1,41 @@
+{
+  "status": "HARNESS_STALE_TARGET_CONFIRMED",
+  "before_trace": "raw/ui25-trace-runs/ordinary-gpu/receipt.json",
+  "repair": "raw/ui25-runs/ordinary-gpu/receipt.json",
+  "stale_rect": [
+    1284,
+    744,
+    1421,
+    770
+  ],
+  "actual_rect": [
+    1284,
+    840,
+    1421,
+    866
+  ],
+  "original_full_review_current_rect": [
+    [
+      1284,
+      840,
+      1421,
+      866
+    ],
+    [
+      1284,
+      840,
+      1421,
+      866
+    ]
+  ],
+  "resolution": "UI25 trace proves loading frame consumed pending last digit. UI29 traced saved-position off events are invalid button stimuli after layout shift; original current-position UI29 failures remain valid. Shared-context cause for UI29 needs source inference plus corrected current-target after evidence; do not call saved-position trace a matched cause proof.",
+  "original_false_repair_checks": [
+    "AutoGenerate off actually stops regeneration",
+    "Auto Generate two actual original button activations"
+  ],
+  "remaining_original_budget": {
+    "links": 3,
+    "first_GPU_route_apps": 3,
+    "product_changes": 0
+  }
+}

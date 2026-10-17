@@ -1,0 +1,38 @@
+{
+  "status": "CLOSED",
+  "retired": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui14-build/cpu",
+      "bytes": 7767008,
+      "sha256": "ff415fa3589f38ce72ca184bd2fe7d8f9103a41b4734da373beb34a3864b8da5",
+      "consumer": "TOIboththree-optionmenus/all9pairs/defaults/sweeps/results/restart qualified"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui14-build/ordinary-gpu",
+      "bytes": 37861736,
+      "sha256": "ab6f71ba1c5efab8f4a911d6a28118a7c7bff82a36b44213795b091e31ee359e",
+      "consumer": "TOIboththree-optionmenus/all9pairs/defaults/sweeps/results/restart qualified"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui14-build/native-gpu",
+      "bytes": 40740856,
+      "sha256": "b982fb11d56efcd43d52313553d179b8edee11c20c015a9b90d01a61599f212d",
+      "consumer": "TOIboththree-optionmenus/all9pairs/defaults/sweeps/results/restart qualified"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui14-build/ordinary-both",
+      "bytes": 38635576,
+      "sha256": "e4ee8bf302c3f8bb968aa1ee93d283e44b970d120833500a8aeaab8e612aadfb",
+      "consumer": "TOIboththree-optionmenus/all9pairs/defaults/sweeps/results/restart qualified"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui14-build/native-both",
+      "bytes": 41514712,
+      "sha256": "d152292b370a29cf917f7c34011909a5db6dcdf28a5130fe1c30020270bb2532",
+      "consumer": "TOIboththree-optionmenus/all9pairs/defaults/sweeps/results/restart qualified"
+    }
+  ],
+  "deleted_bytes": 166519888,
+  "raw_bytes": 953974762,
+  "next_consumer": "CurrentfiveUI15viewers/Collisionobject/source/priorneededinputs nextPR10relink"
+}

@@ -1,0 +1,12 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "Correct relocated diagnostic main include search only: add original unit source parent. No helper/production changes, no repeat before links. Preserve original failure.",
+  "main_CPP_compiles": 5,
+  "compile_seconds_each": 25,
+  "after_links": 5,
+  "link_seconds_each": 20,
+  "engine_builds": 0,
+  "implicit_retries": 0,
+  "storage": "same1GiBtemporary/64MiBretained; retainedafterviewers replace earlier inputs after qualified",
+  "outer_seconds": 260
+}

@@ -1,0 +1,127 @@
+{
+  "status": "NATIVE_MOUSE_DELTA_MODEL_VALIDATED_FOR_PLANNING_ONLY",
+  "checks": [
+    {
+      "scene": "Capsule vs Hull",
+      "expected_delta": [
+        3.039028439250008,
+        -1.0703981553724375,
+        -0.13243654086433487
+      ],
+      "actual_delta": [
+        3.0390279293060303,
+        -1.0703983306884766,
+        -0.13243484497070312
+      ],
+      "max_error": 0.0000016958936317479356
+    },
+    {
+      "scene": "Hull vs Sphere",
+      "expected_delta": [
+        2.4134638795124035,
+        -1.0703981553724375,
+        -1.8516007653420843
+      ],
+      "actual_delta": [
+        2.413463592529297,
+        -1.0703983306884766,
+        -1.8516006469726562
+      ],
+      "max_error": 2.8698310661212645e-7
+    }
+  ],
+  "stimuli": [
+    {
+      "scene": "Capsule vs Hull",
+      "start": [
+        400,
+        500
+      ],
+      "end": [
+        454,
+        489
+      ],
+      "delta": [
+        0.4577004967515057,
+        -0.0037627589103319536,
+        -0.20467550751585062
+      ],
+      "yaw": 0,
+      "pitch": 30,
+      "width": 1600,
+      "height": 900,
+      "target_delta_x": 0.457157147,
+      "reason": "Original nearest capsule endpoint x~.617842853; shiftx~.457157 gives gap~.075 inside radius.15, whilekeeping Y unchanged."
+    },
+    {
+      "scene": "Capsule vs Hull",
+      "start": [
+        200,
+        500
+      ],
+      "end": [
+        246,
+        495
+      ],
+      "delta": [
+        0.45731372276427784,
+        -0.0017410801666750686,
+        -0.09743830124354069
+      ],
+      "yaw": 0,
+      "pitch": 30,
+      "width": 800,
+      "height": 900,
+      "target_delta_x": 0.457157147,
+      "reason": "Original nearest capsule endpoint x~.617842853; shiftx~.457157 gives gap~.075 inside radius.15, whilekeeping Y unchanged."
+    },
+    {
+      "scene": "Hull vs Sphere",
+      "start": [
+        400,
+        500
+      ],
+      "end": [
+        583,
+        468
+      ],
+      "delta": [
+        1.0038388125285147,
+        -0.004395099171923711,
+        -1.4433157627083677
+      ],
+      "yaw": 35,
+      "pitch": 30,
+      "width": 1600,
+      "height": 900,
+      "target_delta_x": 1,
+      "reason": "Move sphere center x1.5→~2.5; expected box distance remains positive andbelow sphere radius1. Source deliberately clears cache on separated shapes, so target shallowcontact."
+    },
+    {
+      "scene": "Hull vs Sphere",
+      "start": [
+        200,
+        500
+      ],
+      "end": [
+        336,
+        489
+      ],
+      "delta": [
+        1.0053534910616575,
+        -0.004465382716442257,
+        -0.9695330419238983
+      ],
+      "yaw": 35,
+      "pitch": 30,
+      "width": 800,
+      "height": 900,
+      "target_delta_x": 1,
+      "reason": "Move sphere center x1.5→~2.5; expected box distance remains positive andbelow sphere radius1. Source deliberately clears cache on separated shapes, so target shallowcontact."
+    }
+  ],
+  "source": "main.cpp sets FOV50 (overrides Camera constructor60); Camera::BuildPickRay near.1 and Manifold::MouseMove distance10. Actual old native endpoints validate planning only.",
+  "qualification": "Actual shallow cache effect stillrequiresUIexecution",
+  "prior_empty_cache_explanation": "convex_manifold clearscache onseparatedshapes; deepoverlapmayalsoempty. Original populated-cache assumptions were false, not productdefects.",
+  "discarded_hypothesis": "Initial planning used Camera constructorFOV60 andfailedfrozendelta comparison; main.cpp line108 actualFOV50 resolvesit, no run or tolerancechange."
+}

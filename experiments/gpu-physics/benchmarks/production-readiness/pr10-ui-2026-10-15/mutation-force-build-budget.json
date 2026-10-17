@@ -1,0 +1,21 @@
+{
+  "status": "FROZEN",
+  "cpp_compiles": 1,
+  "compile_seconds": 30,
+  "links": 5,
+  "link_seconds_each": 25,
+  "apps": 0,
+  "retries": 0,
+  "temporary_bytes": 230686720,
+  "retained_metadata_bytes": 8388608,
+  "log_bytes_each": 1048576,
+  "min_free_bytes": 21474836480,
+  "scope": "Diagnostic summary mode for native control review. Suppress verbose per-body mutation events, retire destroyed observations immediately, retain full aggregate counts/IDs/filter inputs and actual getters, bounded examples. Original operations forward once. No engine/Box3D/WASM source changes.",
+  "outputs": [
+    {
+      "path": "raw/mutation-force-build",
+      "consumer": "Remaining mutation/force controls, then Replay review and repair qualification",
+      "delete": "Retire previous cast pool after new five routes qualify; current pool at qualified replacement or goal completion"
+    }
+  ]
+}

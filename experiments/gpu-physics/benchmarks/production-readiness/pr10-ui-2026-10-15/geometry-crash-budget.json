@@ -1,0 +1,15 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "new_apps": 0,
+  "builds": 0,
+  "core_extracts": 1,
+  "extract_seconds": 10,
+  "core_temp_cap_bytes": 268435456,
+  "gdb_commands": 1,
+  "gdb_seconds": 30,
+  "retained_text_cap_bytes": 131072,
+  "screens": 0,
+  "retries": 0,
+  "reason": "ExistingtaskCPU2158015SIGSEGV afterfirstBoxHullcomponentpassed; actualsystemstackDrawHull\u2192BoxHullRender. Inspectexistingcorefornullhull/halfwidthinput, no replay or enginechange. Originalcorecompressed2.8MiB, logicalextractcapped256MiB.",
+  "consumer_cleanup": "Extractdebugbacktrace/registers/types; deleteuncompressedcoreafterinspection. Deleteexacttasksystemcoreafterevidenceifpermissionsallow, preservejournal/userothercores. Future ownedUIapps RLIMIT_CORE0."
+}

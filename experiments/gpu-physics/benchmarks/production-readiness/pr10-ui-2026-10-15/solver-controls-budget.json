@@ -1,0 +1,31 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "Actual shared solver sliders: substeps/hertz\u2192actual public/GPU/combinedCPU step arguments; workers\u2192newworld+retainedUIvalue; recyclecentimeters\u2192actualbackendsettermeters. RealCPUfirst5routes, restoreoriginaldefaults.",
+  "diagnostic_CPP_compiles": 1,
+  "compile_seconds": 15,
+  "diagnostic_links": 5,
+  "link_seconds_each": 20,
+  "apps": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "app_seconds": 60,
+  "ready_seconds": 25,
+  "screens_each": 2,
+  "actions_each": 45,
+  "engine_builds": 0,
+  "retries": 0,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 33554432,
+  "shared_cache_growth_allowance": 134217728,
+  "free_bytes": 1709403086848,
+  "outputs": {
+    "ABIobserver.o+5viewers": "Actualsliderchecks thenremainingPR10samplewidgetAPIcontrols; deletecurrentUI02viewerpool afterqualifiedreplacement.",
+    "APItrace": "Bound8MiB/app; keepcompact actualstep/setterwindows inreceipt, deleteconsumedfullstreams.",
+    "screens": "Actualedited/restoredUI for5routes retained,2each"
+  },
+  "limits": "Doesnotqualifysolverphysicalaccuracy or fullsamplewidgets."
+}

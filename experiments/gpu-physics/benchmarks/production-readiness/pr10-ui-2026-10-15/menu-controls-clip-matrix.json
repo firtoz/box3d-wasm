@@ -1,0 +1,31 @@
+{
+  "status": "PASS_FIVE_ROUTES_SIM_VIEW_SUBSET",
+  "runs": [
+    {
+      "label": "cpu",
+      "exit": 0,
+      "seconds": 23.722420353995403
+    },
+    {
+      "label": "ordinary-gpu",
+      "exit": 0,
+      "seconds": 25.71896080399165
+    },
+    {
+      "label": "native-gpu",
+      "exit": 0,
+      "seconds": 25.26460078000673
+    },
+    {
+      "label": "ordinary-both",
+      "exit": 0,
+      "seconds": 28.85359315999085
+    },
+    {
+      "label": "native-both",
+      "exit": 0,
+      "seconds": 27.726454338990152
+    }
+  ],
+  "seconds": 131.2911274700018
+}

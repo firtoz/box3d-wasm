@@ -1,0 +1,361 @@
+{
+  "status": "PASS_FROM_SAME_RETAINED_NATIVE_DATA",
+  "original_false_checks": [
+    "Mesh Scale/Scale X=-1 actualnativeCreateShape acceptsnewmeshscale",
+    "Mesh Scale/Scale X=0 actualnativeCreateShape acceptsnewmeshscale",
+    "Mesh Scale/Scale X=1 actualnativeCreateShape acceptsnewmeshscale",
+    "Mesh Scale/Scale Y=-1 actualnativeCreateShape acceptsnewmeshscale",
+    "Mesh Scale/Scale Y=0 actualnativeCreateShape acceptsnewmeshscale",
+    "Mesh Scale/Scale Y=1 actualnativeCreateShape acceptsnewmeshscale",
+    "Mesh Scale/Scale Z=-1 actualnativeCreateShape acceptsnewmeshscale",
+    "Mesh Scale/Scale Z=0 actualnativeCreateShape acceptsnewmeshscale",
+    "Mesh Scale/Scale Z=1 actualnativeCreateShape acceptsnewmeshscale"
+  ],
+  "cases": [
+    {
+      "key": "Mesh Scale/Scale X=-1",
+      "renderReplacement": {
+        "api": "ui23_render_mesh_replace",
+        "id": [
+          1,
+          8,
+          1
+        ],
+        "before_scale": [
+          1,
+          1,
+          1
+        ],
+        "scale": [
+          -1,
+          1,
+          1
+        ],
+        "had_cache": false,
+        "cache_cleared": true,
+        "name_preserved": true
+      },
+      "prior_scene_renderCreate": {
+        "api": "ui23_render_mesh_create",
+        "id": [
+          2,
+          7,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "accepted": true
+      }
+    },
+    {
+      "key": "Mesh Scale/Scale X=0",
+      "renderReplacement": {
+        "api": "ui23_render_mesh_replace",
+        "id": [
+          1,
+          8,
+          1
+        ],
+        "before_scale": [
+          -1,
+          1,
+          1
+        ],
+        "scale": [
+          0.00999999978,
+          1,
+          1
+        ],
+        "had_cache": false,
+        "cache_cleared": true,
+        "name_preserved": true
+      },
+      "prior_scene_renderCreate": {
+        "api": "ui23_render_mesh_create",
+        "id": [
+          2,
+          7,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "accepted": true
+      }
+    },
+    {
+      "key": "Mesh Scale/Scale X=1",
+      "renderReplacement": {
+        "api": "ui23_render_mesh_replace",
+        "id": [
+          1,
+          8,
+          1
+        ],
+        "before_scale": [
+          0.00999999978,
+          1,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "had_cache": false,
+        "cache_cleared": true,
+        "name_preserved": true
+      },
+      "prior_scene_renderCreate": {
+        "api": "ui23_render_mesh_create",
+        "id": [
+          2,
+          7,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "accepted": true
+      }
+    },
+    {
+      "key": "Mesh Scale/Scale Y=-1",
+      "renderReplacement": {
+        "api": "ui23_render_mesh_replace",
+        "id": [
+          1,
+          8,
+          1
+        ],
+        "before_scale": [
+          1,
+          1,
+          1
+        ],
+        "scale": [
+          1,
+          -1,
+          1
+        ],
+        "had_cache": false,
+        "cache_cleared": true,
+        "name_preserved": true
+      },
+      "prior_scene_renderCreate": {
+        "api": "ui23_render_mesh_create",
+        "id": [
+          2,
+          7,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "accepted": true
+      }
+    },
+    {
+      "key": "Mesh Scale/Scale Y=0",
+      "renderReplacement": {
+        "api": "ui23_render_mesh_replace",
+        "id": [
+          1,
+          8,
+          1
+        ],
+        "before_scale": [
+          1,
+          -1,
+          1
+        ],
+        "scale": [
+          1,
+          0.00999999978,
+          1
+        ],
+        "had_cache": false,
+        "cache_cleared": true,
+        "name_preserved": true
+      },
+      "prior_scene_renderCreate": {
+        "api": "ui23_render_mesh_create",
+        "id": [
+          2,
+          7,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "accepted": true
+      }
+    },
+    {
+      "key": "Mesh Scale/Scale Y=1",
+      "renderReplacement": {
+        "api": "ui23_render_mesh_replace",
+        "id": [
+          1,
+          8,
+          1
+        ],
+        "before_scale": [
+          1,
+          0.00999999978,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "had_cache": false,
+        "cache_cleared": true,
+        "name_preserved": true
+      },
+      "prior_scene_renderCreate": {
+        "api": "ui23_render_mesh_create",
+        "id": [
+          2,
+          7,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "accepted": true
+      }
+    },
+    {
+      "key": "Mesh Scale/Scale Z=-1",
+      "renderReplacement": {
+        "api": "ui23_render_mesh_replace",
+        "id": [
+          1,
+          8,
+          1
+        ],
+        "before_scale": [
+          1,
+          1,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          -1
+        ],
+        "had_cache": false,
+        "cache_cleared": true,
+        "name_preserved": true
+      },
+      "prior_scene_renderCreate": {
+        "api": "ui23_render_mesh_create",
+        "id": [
+          2,
+          7,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "accepted": true
+      }
+    },
+    {
+      "key": "Mesh Scale/Scale Z=0",
+      "renderReplacement": {
+        "api": "ui23_render_mesh_replace",
+        "id": [
+          1,
+          8,
+          1
+        ],
+        "before_scale": [
+          1,
+          1,
+          -1
+        ],
+        "scale": [
+          1,
+          1,
+          0.00999999978
+        ],
+        "had_cache": false,
+        "cache_cleared": true,
+        "name_preserved": true
+      },
+      "prior_scene_renderCreate": {
+        "api": "ui23_render_mesh_create",
+        "id": [
+          2,
+          7,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "accepted": true
+      }
+    },
+    {
+      "key": "Mesh Scale/Scale Z=1",
+      "renderReplacement": {
+        "api": "ui23_render_mesh_replace",
+        "id": [
+          1,
+          8,
+          1
+        ],
+        "before_scale": [
+          1,
+          1,
+          0.00999999978
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "had_cache": false,
+        "cache_cleared": true,
+        "name_preserved": true
+      },
+      "prior_scene_renderCreate": {
+        "api": "ui23_render_mesh_create",
+        "id": [
+          2,
+          7,
+          1
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ],
+        "accepted": true
+      }
+    }
+  ],
+  "native_source": "box3d/samples/sample_collision.cpp:774 MeshScale overridesStep withoutSample::Step andinherits emptySample::Render(sample.h:122);drawsquerypoints/lines/sphere only. BaseSampleStep ownsWorld_Draw. ThusnocachednativeCreateShape mesh isexpected onrealCPUorGPU.",
+  "resolution": "Keepall9actualnativeGPUphysicalAABB/oracle/normalizedRustsuccess checks;markmesh-worldrender NOT_CALLED_BY_NATIVE_SAMPLE instead ofrequirelastprior-sceneCreateShape ID. Actualcachecleared/name preserved/no oldcache corroboratesnativepath. Other24world-drawcases acceptedactualnewmeshscale;Grid/BigBoxafterimages matchCPUsliver.",
+  "qualified_ordinary_reruns": 0
+}

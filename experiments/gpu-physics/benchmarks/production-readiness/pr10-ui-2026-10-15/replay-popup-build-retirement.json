@@ -1,0 +1,18 @@
+{
+  "status": "CLOSED",
+  "removed": [
+    {
+      "path": "raw/mutation-force-build/cpu",
+      "bytes": 7722032,
+      "sha256": "5da4a2e5c02c6375c4c51320a5fe167eb322f5b9067dbb9ad505753cf5b10699"
+    },
+    {
+      "path": "raw/mutation-force-build/observer.o",
+      "bytes": 764168,
+      "sha256": "96369113dd5ea11f16c960f6eb4687b3f5478a86a88708df0ab642d10450fdfe"
+    }
+  ],
+  "deleted_bytes": 8486200,
+  "current_pool": "replay-observer-build.json",
+  "consumer": "NewCPUReplayobserver +4existingGPUviewers, no supersededCPU/object needed."
+}

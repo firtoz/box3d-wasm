@@ -1,0 +1,11 @@
+{
+  "status": "FROZEN",
+  "seconds": 20,
+  "files": 50000,
+  "bytes_read": 1048576,
+  "output_bytes": 262144,
+  "builds": 0,
+  "apps": 0,
+  "captures": 0,
+  "mutations": "Onlysmallauditreceipt;0deletions"
+}

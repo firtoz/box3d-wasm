@@ -1,0 +1,29 @@
+{
+  "status": "INCOMPLETE_FAILURES_RETAINED",
+  "budget": "benchmark-heightfield-input-budget.json",
+  "order": [
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "benchmark-heightfield"
+  ],
+  "runs": [
+    {
+      "route": "ordinary-both",
+      "fixture": "benchmark-heightfield",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 4,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "benchmark-heightfield",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 4,
+      "findings": 0
+    }
+  ]
+}

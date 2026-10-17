@@ -1,0 +1,103 @@
+{
+  "status": "CONSUMED_INPUTS_CLEANED",
+  "removed": [
+    {
+      "path": "raw/ui02-after/bin/cpu",
+      "bytes": 7310736,
+      "sha256": "cc1ee36ba9e8865cea7efdab1fca12822a3c825cda7349f9c0e4f5e656d617dd"
+    },
+    {
+      "path": "raw/ui02-after/bin/ordinary-gpu",
+      "bytes": 37409872,
+      "sha256": "979af6008bb7067cbe7fde7c201f8454f17ae3a57c63e5b028319ed18a9b54fe"
+    },
+    {
+      "path": "raw/ui02-after/bin/native-gpu",
+      "bytes": 40288992,
+      "sha256": "93b02af31ed1564dbc2a6127cf8684f6c80793a0560843b0d45a8dbeeaaa4f80"
+    },
+    {
+      "path": "raw/ui02-after/bin/ordinary-both",
+      "bytes": 38206456,
+      "sha256": "2465d980899015c29bb072b20f93eb6391e3dea3e04d3a125b19eace75aba8f4"
+    },
+    {
+      "path": "raw/ui02-after/bin/native-both",
+      "bytes": 41085592,
+      "sha256": "1709b4e966bedf79ddf157ddde6b6c06061924054b9df07ee29b7f4cebcb55dc"
+    },
+    {
+      "path": "raw/solver-controls-runs/cpu/api.jsonl",
+      "bytes": 18459,
+      "sha256": "515ffb47ed2c12f0f623375702a6e1bb4b0e5d735de6dcfc04d0083e6748fbd3"
+    },
+    {
+      "path": "raw/solver-controls-runs/cpu/observer.jsonl",
+      "bytes": 76557,
+      "sha256": "be637e8930b5dcd1662a2a7dc3d0a4940b0fac09ecdc1cc3bd488a369c27139e"
+    },
+    {
+      "path": "raw/solver-controls-runs/ordinary-gpu/api.jsonl",
+      "bytes": 6368,
+      "sha256": "5a25c7ca11a3e63aaa7c15c86c741868f01dbd4d4b8f2fd8d86bd62c08f4e469"
+    },
+    {
+      "path": "raw/solver-controls-runs/ordinary-gpu/observer.jsonl",
+      "bytes": 16937,
+      "sha256": "93adc0fab71e6c5fe5bdfc657c73c42b79c7a059428d0ecb4bb75c430904b872"
+    },
+    {
+      "path": "raw/solver-controls-runs/ordinary-gpu-policy/api.jsonl",
+      "bytes": 37564,
+      "sha256": "c49ab6b46dd9d84acd3fe62a6614216bae7dfbaf4c9f7b5056e1bd43d56ea3f8"
+    },
+    {
+      "path": "raw/solver-controls-runs/ordinary-gpu-policy/observer.jsonl",
+      "bytes": 91323,
+      "sha256": "b9a86b47a6f884fd12427e8f5c248733c3721a8a9ee5c6825cc90d709cd7f157"
+    },
+    {
+      "path": "raw/solver-controls-runs/native-gpu-policy/api.jsonl",
+      "bytes": 38814,
+      "sha256": "3105f27d9d1d6c34a72675cab2634ae3b6bb4aed5d297421cbb79d2bfd1a6944"
+    },
+    {
+      "path": "raw/solver-controls-runs/native-gpu-policy/observer.jsonl",
+      "bytes": 94383,
+      "sha256": "e803187397c1f4cb6b0d63edfb028c1d366efcbfa6065af06a1478e593f1da97"
+    },
+    {
+      "path": "raw/solver-controls-runs/ordinary-both-policy/api.jsonl",
+      "bytes": 36993,
+      "sha256": "4e892d14dbd7477f50df94bf324d721c5104e454b9bda10a80eb742cbe0795bc"
+    },
+    {
+      "path": "raw/solver-controls-runs/ordinary-both-policy/observer.jsonl",
+      "bytes": 73609,
+      "sha256": "7281ec7b54c645e25f1ab293b8d1cf248cfdbd94bbbad3ad052547a4ebdae69b"
+    },
+    {
+      "path": "raw/solver-controls-runs/ordinary-both-loading/api.jsonl",
+      "bytes": 63120,
+      "sha256": "c1156da65ce1178d321b740037895e892f0b37329320249cfb2d5adc75ebc788"
+    },
+    {
+      "path": "raw/solver-controls-runs/ordinary-both-loading/observer.jsonl",
+      "bytes": 113630,
+      "sha256": "2951d663378dce212a83b4f86b900484b7a07b7b0e27ae580cd354f78d008eee"
+    },
+    {
+      "path": "raw/solver-controls-runs/native-both-loading/api.jsonl",
+      "bytes": 64731,
+      "sha256": "3753ffeeff27d33a73e84ad039a01826f57de2f2ab6cf78e23aeeab8b27d6f09"
+    },
+    {
+      "path": "raw/solver-controls-runs/native-both-loading/observer.jsonl",
+      "bytes": 115451,
+      "sha256": "66b30db74a60a2a6bfdc794aeb81cef79e30bcdadd853daab1c15ceef3d59ae0"
+    }
+  ],
+  "deleted_bytes": 165149587,
+  "retained_consumer": "Currentsolver-controls-build5viewers+observer.o/UIobserver+Sample/main objects: remainingPR10. Beforeaftermedia/receipts/actualAPIwindows retained. Sharedcaches preserved.",
+  "free_bytes": 1709331951616
+}

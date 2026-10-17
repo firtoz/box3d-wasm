@@ -1,0 +1,30 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "All22Samples menu categories/all165leaflabels reconciled toCPUinventory on5routes; pickerall165+Up/Down+search+mouseJenga61; menuSingleBox2 thenNextSphereStack31/PreviousSingleBox2 withnewworldlifetimes; DumpMemStats actualoutput; combined-onlySplit checkboxoverlay\u2192split visual+identitychecks. No sample-widget/solverrepair.",
+  "builds": 0,
+  "apps": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "screens_each": 6,
+  "actions_each": 100,
+  "api_trace_cap": 8388608,
+  "stdout_stderr_cap_each": 1048576,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 33554432,
+  "shared_cache_growth_allowance": 134217728,
+  "free_bytes": 1709430489088,
+  "retries": 0,
+  "cache_copies": 0,
+  "outputs": {
+    "catalog/filteredselectedrows": "Compactactualregistration/menu/pickerdata andsceneidentitystate; no per-rowvideos",
+    "screens": "CPUfirstcatalog/picker/Jenga/returned plusbothOverlay/Resplit selected originalsretained",
+    "observer/APIstreams": "Extracteffects/registrationwindows then deleteconsumedfullstreams",
+    "currentpool": "Reuserender-popup-build5viewers, 0binarycopies"
+  }
+}

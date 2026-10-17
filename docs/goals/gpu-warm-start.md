@@ -10,7 +10,7 @@ Implement working GPU warm-start controls end-to-end. Make b3World_EnableWarmSta
 
 Use small, deterministic contact and joint fixtures. Verify default state and setter/getter round trips, independent settings across worlds, disabling stops reuse of previous impulses, re-enabling follows upstream cache semantics, and default-enabled behavior passes relevant existing regressions.
 
-Record before/after step timings on these fixtures without promising a speedup. Update relevant documentation and the API audit. Record affected-scene snapshots as required by AGENTS.md before committing. Keep scope limited to warm-start controls. Do not investigate Rain, redesign the solver, or implement speculative-contact controls. If blocked, document the exact blocker and smallest reproducer rather than expanding scope.
+Record before/after step timings on these fixtures without promising a speedup. Update relevant documentation and the API audit. Use targeted snapshots when helpful; recordings/comparison grids are optional rather than commit prerequisites (AGENTS.md, user direction2026-10-17). Keep scope limited to warm-start controls. Do not investigate Rain, redesign the solver, or implement speculative-contact controls. If blocked, document the exact blocker and smallest reproducer rather than expanding scope.
 
 Done means the control changes real solver behavior, focused tests and relevant regressions pass, evidence and docs are updated, and the work is committed. Do not push.
 

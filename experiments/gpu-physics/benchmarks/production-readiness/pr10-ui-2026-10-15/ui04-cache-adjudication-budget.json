@@ -1,0 +1,14 @@
+{
+  "status": "FROZEN",
+  "viewers": 0,
+  "builds": 0,
+  "compositions": 2,
+  "seconds_per_composition": 8,
+  "audit_seconds": 30,
+  "outer_seconds": 50,
+  "new_bytes": 8388608,
+  "retained_bytes": 67108864,
+  "scope": "Metadata-only correction of cache budget accounting;2previously unlaunchedgrids+30saudit;0apps/builds/retries",
+  "original_failed": "collect stopped before compositions: trace and leaf shared_cache_growth_within_budget=false, actual583017B each versus frozen0. Preserve original breaches; no retroactive waiver or rerun. Total temporary remains below1GiB including measuredcachegrowth.",
+  "future_policy": "Budget16MiB sharedNVIDIAcachegrowth for CPU OpenGL viewers too; sharedgrowth is measured not causally attributed; preserve sharedcaches"
+}

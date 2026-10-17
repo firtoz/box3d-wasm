@@ -1,0 +1,16 @@
+{
+  "status": "CONSUMED_TEMPORARY_VIEWERS_REMOVED",
+  "bytes": 156895152,
+  "files": {
+    "raw/loading-viewers/compile.log": 0,
+    "raw/loading-viewers/ordinary-gpu-link.log": 0,
+    "raw/loading-viewers/ordinary-gpu": 37386944,
+    "raw/loading-viewers/native-gpu-link.log": 0,
+    "raw/loading-viewers/native-gpu": 40266064,
+    "raw/loading-viewers/ordinary-both-link.log": 0,
+    "raw/loading-viewers/ordinary-both": 38183552,
+    "raw/loading-viewers/native-both-link.log": 0,
+    "raw/loading-viewers/native-both": 41058592
+  },
+  "consumer_complete": "Actual-itemtrace viewersvalidated by successfulCPU run; alloldmarker jobsreaped; originalsources/media/currentbuildspreserved"
+}

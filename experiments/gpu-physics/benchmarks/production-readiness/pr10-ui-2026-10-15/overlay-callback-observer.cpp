@@ -1,0 +1,260 @@
+// Diagnostic-only GNU link wrappers. Call the actual ImGui implementation once;
+// record its item rectangle/value and never inject input or access physics state.
+#include "box3d/box3d.h"
+#include <cstring>
+#include "imgui.h"
+#include "imgui_internal.h"
+#include <cstdio>
+#include <cstdint>
+#include <cstdarg>
+#include <cstdlib>
+#include <string>
+#include <vector>
+#include <unistd.h>
+extern "C" const void* sapp_x11_get_window(void);
+extern "C" int sapp_width(void);
+extern "C" int sapp_height(void);
+namespace {
+struct Item { std::string kind,label,value,window; ImRect rect,clip; bool visible,disabled,changed; unsigned id; };
+std::vector<Item> items, changes;
+int frame=-1;
+const char* trace_path() { return std::getenv("GPU_PR10_UI_TRACE"); }
+void quote(FILE* f,const std::string& s) {
+    std::fputc('"',f);
+    for (unsigned char c:s) { if(c=='"'||c=='\\')std::fprintf(f,"\\%c",c);else if(c<32)std::fprintf(f,"\\u%04x",c);else std::fputc(c,f); }
+    std::fputc('"',f);
+}
+void record(const char* kind,const char* label,const std::string& value,bool changed=false,ImGuiWindow* parent=nullptr) {
+    if(!trace_path()||!ImGui::GetCurrentContext())return;
+    ImGuiContext& g=*ImGui::GetCurrentContext(); ImGuiWindow* w=parent?parent:g.CurrentWindow;
+    if(!w)return;
+    if(frame!=g.FrameCount) { items.clear();frame=g.FrameCount; }
+    Item i{kind,label?label:"",value,w->Name,g.LastItemData.Rect,ImRect(w->DrawList->_ClipRectStack.back()),(parent?g.LastItemData.Rect.Overlaps(ImRect(w->DrawList->_ClipRectStack.back())):ImGui::IsItemVisible()),(g.CurrentItemFlags&ImGuiItemFlags_Disabled)!=0,changed,g.LastItemData.ID};
+    items.push_back(i);
+    if(changed) { if(changes.size()>=64)changes.erase(changes.begin());changes.push_back(i); }
+}
+void write_item(FILE* f,const Item& i,float sx,float sy) {
+    std::fputs("{\"kind\":",f);quote(f,i.kind);std::fputs(",\"label\":",f);quote(f,i.label);std::fputs(",\"value\":",f);quote(f,i.value);std::fputs(",\"window\":",f);quote(f,i.window);
+    std::fprintf(f,",\"id\":%u,\"visible\":%s,\"disabled\":%s,\"changed\":%s,\"rect\":[%.6f,%.6f,%.6f,%.6f],\"clip\":[%.6f,%.6f,%.6f,%.6f]}",i.id,i.visible?"true":"false",i.disabled?"true":"false",i.changed?"true":"false",i.rect.Min.x*sx,i.rect.Min.y*sy,i.rect.Max.x*sx,i.rect.Max.y*sy,i.clip.Min.x*sx,i.clip.Min.y*sy,i.clip.Max.x*sx,i.clip.Max.y*sy);
+}
+void flush() {
+    const char* path=trace_path(); if(!path||items.empty()||!ImGui::GetCurrentContext())return;
+    // Publish only when the test asks for a fresh frame, avoiding a stream of
+    // per-frame files. The request is a small monotonically increasing token.
+    static unsigned last_request=0;unsigned request=0;
+    std::string request_path=std::string(path)+".request";
+    FILE* rf=std::fopen(request_path.c_str(),"r");if(!rf)return;
+    const int read=std::fscanf(rf,"%u",&request);std::fclose(rf);
+    if(read!=1||request==last_request)return;
+    const ImGuiIO& io=ImGui::GetIO(); if(io.DisplaySize.x<=0||io.DisplaySize.y<=0)return;
+    const float sx=float(sapp_width())/io.DisplaySize.x,sy=float(sapp_height())/io.DisplaySize.y;
+    std::string tmp=std::string(path)+".tmp";FILE* f=std::fopen(tmp.c_str(),"w");if(!f)return;
+    std::fprintf(f,"{\"request\":%u,\"frame\":%d,\"width\":%d,\"height\":%d,\"want_text_input\":%s,\"want_capture_mouse\":%s,\"items\":[",request,frame,sapp_width(),sapp_height(),io.WantTextInput?"true":"false",io.WantCaptureMouse?"true":"false");
+    for(size_t n=0;n<items.size();++n) { if(n)std::fputc(',',f);write_item(f,items[n],sx,sy); }
+    std::fputs("],\"changes\":[",f);for(size_t n=0;n<changes.size();++n) {if(n)std::fputc(',',f);write_item(f,changes[n],sx,sy);}
+    std::fputs("],\"windows\":[",f);bool first=true;
+    for (ImGuiWindow* w: ImGui::GetCurrentContext()->Windows) {
+        if(!w->Active||w->Hidden)continue;
+        if(!first)std::fputc(',',f);first=false;
+        std::fputs("{\"name\":",f);quote(f,w->Name);
+        std::fprintf(f,",\"rect\":[%.6f,%.6f,%.6f,%.6f],\"clip\":[%.6f,%.6f,%.6f,%.6f],\"cursor_start\":[%.6f,%.6f],\"row_height\":%.6f,\"font_height\":%.6f,\"scroll\":[%.6f,%.6f]}",w->Pos.x*sx,w->Pos.y*sy,(w->Pos.x+w->Size.x)*sx,(w->Pos.y+w->Size.y)*sy,w->InnerClipRect.Min.x*sx,w->InnerClipRect.Min.y*sy,w->InnerClipRect.Max.x*sx,w->InnerClipRect.Max.y*sy,w->DC.CursorStartPos.x*sx,w->DC.CursorStartPos.y*sy,ImGui::GetTextLineHeightWithSpacing()*sy,ImGui::GetFontSize()*sy,w->Scroll.x,w->Scroll.y);
+    }
+    std::fputs("]}\n",f);std::fclose(f);if(std::rename(tmp.c_str(),path)==0)last_request=request;
+}
+std::string format(const char* fmt,va_list ap) { char text[2048];std::vsnprintf(text,sizeof(text),fmt,ap);return text; }
+}
+extern bool real_poll(b3WorldId) asm("__real__Z16gpu_loading_poll9b3WorldId");
+extern bool wrap_poll(b3WorldId) asm("__wrap__Z16gpu_loading_poll9b3WorldId");
+bool wrap_poll(b3WorldId world) {
+    flush();static bool seen=false;auto window=sapp_x11_get_window();
+    if(!seen&&window&&sapp_width()>0&&sapp_height()>0) { seen=true;std::fprintf(stderr,"PR10WINDOW,pid=%ld,id=%llu,width=%d,height=%d\n",(long)getpid(),(unsigned long long)(uintptr_t)window,sapp_width(),sapp_height());std::fflush(stderr); }
+    return real_poll(world);
+}
+#define DECL(NAME,SYMBOL,RET,ARGS) extern RET real_##NAME ARGS asm("__real_" SYMBOL); extern RET wrap_##NAME ARGS asm("__wrap_" SYMBOL)
+DECL(check,"_ZN5ImGui8CheckboxEPKcPb",bool,(const char*,bool*));
+bool wrap_check(const char* l,bool* v) { bool r=real_check(l,v);record("Checkbox",l,*v?"true":"false",r);return r; }
+DECL(button,"_ZN5ImGui6ButtonEPKcRK6ImVec2",bool,(const char*,const ImVec2&));
+bool wrap_button(const char* l,const ImVec2& size) { bool r=real_button(l,size);record("Button",l,"",r);return r; }
+DECL(radio,"_ZN5ImGui11RadioButtonEPKcb",bool,(const char*,bool));
+bool wrap_radio(const char* l,bool active) { bool r=real_radio(l,active);record("RadioButton",l,active?"true":"false",r);return r; }
+DECL(radio_int,"_ZN5ImGui11RadioButtonEPKcPii",bool,(const char*,int*,int));
+bool wrap_radio_int(const char* l,int* v,int button) { bool r=real_radio_int(l,v,button);record("RadioButton",l,*v==button?"true":"false",r);return r; }
+DECL(header,"_ZN5ImGui16CollapsingHeaderEPKci",bool,(const char*,int));
+bool wrap_header(const char* l,int flags) { bool r=real_header(l,flags);record("Header",l,r?"true":"false",ImGui::IsItemClicked());return r; }
+DECL(tab,"_ZN5ImGui12BeginTabItemEPKcPbi",bool,(const char*,bool*,int));
+bool wrap_tab(const char* l,bool* open,int flags) { bool r=real_tab(l,open,flags);record("Tab",l,r?"true":"false",ImGui::IsItemClicked());return r; }
+DECL(slider_int,"_ZN5ImGui9SliderIntEPKcPiiiS1_i",bool,(const char*,int*,int,int,const char*,int));
+bool wrap_slider_int(const char* l,int* v,int lo,int hi,const char* fmt,int flags) { bool r=real_slider_int(l,v,lo,hi,fmt,flags);record("SliderInt",l,std::to_string(*v),r);return r; }
+DECL(slider_float,"_ZN5ImGui11SliderFloatEPKcPfffS1_i",bool,(const char*,float*,float,float,const char*,int));
+bool wrap_slider_float(const char* l,float* v,float lo,float hi,const char* fmt,int flags) { bool r=real_slider_float(l,v,lo,hi,fmt,flags);record("SliderFloat",l,std::to_string(*v),r);return r; }
+extern void wrap_text(const char*,...) asm("__wrap__ZN5ImGui4TextEPKcz");
+void wrap_text(const char* fmt,...) { va_list ap,copy;va_start(ap,fmt);va_copy(copy,ap);auto text=format(fmt,copy);va_end(copy);ImGui::TextV(fmt,ap);va_end(ap);record("Text",text.c_str(),""); }
+extern void wrap_disabled(const char*,...) asm("__wrap__ZN5ImGui12TextDisabledEPKcz");
+void wrap_disabled(const char* fmt,...) { va_list ap,copy;va_start(ap,fmt);va_copy(copy,ap);auto text=format(fmt,copy);va_end(copy);ImGui::TextDisabledV(fmt,ap);va_end(ap);record("TextDisabled",text.c_str(),""); }
+extern void wrap_colored(const ImVec4&,const char*,...) asm("__wrap__ZN5ImGui11TextColoredERK6ImVec4PKcz");
+void wrap_colored(const ImVec4& color,const char* fmt,...) { va_list ap,copy;va_start(ap,fmt);va_copy(copy,ap);auto text=format(fmt,copy);va_end(copy);ImGui::TextColoredV(color,fmt,ap);va_end(ap);record("TextColored",text.c_str(),""); }
+
+#include "solver-controls-observer.cpp"
+DECL(menu,"_ZN5ImGui9BeginMenuEPKcb",bool,(const char*,bool));
+bool wrap_menu(const char* l,bool enabled) { auto* parent=ImGui::GetCurrentWindow();bool r=real_menu(l,enabled);record("Menu",l,r?"true":"false",false,parent);items.back().disabled|=!enabled;return r; }
+DECL(menu_item,"_ZN5ImGui8MenuItemEPKcS1_bb",bool,(const char*,const char*,bool,bool));
+bool wrap_menu_item(const char* l,const char* shortcut,bool selected,bool enabled) { bool r=real_menu_item(l,shortcut,selected,enabled);record("MenuItem",l,selected?"true":"false",r);items.back().disabled|=!enabled;return r; }
+DECL(menu_ptr,"_ZN5ImGui8MenuItemEPKcS1_Pbb",bool,(const char*,const char*,bool*,bool));
+bool wrap_menu_ptr(const char* l,const char* shortcut,bool* selected,bool enabled) { bool r=real_menu_ptr(l,shortcut,selected,enabled);record("MenuItem",l,selected&&*selected?"true":"false",r);items.back().disabled|=!enabled;return r; }
+DECL(small,"_ZN5ImGui11SmallButtonEPKc",bool,(const char*));
+bool wrap_small(const char* l) { bool r=real_small(l);record("SmallButton",l,"",r);return r; }
+DECL(slider3,"_ZN5ImGui12SliderFloat3EPKcPfffS1_i",bool,(const char*,float*,float,float,const char*,int));
+bool wrap_slider3(const char* l,float* v,float lo,float hi,const char* fmt,int flags) { bool r=real_slider3(l,v,lo,hi,fmt,flags);record("SliderFloat3",l,std::to_string(v[0])+","+std::to_string(v[1])+","+std::to_string(v[2]),r);return r; }
+DECL(input_int,"_ZN5ImGui8InputIntEPKcPiiii",bool,(const char*,int*,int,int,int));
+bool wrap_input_int(const char* l,int* v,int step,int fast,int flags) { bool r=real_input_int(l,v,step,fast,flags);record("InputInt",l,std::to_string(*v),r);return r; }
+DECL(input_float,"_ZN5ImGui10InputFloatEPKcPfffS1_i",bool,(const char*,float*,float,float,const char*,int));
+bool wrap_input_float(const char* l,float* v,float step,float fast,const char* fmt,int flags) { bool r=real_input_float(l,v,step,fast,fmt,flags);record("InputFloat",l,std::to_string(*v),r);return r; }
+DECL(combo_arr,"_ZN5ImGui5ComboEPKcPiPKS1_ii",bool,(const char*,int*,const char* const*,int,int));
+bool wrap_combo_arr(const char* l,int* v,const char*const* opts,int count,int height) { bool r=real_combo_arr(l,v,opts,count,height);record("Combo",l,std::to_string(*v),r);return r; }
+DECL(combo_str,"_ZN5ImGui5ComboEPKcPiS1_i",bool,(const char*,int*,const char*,int));
+bool wrap_combo_str(const char* l,int* v,const char* opts,int height) { bool r=real_combo_str(l,v,opts,height);record("Combo",l,std::to_string(*v),r);return r; }
+DECL(combo_get,"_ZN5ImGui5ComboEPKcPiPFS1_PviES3_ii",bool,(const char*,int*,const char*(*)(void*,int),void*,int,int));
+bool wrap_combo_get(const char* l,int* v,const char*(*get)(void*,int),void* data,int count,int height) { bool r=real_combo_get(l,v,get,data,count,height);record("Combo",l,std::to_string(*v),r);return r; }
+DECL(input_text,"_ZN5ImGui9InputTextEPKcPcmiPFiP26ImGuiInputTextCallbackDataEPv",bool,(const char*,char*,size_t,int,ImGuiInputTextCallback,void*));
+bool wrap_input_text(const char* l,char* buf,size_t size,int flags,ImGuiInputTextCallback cb,void* data) { bool r=real_input_text(l,buf,size,flags,cb,data);record("InputText",l,buf,r);return r; }
+DECL(input_hint,"_ZN5ImGui17InputTextWithHintEPKcS1_PcmiPFiP26ImGuiInputTextCallbackDataEPv",bool,(const char*,const char*,char*,size_t,int,ImGuiInputTextCallback,void*));
+bool wrap_input_hint(const char* l,const char* hint,char* buf,size_t size,int flags,ImGuiInputTextCallback cb,void* data) { bool r=real_input_hint(l,hint,buf,size,flags,cb,data);record("InputTextWithHint",l,buf,r);return r; }
+DECL(select,"_ZN5ImGui10SelectableEPKcbiRK6ImVec2",bool,(const char*,bool,int,const ImVec2&));
+bool wrap_select(const char* l,bool selected,int flags,const ImVec2& size) { bool r=real_select(l,selected,flags,size);record("Selectable",l,selected?"true":"false",r);return r; }
+DECL(select_ptr,"_ZN5ImGui10SelectableEPKcPbiRK6ImVec2",bool,(const char*,bool*,int,const ImVec2&));
+bool wrap_select_ptr(const char* l,bool* selected,int flags,const ImVec2& size) { bool r=real_select_ptr(l,selected,flags,size);record("Selectable",l,selected&&*selected?"true":"false",r);return r; }
+DECL(tree,"_ZN5ImGui10TreeNodeExEPKci",bool,(const char*,int));
+bool wrap_tree(const char* l,int flags) { bool r=real_tree(l,flags);record("Tree",l,r?"true":"false",false);return r; }
+#include "box3d/types.h"
+extern "C" void __real_b3World_Draw(b3WorldId,b3DebugDraw*,uint64_t);
+static void trace_draw_impl(b3WorldId id,b3DebugDraw* d,uint64_t mask) {
+ if(const char* path=std::getenv("GPU_PR10_API_TRACE"))if(FILE* f=std::fopen(path,"a")) {
+  std::fprintf(f,"{\"api\":\"b3World_Draw\",\"world\":[%u,%u],\"shapes\":%d,\"joints\":%d,\"extras\":%d,\"bounds\":%d,\"mass\":%d,\"sleep\":%d,\"names\":%d,\"contacts\":%d,\"anchorA\":%d,\"graph\":%d,\"features\":%d,\"normals\":%d,\"forces\":%d,\"islands\":%d,\"jointScale\":%.9g,\"forceScale\":%.9g}\n",(unsigned)id.index1,(unsigned)id.generation,d->drawShapes,d->drawJoints,d->drawJointExtras,d->drawBounds,d->drawMass,d->drawSleep,d->drawBodyNames,d->drawContacts,d->drawAnchorA,d->drawGraphColors,d->drawContactFeatures,d->drawContactNormals,d->drawContactForces,d->drawIslands,d->jointScale,d->forceScale);std::fclose(f);
+ }
+ __real_b3World_Draw(id,d,mask);
+}
+namespace {
+struct DrawOutputs { b3DebugDraw original{}; unsigned count[9]{};uint64_t digest[9]{}; };
+thread_local DrawOutputs* active_output=nullptr;
+thread_local b3DebugDraw last_original{};
+void hash_bytes(int i,const void* bytes,size_t size) {auto* p=(const unsigned char*)bytes;uint64_t& h=active_output->digest[i];if(!h)h=1469598103934665603ull;for(size_t n=0;n<size;++n)h=(h^p[n])*1099511628211ull;}
+template<class T>void hv(int i,const T& v){hash_bytes(i,&v,sizeof(v));}
+void hp(int i,b3Pos p){hv(i,p.x);hv(i,p.y);hv(i,p.z);}
+void hvec(int i,b3Vec3 p){hv(i,p.x);hv(i,p.y);hv(i,p.z);}
+void hxf(int i,b3WorldTransform t){hp(i,t.p);hvec(i,t.q.v);hv(i,t.q.s);}
+void observed_shape(void* u,b3WorldTransform t,b3HexColor c,void* ctx){++active_output->count[0];hxf(0,t);hv(0,c);active_output->original.DrawShapeFcn(u,t,c,ctx);}
+void observed_segment(b3Pos a,b3Pos b,b3HexColor c,void* ctx){++active_output->count[1];hp(1,a);hp(1,b);hv(1,c);active_output->original.DrawSegmentFcn(a,b,c,ctx);}
+void observed_transform(b3WorldTransform t,void* ctx){++active_output->count[2];hxf(2,t);active_output->original.DrawTransformFcn(t,ctx);}
+void observed_point(b3Pos p,float size,b3HexColor c,void* ctx){++active_output->count[3];hp(3,p);hv(3,size);hv(3,c);active_output->original.DrawPointFcn(p,size,c,ctx);}
+void observed_sphere(b3Pos p,float radius,b3HexColor c,float alpha,void* ctx){++active_output->count[4];hp(4,p);hv(4,radius);hv(4,c);hv(4,alpha);active_output->original.DrawSphereFcn(p,radius,c,alpha,ctx);}
+void observed_capsule(b3Pos a,b3Pos b,float radius,b3HexColor c,float alpha,void* ctx){++active_output->count[5];hp(5,a);hp(5,b);hv(5,radius);hv(5,c);hv(5,alpha);active_output->original.DrawCapsuleFcn(a,b,radius,c,alpha,ctx);}
+void observed_bounds(b3AABB a,b3HexColor c,void* ctx){++active_output->count[6];hvec(6,a.lowerBound);hvec(6,a.upperBound);hv(6,c);active_output->original.DrawBoundsFcn(a,c,ctx);}
+void observed_box(b3Vec3 e,b3WorldTransform t,b3HexColor c,void* ctx){++active_output->count[7];hvec(7,e);hxf(7,t);hv(7,c);active_output->original.DrawBoxFcn(e,t,c,ctx);}
+void observed_string(b3Pos p,const char* text,b3HexColor c,void* ctx){++active_output->count[8];hp(8,p);hv(8,c);if(text)hash_bytes(8,text,std::strlen(text));active_output->original.DrawStringFcn(p,text,c,ctx);}
+void observe_callbacks(b3DebugDraw& d){
+ if(d.DrawShapeFcn)d.DrawShapeFcn=observed_shape;if(d.DrawSegmentFcn)d.DrawSegmentFcn=observed_segment;if(d.DrawTransformFcn)d.DrawTransformFcn=observed_transform;
+ if(d.DrawPointFcn)d.DrawPointFcn=observed_point;if(d.DrawSphereFcn)d.DrawSphereFcn=observed_sphere;if(d.DrawCapsuleFcn)d.DrawCapsuleFcn=observed_capsule;
+ if(d.DrawBoundsFcn)d.DrawBoundsFcn=observed_bounds;if(d.DrawBoxFcn)d.DrawBoxFcn=observed_box;if(d.DrawStringFcn)d.DrawStringFcn=observed_string;
+}
+void write_output(const char* api,b3WorldId id,const DrawOutputs& o){
+ if(const char* path=std::getenv("GPU_PR10_API_TRACE"))if(FILE* f=std::fopen(path,"a")){
+  b3Counters counters=b3World_GetCounters(id);
+  std::fprintf(f,"{\"api\":\"%s\",\"world\":[%u,%u],\"bodies\":%d,\"joints\":%d,\"contacts\":%d",api,(unsigned)id.index1,(unsigned)id.generation,counters.bodyCount,counters.jointCount,counters.contactCount);
+  const char* names[]={"shape","segment","transform","point","sphere","capsule","bounds","box","string"};
+  for(int i=0;i<9;++i)std::fprintf(f,",\"%s_callbacks\":%u,\"%s_digest\":\"%016llx\"",names[i],o.count[i],names[i],(unsigned long long)o.digest[i]);
+  std::fputs("}\n",f);std::fclose(f);
+ }
+}
+}
+extern "C" void __wrap_b3World_Draw(b3WorldId id,b3DebugDraw* d,uint64_t mask){
+ if(!d){__real_b3World_Draw(id,d,mask);return;}
+ b3DebugDraw local=*d;DrawOutputs outputs;outputs.original=*d;last_original=*d;observe_callbacks(local);
+ DrawOutputs* previous=active_output;active_output=&outputs;trace_draw_impl(id,&local,mask);active_output=previous;write_output("actual_draw_outputs",id,outputs);
+}
+extern "C" void __real_gpu_samples_world_draw(b3WorldId,b3DebugDraw*,uint64_t) __attribute__((weak));
+extern "C" void __wrap_gpu_samples_world_draw(b3WorldId id,b3DebugDraw* d,uint64_t mask){
+ assert(__real_gpu_samples_world_draw);if(!d){__real_gpu_samples_world_draw(id,d,mask);return;}
+ // A split second-pane draw occurs after the outer wrapper returned. Restore
+ // original callback provenance rather than chaining observed callbacks.
+ DrawOutputs outputs;outputs.original=active_output?active_output->original:last_original;
+ b3DebugDraw local=*d;observe_callbacks(local);DrawOutputs* previous=active_output;active_output=&outputs;
+ __real_gpu_samples_world_draw(id,&local,mask);active_output=previous;
+ if(previous)for(int i=0;i<9;++i){previous->count[i]+=outputs.count[i];previous->digest[i]=outputs.digest[i];}
+ write_output("actual_gpu_draw_outputs",id,outputs);
+}
+#include "gfx/renderer.h"
+#include "gfx/shadow.h"
+#include "gfx/gtao.h"
+static void body_metadata_request();
+extern "C" void __real_RenderFrame(const sg_swapchain*,const FrameInput*);
+extern "C" void __wrap_RenderFrame(const sg_swapchain* sc,const FrameInput* frame) {
+ if(const char* path=std::getenv("GPU_PR10_API_TRACE"))if(FILE* f=std::fopen(path,"a")) {
+  Sun sun=GetSun();EdgeOverlayParams edges=GetEdgeOverlayParams();GtaoTraceParams gtao=GetGtaoTraceParams();
+  std::fprintf(f,"{\"api\":\"actual_RenderFrame\",\"debugMode\":%d,\"disableShadows\":%d,\"disableAmbientOcclusion\":%d,\"exposure\":%.9g,\"sun\":%.9g,\"ibl\":%d,\"hullEdges\":%d,\"edgeConvexity\":%d,\"shadowStart\":%.9g,\"shadowRange\":%.9g,\"shadowDistribution\":%.9g,\"gtaoQuality\":%d}\n",frame->debugMode,frame->disableShadows,frame->disableAmbientOcclusion,GetExposure(),sun.strength,GetIblEnabled(),edges.showHulls,edges.showEdgeConvexity,GetShadowSplitNear(),GetShadowSplitFar(),GetShadowSplitLambda(),(int)gtao.quality);std::fclose(f);
+ }
+ __real_RenderFrame(sc,frame);body_metadata_request();
+}
+#include "box3d/box3d.h"
+#include "gfx/debug_adapter.h"
+extern "C" bool cpu_b3Body_IsValid(b3BodyId) __attribute__((weak));
+extern "C" b3BodyType cpu_b3Body_GetType(b3BodyId) __attribute__((weak));
+extern "C" bool cpu_b3Body_IsEnabled(b3BodyId) __attribute__((weak));
+extern "C" b3Pos cpu_b3Body_GetPosition(b3BodyId) __attribute__((weak));
+extern "C" b3Vec3 cpu_b3Body_GetLinearVelocity(b3BodyId) __attribute__((weak));
+extern "C" float cpu_b3Body_GetMass(b3BodyId) __attribute__((weak));
+extern "C" const char* cpu_b3Body_GetName(b3BodyId) __attribute__((weak));
+namespace {
+struct WatchedBody { b3BodyId id; bool cpu; };
+std::vector<WatchedBody> watched_bodies;
+b3BodyId selected_cpu{};
+bool body_valid(WatchedBody b) { return b.id.index1!=0&&(b.cpu?(cpu_b3Body_IsValid&&cpu_b3Body_IsValid(b.id)):b3Body_IsValid(b.id)); }
+bool same_body(WatchedBody a,WatchedBody b) {return a.cpu==b.cpu&&a.id.index1==b.id.index1&&a.id.world0==b.id.world0&&a.id.generation==b.id.generation;}
+void watch_body(WatchedBody b) {
+ for(auto w:watched_bodies)if(same_body(w,b))return;
+ if(watched_bodies.size()>=16) {
+  for(auto i=watched_bodies.begin();i!=watched_bodies.end();)if(!body_valid(*i))i=watched_bodies.erase(i);else ++i;
+ }
+ if(watched_bodies.size()<16)watched_bodies.push_back(b);
+}
+void body_json(FILE* f,WatchedBody b) {
+ const bool valid=body_valid(b);
+ std::fprintf(f,"{\"owner\":\"%s\",\"id\":[%u,%u,%u],\"valid\":%s",b.cpu?"mapped_cpu":"public",(unsigned)b.id.index1,(unsigned)b.id.generation,(unsigned)b.id.world0,valid?"true":"false");
+ if(valid) {
+  b3BodyType type=b.cpu?cpu_b3Body_GetType(b.id):b3Body_GetType(b.id);
+  bool enabled=b.cpu?cpu_b3Body_IsEnabled(b.id):b3Body_IsEnabled(b.id);
+  b3Pos p=b.cpu?cpu_b3Body_GetPosition(b.id):b3Body_GetPosition(b.id);
+  b3Vec3 v=b.cpu?cpu_b3Body_GetLinearVelocity(b.id):b3Body_GetLinearVelocity(b.id);
+  float mass=b.cpu?cpu_b3Body_GetMass(b.id):b3Body_GetMass(b.id);
+  const char* name=b.cpu?cpu_b3Body_GetName(b.id):b3Body_GetName(b.id);
+  std::fprintf(f,",\"type\":%d,\"enabled\":%s,\"position\":[%.9g,%.9g,%.9g],\"velocity\":[%.9g,%.9g,%.9g],\"mass\":%.9g,\"name\":",(int)type,enabled?"true":"false",(double)p.x,(double)p.y,(double)p.z,(double)v.x,(double)v.y,(double)v.z,(double)mass);quote(f,name?name:"");
+ }
+ std::fputc('}',f);
+}
+void body_call(const char* api,const char* phase,WatchedBody b,int input=-1) {
+ const char* path=std::getenv("GPU_PR10_API_TRACE");if(!path)return;
+ if(FILE* f=std::fopen(path,"a")) {std::fprintf(f,"{\"api\":\"%s\",\"phase\":\"%s\",\"input\":%d,\"body\":",api,phase,input);body_json(f,b);std::fputs("}\n",f);std::fclose(f);}
+}
+}
+#define BODYTYPE(NAME,CPU) extern "C" void __real_##NAME(b3BodyId,b3BodyType) __attribute__((weak)); extern "C" void __wrap_##NAME(b3BodyId id,b3BodyType type) { assert(__real_##NAME);WatchedBody b{id,CPU};watch_body(b);body_call(#NAME,"before",b,(int)type);__real_##NAME(id,type);body_call(#NAME,"after",b,(int)type); }
+#define BODYFLAG(NAME,CPU) extern "C" void __real_##NAME(b3BodyId) __attribute__((weak)); extern "C" void __wrap_##NAME(b3BodyId id) { assert(__real_##NAME);WatchedBody b{id,CPU};watch_body(b);body_call(#NAME,"before",b);__real_##NAME(id);body_call(#NAME,"after",b); }
+#define BODYVEL(NAME,CPU) extern "C" void __real_##NAME(b3BodyId,b3Vec3) __attribute__((weak)); extern "C" void __wrap_##NAME(b3BodyId id,b3Vec3 v) { assert(__real_##NAME);WatchedBody b{id,CPU};watch_body(b);body_call(#NAME,"before",b);__real_##NAME(id,v);body_call(#NAME,"after",b); }
+BODYTYPE(b3Body_SetType,false)
+BODYTYPE(cpu_b3Body_SetType,true)
+BODYFLAG(b3Body_Enable,false)
+BODYFLAG(b3Body_Disable,false)
+BODYFLAG(cpu_b3Body_Enable,true)
+BODYFLAG(cpu_b3Body_Disable,true)
+BODYVEL(b3Body_SetLinearVelocity,false)
+BODYVEL(cpu_b3Body_SetLinearVelocity,true)
+extern "C" void __real_SetComparisonSelectedBody(b3BodyId) __attribute__((weak));
+extern "C" void __wrap_SetComparisonSelectedBody(b3BodyId id) { assert(__real_SetComparisonSelectedBody);selected_cpu=id;__real_SetComparisonSelectedBody(id); }
+static void body_metadata_request() {
+ const char* path=std::getenv("GPU_PR10_API_TRACE"),* ui=std::getenv("GPU_PR10_UI_TRACE");if(!path||!ui)return;
+ static unsigned last=0;unsigned request=0;std::string input=std::string(ui)+".request";FILE* rf=std::fopen(input.c_str(),"r");if(!rf)return;int read=std::fscanf(rf,"%u",&request);std::fclose(rf);if(read!=1||request==last)return;last=request;
+ if(FILE* f=std::fopen(path,"a")) {
+  RenderStats st=GetRenderStats();
+  std::fprintf(f,"{\"api\":\"actual_body_metadata\",\"request\":%u,\"selected\":",request);body_json(f,{GetSelectedBody(),false});std::fputs(",\"selected_cpu\":",f);body_json(f,{selected_cpu,true});std::fputs(",\"watched\":[",f);
+  for(size_t i=0;i<watched_bodies.size();++i) {if(i)std::fputc(',',f);body_json(f,watched_bodies[i]);}
+  std::fprintf(f,"],\"render_counts\":{\"opaque\":%d,\"transparent\":%d,\"lines\":%d,\"points\":%d}}\n",st.cubeCount+st.sphereCount+st.capsuleCount+st.geomInstanceCount,st.cubeCountXp+st.sphereCountXp+st.capsuleCountXp+st.geomInstanceCountXp,st.lineCount,st.pointCount);std::fclose(f);
+ }
+}

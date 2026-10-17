@@ -1,0 +1,130 @@
+{
+  "status": "FROZEN",
+  "cc_compiles_max": 0,
+  "cc_reuse": "Compile1ifall5originalarchiveHumanmodulehashesmatch;elseCPU/GPU/BOTHgroupidentityexplicit",
+  "cpp_compiles": 0,
+  "compile_seconds": 25,
+  "observer_compile_seconds": 20,
+  "generations": 0,
+  "generation_seconds": 10,
+  "archive_inspections": 0,
+  "archive_seconds": 5,
+  "links": 1,
+  "link_seconds": 25,
+  "viewers": 3,
+  "seconds_per_app": 25,
+  "seconds_per_transition": 3,
+  "screenshots_per_app": 2,
+  "actions_per_app": 80,
+  "physics_steps": 0,
+  "retries": 0,
+  "outer_seconds": 135,
+  "api_bytes_per_app": 12582912,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 201326592,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "shared_cache_growth_total_bytes": 33554432,
+  "min_free_bytes": 21474836480,
+  "raw_before_bytes": 946368220,
+  "units": [
+    {
+      "route": "cpu",
+      "unit": {
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_shared",
+        "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/shared -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_src -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/shared.dir/__/diagnostic-human.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/diagnostic-human.c",
+        "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/diagnostic-human.c",
+        "output": "box3d_shared/CMakeFiles/shared.dir/__/diagnostic-human.c.o"
+      },
+      "archive": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_shared/libshared.a",
+      "source_sha256": "c171cca5f7192ebac8ce6e0cfcdf470d5526d74a5275f9b7b3d370b201922422"
+    },
+    {
+      "route": "ordinary-gpu",
+      "unit": {
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_shared",
+        "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/shared -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_src -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/shared.dir/__/diagnostic-human.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/diagnostic-human.c",
+        "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/diagnostic-human.c",
+        "output": "box3d_shared/CMakeFiles/shared.dir/__/diagnostic-human.c.o"
+      },
+      "archive": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-gpu/cmake/box3d_shared/libshared.a",
+      "source_sha256": "c171cca5f7192ebac8ce6e0cfcdf470d5526d74a5275f9b7b3d370b201922422"
+    },
+    {
+      "route": "native-gpu",
+      "unit": {
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake/box3d_shared",
+        "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/shared -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake/box3d_src -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/shared.dir/__/diagnostic-human.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake/diagnostic-human.c",
+        "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake/diagnostic-human.c",
+        "output": "box3d_shared/CMakeFiles/shared.dir/__/diagnostic-human.c.o"
+      },
+      "archive": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-gpu/cmake/box3d_shared/libshared.a",
+      "source_sha256": "c171cca5f7192ebac8ce6e0cfcdf470d5526d74a5275f9b7b3d370b201922422"
+    },
+    {
+      "route": "ordinary-both",
+      "unit": {
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/box3d_shared",
+        "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/shared -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/box3d_src -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/shared.dir/__/diagnostic-human.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/diagnostic-human.c",
+        "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/diagnostic-human.c",
+        "output": "box3d_shared/CMakeFiles/shared.dir/__/diagnostic-human.c.o"
+      },
+      "archive": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/ordinary-both/cmake/box3d_shared/libshared.a",
+      "source_sha256": "c171cca5f7192ebac8ce6e0cfcdf470d5526d74a5275f9b7b3d370b201922422"
+    },
+    {
+      "route": "native-both",
+      "unit": {
+        "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/box3d_shared",
+        "command": "/usr/bin/cc  -I/home/firtoz/work/2026/box3d-wasm/box3d/shared -I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include -I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/box3d_src -O3 -DNDEBUG -std=gnu17 -o CMakeFiles/shared.dir/__/diagnostic-human.c.o -c /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/diagnostic-human.c",
+        "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/diagnostic-human.c",
+        "output": "box3d_shared/CMakeFiles/shared.dir/__/diagnostic-human.c.o"
+      },
+      "archive": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-world-lifetime-viewer-builds/native-both/cmake/box3d_shared/libshared.a",
+      "source_sha256": "c171cca5f7192ebac8ce6e0cfcdf470d5526d74a5275f9b7b3d370b201922422"
+    }
+  ],
+  "pins_before": {
+    "controls": "6917afae978a3622b7868724b33f8154a641483fcbaeae7416e36e3b027a57f5",
+    "cmake": "8ace5424e5529764f7219b74d7dc7d7af260b227af768449ed34d22aa2a9d739",
+    "human": "91df0313c34c32f0cbddac6f3f076a096448151fca4289018242334608ccc188",
+    "header": "118e7fa323daec2868af5508fea4e0ce78281c649da03ed136dfdd6fc54757d7"
+  },
+  "scope": "FirstnativecombinedMesh/Boxcore alloriginalanchorchecks;ordinary/nativecombinedseparateReflection→SingleBoxactual20Humanentry/exit+projectedpicking. Source-defined512jointobservercapacity requiresReflectionJOINT_TRACEoff,notenginechange. CPU/2standalone fullqualifiedroutes reused;ordinarycombinedalreadyqualifiedMesh/Boxsubset reused.",
+  "outputs": [
+    {
+      "path": "raw/ui21-build",
+      "consumer": "CurrentHumanhelper/readonlyDestroyHumanobserver/fiveviewers nextPR10relink",
+      "delete": "Archiveextractions/logs/unneededgroups consumed;replaceoldviewerperqualifiedroute;sharedarchives unchanged"
+    },
+    {
+      "path": "raw/ui21-runs",
+      "consumer": "Minimal actualnativeHumanentry/exitIDs/jointlifecycle/worldcounters/defaults/geometry/picking and7screens/app",
+      "delete": "Consume fullstreams onterminalsuccess/failure;retainreceipts/media<=64MiB"
+    },
+    {
+      "path": "raw/body-properties-controls-runs/ragdoll-mesh",
+      "consumer": "Original29→43→57leak/CPUfirstbeforeimages reused",
+      "delete": "Preserve existingreceipts/media,nonewunchangedbeforerun"
+    }
+  ],
+  "remaining_completion": {
+    "status": "FROZEN",
+    "links": 2,
+    "extra_interrupted_link": 1,
+    "viewers": 2,
+    "seconds_per_app": 90,
+    "outer_seconds": 240,
+    "builds": 0,
+    "qualified_route_repeats": 0,
+    "new_build_bytes": 201326592,
+    "whole_raw_bytes": 1073741824,
+    "measured_required_viewer_bytes": 166990336,
+    "raw_after_partial_consumption": 957956268
+  },
+  "core_app_seconds": 45,
+  "reflection_app_seconds": 25,
+  "cleanup": "Consume streams perterminalapp/old2viewersonce qualified;keepcurrent5viewer pool andminimalqualifiedcomposite provenance"
+}

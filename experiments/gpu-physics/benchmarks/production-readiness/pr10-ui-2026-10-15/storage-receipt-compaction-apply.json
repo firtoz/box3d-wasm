@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "budget": "storage-receipt-compaction-apply-budget.json",
+  "plan": "storage-receipt-compaction-plan.json",
+  "seconds": 4.5410571090000005,
+  "files": 308,
+  "saved_bytes": 166655909,
+  "raw_bytes_after": 839597391,
+  "free_bytes": 1707619876864,
+  "current_pool_verified": "ui23-build.json",
+  "restoration": "Foranyplannedfile:JSON.stringify(JSON.parse(readFileSync(path,\"utf8\")),null,2)+\"\\n\" reconstructsoriginalbytesandoriginalSHA256 exactly;fieldvalues/order/numericcontent unchanged.",
+  "original_hashes_and_sizes": "storage-receipt-compaction-plan.json/files",
+  "original_receipts_reconstructable_byte_exact": true,
+  "mutated_images_sources_inputs_shared_caches": false
+}

@@ -1,0 +1,31 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "scope": "BodyType4samplewidgets actualpublic/mappedCPUsetter+gettereffects,2kinematicsteps; shareddynamic/kinematictransparency,menuFrameCamera vsF,Joint/Force scaleinputrouting,DrawDistance compoundHulls culling+restore. ActualCPUfirstall5routes. Recordproductfindingswithoutrepair.",
+  "builds": 0,
+  "apps": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "first_positive_step_seconds": 25,
+  "screens_each": 8,
+  "actions_each": 100,
+  "api_trace_cap": 16777216,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_allowance": 134217728,
+  "free_bytes": 1709312696320,
+  "retries": 0,
+  "cache_copies": 0,
+  "outputs": {
+    "bodycallwindows": "Onlycontrolled5typeIDs/3enableIDs andCPUcounterparts,poses/masses/flags +UIrequestmetadata, nofullworlddump",
+    "screens": "BodyTypedynamic/transparency/static/kinematic/disabled andCompoundcull/restored selected8perroute",
+    "streams": "Extractselectedbody/call/renderwindows then deleteconsumedfullstreams",
+    "currentpools": "Newbody-metadata5viewers awaitactualqualification; deletepreviousrender-popup poolafterpass. KeepcurrentobjectsremainingPR10picking."
+  },
+  "limits": "GPUdebugscaleoutputsremainUI03; thisdoesnotrepairsolver/queries orqualifyexacttrajectories. Menuframe vsF comparedsameworld/noselection, useactualresults."
+}

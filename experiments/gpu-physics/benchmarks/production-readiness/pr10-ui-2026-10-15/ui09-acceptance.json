@@ -1,0 +1,1729 @@
+{
+  "status": "FIXED_VERIFIED_LOCAL",
+  "issue": "UI09",
+  "routes_CPU_first": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "affected_scenes": [
+    "ReplayViewer initial popup, status, restart and exit on all4GPUroutes",
+    "CPUReplayvalid/missingfile compatibility"
+  ],
+  "cause": "FirstfailingoperationisGPUb3LoadRecordingFromFile unsupportedstub returningNULL; CreatePlayer mapsNULLtofailed-to-open-file evenforverifiedCPUrecording. NativeplayerAPIisexcludedfromrelease;notabadfile.",
+  "repair": "GeneratedGPU/combinedReplaypopup explainsunavailability/Close/hidesineffectivepolicyLoad; constructor/restartstatusagrees; guardpreventsunsupportedload/playercalls. CPUconditionalcodeunchangedexceptblanklines; actualvalid+missingpathschecked.",
+  "rows": [
+    {
+      "fixture": "CPUvalid",
+      "route": "cpu",
+      "receipt": "raw/ui09-runs/valid/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 4,
+      "findings": [],
+      "screenshots": {
+        "popup": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/valid/cpu/popup.png",
+          "sha256": "3fddaa92bbaa260df0e1cbd4bb6099eee7da778c5d11a3fedad23a5f866f0368",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 29,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "loaded": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/valid/cpu/loaded.png",
+          "sha256": "26ff84067d577aee8d136215769154e551a3dfba6e34290d4eedda4a317e06a8",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 61,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "CPUmissing",
+      "route": "cpu",
+      "receipt": "raw/ui09-runs/missing/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 5,
+      "findings": [],
+      "screenshots": {
+        "popup": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/missing/cpu/popup.png",
+          "sha256": "13ede2a822b4d8c690b69f8376c8db7af410b693a1889624e442224cefc5e805",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 30,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "missing": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/missing/cpu/missing.png",
+          "sha256": "decc81dc0dfc13cbdcfcc5c78f304d150464997c5096350b8cbedf2125c044a5",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 63,
+            "world": [
+              1,
+              0
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "GPUunsupported",
+      "route": "ordinary-gpu",
+      "receipt": "raw/ui09-runs/unsupported/ordinary-gpu/receipt.json",
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 9,
+      "findings": [
+        "GPU modal explicitly explains unsupported Replay",
+        "Close keeps honest status without file error",
+        "Restart retains honest exclusion and zero player calls"
+      ],
+      "screenshots": {
+        "popup": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/unsupported/ordinary-gpu/popup.png",
+          "sha256": "526d14ac40dc73d9879a8d925bee8d716ddbb6c44dfc489ff03c6aa85e6bc257",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 30,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "closed": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/unsupported/ordinary-gpu/closed.png",
+          "sha256": "8daa161d617a4691d9d10d196ccf89b289986f98c80e339880a3dac10188965c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 62,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "restarted": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/unsupported/ordinary-gpu/restarted.png",
+          "sha256": "8daa161d617a4691d9d10d196ccf89b289986f98c80e339880a3dac10188965c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 86,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "GPUunsupported",
+      "route": "native-gpu",
+      "receipt": "raw/ui09-runs/unsupported/native-gpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 8,
+      "findings": [],
+      "screenshots": {
+        "popup": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/unsupported/native-gpu/popup.png",
+          "sha256": "526d14ac40dc73d9879a8d925bee8d716ddbb6c44dfc489ff03c6aa85e6bc257",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 31,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "closed": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/unsupported/native-gpu/closed.png",
+          "sha256": "8daa161d617a4691d9d10d196ccf89b289986f98c80e339880a3dac10188965c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 63,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        },
+        "restarted": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/unsupported/native-gpu/restarted.png",
+          "sha256": "8daa161d617a4691d9d10d196ccf89b289986f98c80e339880a3dac10188965c",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 88,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0
+          }
+        }
+      }
+    },
+    {
+      "fixture": "GPUunsupported",
+      "route": "ordinary-both",
+      "receipt": "raw/ui09-runs/unsupported/ordinary-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 8,
+      "findings": [],
+      "screenshots": {
+        "popup": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/unsupported/ordinary-both/popup.png",
+          "sha256": "b389d932422506a6e649fb085c144bf1dbe51613d359e0dac608416295cd9528",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 31,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "closed": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/unsupported/ordinary-both/closed.png",
+          "sha256": "0e796a739efd4eb02a47b3538296f3091cd11c767c3b390cf16de46d22b3b883",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 65,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "restarted": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/unsupported/ordinary-both/restarted.png",
+          "sha256": "0e796a739efd4eb02a47b3538296f3091cd11c767c3b390cf16de46d22b3b883",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 89,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    },
+    {
+      "fixture": "GPUunsupported",
+      "route": "native-both",
+      "receipt": "raw/ui09-runs/unsupported/native-both/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 8,
+      "findings": [],
+      "screenshots": {
+        "popup": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/unsupported/native-both/popup.png",
+          "sha256": "5c704d6232d5586d0a2dc9f651ceab0e58bef139d3904831fa8b15d276189eb9",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 29,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "closed": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/unsupported/native-both/closed.png",
+          "sha256": "0e796a739efd4eb02a47b3538296f3091cd11c767c3b390cf16de46d22b3b883",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 62,
+            "world": [
+              1,
+              1
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              0
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        },
+        "restarted": {
+          "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-runs/unsupported/native-both/restarted.png",
+          "sha256": "0e796a739efd4eb02a47b3538296f3091cd11c767c3b390cf16de46d22b3b883",
+          "dimensions": [
+            1600,
+            900
+          ],
+          "state": {
+            "frame": 86,
+            "world": [
+              1,
+              2
+            ],
+            "sample_step": 0,
+            "submitted": 0,
+            "completed": 0,
+            "completed_known": 1,
+            "pause": 1,
+            "single_remaining": 0,
+            "context_flags": [
+              1,
+              1,
+              1
+            ],
+            "world_flags": [
+              1,
+              1,
+              1
+            ],
+            "hertz": 60,
+            "substeps": 4,
+            "show_metrics": 1,
+            "body_count": 0,
+            "shape_count": 0,
+            "move_count": 0,
+            "cpu_world": [
+              1,
+              1
+            ],
+            "cpu_flags": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "new_images": [
+    {
+      "route": "cpu",
+      "fixture": "CPUvalid",
+      "state": "popup",
+      "path": "raw/ui09-runs/valid/cpu/popup.png",
+      "sha256": "3fddaa92bbaa260df0e1cbd4bb6099eee7da778c5d11a3fedad23a5f866f0368"
+    },
+    {
+      "route": "cpu",
+      "fixture": "CPUvalid",
+      "state": "loaded",
+      "path": "raw/ui09-runs/valid/cpu/loaded.png",
+      "sha256": "26ff84067d577aee8d136215769154e551a3dfba6e34290d4eedda4a317e06a8"
+    },
+    {
+      "route": "cpu",
+      "fixture": "CPUmissing",
+      "state": "popup",
+      "path": "raw/ui09-runs/missing/cpu/popup.png",
+      "sha256": "13ede2a822b4d8c690b69f8376c8db7af410b693a1889624e442224cefc5e805"
+    },
+    {
+      "route": "cpu",
+      "fixture": "CPUmissing",
+      "state": "missing",
+      "path": "raw/ui09-runs/missing/cpu/missing.png",
+      "sha256": "decc81dc0dfc13cbdcfcc5c78f304d150464997c5096350b8cbedf2125c044a5"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "GPUunsupported",
+      "state": "popup",
+      "path": "raw/ui09-runs/unsupported/ordinary-gpu/popup.png",
+      "sha256": "526d14ac40dc73d9879a8d925bee8d716ddbb6c44dfc489ff03c6aa85e6bc257"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "GPUunsupported",
+      "state": "closed",
+      "path": "raw/ui09-runs/unsupported/ordinary-gpu/closed.png",
+      "sha256": "8daa161d617a4691d9d10d196ccf89b289986f98c80e339880a3dac10188965c"
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "GPUunsupported",
+      "state": "restarted",
+      "path": "raw/ui09-runs/unsupported/ordinary-gpu/restarted.png",
+      "sha256": "8daa161d617a4691d9d10d196ccf89b289986f98c80e339880a3dac10188965c"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "GPUunsupported",
+      "state": "popup",
+      "path": "raw/ui09-runs/unsupported/native-gpu/popup.png",
+      "sha256": "526d14ac40dc73d9879a8d925bee8d716ddbb6c44dfc489ff03c6aa85e6bc257"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "GPUunsupported",
+      "state": "closed",
+      "path": "raw/ui09-runs/unsupported/native-gpu/closed.png",
+      "sha256": "8daa161d617a4691d9d10d196ccf89b289986f98c80e339880a3dac10188965c"
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "GPUunsupported",
+      "state": "restarted",
+      "path": "raw/ui09-runs/unsupported/native-gpu/restarted.png",
+      "sha256": "8daa161d617a4691d9d10d196ccf89b289986f98c80e339880a3dac10188965c"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "GPUunsupported",
+      "state": "popup",
+      "path": "raw/ui09-runs/unsupported/ordinary-both/popup.png",
+      "sha256": "b389d932422506a6e649fb085c144bf1dbe51613d359e0dac608416295cd9528"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "GPUunsupported",
+      "state": "closed",
+      "path": "raw/ui09-runs/unsupported/ordinary-both/closed.png",
+      "sha256": "0e796a739efd4eb02a47b3538296f3091cd11c767c3b390cf16de46d22b3b883"
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "GPUunsupported",
+      "state": "restarted",
+      "path": "raw/ui09-runs/unsupported/ordinary-both/restarted.png",
+      "sha256": "0e796a739efd4eb02a47b3538296f3091cd11c767c3b390cf16de46d22b3b883"
+    },
+    {
+      "route": "native-both",
+      "fixture": "GPUunsupported",
+      "state": "popup",
+      "path": "raw/ui09-runs/unsupported/native-both/popup.png",
+      "sha256": "5c704d6232d5586d0a2dc9f651ceab0e58bef139d3904831fa8b15d276189eb9"
+    },
+    {
+      "route": "native-both",
+      "fixture": "GPUunsupported",
+      "state": "closed",
+      "path": "raw/ui09-runs/unsupported/native-both/closed.png",
+      "sha256": "0e796a739efd4eb02a47b3538296f3091cd11c767c3b390cf16de46d22b3b883"
+    },
+    {
+      "route": "native-both",
+      "fixture": "GPUunsupported",
+      "state": "restarted",
+      "path": "raw/ui09-runs/unsupported/native-both/restarted.png",
+      "sha256": "0e796a739efd4eb02a47b3538296f3091cd11c767c3b390cf16de46d22b3b883"
+    }
+  ],
+  "before_images": [
+    {
+      "route": "cpu",
+      "image": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui08-runs/cpu/loaded.png",
+        "sha256": "076dd24f8f496721208e385fb0f122be10d9a31ece3f42752b507770a268bfc8",
+        "dimensions": [
+          1600,
+          900
+        ],
+        "state": {
+          "frame": 172,
+          "world": [
+            1,
+            0
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 1,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      }
+    },
+    {
+      "route": "ordinary-gpu",
+      "image": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui08-runs/ordinary-gpu/unsupported.png",
+        "sha256": "ebcec6ccf10cff6ba4599c8d11e45dec4289df9f46a77675eaf16563afe66058",
+        "dimensions": [
+          1600,
+          900
+        ],
+        "state": {
+          "frame": 164,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 1,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      }
+    },
+    {
+      "route": "native-gpu",
+      "image": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui08-runs/native-gpu/unsupported.png",
+        "sha256": "ebcec6ccf10cff6ba4599c8d11e45dec4289df9f46a77675eaf16563afe66058",
+        "dimensions": [
+          1600,
+          900
+        ],
+        "state": {
+          "frame": 164,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 1,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        }
+      }
+    },
+    {
+      "route": "ordinary-both",
+      "image": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui08-runs/ordinary-both/unsupported.png",
+        "sha256": "148988d970f359c98b7a78d522de7ed046e807e0d3fc0ce4988174eeb9b7a66e",
+        "dimensions": [
+          1600,
+          900
+        ],
+        "state": {
+          "frame": 164,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 1,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0,
+          "cpu_world": [
+            1,
+            0
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    },
+    {
+      "route": "native-both",
+      "image": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui08-runs/native-both/unsupported.png",
+        "sha256": "148988d970f359c98b7a78d522de7ed046e807e0d3fc0ce4988174eeb9b7a66e",
+        "dimensions": [
+          1600,
+          900
+        ],
+        "state": {
+          "frame": 164,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 1,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0,
+          "cpu_world": [
+            1,
+            0
+          ],
+          "cpu_flags": [
+            1,
+            1,
+            1
+          ]
+        }
+      }
+    }
+  ],
+  "checks": 42,
+  "visual_review": {
+    "status": "ALL28_NEW_AND5_PRIOR_IMAGES_INSPECTED_CPU_FIRST",
+    "observations": "Original16captures and final12short-statuscaptures inspected. Allfourfinalmodalsshowfull46charGPUexplanation/Close/noineffectiveloadcontrols. Closed/restartedHUDkeepsfulltextwithout64bytetruncation; ordinaryInfoexplanationfull, combinedInfoisbelowcurrentvisiblepanelclipbutmodalandHUDareexplicit. CPUvalid5bodies6shapes1joint/IDsposespreserved; CPUmissingfileactualerror/Load/Cancelpreserved. AllCPU-firstgridsinspected. Original3ordinarytextpredicatessearcheduninstrumentedTextWrapped; imageproofplusactualcalls/lifecycleadjudicatesthemwithoutapprepeat."
+  },
+  "original_assertions": [
+    {
+      "receipt": "ui09-original-source-assertion.json",
+      "resolution": "FourGPU-onlyguardsremovedleaveonlytwoextrablanklines;everyremainingCPUcodelineexact. No generationrepeated; onlyunlaunchedbuildoperationscontinued."
+    },
+    {
+      "receipt": "raw/ui09-runs/unsupported/ordinary-gpu/receipt.json",
+      "resolution": "ThreeoriginaltextpredicatessearcheduninstrumentedTextWrappedrecords. Actualall3PNGsmustprovefullexplanationatmodal/closed/restart. Calls/Close/newbaseworldgeneration/exitpassed. Originalpredicatesretained; noapprepeat."
+    }
+  ],
+  "build": "ui09-build.json",
+  "cleanup": "ui09-check-cleanup.json",
+  "limits": [
+    "ActualCPUloadsoriginal64framerecordingwith5bodies6shapes1joint/exactIDsposes; missingfilekeepsgenuineerror/retry/Cancel.",
+    "GPUplaybackremainsexplicitlyunsupported; thisishonestUI/gating, notnativeplayerimplementation.3compiledvariantsnmshowsCPULoadRecording/CreatePlayerreferencespresent/GPUbothabsent.",
+    "NoBox3D/WASM/Rust/WGSL/sharedarchivechanges. Noenginebuild/solver/query/coldcampaign. Sixapps exactly; CPU2+ordinary1passesreused,3remainingroutesfirstattempt.",
+    "NoCMakefullreconfigure/precommitaffectedsceneclips/finalPR10audit yet. UI08filenamepathrepair remainsverified. TextWrappeddisplayrequiresactualimageinspection, notunavailableobserverrecordassertions."
+  ],
+  "short_status": {
+    "message": "GPU replay is unavailable. Use the CPU viewer.",
+    "characters": 46,
+    "actual_native_TEXT_BUFFER_SIZE": 64,
+    "source": "box3d/samples/gfx/text.c",
+    "previous_message_characters": 66,
+    "previous_after_grid": "ui09-after-grid.png",
+    "final_after_grid": "ui09-short-after-grid.png",
+    "routes": [
+      {
+        "fixture": "GPUshortstatus",
+        "route": "ordinary-gpu",
+        "receipt": "raw/ui09-short-runs/unsupported/ordinary-gpu/receipt.json",
+        "status": "PASS_CONTROLS",
+        "checks": 8,
+        "findings": [],
+        "screenshots": {
+          "popup": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-runs/unsupported/ordinary-gpu/popup.png",
+            "sha256": "ef2684656bc380ad7263c6d2708dc8c1b9ceb0aed3336e87f7b5c1c2faf1f829",
+            "dimensions": [
+              1600,
+              900
+            ],
+            "state": {
+              "frame": 29,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 1,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "closed": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-runs/unsupported/ordinary-gpu/closed.png",
+            "sha256": "44bac8cb672b7536bdfbec36f21bc8bdf8199572be162c8213ea629c9676525b",
+            "dimensions": [
+              1600,
+              900
+            ],
+            "state": {
+              "frame": 62,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 1,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "restarted": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-runs/unsupported/ordinary-gpu/restarted.png",
+            "sha256": "44bac8cb672b7536bdfbec36f21bc8bdf8199572be162c8213ea629c9676525b",
+            "dimensions": [
+              1600,
+              900
+            ],
+            "state": {
+              "frame": 85,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 1,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          }
+        }
+      },
+      {
+        "fixture": "GPUshortstatus",
+        "route": "native-gpu",
+        "receipt": "raw/ui09-short-runs/unsupported/native-gpu/receipt.json",
+        "status": "PASS_CONTROLS",
+        "checks": 8,
+        "findings": [],
+        "screenshots": {
+          "popup": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-runs/unsupported/native-gpu/popup.png",
+            "sha256": "ef2684656bc380ad7263c6d2708dc8c1b9ceb0aed3336e87f7b5c1c2faf1f829",
+            "dimensions": [
+              1600,
+              900
+            ],
+            "state": {
+              "frame": 30,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 1,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "closed": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-runs/unsupported/native-gpu/closed.png",
+            "sha256": "44bac8cb672b7536bdfbec36f21bc8bdf8199572be162c8213ea629c9676525b",
+            "dimensions": [
+              1600,
+              900
+            ],
+            "state": {
+              "frame": 64,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 1,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          },
+          "restarted": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-runs/unsupported/native-gpu/restarted.png",
+            "sha256": "44bac8cb672b7536bdfbec36f21bc8bdf8199572be162c8213ea629c9676525b",
+            "dimensions": [
+              1600,
+              900
+            ],
+            "state": {
+              "frame": 88,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 1,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0
+            }
+          }
+        }
+      },
+      {
+        "fixture": "GPUshortstatus",
+        "route": "ordinary-both",
+        "receipt": "raw/ui09-short-runs/unsupported/ordinary-both/receipt.json",
+        "status": "PASS_CONTROLS",
+        "checks": 8,
+        "findings": [],
+        "screenshots": {
+          "popup": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-runs/unsupported/ordinary-both/popup.png",
+            "sha256": "3c1ad4346ce10c299cdb4c23b60b4a3367f9615e3bed25aec6578ef233d0fb34",
+            "dimensions": [
+              1600,
+              900
+            ],
+            "state": {
+              "frame": 32,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 1,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                0
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "closed": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-runs/unsupported/ordinary-both/closed.png",
+            "sha256": "3005e345413878a52415f8160a2ab10a36a211fedd41b88f6f77cbef05420bcb",
+            "dimensions": [
+              1600,
+              900
+            ],
+            "state": {
+              "frame": 65,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 1,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                0
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "restarted": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-runs/unsupported/ordinary-both/restarted.png",
+            "sha256": "3005e345413878a52415f8160a2ab10a36a211fedd41b88f6f77cbef05420bcb",
+            "dimensions": [
+              1600,
+              900
+            ],
+            "state": {
+              "frame": 89,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 1,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          }
+        }
+      },
+      {
+        "fixture": "GPUshortstatus",
+        "route": "native-both",
+        "receipt": "raw/ui09-short-runs/unsupported/native-both/receipt.json",
+        "status": "PASS_CONTROLS",
+        "checks": 8,
+        "findings": [],
+        "screenshots": {
+          "popup": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-runs/unsupported/native-both/popup.png",
+            "sha256": "3c1ad4346ce10c299cdb4c23b60b4a3367f9615e3bed25aec6578ef233d0fb34",
+            "dimensions": [
+              1600,
+              900
+            ],
+            "state": {
+              "frame": 32,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 1,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                0
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "closed": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-runs/unsupported/native-both/closed.png",
+            "sha256": "3005e345413878a52415f8160a2ab10a36a211fedd41b88f6f77cbef05420bcb",
+            "dimensions": [
+              1600,
+              900
+            ],
+            "state": {
+              "frame": 64,
+              "world": [
+                1,
+                1
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 1,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                0
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          },
+          "restarted": {
+            "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui09-short-runs/unsupported/native-both/restarted.png",
+            "sha256": "3005e345413878a52415f8160a2ab10a36a211fedd41b88f6f77cbef05420bcb",
+            "dimensions": [
+              1600,
+              900
+            ],
+            "state": {
+              "frame": 90,
+              "world": [
+                1,
+                2
+              ],
+              "sample_step": 0,
+              "submitted": 0,
+              "completed": 0,
+              "completed_known": 1,
+              "pause": 1,
+              "single_remaining": 0,
+              "context_flags": [
+                1,
+                1,
+                1
+              ],
+              "world_flags": [
+                1,
+                1,
+                1
+              ],
+              "hertz": 60,
+              "substeps": 4,
+              "show_metrics": 1,
+              "body_count": 0,
+              "shape_count": 0,
+              "move_count": 0,
+              "cpu_world": [
+                1,
+                1
+              ],
+              "cpu_flags": [
+                1,
+                1,
+                1
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "new_images": [
+      {
+        "route": "ordinary-gpu",
+        "fixture": "GPUshortstatus",
+        "state": "popup",
+        "path": "raw/ui09-short-runs/unsupported/ordinary-gpu/popup.png",
+        "sha256": "ef2684656bc380ad7263c6d2708dc8c1b9ceb0aed3336e87f7b5c1c2faf1f829"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "GPUshortstatus",
+        "state": "closed",
+        "path": "raw/ui09-short-runs/unsupported/ordinary-gpu/closed.png",
+        "sha256": "44bac8cb672b7536bdfbec36f21bc8bdf8199572be162c8213ea629c9676525b"
+      },
+      {
+        "route": "ordinary-gpu",
+        "fixture": "GPUshortstatus",
+        "state": "restarted",
+        "path": "raw/ui09-short-runs/unsupported/ordinary-gpu/restarted.png",
+        "sha256": "44bac8cb672b7536bdfbec36f21bc8bdf8199572be162c8213ea629c9676525b"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "GPUshortstatus",
+        "state": "popup",
+        "path": "raw/ui09-short-runs/unsupported/native-gpu/popup.png",
+        "sha256": "ef2684656bc380ad7263c6d2708dc8c1b9ceb0aed3336e87f7b5c1c2faf1f829"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "GPUshortstatus",
+        "state": "closed",
+        "path": "raw/ui09-short-runs/unsupported/native-gpu/closed.png",
+        "sha256": "44bac8cb672b7536bdfbec36f21bc8bdf8199572be162c8213ea629c9676525b"
+      },
+      {
+        "route": "native-gpu",
+        "fixture": "GPUshortstatus",
+        "state": "restarted",
+        "path": "raw/ui09-short-runs/unsupported/native-gpu/restarted.png",
+        "sha256": "44bac8cb672b7536bdfbec36f21bc8bdf8199572be162c8213ea629c9676525b"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "GPUshortstatus",
+        "state": "popup",
+        "path": "raw/ui09-short-runs/unsupported/ordinary-both/popup.png",
+        "sha256": "3c1ad4346ce10c299cdb4c23b60b4a3367f9615e3bed25aec6578ef233d0fb34"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "GPUshortstatus",
+        "state": "closed",
+        "path": "raw/ui09-short-runs/unsupported/ordinary-both/closed.png",
+        "sha256": "3005e345413878a52415f8160a2ab10a36a211fedd41b88f6f77cbef05420bcb"
+      },
+      {
+        "route": "ordinary-both",
+        "fixture": "GPUshortstatus",
+        "state": "restarted",
+        "path": "raw/ui09-short-runs/unsupported/ordinary-both/restarted.png",
+        "sha256": "3005e345413878a52415f8160a2ab10a36a211fedd41b88f6f77cbef05420bcb"
+      },
+      {
+        "route": "native-both",
+        "fixture": "GPUshortstatus",
+        "state": "popup",
+        "path": "raw/ui09-short-runs/unsupported/native-both/popup.png",
+        "sha256": "3c1ad4346ce10c299cdb4c23b60b4a3367f9615e3bed25aec6578ef233d0fb34"
+      },
+      {
+        "route": "native-both",
+        "fixture": "GPUshortstatus",
+        "state": "closed",
+        "path": "raw/ui09-short-runs/unsupported/native-both/closed.png",
+        "sha256": "3005e345413878a52415f8160a2ab10a36a211fedd41b88f6f77cbef05420bcb"
+      },
+      {
+        "route": "native-both",
+        "fixture": "GPUshortstatus",
+        "state": "restarted",
+        "path": "raw/ui09-short-runs/unsupported/native-both/restarted.png",
+        "sha256": "3005e345413878a52415f8160a2ab10a36a211fedd41b88f6f77cbef05420bcb"
+      }
+    ],
+    "checks": 32,
+    "CPU_actual_receipts_reused": [
+      "raw/ui09-runs/valid/cpu/receipt.json",
+      "raw/ui09-runs/missing/cpu/receipt.json"
+    ],
+    "cleanup": "ui09-short-check-cleanup.json",
+    "build": "ui09-short-build.json"
+  },
+  "current_checks": 41
+}

@@ -1,0 +1,154 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/ui03-runs/ordinary-gpu/receipt.json",
+      "control": "Mass",
+      "expected_primitives": 7,
+      "all_match_1e5": true
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/ui03-runs/ordinary-gpu/receipt.json",
+      "control": "Body Names",
+      "expected_primitives": 8,
+      "all_match_1e5": true
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/ui03-runs/ordinary-gpu/receipt.json",
+      "control": "Joint Extras",
+      "expected_primitives": 6,
+      "all_match_1e5": true
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/ui03-runs/native-gpu/receipt.json",
+      "control": "Mass",
+      "expected_primitives": 7,
+      "all_match_1e5": true
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/ui03-runs/native-gpu/receipt.json",
+      "control": "Mass",
+      "expected_primitives": 7,
+      "all_match_1e5": true
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/ui03-runs/native-gpu/receipt.json",
+      "control": "Body Names",
+      "expected_primitives": 8,
+      "all_match_1e5": true
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/ui03-runs/native-gpu/receipt.json",
+      "control": "Body Names",
+      "expected_primitives": 8,
+      "all_match_1e5": true
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/ui03-runs/native-gpu/receipt.json",
+      "control": "Joint Extras",
+      "expected_primitives": 6,
+      "all_match_1e5": true
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/ui03-runs/native-gpu/receipt.json",
+      "control": "Joint Extras",
+      "expected_primitives": 6,
+      "all_match_1e5": true
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui03-combined-corrected-runs/ordinary-both/receipt.json",
+      "control": "Mass",
+      "expected_primitives": 7,
+      "all_match_1e5": true
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui03-combined-corrected-runs/ordinary-both/receipt.json",
+      "control": "Mass",
+      "expected_primitives": 7,
+      "all_match_1e5": true
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui03-combined-corrected-runs/ordinary-both/receipt.json",
+      "control": "Body Names",
+      "expected_primitives": 8,
+      "all_match_1e5": true
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui03-combined-corrected-runs/ordinary-both/receipt.json",
+      "control": "Body Names",
+      "expected_primitives": 8,
+      "all_match_1e5": true
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui03-combined-corrected-runs/ordinary-both/receipt.json",
+      "control": "Joint Extras",
+      "expected_primitives": 6,
+      "all_match_1e5": true
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/ui03-combined-corrected-runs/ordinary-both/receipt.json",
+      "control": "Joint Extras",
+      "expected_primitives": 6,
+      "all_match_1e5": true
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/ui03-combined-corrected-runs/native-both/receipt.json",
+      "control": "Mass",
+      "expected_primitives": 7,
+      "all_match_1e5": true
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/ui03-combined-corrected-runs/native-both/receipt.json",
+      "control": "Mass",
+      "expected_primitives": 7,
+      "all_match_1e5": true
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/ui03-combined-corrected-runs/native-both/receipt.json",
+      "control": "Body Names",
+      "expected_primitives": 8,
+      "all_match_1e5": true
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/ui03-combined-corrected-runs/native-both/receipt.json",
+      "control": "Body Names",
+      "expected_primitives": 8,
+      "all_match_1e5": true
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/ui03-combined-corrected-runs/native-both/receipt.json",
+      "control": "Joint Extras",
+      "expected_primitives": 6,
+      "all_match_1e5": true
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/ui03-combined-corrected-runs/native-both/receipt.json",
+      "control": "Joint Extras",
+      "expected_primitives": 6,
+      "all_match_1e5": true
+    }
+  ],
+  "scalar_checks": 567,
+  "scope": "Actual GPU COM/quaternions/names/masses→text positions/values; joint actual reaction force/torque vectors→independent final renderer line endpoints. Existing actual app boundaries reused; no new app or source change."
+}

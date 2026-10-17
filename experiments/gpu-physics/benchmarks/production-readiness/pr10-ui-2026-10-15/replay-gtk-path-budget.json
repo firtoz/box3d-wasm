@@ -1,0 +1,23 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "builds": 0,
+  "apps_CPUfirst": [
+    "cpu-load-tail",
+    "fourGPUload-only-if-CPUproducer-and-load-verified"
+  ],
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "dialog_seconds": 8,
+  "native_dialog_enter_count_max": 2,
+  "native_dialog_screens_each": 2,
+  "app_screens_each": 6,
+  "actions_each": 160,
+  "api_each": 16777216,
+  "temporary_cap": 1073741824,
+  "retained_cap": 67108864,
+  "shared_cache_growth_cap": 134217728,
+  "retries": 0,
+  "reason": "ActualGTK before/after screenshots show mistyped /home/firtoz/firtoz/work vs intended /home/firtoz/work. No file-loading attempt reached the product. Correct GTK location selection CtrlA before type and1ms typing delay to avoid completion during long path. CPUload-only, reuse existingfile; GPU4load-only gated on CPU. No recording/headers/cancel repetition, no productfix.",
+  "outputs": "SelectedGTK/appscreens and receipt retained; existing2b3rec consumedbyCPUload+GPUexclusions then removed; fullstreams removed after extraction",
+  "driver_sha256": "ba6fc50bed091bf1ddeb514fc8b56c9e374c99e849c043a93ff6eb1a2ea980bd"
+}

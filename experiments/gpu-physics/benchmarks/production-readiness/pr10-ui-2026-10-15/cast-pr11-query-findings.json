@@ -1,0 +1,538 @@
+{
+  "status": "TWO_CONFIRMED_OUTCOME_GAPS_ROUTED_PR11_CAUSES_UNTRACED",
+  "gate": "PR11",
+  "findings": [
+    {
+      "id": "PR11_ZERO_TRANSLATION_INITIAL_OVERLAP",
+      "evidence": "cast-controls-acceptance.json",
+      "report": "initial-overlap-pr11-gap.md",
+      "input": [
+        {
+          "route": "cpu",
+          "receipt": "raw/cast-controls-runs/initial-overlap/cpu/receipt.json",
+          "input": {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "translation": [
+              0,
+              0,
+              0
+            ],
+            "count": 2,
+            "radius": 0.25,
+            "points": [
+              [
+                -2.0999999,
+                -0.800000012,
+                0.949999988
+              ],
+              [
+                -2.0999999,
+                0.199999988,
+                0.949999988
+              ]
+            ]
+          },
+          "callback_calls": 1,
+          "accepted": 1
+        },
+        {
+          "route": "ordinary-gpu",
+          "receipt": "raw/cast-controls-runs/initial-overlap/ordinary-gpu/receipt.json",
+          "input": {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "translation": [
+              0,
+              0,
+              0
+            ],
+            "count": 2,
+            "radius": 0.25,
+            "points": [
+              [
+                -2.0999999,
+                -0.800000012,
+                0.949999988
+              ],
+              [
+                -2.0999999,
+                0.199999988,
+                0.949999988
+              ]
+            ]
+          },
+          "callback_calls": 0,
+          "accepted": 0
+        },
+        {
+          "route": "native-gpu",
+          "receipt": "raw/cast-controls-runs/initial-overlap/native-gpu/receipt.json",
+          "input": {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "translation": [
+              0,
+              0,
+              0
+            ],
+            "count": 2,
+            "radius": 0.25,
+            "points": [
+              [
+                -2.0999999,
+                -0.800000012,
+                0.949999988
+              ],
+              [
+                -2.0999999,
+                0.199999988,
+                0.949999988
+              ]
+            ]
+          },
+          "callback_calls": 0,
+          "accepted": 0
+        },
+        {
+          "route": "ordinary-both",
+          "receipt": "raw/cast-controls-runs/initial-overlap/ordinary-both/receipt.json",
+          "input": {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "translation": [
+              0,
+              0,
+              0
+            ],
+            "count": 2,
+            "radius": 0.25,
+            "points": [
+              [
+                -2.0999999,
+                -0.800000012,
+                0.949999988
+              ],
+              [
+                -2.0999999,
+                0.199999988,
+                0.949999988
+              ]
+            ]
+          },
+          "callback_calls": 0,
+          "accepted": 0
+        },
+        {
+          "route": "native-both",
+          "receipt": "raw/cast-controls-runs/initial-overlap/native-both/receipt.json",
+          "input": {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "translation": [
+              0,
+              0,
+              0
+            ],
+            "count": 2,
+            "radius": 0.25,
+            "points": [
+              [
+                -2.0999999,
+                -0.800000012,
+                0.949999988
+              ],
+              [
+                -2.0999999,
+                0.199999988,
+                0.949999988
+              ]
+            ]
+          },
+          "callback_calls": 0,
+          "accepted": 0
+        }
+      ]
+    },
+    {
+      "id": "PR11_WORLD_OVERLAP_AFTER_SHIFT",
+      "evidence": "cast-controls-acceptance.json",
+      "report": "overlap-world-pr11-gap.md",
+      "input": [
+        {
+          "route": "cpu",
+          "receipt": "raw/cast-controls-runs/overlap-world/cpu/receipt.json",
+          "input": {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "translation": [
+              0,
+              0,
+              0
+            ],
+            "count": 8,
+            "radius": 0,
+            "points": [
+              [
+                6.30000019,
+                7.30000019,
+                0.300000012
+              ],
+              [
+                5.69999981,
+                7.30000019,
+                0.300000012
+              ],
+              [
+                5.69999981,
+                6.69999981,
+                0.300000012
+              ],
+              [
+                6.30000019,
+                6.69999981,
+                0.300000012
+              ],
+              [
+                6.30000019,
+                7.30000019,
+                -0.300000012
+              ],
+              [
+                5.69999981,
+                7.30000019,
+                -0.300000012
+              ],
+              [
+                5.69999981,
+                6.69999981,
+                -0.300000012
+              ],
+              [
+                6.30000019,
+                6.69999981,
+                -0.300000012
+              ]
+            ]
+          },
+          "callback_calls": 1,
+          "responses": [
+            false
+          ],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 15,
+              "id_digest": "61852a399bca858e"
+            }
+          ]
+        },
+        {
+          "route": "ordinary-gpu",
+          "receipt": "raw/cast-controls-runs/overlap-world/ordinary-gpu/receipt.json",
+          "input": {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "translation": [
+              0,
+              0,
+              0
+            ],
+            "count": 8,
+            "radius": 0,
+            "points": [
+              [
+                6.30000019,
+                7.30000019,
+                0.300000012
+              ],
+              [
+                5.69999981,
+                7.30000019,
+                0.300000012
+              ],
+              [
+                5.69999981,
+                6.69999981,
+                0.300000012
+              ],
+              [
+                6.30000019,
+                6.69999981,
+                0.300000012
+              ],
+              [
+                6.30000019,
+                7.30000019,
+                -0.300000012
+              ],
+              [
+                5.69999981,
+                7.30000019,
+                -0.300000012
+              ],
+              [
+                5.69999981,
+                6.69999981,
+                -0.300000012
+              ],
+              [
+                6.30000019,
+                6.69999981,
+                -0.300000012
+              ]
+            ]
+          },
+          "callback_calls": 0,
+          "responses": [],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 15,
+              "id_digest": "017f422587c49966"
+            }
+          ]
+        },
+        {
+          "route": "native-gpu",
+          "receipt": "raw/cast-controls-runs/overlap-world/native-gpu/receipt.json",
+          "input": {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "translation": [
+              0,
+              0,
+              0
+            ],
+            "count": 8,
+            "radius": 0,
+            "points": [
+              [
+                6.30000019,
+                7.30000019,
+                0.300000012
+              ],
+              [
+                5.69999981,
+                7.30000019,
+                0.300000012
+              ],
+              [
+                5.69999981,
+                6.69999981,
+                0.300000012
+              ],
+              [
+                6.30000019,
+                6.69999981,
+                0.300000012
+              ],
+              [
+                6.30000019,
+                7.30000019,
+                -0.300000012
+              ],
+              [
+                5.69999981,
+                7.30000019,
+                -0.300000012
+              ],
+              [
+                5.69999981,
+                6.69999981,
+                -0.300000012
+              ],
+              [
+                6.30000019,
+                6.69999981,
+                -0.300000012
+              ]
+            ]
+          },
+          "callback_calls": 0,
+          "responses": [],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 15,
+              "id_digest": "017f422587c49966"
+            }
+          ]
+        },
+        {
+          "route": "ordinary-both",
+          "receipt": "raw/cast-controls-runs/overlap-world/ordinary-both/receipt.json",
+          "input": {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "translation": [
+              0,
+              0,
+              0
+            ],
+            "count": 8,
+            "radius": 0,
+            "points": [
+              [
+                6.30000019,
+                7.30000019,
+                0.300000012
+              ],
+              [
+                5.69999981,
+                7.30000019,
+                0.300000012
+              ],
+              [
+                5.69999981,
+                6.69999981,
+                0.300000012
+              ],
+              [
+                6.30000019,
+                6.69999981,
+                0.300000012
+              ],
+              [
+                6.30000019,
+                7.30000019,
+                -0.300000012
+              ],
+              [
+                5.69999981,
+                7.30000019,
+                -0.300000012
+              ],
+              [
+                5.69999981,
+                6.69999981,
+                -0.300000012
+              ],
+              [
+                6.30000019,
+                6.69999981,
+                -0.300000012
+              ]
+            ]
+          },
+          "callback_calls": 0,
+          "responses": [],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 15,
+              "id_digest": "017f422587c49966"
+            },
+            {
+              "owner": "mapped_cpu",
+              "bodies": 15,
+              "id_digest": "61852a399bca858e"
+            }
+          ]
+        },
+        {
+          "route": "native-both",
+          "receipt": "raw/cast-controls-runs/overlap-world/native-both/receipt.json",
+          "input": {
+            "origin": [
+              0,
+              0,
+              0
+            ],
+            "translation": [
+              0,
+              0,
+              0
+            ],
+            "count": 8,
+            "radius": 0,
+            "points": [
+              [
+                6.30000019,
+                7.30000019,
+                0.300000012
+              ],
+              [
+                5.69999981,
+                7.30000019,
+                0.300000012
+              ],
+              [
+                5.69999981,
+                6.69999981,
+                0.300000012
+              ],
+              [
+                6.30000019,
+                6.69999981,
+                0.300000012
+              ],
+              [
+                6.30000019,
+                7.30000019,
+                -0.300000012
+              ],
+              [
+                5.69999981,
+                7.30000019,
+                -0.300000012
+              ],
+              [
+                5.69999981,
+                6.69999981,
+                -0.300000012
+              ],
+              [
+                6.30000019,
+                6.69999981,
+                -0.300000012
+              ]
+            ]
+          },
+          "callback_calls": 0,
+          "responses": [],
+          "worlds": [
+            {
+              "owner": "public",
+              "bodies": 15,
+              "id_digest": "017f422587c49966"
+            },
+            {
+              "owner": "mapped_cpu",
+              "bodies": 15,
+              "id_digest": "61852a399bca858e"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "scope": "ActualUI/controlreview exposedthesequeryresultgaps. No additionalquerynumericalexperiment orenginefix; fullPR11 qualification remainsopen. These are notsuccessfulGPUfeaturepasses."
+}

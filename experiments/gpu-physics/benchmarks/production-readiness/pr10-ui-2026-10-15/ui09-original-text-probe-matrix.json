@@ -1,0 +1,30 @@
+{
+  "status": "FAILURE_RETAINED",
+  "runs": [
+    {
+      "route": "cpu",
+      "mode": "valid",
+      "exit": 0,
+      "complete": true,
+      "findings": []
+    },
+    {
+      "route": "cpu",
+      "mode": "missing",
+      "exit": 0,
+      "complete": true,
+      "findings": []
+    },
+    {
+      "route": "ordinary-gpu",
+      "mode": "unsupported",
+      "exit": 0,
+      "complete": true,
+      "findings": [
+        "GPU modal explicitly explains unsupported Replay",
+        "Close keeps honest status without file error",
+        "Restart retains honest exclusion and zero player calls"
+      ]
+    }
+  ]
+}

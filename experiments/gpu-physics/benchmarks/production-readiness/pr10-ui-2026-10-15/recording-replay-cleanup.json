@@ -1,0 +1,181 @@
+{
+  "removed": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/cpu/api.jsonl",
+      "bytes": 57008
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/cpu/observer.jsonl",
+      "bytes": 20886
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/cpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/ordinary-gpu/api.jsonl",
+      "bytes": 44146
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/ordinary-gpu/observer.jsonl",
+      "bytes": 20164
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/ordinary-gpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/native-gpu/api.jsonl",
+      "bytes": 51725
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/native-gpu/observer.jsonl",
+      "bytes": 24057
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/native-gpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/ordinary-both/api.jsonl",
+      "bytes": 85922
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/ordinary-both/observer.jsonl",
+      "bytes": 28994
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/ordinary-both/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/native-both/api.jsonl",
+      "bytes": 75009
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/native-both/observer.jsonl",
+      "bytes": 25074
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-runs/native-both/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-corrected-runs/cpu/api.jsonl",
+      "bytes": 322437
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-corrected-runs/cpu/observer.jsonl",
+      "bytes": 124011
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-corrected-runs/cpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-load-tail-runs/cpu/api.jsonl",
+      "bytes": 31478
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-load-tail-runs/cpu/observer.jsonl",
+      "bytes": 12568
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-load-tail-runs/cpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-gtk-path-runs/cpu/api.jsonl",
+      "bytes": 229975
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-gtk-path-runs/cpu/observer.jsonl",
+      "bytes": 92657
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-gtk-path-runs/cpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-transport-tail-runs/cpu/api.jsonl",
+      "bytes": 30229
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-transport-tail-runs/cpu/observer.jsonl",
+      "bytes": 11850
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-transport-tail-runs/cpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/cpu/api.jsonl",
+      "bytes": 119529
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/cpu/observer.jsonl",
+      "bytes": 47996
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/cpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/ordinary-gpu/api.jsonl",
+      "bytes": 61418
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/ordinary-gpu/observer.jsonl",
+      "bytes": 36123
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/ordinary-gpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/native-gpu/api.jsonl",
+      "bytes": 60123
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/native-gpu/observer.jsonl",
+      "bytes": 34427
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/native-gpu/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/ordinary-both/api.jsonl",
+      "bytes": 99918
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/ordinary-both/observer.jsonl",
+      "bytes": 40512
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/ordinary-both/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/native-both/api.jsonl",
+      "bytes": 98630
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/native-both/observer.jsonl",
+      "bytes": 39779
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-short-path-runs/native-both/stdout.txt",
+      "bytes": 0
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/recording-replay-corrected-runs/cpu/pr10-now.b3rec",
+      "bytes": 29906
+    }
+  ],
+  "deleted_bytes": 1956551,
+  "raw_remaining_bytes": 296581920,
+  "free_bytes": 1709259894784,
+  "retained_fixture": "raw/recording-replay-corrected-runs/cpu/pr10-restart.b3rec (28432 bytes): remaining CPU Replay widgets; delete after fullReplayreview",
+  "temporary_short_path_copies": "allfivefinallyremoved"
+}

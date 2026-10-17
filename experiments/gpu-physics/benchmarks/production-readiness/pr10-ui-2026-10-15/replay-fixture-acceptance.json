@@ -1,0 +1,118 @@
+{
+  "status": "REAL_CPU_RECORDING_READY_FOR_REPLAY_UI_REVIEW",
+  "recording": {
+    "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-rich-corrected/fixture.b3rec",
+    "bytes": 76546,
+    "sha256": "1955ae5cfd0238b67d071276c698b87ac79e3c78d964f2f212aff9d6c9cbe9e5",
+    "consumer": "RemainingReplayconditionalUI andrepairregression"
+  },
+  "result": {
+    "status": "EXISTING_REAL_BOX3D_RECORDING_COVERAGE_EXTRACTED",
+    "frames": 64,
+    "bytes": 76546,
+    "min_bodies": 5,
+    "max_bodies": 6,
+    "spawn_visible_frames": 8,
+    "removed_ordinal_frames": 48,
+    "same_key_instance_frames": 64,
+    "untagged_queries": 64,
+    "contact_capacity_sum": 64,
+    "query_kinds": [
+      {
+        "kind": 0,
+        "queries": 64,
+        "positive": 32,
+        "miss": 32
+      },
+      {
+        "kind": 1,
+        "queries": 64,
+        "positive": 32,
+        "miss": 32
+      },
+      {
+        "kind": 2,
+        "queries": 64,
+        "positive": 32,
+        "miss": 32
+      },
+      {
+        "kind": 3,
+        "queries": 64,
+        "positive": 32,
+        "miss": 32
+      },
+      {
+        "kind": 4,
+        "queries": 192,
+        "positive": 96,
+        "miss": 96
+      },
+      {
+        "kind": 5,
+        "queries": 64,
+        "positive": 0,
+        "miss": 64
+      },
+      {
+        "kind": 6,
+        "queries": 64,
+        "positive": 0,
+        "miss": 64
+      }
+    ]
+  },
+  "validated_native_replay": {
+    "receipt": "replay-rich-corrected.json",
+    "source": "replay-rich-corrected.cpp",
+    "basis": "Nativeb3ValidateReplayassertpassed beforeoriginalfinalpositive-per-kindcoverageassertfailed. Exactcompiledsource/binaryhash andnon-NDEBUGcommand retained. Samefilehashread-onlyscannedafterward; no recording regeneration."
+  },
+  "prior_failures": [
+    {
+      "receipt": "replay-rich-fixture.json",
+      "reason": "Diagnosticb3ShapeProxy.points arrayassumption; compilefailure/runtimeunlaunched."
+    },
+    {
+      "receipt": "replay-rich-corrected.json",
+      "reason": "Nativevalidation/bodylifecycle/keys/contactchecks passed; unnecessarypositive-per-kindprobeassertfailed."
+    },
+    {
+      "receipt": "replay-rich-extract.json",
+      "reason": "Read-onlyscanconfirmedstate/lifecycle/keys butsamepositive-per-kindassumption remainedtoo strong; counts output incorrectlyafterassert."
+    }
+  ],
+  "query_limits": [
+    "All7nativequerytypespresent64frames. First5typesactualpositive/miss, two movertypesemptyhitlistsinthisfixture.",
+    "CastMoverGetFrameQueryhitCount always0 bynativeb3RecDispatch_QueryCastMoverStashQueryBegin(NULL,0); this doesnotmean itscastfractionis1/nocollision.",
+    "CollideMoveractualrecordedhitlist0 forfixtureinput; no claimthatallnative/GPUcollidemoverqueriesmiss. No queryqualification/repair inPR10.",
+    "KindfilterandMinhitscanlegitimatelyreturnemptyresultsets. Preserveactualrecording; no positivehitsinvented toobtainfeaturepass."
+  ],
+  "cleanup": {
+    "status": "CLOSED",
+    "owned_pids_absent": [
+      3058587,
+      3059676,
+      3059692,
+      3062432,
+      3062481,
+      3065562,
+      3065569
+    ],
+    "owned_core_files": [],
+    "deleted_bytes": 3451352,
+    "retained_bytes": 79773,
+    "raw_bytes": 864636534,
+    "free_bytes": 1708287430656,
+    "consumer": "Validated76KBrecording forremainingReplay29conditionalwidget/custominputreview; earlier28KBfixture retainedforUI08/basicReplayregression. No liveproducer."
+  },
+  "counts_unchanged": {
+    "widgets_reviewed": 313,
+    "widgets_left": 29,
+    "samples_reviewed": 164,
+    "samples_left": 1,
+    "custom_reviewed": 22,
+    "custom_left": 1,
+    "open_issues": 27,
+    "verified_fixes": 2
+  }
+}

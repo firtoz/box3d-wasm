@@ -1,0 +1,75 @@
+{
+  "status": "FROZEN",
+  "cc_compiles": 1,
+  "cpp_compiles": 1,
+  "compile_seconds": 30,
+  "links": 1,
+  "link_seconds": 25,
+  "viewers": 1,
+  "seconds_per_app": 45,
+  "screenshots_per_app": 0,
+  "actions_per_app": 40,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 12582912,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 25165824,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 160,
+  "source_case": {
+    "route": "cpu",
+    "receipt": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/receipt.json",
+    "unit": {
+      "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/gfx/debug_adapter.c",
+      "source_sha256": "3a3e277b5fb42b5e12da63e9f3db21efabaedfcb6c16333429d469acfdd5cecb",
+      "object": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/debug_adapter.c.o",
+      "object_sha256": "51de6b774fe2f455c98f37bb1007b3298c5666587f73d2f31a2d49955621b85c",
+      "command": [
+        "/usr/bin/cc",
+        "-DSOKOL_GLCORE",
+        "-I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx/..",
+        "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+        "-I/home/firtoz/work/2026/box3d-wasm/box3d/src/../include",
+        "-I/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_src",
+        "-isystem",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/extern/sokol",
+        "-isystem",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/samples/shaders/generated",
+        "-O3",
+        "-DNDEBUG",
+        "-std=gnu17",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/debug_adapter.c.o",
+        "-c",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr09-floor/build/cpu/gfx/debug_adapter.c",
+        "-I/home/firtoz/work/2026/box3d-wasm/box3d/samples/gfx"
+      ],
+      "directory": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/production-readiness/pr02-controls-current-builds/cpu/cmake/box3d_gfx"
+    }
+  },
+  "raw_before_bytes": 904920845,
+  "pins_before": {
+    "observer": "34e095cd78b7873d005ca3fd100d939681aa62d1747faddaa1c2f20ac5f3acdc",
+    "diagnostic": "6d85954816e18f90595671107dd58099ee168b8e016a7f5468f011525561982a",
+    "native_adapter": "87389d84c35dc854ed163ac38e38fd007d57249a1d83775e97e795e9911258c7",
+    "both": "809f8a54fb18ff79bb8a31d8cb03d54eb6a02dabd1c32265210a2de619502524",
+    "capacity_generator": "546d9d919dcd9cd874197be677c9bf12906216af8e0510b5d17394560a0dcdaf"
+  },
+  "scope": "Distinct nativeC default-material calculation input not covered by existing state-preset fixture. Actual originalDrawShape called on stack copy ofsameDebugShape/transform, low24bitcolor retained/presetbyte0, returns beforeappend/geometrymutation. OneCPU BodyTypeKinematic UI mutation thenrestore, fiveactualgetters1/cache2/defaultroughness.40 instead oftype1.55. Ordinaryrenderstill8instances/no transparency/default/statepreset unchanged. No productionedit/Rust/GPUapp/advancingphysics/repeatedqualifiedcheckboxcases.",
+  "outputs": [
+    {
+      "path": "raw/ui06-material-build",
+      "consumer": "Enhanced read-only materialobserver.o/source for future5route repair relinks; baselineCPUadapter/binary consumed aftersmallestcalculationproof",
+      "delete": "Delete baselinebinary+adapterobject+logs afterextraction;retainmaterialobserver.o withnamednextrepairconsumer"
+    },
+    {
+      "path": "raw/ui06-material-runs",
+      "consumer": "Actualnativefrozen-color input/roughness outputs andunchangednormaldraw counts/IDs",
+      "delete": "ConsumeAPI/observer/stderr afterterminalapp;retaincompact selectedrows/receipt,0images"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "query-input-controls-budget.json",
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "mesh-scale",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 1
+    },
+    {
+      "route": "cpu",
+      "fixture": "contact-torque",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "mesh-scale",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 4
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "contact-torque",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "mesh-scale",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 4
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "contact-torque",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "mesh-scale",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 4
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "contact-torque",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "mesh-scale",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 4
+    },
+    {
+      "route": "native-both",
+      "fixture": "contact-torque",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "findings": 0
+    }
+  ]
+}

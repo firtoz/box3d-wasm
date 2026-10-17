@@ -1,0 +1,30 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "builds": 0,
+  "CPU_first_apps": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 120,
+  "ready_seconds": 25,
+  "dialog_seconds": 8,
+  "screens_each": 8,
+  "actions_each": 160,
+  "api_each_bytes": 16777216,
+  "recording_each_bytes": 16777216,
+  "temporary_cap_bytes": 1073741824,
+  "retained_cap_bytes": 67108864,
+  "shared_cache_growth_cap_bytes": 134217728,
+  "retries": 0,
+  "outputs": {
+    "two CPU b3rec files": "10step/2body actualrecording files consumed byCPUload and4GPUexclusion tests; remove after",
+    "API/state streams": "extract actual receipt then delete",
+    "screens/UI JSON": "retained controls evidence",
+    "binary": "reuse current metadata pool,0newlinks"
+  },
+  "scope": "Seven remaining shared recording/replay calls; CPU basic replay transport subset. Record new findings but do not fix. Native GTK dialog owned by appPID; cancel and valid generated file inputs only. Private appcwd and data assets symlink read-only. No engine/WASM changes or native recording implementation.",
+  "driver_sha256": "078975cb6b9dcc66ea760118ce37702e7d64f6ce239dfea7165803cceedc4c08"
+}

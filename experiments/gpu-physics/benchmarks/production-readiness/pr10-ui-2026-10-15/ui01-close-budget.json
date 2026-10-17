@@ -1,0 +1,9 @@
+{
+  "status": "FROZEN_BEFORE_OFFLINE_CLOSURE",
+  "audit_seconds": 30,
+  "new_builds_GPU_scenes_captures": 0,
+  "retain_bytes": 131072,
+  "consumer": "UI01verification/report/recovery; source/media identity+eventwindows+bytecleanup",
+  "cleanup": "Extractrequiredscalar/event/lifetime summaries thenremoveconsumedJSONLstreams, before5temporaryexecutables (afterviewersneededremainingPR10). No sharedcache/currentenginebuild/userdata removal.",
+  "implicit_retries": 0
+}

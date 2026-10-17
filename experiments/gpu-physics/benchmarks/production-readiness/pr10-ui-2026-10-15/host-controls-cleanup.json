@@ -1,0 +1,150 @@
+{
+  "status": "CLOSED",
+  "deleted_bytes": 527428016,
+  "prior_rejected_build_deleted_bytes": 333358144,
+  "removed": [
+    {
+      "path": "raw/geometry-controls-build/cpu",
+      "bytes": 7650400,
+      "sha256": "f8dd5ac157db61b02c0a7a0f39d4f1161cb25d722934c265110a278d4aeb2005",
+      "reason": "Superseded after current host observer qualifies all5routes, oldobject has no207pin/nextconsumer"
+    },
+    {
+      "path": "raw/geometry-controls-build/ordinary-gpu",
+      "bytes": 37749192,
+      "sha256": "038fcd6b060b62aa5123d5b55577316a384065379207f85320b6d49eca8b66d8",
+      "reason": "Superseded after current host observer qualifies all5routes, oldobject has no207pin/nextconsumer"
+    },
+    {
+      "path": "raw/geometry-controls-build/native-gpu",
+      "bytes": 40628312,
+      "sha256": "fa73f2f45e0c764bcccafb3749b2f972233b8f456bb1869fa146d31d3244aeb2",
+      "reason": "Superseded after current host observer qualifies all5routes, oldobject has no207pin/nextconsumer"
+    },
+    {
+      "path": "raw/geometry-controls-build/ordinary-both",
+      "bytes": 38523048,
+      "sha256": "dbcee5a2756b7cba7c35a1babf6d824585bb4fb42305a0c7c9130a7514096a16",
+      "reason": "Superseded after current host observer qualifies all5routes, oldobject has no207pin/nextconsumer"
+    },
+    {
+      "path": "raw/geometry-controls-build/native-both",
+      "bytes": 41402184,
+      "sha256": "2ed603acafaa4ed91d382040a0a6530f4a8e8491c6819a426509d2f22aff29ed",
+      "reason": "Superseded after current host observer qualifies all5routes, oldobject has no207pin/nextconsumer"
+    },
+    {
+      "path": "raw/geometry-controls-build/observer.o",
+      "bytes": 645104,
+      "sha256": "bdbc88e7d791a44be3569fd85dfc6f7a3eea56c4108305ec14c3a04b4581a2b0",
+      "reason": "Superseded after current host observer qualifies all5routes, oldobject has no207pin/nextconsumer"
+    }
+  ],
+  "tree_files": [
+    {
+      "route": "cpu",
+      "receipt": "raw/host-controls-qualified-runs/tree/cpu/tree-file-cleanup.json",
+      "status": "CLOSED",
+      "bytes": 49184,
+      "sha256": "06f668a95ff723b76e3dd7cdabd64b5365e85ae42925ff89dfbf69c7a3021664",
+      "reason": "ActualSave/Loadcompleted, hash/states extracted; privatefileconsumed"
+    },
+    {
+      "route": "ordinary-gpu",
+      "receipt": "raw/host-controls-qualified-runs/tree/ordinary-gpu/tree-file-cleanup.json",
+      "status": "CLOSED",
+      "bytes": 49184,
+      "sha256": "06f668a95ff723b76e3dd7cdabd64b5365e85ae42925ff89dfbf69c7a3021664",
+      "reason": "ActualSave/Loadcompleted, hash/states extracted; privatefileconsumed"
+    },
+    {
+      "route": "native-gpu",
+      "receipt": "raw/host-controls-qualified-runs/tree/native-gpu/tree-file-cleanup.json",
+      "status": "CLOSED",
+      "bytes": 49184,
+      "sha256": "06f668a95ff723b76e3dd7cdabd64b5365e85ae42925ff89dfbf69c7a3021664",
+      "reason": "ActualSave/Loadcompleted, hash/states extracted; privatefileconsumed"
+    },
+    {
+      "route": "ordinary-both",
+      "receipt": "raw/host-controls-qualified-runs/tree/ordinary-both/tree-file-cleanup.json",
+      "status": "CLOSED",
+      "bytes": 49184,
+      "sha256": "06f668a95ff723b76e3dd7cdabd64b5365e85ae42925ff89dfbf69c7a3021664",
+      "reason": "ActualSave/Loadcompleted, hash/states extracted; privatefileconsumed"
+    },
+    {
+      "route": "native-both",
+      "receipt": "raw/host-controls-qualified-runs/tree/native-both/tree-file-cleanup.json",
+      "status": "CLOSED",
+      "bytes": 49184,
+      "sha256": "06f668a95ff723b76e3dd7cdabd64b5365e85ae42925ff89dfbf69c7a3021664",
+      "reason": "ActualSave/Loadcompleted, hash/states extracted; privatefileconsumed"
+    }
+  ],
+  "retained_runs": {
+    "joint-camera-controls-runs": 10175643,
+    "host-controls-runs": 1557095,
+    "host-controls-qualified-runs": 14758740,
+    "tree-culling-runs": 1715338
+  },
+  "raw_retained_bytes": 667951274,
+  "owned_pids_absent": [
+    2771838,
+    2771823,
+    2772064,
+    2772048,
+    2772332,
+    2772312,
+    2772617,
+    2772579,
+    2772882,
+    2772867,
+    2773158,
+    2773141,
+    2773476,
+    2773425,
+    2773760,
+    2773741,
+    2774075,
+    2774060,
+    2774390,
+    2774372,
+    2793749,
+    2793734,
+    2793947,
+    2793932,
+    2803055,
+    2803039,
+    2803937,
+    2803920,
+    2804226,
+    2804211,
+    2805210,
+    2805191,
+    2805532,
+    2805517,
+    2806449,
+    2806433,
+    2806795,
+    2806780,
+    2807924,
+    2807885,
+    2808358,
+    2808341,
+    2810676,
+    2810661,
+    2810942,
+    2810922,
+    2811329,
+    2811310,
+    2811685,
+    2811668,
+    2812122,
+    2812103
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708522594304,
+  "retained_consumer": "Current host-controls-build.json fiveviewers raw/host-controls-scoped-build forremaininghost/inputcontrols. Selectedactualstates/media/originalfailures forPR10. Existing207link/preflightpins andCPUReplayfixture retained. Sharedcaches preserved."
+}

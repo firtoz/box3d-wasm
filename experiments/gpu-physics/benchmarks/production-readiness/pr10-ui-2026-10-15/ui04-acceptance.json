@@ -1,0 +1,1616 @@
+{
+  "status": "FIXED_VERIFIED_LOCAL",
+  "issue": "UI04",
+  "scope": "Shared actual Box3D CPU Profile labels; four GPU/combined routes source-unaffected, no new GPU runtime passes",
+  "cause": {
+    "font_size": 16,
+    "original_requested_width": 128,
+    "indent": 16,
+    "arrow_spacing": 36,
+    "label": "constraints",
+    "actual_text_width": 99,
+    "text_left": 72,
+    "text_right": 171,
+    "original_clip_right": 155,
+    "cut_pixels": 16,
+    "repaired_column_requested_width": 185,
+    "repaired_clip_right": 212,
+    "formula": "max(CalcTextSize(section), row.indent*fontSize+GetTreeNodeToLabelSpacing()+CalcTextSize(row.name)) across all22 row definitions"
+  },
+  "production_source": "experiments/gpu-physics/scripts/inject-sokol-bench.py",
+  "generator_sha256": "c0fee43c2a69f3f51df0ad9395b1553bbe740ccbb89ad476846a16932abc8d78",
+  "build": "ui04-leaf-build.json",
+  "compiled_inputs": {
+    "native_source_unchanged": true,
+    "only_generated_delta": "CPU Profile section width measurement; no physics/default/identity/picking code changes",
+    "generated_source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/sample_bench.cpp",
+    "generated_sha256": "d95bf41cc454d0319a93683ba69e65976c2c529fa8968dbafd87420c48a59287",
+    "row_definitions": 22
+  },
+  "preexisting_generation_delta": {
+    "scope": "BOTH-only existing split_step header/draw begin/end hooks; CPU preprocessed translation unit exactly unchanged",
+    "sha256": "78188432658969ecb7f819d5c0307f1ce42960b8bd1187d81886af46e2e4bddb",
+    "bytes": 2528854
+  },
+  "unaffected_routes": [
+    {
+      "routes": [
+        "ordinary-gpu",
+        "native-gpu"
+      ],
+      "proof": "Preprocessed generated translation unit identical; CPU Profile branch excluded",
+      "sha256": "1c9981eddc838b6ddf7c381d66b01e4b0dcd39364aa36fe052c9350af6fb1f0e",
+      "bytes": 2523524
+    },
+    {
+      "routes": [
+        "ordinary-both",
+        "native-both"
+      ],
+      "proof": "Preprocessed generated translation unit identical; CPU Profile branch excluded",
+      "sha256": "2adfee7882266714fb429da509622e278695525882be98cbe351470b2750abf7",
+      "bytes": 2526864
+    }
+  ],
+  "actual_cpu_checks": [
+    {
+      "receipt": "raw/ui04-trace-runs/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 13,
+      "seconds": 5.045048241000001
+    },
+    {
+      "receipt": "raw/ui04-repair-runs/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 17,
+      "seconds": 5.1432405800000005
+    },
+    {
+      "receipt": "raw/ui04-leaf-runs/cpu/receipt.json",
+      "status": "PASS_CONTROLS",
+      "checks": 30,
+      "seconds": 6.6318968169999994
+    }
+  ],
+  "total_checks": 60,
+  "leaf_labels_observed": [
+    "step",
+    "pairs",
+    "collide",
+    "solve",
+    "setup",
+    "constraints",
+    "prepare",
+    "velocities",
+    "warm start",
+    "bias",
+    "positions",
+    "relax",
+    "restitution",
+    "store",
+    "transforms",
+    "joint events",
+    "hit events",
+    "refit BVH",
+    "sleep",
+    "sensors"
+  ],
+  "native_row_definitions": [
+    {
+      "label": "step",
+      "indent": 0
+    },
+    {
+      "label": "pairs",
+      "indent": 0
+    },
+    {
+      "label": "collide",
+      "indent": 0
+    },
+    {
+      "label": "solve",
+      "indent": 0
+    },
+    {
+      "label": "setup",
+      "indent": 1
+    },
+    {
+      "label": "constraints",
+      "indent": 1
+    },
+    {
+      "label": "prepare",
+      "indent": 2
+    },
+    {
+      "label": "velocities",
+      "indent": 2
+    },
+    {
+      "label": "warm start",
+      "indent": 2
+    },
+    {
+      "label": "bias",
+      "indent": 2
+    },
+    {
+      "label": "positions",
+      "indent": 2
+    },
+    {
+      "label": "relax",
+      "indent": 2
+    },
+    {
+      "label": "restitution",
+      "indent": 2
+    },
+    {
+      "label": "store",
+      "indent": 2
+    },
+    {
+      "label": "split islands",
+      "indent": 2
+    },
+    {
+      "label": "transforms",
+      "indent": 1
+    },
+    {
+      "label": "joint events",
+      "indent": 1
+    },
+    {
+      "label": "hit events",
+      "indent": 1
+    },
+    {
+      "label": "refit BVH",
+      "indent": 1
+    },
+    {
+      "label": "sleep",
+      "indent": 1
+    },
+    {
+      "label": "bullets",
+      "indent": 1
+    },
+    {
+      "label": "sensors",
+      "indent": 0
+    }
+  ],
+  "hidden_zero_rows": [
+    {
+      "label": "split islands",
+      "indent": 2
+    },
+    {
+      "label": "bullets",
+      "indent": 1
+    }
+  ],
+  "applicability": [
+    {
+      "id": 1,
+      "cpu_identity": "Benchmark/Candy Cups",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 2,
+      "cpu_identity": "Benchmark/Chains",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 3,
+      "cpu_identity": "Benchmark/Convex Pile",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 4,
+      "cpu_identity": "Benchmark/Destruction",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 5,
+      "cpu_identity": "Benchmark/Explosion",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 6,
+      "cpu_identity": "Benchmark/Falling Boxes",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 7,
+      "cpu_identity": "Benchmark/Falling Trees",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 8,
+      "cpu_identity": "Benchmark/Height Field",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 9,
+      "cpu_identity": "Benchmark/Hull",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 10,
+      "cpu_identity": "Benchmark/Joint Grid",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 11,
+      "cpu_identity": "Benchmark/Junkyard",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 12,
+      "cpu_identity": "Benchmark/Large Pyramid",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 13,
+      "cpu_identity": "Benchmark/Large World",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 14,
+      "cpu_identity": "Benchmark/Many Pyramids",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 15,
+      "cpu_identity": "Benchmark/Rain",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 16,
+      "cpu_identity": "Benchmark/Sensor",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 17,
+      "cpu_identity": "Benchmark/Washer",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 18,
+      "cpu_identity": "Benchmark/Wide Pyramid",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 19,
+      "cpu_identity": "Bodies/Body Type",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 20,
+      "cpu_identity": "Bodies/Cast",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 21,
+      "cpu_identity": "Bodies/Class Ring",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 22,
+      "cpu_identity": "Bodies/Disable",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 23,
+      "cpu_identity": "Bodies/Fixed Rotation",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 24,
+      "cpu_identity": "Bodies/Gyroscopic Precession",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 25,
+      "cpu_identity": "Bodies/Gyroscopic Torque",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 26,
+      "cpu_identity": "Bodies/Kinematic",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 27,
+      "cpu_identity": "Bodies/Lock Mixing",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 28,
+      "cpu_identity": "Bodies/Offset Kinematic",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 29,
+      "cpu_identity": "Bodies/Spinning Book",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 30,
+      "cpu_identity": "Bodies/Weeble",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 31,
+      "cpu_identity": "Character/CapsulePlane",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 32,
+      "cpu_identity": "Character/Mover",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 33,
+      "cpu_identity": "Character/MoverOverlap",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 34,
+      "cpu_identity": "Character/Rigid Body",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 35,
+      "cpu_identity": "Collision/Capsule Cast Ray",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 36,
+      "cpu_identity": "Collision/Cast World",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 37,
+      "cpu_identity": "Collision/Distance Debug",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 38,
+      "cpu_identity": "Collision/Initial Overlap",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 39,
+      "cpu_identity": "Collision/Long Ray Cast",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 40,
+      "cpu_identity": "Collision/Mesh Scale",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 41,
+      "cpu_identity": "Collision/Overlap World",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 42,
+      "cpu_identity": "Collision/Ray Curtain",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 43,
+      "cpu_identity": "Collision/Shape Cast",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 44,
+      "cpu_identity": "Collision/Shape Cast Debug",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 45,
+      "cpu_identity": "Collision/Shape Distance",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 46,
+      "cpu_identity": "Collision/Time of Impact",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 47,
+      "cpu_identity": "Compound/Hulls",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 48,
+      "cpu_identity": "Compound/Mesh Tile",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 49,
+      "cpu_identity": "Compound/Simple",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 50,
+      "cpu_identity": "Compound/Spheres",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 51,
+      "cpu_identity": "Compound/Tile Floor",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 52,
+      "cpu_identity": "Compound/Village",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 53,
+      "cpu_identity": "Continuous/Bounce House",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 54,
+      "cpu_identity": "Continuous/Bullet vs Stack",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 55,
+      "cpu_identity": "Continuous/Hump Mesh",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 56,
+      "cpu_identity": "Continuous/Is Fast",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 57,
+      "cpu_identity": "Continuous/Mesh Drop",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 58,
+      "cpu_identity": "Continuous/Needle Mesh",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 59,
+      "cpu_identity": "Continuous/Spinning Stick",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 60,
+      "cpu_identity": "Continuous/Stall",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 61,
+      "cpu_identity": "Continuous/Thin Wall",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 62,
+      "cpu_identity": "Determinism/Falling Ragdolls",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 63,
+      "cpu_identity": "Determinism/Mesh Drop",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 64,
+      "cpu_identity": "Determinism/Query Spawn",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 65,
+      "cpu_identity": "Determinism/Wave Pile",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 66,
+      "cpu_identity": "Events/Contact",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 67,
+      "cpu_identity": "Events/Hit",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 68,
+      "cpu_identity": "Events/Joint",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 69,
+      "cpu_identity": "Events/Move",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 70,
+      "cpu_identity": "Events/Persistent Contact",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 71,
+      "cpu_identity": "Events/Sensor Hits",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 72,
+      "cpu_identity": "Events/Sensor Visit",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 73,
+      "cpu_identity": "GPU API/Shape Replacement",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 74,
+      "cpu_identity": "GPU Bench/Falling Cubes",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 75,
+      "cpu_identity": "GPU Bench/Mixed Stacks 4096",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 76,
+      "cpu_identity": "GPU Bench/Mixed Stacks 600",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 77,
+      "cpu_identity": "Geometry/Box Hull",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 78,
+      "cpu_identity": "Geometry/Capsule Mass",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 79,
+      "cpu_identity": "Geometry/Hull",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 80,
+      "cpu_identity": "Geometry/Hull Reduction",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 81,
+      "cpu_identity": "Geometry/Hull Transform",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 82,
+      "cpu_identity": "Issues/Capsule Mesh",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 83,
+      "cpu_identity": "Issues/Convex Jitter",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 84,
+      "cpu_identity": "Issues/Crash",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 85,
+      "cpu_identity": "Issues/GMod Wheel Stack",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 86,
+      "cpu_identity": "Issues/Hull Crash",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 87,
+      "cpu_identity": "Issues/Multiple Prismatic",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 88,
+      "cpu_identity": "Issues/Restitution Overshoot",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 89,
+      "cpu_identity": "Issues/Slide Twist Off Center Shape",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 90,
+      "cpu_identity": "Issues/s&box Ghost Collisions",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 91,
+      "cpu_identity": "Issues/s&box mover",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 92,
+      "cpu_identity": "Joints/Ball and Chain",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 93,
+      "cpu_identity": "Joints/Bridge",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 94,
+      "cpu_identity": "Joints/Distance Joint",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 95,
+      "cpu_identity": "Joints/Door",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 96,
+      "cpu_identity": "Joints/Driving",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 97,
+      "cpu_identity": "Joints/Filter",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 98,
+      "cpu_identity": "Joints/Gear Lift",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 99,
+      "cpu_identity": "Joints/Motion Locks",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 100,
+      "cpu_identity": "Joints/Motor Joint",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 101,
+      "cpu_identity": "Joints/Parallel Spring",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 102,
+      "cpu_identity": "Joints/Prismatic",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 103,
+      "cpu_identity": "Joints/Revolute",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 104,
+      "cpu_identity": "Joints/Spherical",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 105,
+      "cpu_identity": "Joints/Top Down Friction",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 106,
+      "cpu_identity": "Joints/Weld",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 107,
+      "cpu_identity": "Joints/Wheel",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 108,
+      "cpu_identity": "Manifold/Capsule vs Capsule",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 109,
+      "cpu_identity": "Manifold/Capsule vs Hull",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 110,
+      "cpu_identity": "Manifold/Capsule vs Sphere",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 111,
+      "cpu_identity": "Manifold/Hull vs Hull",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 112,
+      "cpu_identity": "Manifold/Hull vs Sphere",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 113,
+      "cpu_identity": "Manifold/Sphere vs Sphere",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 114,
+      "cpu_identity": "Manifold/Triangle vs Capsule",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 115,
+      "cpu_identity": "Manifold/Triangle vs Hull",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 116,
+      "cpu_identity": "Manifold/Triangle vs Sphere",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 117,
+      "cpu_identity": "Mesh/Big Box",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 118,
+      "cpu_identity": "Mesh/Box",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 119,
+      "cpu_identity": "Mesh/Creation Benchmark",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 120,
+      "cpu_identity": "Mesh/Grid",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 121,
+      "cpu_identity": "Mesh/Height Field",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 122,
+      "cpu_identity": "Mesh/Hollow Box",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 123,
+      "cpu_identity": "Mesh/Reflection",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 124,
+      "cpu_identity": "Mesh/Viewer",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 125,
+      "cpu_identity": "Mesh/Voxel",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 126,
+      "cpu_identity": "Ragdoll/Box",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 127,
+      "cpu_identity": "Ragdoll/Incline",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 128,
+      "cpu_identity": "Ragdoll/Mesh",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 129,
+      "cpu_identity": "Ragdoll/Pile",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 130,
+      "cpu_identity": "Replay/Viewer",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 131,
+      "cpu_identity": "Robustness/HighMassRatio1",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 132,
+      "cpu_identity": "Robustness/Overflow Color Pile",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 133,
+      "cpu_identity": "Robustness/Overlap Recovery",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 134,
+      "cpu_identity": "Robustness/Tiny Pyramid",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 135,
+      "cpu_identity": "Shapes/Conveyor Belt",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 136,
+      "cpu_identity": "Shapes/Conveyor Mesh",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 137,
+      "cpu_identity": "Shapes/High Resistance",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 138,
+      "cpu_identity": "Shapes/Inclined Plane",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 139,
+      "cpu_identity": "Shapes/Isotropic Friction",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 140,
+      "cpu_identity": "Shapes/Restitution",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 141,
+      "cpu_identity": "Shapes/Rolling Resistance",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 142,
+      "cpu_identity": "Shapes/Slide Twist",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 143,
+      "cpu_identity": "Shapes/Static Invoke",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 144,
+      "cpu_identity": "Shapes/Wind",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 145,
+      "cpu_identity": "Shapes/Wind Drop",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 146,
+      "cpu_identity": "Shapes/Wind Flap",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 147,
+      "cpu_identity": "Stacking/Arch",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 148,
+      "cpu_identity": "Stacking/Box Stack",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 149,
+      "cpu_identity": "Stacking/Capsule Stack",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 150,
+      "cpu_identity": "Stacking/Card House",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 151,
+      "cpu_identity": "Stacking/Cylinder",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 152,
+      "cpu_identity": "Stacking/Cylinder Stack",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 153,
+      "cpu_identity": "Stacking/Dominoes",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 154,
+      "cpu_identity": "Stacking/Double Domino",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 155,
+      "cpu_identity": "Stacking/Edge Crossing",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 156,
+      "cpu_identity": "Stacking/Jenga Stack",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 157,
+      "cpu_identity": "Stacking/Pyramid2D",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 158,
+      "cpu_identity": "Stacking/Single Box",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 159,
+      "cpu_identity": "Stacking/Sphere Stack",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 160,
+      "cpu_identity": "Stacking/Wedge",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 161,
+      "cpu_identity": "Tree/Benchmark",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 162,
+      "cpu_identity": "World/Far Mesh Drop",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 163,
+      "cpu_identity": "World/Far Pyramid",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 164,
+      "cpu_identity": "World/Far Ragdolls",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    },
+    {
+      "id": 165,
+      "cpu_identity": "World/Far Stack",
+      "cpu": "Shared nonvirtual Sample::DrawMetrics; measured column width applies when Profile shown",
+      "gpu": "CPU Profile branch excluded; native timestamp UI unchanged",
+      "review_method": "Shared source applicability; actual Single Box runtime only"
+    }
+  ],
+  "screenshots": [
+    {
+      "route": "cpu",
+      "fixture": "before",
+      "state": "profile-collapsed",
+      "path": "raw/ui04-trace-runs/cpu/profile-collapsed.png",
+      "sha256": "1a834511c8be2b502e9eb58decf62cd7e95a2929990d4edb0c3f0225e3d63607"
+    },
+    {
+      "route": "cpu",
+      "fixture": "before",
+      "state": "expanded-plots",
+      "path": "raw/ui04-trace-runs/cpu/expanded-plots.png",
+      "sha256": "e6d943004aaa2fb319d8306c3ce865467c147cce5d75c710f3b2392f28e6d862"
+    },
+    {
+      "route": "cpu",
+      "fixture": "repair",
+      "state": "profile-collapsed",
+      "path": "raw/ui04-repair-runs/cpu/profile-collapsed.png",
+      "sha256": "712971531c391267c37cc8ac8a2071718ad7941c7683ce11937db03622e97a43"
+    },
+    {
+      "route": "cpu",
+      "fixture": "repair",
+      "state": "expanded-plots",
+      "path": "raw/ui04-repair-runs/cpu/expanded-plots.png",
+      "sha256": "babe156ff37ef058631064a0a42cc12fcd8db6c5b5460e958bb6156581ad4111"
+    },
+    {
+      "route": "cpu",
+      "fixture": "repair",
+      "state": "expanded-no-plots",
+      "path": "raw/ui04-repair-runs/cpu/expanded-no-plots.png",
+      "sha256": "3e987680b822c5a7f858ae375c7b25f4857a49265ec3a0a81b6123f19f7b718f"
+    },
+    {
+      "route": "cpu",
+      "fixture": "repair",
+      "state": "expanded-resized",
+      "path": "raw/ui04-repair-runs/cpu/expanded-resized.png",
+      "sha256": "943cfc42f920cb132990e5292e22023815378c7f5e8bc01468c8e05705201205"
+    },
+    {
+      "route": "cpu",
+      "fixture": "leaf",
+      "state": "widest-native-leaf",
+      "path": "raw/ui04-leaf-runs/cpu/widest-native-leaf.png",
+      "sha256": "f20e7883e450640df8da6967717f98f7da4756ab865bf0b957343f6196491c7c"
+    },
+    {
+      "route": "cpu",
+      "fixture": "leaf",
+      "state": "widest-native-leaf-no-plots",
+      "path": "raw/ui04-leaf-runs/cpu/widest-native-leaf-no-plots.png",
+      "sha256": "a3e191498cff82ee43e1418480f55e2faea5d9c5943a470149fe96992749617f"
+    }
+  ],
+  "grids": [
+    {
+      "path": "ui04-before-grid.png",
+      "sha256": "10e058cd24592a9703c7d6991aea508fb25cff745c70a91a746ad08e36460d2b"
+    },
+    {
+      "path": "ui04-after-grid.png",
+      "sha256": "587ab2e461ebb2ac763a095b3b0e63014e4769b57dde58570899965aa467c016"
+    }
+  ],
+  "media_inspection": "All8retainednative-sizeCPU screenshots and2CPU-firstgrids inspected;GPUcells explicitlysource-unaffected",
+  "preserved_failures": [
+    {
+      "file": "ui04-generation-preflight-failure.json",
+      "reason": "Existing BOTH-only split_step hooks absent in historical generated CPU source; exact expected delta and actual CPU preprocessing equality subsequently verified"
+    },
+    {
+      "file": "ui04-combined-header-preflight-failure.json",
+      "reason": "Sample-specific VIS07 diagnostic include path missing from Joint flags; retained earlier passes, supplied pinned existing header for two combined preprocessor checks"
+    },
+    {
+      "file": "raw/ui04-repair-runs/cpu/receipt.json",
+      "reason": "Earlier broad label check had2Tree observations only; enhanced native TextUnformatted wrapper subsequently qualified all20submitted labels"
+    }
+  ],
+  "limitations": [
+    "CPU runtime fixture SingleBox;165 applicability rows are source reuse, not165 new runs.",
+    "Actual20nonzero labels checked; split islands/bullets hidden by original zero-value policy, included in all22 production width calculations.",
+    "Window sizes1600x900 and1280x800; arbitrarily narrow layout not qualified.",
+    "No scripted advancing physics; native startup5–6steps before pause. No physics/trajectory/solver qualification.",
+    "Four GPU/combined preprocessed Profile branches unchanged; no new GPU app runs.",
+    "PR10 final audit/native+WASM compatibility/pre-commit affected-scene recordings remain open; no commit/push authorization.",
+    "Trace/leaf each exceeded frozen0shared-cachegrowth sub-budget by583017B; originalresourcefailures preserved; futureCPUOpenGLbudgets require16MiBcacheheadroom."
+  ],
+  "resources": {
+    "status": "CLOSED_WITH_ORIGINAL_CACHE_SUBBUDGET_BREACH_RECORDED",
+    "retained_bytes": 481631,
+    "raw_retained_bytes": 900635478,
+    "deleted_bytes": 2479672,
+    "owned_pids_absent": [
+      3380325,
+      3380311,
+      3391696,
+      3391682,
+      3397084,
+      3397070
+    ],
+    "owned_core_files": [],
+    "shared_cache_growth_bytes": 1166034,
+    "free_bytes": 1708173094912,
+    "consumer": "Selected8 screenshots/numeric receipts and UI04 CPU-first before/after grids; current5viewer pool named separately",
+    "retained_diagnostic_bytes": 2911151,
+    "deleted_build_bytes": 24310226,
+    "deleted_large_logs": [],
+    "deleted_bytes_total": 26792121,
+    "owned_build_and_app_pids_absent": [
+      3379984,
+      3380306,
+      3380311,
+      3385343,
+      3387739,
+      3387747,
+      3387751,
+      3387752,
+      3387760,
+      3387785,
+      3391517,
+      3391525,
+      3391534,
+      3391610,
+      3391682,
+      3396738,
+      3397015,
+      3397070,
+      3380325,
+      3391696,
+      3397084
+    ],
+    "current_pool": "ui04-leaf-build.json/link_plan: repairedCPU+fourunchangedUI20viewers;CPU Sample+leafobserver+6Joint/Replayobjects retain next-relink consumers",
+    "original_cache_budget_breaches": [
+      {
+        "phase": "trace",
+        "receipt": "raw/ui04-trace-runs/cpu/receipt.json",
+        "frozen_cache_growth_bytes": 0,
+        "measured_growth_bytes": 583017,
+        "original_within_budget_flag": false,
+        "disposition": "Originalresourcefailurepreserved;functionalinput/extentchecksvalid. Sharedcachepreserved;aggregateactualtemporary+cachebelow1GiB,notretroactivebudgetpass."
+      },
+      {
+        "phase": "leaf",
+        "receipt": "raw/ui04-leaf-runs/cpu/receipt.json",
+        "frozen_cache_growth_bytes": 0,
+        "measured_growth_bytes": 583017,
+        "original_within_budget_flag": false,
+        "disposition": "Originalresourcefailurepreserved;functionalinput/extentchecksvalid. Sharedcachepreserved;aggregateactualtemporary+cachebelow1GiB,notretroactivebudgetpass."
+      }
+    ],
+    "aggregate_raw_plus_measured_cache_bytes": 901801512,
+    "deleted_operation_logs": [
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/observer-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/trace-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/trace-check.log",
+        "bytes": 482,
+        "sha256": "cac3310194ce11d6cbdd744dfd19752f0b0776983234b1ee4aaaf470cbf611bb",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/baseline-generation.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/cpu-historical-preprocess.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/cpu-baseline-preprocess.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/repair-generation.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/gpu-before-preprocess.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/gpu-after-preprocess.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/both-before-preprocess.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/both-after-preprocess.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/cpu-sample-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/cpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/cpu-check.log",
+        "bytes": 622,
+        "sha256": "99dccce4e1442c96115d883d4fbcc448925a16bbdfcfbf694d7295dbabe31a0d",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/leaf-observer-compile.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/leaf-cpu-link.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      },
+      {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/leaf-cpu-check.log",
+        "bytes": 1119,
+        "sha256": "92e78c39977b2aa8893c38f567d8107f68971e5ae33427a062501bac491d508d",
+        "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+      }
+    ]
+  }
+}

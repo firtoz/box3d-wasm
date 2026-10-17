@@ -1,0 +1,32 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 4724951,
+  "raw_retained_bytes": 927090453,
+  "deleted_bytes": 12948018,
+  "owned_pids_absent": [
+    3634584,
+    3634543,
+    3634885,
+    3634871,
+    3635242,
+    3635226,
+    3635581,
+    3635567,
+    3635927,
+    3635913,
+    3645726,
+    3645712,
+    3646461,
+    3646447,
+    3647279,
+    3647258,
+    3648137,
+    3648123,
+    3648883,
+    3648849
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708023226368,
+  "consumer": "Current5UI10viewers/neededobjects/taskarchive fornextPR10relink; selected25images/receipts/2grids finalaudit"
+}

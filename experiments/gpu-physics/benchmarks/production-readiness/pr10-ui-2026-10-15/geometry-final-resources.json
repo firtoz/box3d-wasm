@@ -1,0 +1,48 @@
+{
+  "recorded": "2026-10-15T18:30:54.403Z",
+  "owned_processes": [
+    {
+      "route": "cpu",
+      "app_pid": 2215053,
+      "driver_pid": 2215041,
+      "app_present": false,
+      "driver_present": false,
+      "exit": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "app_pid": 2216647,
+      "driver_pid": 2216636,
+      "app_present": false,
+      "driver_present": false,
+      "exit": 0
+    },
+    {
+      "route": "native-gpu",
+      "app_pid": 2219576,
+      "driver_pid": 2219553,
+      "app_present": false,
+      "driver_present": false,
+      "exit": 0
+    },
+    {
+      "route": "ordinary-both",
+      "app_pid": 2222514,
+      "driver_pid": 2222498,
+      "app_present": false,
+      "driver_present": false,
+      "exit": 0
+    },
+    {
+      "route": "native-both",
+      "app_pid": 2225385,
+      "driver_pid": 2225367,
+      "app_present": false,
+      "driver_present": false,
+      "exit": 0
+    }
+  ],
+  "raw_bytes": 346815382,
+  "free_bytes": 1709239603200,
+  "shared_cache_growth_bytes": 0
+}

@@ -1,0 +1,21 @@
+{
+  "status": "CPU_PREREQUISITE_FAILED",
+  "budget": "geometry-controls-ts-budget.json",
+  "driver_sha256": "ca76e9f0b926e20fde36a6ee7c3b8a11afa06d524cc63e472440d66ea59929c6",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "runs": [
+    {
+      "label": "cpu",
+      "exit": 130,
+      "status": "CANCELLED",
+      "checks": 38,
+      "findings": 1
+    }
+  ]
+}

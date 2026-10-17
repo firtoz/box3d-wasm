@@ -1,0 +1,42 @@
+{
+  "status": "CPU_PREREQUISITE_FAILED",
+  "budget": "distance-controls-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "distance-debug",
+    "shape-distance",
+    "time-of-impact"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "distance-debug",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "checks": 1,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "shape-distance",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 50,
+      "findings": 3
+    },
+    {
+      "route": "cpu",
+      "fixture": "time-of-impact",
+      "exit": 0,
+      "status": "REVIEWED_WITH_CONFIRMED_NEGATIVE_CRASH",
+      "checks": 19,
+      "findings": 5
+    }
+  ]
+}

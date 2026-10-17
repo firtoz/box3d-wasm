@@ -1,0 +1,12 @@
+{
+  "status": "CPU_PREREQUISITE_FAILED",
+  "budget": "replay-popup-discovery-budget.json",
+  "runs": [
+    {
+      "route": "cpu",
+      "exit": 1,
+      "status": "FAILURE_RETAINED",
+      "complete": false
+    }
+  ]
+}

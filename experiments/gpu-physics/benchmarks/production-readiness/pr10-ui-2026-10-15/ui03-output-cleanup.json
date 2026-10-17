@@ -1,0 +1,67 @@
+{
+  "removed": [
+    {
+      "path": "raw/menu-controls-clip-build/cpu",
+      "bytes": 7325504
+    },
+    {
+      "path": "raw/menu-controls-clip-build/ordinary-gpu",
+      "bytes": 37424560
+    },
+    {
+      "path": "raw/menu-controls-clip-build/native-gpu",
+      "bytes": 40303680
+    },
+    {
+      "path": "raw/menu-controls-clip-build/ordinary-both",
+      "bytes": 38221096
+    },
+    {
+      "path": "raw/menu-controls-clip-build/native-both",
+      "bytes": 41100232
+    },
+    {
+      "path": "raw/ui03-before-runs/cpu/api.jsonl",
+      "bytes": 80521
+    },
+    {
+      "path": "raw/ui03-before-runs/cpu/observer.jsonl",
+      "bytes": 55882
+    },
+    {
+      "path": "raw/ui03-before-runs/ordinary-gpu/api.jsonl",
+      "bytes": 92990
+    },
+    {
+      "path": "raw/ui03-before-runs/ordinary-gpu/observer.jsonl",
+      "bytes": 75146
+    },
+    {
+      "path": "raw/ui03-before-runs/native-gpu/api.jsonl",
+      "bytes": 95634
+    },
+    {
+      "path": "raw/ui03-before-runs/native-gpu/observer.jsonl",
+      "bytes": 77065
+    },
+    {
+      "path": "raw/ui03-before-runs/ordinary-both/api.jsonl",
+      "bytes": 130044
+    },
+    {
+      "path": "raw/ui03-before-runs/ordinary-both/observer.jsonl",
+      "bytes": 85349
+    },
+    {
+      "path": "raw/ui03-before-runs/native-both/api.jsonl",
+      "bytes": 124665
+    },
+    {
+      "path": "raw/ui03-before-runs/native-both/observer.jsonl",
+      "bytes": 82023
+    }
+  ],
+  "deleted_bytes": 165274391,
+  "retained_consumer": "Fivecurrentui03-output-build viewers/observer andrequiredmain/Sample objects: remainingPR10widgets/outputconfirmation. Screens/compactcallbackinputs retained; sharedcaches preserved.",
+  "free_bytes": 1709397639168
+}

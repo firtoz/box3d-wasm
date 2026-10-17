@@ -1,0 +1,354 @@
+{
+  "receipt": {
+    "status": "FAILURE_RETAINED",
+    "label": "cpu",
+    "driver_pid": 371320,
+    "language": "TypeScript/Bun",
+    "budget": "ui18-completion-budget.json",
+    "binary_sha256": "1bcd4bb26d838f08ed821290e1059b075cf0311c50b3d8c28900b462b1faf8f9",
+    "core_limit_bytes": 0,
+    "actions": [
+      {
+        "kind": "key p",
+        "state_before": {
+          "frame": 5,
+          "world": [
+            1,
+            0
+          ],
+          "sample_step": 6,
+          "submitted": 6,
+          "completed": 6,
+          "completed_known": 1,
+          "pause": 0,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 1,
+          "first_body": [
+            2,
+            0,
+            1
+          ],
+          "first_position": [
+            -0.00000441173415,
+            0.499932975,
+            -0.00000229548255
+          ],
+          "fell_asleep": 0
+        },
+        "state_after": {
+          "frame": 12,
+          "world": [
+            1,
+            0
+          ],
+          "sample_step": 6,
+          "submitted": 6,
+          "completed": 6,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 0
+        },
+        "seconds": 0.12219906100000003
+      },
+      {
+        "kind": "key ctrl+o",
+        "state_before": {
+          "frame": 13,
+          "world": [
+            1,
+            0
+          ],
+          "sample_step": 6,
+          "submitted": 6,
+          "completed": 6,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 0
+        },
+        "state_after": {
+          "frame": 21,
+          "world": [
+            1,
+            0
+          ],
+          "sample_step": 6,
+          "submitted": 6,
+          "completed": 6,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 0
+        },
+        "seconds": 0.14765987499999994
+      },
+      {
+        "kind": "picker Collision  >  Time of Impact",
+        "state_before": {
+          "frame": 21,
+          "world": [
+            1,
+            0
+          ],
+          "sample_step": 6,
+          "submitted": 6,
+          "completed": 6,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 0
+        },
+        "state_after": {
+          "frame": 26,
+          "world": [
+            1,
+            0
+          ],
+          "sample_step": 6,
+          "submitted": 6,
+          "completed": 6,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 0
+        },
+        "seconds": 0.07733682099999999
+      },
+      {
+        "kind": "select Collision  >  Time of Impact",
+        "target": {
+          "kind": "Selectable",
+          "label": "Collision  >  Time of Impact",
+          "value": "true",
+          "window": "##Popup_99c77227/##results_DA4103B8",
+          "id": 1648263183,
+          "visible": true,
+          "disabled": false,
+          "changed": false,
+          "rect": [
+            563,
+            228,
+            1037,
+            252
+          ],
+          "clip": [
+            557,
+            221,
+            1043,
+            443
+          ]
+        },
+        "state_before": {
+          "frame": 51,
+          "world": [
+            1,
+            0
+          ],
+          "sample_step": 6,
+          "submitted": 6,
+          "completed": 6,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 2,
+          "shape_count": 2,
+          "move_count": 0
+        },
+        "state_after": {
+          "frame": 58,
+          "world": [
+            1,
+            1
+          ],
+          "sample_step": 0,
+          "submitted": 0,
+          "completed": 0,
+          "completed_known": 1,
+          "pause": 1,
+          "single_remaining": 0,
+          "context_flags": [
+            1,
+            1,
+            1
+          ],
+          "world_flags": [
+            1,
+            1,
+            1
+          ],
+          "hertz": 60,
+          "substeps": 4,
+          "show_metrics": 0,
+          "body_count": 0,
+          "shape_count": 0,
+          "move_count": 0
+        },
+        "seconds": 0.10874817400000006
+      }
+    ],
+    "screenshots": {},
+    "checks": {
+      "Time of Impact actual scene/no-body fixture": true
+    },
+    "findings": [],
+    "geometry_cases": [],
+    "scene_cases": [],
+    "shared_cache_before": {
+      "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+        "files": 3,
+        "logical_bytes": 268928900
+      },
+      "/home/firtoz/.cache/nvidia": {
+        "files": 364,
+        "logical_bytes": 1073677897
+      },
+      "/home/firtoz/.nv/ComputeCache": {
+        "files": 0,
+        "logical_bytes": 0
+      }
+    },
+    "preview_cases": [],
+    "frame_cases": [],
+    "limitations": [],
+    "app_pid": 371336,
+    "command": [
+      "prlimit",
+      "--core=0",
+      "--",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui18-build/cpu",
+      "--sample-name",
+      "Stacking/Single Box"
+    ],
+    "window_id": 117440558,
+    "physics_ready_seconds": 0.44923969399999997,
+    "error": "Error: Transition timed out 3s",
+    "app_terminal_exit": null,
+    "app_terminal_signal": "SIGTERM",
+    "elapsed_seconds": 4.520558500999999,
+    "shared_cache_after": {
+      "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+        "files": 3,
+        "logical_bytes": 268928900
+      },
+      "/home/firtoz/.cache/nvidia": {
+        "files": 364,
+        "logical_bytes": 1073677897
+      },
+      "/home/firtoz/.nv/ComputeCache": {
+        "files": 0,
+        "logical_bytes": 0
+      }
+    },
+    "shared_cache_growth_bytes": 0,
+    "cache_growth_within_budget": true,
+    "free_bytes_after": 1707772555264
+  },
+  "cause": "actual_geometry_frame has no request property; impossible request>=baseline predicate",
+  "source": "distance-control-observer.cpp:287",
+  "fix": "After two current frames, consume latest geometry record; keep actual request freshness for all request-tagged observers",
+  "no_product_failure": true
+}

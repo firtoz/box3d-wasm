@@ -1,0 +1,24 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 2406071,
+  "raw_retained_bytes": 1044037331,
+  "deleted_bytes": 1464132,
+  "owned_pids_absent": [
+    3216188,
+    3216171,
+    3216367,
+    3216350,
+    3216530,
+    3216513,
+    3220159,
+    3220142,
+    3220435,
+    3220416,
+    3220713,
+    3220694
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708166692864,
+  "consumer": "UI09CPUvalid/missing+GPUmodal/Close/R/exit; allstreamsconsumed, manualTextWrappedimageverificationstillpending"
+}

@@ -1,0 +1,98 @@
+{
+  "status": "CLOSED",
+  "retired": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/cpu-leaf",
+      "bytes": 7743720,
+      "sha256": "2103f29365e6132e7ccc280c97d486bceeaf8a409deeb8e9990c680290ae68d4",
+      "consumer": "Replacement route actual HUD/visibility/input/default/identity checks qualified; before screenshots retained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/cpu-trace-complete",
+      "bytes": 7748064,
+      "sha256": "185d48e329a28b8f99113375d27b1d7f21f889c1acf2275b1f0830d5136a52b9",
+      "consumer": "Actual trace input/capture consumed; repaired CPU qualified"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-build/ordinary-gpu",
+      "bytes": 37838336,
+      "sha256": "92dfc81ad2a787b15d7cab9a1bd749467a6dd8f9b301a468fd92ad743e8f18d6",
+      "consumer": "Replacement route actual HUD/visibility/input/default/identity checks qualified; before screenshots retained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-build/native-gpu",
+      "bytes": 40721552,
+      "sha256": "2dc18e3daab28ff90e5fd95b19579f19aa1e14ad98755fffaa0dc1663f7b5a67",
+      "consumer": "Replacement route actual HUD/visibility/input/default/identity checks qualified; before screenshots retained"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-build/ordinary-both",
+      "bytes": 38612072,
+      "sha256": "c410c4cf1b7c85fb61ce583626f343c677d73cebe173c4d97be556c0caa14c50",
+      "consumer": "Ordinary combined actual checks qualified;2incorrect single-pane probes adjudicated from original native2pane data"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui20-build/native-both",
+      "bytes": 41491208,
+      "sha256": "317528301e427d136001b82c1e5e4c7e04a406d773ec58519db52c723ef736eb",
+      "consumer": "Nativecombined firstactualchecksqualified"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/cpu-sample.o",
+      "bytes": 104016,
+      "sha256": "59d8b93bcdc5d0feed6bc7a756ca1e6ac6a847babb7da2183b193ae99e28db87",
+      "consumer": "All5 replacement routes qualified; superseded translation unit has no active link consumer"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui01-after/gpu/sample_bench.cpp.o",
+      "bytes": 86936,
+      "sha256": "07e9459dbfc712382d87e88300afaf8e7bef12aab243a2aa8dccbf5059e633de",
+      "consumer": "All5 replacement routes qualified; superseded translation unit has no active link consumer"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui01-after/both/sample_bench.cpp.o",
+      "bytes": 87856,
+      "sha256": "5527ebdc27ff288cc686b3caa6d07a50f3d04c2a269b063834f5d675da6de2b7",
+      "consumer": "All5 replacement routes qualified; superseded translation unit has no active link consumer"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui02-after/ordinary-both/main_bench.cpp.o",
+      "bytes": 57136,
+      "sha256": "25dbed7acf5b1e86163679771a02d5fbbbbcc07349bd86abbb2f537f2f84a4f9",
+      "consumer": "All5 replacement routes qualified; superseded translation unit has no active link consumer"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui02-after/native-both/main_bench.cpp.o",
+      "bytes": 57136,
+      "sha256": "25dbed7acf5b1e86163679771a02d5fbbbbcc07349bd86abbb2f537f2f84a4f9",
+      "consumer": "All5 replacement routes qualified; superseded translation unit has no active link consumer"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/leaf-observer.o",
+      "bytes": 807992,
+      "sha256": "b52564d7a91079ccc01ad3c63951325dd5cdf24f7a90c38cd85e31faec30d4d2",
+      "consumer": "All5 replacement routes qualified; superseded translation unit has no active link consumer"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/replay-observer-build/observer.o",
+      "bytes": 805168,
+      "sha256": "8db88eba139f036ed98793f6ebb7ffb8ea7442ed9bbd6f7442b1b5630aae31f6",
+      "consumer": "All5 replacement routes qualified; superseded translation unit has no active link consumer"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/canonical-sample.cpp",
+      "bytes": 69980,
+      "sha256": "80f37738dfc8a55558237fb4052a203a26d456cad01bfb5158fbde1160fb932a",
+      "consumer": "Canonical CPU generation equality consumed"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui05-build/canonical-main.cpp",
+      "bytes": 28130,
+      "sha256": "0b60ee7be51c9c0d46b07089025df1ba2e42610cf58dd4632f73c9a18a1c33f1",
+      "consumer": "Canonical guardchecked; qualifiedcombinedsource+exactguarddelta compiled"
+    }
+  ],
+  "deleted_bytes": 176259302,
+  "raw_bytes": 903062475,
+  "consumer": "Current5 UI05 viewers/link_plan;3Sample+1combinedMain+UI/HUDobserver+6Joint/Replay objects retain nextPR10repair relink consumers"
+}

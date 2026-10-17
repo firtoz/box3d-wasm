@@ -1,0 +1,13 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "reason": "CPU outputpath collidedwithdirectory; all3compiledobjects/sourcepreservationchecks passed. Fix only outputpath, no recompile/requalification repeats.",
+  "corrected_CPU_links": 1,
+  "unlaunched_other_links": 4,
+  "total_link_operations_including_failed": 6,
+  "seconds_each": 15,
+  "outer_seconds": 80,
+  "new_compiles": 0,
+  "new_engine_builds": 0,
+  "implicit_retries": 0,
+  "storage_caps_unchanged": true
+}

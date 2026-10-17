@@ -1,0 +1,49 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "geometry-controls-ts-tail-budget.json",
+  "driver_sha256": "b38bac2fa331674725ce6c1b0724d5c98dba6ed6135ad8b0cb8ae7afc3df516f",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "runs": [
+    {
+      "label": "cpu",
+      "exit": 0,
+      "status": "REVIEWED_GEOMETRY_WIDGETS_WITH_FINDINGS",
+      "checks": 45,
+      "findings": 3
+    },
+    {
+      "label": "ordinary-gpu",
+      "exit": 0,
+      "status": "REVIEWED_GEOMETRY_WIDGETS_WITH_FINDINGS",
+      "checks": 84,
+      "findings": 3
+    },
+    {
+      "label": "native-gpu",
+      "exit": 0,
+      "status": "REVIEWED_GEOMETRY_WIDGETS_WITH_FINDINGS",
+      "checks": 84,
+      "findings": 3
+    },
+    {
+      "label": "ordinary-both",
+      "exit": 0,
+      "status": "REVIEWED_GEOMETRY_WIDGETS_WITH_FINDINGS",
+      "checks": 84,
+      "findings": 3
+    },
+    {
+      "label": "native-both",
+      "exit": 0,
+      "status": "REVIEWED_GEOMETRY_WIDGETS_WITH_FINDINGS",
+      "checks": 84,
+      "findings": 3
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "status": "FROZEN_BEFORE_RUN",
+  "driver_sha256": "869a822a1de2f584be6ab3b087f115a23607cac723b96703ffb62830c9cdeafa",
+  "shared_helper_source_sha256": "d6551d192902a12959559a1ad60e11bfdd68db05bdcff916f0cc21dc5a10a7ac",
+  "stimulus": "One XTEST queuedmotion+wheel packet/enter andleave, no servergrab. ActualHandleEvent wrapper tracespoint/capture/frame; actualcamera labelprovidesoutput.",
+  "order": [
+    "cpu",
+    "ordinary-gpu"
+  ],
+  "max_apps": 2,
+  "seconds_each": 60,
+  "ready_seconds": 25,
+  "maxscreens_each": 3,
+  "maxinputs_each": 20,
+  "retries": 0
+}

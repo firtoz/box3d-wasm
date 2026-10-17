@@ -1,0 +1,26 @@
+{
+  "status": "FROZEN_BEFORE_EXECUTION",
+  "builds": 0,
+  "apps_CPUfirst": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_each": 240,
+  "ready_seconds": 25,
+  "first_drag_step_or_scene_transition_seconds": 90,
+  "screens_each": 8,
+  "actions_each": 160,
+  "api_cap_each": 33554432,
+  "temporary_cap": 1073741824,
+  "retained_cap": 67108864,
+  "shared_cache_growth_cap": 134217728,
+  "retries": 0,
+  "scope": "Actual SingleBox selection/staticground/empty/Escape/F, Ctrlmouse motor drag andownbodymovement/identity, world/panel/focus-loss release, bothpane capture acrossdivider, orbit/pan/dolly/flyWASDQE andkeyreleaseunderactualUItextcapture. Sourcegeometry/defaults preserved, no crossenginetrajectory/pixel gate orsolverrepair. Newissuesloggedonly.",
+  "outputs": "Current5overlaycallbackviewers reused. Selected metadata/setter/callback/state/capturewindows andscreens retained; fullstreamsextractedthendeleted. Allheldmousebuttons/keysreleased in finally onfailure; appprocessgroupterminated. One currentpoolonly.",
+  "driver_sha256": "7cdabd76f016a2e12a2c821898bcd28ded1d4ab269db96c63f7d5e221d5d1ef9",
+  "reason": "CPUtext-capture session41850 CLOSED1/1.466s: sidebar slider didnot activate while RMB worldgesture remainedheld, no keyrelease check reached. Use explicitCtrlO opens actual samplepicker keyboardfocus regardlessworldmouseownership; verifyInputTextWithHint andwant_text_inputtrue. No defaultsedited. CPUremainingkeycaseonly+4unlaunchedGPUfull, previousCPU27checksretained.",
+  "cpu_tail_sha256": "6f5048bae22ad0076ff77d528327999995af403d09f7ccdd791ff450989399b9"
+}

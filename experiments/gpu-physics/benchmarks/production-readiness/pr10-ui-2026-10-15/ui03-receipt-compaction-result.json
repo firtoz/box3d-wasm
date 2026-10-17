@@ -1,0 +1,7 @@
+{
+  "status": "PASS_EXACT_REVERSIBLE_WHITESPACE_ONLY",
+  "before_bytes": 1061736219,
+  "after_bytes": 1056894254,
+  "saved_bytes": 4841965,
+  "seconds": 0.18289531799999986
+}

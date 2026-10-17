@@ -1,0 +1,11 @@
+{
+  "status": "FROZEN",
+  "seconds": 5,
+  "apps": 0,
+  "builds": 0,
+  "captures": 0,
+  "max_boundaries": 10,
+  "max_primitive_checks": 1000,
+  "retained_bytes": 1048576,
+  "scope": "Adjudicate ground-name omission and full-ID field ordering using preserved actual getter/sink evidence; no product change or repeated app."
+}

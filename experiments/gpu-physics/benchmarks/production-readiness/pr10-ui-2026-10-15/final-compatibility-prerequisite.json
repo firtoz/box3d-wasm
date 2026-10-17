@@ -1,0 +1,18 @@
+{
+  "status": "WASM_RUNTIME_OPEN_NATIVE_WORK_CONTINUES",
+  "missing": [
+    "demo/public/wasm/box3d-web.wasm",
+    "demo/public/wasm/box3d-web.js",
+    ".emsdk",
+    "emcc/emcmake on PATH"
+  ],
+  "existing_artifact_search": [
+    "demo/public",
+    "packages/box3d-wasm",
+    "/home/firtoz/.cache/box3d-wasm",
+    "/home/firtoz/.local/share",
+    "/opt"
+  ],
+  "mutation": false,
+  "question": "Existing SDK/build path requested asynchronously; continue native source build and frontend checks."
+}

@@ -1,0 +1,720 @@
+{
+  "status": "CLOSED",
+  "removed": [
+    {
+      "path": "raw/body-mutation-controls-runs/weeble/cpu/api.jsonl",
+      "bytes": 750111,
+      "sha256": "0bca8ba7c9d21f0e66920bfa0e0246591ea03e7e859c95b8d4e0b1347060de4b",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-runs/weeble/cpu/observer.jsonl",
+      "bytes": 95289,
+      "sha256": "6db67f2f0483bdb207dc0107dcd0cd7f89f311c4d43e241a1f4de11d75d80192",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-runs/weeble/cpu/stderr.txt",
+      "bytes": 164629,
+      "sha256": "8e348bc9b232eda5b116b8a50ec9710b3a698e3b821decc4bd10299569055432",
+      "summary": {
+        "PERF05_lines": 4441,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2457648,id=117440558,width=1600,height=900",
+          "samples: 370 frames, 0 sokol errors"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-runs/explosion/cpu/api.jsonl",
+      "bytes": 4212044,
+      "sha256": "b7794ea9c877f49d02ec3b619dde3e9d09f3f8da5bad4f630f605a0eed08dcc5",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-runs/explosion/cpu/observer.jsonl",
+      "bytes": 80596,
+      "sha256": "8e5a40a299d9d10095323471f7c893a76a17479767d6f51adeecf765ba2a5cf3",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-runs/explosion/cpu/stderr.txt",
+      "bytes": 136252,
+      "sha256": "1c7fa6506bef5a0e72ec588d933c99c9aa06e8ea62eba5befab201e977c820d5",
+      "summary": {
+        "PERF05_lines": 3685,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2458126,id=115343406,width=1600,height=900",
+          "samples: 307 frames, 0 sokol errors"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-runs/restitution/cpu/api.jsonl",
+      "bytes": 741556,
+      "sha256": "e02a34158a5adc22daa3c19be2f1878f9eb3130bd6da536f0efd4e7eddcf84ea",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-runs/restitution/cpu/observer.jsonl",
+      "bytes": 35206,
+      "sha256": "9f5d3802044af05981dffcb21989d7003100a63da694c93a98258b021dd63c8f",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-runs/restitution/cpu/stderr.txt",
+      "bytes": 59443,
+      "sha256": "5d867d3b56c45b2b28865a087f9474d57aee1b0fb35a195196a89e2bd8eb9708",
+      "summary": {
+        "PERF05_lines": 1621,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2458601,id=115343406,width=1600,height=900"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-runs/far-stack/cpu/api.jsonl",
+      "bytes": 1149794,
+      "sha256": "a466a82f830880a650b17a35b6200f810926cdb690c102b41947bc0cadac0363",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-runs/far-stack/cpu/observer.jsonl",
+      "bytes": 59778,
+      "sha256": "07c0d5689036df27805bf9ae8cc385fa642183105669c6c9cd38515286e0aa61",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-runs/far-stack/cpu/stderr.txt",
+      "bytes": 103007,
+      "sha256": "f62e0d7e609e24e0da8b18555bf98e8de2564c84497a6e217b34e66c95073dd7",
+      "summary": {
+        "PERF05_lines": 2785,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2458828,id=115343406,width=1600,height=900",
+          "samples: 232 frames, 0 sokol errors"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/observer-recovery/cpu/api.jsonl",
+      "bytes": 1330997,
+      "sha256": "a9f3d4a9a010b3bfe97bd7564f552e5e77b564ab954a825d501d053f170181b6",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/observer-recovery/cpu/observer.jsonl",
+      "bytes": 56594,
+      "sha256": "661f132c1bc6d6690709aff4c5f3f7808f09399db84cd39a9f35701514457031",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/observer-recovery/cpu/stderr.txt",
+      "bytes": 96589,
+      "sha256": "f47efb0366cc303b49fc58b94fc70e159e39306480d6c6ac7cf5eb964267ce96",
+      "summary": {
+        "PERF05_lines": 2617,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2465297,id=115343406,width=1600,height=900",
+          "samples: 218 frames, 0 sokol errors"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/weeble/ordinary-gpu/api.jsonl",
+      "bytes": 642735,
+      "sha256": "0bf16edba38946c6242e8d77df8c146b3b8c2f9ec4f6c54caf1584835ba87047",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/weeble/ordinary-gpu/observer.jsonl",
+      "bytes": 102766,
+      "sha256": "3d1d7b9764a173bdc19ef1931f09c2a15ad9959c73662a13a16c8d472a268117",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/weeble/ordinary-gpu/stderr.txt",
+      "bytes": 173273,
+      "sha256": "83bc37a8076977802149a5d9b3ec1210f41e4751b208814569f715fb4d7a760d",
+      "summary": {
+        "PERF05_lines": 4537,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2465627,id=115343406,width=1600,height=900",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+          "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/explosion/ordinary-gpu/api.jsonl",
+      "bytes": 2906510,
+      "sha256": "e5e681f6e8a0a83ea611434ba1042b2e9cf6f06d8a532294672c4ad4c2de10ae",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/explosion/ordinary-gpu/observer.jsonl",
+      "bytes": 88961,
+      "sha256": "515c2c60d77c7a065e419a4e9c41f7e0ef792b3f616f0e01efc5f81155f6854e",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/explosion/ordinary-gpu/stderr.txt",
+      "bytes": 454526,
+      "sha256": "02197884f3acbf435fd6cb874d2265b1db72c68d77957acd491cc1466f28b90d",
+      "summary": {
+        "PERF05_lines": 3853,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2466118,id=115343406,width=1600,height=900",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+          "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/restitution/ordinary-gpu/api.jsonl",
+      "bytes": 944799,
+      "sha256": "7349d654166f8efcbafee05bc80c2e16dccb9f64401196b994cf4d0005b3e9c9",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/restitution/ordinary-gpu/observer.jsonl",
+      "bytes": 48984,
+      "sha256": "ed58fa0c09f213f30b52aa90bf1321dbda8d0539b410ca738b0062859889ce6c",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/restitution/ordinary-gpu/stderr.txt",
+      "bytes": 90794,
+      "sha256": "f5779ebd39acca4a274480c39d5cc8c6d8d947497345a10aa1fad2008c8fd57f",
+      "summary": {
+        "PERF05_lines": 2041,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2467701,id=115343406,width=1600,height=900",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+          "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/far-stack/ordinary-gpu/api.jsonl",
+      "bytes": 588068,
+      "sha256": "e9001a2d14c61d5e90096059d82fe85f641ed7368ade71f17745fe893e0c2b60",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/far-stack/ordinary-gpu/observer.jsonl",
+      "bytes": 66672,
+      "sha256": "2cffc956cf962c9754ccd6c7c63e8bfca3ddd4a54488b8b250f24be657c01198",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/far-stack/ordinary-gpu/stderr.txt",
+      "bytes": 115274,
+      "sha256": "4f8a5bada17d5ab7fa6b2d3289bd8359b33895a5b8f548bdc065d0873aef1ac3",
+      "summary": {
+        "PERF05_lines": 2881,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2468030,id=115343406,width=1600,height=900",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+          "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/weeble/native-gpu/api.jsonl",
+      "bytes": 645083,
+      "sha256": "17127d2c5b20aae4e3217f0267526c5b8eb3e56c96201f6458b99e4730d63b33",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/weeble/native-gpu/observer.jsonl",
+      "bytes": 103376,
+      "sha256": "5c845a7d89db3f93db0c0781584a667af9fc7e97acd0b26110e2f37493c5a8fe",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/weeble/native-gpu/stderr.txt",
+      "bytes": 174202,
+      "sha256": "fe6946d7f74a850c46bdee58fbabfa7fd86d3ce457afa2ea866025407e8d15d7",
+      "summary": {
+        "PERF05_lines": 4561,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2468368,id=115343406,width=1600,height=900",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+          "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/explosion/native-gpu/api.jsonl",
+      "bytes": 2901163,
+      "sha256": "77b2199971aa059cd2c0f95347edc85279941f4e87f80b4a5f345b9c20b02123",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/explosion/native-gpu/observer.jsonl",
+      "bytes": 87700,
+      "sha256": "bcfcb815062e69a42421dbf62aacbba7b963cf8a0944e70a8b1ab36a1f45b2ef",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/explosion/native-gpu/stderr.txt",
+      "bytes": 452349,
+      "sha256": "32d84243b424ddfd48616bb76f4f3d3a605009a34f20b5aaa43f02657b64c46a",
+      "summary": {
+        "PERF05_lines": 3793,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2468862,id=115343406,width=1600,height=900",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+          "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/restitution/native-gpu/api.jsonl",
+      "bytes": 947148,
+      "sha256": "693deda21c787986e4060105f0803099cb31608c508d32ac23fde078a79d5bb9",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/restitution/native-gpu/observer.jsonl",
+      "bytes": 49597,
+      "sha256": "6c75dee8d57feadcdd233063dd1ddf8779de8060bf89d0db44e84f7399e45267",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/restitution/native-gpu/stderr.txt",
+      "bytes": 91827,
+      "sha256": "de2e25c465dc93b1d0ec4a862d405190adff4133fd226571a910ebb402ad7fdb",
+      "summary": {
+        "PERF05_lines": 2065,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2469295,id=115343406,width=1600,height=900",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+          "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/far-stack/native-gpu/api.jsonl",
+      "bytes": 589240,
+      "sha256": "755b0545ada2427ce0dae2475453d372098bfdf161490980d9028c113566bdb9",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/far-stack/native-gpu/observer.jsonl",
+      "bytes": 67027,
+      "sha256": "73bc15b4a640667572532dc67f6642d487ad599b0afd7a51ff7900e55a2352f6",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/far-stack/native-gpu/stderr.txt",
+      "bytes": 115819,
+      "sha256": "575babd84c26e71ec75c214d3b49ae3c072ef11f0d8b7bd8d4afe9e9ab1cae2d",
+      "summary": {
+        "PERF05_lines": 2893,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2469604,id=115343406,width=1600,height=900",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB",
+          "gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/weeble/ordinary-both/api.jsonl",
+      "bytes": 1120999,
+      "sha256": "9e91d62d71f56f13ea91e367ea007cc6ab31de054e3f43422ecc2293d9b5cf60",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/weeble/ordinary-both/observer.jsonl",
+      "bytes": 117522,
+      "sha256": "5d50eed92eee3de5f9a74298793026bcc02a9caa1a8f0a2fc456ea72551ea83e",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/weeble/ordinary-both/stderr.txt",
+      "bytes": 349670,
+      "sha256": "01676219b77297d5332903a681cc763191357759f29790453f51f9736d1f6846",
+      "summary": {
+        "PERF05_lines": 9097,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2469952,id=115343406,width=1600,height=900",
+          "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/explosion/ordinary-both/api.jsonl",
+      "bytes": 5738729,
+      "sha256": "0ed30a919f63794bead0d22a4cdfedb6229c0838e8cffd9beef5cf7a1675b150",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/explosion/ordinary-both/observer.jsonl",
+      "bytes": 104601,
+      "sha256": "b43add151e3fb1c50ee46aecc5c48f2040cfd4c3bdf37bf7d58d769e61e48643",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/explosion/ordinary-both/stderr.txt",
+      "bytes": 613700,
+      "sha256": "0a96cc6ffb7f3766c7b91e7a3944e8f73d1f397acec8c96c778b51d21a92e872",
+      "summary": {
+        "PERF05_lines": 7969,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2470463,id=115343406,width=1600,height=900",
+          "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/restitution/ordinary-both/api.jsonl",
+      "bytes": 1798816,
+      "sha256": "2f613ba865c499e6230033a732455f5621c8b2244365f641378fd9c096ca865e",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/restitution/ordinary-both/observer.jsonl",
+      "bytes": 56283,
+      "sha256": "cf0ca83438ac60cd15a0453b3636af508dfce76e696749452d6b4b3a8fce5663",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/restitution/ordinary-both/stderr.txt",
+      "bytes": 175143,
+      "sha256": "560d1d5ebc4e094071e6d10df40d84e832a5cfa2d444d4696f0c29d99e0615bb",
+      "summary": {
+        "PERF05_lines": 4153,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2470891,id=115343406,width=1600,height=900",
+          "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/far-stack/ordinary-both/api.jsonl",
+      "bytes": 1070652,
+      "sha256": "5a97efb31591fe6f1239d904b20d11f58755ce7c81f7d3f5691810be54e77e90",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/far-stack/ordinary-both/observer.jsonl",
+      "bytes": 76185,
+      "sha256": "cb4aa6320d2e2fbb0fffb454e575bb6ba01b7ae39130bc66ad804592354ca85a",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/far-stack/ordinary-both/stderr.txt",
+      "bytes": 229592,
+      "sha256": "b52c44ea751719137257a26b8911828afc90b625a5f207cb8061b4421f55e309",
+      "summary": {
+        "PERF05_lines": 5785,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2471316,id=115343406,width=1600,height=900",
+          "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/weeble/native-both/api.jsonl",
+      "bytes": 1131252,
+      "sha256": "05af57597a5a084870ad89bf9317194e4ade349e66301b437802305e947be163",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/weeble/native-both/observer.jsonl",
+      "bytes": 119057,
+      "sha256": "41d737a905427241a3d117c85cdca6cd8d148ff6a4f889543e3b151c6acecd73",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/weeble/native-both/stderr.txt",
+      "bytes": 354190,
+      "sha256": "ac12a93861a375c752f7d6a584eade7cb783452770f829e55413856838a7f87e",
+      "summary": {
+        "PERF05_lines": 9217,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2471748,id=115343406,width=1600,height=900",
+          "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/explosion/native-both/api.jsonl",
+      "bytes": 5685486,
+      "sha256": "65a8da8e3efe1d2041bf6da3bc32b3dfefc50d42ce97532c31307e698bed3e1a",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/explosion/native-both/observer.jsonl",
+      "bytes": 103908,
+      "sha256": "532178f31e603920af4570bc43e3b8148e58ecbea0081139f944e8fa1ede5fe3",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/explosion/native-both/stderr.txt",
+      "bytes": 611984,
+      "sha256": "4e7c0844fbff18c9ac26f88e49d0494104c88142e6baa94bdcda9a42f5fcf3c0",
+      "summary": {
+        "PERF05_lines": 7921,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2472234,id=115343406,width=1600,height=900",
+          "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/restitution/native-both/api.jsonl",
+      "bytes": 1835016,
+      "sha256": "dbdd22c3601f442a9319b04eef70ce9c3777f74e94456b4016acf7286d3d1c14",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/restitution/native-both/observer.jsonl",
+      "bytes": 57021,
+      "sha256": "1fd9f61cc75540593b38632559d2980b44b28a4e370d98d63b7fb7c9663e4621",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/restitution/native-both/stderr.txt",
+      "bytes": 177299,
+      "sha256": "16330cd5ed9712495ab99556bb0adfd1d9dd881b38c895b1202c7b96b2379f5e",
+      "summary": {
+        "PERF05_lines": 4201,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2472723,id=115343406,width=1600,height=900",
+          "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/far-stack/native-both/api.jsonl",
+      "bytes": 1080952,
+      "sha256": "244984b0210e927ff1647753c8f89fd9af553e545b2ac818a4e117c6432f1116",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/far-stack/native-both/observer.jsonl",
+      "bytes": 77655,
+      "sha256": "0beefe3d9b2da190f32abe2600919216c05f47f6fe765a67cf918aa0dd0e6700",
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/body-mutation-controls-tail-runs/far-stack/native-both/stderr.txt",
+      "bytes": 233957,
+      "sha256": "ce09fb652eda2cbe73f9b677c624ac8d8e26b9903c58a1a5eec0bc2abbce4d95",
+      "summary": {
+        "PERF05_lines": 5905,
+        "other_lines": [
+          "[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)",
+          "sokol-capacity: 65536 debug shapes and opaque instances per stream",
+          "sokol-debug-pool: 65536 stable slots (was 0)",
+          "PR10WINDOW,pid=2473041,id=115343406,width=1600,height=900",
+          "samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.",
+          "GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA",
+          "GPU features: subgroups",
+          "GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB"
+        ]
+      },
+      "reason": "Originalreceipts/screenshots andselectedactualstate/effect/harnessadjudicationsretained; fullstreamconsumed"
+    },
+    {
+      "path": "raw/distance-control-build/cpu",
+      "bytes": 7406768,
+      "sha256": "83e5bf8f1062ee9c00ad0f1f104747a9851353d1052218383512d9b70beed56f",
+      "reason": "Superseded after new unique-lifetime mutation observers qualified onall5routes"
+    },
+    {
+      "path": "raw/distance-control-build/ordinary-gpu",
+      "bytes": 37501456,
+      "sha256": "1f9046a25cc6c2daff001788105ea3e398a8f12e5f459fa407b8dfbaecd429ec",
+      "reason": "Superseded after new unique-lifetime mutation observers qualified onall5routes"
+    },
+    {
+      "path": "raw/distance-control-build/native-gpu",
+      "bytes": 40376480,
+      "sha256": "ed7f87ded74724786942a890a169c9b38053c4ea31c0a69e51d8482a07b0522e",
+      "reason": "Superseded after new unique-lifetime mutation observers qualified onall5routes"
+    },
+    {
+      "path": "raw/distance-control-build/ordinary-both",
+      "bytes": 38297896,
+      "sha256": "dc9a6268d3671aae2b1f5ac4825a1559da59270d23be27881085c305725d5427",
+      "reason": "Superseded after new unique-lifetime mutation observers qualified onall5routes"
+    },
+    {
+      "path": "raw/distance-control-build/native-both",
+      "bytes": 41172936,
+      "sha256": "835e180f5c6a2dceb980f7bb675a53cb54d6f7d26c87675794036d6365e52b22",
+      "reason": "Superseded after new unique-lifetime mutation observers qualified onall5routes"
+    }
+  ],
+  "deleted_bytes": 209194983,
+  "raw_retained_bytes": 427299771,
+  "owned_pids_absent": [
+    2457648,
+    2457631,
+    2458126,
+    2458112,
+    2458601,
+    2458587,
+    2458828,
+    2458805,
+    2465297,
+    2465283,
+    2465627,
+    2465613,
+    2466118,
+    2466104,
+    2467701,
+    2467665,
+    2468030,
+    2468011,
+    2468368,
+    2468354,
+    2468862,
+    2468843,
+    2469295,
+    2469281,
+    2469604,
+    2469590,
+    2469952,
+    2469938,
+    2470463,
+    2470446,
+    2470891,
+    2470877,
+    2471316,
+    2471302,
+    2471748,
+    2471734,
+    2472234,
+    2472211,
+    2472723,
+    2472682,
+    2473041,
+    2473023
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 5185445,
+  "free_bytes": 1708984446976,
+  "retained_consumer": "Currentfivebody-mutation-lifetime-buildviewers forremainingcontrols; selectedscreens/receipts/acceptance forPR10audit; existinglinkinputsandCPUReplayfixture preserved. Sharedcachespreserved."
+}

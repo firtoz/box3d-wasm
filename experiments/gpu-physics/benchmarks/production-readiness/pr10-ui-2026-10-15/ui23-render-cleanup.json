@@ -1,0 +1,30 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 12552945,
+  "raw_retained_bytes": 1006253300,
+  "deleted_bytes": 77987679,
+  "owned_pids_absent": [
+    498159,
+    498144,
+    500281,
+    500263,
+    502339,
+    502324,
+    504453,
+    504436,
+    506589,
+    506574,
+    549188,
+    549149,
+    559882,
+    559861,
+    561931,
+    561916,
+    564127,
+    564108
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707642552320,
+  "consumer": "Current4render-fixedGPUviewers/reusedCPU/4Cmodules/3APIcarriers/replacementobserver+priorinputs nextPR10relink;CPUoracle/physicsstagebefore/finalnativecache+CreateShape/AABB/IDs/picking finalaudit"
+}

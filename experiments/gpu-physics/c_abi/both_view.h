@@ -5,6 +5,7 @@ extern "C" {
 #endif
 bool both_split_enabled(void);
 void both_set_split(bool enabled);
+void both_clear_selection(void);
 void both_draw_second(void);
 void both_begin_frame(void);
 void both_pointer_down(b3WorldId world, b3Pos origin, b3Vec3 translation, bool grab, float force_scale);

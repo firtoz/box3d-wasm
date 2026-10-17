@@ -1,0 +1,38 @@
+{
+  "status": "CLOSED",
+  "retired": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/cpu",
+      "bytes": 7766256,
+      "sha256": "257b29334ec73cc2a76c02d6e0a704d2b1d0782b3e52c8fbc98915d65e4d43da",
+      "consumer": "NineManifoldpairs honestUI/actualcache/manualSAT/geometry/gesture/restart/defaults qualified"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/ordinary-gpu",
+      "bytes": 37856888,
+      "sha256": "ee9559e08cede9241ce364afa0d48d0e7aa934b1693427dcad5b39725591d3ee",
+      "consumer": "NineManifoldpairs honestUI/actualcache/manualSAT/geometry/gesture/restart/defaults qualified"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/native-gpu",
+      "bytes": 40740104,
+      "sha256": "2751c945a118085bb0965e388a3a7b59c3baf43bc20a156a3babb4c27484bfd3",
+      "consumer": "NineManifoldpairs honestUI/actualcache/manualSAT/geometry/gesture/restart/defaults qualified"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/ordinary-both",
+      "bytes": 38634816,
+      "sha256": "e0d98a2adc57dcadc2df281ce9a54d5532e74df84da59e093bcbd6e62425c503",
+      "consumer": "NineManifoldpairs honestUI/actualcache/manualSAT/geometry/gesture/restart/defaults qualified"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui12-build/native-both",
+      "bytes": 41513952,
+      "sha256": "558d93bf2b53838fe0bf798a42e97be9b16a39760a5ec6acd2d43a1cea23c03e",
+      "consumer": "NineManifoldpairs honestUI/actualcache/manualSAT/geometry/gesture/restart/defaults qualified"
+    }
+  ],
+  "deleted_bytes": 166512016,
+  "raw_bytes": 946517797,
+  "next_consumer": "CurrentfiveUI13viewers/Manifoldobject andpriorneededinputs nextPR10relink"
+}

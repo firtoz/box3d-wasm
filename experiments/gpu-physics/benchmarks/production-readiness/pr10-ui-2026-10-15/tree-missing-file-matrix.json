@@ -1,0 +1,36 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "tree-missing-file-budget.json",
+  "runs": [
+    {
+      "route": "cpu",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 2
+    },
+    {
+      "route": "ordinary-gpu",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 2
+    },
+    {
+      "route": "native-gpu",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 2
+    },
+    {
+      "route": "ordinary-both",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 2
+    },
+    {
+      "route": "native-both",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "findings": 2
+    }
+  ]
+}

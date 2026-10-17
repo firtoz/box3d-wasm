@@ -1,0 +1,156 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "body-mutation-controls-tail-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "weeble",
+    "explosion",
+    "restitution",
+    "far-stack",
+    "observer-recovery"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "observer-recovery",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 12,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "weeble",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 28,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "explosion",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 20,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "restitution",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 13,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "far-stack",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 20,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "weeble",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 28,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "explosion",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 20,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "restitution",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 13,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "far-stack",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 20,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "weeble",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 28,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "explosion",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 20,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "restitution",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 13,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "far-stack",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 20,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "weeble",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 28,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "explosion",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 20,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "restitution",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 13,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "far-stack",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 20,
+      "findings": 0
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "status": "REVIEWED_FIVE_ROUTES_NAVIGATION_METRICS",
+  "runs": [
+    {
+      "label": "ordinary-gpu",
+      "exit": 0,
+      "seconds": 10.23303518499597
+    },
+    {
+      "label": "native-gpu",
+      "exit": 0,
+      "seconds": 10.783265040983679
+    },
+    {
+      "label": "ordinary-both",
+      "exit": 0,
+      "seconds": 10.783325920987409
+    },
+    {
+      "label": "native-both",
+      "exit": 0,
+      "seconds": 10.685404056013795
+    }
+  ],
+  "seconds": 42.488128577009775
+}

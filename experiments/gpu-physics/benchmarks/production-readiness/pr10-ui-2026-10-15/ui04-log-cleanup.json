@@ -1,0 +1,109 @@
+{
+  "status": "CLOSED",
+  "deleted": [
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/observer-compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/trace-link.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/trace-check.log",
+      "bytes": 482,
+      "sha256": "cac3310194ce11d6cbdd744dfd19752f0b0776983234b1ee4aaaf470cbf611bb",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/baseline-generation.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/cpu-historical-preprocess.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/cpu-baseline-preprocess.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/repair-generation.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/gpu-before-preprocess.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/gpu-after-preprocess.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/both-before-preprocess.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/both-after-preprocess.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/cpu-sample-compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/cpu-link.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/cpu-check.log",
+      "bytes": 622,
+      "sha256": "99dccce4e1442c96115d883d4fbcc448925a16bbdfcfbf694d7295dbabe31a0d",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/leaf-observer-compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/leaf-cpu-link.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    },
+    {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/raw/ui04-build/leaf-cpu-check.log",
+      "bytes": 1119,
+      "sha256": "92e78c39977b2aa8893c38f567d8107f68971e5ae33427a062501bac491d508d",
+      "consumer": "Operationexit/command/timing plus selectedreceipt or originalfailure summary consumed; fullbuild/check log retired"
+    }
+  ],
+  "deleted_bytes": 2223,
+  "raw_bytes": 900635478
+}

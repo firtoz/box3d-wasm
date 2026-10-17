@@ -1,0 +1,22 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 9973289,
+  "raw_retained_bytes": 978067129,
+  "deleted_bytes": 15700455,
+  "owned_pids_absent": [
+    460467,
+    460447,
+    461177,
+    461162,
+    462001,
+    461956,
+    462799,
+    462784,
+    463665,
+    463648
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1707688493056,
+  "consumer": "FivecurrentUI22viewers/3newJointobjects/source+prior32neededtaskobjects nextPR10relink;actualDoorlimit/nativehingeIDs/defaults/picking/beforeafter finalaudit"
+}

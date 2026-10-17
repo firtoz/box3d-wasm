@@ -1,0 +1,15 @@
+{
+  "status": "FAILURE_RETAINED",
+  "runs": [
+    {
+      "label": "cpu",
+      "exit": 1,
+      "seconds": 7.930572963989107
+    }
+  ],
+  "failed_routes": [
+    "cpu"
+  ],
+  "error": "AssertionError('CPU baseline failure stops dependent GPU expectations')",
+  "seconds": 7.931603634002386
+}

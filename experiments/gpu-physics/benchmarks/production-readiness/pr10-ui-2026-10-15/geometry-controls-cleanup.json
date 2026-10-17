@@ -1,0 +1,104 @@
+{
+  "status": "CLOSED",
+  "retained_runs": {
+    "geometry-controls-runs": 22774105,
+    "flat-heightfield-capture-runs": 1137844,
+    "benchmark-heightfield-input-runs": 1396610
+  },
+  "deleted_bytes": 201755883,
+  "removed": [
+    {
+      "path": "raw/mesh-controls-build/cpu",
+      "bytes": 7640456,
+      "sha256": "e0ed57ffadf215b0482d096787f98d109c5e48f28342a2c02eaa6aba1e5b899f",
+      "reason": "Superseded after geometry observer exercised all5routes; explicit benchmark performance exclusions retained"
+    },
+    {
+      "path": "raw/mesh-controls-build/ordinary-gpu",
+      "bytes": 37739288,
+      "sha256": "c0af0487cede8903bad2dfb6e9e82ec6606c64de143223810850b9c8f6cecc5c",
+      "reason": "Superseded after geometry observer exercised all5routes; explicit benchmark performance exclusions retained"
+    },
+    {
+      "path": "raw/mesh-controls-build/native-gpu",
+      "bytes": 40614312,
+      "sha256": "c638eaaea1aae2a61be0ac963495166b7c1740d717744bfac81f7abd23ffc2df",
+      "reason": "Superseded after geometry observer exercised all5routes; explicit benchmark performance exclusions retained"
+    },
+    {
+      "path": "raw/mesh-controls-build/ordinary-both",
+      "bytes": 38517472,
+      "sha256": "12182ca615e191f25f4724d8d14a789973b42c3fe25f4df799d6242a21e93b20",
+      "reason": "Superseded after geometry observer exercised all5routes; explicit benchmark performance exclusions retained"
+    },
+    {
+      "path": "raw/mesh-controls-build/native-both",
+      "bytes": 41388416,
+      "sha256": "08dd4f051639f01aa81d910ac3eb961d1e561489850752c70dc8503812322266",
+      "reason": "Superseded after geometry observer exercised all5routes; explicit benchmark performance exclusions retained"
+    },
+    {
+      "path": "raw/mesh-controls-build/observer.o",
+      "bytes": 621584,
+      "sha256": "19c3c868bb4a40f0047e467cbd4d66a6da099b4b314352e2954fbbe329158ce2",
+      "reason": "Older diagnostic observer object not among207 current link/preflightpins and no further named consumer; source retained"
+    },
+    {
+      "path": "raw/body-properties-build/observer.o",
+      "bytes": 611120,
+      "sha256": "aed709e076da6a849bd12e41f1a3a81143fa58cf94756f531b2deae21472d528",
+      "reason": "Older diagnostic observer object not among207 current link/preflightpins and no further named consumer; source retained"
+    }
+  ],
+  "raw_retained_bytes": 639674482,
+  "owned_pids_absent": [
+    2728933,
+    2728918,
+    2729816,
+    2729801,
+    2730477,
+    2730460,
+    2731087,
+    2731070,
+    2731919,
+    2731904,
+    2732807,
+    2732790,
+    2735083,
+    2735056,
+    2736022,
+    2736000,
+    2736783,
+    2736766,
+    2739057,
+    2739040,
+    2740141,
+    2740117,
+    2740902,
+    2740886,
+    2741587,
+    2741548,
+    2742586,
+    2742571,
+    2743441,
+    2743416,
+    2745657,
+    2745642,
+    2746034,
+    2746019,
+    2746453,
+    2746434,
+    2746882,
+    2746864,
+    2747401,
+    2747382,
+    2750600,
+    2750585,
+    2754108,
+    2754083
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 0,
+  "free_bytes": 1708600446976,
+  "retained_consumer": "Current geometry-controls-build.json five viewers for remaining geometry/input/creation controls. Selectedactualstates/images/failures forPR10/UI24/UI25. Existing207pins andCPUReplayfixture retained; sharedcaches preserved."
+}

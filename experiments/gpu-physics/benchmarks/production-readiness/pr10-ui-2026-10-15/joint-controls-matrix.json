@@ -1,0 +1,302 @@
+{
+  "status": "REVIEW_COMPLETE",
+  "budget": "joint-controls-budget.json",
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "distance",
+    "prismatic",
+    "revolute",
+    "spherical",
+    "parallel",
+    "weld",
+    "wheel"
+  ],
+  "runs": [
+    {
+      "route": "cpu",
+      "fixture": "distance",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 66,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "prismatic",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 72,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "revolute",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 72,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "spherical",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 107,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "parallel",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "weld",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 26,
+      "findings": 0
+    },
+    {
+      "route": "cpu",
+      "fixture": "wheel",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 112,
+      "findings": 2
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "distance",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 66,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "prismatic",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 72,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "revolute",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 72,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "spherical",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 107,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "parallel",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "weld",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 26,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-gpu",
+      "fixture": "wheel",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 112,
+      "findings": 2
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "distance",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 66,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "prismatic",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 72,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "revolute",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 72,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "spherical",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 107,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "parallel",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "weld",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 26,
+      "findings": 0
+    },
+    {
+      "route": "native-gpu",
+      "fixture": "wheel",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 112,
+      "findings": 2
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "distance",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 66,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "prismatic",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 72,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "revolute",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 72,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "spherical",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 107,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "parallel",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "weld",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 26,
+      "findings": 0
+    },
+    {
+      "route": "ordinary-both",
+      "fixture": "wheel",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 112,
+      "findings": 2
+    },
+    {
+      "route": "native-both",
+      "fixture": "distance",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 66,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "prismatic",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 72,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "revolute",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 72,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "spherical",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 107,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "parallel",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 16,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "weld",
+      "exit": 0,
+      "status": "PASS_CONTROLS",
+      "checks": 26,
+      "findings": 0
+    },
+    {
+      "route": "native-both",
+      "fixture": "wheel",
+      "exit": 0,
+      "status": "REVIEWED_WITH_FINDINGS",
+      "checks": 112,
+      "findings": 2
+    }
+  ]
+}

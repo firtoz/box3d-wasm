@@ -1,0 +1,18 @@
+{
+  "status": "CLOSED",
+  "retained_bytes": 481631,
+  "raw_retained_bytes": 900637701,
+  "deleted_bytes": 2479672,
+  "owned_pids_absent": [
+    3380325,
+    3380311,
+    3391696,
+    3391682,
+    3397084,
+    3397070
+  ],
+  "owned_core_files": [],
+  "shared_cache_growth_bytes": 1166034,
+  "free_bytes": 1708173094912,
+  "consumer": "Selected8 screenshots/numeric receipts and UI04 CPU-first before/after grids; current5viewer pool named separately"
+}

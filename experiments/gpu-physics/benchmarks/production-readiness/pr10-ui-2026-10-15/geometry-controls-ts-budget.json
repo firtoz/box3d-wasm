@@ -1,0 +1,46 @@
+{
+  "status": "FROZEN",
+  "created": "2026-10-15T18:16:42.378Z",
+  "language": "TypeScript/Bun",
+  "builds": 0,
+  "viewers": 5,
+  "order": [
+    "cpu",
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "seconds_per_app": 240,
+  "ready_seconds": 25,
+  "scene_seconds": 90,
+  "screenshots_per_app": 8,
+  "actions_per_app": 320,
+  "retries": 0,
+  "core_bytes": 0,
+  "api_bytes_per_app": 33554432,
+  "observer_bytes_per_app": 16777216,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 134217728,
+  "min_free_bytes": 21474836480,
+  "outputs": [
+    {
+      "path": "raw/geometry-controls-ts-runs",
+      "consumer": "geometry widget acceptance and CPU-first comparison",
+      "delete": "Full streams after selected cases/receipts extracted; retain selected images and state"
+    },
+    {
+      "path": "geometry-controls.ts",
+      "consumer": "Remaining UI automation and reproducibility",
+      "delete": "Retain source"
+    },
+    {
+      "path": "raw/geometry-control-build",
+      "consumer": "Five-route qualification and subsequent remaining controls",
+      "delete": "Retain until superseded verified pool"
+    }
+  ],
+  "cpu_h0": "Already passed; do not repeat",
+  "stimulus": "Positive fractions below1 omit leading zero; UI12 remains unfixed"
+}

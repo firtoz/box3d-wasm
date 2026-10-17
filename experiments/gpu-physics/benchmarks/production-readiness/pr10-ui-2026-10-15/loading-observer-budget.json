@@ -1,0 +1,29 @@
+{
+  "status": "FROZEN_BEFORE_DIAGNOSTIC_BUILD_EXECUTION",
+  "scope": "Correct first-window observation to include existing loading UI. Fresh interactive check of actual loading\u2192ready and resize; previous25s physics-ready cutoffs retained, no claimstartupfixed. No solver/engine modifications.",
+  "diagnostic_cpp_compiles": 1,
+  "compile_seconds": 10,
+  "diagnostic_relinks": 4,
+  "link_seconds_each": 15,
+  "new_engine_Rust_builds": 0,
+  "CPU_viewers": 0,
+  "GPU_viewers": 4,
+  "first_window_seconds": 25,
+  "loading_ready_operation_seconds": 90,
+  "whole_viewer_seconds": 300,
+  "actions_each": 48,
+  "screenshots_each": 12,
+  "temporary_bytes": 536870912,
+  "retained_bytes": 67108864,
+  "new_shared_cache_growth_bytes": 134217728,
+  "GPU_video_recorders": 0,
+  "private_cache_copies": 0,
+  "implicit_retries": 0,
+  "outputs": {
+    "raw/loading-observer.o": "Read-only firstSokolframe marker; delete afterlastlink",
+    "raw/loading-viewers/*": "Temporary exact-source viewers with marker only; consumer remainingPR10,deleteafterqualification",
+    "raw/shared/loading-*": "Compact action/screens/failure receipts; consumedobserverstreamsremovedaftervalidation",
+    "normal_shared_cache": "Normalviewer/remainingPR10 consumer; no privatecachecopy, beforeafteraccounting"
+  },
+  "guard": "Capture actual owned loading window before testingreadiness; neverread SampleContext whileworker ownsit. Screenshots/statusNone untilobserverready. No oldshader/solver experiment restarted."
+}

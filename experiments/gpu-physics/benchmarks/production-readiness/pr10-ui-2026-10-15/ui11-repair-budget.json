@@ -1,0 +1,51 @@
+{
+  "status": "FROZEN",
+  "cc_compiles": 1,
+  "cpp_compiles": 1,
+  "compile_seconds": 30,
+  "generations": 1,
+  "generation_seconds": 10,
+  "links": 2,
+  "link_seconds": 25,
+  "archive_copies": 1,
+  "archive_copy_bytes": 1048576,
+  "archive_updates": 1,
+  "archive_inspections": 6,
+  "archive_seconds": 5,
+  "viewers": 5,
+  "seconds_per_app": 60,
+  "screenshots_per_app": 5,
+  "actions_per_app": 170,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 16777216,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 6291456,
+  "temporary_bytes": 1073741824,
+  "new_build_bytes": 100663296,
+  "retained_bytes": 67108864,
+  "shared_cache_growth_bytes": 16777216,
+  "shared_cache_growth_total_bytes": 33554432,
+  "min_free_bytes": 21474836480,
+  "outer_seconds": 510,
+  "raw_before_bytes": 928562238,
+  "pins_before": {
+    "both": "d6dbe00a9509c1935fc3b70eae91ca24f5dd99011281beeaab2cf8fed4fa695d",
+    "header": "d64c484e8cbe72fc1494b94032011924ce21bf0424267ce1a9f1ff9aca26615a",
+    "split": "f5400bff47a54ea6d6bf11ed0655918a5184771337103983a2c09f391fecb99b",
+    "native_adapter": "87389d84c35dc854ed163ac38e38fd007d57249a1d83775e97e795e9911258c7"
+  },
+  "scope": "Onlycombinedselectionownerclear helper+prototype+generatedEscape selectionlayer call; nojoint/mouse/picking/physics mutation.1C/1BOTHmainCPP/1generation/1taskarchivecopy+memberupdate/2combinedlinks, reuse3unchangedstandaloneviewers. CPUfirst5actualapps:pick/popupEscape preserveselection/plainEscape clears/repeatedEscape/restart/defaults/IDs; combinedoverlay→Escape→spliton noresurrection andactiveCtrlgrab selectionclear preservesmouse/jointuntilmouseup.<=19actualafterimages.0physicsRust/sharedarchive/retries.",
+  "outputs": [
+    {
+      "path": "raw/ui11-build",
+      "consumer": "2currentcombinedviewers/1host+1Dual+smalltaskarchive, selectionobserver fornextPR10relink",
+      "delete": "Retireold2combinedviewers/oldbothmain/Dual/APIarchiveafterqualification;canonicalcopy/logs consumed;3currentstandaloneviewersreused"
+    },
+    {
+      "path": "raw/ui11-runs",
+      "consumer": "SelectedEscape/owner/grab/lifecycle receipts and<=19afterimages",
+      "delete": "Consume API/observer/stderr terminalperroute;retainminimalreceipts/media"
+    }
+  ]
+}

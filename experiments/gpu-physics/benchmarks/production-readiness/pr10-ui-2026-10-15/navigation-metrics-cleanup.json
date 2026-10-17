@@ -1,0 +1,71 @@
+{
+  "removed": [
+    {
+      "path": "raw/navigation-metrics-runs/cpu/api.jsonl",
+      "bytes": 151183
+    },
+    {
+      "path": "raw/navigation-metrics-runs/cpu/observer.jsonl",
+      "bytes": 62850
+    },
+    {
+      "path": "raw/navigation-metrics-runs/cpu-reach/api.jsonl",
+      "bytes": 460373
+    },
+    {
+      "path": "raw/navigation-metrics-runs/cpu-reach/observer.jsonl",
+      "bytes": 190893
+    },
+    {
+      "path": "raw/navigation-metrics-runs/ordinary-gpu-reach/api.jsonl",
+      "bytes": 46129
+    },
+    {
+      "path": "raw/navigation-metrics-runs/ordinary-gpu-reach/observer.jsonl",
+      "bytes": 23644
+    },
+    {
+      "path": "raw/navigation-metrics-runs/ordinary-gpu-gpu-policy/api.jsonl",
+      "bytes": 345028
+    },
+    {
+      "path": "raw/navigation-metrics-runs/ordinary-gpu-gpu-policy/observer.jsonl",
+      "bytes": 168387
+    },
+    {
+      "path": "raw/navigation-metrics-runs/native-gpu-gpu-policy/api.jsonl",
+      "bytes": 357278
+    },
+    {
+      "path": "raw/navigation-metrics-runs/native-gpu-gpu-policy/observer.jsonl",
+      "bytes": 174033
+    },
+    {
+      "path": "raw/navigation-metrics-runs/ordinary-both-gpu-policy/api.jsonl",
+      "bytes": 582054
+    },
+    {
+      "path": "raw/navigation-metrics-runs/ordinary-both-gpu-policy/observer.jsonl",
+      "bytes": 198637
+    },
+    {
+      "path": "raw/navigation-metrics-runs/native-both-gpu-policy/api.jsonl",
+      "bytes": 567910
+    },
+    {
+      "path": "raw/navigation-metrics-runs/native-both-gpu-policy/observer.jsonl",
+      "bytes": 193918
+    },
+    {
+      "path": "raw/metrics-tree-control-runs/one-detent/api.jsonl",
+      "bytes": 140052
+    },
+    {
+      "path": "raw/metrics-tree-control-runs/one-detent/observer.jsonl",
+      "bytes": 58342
+    }
+  ],
+  "deleted_bytes": 3720711,
+  "retained_consumer": "Onecurrentrender-popup5viewerpool andobjects: remainingPR10; images/actualwidget/windowstate/receiptseffects retained,sharedcaches preserved.",
+  "free_bytes": 1709438115840
+}

@@ -1,0 +1,34 @@
+{
+  "status": "FROZEN",
+  "builds": 0,
+  "viewers": 4,
+  "order": [
+    "ordinary-gpu",
+    "native-gpu",
+    "ordinary-both",
+    "native-both"
+  ],
+  "classes": [
+    "mesh"
+  ],
+  "seconds_per_app": 45,
+  "screenshots_per_app": 1,
+  "actions_per_app": 30,
+  "physics_steps": 0,
+  "retries": 0,
+  "api_bytes_per_app": 12582912,
+  "api_tail_bytes": 2097152,
+  "observer_bytes_per_app": 4194304,
+  "temporary_bytes": 1073741824,
+  "retained_bytes": 16777216,
+  "shared_cache_growth_bytes": 134217728,
+  "min_free_bytes": 21474836480,
+  "scope": "Distinct input-duration check ONLY for MeshDrop AutoGenerate off. Original50ms mouse click returnedfalse and regeneration continued; preserve original failure. Hold mouse-down across two real UI frames before release, verify actual button activation and recreation stops. No full priorcase replay/CPU rerun/engine changes.",
+  "outputs": [
+    {
+      "path": "raw/mutation-off-held-runs",
+      "consumer": "Minimal button-activation and all-body generation summaries + after image",
+      "delete": "Consume streams per terminal app, preserve original failures and source-derived disposition"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "status": "PASS_NATIVE_TREE_EFFECTS_WITH_RENDER_INSPECTION",
+  "receipt": "raw/ui26-runs/cpu/receipt.json",
+  "false_flags": [
+    "missing recovery controls and actionable error visible",
+    "empty recovery controls and actionable error visible",
+    "invalid version recovery controls and actionable error visible"
+  ],
+  "cause": "Existing native UI observer does not wrap ImGui::TextWrapped; absent text in its item list cannot prove absent pixels. All three native failed-load returns and preserved tree/proxies/digests passed. Actual missing-load PNG inspected: readable actionable error and File/Save controls present. Same generated failure branch sets m_loadFailed for all three empty-result cases. CPU loaded/scaled screenshots still require closeout inspection to verify error cleared.",
+  "cpu_apps_repeated": 0,
+  "source_changed": false,
+  "manual_missing_error_verified": true
+}
