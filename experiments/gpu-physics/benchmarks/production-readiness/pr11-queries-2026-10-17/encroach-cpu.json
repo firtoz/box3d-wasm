@@ -1,0 +1,2570 @@
+[
+  {
+    "case": "encroach-0-0",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-1",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-2",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-3",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-4",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-5",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-6",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-7",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-8",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-9",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-10",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-11",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-12",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-13",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-14",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-15",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-16",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-17",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-18",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-19",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-20",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-21",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-22",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.00250000134,
+    "point": [
+      0.299999952,
+      0,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      -1,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-23",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.00250000134,
+    "point": [
+      0.299999952,
+      0,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      -1,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-24",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-25",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-26",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-27",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-28",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-29",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-30",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-31",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-32",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-33",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-34",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-35",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-36",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-37",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-38",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.377499998,
+    "point": [
+      0.299999952,
+      0,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      -1,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-39",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-40",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-41",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.377499998,
+    "point": [
+      0.299999952,
+      0,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      -1,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-42",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-43",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-44",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-45",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-46",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-47",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-48",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-49",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-50",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-51",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-52",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-53",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-54",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-55",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-56",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-57",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-58",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-59",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-60",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-61",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-62",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-63",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-64",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-65",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-66",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-67",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-68",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-69",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-70",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-71",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.124499999,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-72",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-73",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-74",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-75",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-76",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.00250000134,
+    "point": [
+      0.299999952,
+      0,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-77",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.00250000134,
+    "point": [
+      0.299999952,
+      0,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-78",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-79",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-80",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-81",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-82",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-83",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-84",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-85",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-86",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-87",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-88",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-89",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-90",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-91",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-92",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.377499998,
+    "point": [
+      0.299999952,
+      0,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-93",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-94",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-95",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.377499998,
+    "point": [
+      0.299999952,
+      0,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ]
+  },
+  {
+    "case": "encroach-0-96",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-97",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-98",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-99",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-100",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-101",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-102",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-103",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-104",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-105",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-106",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-0-107",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-0",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-1",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-2",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-3",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-4",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-5",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-6",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-7",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-8",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-9",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-10",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-11",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-12",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-13",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-14",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-15",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-16",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-17",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.38109446,
+      -2.00933981,
+      4.01341486
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-18",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.36412811,
+      -2.05493188,
+      4.00426388
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-19",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.36412811,
+      -2.05493188,
+      4.00426388
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-20",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.36412811,
+      -2.05493188,
+      4.00426388
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-21",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-22",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.00250000134,
+    "point": [
+      3.33842134,
+      -2.12401104,
+      3.99039888
+    ],
+    "normal": [
+      -0.342756242,
+      -0.921055138,
+      -0.184866458
+    ]
+  },
+  {
+    "case": "encroach-1-23",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.00250000134,
+    "point": [
+      3.33842134,
+      -2.12401104,
+      3.99039888
+    ],
+    "normal": [
+      -0.342756242,
+      -0.921055138,
+      -0.184866458
+    ]
+  },
+  {
+    "case": "encroach-1-24",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.36412811,
+      -2.05493188,
+      4.00426388
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-25",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.36412811,
+      -2.05493188,
+      4.00426388
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-26",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.36412811,
+      -2.05493188,
+      4.00426388
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-27",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-28",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-29",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-30",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.36412811,
+      -2.05493188,
+      4.00426388
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-31",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.36412811,
+      -2.05493188,
+      4.00426388
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-32",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.36412811,
+      -2.05493188,
+      4.00426388
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-33",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-34",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-35",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-36",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-37",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-38",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.377500057,
+    "point": [
+      3.33842134,
+      -2.12401104,
+      3.99039888
+    ],
+    "normal": [
+      -0.342756242,
+      -0.921055138,
+      -0.184866458
+    ]
+  },
+  {
+    "case": "encroach-1-39",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-40",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-41",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.377500057,
+    "point": [
+      3.33842134,
+      -2.12401104,
+      3.99039888
+    ],
+    "normal": [
+      -0.342756242,
+      -0.921055138,
+      -0.184866458
+    ]
+  },
+  {
+    "case": "encroach-1-42",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-43",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-44",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-45",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-46",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-47",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-48",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-49",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-50",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-51",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-52",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-53",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-54",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-55",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-56",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-57",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-58",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-59",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-60",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-61",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-62",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-63",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-64",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-65",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-66",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-67",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-68",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-69",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-70",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-71",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.29574823,
+      -2.23868251,
+      3.96738291
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-72",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.31271482,
+      -2.19309044,
+      3.97653437
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-73",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.31271482,
+      -2.19309044,
+      3.97653437
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-74",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.31271482,
+      -2.19309044,
+      3.97653437
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-75",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-76",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.00250000134,
+    "point": [
+      3.33842158,
+      -2.12401128,
+      3.99039936
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ]
+  },
+  {
+    "case": "encroach-1-77",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.00250000134,
+    "point": [
+      3.33842158,
+      -2.12401128,
+      3.99039936
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ]
+  },
+  {
+    "case": "encroach-1-78",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.31271482,
+      -2.19309044,
+      3.97653437
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-79",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.31271482,
+      -2.19309044,
+      3.97653437
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-80",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.31271482,
+      -2.19309044,
+      3.97653437
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-81",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-82",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-83",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-84",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.31271482,
+      -2.19309044,
+      3.97653437
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-85",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.31271482,
+      -2.19309044,
+      3.97653437
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-86",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      3.31271482,
+      -2.19309044,
+      3.97653437
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "case": "encroach-1-87",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-88",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-89",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-90",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-91",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-92",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.377499998,
+    "point": [
+      3.33842134,
+      -2.12401104,
+      3.99039888
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ]
+  },
+  {
+    "case": "encroach-1-93",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-94",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-95",
+    "kind": "body",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.377499998,
+    "point": [
+      3.33842134,
+      -2.12401104,
+      3.99039888
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ]
+  },
+  {
+    "case": "encroach-1-96",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-97",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-98",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-99",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-100",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-101",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-102",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-103",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-104",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-105",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-106",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "encroach-1-107",
+    "kind": "body",
+    "hit": 0
+  }
+]

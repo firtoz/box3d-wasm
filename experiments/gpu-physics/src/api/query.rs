@@ -1013,11 +1013,29 @@ fn shape_cast(
     max_fraction: f32,
     can_encroach: bool,
 ) -> CastOutput {
+    shape_cast_offset(target, moving, translation, max_fraction, can_encroach, None)
+}
+
+// A mesh cast stays in body-local coordinates with its origin at the first
+// triangle vertex. Advance the relative pose, not previously rounded world
+// vertices. This matters for very long casts and adjacent-facet selection.
+fn shape_cast_offset(
+    target: &Proxy,
+    moving: &Proxy,
+    translation: V3,
+    max_fraction: f32,
+    can_encroach: bool,
+    offset: Option<V3>,
+) -> CastOutput {
     let total_radius = target.radius + moving.radius;
     let mut target_distance = LINEAR_SLOP.max(total_radius - LINEAR_SLOP);
     let tolerance = 0.25 * LINEAR_SLOP;
     let mut alpha = 0.0;
     let mut shifted = moving.clone();
+    if let Some(offset) = offset {
+        for point in &mut shifted.points { *point += offset; }
+    }
+    let mut cache = None;
     let mut output = CastOutput {
         triangle_index: -1,
         child_index: -1,
@@ -1026,7 +1044,8 @@ fn shape_cast(
     };
     for iteration in 0..MAX_CAST_ITERS {
         output.iterations += 1;
-        let result = distance(target, &shifted, false);
+        let result = distance_cached(target, &shifted, false, cache);
+        if offset.is_some() { cache = Some(result.simplex); }
         if result.distance < target_distance + tolerance {
             if iteration == 0 {
                 if can_encroach && result.distance > 2.0 * LINEAR_SLOP {
@@ -1064,7 +1083,7 @@ fn shape_cast(
             moving
                 .points
                 .iter()
-                .map(|point| *point + alpha * translation),
+                .map(|point| *point + (offset.unwrap_or(V3::ZERO) + alpha * translation)),
         );
     }
     output
@@ -1783,17 +1802,14 @@ fn mesh_ray_cast(
 
 fn mesh_overlap_proxy(shape: &HostShape, transform: WorldTransform, proxy: &Proxy) -> bool {
     let bounds = aabb_for_proxy(proxy);
-    let center = proxy.points.iter().copied().sum::<V3>() / proxy.points.len().max(1) as f32;
     mesh_candidates(shape, transform, bounds)
         .into_iter()
         .any(|index| {
             let Some([a, b, c]) = mesh_triangle(shape, transform, index) else {
                 return false;
             };
-            let normal = (b - a).cross(c - a).normalize_or_zero();
-            if normal.dot(center - a) < 0.0 {
-                return false;
-            }
+            // Like b3OverlapMesh, overlap is two-sided. A proxy crossing the
+            // surface can have its center behind it and still overlap.
             let triangle = Proxy {
                 points: vec![a, b, c],
                 radius: 0.0,
@@ -1819,26 +1835,32 @@ fn mesh_shape_cast_indices(
     can_encroach: bool,
     indices: impl IntoIterator<Item=usize>,
 ) -> CastOutput {
-    let center = moving.points.iter().copied().sum::<V3>() / moving.points.len().max(1) as f32;
+    let local_moving = Proxy {
+        points: moving.points.iter().map(|&p| inverse_transform_point(transform, p)).collect(),
+        radius: moving.radius,
+    };
+    let local_translation = q(transform.q).conjugate() * translation;
+    let identity = WorldTransform { p:[0.0;3], q:[0.0,0.0,0.0,1.0] };
     let mut best = CastOutput::default();
     best.fraction = max_fraction;
     best.triangle_index = -1;
     best.child_index = -1;
     for index in indices {
-        let Some([a, b, c]) = mesh_triangle(shape, transform, index) else {
+        let Some([a, b, c]) = mesh_triangle(shape, identity, index) else {
             continue;
         };
-        let normal = (b - a).cross(c - a).normalize_or_zero();
-        if normal.dot(center - a) < 0.0 || normal.dot(translation) >= 0.0 {
-            continue;
-        }
+        // Mesh shape casts, unlike mesh ray casts, are two-sided. Let the
+        // narrow phase handle initial overlap, including zero translation.
         let triangle = Proxy {
-            points: vec![a, b, c],
+            points: vec![V3::ZERO, b-a, c-a],
             radius: 0.0,
         };
-        let mut hit = shape_cast(&triangle, moving, translation, best.fraction, can_encroach);
+        let mut hit = shape_cast_offset(&triangle, &local_moving, local_translation, best.fraction, can_encroach, Some(-a));
         if hit.hit && hit.fraction <= best.fraction {
-            hit.normal = normal.to_array();
+            // Preserve the witness normal: initial overlap uses zero and edge
+            // contacts need not have the triangle's face normal.
+            hit.point = transform_point(transform.p, transform.q, (v(hit.point)+a).to_array()).to_array();
+            hit.normal = (q(transform.q) * v(hit.normal)).to_array();
             hit.triangle_index = shape
                 .mesh_triangle_ids
                 .get(index)
@@ -2431,7 +2453,7 @@ unsafe fn cast_world(
                 output.fraction,
                 shape.user_material_id,
                 output.triangle_index,
-                shape.child_index,
+                shape.child_index.max(0),
                 context,
             )
         });
@@ -2832,6 +2854,25 @@ mod tests {
         let hit = shape_cast(&hull, &sphere, V3::new(-2.0, 0.0, 0.0), 1.0, false);
         assert!(hit.hit);
         assert!(hit.fraction > 0.45 && hit.fraction < 0.55);
+    }
+
+    #[test]
+    fn pr11_mesh_queries_are_two_sided_and_keep_witness_normals() {
+        let mut mesh=test_shape(KIND_MESH,vec![[-2.0,0.0,-2.0],[-2.0,0.0,2.0],[2.0,0.0,2.0],[2.0,0.0,-2.0]],0.0);
+        mesh.mesh_triangles=arc_vec(vec![[0,1,2,0],[2,3,0,0]]);
+        let xf=WorldTransform {p:[0.0;3],q:[0.0,0.0,0.0,1.0]};
+        for side in [-1.0,1.0] {
+            let stationary=proxy(&[[0.3,side*0.1,0.2]],0.25);
+            assert!(mesh_overlap_proxy(&mesh,xf,&stationary));
+            let cast=mesh_shape_cast(&mesh,xf,&stationary,V3::ZERO,1.0,false);
+            assert!(cast.hit);assert_eq!(cast.fraction,0.0);assert_eq!(cast.normal,[0.0;3]);
+            let moving=proxy(&[[0.3,side,0.2]],0.25);
+            assert!(!mesh_overlap_proxy(&mesh,xf,&moving));
+            let cast=mesh_shape_cast(&mesh,xf,&moving,V3::new(0.0,-2.0*side,0.0),1.0,false);
+            assert!(cast.hit);assert!((cast.fraction-0.3775).abs()<1e-6);
+            assert_eq!(cast.normal,[0.0,side,0.0]);
+            assert!(!mesh_shape_cast(&mesh,xf,&moving,V3::new(0.0,2.0*side,0.0),1.0,false).hit);
+        }
     }
 
     #[test]

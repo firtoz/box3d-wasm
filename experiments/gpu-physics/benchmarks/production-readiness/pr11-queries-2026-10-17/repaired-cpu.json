@@ -1,0 +1,239 @@
+[
+  {
+    "case": "default-filter",
+    "category": "18446744073709551615",
+    "mask": "18446744073709551615"
+  },
+  {
+    "case": "initial-overlap",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      -1.96117795,
+      0.22481373,
+      0.950000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ],
+    "material": 0,
+    "triangle": 1,
+    "child": 0
+  },
+  {
+    "case": "initial-overlap",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "shifted-overlap",
+    "kind": "overlap",
+    "identity": 1
+  },
+  {
+    "case": "shifted-overlap",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-back-stationary",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ],
+    "material": 0,
+    "triangle": 1,
+    "child": 0
+  },
+  {
+    "case": "plane-back-stationary",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-back-stationary",
+    "kind": "overlap",
+    "identity": 1
+  },
+  {
+    "case": "plane-back-stationary",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-back-moving",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.377499998,
+    "point": [
+      0.299999952,
+      0,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      -1,
+      0
+    ],
+    "material": 0,
+    "triangle": 1,
+    "child": 0
+  },
+  {
+    "case": "plane-back-moving",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-back-moving",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "plane-front-stationary",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ],
+    "material": 0,
+    "triangle": 1,
+    "child": 0
+  },
+  {
+    "case": "plane-front-stationary",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-front-stationary",
+    "kind": "overlap",
+    "identity": 1
+  },
+  {
+    "case": "plane-front-stationary",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-front-moving",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.377499998,
+    "point": [
+      0.299999952,
+      0,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "material": 0,
+    "triangle": 1,
+    "child": 0
+  },
+  {
+    "case": "plane-front-moving",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-front-moving",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "filter-1",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.333333343,
+    "point": [
+      -1,
+      0,
+      0
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "material": 0,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "filter-1",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "filter-2",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.333333343,
+    "point": [
+      -1,
+      0,
+      0
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "material": 0,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "filter-2",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "filter-9223372036854775808",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.333333343,
+    "point": [
+      -1,
+      0,
+      0
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "material": 0,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "filter-9223372036854775808",
+    "kind": "summary",
+    "calls": 1
+  }
+]

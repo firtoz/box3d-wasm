@@ -681,7 +681,7 @@ B3_API b3BodyDef b3DefaultBodyDef(void)
 B3_API b3Filter b3DefaultFilter(void)
 {
 	b3Filter filter = {0};
-	filter.categoryBits = 1;
+	filter.categoryBits = UINT64_MAX;
 	filter.maskBits = UINT64_MAX;
 	return filter;
 }

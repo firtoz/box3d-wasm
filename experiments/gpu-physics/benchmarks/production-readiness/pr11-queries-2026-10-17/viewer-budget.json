@@ -1,0 +1,12 @@
+{
+  "status": "FROZEN",
+  "seconds_per_app": 180,
+  "actions_per_app": 48,
+  "screenshots_per_app": 4,
+  "observer_bytes_per_app": 8388608,
+  "api_bytes_per_app": 8388608,
+  "api_tail_bytes": 262144,
+  "temporary_bytes": 1073741824,
+  "min_free_bytes": 21474836480,
+  "shared_cache_growth_bytes": 134217728
+}

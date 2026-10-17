@@ -1,0 +1,2015 @@
+{
+  "status": "PASS_CONTROLS",
+  "label": "ordinary-both",
+  "driver_pid": 2344966,
+  "language": "TypeScript/Bun",
+  "budget": "viewer-budget.json",
+  "binary_sha256": "82649046ee5ef029da59dbaadbafe86baaaee643df0819f49d9e44c802f78f1c",
+  "core_limit_bytes": 0,
+  "actions": [
+    {
+      "kind": "key p",
+      "state_before": {
+        "frame": 5,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 0,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "state_after": {
+        "frame": 12,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "seconds": 0.1266838620000001
+    },
+    {
+      "kind": "key ctrl+o",
+      "state_before": {
+        "frame": 13,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "state_after": {
+        "frame": 22,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "seconds": 0.14921953199999985
+    },
+    {
+      "kind": "picker Collision  >  Initial Overlap",
+      "state_before": {
+        "frame": 22,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "state_after": {
+        "frame": 26,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "seconds": 0.07877820800000018
+    },
+    {
+      "kind": "select Collision  >  Initial Overlap",
+      "target": {
+        "kind": "Selectable",
+        "label": "Collision  >  Initial Overlap",
+        "value": "true",
+        "window": "##Popup_99c77227/##results_DA4103B8",
+        "id": 1832410590,
+        "visible": true,
+        "disabled": false,
+        "changed": false,
+        "rect": [
+          563,
+          228,
+          1037,
+          252
+        ],
+        "clip": [
+          557,
+          221,
+          1043,
+          443
+        ]
+      },
+      "state_before": {
+        "frame": 50,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "state_after": {
+        "frame": 55,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "seconds": 0.109109692
+    },
+    {
+      "kind": "key ctrl+o",
+      "state_before": {
+        "frame": 76,
+        "world": [
+          1,
+          2
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 1,
+        "shape_count": 1,
+        "sample_step": 0
+      },
+      "state_after": {
+        "frame": 85,
+        "world": [
+          1,
+          2
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 1,
+        "shape_count": 1,
+        "sample_step": 0
+      },
+      "seconds": 0.14655790600000002
+    },
+    {
+      "kind": "picker Collision  >  Shape Cast",
+      "state_before": {
+        "frame": 85,
+        "world": [
+          1,
+          2
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 1,
+        "shape_count": 1,
+        "sample_step": 0
+      },
+      "state_after": {
+        "frame": 89,
+        "world": [
+          1,
+          2
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 1,
+        "shape_count": 1,
+        "sample_step": 0
+      },
+      "seconds": 0.07435471499999995
+    },
+    {
+      "kind": "select Collision  >  Shape Cast",
+      "target": {
+        "kind": "Selectable",
+        "label": "Collision  >  Shape Cast",
+        "value": "true",
+        "window": "##Popup_99c77227/##results_DA4103B8",
+        "id": 2169501195,
+        "visible": true,
+        "disabled": false,
+        "changed": false,
+        "rect": [
+          563,
+          228,
+          1037,
+          252
+        ],
+        "clip": [
+          557,
+          221,
+          1043,
+          443
+        ]
+      },
+      "state_before": {
+        "frame": 112,
+        "world": [
+          1,
+          2
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 1,
+        "shape_count": 1,
+        "sample_step": 0
+      },
+      "state_after": {
+        "frame": 118,
+        "world": [
+          1,
+          3
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 12,
+        "shape_count": 12,
+        "sample_step": 0
+      },
+      "seconds": 0.10758487700000023
+    },
+    {
+      "kind": "key ctrl+o",
+      "state_before": {
+        "frame": 137,
+        "world": [
+          1,
+          3
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 12,
+        "shape_count": 12,
+        "sample_step": 0
+      },
+      "state_after": {
+        "frame": 146,
+        "world": [
+          1,
+          3
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 12,
+        "shape_count": 12,
+        "sample_step": 0
+      },
+      "seconds": 0.14808399899999994
+    },
+    {
+      "kind": "picker Bodies  >  Cast",
+      "state_before": {
+        "frame": 146,
+        "world": [
+          1,
+          3
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 12,
+        "shape_count": 12,
+        "sample_step": 0
+      },
+      "state_after": {
+        "frame": 149,
+        "world": [
+          1,
+          3
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 12,
+        "shape_count": 12,
+        "sample_step": 0
+      },
+      "seconds": 0.06523898399999963
+    },
+    {
+      "kind": "select Bodies  >  Cast",
+      "target": {
+        "kind": "Selectable",
+        "label": "Bodies  >  Cast",
+        "value": "true",
+        "window": "##Popup_99c77227/##results_DA4103B8",
+        "id": 4219771676,
+        "visible": true,
+        "disabled": false,
+        "changed": false,
+        "rect": [
+          563,
+          228,
+          1037,
+          252
+        ],
+        "clip": [
+          557,
+          221,
+          1043,
+          443
+        ]
+      },
+      "state_before": {
+        "frame": 173,
+        "world": [
+          1,
+          3
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 12,
+        "shape_count": 12,
+        "sample_step": 0
+      },
+      "state_after": {
+        "frame": 178,
+        "world": [
+          1,
+          4
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 1,
+        "shape_count": 1,
+        "sample_step": 0
+      },
+      "seconds": 0.10819571900000029
+    }
+  ],
+  "screenshots": {
+    "initial-overlap-after": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/viewer-runs-qualified-ui/ordinary-both/initial-overlap-after.png",
+      "sha256": "f3b893d00851315c07da55808f94699e97feca5a49435c925f4fc58d1af8b337",
+      "dimensions": [
+        1600,
+        900
+      ],
+      "state": {
+        "frame": 76,
+        "world": [
+          1,
+          2
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 1,
+        "shape_count": 1,
+        "sample_step": 0
+      }
+    },
+    "shape-cast-after": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/viewer-runs-qualified-ui/ordinary-both/shape-cast-after.png",
+      "sha256": "8666453a4730420a1e2c499aed29dca079c5962fe2d5f143f0864f72bdf8e668",
+      "dimensions": [
+        1600,
+        900
+      ],
+      "state": {
+        "frame": 137,
+        "world": [
+          1,
+          3
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 12,
+        "shape_count": 12,
+        "sample_step": 0
+      }
+    },
+    "body-cast-default": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/viewer-runs-qualified-ui/ordinary-both/body-cast-default.png",
+      "sha256": "0658818e00db13c774aba850e608dd76bfd535344c4e89825864b5f0d66ffa7e",
+      "dimensions": [
+        1600,
+        900
+      ],
+      "state": {
+        "frame": 195,
+        "world": [
+          1,
+          4
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 1,
+        "shape_count": 1,
+        "sample_step": 0
+      }
+    },
+    "body-cast-shift": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/viewer-runs-qualified-ui/ordinary-both/body-cast-shift.png",
+      "sha256": "4681530d34f8a0f13e75f6f118ca0e946c667c4afd73e843d9de7ec4092f36d2",
+      "dimensions": [
+        1600,
+        900
+      ],
+      "state": {
+        "frame": 222,
+        "world": [
+          1,
+          4
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 1,
+        "shape_count": 1,
+        "sample_step": 0
+      }
+    }
+  },
+  "checks": {
+    "Initial Overlap actual scene/no-body fixture": true,
+    "Query hit marker has actual returned point": true,
+    "Normal segment uses actual returned normal": true,
+    "Camera projects returned hit markers into viewport": true,
+    "Initial overlap returns zero fraction and normal": true,
+    "Shape Cast actual scene/no-body fixture": true,
+    "Cast actual scene/no-body fixture": true,
+    "Body Cast original default is a query miss": true,
+    "Body Cast miss submits the white end sphere": true,
+    "Body Cast displays its actual ray endpoints": true,
+    "Scene change removes old world-query markers": true,
+    "Shift-drag actual sphere colour follows returned hit/miss": true,
+    "paused original timing defaults": true,
+    "clean quit": true
+  },
+  "findings": [],
+  "geometry_cases": [],
+  "scene_cases": [],
+  "shared_cache_before": {
+    "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+      "files": 3,
+      "logical_bytes": 269793345
+    },
+    "/home/firtoz/.cache/nvidia": {
+      "files": 364,
+      "logical_bytes": 1030144828
+    },
+    "/home/firtoz/.nv/ComputeCache": {
+      "files": 0,
+      "logical_bytes": 0
+    }
+  },
+  "app_pid": 2344984,
+  "command": [
+    "prlimit",
+    "--core=0",
+    "--",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/ordinary-both",
+    "--sample-name",
+    "Stacking/Single Box"
+  ],
+  "window_id": 115343406,
+  "physics_ready_seconds": 1.4569640750000001,
+  "pr11": {
+    "overlap": {
+      "api": "pr11_frame",
+      "request": 27,
+      "frame": 61,
+      "viewport": [
+        800,
+        900
+      ],
+      "origin": [
+        -6.33022261,
+        1.73648179,
+        -7.544065
+      ],
+      "view": [
+        -0.766044497,
+        0.111618891,
+        -0.633022249,
+        0,
+        -7.45058149e-9,
+        0.98480767,
+        0.173648179,
+        0,
+        0.642787635,
+        0.133022219,
+        -0.754406512,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "proj": [
+        2.41257024,
+        0,
+        0,
+        0,
+        0,
+        2.14450693,
+        0,
+        0,
+        0,
+        0,
+        0.000100010002,
+        -1,
+        0,
+        0,
+        0.10001,
+        0
+      ],
+      "draws": [
+        {
+          "kind": "line",
+          "a": [
+            -1.9611783,
+            0.22481373,
+            0.950000167
+          ],
+          "b": [
+            -1.9611783,
+            0.22481373,
+            0.950000167
+          ],
+          "color": [
+            0.871367335,
+            0.938685894,
+            1,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -1.9611783,
+            0.22481373,
+            0.950000167
+          ],
+          "b": [
+            -1.9611783,
+            0.22481373,
+            0.950000167
+          ],
+          "color": [
+            0.871367335,
+            0.938685894,
+            1,
+            1
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "kind": "world-shape",
+          "hit": 1,
+          "point": [
+            -1.9611783,
+            0.22481373,
+            0.950000167
+          ],
+          "normal": [
+            0,
+            0,
+            0
+          ],
+          "fraction": 0
+        }
+      ]
+    },
+    "overlapScreens": [
+      {
+        "point": [
+          -1.9611783,
+          0.22481373,
+          0.950000167
+        ],
+        "pixel": [
+          616.0940592811228,
+          436.82111369141785
+        ]
+      }
+    ],
+    "casts": {
+      "api": "pr11_frame",
+      "request": 52,
+      "frame": 122,
+      "viewport": [
+        800,
+        900
+      ],
+      "origin": [
+        15,
+        11.5,
+        -8.66025543
+      ],
+      "view": [
+        -0.50000006,
+        -0.433012694,
+        0.75,
+        0,
+        1.49011612e-8,
+        0.866025388,
+        0.5,
+        0,
+        -0.866025388,
+        0.25000003,
+        -0.433012754,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "proj": [
+        2.41257024,
+        0,
+        0,
+        0,
+        0,
+        2.14450693,
+        0,
+        0,
+        0,
+        0,
+        0.000100010002,
+        -1,
+        0,
+        0,
+        0.10001,
+        0
+      ],
+      "draws": [
+        {
+          "kind": "sphere",
+          "a": [
+            -6,
+            3,
+            -5
+          ],
+          "b": [
+            -6,
+            3,
+            -5
+          ],
+          "color": [
+            0,
+            0.215860531,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "sphere",
+          "a": [
+            -6,
+            3,
+            -1.19500017
+          ],
+          "b": [
+            -6,
+            3,
+            -1.19500017
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -6,
+            3,
+            -0.899999976
+          ],
+          "b": [
+            -6,
+            3,
+            -0.899999976
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            -6,
+            3,
+            -0.899999976
+          ],
+          "b": [
+            -6,
+            3,
+            -1.10000002
+          ],
+          "color": [
+            1,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "sphere",
+          "a": [
+            -2,
+            3,
+            -5
+          ],
+          "b": [
+            -2,
+            3,
+            -5
+          ],
+          "color": [
+            0,
+            0.215860531,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "sphere",
+          "a": [
+            -2,
+            3,
+            -0.994999886
+          ],
+          "b": [
+            -2,
+            3,
+            -0.994999886
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -2,
+            3,
+            -0.699999988
+          ],
+          "b": [
+            -2,
+            3,
+            -0.699999988
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            -2,
+            3,
+            -0.699999988
+          ],
+          "b": [
+            -2,
+            3,
+            -0.899999976
+          ],
+          "color": [
+            1,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "sphere",
+          "a": [
+            2,
+            3,
+            -5
+          ],
+          "b": [
+            2,
+            3,
+            -5
+          ],
+          "color": [
+            0,
+            0.215860531,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "sphere",
+          "a": [
+            2,
+            3,
+            -0.894999981
+          ],
+          "b": [
+            2,
+            3,
+            -0.894999981
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            2,
+            3,
+            -0.599999964
+          ],
+          "b": [
+            2,
+            3,
+            -0.599999964
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            2,
+            3,
+            -0.599999964
+          ],
+          "b": [
+            2,
+            3,
+            -0.799999952
+          ],
+          "color": [
+            1,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "sphere",
+          "a": [
+            6,
+            3,
+            -5
+          ],
+          "b": [
+            6,
+            3,
+            -5
+          ],
+          "color": [
+            0,
+            0.215860531,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "sphere",
+          "a": [
+            6,
+            3,
+            -1.29500008
+          ],
+          "b": [
+            6,
+            3,
+            -1.29500008
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            6,
+            3,
+            -1
+          ],
+          "b": [
+            6,
+            3,
+            -1
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            6,
+            3,
+            -1
+          ],
+          "b": [
+            6,
+            3,
+            -1.20000005
+          ],
+          "color": [
+            1,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -5.83561897,
+            5.16438103,
+            -0.869458258
+          ],
+          "b": [
+            -5.83561897,
+            5.16438103,
+            -0.869458258
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            -5.83561897,
+            5.16438103,
+            -0.869458258
+          ],
+          "b": [
+            -5.79908991,
+            5.20091009,
+            -1.06267118
+          ],
+          "color": [
+            1,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -1.8000977,
+            5.20009661,
+            -0.699999809
+          ],
+          "b": [
+            -1.8000977,
+            5.20009661,
+            -0.699999809
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            -1.8000977,
+            5.20009661,
+            -0.699999809
+          ],
+          "b": [
+            -1.79999745,
+            5.19999695,
+            -0.899999738
+          ],
+          "color": [
+            1,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            2.20000005,
+            5.19999981,
+            -0.599999964
+          ],
+          "b": [
+            2.20000005,
+            5.19999981,
+            -0.599999964
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            2.20000005,
+            5.19999981,
+            -0.599999964
+          ],
+          "b": [
+            2.20000005,
+            5.19999981,
+            -0.799999952
+          ],
+          "color": [
+            1,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            6.15233278,
+            5.14316368,
+            -0.912597001
+          ],
+          "b": [
+            6.15233278,
+            5.14316368,
+            -0.912597001
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            6.15233278,
+            5.14316368,
+            -0.912597001
+          ],
+          "b": [
+            6.20118141,
+            5.20140839,
+            -1.09758723
+          ],
+          "color": [
+            1,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -5.83876944,
+            7.06062126,
+            -0.88336283
+          ],
+          "b": [
+            -5.83876944,
+            7.06062126,
+            -0.88336283
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            -5.83876944,
+            7.06062126,
+            -0.88336283
+          ],
+          "b": [
+            -5.80294037,
+            7.07409286,
+            -1.07966566
+          ],
+          "color": [
+            1,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -1.78788185,
+            7.14867115,
+            -0.698523939
+          ],
+          "b": [
+            -1.78788185,
+            7.14867115,
+            -0.698523939
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            -1.78788185,
+            7.14867115,
+            -0.698523939
+          ],
+          "b": [
+            -1.77868211,
+            7.13951254,
+            -0.898102224
+          ],
+          "color": [
+            1,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            2.21193647,
+            7.14885235,
+            -0.599999964
+          ],
+          "b": [
+            2.21193647,
+            7.14885235,
+            -0.599999964
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            2.21193647,
+            7.14885235,
+            -0.599999964
+          ],
+          "b": [
+            2.21193647,
+            7.14885235,
+            -0.799999952
+          ],
+          "color": [
+            1,
+            1,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            6.12396812,
+            7,
+            -0.966744304
+          ],
+          "b": [
+            6.12396812,
+            7,
+            -0.966744304
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            6.12396812,
+            7,
+            -0.966744304
+          ],
+          "b": [
+            6.17577982,
+            7.00360584,
+            -1.15988302
+          ],
+          "color": [
+            1,
+            1,
+            0,
+            1
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "kind": "world-shape",
+          "hit": 1,
+          "point": [
+            -6,
+            3,
+            -0.899999976
+          ],
+          "normal": [
+            0,
+            0,
+            -1
+          ],
+          "fraction": 0.380499989
+        },
+        {
+          "kind": "world-shape",
+          "hit": 1,
+          "point": [
+            -2,
+            3,
+            -0.699999988
+          ],
+          "normal": [
+            0,
+            0,
+            -1
+          ],
+          "fraction": 0.4005
+        },
+        {
+          "kind": "world-shape",
+          "hit": 1,
+          "point": [
+            2,
+            3,
+            -0.599999964
+          ],
+          "normal": [
+            2.0184153e-7,
+            4.51679472e-10,
+            -1
+          ],
+          "fraction": 0.41049999
+        },
+        {
+          "kind": "world-shape",
+          "hit": 1,
+          "point": [
+            6,
+            3,
+            -1
+          ],
+          "normal": [
+            5.24080747e-7,
+            3.03074415e-7,
+            -1
+          ],
+          "fraction": 0.370499998
+        },
+        {
+          "kind": "world-shape",
+          "hit": 1,
+          "point": [
+            -5.83561897,
+            5.16438103,
+            -0.869458258
+          ],
+          "normal": [
+            0.182645813,
+            0.182645813,
+            -0.966064751
+          ],
+          "fraction": 0.37421453
+        },
+        {
+          "kind": "world-shape",
+          "hit": 1,
+          "point": [
+            -1.8000977,
+            5.20009661,
+            -0.699999809
+          ],
+          "normal": [
+            0.000501400151,
+            -0.000499160727,
+            -0.999999702
+          ],
+          "fraction": 0.390500009
+        },
+        {
+          "kind": "world-shape",
+          "hit": 1,
+          "point": [
+            2.20000005,
+            5.19999981,
+            -0.599999964
+          ],
+          "normal": [
+            0,
+            0,
+            -1
+          ],
+          "fraction": 0.4005
+        },
+        {
+          "kind": "world-shape",
+          "hit": 1,
+          "point": [
+            6.15233278,
+            5.14316368,
+            -0.912597001
+          ],
+          "normal": [
+            0.244242117,
+            0.2912229,
+            -0.924951315
+          ],
+          "fraction": 0.370688587
+        },
+        {
+          "kind": "world-shape",
+          "hit": 1,
+          "point": [
+            -5.83876944,
+            7.06062126,
+            -0.88336283
+          ],
+          "normal": [
+            0.179144427,
+            0.0673575252,
+            -0.981514275
+          ],
+          "fraction": 0.368656516
+        },
+        {
+          "kind": "world-shape",
+          "hit": 1,
+          "point": [
+            -1.78788185,
+            7.14867115,
+            -0.698523939
+          ],
+          "normal": [
+            0.0459984206,
+            -0.0457929783,
+            -0.997891366
+          ],
+          "fraction": 0.385494024
+        },
+        {
+          "kind": "world-shape",
+          "hit": 1,
+          "point": [
+            2.21193647,
+            7.14885235,
+            -0.599999964
+          ],
+          "normal": [
+            0,
+            0,
+            -1
+          ],
+          "fraction": 0.394452721
+        },
+        {
+          "kind": "world-shape",
+          "hit": 1,
+          "point": [
+            6.12396812,
+            7,
+            -0.966744304
+          ],
+          "normal": [
+            0.259057432,
+            0.0180286393,
+            -0.965693593
+          ],
+          "fraction": 0.360398263
+        }
+      ]
+    },
+    "castScreens": [
+      {
+        "point": [
+          -6,
+          3,
+          -0.899999976
+        ],
+        "pixel": [
+          556.1303110057521,
+          298.3026465442069
+        ]
+      },
+      {
+        "point": [
+          -2,
+          3,
+          -0.699999988
+        ],
+        "pixel": [
+          475.80834722600247,
+          356.0753193639558
+        ]
+      },
+      {
+        "point": [
+          2,
+          3,
+          -0.599999964
+        ],
+        "pixel": [
+          373.49456250510406,
+          434.3846310288653
+        ]
+      },
+      {
+        "point": [
+          6,
+          3,
+          -1
+        ],
+        "pixel": [
+          256.1606640835868,
+          554.4119530382584
+        ]
+      },
+      {
+        "point": [
+          -5.83561897,
+          5.16438103,
+          -0.869458258
+        ],
+        "pixel": [
+          559.7980030388891,
+          211.3126628913194
+        ]
+      },
+      {
+        "point": [
+          -1.8000977,
+          5.20009661,
+          -0.699999809
+        ],
+        "pixel": [
+          475.7199339524587,
+          258.5296209010617
+        ]
+      },
+      {
+        "point": [
+          2.20000005,
+          5.19999981,
+          -0.599999964
+        ],
+        "pixel": [
+          365.5122309389278,
+          325.1143430871838
+        ]
+      },
+      {
+        "point": [
+          6.15233278,
+          5.14316368,
+          -0.912597001
+        ],
+        "pixel": [
+          232.49341106879297,
+          430.7356858631683
+        ]
+      },
+      {
+        "point": [
+          -5.83876944,
+          7.06062126,
+          -0.88336283
+        ],
+        "pixel": [
+          567.5860394807567,
+          126.00540736642368
+        ]
+      },
+      {
+        "point": [
+          -1.78788185,
+          7.14867115,
+          -0.698523939
+        ],
+        "pixel": [
+          479.4143550264121,
+          159.05014099661784
+        ]
+      },
+      {
+        "point": [
+          2.21193647,
+          7.14885235,
+          -0.599999964
+        ],
+        "pixel": [
+          362.91181946214823,
+          210.63738244345464
+        ]
+      },
+      {
+        "point": [
+          6.12396812,
+          7,
+          -0.966744304
+        ],
+        "pixel": [
+          224.57238623172725,
+          302.5698166052177
+        ]
+      }
+    ],
+    "body": {
+      "api": "pr11_frame",
+      "request": 77,
+      "frame": 182,
+      "viewport": [
+        800,
+        900
+      ],
+      "origin": [
+        15,
+        11.5,
+        -8.66025543
+      ],
+      "view": [
+        -0.50000006,
+        -0.433012694,
+        0.75,
+        0,
+        1.49011612e-8,
+        0.866025388,
+        0.5,
+        0,
+        -0.866025388,
+        0.25000003,
+        -0.433012754,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "proj": [
+        2.41257024,
+        0,
+        0,
+        0,
+        0,
+        2.14450693,
+        0,
+        0,
+        0,
+        0,
+        0.000100010002,
+        -1,
+        0,
+        0,
+        0.10001,
+        0
+      ],
+      "draws": [
+        {
+          "kind": "line",
+          "a": [
+            -9.75,
+            3,
+            -4
+          ],
+          "b": [
+            -9.75,
+            3,
+            4
+          ],
+          "color": [
+            0,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -9.75,
+            3,
+            -4
+          ],
+          "b": [
+            -9.75,
+            3,
+            -4
+          ],
+          "color": [
+            0,
+            0.215860531,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -9.75,
+            3,
+            4
+          ],
+          "b": [
+            -9.75,
+            3,
+            4
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "sphere",
+          "a": [
+            -6.5,
+            2.5,
+            0.5
+          ],
+          "b": [
+            -6.5,
+            2.5,
+            0.5
+          ],
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            -14.5,
+            2.5,
+            0.5
+          ],
+          "b": [
+            -6.5,
+            2.5,
+            0.5
+          ],
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -14.5,
+            2.5,
+            0.5
+          ],
+          "b": [
+            -14.5,
+            2.5,
+            0.5
+          ],
+          "color": [
+            0,
+            0.215860531,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -6.5,
+            2.5,
+            0.5
+          ],
+          "b": [
+            -6.5,
+            2.5,
+            0.5
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "kind": "body-ray",
+          "hit": 0
+        },
+        {
+          "kind": "body-shape",
+          "hit": 0
+        }
+      ]
+    },
+    "shifted": {
+      "api": "pr11_frame",
+      "request": 87,
+      "frame": 209,
+      "viewport": [
+        800,
+        900
+      ],
+      "origin": [
+        15,
+        11.5,
+        -8.66025543
+      ],
+      "view": [
+        -0.50000006,
+        -0.433012694,
+        0.75,
+        0,
+        1.49011612e-8,
+        0.866025388,
+        0.5,
+        0,
+        -0.866025388,
+        0.25000003,
+        -0.433012754,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "proj": [
+        2.41257024,
+        0,
+        0,
+        0,
+        0,
+        2.14450693,
+        0,
+        0,
+        0,
+        0,
+        0.000100010002,
+        -1,
+        0,
+        0,
+        0.10001,
+        0
+      ],
+      "draws": [
+        {
+          "kind": "line",
+          "a": [
+            -9.75,
+            3,
+            -4
+          ],
+          "b": [
+            -9.75,
+            3,
+            4
+          ],
+          "color": [
+            0,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -9.75,
+            3,
+            -4
+          ],
+          "b": [
+            -9.75,
+            3,
+            -4
+          ],
+          "color": [
+            0,
+            0.215860531,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -9.75,
+            3,
+            4
+          ],
+          "b": [
+            -9.75,
+            3,
+            4
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "sphere",
+          "a": [
+            -6.5,
+            2.5,
+            0.5
+          ],
+          "b": [
+            -6.5,
+            2.5,
+            0.5
+          ],
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "kind": "line",
+          "a": [
+            -14.5,
+            2.5,
+            0.5
+          ],
+          "b": [
+            -6.5,
+            2.5,
+            0.5
+          ],
+          "color": [
+            1,
+            1,
+            1,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -14.5,
+            2.5,
+            0.5
+          ],
+          "b": [
+            -14.5,
+            2.5,
+            0.5
+          ],
+          "color": [
+            0,
+            0.215860531,
+            0,
+            1
+          ]
+        },
+        {
+          "kind": "point",
+          "a": [
+            -6.5,
+            2.5,
+            0.5
+          ],
+          "b": [
+            -6.5,
+            2.5,
+            0.5
+          ],
+          "color": [
+            1,
+            0,
+            0,
+            1
+          ]
+        }
+      ],
+      "queries": [
+        {
+          "kind": "body-ray",
+          "hit": 0
+        },
+        {
+          "kind": "body-shape",
+          "hit": 0
+        }
+      ]
+    }
+  },
+  "app_terminal_exit": 0,
+  "app_terminal_signal": null,
+  "elapsed_seconds": 5.479055769,
+  "shared_cache_after": {
+    "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+      "files": 3,
+      "logical_bytes": 269793345
+    },
+    "/home/firtoz/.cache/nvidia": {
+      "files": 364,
+      "logical_bytes": 1030144828
+    },
+    "/home/firtoz/.nv/ComputeCache": {
+      "files": 0,
+      "logical_bytes": 0
+    }
+  },
+  "shared_cache_growth_bytes": 0,
+  "cache_growth_within_budget": true,
+  "free_bytes_after": 1706866151424
+}

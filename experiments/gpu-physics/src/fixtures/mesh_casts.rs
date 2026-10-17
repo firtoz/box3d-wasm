@@ -75,6 +75,11 @@ fn perf02_actual_frozen_casts_and_transformed_controls() {
         &std::fs::read_to_string(root.join("actual-inputs-outputs.json")).unwrap(),
     )
     .unwrap();
+    // PR11 repaired the cast frame and witness normal. Old saved GPU outputs
+    // remain historical inputs; compare arithmetic to the independent C oracle.
+    // Near-tied crease facets use the CPU result on the GPU-selected triangle,
+    // validated separately in facet-oracle-comparison.json at the same limit.
+    let cpu: serde_json::Value = serde_json::from_str(include_str!("../../benchmarks/production-readiness/pr11-queries-2026-10-17/heightfield-cpu-reference.json")).unwrap();
     let mut old_count = 0usize;
     let mut new_count = 0usize;
     let mut hits = 0usize;
@@ -112,24 +117,16 @@ fn perf02_actual_frozen_casts_and_transformed_controls() {
             row["index"]
         );
         assert_eq!(before.hit, !row["expected"].is_null());
+        let expected=&cpu[row["index"].as_u64().unwrap() as usize];
+        assert_eq!(before.hit,!expected.is_null());
         if before.hit {
             hits += 1;
-            assert_eq!(
-                before.fraction,
-                row["expected"]["fraction"].as_f64().unwrap() as f32
-            );
-            assert_eq!(
-                before.point,
-                std::array::from_fn(|i| row["expected"]["p"][i].as_f64().unwrap() as f32)
-            );
-            assert_eq!(
-                before.normal,
-                std::array::from_fn(|i| row["expected"]["n"][i].as_f64().unwrap() as f32)
-            );
-            assert_eq!(
-                before.triangle_index,
-                row["expected"]["triangle"].as_i64().unwrap() as i32
-            );
+            assert!((before.fraction-expected[0].as_f64().unwrap() as f32).abs()<=1e-5);
+            for axis in 0..3 {
+                assert!((before.point[axis]-expected[1][axis].as_f64().unwrap() as f32).abs()<=1e-5,"point cast {}",row["index"]);
+                assert!((before.normal[axis]-expected[2][axis].as_f64().unwrap() as f32).abs()<=1e-5,"normal cast {}",row["index"]);
+            }
+            assert_eq!(before.triangle_index,expected[3].as_i64().unwrap() as i32);
         }
         let start = aabb_for_proxy(&query);
         let end = Aabb {

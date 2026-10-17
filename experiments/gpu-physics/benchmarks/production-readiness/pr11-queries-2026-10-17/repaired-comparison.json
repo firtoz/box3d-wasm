@@ -1,0 +1,16 @@
+[
+  {
+    "backend": "ordinary",
+    "rows": 25,
+    "maximum": 1.200000000478596e-7,
+    "tolerance": 0.00001,
+    "errors": []
+  },
+  {
+    "backend": "native",
+    "rows": 25,
+    "maximum": 1.200000000478596e-7,
+    "tolerance": 0.00001,
+    "errors": []
+  }
+]

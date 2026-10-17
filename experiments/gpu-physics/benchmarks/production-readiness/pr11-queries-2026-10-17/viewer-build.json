@@ -1,0 +1,94 @@
+{
+  "status": "PASS",
+  "operations": [
+    {
+      "label": "ordinary-both-configure",
+      "args": [
+        "cmake",
+        "-S",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+        "-B",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/viewer-build",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DFETCHCONTENT_FULLY_DISCONNECTED=ON",
+        "-DGPU_PORTABLE_API=ON",
+        "-DGPU_SAMPLES=ON",
+        "-DBOTH_SAMPLES=ON",
+        "-DGPU_PHYSICS_LIB=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/libgpu_physics.a",
+        "-DCMAKE_PROJECT_INCLUDE=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/observer.cmake"
+      ],
+      "seconds": 45,
+      "pid": 2342023,
+      "code": 0,
+      "elapsedMs": 1009
+    },
+    {
+      "label": "ordinary-both-build",
+      "args": [
+        "cmake",
+        "--build",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/viewer-build",
+        "--target",
+        "samples_both",
+        "-j4"
+      ],
+      "seconds": 45,
+      "pid": 2342123,
+      "code": 0,
+      "elapsedMs": 9257
+    },
+    {
+      "label": "native-both-configure",
+      "args": [
+        "cmake",
+        "-S",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples",
+        "-B",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/viewer-build",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DFETCHCONTENT_FULLY_DISCONNECTED=ON",
+        "-DGPU_PORTABLE_API=ON",
+        "-DGPU_SAMPLES=ON",
+        "-DBOTH_SAMPLES=ON",
+        "-DGPU_PHYSICS_LIB=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/libgpu_physics.a",
+        "-DCMAKE_PROJECT_INCLUDE=/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/observer.cmake"
+      ],
+      "seconds": 45,
+      "pid": 2342670,
+      "code": 0,
+      "elapsedMs": 969
+    },
+    {
+      "label": "native-both-build",
+      "args": [
+        "cmake",
+        "--build",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/viewer-build",
+        "--target",
+        "samples_both",
+        "-j4"
+      ],
+      "seconds": 45,
+      "pid": 2342790,
+      "code": 0,
+      "elapsedMs": 5820
+    }
+  ],
+  "viewers": [
+    {
+      "label": "ordinary-both",
+      "binary": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/ordinary-both",
+      "sha256": "82649046ee5ef029da59dbaadbafe86baaaee643df0819f49d9e44c802f78f1c",
+      "lib_sha256": "2a4516f5de665f1e3460ad0532a7ca26350bbd8b01c239050d53f387f50c9cae"
+    },
+    {
+      "label": "native-both",
+      "binary": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/native-both",
+      "sha256": "88eaa7cb0fc40f6e4203083042f97479ead41105413338f53639c7f06627b18a",
+      "lib_sha256": "f6e59978aff679019eb48c04f9c50e62b8394b86e43bfa109578f7759c3930e0"
+    }
+  ],
+  "diagnostic_ui_source": "a1774db29617ef4916d2771a1ac5fc14d3f1ae0941461b4ace401dadff143645",
+  "diagnostic_ui_prefix_sha256": "8acd2ea358a4b6f878f15135b14085aab071fb9486d16b6e32814af1891e98d5",
+  "driver_source": "05db18a44042bf0fa84f39ade0dad08e6015a35a15f5dbca65bc377a05516771"
+}

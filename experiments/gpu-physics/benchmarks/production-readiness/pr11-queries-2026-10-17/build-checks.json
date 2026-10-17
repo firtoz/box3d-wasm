@@ -1,0 +1,285 @@
+[
+  {
+    "label": "heightfield-cpu",
+    "argv": [
+      "bash",
+      "-c",
+      "ulimit -c 0; exec \"$@\"",
+      "pr11",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/cpu",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/heightfield-inputs.txt"
+    ],
+    "seconds": 60,
+    "code": 0,
+    "elapsedMs": 153
+  },
+  {
+    "label": "heightfield-ordinary",
+    "argv": [
+      "bash",
+      "-c",
+      "ulimit -c 0; exec \"$@\"",
+      "pr11",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/ordinary",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/heightfield-inputs.txt"
+    ],
+    "seconds": 60,
+    "code": 0,
+    "elapsedMs": 429
+  },
+  {
+    "label": "heightfield-native",
+    "argv": [
+      "bash",
+      "-c",
+      "ulimit -c 0; exec \"$@\"",
+      "pr11",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/native",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/heightfield-inputs.txt"
+    ],
+    "seconds": 60,
+    "code": 0,
+    "elapsedMs": 385
+  },
+  {
+    "label": "callbacks-cpu-link",
+    "argv": [
+      "g++",
+      "-O2",
+      "-ffp-contract=off",
+      "-std=c++17",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/query_reentrancy.cpp",
+      "-I",
+      "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/cpu-build/src/libbox3d.a",
+      "-ldl",
+      "-lpthread",
+      "-lm",
+      "-lgcc_s",
+      "-o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/callbacks-cpu"
+    ],
+    "seconds": 45,
+    "code": 0,
+    "pid": 2310738,
+    "elapsedMs": 328
+  },
+  {
+    "label": "callbacks-cpu",
+    "argv": [
+      "bash",
+      "-c",
+      "ulimit -c 0; exec \"$1\"",
+      "pr11",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/callbacks-cpu"
+    ],
+    "seconds": 60,
+    "code": 0,
+    "pid": 2310744,
+    "elapsedMs": 3
+  },
+  {
+    "label": "callbacks-ordinary-link",
+    "argv": [
+      "g++",
+      "-O2",
+      "-ffp-contract=off",
+      "-std=c++17",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/query_reentrancy.cpp",
+      "-I",
+      "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+      "-Wl,--allow-multiple-definition",
+      "-Wl,--wrap=b3CreateCompound",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/shim.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/libgpu_physics.a",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/cpu-build/src/libbox3d.a",
+      "-ldl",
+      "-lpthread",
+      "-lm",
+      "-lgcc_s",
+      "-o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/callbacks-ordinary"
+    ],
+    "seconds": 45,
+    "code": 0,
+    "pid": 2310746,
+    "elapsedMs": 1503
+  },
+  {
+    "label": "callbacks-ordinary",
+    "argv": [
+      "bash",
+      "-c",
+      "ulimit -c 0; exec \"$1\"",
+      "pr11",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/callbacks-ordinary"
+    ],
+    "seconds": 60,
+    "code": 0,
+    "pid": 2310896,
+    "elapsedMs": 1376
+  },
+  {
+    "label": "callbacks-native-link",
+    "argv": [
+      "g++",
+      "-O2",
+      "-ffp-contract=off",
+      "-std=c++17",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/query_reentrancy.cpp",
+      "-I",
+      "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+      "-Wl,--allow-multiple-definition",
+      "-Wl,--wrap=b3CreateCompound",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/shim.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/libgpu_physics.a",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/cpu-build/src/libbox3d.a",
+      "-ldl",
+      "-lpthread",
+      "-lm",
+      "-lgcc_s",
+      "-o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/callbacks-native"
+    ],
+    "seconds": 45,
+    "code": 0,
+    "pid": 2311017,
+    "elapsedMs": 1494
+  },
+  {
+    "label": "callbacks-native",
+    "argv": [
+      "bash",
+      "-c",
+      "ulimit -c 0; exec \"$1\"",
+      "pr11",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/callbacks-native"
+    ],
+    "seconds": 60,
+    "code": 0,
+    "pid": 2311142,
+    "elapsedMs": 1255
+  },
+  {
+    "label": "encroach-cpu-link",
+    "argv": [
+      "g++",
+      "-O2",
+      "-ffp-contract=off",
+      "-std=c++17",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/pr11_query_reference.cpp",
+      "-I",
+      "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/cpu-build/src/libbox3d.a",
+      "-lpthread",
+      "-lm",
+      "-o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/cpu"
+    ],
+    "seconds": 45,
+    "code": 0,
+    "pid": 2364218,
+    "elapsedMs": 674
+  },
+  {
+    "label": "ordinary-link",
+    "argv": [
+      "g++",
+      "-O2",
+      "-ffp-contract=off",
+      "-std=c++17",
+      "-DPR11_GPU",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/pr11_query_reference.cpp",
+      "-I",
+      "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+      "-Wl,--allow-multiple-definition",
+      "-Wl,--wrap=b3CreateCompound",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/shim.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/libgpu_physics.a",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/cpu-build/src/libbox3d.a",
+      "-ldl",
+      "-lpthread",
+      "-lm",
+      "-lgcc_s",
+      "-o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/ordinary"
+    ],
+    "seconds": 45,
+    "code": 0,
+    "pid": 2364259,
+    "elapsedMs": 1712
+  },
+  {
+    "label": "native-link",
+    "argv": [
+      "g++",
+      "-O2",
+      "-ffp-contract=off",
+      "-std=c++17",
+      "-DPR11_GPU",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/pr11_query_reference.cpp",
+      "-I",
+      "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+      "-Wl,--allow-multiple-definition",
+      "-Wl,--wrap=b3CreateCompound",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/shim.o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/libgpu_physics.a",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/cpu-build/src/libbox3d.a",
+      "-ldl",
+      "-lpthread",
+      "-lm",
+      "-lgcc_s",
+      "-o",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/native"
+    ],
+    "seconds": 45,
+    "code": 0,
+    "pid": 2364367,
+    "elapsedMs": 1771
+  },
+  {
+    "label": "encroach-cpu",
+    "argv": [
+      "bash",
+      "-c",
+      "ulimit -c 0; exec \"$@\"",
+      "pr11",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/cpu",
+      "encroach"
+    ],
+    "seconds": 30,
+    "code": 0,
+    "pid": 2364529,
+    "elapsedMs": 6
+  },
+  {
+    "label": "encroach-ordinary",
+    "argv": [
+      "bash",
+      "-c",
+      "ulimit -c 0; exec \"$@\"",
+      "pr11",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/ordinary",
+      "encroach"
+    ],
+    "seconds": 30,
+    "code": 0,
+    "pid": 2364531,
+    "elapsedMs": 166
+  },
+  {
+    "label": "encroach-native",
+    "argv": [
+      "bash",
+      "-c",
+      "ulimit -c 0; exec \"$@\"",
+      "pr11",
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/native",
+      "encroach"
+    ],
+    "seconds": 30,
+    "code": 0,
+    "pid": 2364542,
+    "elapsedMs": 130
+  }
+]

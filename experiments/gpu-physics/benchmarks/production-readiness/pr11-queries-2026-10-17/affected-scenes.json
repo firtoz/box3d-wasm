@@ -1,0 +1,108 @@
+{
+  "directQueryCallers": [
+    {
+      "class": "BenchmarkHeightField",
+      "sample": "Benchmark/Height Field",
+      "file": "sample_benchmark.cpp",
+      "apis": [
+        "b3World_CastShape"
+      ],
+      "review": "Source applicability; shared independent primitive cases, not a new scene runtime pass"
+    },
+    {
+      "class": "BodyCast",
+      "sample": "Bodies/Cast",
+      "file": "sample_bodies.cpp",
+      "apis": [
+        "b3Body_CastShape",
+        "b3Body_OverlapShape"
+      ],
+      "review": "Source applicability; shared independent primitive cases, not a new scene runtime pass"
+    },
+    {
+      "class": "BasicMover",
+      "sample": "Character/Mover",
+      "file": "sample_character.cpp",
+      "apis": [
+        "b3World_CastShape"
+      ],
+      "review": "Source applicability; shared independent primitive cases, not a new scene runtime pass"
+    },
+    {
+      "class": "CastWorld",
+      "sample": "Collision/Cast World",
+      "file": "sample_collision.cpp",
+      "apis": [
+        "b3World_CastShape"
+      ],
+      "review": "Source applicability; shared independent primitive cases, not a new scene runtime pass"
+    },
+    {
+      "class": "MeshScale",
+      "sample": "Collision/Mesh Scale",
+      "file": "sample_collision.cpp",
+      "apis": [
+        "b3World_CastShape"
+      ],
+      "review": "Source applicability; shared independent primitive cases, not a new scene runtime pass"
+    },
+    {
+      "class": "ShapeCast",
+      "sample": "Collision/Shape Cast",
+      "file": "sample_collision.cpp",
+      "apis": [
+        "b3World_CastShape"
+      ],
+      "review": "Source applicability; shared independent primitive cases, not a new scene runtime pass"
+    },
+    {
+      "class": "OverlapWorld",
+      "sample": "Collision/Overlap World",
+      "file": "sample_collision.cpp",
+      "apis": [
+        "b3World_OverlapShape"
+      ],
+      "review": "Source applicability; shared independent primitive cases, not a new scene runtime pass"
+    },
+    {
+      "class": "InitialOverlap",
+      "sample": "Collision/Initial Overlap",
+      "file": "sample_collision.cpp",
+      "apis": [
+        "b3World_CastShape"
+      ],
+      "review": "Source applicability; shared independent primitive cases, not a new scene runtime pass"
+    },
+    {
+      "class": "Village",
+      "sample": "Compound/Village",
+      "file": "sample_compound.cpp",
+      "apis": [
+        "b3World_CastShape",
+        "b3World_OverlapShape"
+      ],
+      "review": "Source applicability; shared independent primitive cases, not a new scene runtime pass"
+    },
+    {
+      "class": "HeightField",
+      "sample": "Mesh/Height Field",
+      "file": "sample_mesh.cpp",
+      "apis": [
+        "b3World_CastShape"
+      ],
+      "review": "Source applicability; shared independent primitive cases, not a new scene runtime pass"
+    }
+  ],
+  "sharedDefaultFilter": "All ordinary/native sample callers using b3DefaultFilter/b3DefaultShapeDef; no-body tools without these calls unaffected. Shared masks1/2/bit63 checked; no165sample resweep.",
+  "runtimeScenes": [
+    "Collision/Initial Overlap",
+    "Collision/Shape Cast",
+    "Bodies/Cast"
+  ],
+  "frozenExactScenes": [
+    "Collision/Initial Overlap",
+    "Collision/Overlap World",
+    "Benchmark/Height Field",
+    "Bodies/Cast"
+  ]
+}

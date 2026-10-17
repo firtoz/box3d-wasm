@@ -1,0 +1,8 @@
+{
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/pr11_query_reference.cpp": "b7acc66f01b1b8b5a3e1675b0d04b6a4f6810d218894a3238465478b2bc28234",
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/cpu-build/src/libbox3d.a": "b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c",
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/libgpu_physics.a": "8763e60cf5f005fab74cfc58c098e75b06c68d9622957598e0b617814762dfd6",
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/libgpu_physics.a": "ecd7d64bc14e7617c058478cb51409476098497731b4c029d0401bf9630a5bbd",
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/shim.c": "1c809e15e96c0d50706632f0f62dad269e0a04f5659589b5ecfed54362e9905a",
+  "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/api/query.rs": "aa24c82826044a37bc8565a1c53d9f92ec90ca2a8533dad688f142e4c4d5911d"
+}

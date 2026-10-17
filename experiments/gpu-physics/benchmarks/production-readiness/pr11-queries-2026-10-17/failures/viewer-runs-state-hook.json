@@ -1,0 +1,152 @@
+{
+  "status": "FAILURE_RETAINED",
+  "label": "ordinary-both",
+  "driver_pid": 2336283,
+  "language": "TypeScript/Bun",
+  "budget": "viewer-budget.json",
+  "binary_sha256": "b1fed586ecf919a753d4f99500d55a35b10b3010194f38e64c1afcfc9bfe67a2",
+  "core_limit_bytes": 0,
+  "actions": [
+    {
+      "kind": "key p",
+      "state_before": {
+        "frame": 5,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 0,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "state_after": {
+        "frame": 13,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "seconds": 0.12764648299999998
+    },
+    {
+      "kind": "key ctrl+o",
+      "state_before": {
+        "frame": 13,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "state_after": {
+        "frame": 22,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "seconds": 0.14860459100000004
+    },
+    {
+      "kind": "picker Collision  >  Initial Overlap",
+      "state_before": {
+        "frame": 22,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "state_after": {
+        "frame": 26,
+        "world": [
+          1,
+          1
+        ],
+        "pause": 1,
+        "hertz": 60,
+        "substeps": 4,
+        "body_count": 2,
+        "shape_count": 2,
+        "sample_step": 6
+      },
+      "seconds": 0.07784053100000006
+    }
+  ],
+  "screenshots": {},
+  "checks": {},
+  "findings": [],
+  "geometry_cases": [],
+  "scene_cases": [],
+  "shared_cache_before": {
+    "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+      "files": 3,
+      "logical_bytes": 269793345
+    },
+    "/home/firtoz/.cache/nvidia": {
+      "files": 364,
+      "logical_bytes": 1030144828
+    },
+    "/home/firtoz/.nv/ComputeCache": {
+      "files": 0,
+      "logical_bytes": 0
+    }
+  },
+  "app_pid": 2336299,
+  "command": [
+    "prlimit",
+    "--core=0",
+    "--",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/ordinary-both",
+    "--sample-name",
+    "Stacking/Single Box"
+  ],
+  "window_id": 115343406,
+  "physics_ready_seconds": 1.478034842,
+  "error": "Error: Transition timed out 3s",
+  "app_terminal_exit": null,
+  "app_terminal_signal": "SIGTERM",
+  "elapsed_seconds": 5.085686014999999,
+  "shared_cache_after": {
+    "/home/firtoz/.cache/box3d-gpu-physics/pipelines": {
+      "files": 3,
+      "logical_bytes": 269793345
+    },
+    "/home/firtoz/.cache/nvidia": {
+      "files": 364,
+      "logical_bytes": 1030144828
+    },
+    "/home/firtoz/.nv/ComputeCache": {
+      "files": 0,
+      "logical_bytes": 0
+    }
+  },
+  "shared_cache_growth_bytes": 0,
+  "cache_growth_within_budget": true,
+  "free_bytes_after": 1706868760576
+}

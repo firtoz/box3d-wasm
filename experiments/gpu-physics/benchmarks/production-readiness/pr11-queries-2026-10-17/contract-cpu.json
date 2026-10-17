@@ -1,0 +1,6775 @@
+[
+  {
+    "case": "default-filter",
+    "category": "18446744073709551615",
+    "mask": "18446744073709551615"
+  },
+  {
+    "case": "initial-overlap",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      -1.96117795,
+      0.22481373,
+      0.950000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ],
+    "material": 0,
+    "triangle": 1,
+    "child": 0
+  },
+  {
+    "case": "initial-overlap",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "shifted-overlap",
+    "kind": "overlap",
+    "identity": 1
+  },
+  {
+    "case": "shifted-overlap",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-back-stationary",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ],
+    "material": 0,
+    "triangle": 1,
+    "child": 0
+  },
+  {
+    "case": "plane-back-stationary",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-back-stationary",
+    "kind": "overlap",
+    "identity": 1
+  },
+  {
+    "case": "plane-back-stationary",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-back-moving",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.377499998,
+    "point": [
+      0.299999952,
+      0,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      -1,
+      0
+    ],
+    "material": 0,
+    "triangle": 1,
+    "child": 0
+  },
+  {
+    "case": "plane-back-moving",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-back-moving",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "plane-front-stationary",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0,
+    "point": [
+      0.299999952,
+      -0.075000003,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      0,
+      0
+    ],
+    "material": 0,
+    "triangle": 1,
+    "child": 0
+  },
+  {
+    "case": "plane-front-stationary",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-front-stationary",
+    "kind": "overlap",
+    "identity": 1
+  },
+  {
+    "case": "plane-front-stationary",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-front-moving",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.377499998,
+    "point": [
+      0.299999952,
+      0,
+      0.200000048
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "material": 0,
+    "triangle": 1,
+    "child": 0
+  },
+  {
+    "case": "plane-front-moving",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "plane-front-moving",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "filter-1",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.333333343,
+    "point": [
+      -1,
+      0,
+      0
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "material": 0,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "filter-1",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "filter-2",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.333333343,
+    "point": [
+      -1,
+      0,
+      0
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "material": 0,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "filter-2",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "filter-9223372036854775808",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.333333343,
+    "point": [
+      -1,
+      0,
+      0
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "material": 0,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "filter-9223372036854775808",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-0-0",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-0-0-0",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-0-0-1",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.421844155,
+    "point": [
+      -0.649999976,
+      0.468935013,
+      -0.24000001
+    ],
+    "normal": [
+      -0.849999964,
+      0.468935013,
+      -0.24000001
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-0-1",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-0-1",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.421844155,
+    "point": [
+      -0.649999976,
+      0.468935013,
+      -0.24000001
+    ],
+    "normal": [
+      -0.849999964,
+      0.468935013,
+      -0.24000001
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-0-2",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.384397715,
+    "point": [
+      -0.5,
+      0.693613768,
+      -0.170000002
+    ],
+    "normal": [
+      -0.699999988,
+      0.693613768,
+      -0.170000002
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-0-2",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-0-2",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.384397715,
+    "point": [
+      -0.5,
+      0.693613768,
+      -0.170000002
+    ],
+    "normal": [
+      -0.699999988,
+      0.693613768,
+      -0.170000002
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-0-3",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.361807317,
+    "point": [
+      -0.350000083,
+      0.829156399,
+      -0.100000009
+    ],
+    "normal": [
+      -0.550000072,
+      0.82915628,
+      -0.100000009
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-0-3",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-0-3",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.361807317,
+    "point": [
+      -0.350000083,
+      0.829156399,
+      -0.100000009
+    ],
+    "normal": [
+      -0.550000072,
+      0.82915628,
+      -0.100000009
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-0-4",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.347329348,
+    "point": [
+      -0.200000033,
+      0.916024208,
+      -0.0300000049
+    ],
+    "normal": [
+      -0.400000036,
+      0.916024089,
+      -0.0300000049
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-0-4",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-0-4",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.347329348,
+    "point": [
+      -0.200000033,
+      0.916024208,
+      -0.0300000049
+    ],
+    "normal": [
+      -0.400000036,
+      0.916024089,
+      -0.0300000049
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-0-5",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.338763475,
+    "point": [
+      -0.0500000268,
+      0.967419147,
+      0.0399999954
+    ],
+    "normal": [
+      -0.25000003,
+      0.967419267,
+      0.0399999954
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-0-5",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-0-5",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.338763475,
+    "point": [
+      -0.0500000268,
+      0.967419147,
+      0.0399999954
+    ],
+    "normal": [
+      -0.25000003,
+      0.967419267,
+      0.0399999954
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-0-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.335185289,
+    "point": [
+      0.100000009,
+      0.988888264,
+      0.110000029
+    ],
+    "normal": [
+      -0.099999994,
+      0.988888383,
+      0.110000029
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-0-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-0-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.335185289,
+    "point": [
+      0.100000009,
+      0.988888264,
+      0.110000029
+    ],
+    "normal": [
+      -0.099999994,
+      0.988888383,
+      0.110000029
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-0-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.336267471,
+    "point": [
+      0.25000006,
+      0.982395172,
+      0.179999992
+    ],
+    "normal": [
+      0.0500000492,
+      0.982395053,
+      0.179999992
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-0-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-0-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.336267471,
+    "point": [
+      0.25000006,
+      0.982395172,
+      0.179999992
+    ],
+    "normal": [
+      0.0500000492,
+      0.982395053,
+      0.179999992
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-0-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.342105865,
+    "point": [
+      0.400000036,
+      0.947364807,
+      0.25
+    ],
+    "normal": [
+      0.200000033,
+      0.947364807,
+      0.25
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-0-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-0-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.342105865,
+    "point": [
+      0.400000036,
+      0.947364807,
+      0.25
+    ],
+    "normal": [
+      0.200000033,
+      0.947364807,
+      0.25
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-0-9",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.353267074,
+    "point": [
+      0.550000072,
+      0.880397797,
+      0.320000023
+    ],
+    "normal": [
+      0.350000054,
+      0.880397677,
+      0.320000023
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-0-9",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-0-9",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.353267074,
+    "point": [
+      0.550000072,
+      0.880397797,
+      0.320000023
+    ],
+    "normal": [
+      0.350000054,
+      0.880397677,
+      0.320000023
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-0-10",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.371126652,
+    "point": [
+      0.699999928,
+      0.773240089,
+      0.389999926
+    ],
+    "normal": [
+      0.49999994,
+      0.77323997,
+      0.389999926
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-0-10",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-0-10",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.371126652,
+    "point": [
+      0.699999928,
+      0.773240089,
+      0.389999926
+    ],
+    "normal": [
+      0.49999994,
+      0.77323997,
+      0.389999926
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-0-11",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.399183899,
+    "point": [
+      0.850000143,
+      0.604896545,
+      0.460000038
+    ],
+    "normal": [
+      0.650000155,
+      0.604896605,
+      0.460000038
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-0-11",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-0-11",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.399183899,
+    "point": [
+      0.850000143,
+      0.604896545,
+      0.460000038
+    ],
+    "normal": [
+      0.650000155,
+      0.604896605,
+      0.460000038
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-0-1-0",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-0-1-0",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-0-1-1",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.421844244,
+    "point": [
+      2.52185941,
+      -1.36566067,
+      4.26266909
+    ],
+    "normal": [
+      -0.63866812,
+      0.67131263,
+      0.376088351
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-1-1",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-1-1",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.421844244,
+    "point": [
+      2.52185941,
+      -1.36566067,
+      4.26266909
+    ],
+    "normal": [
+      -0.63866812,
+      0.67131263,
+      0.376088351
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-1-2",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.384397745,
+    "point": [
+      2.75343585,
+      -1.21044183,
+      4.2753253
+    ],
+    "normal": [
+      -0.407091677,
+      0.82653141,
+      0.388744354
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-1-2",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-1-2",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.384397745,
+    "point": [
+      2.75343585,
+      -1.21044183,
+      4.2753253
+    ],
+    "normal": [
+      -0.407091677,
+      0.82653141,
+      0.388744354
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-1-3",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.361807317,
+    "point": [
+      2.95446038,
+      -1.13732255,
+      4.27150297
+    ],
+    "normal": [
+      -0.206067234,
+      0.899650753,
+      0.384921908
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-1-3",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-1-3",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.361807317,
+    "point": [
+      2.95446038,
+      -1.13732255,
+      4.27150297
+    ],
+    "normal": [
+      -0.206067234,
+      0.899650753,
+      0.384921908
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-1-4",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.347329289,
+    "point": [
+      3.13880086,
+      -1.10903525,
+      4.25868177
+    ],
+    "normal": [
+      -0.0217266381,
+      0.927937984,
+      0.37210077
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-1-4",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-1-4",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.347329289,
+    "point": [
+      3.13880086,
+      -1.10903525,
+      4.25868177
+    ],
+    "normal": [
+      -0.0217266381,
+      0.927937984,
+      0.37210077
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-1-5",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.338763475,
+    "point": [
+      3.31098294,
+      -1.11342049,
+      4.23930359
+    ],
+    "normal": [
+      0.150455445,
+      0.923552871,
+      0.352722853
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-1-5",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-1-5",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.338763475,
+    "point": [
+      3.31098294,
+      -1.11342049,
+      4.23930359
+    ],
+    "normal": [
+      0.150455445,
+      0.923552871,
+      0.352722853
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-1-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.335185289,
+    "point": [
+      3.47290802,
+      -1.14536929,
+      4.21439314
+    ],
+    "normal": [
+      0.312380403,
+      0.891604006,
+      0.327812135
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-1-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-1-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.335185289,
+    "point": [
+      3.47290802,
+      -1.14536929,
+      4.21439314
+    ],
+    "normal": [
+      0.312380403,
+      0.891604006,
+      0.327812135
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-1-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.336267501,
+    "point": [
+      3.62524867,
+      -1.20307279,
+      4.18431282
+    ],
+    "normal": [
+      0.464721084,
+      0.833900452,
+      0.297732055
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-1-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-1-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.336267501,
+    "point": [
+      3.62524867,
+      -1.20307279,
+      4.18431282
+    ],
+    "normal": [
+      0.464721084,
+      0.833900452,
+      0.297732055
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-1-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.342105865,
+    "point": [
+      3.76780748,
+      -1.28706026,
+      4.14895725
+    ],
+    "normal": [
+      0.607280076,
+      0.749913096,
+      0.262376547
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-1-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-1-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.342105865,
+    "point": [
+      3.76780748,
+      -1.28706026,
+      4.14895725
+    ],
+    "normal": [
+      0.607280076,
+      0.749913096,
+      0.262376547
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-1-9",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.353267103,
+    "point": [
+      3.89942074,
+      -1.40046394,
+      4.10769796
+    ],
+    "normal": [
+      0.738893211,
+      0.636509359,
+      0.221116796
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-1-9",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-1-9",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.353267103,
+    "point": [
+      3.89942074,
+      -1.40046394,
+      4.10769796
+    ],
+    "normal": [
+      0.738893211,
+      0.636509359,
+      0.221116796
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-1-10",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.371126652,
+    "point": [
+      4.01725769,
+      -1.55088449,
+      4.05900812
+    ],
+    "normal": [
+      0.856730342,
+      0.486088723,
+      0.172427356
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-1-10",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-1-10",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.371126652,
+    "point": [
+      4.01725769,
+      -1.55088449,
+      4.05900812
+    ],
+    "normal": [
+      0.856730342,
+      0.486088723,
+      0.172427356
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-1-11",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.399183869,
+    "point": [
+      4.11412334,
+      -1.7576611,
+      3.9990077
+    ],
+    "normal": [
+      0.953595757,
+      0.279312193,
+      0.112426668
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-1-11",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-1-11",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.399183869,
+    "point": [
+      4.11412334,
+      -1.7576611,
+      3.9990077
+    ],
+    "normal": [
+      0.953595757,
+      0.279312193,
+      0.112426668
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-0-2-0",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-0-2-0",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-0-2-1",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.421844214,
+    "point": [
+      2.95827866,
+      -1.41624999,
+      4.59790897
+    ],
+    "normal": [
+      -0.103340983,
+      0.608862996,
+      0.786515355
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-2-1",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-2-1",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.421844214,
+    "point": [
+      2.95827866,
+      -1.41624999,
+      4.59790897
+    ],
+    "normal": [
+      -0.103340983,
+      0.608862996,
+      0.786515355
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-2-2",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.384397745,
+    "point": [
+      3.20370889,
+      -1.32012427,
+      4.50623322
+    ],
+    "normal": [
+      0.142089367,
+      0.704988718,
+      0.694839358
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-2-2",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-2-2",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.384397745,
+    "point": [
+      3.20370889,
+      -1.32012427,
+      4.50623322
+    ],
+    "normal": [
+      0.142089367,
+      0.704988718,
+      0.694839358
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-2-3",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.361807376,
+    "point": [
+      3.38860726,
+      -1.2884655,
+      4.40336466
+    ],
+    "normal": [
+      0.326987743,
+      0.736647487,
+      0.59197104
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-2-3",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-2-3",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.361807376,
+    "point": [
+      3.38860726,
+      -1.2884655,
+      4.40336466
+    ],
+    "normal": [
+      0.326987743,
+      0.736647487,
+      0.59197104
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-2-4",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.347329289,
+    "point": [
+      3.540452,
+      -1.29201007,
+      4.29438353
+    ],
+    "normal": [
+      0.478832603,
+      0.733102918,
+      0.482990056
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-2-4",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-2-4",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.347329289,
+    "point": [
+      3.540452,
+      -1.29201007,
+      4.29438353
+    ],
+    "normal": [
+      0.478832603,
+      0.733102918,
+      0.482990056
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-2-5",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.338763475,
+    "point": [
+      3.66820741,
+      -1.32120967,
+      4.18094921
+    ],
+    "normal": [
+      0.606587768,
+      0.703903258,
+      0.369555742
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-2-5",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-2-5",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.338763475,
+    "point": [
+      3.66820741,
+      -1.32120967,
+      4.18094921
+    ],
+    "normal": [
+      0.606587768,
+      0.703903258,
+      0.369555742
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-2-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.335185289,
+    "point": [
+      3.77564025,
+      -1.37205315,
+      4.06375742
+    ],
+    "normal": [
+      0.714020729,
+      0.65305984,
+      0.252363652
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-2-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-2-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.335185289,
+    "point": [
+      3.77564025,
+      -1.37205315,
+      4.06375742
+    ],
+    "normal": [
+      0.714020729,
+      0.65305984,
+      0.252363652
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-2-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.336267471,
+    "point": [
+      3.86408472,
+      -1.44312024,
+      3.94305372
+    ],
+    "normal": [
+      0.802465141,
+      0.581992626,
+      0.131660074
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-2-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-2-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.336267471,
+    "point": [
+      3.86408472,
+      -1.44312024,
+      3.94305372
+    ],
+    "normal": [
+      0.802465141,
+      0.581992626,
+      0.131660074
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-2-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.342105865,
+    "point": [
+      3.93314981,
+      -1.5348264,
+      3.81876779
+    ],
+    "normal": [
+      0.871530116,
+      0.490286589,
+      0.00737407804
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-2-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-2-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.342105865,
+    "point": [
+      3.93314981,
+      -1.5348264,
+      3.81876779
+    ],
+    "normal": [
+      0.871530116,
+      0.490286589,
+      0.00737407804
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-2-9",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.353267074,
+    "point": [
+      3.98052692,
+      -1.64963055,
+      3.6904707
+    ],
+    "normal": [
+      0.918907344,
+      0.37548244,
+      -0.120923042
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-2-9",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-2-9",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.353267074,
+    "point": [
+      3.98052692,
+      -1.64963055,
+      3.6904707
+    ],
+    "normal": [
+      0.918907344,
+      0.37548244,
+      -0.120923042
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-2-10",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.371126741,
+    "point": [
+      4.00061131,
+      -1.79350197,
+      3.55712748
+    ],
+    "normal": [
+      0.938991606,
+      0.231610954,
+      -0.254266113
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-2-10",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-2-10",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.371126741,
+    "point": [
+      4.00061131,
+      -1.79350197,
+      3.55712748
+    ],
+    "normal": [
+      0.938991606,
+      0.231610954,
+      -0.254266113
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-0-2-11",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.399183959,
+    "point": [
+      3.97914505,
+      -1.9816252,
+      3.41610146
+    ],
+    "normal": [
+      0.91752553,
+      0.0434877276,
+      -0.395292133
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-0-2-11",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-0-2-11",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.399183959,
+    "point": [
+      3.97914505,
+      -1.9816252,
+      3.41610146
+    ],
+    "normal": [
+      0.91752553,
+      0.0434877276,
+      -0.395292133
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-1-0-0",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.457869262,
+    "point": [
+      -0.800000012,
+      0.252784491,
+      -0.310000002
+    ],
+    "normal": [
+      -0.600000024,
+      0.505568981,
+      -0.620000005
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-0-0",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-0-0",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.457869262,
+    "point": [
+      -0.800000012,
+      0.252784491,
+      -0.310000002
+    ],
+    "normal": [
+      -0.600000024,
+      0.505568981,
+      -0.620000005
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-0-1",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.431301802,
+    "point": [
+      -0.649999976,
+      0.412189245,
+      -0.240000039
+    ],
+    "normal": [
+      -0.299999982,
+      0.82437861,
+      -0.480000079
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-0-1",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-0-1",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.431301802,
+    "point": [
+      -0.649999976,
+      0.412189245,
+      -0.240000039
+    ],
+    "normal": [
+      -0.299999982,
+      0.82437861,
+      -0.480000079
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-0-2",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.421631217,
+    "point": [
+      -0.5,
+      0.470212698,
+      -0.170000002
+    ],
+    "normal": [
+      0,
+      0.940425515,
+      -0.340000033
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-0-2",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-0-2",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.421631217,
+    "point": [
+      -0.5,
+      0.470212698,
+      -0.170000002
+    ],
+    "normal": [
+      0,
+      0.940425515,
+      -0.340000033
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-0-3",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.418350339,
+    "point": [
+      -0.349999994,
+      0.489897966,
+      -0.099999994
+    ],
+    "normal": [
+      0,
+      0.979795933,
+      -0.199999988
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-0-3",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-0-3",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.418350339,
+    "point": [
+      -0.349999994,
+      0.489897966,
+      -0.099999994
+    ],
+    "normal": [
+      0,
+      0.979795933,
+      -0.199999988
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-0-4",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.416816801,
+    "point": [
+      -0.199999988,
+      0.499099255,
+      -0.0300000012
+    ],
+    "normal": [
+      0,
+      0.99819839,
+      -0.0599999949
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-0-4",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-0-4",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.416816801,
+    "point": [
+      -0.199999988,
+      0.499099255,
+      -0.0300000012
+    ],
+    "normal": [
+      0,
+      0.99819839,
+      -0.0599999949
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-0-5",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.416933775,
+    "point": [
+      -0.0500000119,
+      0.49839735,
+      0.0399999917
+    ],
+    "normal": [
+      0,
+      0.996794939,
+      0.0800000057
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-0-5",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-0-5",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.416933775,
+    "point": [
+      -0.0500000119,
+      0.49839735,
+      0.0399999917
+    ],
+    "normal": [
+      0,
+      0.996794939,
+      0.0800000057
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-0-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.418708324,
+    "point": [
+      0.100000024,
+      0.487750053,
+      0.110000014
+    ],
+    "normal": [
+      0,
+      0.975499868,
+      0.219999969
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-0-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-0-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.418708324,
+    "point": [
+      0.100000024,
+      0.487750053,
+      0.110000014
+    ],
+    "normal": [
+      0,
+      0.975499868,
+      0.219999969
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-0-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.422253966,
+    "point": [
+      0.25000006,
+      0.466476202,
+      0.180000007
+    ],
+    "normal": [
+      0,
+      0.932952285,
+      0.359999985
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-0-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-0-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.422253966,
+    "point": [
+      0.25000006,
+      0.466476202,
+      0.180000007
+    ],
+    "normal": [
+      0,
+      0.932952285,
+      0.359999985
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-0-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.427831203,
+    "point": [
+      0.400000036,
+      0.433012724,
+      0.25
+    ],
+    "normal": [
+      0,
+      0.866025448,
+      0.5
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-0-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-0-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.427831203,
+    "point": [
+      0.400000036,
+      0.433012724,
+      0.25
+    ],
+    "normal": [
+      0,
+      0.866025448,
+      0.5
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-0-9",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.436513335,
+    "point": [
+      0.550000012,
+      0.380919933,
+      0.319999993
+    ],
+    "normal": [
+      0.100000024,
+      0.761839867,
+      0.639999986
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-0-9",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-0-9",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.436513335,
+    "point": [
+      0.550000012,
+      0.380919933,
+      0.319999993
+    ],
+    "normal": [
+      0.100000024,
+      0.761839867,
+      0.639999986
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-0-10",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.459895968,
+    "point": [
+      0.700000048,
+      0.240624189,
+      0.390000045
+    ],
+    "normal": [
+      0.400000036,
+      0.481248438,
+      0.780000091
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-0-10",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-0-10",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.459895968,
+    "point": [
+      0.700000048,
+      0.240624189,
+      0.390000045
+    ],
+    "normal": [
+      0.400000036,
+      0.481248438,
+      0.780000091
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-0-11",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-1-0-11",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-1-1-0",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.457869262,
+    "point": [
+      2.29320645,
+      -1.51302409,
+      4.2515893
+    ],
+    "normal": [
+      -0.610949278,
+      0.789085388,
+      -0.0639162064
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-1-0",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-1-0",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.457869262,
+    "point": [
+      2.29320645,
+      -1.51302409,
+      4.2515893
+    ],
+    "normal": [
+      -0.610949278,
+      0.789085388,
+      -0.0639162064
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-1-1",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.431301802,
+    "point": [
+      2.5024097,
+      -1.41792631,
+      4.25217915
+    ],
+    "normal": [
+      -0.192542821,
+      0.979281068,
+      -0.0627372563
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-1-1",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-1-1",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.431301802,
+    "point": [
+      2.5024097,
+      -1.41792631,
+      4.25217915
+    ],
+    "normal": [
+      -0.192542821,
+      0.979281068,
+      -0.0627372563
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-1-2",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.421631217,
+    "point": [
+      2.67686391,
+      -1.41620636,
+      4.23402596
+    ],
+    "normal": [
+      0.156365618,
+      0.982720792,
+      -0.0990433544
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-1-2",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-1-2",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.421631217,
+    "point": [
+      2.67686391,
+      -1.41620636,
+      4.23402596
+    ],
+    "normal": [
+      0.156365618,
+      0.982720792,
+      -0.0990433544
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-1-3",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.418350339,
+    "point": [
+      2.83817744,
+      -1.44979811,
+      4.20878553
+    ],
+    "normal": [
+      0.238201365,
+      0.970997274,
+      0.020604223
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-1-3",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-1-3",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.418350339,
+    "point": [
+      2.83817744,
+      -1.44979811,
+      4.20878553
+    ],
+    "normal": [
+      0.238201365,
+      0.970997274,
+      0.020604223
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-1-4",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.416816741,
+    "point": [
+      2.99589729,
+      -1.49304605,
+      4.18160629
+    ],
+    "normal": [
+      0.312849462,
+      0.939961314,
+      0.136374742
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-1-4",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-1-4",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.416816741,
+    "point": [
+      2.99589729,
+      -1.49304605,
+      4.18160629
+    ],
+    "normal": [
+      0.312849462,
+      0.939961314,
+      0.136374742
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-1-5",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.416933775,
+    "point": [
+      3.15022278,
+      -1.5454154,
+      4.15259743
+    ],
+    "normal": [
+      0.380709797,
+      0.890682518,
+      0.248485148
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-1-5",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-1-5",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.416933775,
+    "point": [
+      3.15022278,
+      -1.5454154,
+      4.15259743
+    ],
+    "normal": [
+      0.380709797,
+      0.890682518,
+      0.248485148
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-1-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.418708354,
+    "point": [
+      3.30113959,
+      -1.60694551,
+      4.1217494
+    ],
+    "normal": [
+      0.441751927,
+      0.823082626,
+      0.356917858
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-1-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-1-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.418708354,
+    "point": [
+      3.30113959,
+      -1.60694551,
+      4.1217494
+    ],
+    "normal": [
+      0.441751927,
+      0.823082626,
+      0.356917858
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-1-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.422253966,
+    "point": [
+      3.44841433,
+      -1.67826247,
+      4.08893681
+    ],
+    "normal": [
+      0.495509446,
+      0.735908151,
+      0.4614214
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-1-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-1-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.422253966,
+    "point": [
+      3.44841433,
+      -1.67826247,
+      4.08893681
+    ],
+    "normal": [
+      0.495509446,
+      0.735908151,
+      0.4614214
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-1-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.427831203,
+    "point": [
+      3.59151006,
+      -1.76080704,
+      4.05387115
+    ],
+    "normal": [
+      0.540910721,
+      0.626279235,
+      0.561417878
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-1-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-1-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.427831203,
+    "point": [
+      3.59151006,
+      -1.76080704,
+      4.05387115
+    ],
+    "normal": [
+      0.540910721,
+      0.626279235,
+      0.561417878
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-1-9",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.436513394,
+    "point": [
+      3.72822165,
+      -1.86051035,
+      4.01536131
+    ],
+    "normal": [
+      0.653805435,
+      0.46384567,
+      0.597817302
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-1-9",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-1-9",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.436513394,
+    "point": [
+      3.72822165,
+      -1.86051035,
+      4.01536131
+    ],
+    "normal": [
+      0.653805435,
+      0.46384567,
+      0.597817302
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-1-10",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.459895879,
+    "point": [
+      3.83470035,
+      -2.04145288,
+      3.96054554
+    ],
+    "normal": [
+      0.866762996,
+      0.101960838,
+      0.48818621
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-1-10",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-1-10",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.459895879,
+    "point": [
+      3.83470035,
+      -2.04145288,
+      3.96054554
+    ],
+    "normal": [
+      0.866762996,
+      0.101960838,
+      0.48818621
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-1-11",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-1-1-11",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-1-2-0",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.457869202,
+    "point": [
+      2.71864033,
+      -1.50620747,
+      4.69065571
+    ],
+    "normal": [
+      -0.254621327,
+      0.862020254,
+      0.43827945
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-2-0",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-2-0",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.457869202,
+    "point": [
+      2.71864033,
+      -1.50620747,
+      4.69065571
+    ],
+    "normal": [
+      -0.254621327,
+      0.862020254,
+      0.43827945
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-2-1",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.431301802,
+    "point": [
+      2.91974354,
+      -1.45729065,
+      4.5907836
+    ],
+    "normal": [
+      0.147584707,
+      0.959853888,
+      0.238535672
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-2-1",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-2-1",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.431301802,
+    "point": [
+      2.91974354,
+      -1.45729065,
+      4.5907836
+    ],
+    "normal": [
+      0.147584707,
+      0.959853888,
+      0.238535672
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-2-2",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.421631247,
+    "point": [
+      3.05200028,
+      -1.48169672,
+      4.47818184
+    ],
+    "normal": [
+      0.412098467,
+      0.911041856,
+      0.0133312047
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-2-2",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-2-2",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.421631247,
+    "point": [
+      3.05200028,
+      -1.48169672,
+      4.47818184
+    ],
+    "normal": [
+      0.412098467,
+      0.911041856,
+      0.0133312047
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-2-3",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.418350369,
+    "point": [
+      3.15822172,
+      -1.53383017,
+      4.36076593
+    ],
+    "normal": [
+      0.532112122,
+      0.844444096,
+      0.0614084452
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-2-3",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-2-3",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.418350369,
+    "point": [
+      3.15822172,
+      -1.53383017,
+      4.36076593
+    ],
+    "normal": [
+      0.532112122,
+      0.844444096,
+      0.0614084452
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-2-4",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.416816801,
+    "point": [
+      3.25732398,
+      -1.59354639,
+      4.24203253
+    ],
+    "normal": [
+      0.637887001,
+      0.762681246,
+      0.106852815
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-2-4",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-2-4",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.416816801,
+    "point": [
+      3.25732398,
+      -1.59354639,
+      4.24203253
+    ],
+    "normal": [
+      0.637887001,
+      0.762681246,
+      0.106852815
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-2-5",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.416933775,
+    "point": [
+      3.34970093,
+      -1.66042471,
+      4.12205648
+    ],
+    "normal": [
+      0.730211675,
+      0.666594267,
+      0.149810165
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-2-5",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-2-5",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.416933775,
+    "point": [
+      3.34970093,
+      -1.66042471,
+      4.12205648
+    ],
+    "normal": [
+      0.730211675,
+      0.666594267,
+      0.149810165
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-2-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.418708324,
+    "point": [
+      3.43532395,
+      -1.73449588,
+      4.00083208
+    ],
+    "normal": [
+      0.809028327,
+      0.556120992,
+      0.190269902
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-2-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-2-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.418708324,
+    "point": [
+      3.43532395,
+      -1.73449588,
+      4.00083208
+    ],
+    "normal": [
+      0.809028327,
+      0.556120992,
+      0.190269902
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-2-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.422253937,
+    "point": [
+      3.513731,
+      -1.81625295,
+      3.87827253
+    ],
+    "normal": [
+      0.873413026,
+      0.430276513,
+      0.228061229
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-2-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-2-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.422253937,
+    "point": [
+      3.513731,
+      -1.81625295,
+      3.87827253
+    ],
+    "normal": [
+      0.873413026,
+      0.430276513,
+      0.228061229
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-2-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.427831203,
+    "point": [
+      3.58385992,
+      -1.9068259,
+      3.75418305
+    ],
+    "normal": [
+      0.921241879,
+      0.286799967,
+      0.262791395
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-2-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-2-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.427831203,
+    "point": [
+      3.58385992,
+      -1.9068259,
+      3.75418305
+    ],
+    "normal": [
+      0.921241879,
+      0.286799967,
+      0.262791395
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-2-9",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.436513335,
+    "point": [
+      3.64133835,
+      -2.01087236,
+      3.62775373
+    ],
+    "normal": [
+      0.974578619,
+      0.103820324,
+      0.198539436
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-2-9",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-2-9",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.436513335,
+    "point": [
+      3.64133835,
+      -2.01087236,
+      3.62775373
+    ],
+    "normal": [
+      0.974578619,
+      0.103820324,
+      0.198539436
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-2-10",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.459896058,
+    "point": [
+      3.63891888,
+      -2.17871046,
+      3.49024963
+    ],
+    "normal": [
+      0.969739914,
+      -0.231856406,
+      -0.0764685869
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-1-2-10",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-1-2-10",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.459896058,
+    "point": [
+      3.63891888,
+      -2.17871046,
+      3.49024963
+    ],
+    "normal": [
+      0.969739914,
+      -0.231856406,
+      -0.0764685869
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-1-2-11",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-1-2-11",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-2-0-0",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      -0.800000012,
+      0.599999905,
+      -0.310000002
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-0-0",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-0-0",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      -0.800000012,
+      0.599999905,
+      -0.310000002
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-0-1",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      -0.649999976,
+      0.599999905,
+      -0.24000001
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-0-1",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-0-1",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      -0.649999976,
+      0.599999905,
+      -0.24000001
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-0-2",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      -0.5,
+      0.599999905,
+      -0.170000002
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-0-2",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-0-2",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      -0.5,
+      0.599999905,
+      -0.170000002
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-0-3",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      -0.349999994,
+      0.599999905,
+      -0.099999994
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-0-3",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-0-3",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      -0.349999994,
+      0.599999905,
+      -0.099999994
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-0-4",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      -0.199999988,
+      0.599999905,
+      -0.0300000012
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-0-4",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-0-4",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      -0.199999988,
+      0.599999905,
+      -0.0300000012
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-0-5",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      -0.0500000119,
+      0.599999905,
+      0.0399999917
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-0-5",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-0-5",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      -0.0500000119,
+      0.599999905,
+      0.0399999917
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-0-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      0.100000024,
+      0.599999905,
+      0.110000014
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-0-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-0-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      0.100000024,
+      0.599999905,
+      0.110000014
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-0-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      0.25000006,
+      0.599999905,
+      0.180000007
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-0-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-0-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      0.25000006,
+      0.599999905,
+      0.180000007
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-0-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      0.400000036,
+      0.599999905,
+      0.25
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-0-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-0-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      0.400000036,
+      0.599999905,
+      0.25
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-0-9",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      0.550000012,
+      0.599999905,
+      0.319999993
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-0-9",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-0-9",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      0.550000012,
+      0.599999905,
+      0.319999993
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-0-10",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      0.699999988,
+      0.599999905,
+      0.389999986
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-0-10",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-0-10",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      0.699999988,
+      0.599999905,
+      0.389999986
+    ],
+    "normal": [
+      0,
+      1,
+      0
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-0-11",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-2-0-11",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-2-1-0",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.399999946,
+    "point": [
+      2.4122169,
+      -1.19321918,
+      4.31577778
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-1-0",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-1-0",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.399999946,
+    "point": [
+      2.4122169,
+      -1.19321918,
+      4.31577778
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-1-1",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      2.56678295,
+      -1.24494219,
+      4.28689861
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-1-1",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-1-1",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      2.56678295,
+      -1.24494219,
+      4.28689861
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-1-2",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      2.72134924,
+      -1.29666519,
+      4.25801945
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-1-2",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-1-2",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      2.72134924,
+      -1.29666519,
+      4.25801945
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-1-3",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      2.87591553,
+      -1.3483882,
+      4.22913933
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-1-3",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-1-3",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      2.87591553,
+      -1.3483882,
+      4.22913933
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-1-4",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.399999946,
+    "point": [
+      3.03048182,
+      -1.40011072,
+      4.20025921
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-1-4",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-1-4",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.399999946,
+    "point": [
+      3.03048182,
+      -1.40011072,
+      4.20025921
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-1-5",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.18504763,
+      -1.45183396,
+      4.17138052
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-1-5",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-1-5",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.18504763,
+      -1.45183396,
+      4.17138052
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-1-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.33961391,
+      -1.50355697,
+      4.14250088
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-1-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-1-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.33961391,
+      -1.50355697,
+      4.14250088
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-1-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.4941802,
+      -1.55527973,
+      4.11362076
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-1-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-1-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.4941802,
+      -1.55527973,
+      4.11362076
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-1-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.64874601,
+      -1.6070025,
+      4.08474159
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-1-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-1-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.64874601,
+      -1.6070025,
+      4.08474159
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-1-9",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.80331278,
+      -1.6587255,
+      4.05586195
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-1-9",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-1-9",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.80331278,
+      -1.6587255,
+      4.05586195
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-1-10",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.95787859,
+      -1.71044827,
+      4.02698183
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-1-10",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-1-10",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.95787859,
+      -1.71044827,
+      4.02698183
+    ],
+    "normal": [
+      0.342756242,
+      0.921055138,
+      0.184866458
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-1-11",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-2-1-11",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-2-2-0",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      2.95442963,
+      -1.25508785,
+      4.73425388
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-2-0",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-2-0",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      2.95442963,
+      -1.25508785,
+      4.73425388
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-2-1",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.04728317,
+      -1.32145858,
+      4.61436605
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-2-1",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-2-1",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.04728317,
+      -1.32145858,
+      4.61436605
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-2-2",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.1401372,
+      -1.38782942,
+      4.49447823
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-2-2",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-2-2",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.1401372,
+      -1.38782942,
+      4.49447823
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-2-3",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.23299074,
+      -1.45420003,
+      4.37459087
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-2-3",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-2-3",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.23299074,
+      -1.45420003,
+      4.37459087
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-2-4",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.32584429,
+      -1.52057111,
+      4.25470209
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-2-4",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-2-4",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.32584429,
+      -1.52057111,
+      4.25470209
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-2-5",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.41869783,
+      -1.58694172,
+      4.13481426
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-2-5",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-2-5",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.41869783,
+      -1.58694172,
+      4.13481426
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-2-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.51155138,
+      -1.65331244,
+      4.01492643
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-2-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-2-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.51155138,
+      -1.65331244,
+      4.01492643
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-2-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.399999946,
+    "point": [
+      3.6044054,
+      -1.71968317,
+      3.89503837
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-2-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-2-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.399999946,
+    "point": [
+      3.6044054,
+      -1.71968317,
+      3.89503837
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-2-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.69725895,
+      -1.78605425,
+      3.77515078
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-2-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-2-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.69725895,
+      -1.78605425,
+      3.77515078
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-2-9",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.7901125,
+      -1.8524251,
+      3.65526247
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-2-9",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-2-9",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.7901125,
+      -1.8524251,
+      3.65526247
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-2-10",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.88296652,
+      -1.9187957,
+      3.53537464
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "material": 1234,
+    "triangle": 0,
+    "child": 0
+  },
+  {
+    "case": "ray-2-2-10",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-2-2-10",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.400000006,
+    "point": [
+      3.88296652,
+      -1.9187957,
+      3.53537464
+    ],
+    "normal": [
+      0.679086626,
+      0.723239124,
+      0.125564873
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "ray-2-2-11",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-2-2-11",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-3-0-0",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-0-0",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-0-1",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-0-1",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-0-2",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-0-2",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-0-3",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.344543576,
+    "point": [
+      -0.349999994,
+      0.932738543,
+      -0.099999994
+    ],
+    "normal": [
+      -0.928307831,
+      0.309435874,
+      -0.206140921
+    ],
+    "material": 1234,
+    "triangle": 239,
+    "child": 0
+  },
+  {
+    "case": "ray-3-0-3",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-0-3",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.344543576,
+    "point": [
+      -0.349999994,
+      0.932738543,
+      -0.099999994
+    ],
+    "normal": [
+      -0.928307831,
+      0.309435874,
+      -0.206140921
+    ],
+    "triangle": 239
+  },
+  {
+    "case": "ray-3-0-4",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.279264092,
+    "point": [
+      -0.199999988,
+      1.32441545,
+      -0.0300000012
+    ],
+    "normal": [
+      -0.586101413,
+      0.728273809,
+      -0.355108976
+    ],
+    "material": 1234,
+    "triangle": 212,
+    "child": 0
+  },
+  {
+    "case": "ray-3-0-4",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-0-4",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.279264092,
+    "point": [
+      -0.199999988,
+      1.32441545,
+      -0.0300000012
+    ],
+    "normal": [
+      -0.586101413,
+      0.728273809,
+      -0.355108976
+    ],
+    "triangle": 212
+  },
+  {
+    "case": "ray-3-0-5",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.259957194,
+    "point": [
+      -0.0500000119,
+      1.44025683,
+      0.0399999917
+    ],
+    "normal": [
+      -0.586101413,
+      0.728273869,
+      0.355109066
+    ],
+    "material": 1234,
+    "triangle": 196,
+    "child": 0
+  },
+  {
+    "case": "ray-3-0-5",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-0-5",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.259957194,
+    "point": [
+      -0.0500000119,
+      1.44025683,
+      0.0399999917
+    ],
+    "normal": [
+      -0.586101413,
+      0.728273869,
+      0.355109066
+    ],
+    "triangle": 196
+  },
+  {
+    "case": "ray-3-0-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.272352427,
+    "point": [
+      0.100000024,
+      1.3658855,
+      0.110000014
+    ],
+    "normal": [
+      0.586101413,
+      0.728273869,
+      0.355108857
+    ],
+    "material": 1234,
+    "triangle": 97,
+    "child": 0
+  },
+  {
+    "case": "ray-3-0-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-0-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.272352427,
+    "point": [
+      0.100000024,
+      1.3658855,
+      0.110000014
+    ],
+    "normal": [
+      0.586101413,
+      0.728273869,
+      0.355108857
+    ],
+    "triangle": 97
+  },
+  {
+    "case": "ray-3-0-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.303426117,
+    "point": [
+      0.25000006,
+      1.17944336,
+      0.180000007
+    ],
+    "normal": [
+      0.928307831,
+      0.309435934,
+      0.206140861
+    ],
+    "material": 1234,
+    "triangle": 70,
+    "child": 0
+  },
+  {
+    "case": "ray-3-0-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-0-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.303426117,
+    "point": [
+      0.25000006,
+      1.17944336,
+      0.180000007
+    ],
+    "normal": [
+      0.928307831,
+      0.309435934,
+      0.206140861
+    ],
+    "triangle": 70
+  },
+  {
+    "case": "ray-3-0-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.432583749,
+    "point": [
+      0.400000036,
+      0.404497623,
+      0.25
+    ],
+    "normal": [
+      0.821871996,
+      0.0734919608,
+      0.564911842
+    ],
+    "material": 1234,
+    "triangle": 61,
+    "child": 0
+  },
+  {
+    "case": "ray-3-0-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-0-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.432583749,
+    "point": [
+      0.400000036,
+      0.404497623,
+      0.25
+    ],
+    "normal": [
+      0.821871996,
+      0.0734919608,
+      0.564911842
+    ],
+    "triangle": 61
+  },
+  {
+    "case": "ray-3-0-9",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-0-9",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-0-10",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-0-10",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-0-11",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-0-11",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-3-1-0",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-1-0",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-1-1",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-1-1",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-1-2",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-1-2",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-1-3",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.344543606,
+    "point": [
+      2.98996377,
+      -1.0419178,
+      4.2906518
+    ],
+    "normal": [
+      -0.739661634,
+      0.527276576,
+      0.418186724
+    ],
+    "material": 1234,
+    "triangle": 239,
+    "child": 0
+  },
+  {
+    "case": "ray-3-1-3",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-1-3",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.344543606,
+    "point": [
+      2.98996377,
+      -1.0419178,
+      4.2906518
+    ],
+    "normal": [
+      -0.739661634,
+      0.527276576,
+      0.418186724
+    ],
+    "triangle": 239
+  },
+  {
+    "case": "ray-3-1-4",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.279264033,
+    "point": [
+      3.27877975,
+      -0.732884288,
+      4.3341794
+    ],
+    "normal": [
+      -0.394153297,
+      0.900846601,
+      0.181984782
+    ],
+    "material": 1234,
+    "triangle": 212,
+    "child": 0
+  },
+  {
+    "case": "ray-3-1-4",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-1-4",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.279264033,
+    "point": [
+      3.27877975,
+      -0.732884288,
+      4.3341794
+    ],
+    "normal": [
+      -0.394153297,
+      0.900846601,
+      0.181984782
+    ],
+    "triangle": 212
+  },
+  {
+    "case": "ray-3-1-5",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.259957224,
+    "point": [
+      3.47305107,
+      -0.677911282,
+      4.32671547
+    ],
+    "normal": [
+      -0.0474601984,
+      0.657415032,
+      0.752032638
+    ],
+    "material": 1234,
+    "triangle": 196,
+    "child": 0
+  },
+  {
+    "case": "ray-3-1-5",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-1-5",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.259957224,
+    "point": [
+      3.47305107,
+      -0.677911282,
+      4.32671547
+    ],
+    "normal": [
+      -0.0474601984,
+      0.657415032,
+      0.752032638
+    ],
+    "triangle": 196
+  },
+  {
+    "case": "ray-3-1-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.272352457,
+    "point": [
+      3.60212612,
+      -0.798134327,
+      4.28408718
+    ],
+    "normal": [
+      0.893394053,
+      0.440714091,
+      0.0872819424
+    ],
+    "material": 1234,
+    "triangle": 97,
+    "child": 0
+  },
+  {
+    "case": "ray-3-1-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-1-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.272352457,
+    "point": [
+      3.60212612,
+      -0.798134327,
+      4.28408718
+    ],
+    "normal": [
+      0.893394053,
+      0.440714091,
+      0.0872819424
+    ],
+    "triangle": 97
+  },
+  {
+    "case": "ray-3-1-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.303426087,
+    "point": [
+      3.69278812,
+      -1.02158034,
+      4.2207408
+    ],
+    "normal": [
+      0.951783776,
+      0.0427384973,
+      -0.303778052
+    ],
+    "material": 1234,
+    "triangle": 70,
+    "child": 0
+  },
+  {
+    "case": "ray-3-1-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-1-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.303426087,
+    "point": [
+      3.69278812,
+      -1.02158034,
+      4.2207408
+    ],
+    "normal": [
+      0.951783776,
+      0.0427384973,
+      -0.303778052
+    ],
+    "triangle": 70
+  },
+  {
+    "case": "ray-3-1-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.432582825,
+    "point": [
+      3.58173823,
+      -1.78706598,
+      4.04860067
+    ],
+    "normal": [
+      0.960617185,
+      -0.277873486,
+      0.000926136971
+    ],
+    "material": 1234,
+    "triangle": 61,
+    "child": 0
+  },
+  {
+    "case": "ray-3-1-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-1-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.432582825,
+    "point": [
+      3.58173823,
+      -1.78706598,
+      4.04860067
+    ],
+    "normal": [
+      0.960617185,
+      -0.277873486,
+      0.000926136971
+    ],
+    "triangle": 61
+  },
+  {
+    "case": "ray-3-1-9",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-1-9",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-1-10",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-1-10",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-1-11",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-1-11",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-3-2-0",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-2-0",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-2-1",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-2-1",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-2-2",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-2-2",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-2-3",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.344543815,
+    "point": [
+      3.45894814,
+      -1.2135514,
+      4.41637087
+    ],
+    "normal": [
+      -0.21322155,
+      0.480346531,
+      0.850766718
+    ],
+    "material": 1234,
+    "triangle": 239,
+    "child": 0
+  },
+  {
+    "case": "ray-3-2-3",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-2-3",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.344543815,
+    "point": [
+      3.45894814,
+      -1.2135514,
+      4.41637087
+    ],
+    "normal": [
+      -0.21322155,
+      0.480346531,
+      0.850766718
+    ],
+    "triangle": 239
+  },
+  {
+    "case": "ray-3-2-4",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.279264033,
+    "point": [
+      3.8177855,
+      -0.996645212,
+      4.34566355
+    ],
+    "normal": [
+      0.0773856044,
+      0.841459632,
+      0.534749627
+    ],
+    "material": 1234,
+    "triangle": 212,
+    "child": 0
+  },
+  {
+    "case": "ray-3-2-4",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-2-4",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.279264033,
+    "point": [
+      3.8177855,
+      -0.996645212,
+      4.34566355
+    ],
+    "normal": [
+      0.0773856044,
+      0.841459632,
+      0.534749627
+    ],
+    "triangle": 212
+  },
+  {
+    "case": "ray-3-2-5",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.259957194,
+    "point": [
+      3.98930502,
+      -0.979235053,
+      4.24032116
+    ],
+    "normal": [
+      0.550583363,
+      0.359160095,
+      0.753566265
+    ],
+    "material": 1234,
+    "triangle": 196,
+    "child": 0
+  },
+  {
+    "case": "ray-3-2-5",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-2-5",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.259957194,
+    "point": [
+      3.98930502,
+      -0.979235053,
+      4.24032116
+    ],
+    "normal": [
+      0.550583363,
+      0.359160095,
+      0.753566265
+    ],
+    "triangle": 196
+  },
+  {
+    "case": "ray-3-2-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.272352427,
+    "point": [
+      4.03165388,
+      -1.09939408,
+      4.11109495
+    ],
+    "normal": [
+      0.911736369,
+      0.211972773,
+      -0.351858437
+    ],
+    "material": 1234,
+    "triangle": 97,
+    "child": 0
+  },
+  {
+    "case": "ray-3-2-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-2-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.272352427,
+    "point": [
+      4.03165388,
+      -1.09939408,
+      4.11109495
+    ],
+    "normal": [
+      0.911736369,
+      0.211972773,
+      -0.351858437
+    ],
+    "triangle": 97
+  },
+  {
+    "case": "ray-3-2-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.303426117,
+    "point": [
+      3.99789739,
+      -1.30060744,
+      3.96779609
+    ],
+    "normal": [
+      0.633489132,
+      -0.0327541828,
+      -0.773058057
+    ],
+    "material": 1234,
+    "triangle": 70,
+    "child": 0
+  },
+  {
+    "case": "ray-3-2-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-2-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.303426117,
+    "point": [
+      3.99789739,
+      -1.30060744,
+      3.96779609
+    ],
+    "normal": [
+      0.633489132,
+      -0.0327541828,
+      -0.773058057
+    ],
+    "triangle": 70
+  },
+  {
+    "case": "ray-3-2-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.432583332,
+    "point": [
+      3.56449747,
+      -1.92744744,
+      3.75060296
+    ],
+    "normal": [
+      0.679508805,
+      -0.433670074,
+      -0.591775417
+    ],
+    "material": 1234,
+    "triangle": 61,
+    "child": 0
+  },
+  {
+    "case": "ray-3-2-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-3-2-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.432583332,
+    "point": [
+      3.56449747,
+      -1.92744744,
+      3.75060296
+    ],
+    "normal": [
+      0.679508805,
+      -0.433670074,
+      -0.591775417
+    ],
+    "triangle": 61
+  },
+  {
+    "case": "ray-3-2-9",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-2-9",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-2-10",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-2-10",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-3-2-11",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-3-2-11",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-4-0-0",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-0-0",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-0-1",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-0-1",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-0-2",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-0-2",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-0-3",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-0-3",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-0-4",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-0-4",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-0-5",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-0-5",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-0-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.499960959,
+    "point": [
+      0.100000024,
+      0.000234127045,
+      0.110000014
+    ],
+    "normal": [
+      -0.100530818,
+      0.989841998,
+      -0.100530818
+    ],
+    "material": 1234,
+    "triangle": 1,
+    "child": 0
+  },
+  {
+    "case": "ray-4-0-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-0-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.499960959,
+    "point": [
+      0.100000024,
+      0.000234127045,
+      0.110000014
+    ],
+    "normal": [
+      -0.100530818,
+      0.989841998,
+      -0.100530818
+    ],
+    "triangle": 1
+  },
+  {
+    "case": "ray-4-0-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.496731818,
+    "point": [
+      0.25000006,
+      0.0196089745,
+      0.180000007
+    ],
+    "normal": [
+      -0.0691306219,
+      0.983191073,
+      -0.168985948
+    ],
+    "material": 1234,
+    "triangle": 3,
+    "child": 0
+  },
+  {
+    "case": "ray-4-0-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-0-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.496731818,
+    "point": [
+      0.25000006,
+      0.0196089745,
+      0.180000007
+    ],
+    "normal": [
+      -0.0691306219,
+      0.983191073,
+      -0.168985948
+    ],
+    "triangle": 3
+  },
+  {
+    "case": "ray-4-0-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.493033886,
+    "point": [
+      0.400000036,
+      0.0417966843,
+      0.25
+    ],
+    "normal": [
+      -0.0154170375,
+      0.986690223,
+      -0.161878854
+    ],
+    "material": 1234,
+    "triangle": 22,
+    "child": 0
+  },
+  {
+    "case": "ray-4-0-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-0-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.493033886,
+    "point": [
+      0.400000036,
+      0.0417966843,
+      0.25
+    ],
+    "normal": [
+      -0.0154170375,
+      0.986690223,
+      -0.161878854
+    ],
+    "triangle": 22
+  },
+  {
+    "case": "ray-4-0-9",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.490546912,
+    "point": [
+      0.550000012,
+      0.0567185879,
+      0.319999993
+    ],
+    "normal": [
+      -0.0307428725,
+      0.983771741,
+      -0.176771492
+    ],
+    "material": 1234,
+    "triangle": 23,
+    "child": 0
+  },
+  {
+    "case": "ray-4-0-9",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-0-9",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.490546912,
+    "point": [
+      0.550000012,
+      0.0567185879,
+      0.319999993
+    ],
+    "normal": [
+      -0.0307428725,
+      0.983771741,
+      -0.176771492
+    ],
+    "triangle": 23
+  },
+  {
+    "case": "ray-4-0-10",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.489544272,
+    "point": [
+      0.699999988,
+      0.0627343655,
+      0.389999986
+    ],
+    "normal": [
+      0.0848820135,
+      0.987717807,
+      -0.13118127
+    ],
+    "material": 1234,
+    "triangle": 25,
+    "child": 0
+  },
+  {
+    "case": "ray-4-0-10",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-0-10",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.489544272,
+    "point": [
+      0.699999988,
+      0.0627343655,
+      0.389999986
+    ],
+    "normal": [
+      0.0848820135,
+      0.987717807,
+      -0.13118127
+    ],
+    "triangle": 25
+  },
+  {
+    "case": "ray-4-0-11",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.490794271,
+    "point": [
+      0.850000083,
+      0.0552344322,
+      0.459999979
+    ],
+    "normal": [
+      0.160525307,
+      0.978439987,
+      -0.129949063
+    ],
+    "material": 1234,
+    "triangle": 44,
+    "child": 0
+  },
+  {
+    "case": "ray-4-0-11",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-0-11",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.490794271,
+    "point": [
+      0.850000083,
+      0.0552344322,
+      0.459999979
+    ],
+    "normal": [
+      0.160525307,
+      0.978439987,
+      -0.129949063
+    ],
+    "triangle": 44
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-4-1-0",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-1-0",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-1-1",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-1-1",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-1-2",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-1-2",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-1-3",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-1-3",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-1-4",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-1-4",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-1-5",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-1-5",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-1-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.499960959,
+    "point": [
+      3.13404059,
+      -2.05597425,
+      4.03162384
+    ],
+    "normal": [
+      0.20951052,
+      0.964741409,
+      0.159309283
+    ],
+    "material": 1234,
+    "triangle": 1,
+    "child": 0
+  },
+  {
+    "case": "ray-4-1-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-1-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.499960959,
+    "point": [
+      3.13404059,
+      -2.05597425,
+      4.03162384
+    ],
+    "normal": [
+      0.20951052,
+      0.964741409,
+      0.159309283
+    ],
+    "triangle": 1
+  },
+  {
+    "case": "ray-4-1-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.496731818,
+    "point": [
+      3.29524755,
+      -2.08985186,
+      4.0063262
+    ],
+    "normal": [
+      0.199017465,
+      0.976274073,
+      0.0853281766
+    ],
+    "material": 1234,
+    "triangle": 3,
+    "child": 0
+  },
+  {
+    "case": "ray-4-1-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-1-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.496731818,
+    "point": [
+      3.29524755,
+      -2.08985186,
+      4.0063262
+    ],
+    "normal": [
+      0.199017465,
+      0.976274073,
+      0.0853281766
+    ],
+    "triangle": 3
+  },
+  {
+    "case": "ray-4-1-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.493033886,
+    "point": [
+      3.45741844,
+      -2.12113857,
+      3.98154831
+    ],
+    "normal": [
+      0.146418869,
+      0.980652273,
+      0.129932657
+    ],
+    "material": 1234,
+    "triangle": 21,
+    "child": 0
+  },
+  {
+    "case": "ray-4-1-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-1-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.493033886,
+    "point": [
+      3.45741844,
+      -2.12113857,
+      3.98154831
+    ],
+    "normal": [
+      0.146418869,
+      0.980652273,
+      0.129932657
+    ],
+    "triangle": 21
+  },
+  {
+    "case": "ray-4-1-9",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.490546942,
+    "point": [
+      3.61709976,
+      -2.1591177,
+      3.95542717
+    ],
+    "normal": [
+      0.226227477,
+      0.972380877,
+      0.0574170649
+    ],
+    "material": 1234,
+    "triangle": 23,
+    "child": 0
+  },
+  {
+    "case": "ray-4-1-9",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-1-9",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.490546942,
+    "point": [
+      3.61709976,
+      -2.1591177,
+      3.95542717
+    ],
+    "normal": [
+      0.226227477,
+      0.972380877,
+      0.0574170649
+    ],
+    "triangle": 23
+  },
+  {
+    "case": "ray-4-1-10",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.489544272,
+    "point": [
+      3.77372742,
+      -2.20529962,
+      3.92765951
+    ],
+    "normal": [
+      0.342639804,
+      0.939013898,
+      0.0291686803
+    ],
+    "material": 1234,
+    "triangle": 25,
+    "child": 0
+  },
+  {
+    "case": "ray-4-1-10",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-1-10",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.489544272,
+    "point": [
+      3.77372742,
+      -2.20529962,
+      3.92765951
+    ],
+    "normal": [
+      0.342639804,
+      0.939013898,
+      0.0291686803
+    ],
+    "triangle": 25
+  },
+  {
+    "case": "ray-4-1-11",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.490794271,
+    "point": [
+      3.92572308,
+      -2.26393032,
+      3.89739347
+    ],
+    "normal": [
+      0.400775403,
+      0.916062236,
+      -0.0144544095
+    ],
+    "material": 1234,
+    "triangle": 44,
+    "child": 0
+  },
+  {
+    "case": "ray-4-1-11",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-1-11",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.490794271,
+    "point": [
+      3.92572308,
+      -2.26393032,
+      3.89739347
+    ],
+    "normal": [
+      0.400775403,
+      0.916062236,
+      -0.0144544095
+    ],
+    "triangle": 44
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "ray-4-2-0",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-2-0",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-2-1",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-2-1",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-2-2",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-2-2",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-2-3",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-2-3",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-2-4",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-2-4",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-2-5",
+    "kind": "summary",
+    "calls": 0
+  },
+  {
+    "case": "ray-4-2-5",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "ray-4-2-6",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.499960959,
+    "point": [
+      3.10425854,
+      -2.08708644,
+      3.93961692
+    ],
+    "normal": [
+      0.574234366,
+      0.796784759,
+      0.188119814
+    ],
+    "material": 1234,
+    "triangle": 1,
+    "child": 0
+  },
+  {
+    "case": "ray-4-2-6",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-2-6",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.499960959,
+    "point": [
+      3.10425854,
+      -2.08708644,
+      3.93961692
+    ],
+    "normal": [
+      0.574234366,
+      0.796784759,
+      0.188119814
+    ],
+    "triangle": 1
+  },
+  {
+    "case": "ray-4-2-7",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.496731758,
+    "point": [
+      3.21026969,
+      -2.13944459,
+      3.82216167
+    ],
+    "normal": [
+      0.533782482,
+      0.834518731,
+      0.136582449
+    ],
+    "material": 1234,
+    "triangle": 3,
+    "child": 0
+  },
+  {
+    "case": "ray-4-2-7",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-2-7",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.496731758,
+    "point": [
+      3.21026969,
+      -2.13944459,
+      3.82216167
+    ],
+    "normal": [
+      0.533782482,
+      0.834518731,
+      0.136582449
+    ],
+    "triangle": 3
+  },
+  {
+    "case": "ray-4-2-8",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.493033856,
+    "point": [
+      3.31819057,
+      -2.18976831,
+      3.70506024
+    ],
+    "normal": [
+      0.51457417,
+      0.83308208,
+      0.202947512
+    ],
+    "material": 1234,
+    "triangle": 21,
+    "child": 0
+  },
+  {
+    "case": "ray-4-2-8",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-2-8",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.493033856,
+    "point": [
+      3.31819057,
+      -2.18976831,
+      3.70506024
+    ],
+    "normal": [
+      0.51457417,
+      0.83308208,
+      0.202947512
+    ],
+    "triangle": 21
+  },
+  {
+    "case": "ray-4-2-9",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.490546912,
+    "point": [
+      3.42117739,
+      -2.2453475,
+      3.58704543
+    ],
+    "normal": [
+      0.540816665,
+      0.835405588,
+      0.0980557203
+    ],
+    "material": 1234,
+    "triangle": 23,
+    "child": 0
+  },
+  {
+    "case": "ray-4-2-9",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-2-9",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.490546912,
+    "point": [
+      3.42117739,
+      -2.2453475,
+      3.58704543
+    ],
+    "normal": [
+      0.540816665,
+      0.835405588,
+      0.0980557203
+    ],
+    "triangle": 23
+  },
+  {
+    "case": "ray-4-2-10",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.489544302,
+    "point": [
+      3.51811647,
+      -2.30736732,
+      3.46791315
+    ],
+    "normal": [
+      0.60949564,
+      0.792781413,
+      0.00355955958
+    ],
+    "material": 1234,
+    "triangle": 25,
+    "child": 0
+  },
+  {
+    "case": "ray-4-2-10",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-2-10",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.489544302,
+    "point": [
+      3.51811647,
+      -2.30736732,
+      3.46791315
+    ],
+    "normal": [
+      0.60949564,
+      0.792781413,
+      0.00355955958
+    ],
+    "triangle": 25
+  },
+  {
+    "case": "ray-4-2-11",
+    "kind": "cast",
+    "identity": 1,
+    "fraction": 0.490794301,
+    "point": [
+      3.60587692,
+      -2.37916231,
+      3.34708309
+    ],
+    "normal": [
+      0.627321661,
+      0.775736392,
+      -0.0685598552
+    ],
+    "material": 1234,
+    "triangle": 44,
+    "child": 0
+  },
+  {
+    "case": "ray-4-2-11",
+    "kind": "summary",
+    "calls": 1
+  },
+  {
+    "case": "ray-4-2-11",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.490794301,
+    "point": [
+      3.60587692,
+      -2.37916231,
+      3.34708309
+    ],
+    "normal": [
+      0.627321661,
+      0.775736392,
+      -0.0685598552
+    ],
+    "triangle": 44
+  },
+  {
+    "case": "teleport-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "zero-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "filtered-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-miss",
+    "kind": "closest",
+    "hit": 0
+  },
+  {
+    "case": "destroyed-identity",
+    "valid": 0
+  },
+  {
+    "case": "nearest",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.200000003,
+    "point": [
+      -1,
+      0,
+      0
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "nearest",
+    "kind": "closest",
+    "hit": 1,
+    "identity": 1,
+    "fraction": 0.200000003,
+    "point": [
+      -1,
+      0,
+      0
+    ],
+    "normal": [
+      -1,
+      0,
+      0
+    ],
+    "triangle": 0
+  },
+  {
+    "case": "body-cast-0-0",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "body-cast-0-1",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "body-cast-1-0",
+    "kind": "body",
+    "hit": 0
+  },
+  {
+    "case": "body-cast-1-1",
+    "kind": "body",
+    "hit": 0
+  }
+]

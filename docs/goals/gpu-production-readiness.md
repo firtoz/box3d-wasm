@@ -1,5 +1,7 @@
 # GPU native production readiness
 
+PR11 verified locally, 2026-10-17: **7 acceptance gates done,0left**. Initial Overlap/Overlap World misses, mesh witness normals/local-frame precision, standalone child metadata and filter defaults are repaired; Body Cast's white miss preview is resolved without a palette change. [Report and numeric/visual evidence](../../experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/README.md), [final audit](../../experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/final-acceptance.json), [recovery log](../../experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/log.md). Read that log FIRST on recovery.95residual Height Field cases are explicitly qualified conventions:93adjacent-facet choices and2cyclic-vertex-anchor rounding cases, each checked independently against CPU at1e-5. No whole-grid witness/pixel/trajectory identity claimed. Task-owned336,398,948bytes removed;~5.1MiB retained; no live jobs. User authorized the PR11 commit and PR02 continuation on 2026-10-17; push was not requested. PR02 is next under a distinct finite audit budget; other roadmap items remain open. This supersedes historical PR10 stop/next-action wording below.
+
 PR09 publication, 2026-10-15: **165 native samples reviewed, 0 left; 21 fixes, 1 resolved without repair, 0 open original repair groups.** [Portable inventory, reports and before/after evidence](../../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/README.md) close the PR09 comparison gate. Rain physical failures remain open under PR04; UI/widgets and full query qualification remain PR10/PR11. Earlier dated counts, local audit archives and source-specific limitations below are historical and do not certify the full release.
 
 Read `/home/firtoz/work/2026/box3d-wasm/docs/goals/gpu-production-readiness.md`
@@ -222,6 +224,8 @@ that will immediately change. Physics failures remain release blockers.
 
   **Reopened2026-10-03:** VIS06 actual filter-default trace (local audit archive) exposes standaloneC `b3DefaultFilter.categoryBits=1` versus actualCPU/header/combinedUINT64_MAX. Existingfocused/APIinventory results remainpreserved but didnotqualify thisdefault alias. Correct CPU-compatible defaults and mask-specific behavior needtheir ownfinite acceptance; notfixed byvisibilityrepair. This doesnotactivatefullreleasework orchange the original22group counts.
 
+  **PR11 update2026-10-17:** that specific default alias is now repaired and independently checked against CPU with masks1,2 andbit63 on both backends. [Query qualification](../../experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/README.md). PR02 remains unchecked pending its complete criterion audit; this targeted dependency fix does not silently certify the whole API contract.
+
 - [x] **PR03 — Freeze the release qualification contract and baseline.** Reconcile
   the existing fixed fixture matrix and evidence with current sources. Record
   named commands/selectors, geometry/defaults, durations, physical limits,
@@ -274,9 +278,9 @@ that will immediately change. Physics failures remain release blockers.
   usability check requested by the user, now prioritized before PR04.
   **Evidence:** [Verified local acceptance and 29 before/after repair reports](../../experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/README.md), including complete control/applicability inventory, five fresh native builds, frontend/WASM compatibility and cleanup. Commit/push authorized; the user removed the additional recording/comparison prerequisite on2026-10-17. Existing verified checks and repair evidence support publication.
 
-PR10 watch disposition: [OBS01](../../experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/final-observations.json) retains the unconfirmed combined Bodies/Cast pale/white shape under PR11 appearance. Actual control/transform/identity behavior passed; material/selection provenance and exact original cause remain unqualified. OBS02 native chooser acceptance reuses retained actual GTK/load evidence; later helper timeouts remain archived. OBS03 inherits native disabled keyboard-navigation policy; no GPU defect or Escape-input pass inferred.
+PR10 watch disposition: [OBS01's original unconfirmed observation](../../experiments/gpu-physics/benchmarks/production-readiness/pr10-ui-2026-10-15/final-observations.json) is resolved by PR11 actual query/draw provenance: the pale shape is the native white miss sphere; frozen CPU/GPU queries agree and actualRGBA is[1,1,1,1]. No palette repair. OBS02 native chooser acceptance reuses retained actual GTK/load evidence; later helper timeouts remain archived. OBS03 inherits native disabled keyboard-navigation policy; no GPU defect or Escape-input pass inferred.
 
-- [ ] **PR11 — Qualify raycast behavior and appearance.** After PR10, reproduce
+- [x] **PR11 — Qualify raycast behavior and appearance.** After PR10, reproduce
   the user's reported CPU/GPU difference in the supported raycast samples and
   picking paths. Compare hit/miss, closest-hit selection, public shape/body
   identity, fraction, point, normal, filtering and transformed geometry with
@@ -286,7 +290,7 @@ PR10 watch disposition: [OBS01](../../experiments/gpu-physics/benchmarks/product
   discrepancies and document intentional conventions. Retain applicable numeric and visual evidence; additional recordings/comparison
   grids are optional and do not block committing verified fixes. The user
   observation does not yet establish a query or rendering defect.
-  **Evidence:** OPEN.
+  **Evidence:** [Verified repairs, original failures and targeted CPU-first visual evidence](../../experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/README.md).601independent records/backend,216additional encroachment/transform cases/backend,14,278frozen Height Field casts/13,340hits,95CPU-selected-facet primitive checks,4nested callback response modes and25Rust query regressions/backend pass at original1e-5. Actual query/draw/camera checks14/combinedroute pass. Cyclic vertex order and near-tied facet selection are explicit conventions, not whole-grid point/normal equivalence. Box3D/WASM unchanged; local verified milestone, not yet committed.
 
 - [ ] **PR04 — Resolve required physical correctness failures.** Work from the
   earliest demonstrated defect and smallest calculation-level reproducer, using

@@ -1,0 +1,150 @@
+{
+  "status": "PASS",
+  "gates": [
+    {
+      "id": "A1",
+      "status": "PASS"
+    },
+    {
+      "id": "A2",
+      "status": "PASS"
+    },
+    {
+      "id": "A3",
+      "status": "PASS"
+    },
+    {
+      "id": "A4",
+      "status": "PASS"
+    },
+    {
+      "id": "A5",
+      "status": "PASS"
+    },
+    {
+      "id": "A6",
+      "status": "PASS"
+    },
+    {
+      "id": "A7",
+      "status": "PASS"
+    }
+  ],
+  "scope": "PR11 only",
+  "limits": {
+    "temporary": 1073741824,
+    "retained": 67108864,
+    "originalNumericTolerance": 0.00001
+  },
+  "tests": {
+    "repaired-comparison.json": [
+      {
+        "backend": "ordinary",
+        "rows": 25,
+        "maximum": 1.200000000478596e-7,
+        "tolerance": 0.00001,
+        "errors": []
+      },
+      {
+        "backend": "native",
+        "rows": 25,
+        "maximum": 1.200000000478596e-7,
+        "tolerance": 0.00001,
+        "errors": []
+      }
+    ],
+    "contract-comparison.json": [
+      {
+        "backend": "ordinary",
+        "rows": 601,
+        "maximum": 3.500000000933312e-7,
+        "tolerance": 0.00001,
+        "errors": []
+      },
+      {
+        "backend": "native",
+        "rows": 601,
+        "maximum": 3.500000000933312e-7,
+        "tolerance": 0.00001,
+        "errors": []
+      }
+    ],
+    "encroach-comparison.json": [
+      {
+        "backend": "ordinary",
+        "rows": 216,
+        "maximum": 2.399999998736746e-7,
+        "tolerance": 0.00001,
+        "errors": []
+      },
+      {
+        "backend": "native",
+        "rows": 216,
+        "maximum": 2.399999998736746e-7,
+        "tolerance": 0.00001,
+        "errors": []
+      }
+    ],
+    "facet-oracle-comparison.json": {
+      "cases": 95,
+      "max": 1.4899999997708413e-8,
+      "tolerance": 0.00001,
+      "errors": []
+    },
+    "vertex-order-comparison.json": {
+      "cases": 2,
+      "max": 0,
+      "tolerance": 0.00001,
+      "errors": []
+    },
+    "heightfield": {
+      "inputs": 14278,
+      "hits": 13340,
+      "backendsIdentical": true,
+      "maxFraction": 1.0900000001846715e-11,
+      "maxCenterTravel": 0.0000012331942296812566,
+      "primitiveOracleCases": 95,
+      "adjacentFacetCases": 93,
+      "cyclicVertexAnchorCases": 2,
+      "wholeGridPointNormalIdentity": false
+    },
+    "B5-query-tests.log": {
+      "passed": 25,
+      "failed": 0
+    },
+    "B7-native-query-tests.log": {
+      "passed": 25,
+      "failed": 0
+    }
+  },
+  "hashes": {
+    "heightfield-cpu.json": "ecde99f5cd74f0f033138cec54ba0c971c0ff53444e5a8bc0f9a768929545427",
+    "heightfield-ordinary.json": "8badf027a3107af4b3cf4194db3787218de1fceb7d5b5e415c843f0e51985157",
+    "heightfield-native.json": "8badf027a3107af4b3cf4194db3787218de1fceb7d5b5e415c843f0e51985157",
+    "heightfield-cpu-reference.json": "1d470757fe7d2c3a3b085b9d8344473ee1923c357260872eab6635d7ba303488"
+  },
+  "sourceLibraryIdentities": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/pr11_query_reference.cpp": "af4017d5f1bb99c4f3466523561f36fa413c08cf83751e129f9ed5156bc14787",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr11-queries-2026-10-17/raw/cpu-build/src/libbox3d.a": "b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/libgpu_physics.a": "2a4516f5de665f1e3460ad0532a7ca26350bbd8b01c239050d53f387f50c9cae",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/libgpu_physics.a": "f6e59978aff679019eb48c04f9c50e62b8394b86e43bfa109578f7759c3930e0",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/shim.c": "1c809e15e96c0d50706632f0f62dad269e0a04f5659589b5ecfed54362e9905a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/api/query.rs": "3e61d39d4f69883f20b11c9af3064e7af1301d185fa57d4fffdcc11321f14a17"
+  },
+  "git": {
+    "head": "d03ab8cc2530b7fc6871e6c6a40b7a719ea23c5a",
+    "divergence": "0\t0",
+    "box3d": "30c67b5e6d0a3a66f0f506c69ce9e9e0587e3b7c"
+  },
+  "rawBytesBefore": 336398948,
+  "rawRemoved": true,
+  "retainedBytes": 5332023,
+  "cleanup": "Task-owned raw builds/viewers/helpers/duplicate traces removed. Shared Cargo/driver/pipeline caches preserved. No PR11 commit/push.",
+  "finalDocumentation": {
+    "recovery": "log.md",
+    "closedBatchHistory": "history-batches.md",
+    "diagnosticTypecheckAfterCleanup": true,
+    "affectedCallers": 10,
+    "vertexOrderProbeMaxError": 0
+  }
+}

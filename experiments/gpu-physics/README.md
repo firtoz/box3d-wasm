@@ -17,6 +17,8 @@ PR10 UI qualification is complete: **165 sample dispositions,342 active widgets,
 
 Fresh native/frontend/unchanged-source WASM compatibility passed. Commit and push are authorized. Recordings and comparison grids are optional diagnostics; they are not commit prerequisites. Existing repair reports, before/after screenshots and checks provide the PR10 evidence.
 
+PR11 query qualification, 2026-10-17: mesh shape casts and overlaps now follow the native two-sided contract, preserve witness normals and use a local triangle frame for long casts. Standalone shape-cast child metadata and default filter categories also match CPU. Independent CPU/ordinary/native fixtures cover180 ray inputs,601 output records and14,278 frozen Height Field casts, plus callback/lifetime checks. Near-tied adjacent facets may select different valid witness points/normals; each selected calculation is checked against CPU at1e-5. [Repairs, intentional conventions and targeted native display evidence](benchmarks/production-readiness/pr11-queries-2026-10-17/README.md). This is separate from remaining solver and release gates; Box3D/WASM are unchanged.
+
 ## Tested platforms and hardware
 
 The current Manjaro desktop has an **Intel Core i9-9900K** and an **NVIDIA
