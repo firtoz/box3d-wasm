@@ -1,4 +1,6 @@
-PR05 and PR06 completed locally, 2026-10-17: **PR05 8/8 gates closed; PR06 5/5, 0 left.** [Verified runtime repairs, clean builds and consumer report](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/README.md), [acceptance](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/acceptance.json), [current recovery log](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/log.md). Read the log FIRST after continuation/compaction. Stop after PR06. User authorized the verified milestone commit on 2026-10-17; push was not requested. PR04 physical failures remain open and are next only on a new user request. Later relevant changes require release applicability review/refreeze. This supersedes older activation/stop prose below.
+PR04 behavior/performance plan prepared, 2026-10-17: see [the six-gate plan and pivot/stop rules](#pr04-behavior-performance-plan). **0/6 PR04 gates closed; no new solver experiment started.** The user requested goal text to activate separately. Practical physical behavior and completed physics steps/second are the targets; cross-engine bit/trajectory parity is outside this goal. Commit/push of the verified milestone and this plan are authorized. This planning request does not activate PR04 or the full roadmap.
+
+PR05 and PR06 completed as `442689de1`, 2026-10-17: **PR05 8/8 gates closed; PR06 5/5, 0 left.** [Verified runtime repairs, clean builds and consumer report](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/README.md), [acceptance](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/acceptance.json), [completed recovery log](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/log.md). Push is now authorized. Later relevant PR04 changes require release applicability review/refreeze. This supersedes older activation/stop prose below.
 
 Queue update, 2026-10-17: the user moved PR04 after PR06. PR05/PR06 are now complete; remaining order: **PR04 → PR07 → PR08 → PR12 → PR13**. All open physics criteria remain unchanged. Do not start PR04 automatically. If its repairs change release inputs, refreeze affected PR06 evidence before PR07.
 
@@ -415,6 +417,92 @@ PR10 watch disposition: [OBS01's original unconfirmed observation](../../experim
   active goal. If a gate is blocked, leave its checkbox open and state what input
   or external change is required; a diagnosis-only handoff is not readiness.
   **Evidence:** OPEN.
+
+### PR04 behavior-performance plan
+
+User direction, 2026-10-17: obtain physically believable, useful GPU simulation.
+A ragdoll may fall in a different direction or settle in a different pose from
+CPU. It must stay articulated, collide/support correctly and avoid unexplained
+explosions, energy gain, severe stretching, jitter or missed collisions. Existing
+evidence does not establish that every ragdoll fixture currently has a physical
+failure; do not promote a trajectory-only difference into one. Preserve analytical
+and applicable identical-input calculation checks at their original tolerances. Same-build
+GPU repeatability remains PR07, distinct from cross-engine parity. Alternative
+algorithms must satisfy the same physical model and independent invariants;
+identical solver internals are not an acceptance requirement.
+
+Use this section as PR04's durable recovery record. Read this roadmap and
+AGENTS.md first at every continuation/compaction; before solver work also read
+`docs/gpu-solver-goal.md`, relevant rejected experiments in
+`docs/gpu-solver-qualification.md`, and the deferred PR04 recovery below. Historical
+next actions and exhausted budgets are not authorization to repeat experiments.
+Current baseline: `442689de1`, clean `feat/gpu`; PR05/PR06 evidence remains bounded
+to its recorded inputs. Plan only: no live jobs, baseline measurements or new
+experimental output. Keep all six gates open until their evidence exists.
+
+| Gate | Required result | Status |
+| --- | --- | --- |
+| A — Freeze practical acceptance and baseline | Classify remaining PR03 assertions as physical/function, identical-input calculation or deferred cross-engine trajectory. Name each actual failure and smallest reproducer. Reuse applicable evidence; establish matched CPU/ordinary/native baselines and freeze numeric behavior/throughput/latency limits before candidates. | OPEN |
+| B — Rain and articulated behavior | Fix demonstrated joint/contact instability at unchanged scene/defaults. Verify anchors, limits, energy, support, identity and recycling over the required 600 steps on both GPU backends. Ragdoll direction/final-pose matching is excluded. | OPEN |
+| C — Dragging and CCD | Resolve the diagnosed held-joint/CCD interaction and any remaining physical failures. Preserve existing low-speed landing, fast-collision, release and support limits; complete applicable 3,060-step dragging checks on both backends. | OPEN |
+| D — Related physical regressions | Pass affected PR03 contact, mesh, friction/restitution, joints/motors/limits, sleep/wake and runtime lifecycle checks. Record every affected scene and its disposition; reuse the completed catalog review instead of starting another sweep. | OPEN |
+| E — Useful completed-step throughput | Meet A's frozen per-workload minimum completed physics steps/second and latency/regression limits on both backends under the same workload and physics settings. Separate normal execution from tracing/health overhead and rendering FPS. | OPEN |
+| F — Reconcile and hand off | Verify retained fixes on both backends, preserve minimal unfavorable evidence, clean experiments, update source applicability and refreeze/reopen affected PR06 evidence. Close PR04 only if all required behavior and development-performance gates pass. PR07/PR08 final campaigns remain separate. | OPEN |
+
+The gate order is A, then the best-supported minimal B/C/D blocker, followed by
+E/F. Measure throughput early and guard it during development; do not postpone
+all performance work until the end. Separate simulation and host costs: actual
+GPU completion, readback, deferred CCD, collectors and health instrumentation.
+Report completed-step milliseconds, steps/second, simulated seconds/second,
+p95 and maximum latency. Freeze explicit numeric targets per representative
+workload using bounded baseline evidence and the intended simulation rate before
+testing candidates. Interactive workloads must at least sustain their configured
+simulation rate (for example,60completed steps/second for60Hz); choose and justify
+explicit useful targets for heavy stress scenes separately. A missed target stays a failure. Do not lower it after seeing
+results, or obtain speed by changing timestep/substeps, scene size, physics
+defaults, correctness features or by timing submission without completion.
+No universal GPU-over-CPU speedup is required. These are PR04 development guards;
+PR08 still owns final repeated performance qualification and mode selection.
+
+For each blocker, keep a short hypothesis ledger here or in its linked report:
+mechanism, rejected predecessors, distinguishing prediction, smallest frozen
+input, candidate, physical and timing results, decision and next alternative.
+Trace the first incorrect calculation/state transition. Use an independent CPU
+or analytical result on identical inputs where appropriate, then run the actual
+GPU operation. Full scenes confirm a promising repair; they are not the inner
+loop for every hypothesis. A new trace/build/report alone does not count as
+progress. Progress means a discriminating causal result, a newly passing gate,
+or a predeclared meaningful improvement in worst physical error or throughput
+without breaking another required limit.
+
+**Pivot rule:** after two candidates with no meaningful progress, or one bounded
+batch with neither causal evidence nor physical/performance improvement, change
+the approach class. Do not keep sweeping constants, adding iterations, combining
+rejected patches or producing more of the same captures. Evidence-supported
+alternatives may address state/identity/frame errors, contact/joint/cache
+coherence, numerical conditioning, a different coupled/articulation solver, or
+GPU scheduling/synchronization/data movement. Larger algorithmic changes are
+allowed when justified; prototype the smallest case and test original physical
+limits and cost before expanding. Innovation does not waive the API, geometry,
+defaults, GPU execution or physical contract.
+
+**Finite investigation and unsuccessful outcome:** default maximum per blocker
+is three batches, each at most 45 minutes, two distinct hypotheses and two
+variants per hypothesis. Before each batch, freeze exact build/run/capture counts,
+timeouts, minimum useful improvement, output sizes/consumers and cleanup points.
+Watchdogs, source restoration and cleanup run on success, failure and timeout.
+Use the existing 1 GiB temporary/64 MiB retained/20 GiB free-space defaults;
+budget any necessary exception before execution. New automation is TypeScript/Bun.
+Do not silently renew a spent batch or a historical experiment. Review/pivot
+before spending the next batch. If credible distinct approaches are exhausted
+and progress has stalled, giving up is explicitly allowed: stop, preserve the
+best verified state, revert rejected changes and report the unresolved mechanism,
+attempts, physical/performance results and what could enable further progress.
+If the finite ceiling is reached with promising work still unfinished, report
+that partial outcome and remaining ideas instead of automatically extending it.
+Neither outcome marks PR04 complete. Report gates done/left and remaining budget
+at each progress update. Preserve user work, Box3D and WASM. Recordings/comparison
+grids remain optional; retain only useful evidence and minimal failure inputs.
 
 ## How to answer “What's next?” and continue
 

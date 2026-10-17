@@ -1,6 +1,6 @@
 # PR05 runtime safety and PR06 release builds
 
-**Complete locally: PR05 8/8 gates and PR06 5/5 gates, 0 left.** [Acceptance](acceptance.json), [compiled-artifact verification](final-artifact-verification.json) and [current recovery](log.md). Five fresh native viewer builds and two clean Rust libraries pass; all 20 retained artifacts still match their build receipts. This is the bounded Linux/NVIDIA milestone requested on 2026-10-17, after PR02 and before PR04. The user authorized committing this verified milestone on 2026-10-17; push was not requested.
+**Complete locally: PR05 8/8 gates and PR06 5/5 gates, 0 left.** [Acceptance](acceptance.json), [compiled-artifact verification](final-artifact-verification.json) and [current recovery](log.md). Five fresh native viewer builds and two clean Rust libraries pass; all 20 retained artifacts still match their build receipts. This is the bounded Linux/NVIDIA milestone requested on 2026-10-17, after PR02 and before PR04. The user authorized committing and pushing this verified milestone on 2026-10-17; the prepared PR04 goal remains separate.
 
 ## Demonstrated defects and repairs
 
