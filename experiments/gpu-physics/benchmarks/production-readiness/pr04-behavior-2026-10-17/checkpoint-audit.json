@@ -1,8 +1,8 @@
 {
   "status": "CHECKPOINT_INTEGRITY_PASS_NOT_PR04_ACCEPTANCE",
-  "auditedAt": "2026-10-17T16:00:01.981Z",
-  "gatesDone": 1,
-  "gatesLeft": 5,
+  "auditedAt": "2026-10-17T17:32:34.704Z",
+  "gatesDone": 3,
+  "gatesLeft": 3,
   "receipts": [
     {
       "name": "baseline-receipt.json",
@@ -138,9 +138,126 @@
       "lastJobAccepted": false,
       "elapsedMs": 65352,
       "removedBytes": 68829048
+    },
+    {
+      "name": "mesh-ragdoll-qualification-receipt.json",
+      "status": "PASS",
+      "completedJobs": 55,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 82457,
+      "removedBytes": 68840992
+    },
+    {
+      "name": "joint-native-separation-receipt.json",
+      "status": "PASS",
+      "completedJobs": 6,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 15880,
+      "removedBytes": 35334368
+    },
+    {
+      "name": "remaining-rust-qualification-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 2,
+      "lastJob": "ordinary-order0-remaining",
+      "lastJobAccepted": false,
+      "elapsedMs": 120315,
+      "removedBytes": 0
+    },
+    {
+      "name": "distance-qualification-receipt.json",
+      "status": "PASS",
+      "completedJobs": 10,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 15211,
+      "removedBytes": 68783376
+    },
+    {
+      "name": "rust-unlaunched-qualification-receipt.json",
+      "status": "PASS",
+      "completedJobs": 19,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 324974,
+      "removedBytes": 0
+    },
+    {
+      "name": "identity-standalone-qualification-receipt.json",
+      "status": "PASS",
+      "completedJobs": 3,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 1299,
+      "removedBytes": 0
+    },
+    {
+      "name": "joint-kind-qualification-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 29,
+      "lastJob": "native-order0-separation",
+      "lastJobAccepted": true,
+      "elapsedMs": 217382,
+      "removedBytes": 137619840
+    },
+    {
+      "name": "joint-kind-final-audit-receipt.json",
+      "status": "PASS",
+      "completedJobs": 2,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 1627,
+      "removedBytes": 0
+    },
+    {
+      "name": "joint-whole-confirmation-receipt.json",
+      "status": "PASS",
+      "completedJobs": 8,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 182109,
+      "removedBytes": 35333888
+    },
+    {
+      "name": "refreeze-rust-receipt.json",
+      "status": "PASS",
+      "completedJobs": 6,
+      "lastJob": "verify-source-inputs",
+      "lastJobAccepted": true,
+      "elapsedMs": 400975,
+      "removedBytes": 1932312692
+    },
+    {
+      "name": "refreeze-native-receipt.json",
+      "status": "PASS",
+      "completedJobs": 14,
+      "lastJob": "verify-frozen-inputs",
+      "lastJobAccepted": true,
+      "elapsedMs": 611261,
+      "removedBytes": 283301620
+    },
+    {
+      "name": "refreeze-consumer-receipt.json",
+      "status": "PASS",
+      "completedJobs": 21,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 22360,
+      "removedBytes": 287349496
+    },
+    {
+      "name": "refreeze-viewers-receipt.json",
+      "status": "PASS",
+      "completedJobs": 12,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 17211,
+      "removedBytes": 4536
     }
   ],
-  "distinctPinnedInputs": 179,
+  "distinctPinnedInputs": 350,
   "supersededSources": [
     {
       "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/sim.rs",
@@ -349,9 +466,9 @@
     }
   ],
   "rawBytes": 0,
-  "retainedBytesBeforeAudit": 4028594,
-  "freeBytes": 1706360913920,
-  "cacheBytesAfter": "269950391\t/home/firtoz/.cache/box3d-gpu-physics/pipelines\n1073740917\t/home/firtoz/.cache/nvidia",
+  "retainedBytesBeforeAudit": 18330608,
+  "freeBytes": 1706086559744,
+  "cacheBytesAfter": "270453164\t/home/firtoz/.cache/box3d-gpu-physics/pipelines\n1073739513\t/home/firtoz/.cache/nvidia",
   "limitations": [
     "Normal viewer baselines record workerCount=8; headless fixture explicitly uses one worker. Do not present them as matched one-worker timings.",
     "Timeouts remain failures. Unlaunched controls are unreviewed; no GPU Rain600 physical pass.",

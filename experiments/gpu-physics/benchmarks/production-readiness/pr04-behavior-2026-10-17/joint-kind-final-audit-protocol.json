@@ -1,0 +1,51 @@
+{
+  "phase": "joint-kind-final-audit",
+  "totalSeconds": 35,
+  "maxRawBytes": 134217728,
+  "inputs": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/sim.rs",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_joint_reaction_test.cpp",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_joint_separation_test.cpp",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_ids.h",
+    "/home/firtoz/work/2026/box3d-wasm/box3d/include/box3d/types.h",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/joint-qualification-tools.ts",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_both_api.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_samples_api.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libbox3d_cpu.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/box3d_src-libbox3d.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_both_api.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_samples_api.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libbox3d_cpu.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/box3d_src-libbox3d.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/ordinary.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/native.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/prepare-joint-kind.ts",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/joint-kind-qualification-protocol.json",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/joint-kind-qualification-receipt.json"
+  ],
+  "jobs": [
+    {
+      "label": "verify-final-libraries",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/joint-qualification-tools.ts",
+        "verify"
+      ],
+      "seconds": 15
+    },
+    {
+      "label": "caches-after",
+      "argv": [
+        "du",
+        "-sb",
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "/home/firtoz/.cache/nvidia"
+      ],
+      "seconds": 10
+    }
+  ],
+  "cleanup": [],
+  "cleanupOnFailure": [],
+  "progressCriterion": "Only missing final library verification and cache inventory after duplicate-label driverrejection. All29completed jobs/21physicalruns kept.0tests/builds/retries/captures. Verify15/cache10/35phase; originalFAILED receipt preserved.",
+  "storage": "Default1GiBtemporary including observed sharedcachegrowth/raw128MiB/retained64MiB/free20GiB;2objects4executables deletedafterphase on success/failure. Existingtwo frozenlibs196MiBexception unchanged; no cache/buildcopies."
+}

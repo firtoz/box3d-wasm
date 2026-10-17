@@ -1,275 +1,221 @@
-# PR04 behavior and throughput recovery
+# PR04 current recovery — read this first
 
-Read this FIRST on continuation/compaction/restart, then AGENTS.md,
-docs/goals/gpu-production-readiness.md and the goal-scratchpad skill. Before
-solver edits read docs/gpu-solver-goal.md and relevant rejected experiments in
-docs/gpu-solver-qualification.md. Verify live handles, not stale state files.
+Read this file FIRST at continuation/compaction/restart, then AGENTS.md,
+`docs/goals/gpu-production-readiness.md` and the goal-scratchpad skill.
+Before solver work read `docs/gpu-solver-goal.md` and relevant rejected
+experiments in `docs/gpu-solver-qualification.md`. Historical next actions and
+receipts do not authorize reruns or renew budgets.
 
 ## Full objective and authority
 
-Complete PR04 in /home/firtoz/work/2026/box3d-wasm on feat/gpu: plausible physical
-behavior and useful completed physics steps/second on ordinary/native NVIDIA
-Vulkan. Ragdolls may fall/settle differently from real Box3D CPU; no cross-engine
-bit/pose/scene-trajectory parity. Require articulation, collision/support, finite
-healthy states without unexplained explosion, severe stretching, persistent
-jitter or energy gain. Preserve original applicable physical/function/calculation
-limits, geometry/defaults, identities/picking, user work, Box3D and WASM.
-Use TypeScript/Bun new automation. Stop after PR04, not the full roadmap.
-The six-gate/pivot/stop contract in the roadmap remains authoritative.
+In /home/firtoz/work/2026/box3d-wasm on feat/gpu, complete PR04: plausible physical
+behavior and useful completed physics SPS on ordinary/native NVIDIA Vulkan.
+Ragdolls may fall or settle differently from real Box3D CPU. They must remain
+articulated, collide/support correctly, and avoid unexplained explosions, severe
+stretching, persistent jitter or runaway energy. Preserve applicable physical,
+functional and independent calculation checks at their original tolerances.
+No cross-engine bit/pose/chaotic trajectory parity. Preserve geometry/defaults,
+body identity/picking, user work, Box3D and WASM. New automation uses TS/Bun.
+Stop after PR04; PR07/08/full roadmap campaigns are not implicitly activated.
 
-App goal is ACTIVE. Last publication6cd6956a7 was explicitly requested and pushed;
-the latest user request explicitly authorizes committing and pushing this checkpoint.
-Previous turn was PROGRESS: verified/published checkpoint. This continuation has
-causal profiles, a tested artifact candidate and a closed physical dragging gate.
+App goal BLOCKED pending the explicit Rain/performance budget decision; PR04 unchecked. Published checkpoint8d18dc8b6 is on origin/feat/gpu.
+The user has now explicitly authorized a new checkpoint commit and push. This
+authorizes publication of verified work; it does not renew experiment budgets. Previous goalturn was NO_PROGRESS at the same budget impasse. The current
+third consecutive impasse observation meets the blocked audit threshold.
+No new experiment is authorized; no completion or progress is claimed.
 
-## Current status — 1 done / 5 left
+## Current status — 3 done / 3 left
 
-| Gate | Status and evidence |
+| Gate | Status / authoritative evidence |
 | --- | --- |
-| A acceptance/baseline | OPEN. acceptance.md classifies original101Rust/13trace/14C recipes and freezes targets. Matched headless336 CPU/ordinary/native timing exists; full current Rain600 physical baseline and source-applicability audit unfinished |
-| B Rain/articulation | OPEN. No current GPU600 physical pass. Historical severe/persistent joint residuals remain; no solver repair |
-| C dragging/CCD | CLOSED at current physical scope: drag-physical-summary.json;8scene cells,17,520combinedsteps,175,200independentbody observations,8focused landing/mutation checks. Bothbackends/order0&1, original1320/3060windows. Limits/applicability below; broader29CCD belongsD |
-| D related regressions | OPEN. Originalrelatedchecks258/260pass exposed2symmetry failures; verifiedcontact-policyrepair nowpasses32physical+114changed-modeCCD/numeric. RemainingoriginalC/sourceapplicability notclosed |
-| E throughput/latency | OPEN/FAIL. Rain2.9SPS baseline/candidate4.6–4.7 vs60target; native isolateddrag47–48SPS and large hitches; do not present physics pass as speed pass |
-| F reconcile/cleanup/refreeze | OPEN. All prior phases cleaned/audited; runningD stillneedsclosure. Contact-policy repair retained; frozenPR06 oldsource untouched and applicability reopened |
+| A acceptance/baseline | OPEN: targets/classification frozen in acceptance.md; matched336-step timing exists, full current-source Rain600 physical baseline/applicability does not. See remaining-requirements.json. |
+| B Rain/articulation | OPEN: FallingRagdolls600 passes all4GPUconfigs; full Rain600 residual/support/identity/recycling acceptance remains unqualified. Historical severe/persistent residuals are not waived. |
+| C dragging/CCD | CLOSED at physical scope: drag-physical-summary.json,8scene cells/17,520combinedsteps/175,200body observations/8focusedCCD checks. Bothbackends/order0&1, original1320/3060windows. |
+| D related regressions | CLOSED: related-qualification.json,400requiredRustcells (286currentpasses/114explicitreuse),50trace-fixture cells,52non-RainCcells (46currentpasses/6explicitreuse);4original configuration exclusions. Rain4Ccells remain B. |
+| E throughput/latency | FAIL/UNQUALIFIED: Rain2.93SPS baseline/artifact4.64–4.74 vs60; nativeisolateddrag47–48SPS and long hitches; ordinaryground hitches also fail. |
+| F cleanup/release | CLOSED: refreeze-acceptance.json/refreeze-report.md.2emptyRust+4freshnative builds,CPUsource carry,5CPUfirst consumers/maxerror0/4callbacks/9viewer controls;20current-source artifacts frozen. PR06 refrozen for retainedpolicy; laterenginechanges invalidateaffectedinputs again. |
 
-Baseline runtime442689de1, current publishedHEAD6cd6956a7. Broadphase shader was restored byte-exact after its experiment; that cullcandidate
-remains unpromoted. The later contact-policy source repair is retained; shared
-libraries now contain it and testpaths mustbeidentified by compilerreceipt/hash.
-Frozen PR06 release candidate remains20files/367,035,504bytes under
-experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17. Consumer:
-focused qualification and PR06 applicability/refreeze. Preserve it and sharedcaches.
+## Budgets and pending decision
 
-## Current process/source state and next actions
+Rain/performance3/3 spent,0left. Drag investigation3/3 spent,0left. Contact-symmetry
+resolved in1/3; its unused2 batches do not transfer. No additional investigation
+is authorized by an automatic continuation or by writing a proposal.
 
-All sessions are TERMINAL. Last candidate86254 PASS; post-candidate41602 PASS.
-Joint remaining40257 FAILED: ordinary separation passed all2686 checks; native
-reaction hit its60s watchdog (SIGKILL) without a final comparison marker. This is
-an incomplete qualification, not an established physics assertion failure.
-Native separation was not launched. No automatic retry or further scene run.
-Prior related12960 FAILED and remaining61155 completed with retained failures.
-No liveGPU/build/viewer jobs, raw directory empty. Audit again after source/docs
-updates; do not launch from any oldreceipt/handle or reuse a spent budget.
+Default ceiling per blocker:3×45min, at most2hypotheses and2variants per hypothesis
+per batch. Freeze exact builds/runs/timeouts, progress and storage before launch.
+Pivot after2unproductive candidates or1batch without causal/physical/performance
+progress. Do not repeat exhausted historical experiments. Budget exhaustion with
+promising unfinished work permits an honest partial outcome, not success or an
+automatic extension. All credible ideas have NOT been proved exhausted.
 
-**Retained production source repair:** src/sim.rs now always selects existing
-paired normal solving in native builds, independent ofcontactorder. SHA256
+One text-input question is pending: authorize ONE additional45min Rain/performance
+batch or keep the limit and stop experiments. The reviewable scope/counts/storage
+are in next-batch-proposal.md (NOT authorized or launched). It tests a demand-sized
+joint-filter lookup:4200unique pairs exceed4096slots, causing full scans. The old
+artifact only rejected geometry earlier. This is not permission to run it.
+
+No new Rain/performance experiment while that decision is pending. Independent
+F qualification is now complete. Remaining A/B/E depend on work beyond the
+spent Rain/performance budget. This productive turn is the first reviewed
+post-F budget impasse; do not count earlier productive turns as blocked.
+
+## Retained source and build identities
+
+Only production change since runtime442689de1 is sim.rs native normal policy:
+paired normals now independent of contact priority. Current SHA256
 6b4aeaf97f94ed856b11ddcf4b0d7b6d0e19d3c8296ec0b3ff46d0f6768d97dd.
-contact-policy-sim-candidate.rs is exactverifiedsource; originalbeforeimage
-retained for historicalinput audits. Both Cargo manifests restored byte-exact,
-empty experimentalfeature absent fromproduction. Broadphasecull remainsartifact
-only; productionbroadphase originalf49df7557960f55ce5b64ac518b57e09249bf33aa2ac91b27fbc4d3ad533d747.
-Current shared libraries are the contact-policy candidate, compiledwith anempty
-isolationfeature; old culltestbinaries remain at their originalpaths andnewpolicy
-tests have distinctcompiler-selected names. Never treat a targetpath assource
-identity. Exact paths/hashes are in the actual compilerlogs/protocols.
+Exact before/candidate images are contact-policy-sim-{before,candidate}.rs.
+Both Cargo manifests restored; no production experiment feature. Broadphase
+original SHA f49df7557960f55ce5b64ac518b57e09249bf33aa2ac91b27fbc4d3ad533d747;
+its cull optimization remains artifact-only, not promoted.
 
-Next priorities:
-1. Finish gateA/D source/C-fixture applicability, especially current-policy
-   ragdoll600 and original frozenmesh/joint fixtures before claiming allDclosed.
-   Reuse checks whose code/input consumers are unchanged; no newcatalogsweep.
-2. Rain/performance budgets are spent. Any further investigation needs explicit
-   newbudget, nottransfer ofunusedcontact-symmetrybudget. Necessary affected-scene
-   qualification must be separately frozen and clearly distinguished from a new
-   solver/performance hypothesis. No silentextension or old900shealth rerun.
-3. Useful source-only qualification-adapter lead: original fullhealth repeatedly
-   calls bodygetters; with_world unconditionally drops sync_world_mirror's returned
-   Vec, whose clean fastpath clones everybody evenwhen already current. This
-   explains a potentialO(N²) diagnostic readpath, notyetmeasured as a newrepair.
-   Existing b3World_GetBodyEvents provides bulkawake/fell-asleep transforms; a
-   validated creation/generation-awareposecache plus bulk world_health_scan may
-   qualify Rain joint anchors/cone/twist without everybodygetter eachstep. Validate
-   eventcache versusactualgetters andexactjointmath first; do not invent a pass
-   fromfinite-only endpointdigests. No suchadapter or newgetterchange exists yet.
-4. E stillFAIL Rain60SPS and native topology/first-usehitches. F/PR06 refreeze
-   reopened for newsource; do not refreeze a release that will immediatelychange
-   again. StopafterPR04, no implicitPR07/08campaign. Current checkpoint commit/push
-   is explicitly authorized; future implementation commits still need authorization.
+Two current development libraries under ignored artifacts/pr04-contact-policy-
+candidate-2026-10-17 have an explicit196MiB retained exception. Exact hashes/bytes
+are current-policy-libraries.json. Their empty build-isolation feature has no cfg
+consumer; they are qualified development inputs, not clean PR06 release outputs.
+Keep for source/applicability audit and PR06 refreeze; never infer identity from
+mutable target paths. Actual compiler-selected test paths are pinned in receipts.
 
-## Investigation budgets and decisions
+Old ignored artifacts/pr05-pr06-release-candidate-2026-10-17 contains20files/
+367,035,504B. All hashes still match the original clean-build receipts. Audit
+compared259production inputs: onlysim.rs differs.14C/CPU artifacts unaffected;
+The6affected oldfiles remainhistorical. Their2Rustarchives/4viewers have now
+beenrebuilt andqualified inthenew20artifact candidate (refreeze-acceptance.json).
+Do not overwrite or call theoldoutputs current.
 
-Per blocker max3×45min,<=2hypotheses and2variants/hypothesis/batch. Freeze exact
-builds/runs/watchdogs/progress/storage before execution. Pivot after2unproductive
-candidates or1batch without causal/physical/performance gain. Do not repeat
-historical exhausted trials or silently renew budgets. Defaulttemporary1GiB,
-retained64MiB/free20GiB, bounded/reaped ownedgroups/core0, cleanup both outcomes.
-Credible approaches exhausted allows unsuccessful stop; ceiling with promising
-unfinished work means honest partial outcome, not success or silent extension.
+## Key results and corrected hypotheses
 
-Rain/performance3/3 consumed,0left. Drag physical investigation3/3 consumed,0left;
-its last batch required one finite observer handle-routing correction, recorded
-separately without changing physics. No further experiment on these blockers
-without explicit newbudget. There is promising unfinished Rain work; do not claim
-all credible approaches exhausted. Related original-regression verification is
-separately frozen and terminal. Contact-symmetryblocker RESOLVED in1/3batches: existingpairednormal policydecoupled
-fromcontactpriority, originalphysicalbounds passbothbackends/modes. Unused2batches
-do notrenewRain/drag budgets. Verificationphase114checks completed, no newcandidate.
+- Contact symmetry repaired: original mode1 spin.019269153>.001 and transverse
+  .001521538>.001 on both backends. Existing paired solver passes unchanged
+  physical limits on both backends/orders;32physical+114changed-mode CCD/numeric
+  checks and two3060step ground-drag confirmations pass.
+- FallingRagdolls600:40CPU-first mesh/ragdoll cells pass. GPU peakanchor.116392836
+  <.25m, tail.00298925536<.005m and tail velocities0. Original isolated4×120,
+  noContacts60 and frozen45grid/12torus checks pass; input bytes matchPR03.
+- Native reaction: old60s whole-fixture timeout retained. Perkind4worlds~11s
+  predicted~98s; final unfiltered36worlds/9types/4configs/2856checks pass both
+  orders in89.441/88.863s with120s caps. This is no speed/cold-start pass.
+- Drag: correctmotor7.5Hz/damping1, superseding historical5Hz note in acceptance.
+  .20m free-tracking bound retained. Only lowering with actual upward support
+  impulse may be floor-loaded; every violatingframe checked. Old unconditional
+  tracking and loaded trajectory FAILs remain. No scene resets in ground mode;
+  original release<.1/support-.025/finite/identity checks preserved.
+- Rain timing: matchedworker1/original336steps throughfirstrecycle; loadedfinal20
+  CPU14.054ms/71.15SPS, ordinary341.040ms/2.932/native340.817ms/2.934.
+  GPU~238ms (broadphase~186,solver~49), fetch~99ms includes hostCCD/events.
+  Ordinary earlier reached407/600 at90s; normal viewers timedout180s. Viewer8worker
+  records and headless1worker are separate, not matched CPU observations.
+- Cull artifact: pure AABB/material rejection before joint scan gains58–62%,
+  final20~211–215ms/4.64–4.74SPS, stillfails60SPS; only336steps, notRain600 health.
+- CLEAN-GETTER LEAD FALSIFIED: with_world calls ensure_cpu_mirror_world, which
+  gates sync on stale bodies/pending events/postCCD. Clean getters do not collect
+  the fullbody array. callback snapshots are also conditional. Do not implement
+  the old proposed unconditional-copy fix. This does not prove all read costs cheap.
 
-Rain batch1: normal GPU viewers both hit180s caps even without fullhealth. Headless
-ordinary with actualsetters reached407/600 before90s; loadedsteps~400ms while
-setters~.0013ms. Viewer cost alone cannot explain stepping. Indirect setter/cache
-invalidation not fully falsified (GPUengine-only arm unlaunched). CPU600 botharms
-passed finite/valid endpoint with same187d68e48d2ebcef digest. These are not joint/
-energy acceptance. Normal viewer records8workers, headless explicitly1worker;
-do not present CPU390SPS viewer versus90SPS headless as matched settings.
+Original failed receipts are immutable. Marker-only rejection, duplicate final
+metadata label, and aggregate120s timeout are reconciled by separate evidence;
+no failed run rewritten as PASS. Original standaloneidentity passed1.299s after
+an aggregate interruption. Full chronology is recovery-history.md (exact prior
+log SHA256 0925d59fec19bb337257d1d72332546709d9406f72ceddc579ab3f255bdbcd5f); detailed evidence remains in protocols/receipts/reports.
 
-Rain batch2: originalupstream336steps through firstrecycling, worker1,dt1/60×4,
-recycle.05,CPUfirst/bothGPU. All3complete. Loadedfinal20 CPU14.054ms/71.153SPS;
-ordinary341.040ms (GPU238.900,broadphase186.325,solver49.174,fetch98.564),
-native340.817ms (GPU238.037,broadphase185.881,solver49.451,fetch99.548).
-Timestamps exactly identify currentstep. Fetch includes mirror/map+hostCCD/events,
-not merely DMA. BothGPUendpoint f177d8f0fa03811c.
+## Current process / cleanup / next action
 
-Rain batch3 cause/candidate:300humans×14distinct jointpairs=4200 >4096lookupslots,
-forcing scan fallback. Broadphase invokes it even for nonoverlapping terrain
-pairs. Move pure AABB/material filter rejection before expensive joint test in
-hash/static pair discovery; accepted predicate unchanged. Two libraries/two test
-builds, two336profiles andfour original joint-filter checks PASS, exactendpoint
-bothbackends. ordinary341.040→215.421ms/2.932→4.642SPS(+58.31%), native340.817→
-210.914ms/2.934→4.741SPS(+61.59%). Broadphase~186→56ms both. StillFAIL60SPS;
-no full600joint/support/energy acceptance. Source restored; artifact retained.
-Actualpeaknewdata61,978,088B under explicit1.5GiBbuild-growthexception.
+All F sessions TERMINAL/PASS: Rust94049/native32641/consumer43677/viewers32584;
+finalrefreeze verifier72967 PASS. Allbuildtrees/ownedconsumer inputs/executables/
+viewer CWDs consumed/deleted; no GPU/build/viewer job orrawoutputs remain.
+Last integrity audit passed211pins/allrecorded processgroups absent/raw0; the
+latest source/release audit validates all20old artifacts unchanged. Shared caches
+preserved. Defaulttemporary1GiB includingcache growth/raw128MiB/retained64MiB/
+free20GiB; name consumers/deletion points and clean on success/failure. Retained
+small diagnostics~18.3MB; the new367MB release candidate uses the explicit512MiB
+allowance andcurrentqualification/PR07/refreeze consumers. Two development
+libraries andtheold release candidate keep their recorded audit consumers. Do not create new backup/cache trees.
 
-Drag batch1: originalisolated1320 passes independentphysical+originalnumerical
-checks. Ground3060 meets support/finite/originalrelease endpoints but new
-unconditional.20m targettracking screen fails bothCPU.899216/GPU.919589m. Preserve
-that screen and all original loadedtrajectory FAIL results; no GPU-only defect.
+Next: F is complete for current source. Rain budget decision remains pending
+and does not authorize a new experiment. Inspect actual input before
+any dependent action. An answer preserving the ceiling means stop experiments
+with this partial result. A renewed budget must be recorded explicitly, then
+freeze exact commands/source restoration before execution. Do not automatically
+resume any old handle, spent experiment, PR07/08 campaign or publication.
 
-Drag batch2: source confirms actualmotor7.5Hz/damping1.0, not historical5Hz
-assumption in acceptance.md; drag-acceptance.md corrects it. First>.20m frame232/
-t172 during lowering; worst1139/t179 CPUtargety.344374/anchor1.003620/GPU1.029429,
-floorupwardimpulses~2990/3249 plusothers. Free-servo model inapplicable under that
-load; diagnosis does not by itself pass physical behavior.
+Final review audit32322 PASS:211pinnedinputs/allrecorded processgroups absent/raw0.
+No new production/Box3D/WASM change.20oldreleaseartifact hashes match;14unaffected/
+6requiringrefreeze. Newreport/plan/history are small text; no binaries/cachecopies
+created. GoalstillACTIVE2done4left, budgetquestionpending/no additionalexecution.
 
-Drag batch3: same.20m bound for lifting/constanttarget/free motion; only lowering
-(t>=135) with actual upwardnormal.y>.5 and positiveimpulse can be floor-loaded.
-Check every violatingframe. Preserve unrestrictedpeak/FAIL, exemptedcounts and
-originaltrajectoryFAIL. The printed free_peak is an upperbound on unexempted
-tracking (may include floorloadedframes below.20, which need no exception).
-Allfinite/no-runaway/support-.025/release<.1 checks stillapply; per-held-step raw
-mousebody/joint validity. First observer abort wrongly used combined mapping for
-an internalGPU-onlyjoint; corrected to actualgpu_b3_joint_is_valid, failedprefix
-retained. All8scene cells+8CCDchecks PASS; original windows/no ground resets.
-Worst groundCPUcorner-.022358m/GPU-.018491m, within original.025 screen. Source
-scene libraries are exact frozenPR06; focusedRustCCD binaries include cull change,
-not finaldelivery tests. Full29CCD is D, not claimed by these2selectors alone.
+F releasequalification budget FROZEN beforeexecution: refreeze-rust1350s (2empty
+Rusttargets600s each,originalreleasefeatures/j2,source/dependencyreceipts),
+refreeze-native1400s (4emptyCMakeconfigure45/build240/receipt30; onlypinnedsource
+cache reused,dependencybuilds isolated),refreeze-consumer950s (original5CPUfirst
+externalconsumers and4callbackcontrols),refreeze-viewers1150s (original9CPUfirst
+cacheon/off pause/step/switch controls120s).0newphysics/performancehypotheses,
+0Rainruns/captures/retries. Explicit6GiBtemporary/512MiBnewcandidate exception,
+64MiBdiagnostics/free20GiB; candidateconsumers=Fverification andPR07/refreeze.
+Buildtrees deletedaftereachreceipt andonfailure; no sharedcache/treecopies.
+Stableignorednewcandidate path artifacts/pr04-release-candidate-2026-10-17
+keepsprotocolinputpins valid afterrawcleanup. Old20artifacts/qualifieddevlibs
+remainuntouched. Newdriver tolerates transientcompilerfile ENOENT inbytecounts,
+retains othererrors andcandidate512MiBcap. Newproduction sourceunchanged.
 
-Timing is combinedCPU+GPU completed-step walltime with health observations
-excluded, not pure GPUkernel. Ordinary~511–546SPS but groundmax.67–.73sFAIL250ms;
-nativeisolated47–48SPS/max1.49s, ground~100SPS/max2.13s. These new measured hitches
-remain unresolved E failures; do not hide first-use work inside a timing pass.
+F live session94049/refreeze-rust: currentreceiptPID verifiedlive, ordinaryclean
+releasebuild underway. Poll exacthandle; do not restart on observation timeout.
+Builds use2compilerjobs andemptyownedtargets; no shared compiledobjects reused.
+F Rust94049 TERMINAL/PASS6/6jobs: ordinary189.705s/native208.147s, bothempty
+Rusttargets/source-dependencyreceipts/verification PASS. Cleanbuildtrees consumed
+anddeleted; twoqualified-build archivesatstablecandidate path awaitconsumer/UI
+verification (notfinalrelease acceptanceyet). Refreeze-native protocol prelaunch
+finalization adds source-directory overrides/freshdependencybuild paths and
+ownedconsumerCPP cleanup onfailure; no engine/source edits ornewphysicsbudget.
 
-## Cleanup, evidence and limitations
+F live native session32641: ordinarygpu cleanbuild+receipt PASS/buildtreegone;
+ordinaryboth nowbuilding. ExactreceiptPID checkedlive; do not restart after
+observationtimeout. Preflight xdpyinfo5s PASS. All3source dependencies reusedonly
+assource withbuildobjects inownedraw; no globalcompileddependencytree overwritten.
 
-Prior phase receipts (FAILED never rewritten as PASS):
+F native32641 update: ordinarygpu/ordinarybothbuilds andreceiptsPASS, bothbuild
+treesconsumed/deleted; nativegpuconfigurePASS/currentbuildlive, nativebothpending.
+Continueexactsession, thenconsumer950s/viewers1150s frozenphases.2done4left.
+F native32641 TERMINAL/PASS14/14jobs:4independentempty nativebuilds andcompiled
+input/generated-source receipts; source/dependency bytes unchanged. All4buildtrees
+consumed/deleted; newstablecandidate has20artifacts inclunchangedcarriedCPU2.
+Consumers/viewerlifecycle notyetqualified; FstillOPEN2done4left.
+F consumer43677 TERMINAL/PASS21/21jobs: actualCPUfirst5publicAPI consumers,
+original1e-5/maxerror0,create/step/read/ray/counts/teardown and4callbackcontrols
+PASS. Objects/executables/copiedCPPfolderconsumed/deleted. NativeCproducer hashes
+andfeature provenance remainrecorded. Next exactfrozen viewerphase9cells,
+CPUfirst/cacheon-off/pause/singlestep/sceneswitch; no Rain/performanceexperiment.
 
-| Phase | Result | Elapsed | Last job | Deleted temporary bytes |
-| --- | --- | --- | --- | ---: |
-| baseline | FAILED | 203.027s | run-rain-ordinary | 3123517 |
-| baseline-native-remaining | FAILED | 180.559s | run-rain-native | 286 |
-| rain-batch1-headless | FAILED | 105.908s | run-ordinary-viewer-setters | 16811128 |
-| rain-batch2-profile | PASS | 130.716s | caches-after | 33650888 |
-| rain-batch3-cull | PASS | 268.848s | sizes-after | 32574880 |
-| drag-batch1-physical | FAILED | 12.994s | ordinary-order0-ground | 33530248 |
-| drag-batch2-tracking | PASS | 9.634s | caches-after | 33535992 |
-| drag-batch3-qualified | FAILED | 4.094s | ordinary-order0-isolated | 33532112 |
-| drag-batch3-handle-correction | PASS | 152.228s | caches-after | 68870912 |
+F CLOSED: new20artifact/current-source candidate validated; see refreeze-report.md.
+2Rustcleanbuilds/4nativecleanbuilds,5CPUfirst publicAPI consumers at1e-5/max0,
+4callbacks and9viewercontrols PASS. Actualreleasefeatures/noexperimentalfeature
+verifiedfromCargocompilerartifacts; source/lock/dependency snapshots match.
+CompatibilityWASM/TS/demo evidence reusedonly atunchanged-source scope.
+Now3done3left(A,B,E); no Rain/performance budgetrenewal orpublicationauthority.
 
-Prior phases removed255629963bytes; raw was empty beforeD. All recorded prior
-PIDs/groups absent and141+distinct input/log/protocol pins matched checkpoint-audit
-beforeD launch; rerun after terminal. No raw binaries/objects/cachecopies/fullscene
-dumps retained. Currentraw is empty; all owned testtemporary directories were consumed/deleted. Keep
-small protocol/source/failedlogs and summaries, not consumed artifacts. Shared
-libraries/tests/cache nextconsumer=qualification; no releasecandidate overwritten.
+FinalF integrity89383 PASS: 350pinnedinputs,allrecordedprocessgroupsabsent/raw0.
+Temporarydata removed2502968344B; observedpeakraw989299999B.
+Newcandidate367034636B within512MiB; stableignoredarchive consumers
+currentqualification/PR07/refreeze. Oldcandidate/devlibraries remainforhistorical
+input/auditconsumers, no sharedcachesdeleted. refreeze-checkpoint.jsonrecords
+cachegrowth andcleanup. Now3done3left(A,B,E), no newRain/performancebudget.
 
-Important records: acceptance.md (frozen targets/classification, correctedmouse
-frequency via drag-acceptance.md), rain-batch2-profile-summary.json,
-rain-batch3-cull-comparison.json, drag-physical-summary.json,
-drag-tracking-applicability.md, checkpoint-audit.json. Numeric performance targets:
-60completedSPS/1simulatedsps, p95<=33.333ms,max<=250ms, originalscene/defaults;
-Rainfull600+loadedtail120, ragdollactivefirst240 (full600also reported), dragoriginal
-1320/3060. Never lower after results. Physical tolerances remain original.
+Budgetimpasse revalidation:3done3left(A,B,E), qualifiedsourceunchanged,
+0active receipts/rawfiles, no newhumanbudgetauthorization. Previousgoalturn
+PROGRESS(Fclosed); currentNO_PROGRESS. Consecutivebudgetimpasse observations2,
+firstpure no-progress turn1; blockedthresholdnotyetmet, goalstaysACTIVE.
+No build/GPUrun/repeatedquestion/commit/push. Existingbudgetquestion remains
+pending; do notsilentlyextend3/3usedRain/performance ordraglimits.
 
-Historical rejections: angular/substep refresh, extra waves and combinations,
-coupled cone/point andhinge blocks trade cone improvements for anchor/twist failures;
-passivewarmcache line search/motorprojection alone insufficient; mesh-unilateral
-fallback left actual18anchor/27angular/249cone failures unchanged. Read later
-coupledCPU prototypes before proposing another coupled algorithm. No exhausted
-historical campaign resumed. Rain physical failures remain, oldstrict ragdoll
-trajectories deferred separately from its historicalphysicalpass.
+Thirdconsecutivebudget-impasse observation verified: remainingA/B/E unmet,
+source stillmatchesqualifiedrelease,0activephases/rawfiles, no newhumanbudget
+authorization. C/D/Fandallindependentwork complete. Initialimpassewasrecorded
+afterFcompletion; previous/currentcontinuations revalidatedunchangedcondition.
+SetappgoalBLOCKED ratherthancontinue status-onlyautomaticturns. Fullobjective
+preserved/PR04unchecked; resumeonlywithnewhumanbudget/constraint direction.
+No runs/builds/commit/push, no alternativequalificationscope orcriterionrelaxation.
 
-Relatedcheckphase CLOSED/FAILED ordinaryorder1physical:7pass1fail contact-islandwake spin.019269153>.001 andtransverse.001521538>.001. Ordinaryorder0 all65checks pass. Sourceonlycullcandidate, no productionpromotion. Distinctremainingphase FROZEN beforelaunch: only8unlaunchedgroups/187checks,120s each/1010sphase,0builds/candidates/retries; predictednativeorder1same1failureexplicitlyretained, statusCOMPLETED_WITH_RETAINED_FAILURESnotPASS. No completedcellrepeated;originalfailedphysicallimits unchanged. Drivercleanedtesttempfiles/PIDsabsent audited; 1/6gatesclosed. RemainingphysicalfailurejoinsRain/performance asunresolved; nottrajectorywaiver.
+Publication request, 2026-10-17: commit/push the verified qualification and release-refreeze evidence, then supply a practical PR04 goal proposal. Publication budget: one read-only integrity audit (30s), one TS syntax/JSON validation (30s), whitespace/staging checks, commit (60s), push (90s); no builds, GPU runs or captures. Only existing small text reports, protocols, generated-source provenance and logs are selected; binaries/cache/raw trees stay excluded. Fetch completed: HEAD/origin 0 ahead/0 behind. New goal text is a proposal only; current app goal remains BLOCKED and existing investigation limits unchanged.
 
-Relatedremainingverification CLOSED completedwithretainedfailures:258/260originalchecksPASS, twooriginalcontact-island spin/transversefailures onordinary/nativeorder1. Sourcecausalboundary sim.rs diagnostic_flags_from_env couplesSOLVER_PAIRED_NORMALS toorder0evenwhenpriorityitselfisindependent. Mode0original8physicalchecks passbothbackends;mode1fails oneonboth. Newdistinctcontact-symmetryblocker batch1/3 FROZEN contact-policy-batch1-protocol.json,1algorithm-policycandidate alwaysuseexistingpairednormals, no physicalparameterchange,0Rainruns/budgetrenewal.2libs+2testbuild180/2CPP15/2link25/4physicalsuite90=32checks/2original3060ground60/cache15/1350sphase,default1GiBtemporary+sharedgrowth/raw128MiB/retained64MiB/free20GiB. Temporaryemptyfeature isolates Cargoartifacthashes so priorpinnedtestbinariesarenotoverwritten;no cfg consumer,manifests+simrestorefinally. Contactsymmetry1/3allocated,2left;Rain3/3spent,drag3/3spent;1/6gatesclosed.
+Publication verification PASS: 350 distinct pinned inputs match, all recorded process groups absent, raw bytes0; 94 JSON files parse and18 TS helpers transpile, authored-source/documentation whitespace check clean. Selected checkpoint647 text files/15,311,793bytes before this note; no binaries/cache/raw additions. Existing physical qualification reused at its recorded source/window scope; no new physics/performance result claimed.
 
-Contactpolicy followupverification FROZEN beforelaunch: contact-policy-order1-verification-protocol.json, onlychangedorder1 CCD29+precision28 perbackend=114checks,4runs120/cache10/510sphase,0builds/newhypotheses/candidates/retries/Rainruns,defaultstoragecaps. Newfeatureisolatedactualcompilerbinariespinned. Do notlaunchuntil86254terminalandrestorationcomplete. This verifies candidate applicability, notanotherphysicsattempt; unchangedmode0old65checks andnew32physicalcontrolchecks remainseparateevidence.
-
-## Retained contact-policy repair result
-
-contact-policy-acceptance.json verifies actual retainedsource and source-identity
-transition. Before: originalcontact-island mode1 spin.019269153rad/s vs.001 and
-transverse.001521538m vs.001 onbothbackends, all other originalchecks pass.
-Firstcause: diagnostic_flags_from_env tiedSOLVER_PAIRED_NORMALS toorder0. Repair
-alwaysselects existingpairednormalalgorithm; priority/world/body/material/joint
-parameters andWASM initializer unchanged. No constant/iteration sweep.
-Candidatebatch1 all17jobs PASS265.247s;32originalphysicalchecks allpassbackend×
-order0/1, including oldsymmetrybounds; twochangedmode1ground3060confirmationsPASS.
-Postcandidate4groups all114originalorder1CCD/numericchecks PASS atoldlimits.
-Mode0normalpolicy unchanged; its previousCCD/numeric controls retain source
-applicability withpurebroadphasepredicate equivalence, while newphysicalcontrols
-also exercisedmode0. FullCfixture/source reconciliation andB remainOPEN.
-
-source/srcsim andbothmanifests restored aftertrial, then onlyverifiedsim change
-retained (normalpolicy); 125,807,400Bpeaknewbuilddata. No newproductionfeature.
-Anemptyfeatureisolatedbuildartifactnames so priorpinnedtestexecutableswerenot
-overwritten. Sharednewcandidate artifacts nextconsumer=remainingphysical
-qualification/PR06applicability, notclaimedfinaldelivery. docs/gpu-physics.md and
-qualification/roadmap updated. PR06 current-source checkbox REOPENED; historic
-442689de1 buildmilestone and20artifacts preserved. No other roadmap item reopened.
-policy-scene-dispositions.tsv lists all165native registrations as current-policy
-UNREVIEWED individually; no extrafullreviewcampaign. Sharedfixture evidence is
-not165newbehaviorpasses. Current1/6gatesclosed,5left, goalACTIVE, no newcommit/push.
-
-Continuation: previous goal turn was PROGRESS (retainedverifiedpolicyrepair,1/6closed). No livejobs found. JointCqualification FROZEN: joint-c-qualification-protocol.json, originalninekindreaction/separation CPUrealprefix +ordinary/native mode1;2CPP15/4links25/4runs60/cache10/freezeverify15/450sphase,0enginebuilds/retries/captures. Default1GiBtemp/64MiBdiag/raw128MiB/free20GiB; explicit196MiBretainedbinaryexception foronlytwo currentpolicy libraries, ignoredartifacts directory; consumers=C/mesh/articulatedqualification+PR06refreeze. Old20PR06artifacts preserved; rootmutablebuildoutputs consumed withfrozenhashes, immutablecandidatecopiesverifiedbefore/after. No Rain/dragbudgetrenewal.1/6closed5left.
-
-JointCfirstphase terminalFAILED dueharnessmarkeronly: ordinaryreaction code0/full2856sourceassert comparisonsPASS, butdriver incorrectlyrequireduppercasePASS. Markerreconciliation preservesfailedreceipt/no physicsfailure. joint-c-remaining protocolFROZEN only3unlaunchedfixtures withexactoriginal2856reaction/2686separationmarkers (separationcount=(16poses+3mutations)*8configs+6dynamic/sleepinspections perkind;8kinds2fields+wheel1field). Recompile2cleanedCPPobjects15s each,3links25/3runs60/cache10/350sphase;0enginebuilds/retries/newcandidate. Alreadycompletedordinaryreactionnotrepeated. Copiesfrozen87,507,106+94,830,834B; unchangedsource/Box3D/WASM.1/6closed.
-
-## Publication checkpoint requested by user, 2026-10-17
-
-User explicitly requests commit/push and reusable PR04 goal text emphasizing
-expected physical behavior, completed-step performance, innovative pivots and
-permission to stop unsuccessfully. This is checkpoint publication, not PR04
-completion or renewal of Rain/performance3/3 or drag3/3 exhausted budgets.
-
-Joint C remaining phase40257 terminated FAILED at65.352s. Ordinary separation
-completed2686 unchanged checks; previously completed ordinary reaction2856 is
-reused, not rerun. Native reaction reached60.136s and was killed by its frozen
-watchdog, without a final comparison marker; preserve this as timeout/incomplete,
-not a demonstrated incorrect reaction. Native separation never launched. Raw
-cleanup68,829,048B recorded; exact receipt/logs retained. Earlier marker-only
-harness failure remains reconciled separately.
-
-qualification-fixture-tools.ts is a prepared, unexecuted Bun adapter. Its
-mesh-ragdoll protocol does not yet exist; it establishes no fixture pass and
-must be reviewed with a finite protocol before use. No mesh/ragdoll campaign
-launched during publication. Gate status stays1done/5left; PR04 unchecked and
-PR06 applicability reopened.
-
-Publication-only budget frozen before execution:0 engine builds/GPU runs/captures,
-1 offline checkpoint audit25s,1 syntax scan of local TS tools25s, Git diff/staging
-checks, fetch45s (completed0ahead/0behind), commit120s and push60s. No retries of
-physics/timeouts, no new hypothesis budget. Keep existing196MiB exception for the
-two named development libraries; no extra binaries/caches. Audit will verify
-source transitions, receipt integrity, recorded process groups absent and raw0.
-
-Publication verification PASS: checkpoint-audit.json verifies179 distinct pinned
-inputs (one explicit historical-to-retained sim source transition), all recorded
-process groups absent, raw0, approximately4.03MB retained diagnostic data and
-1.70TB free. Sixteen TypeScript tools transpile; this is syntax-only, including
-the unexecuted adapter. git diff --check passes; Box3D submodule clean and no WASM
-paths changed. Fetch confirms0ahead/0behind before checkpoint commit. Publishing
-under title `fix(gpu): decouple contact normals from ordering policy`; resolve its
-commit hash with Git after publication. No gate or budget status changed.
-Staged source/docs whitespace check passes. Verbatim receipt-pinned test logs
-contain original trailing blank lines; preserve those bytes/hashes rather than
-rewrite evidence for a cosmetic whitespace check. The checkpoint publishes only
-small diagnostics/source fixtures, not the ignored development libraries.
+Staged whitespace audit identified existing trailing whitespace/blank EOF lines in exact generated-source snapshots and captured command logs. Those bytes remain unchanged because receipts pin their hashes; the authored-source/documentation check excluding those two provenance directories passes. The checkpoint preserves failed receipts and makes no whole-PR04 success claim.

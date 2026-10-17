@@ -1,0 +1,313 @@
+{
+  "status": "CHECKPOINT_INTEGRITY_PASS_NOT_PR04_ACCEPTANCE",
+  "receipts": [
+    {
+      "name": "baseline-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 10,
+      "lastJob": "run-rain-ordinary",
+      "lastJobAccepted": false,
+      "elapsedMs": 203027,
+      "removedBytes": 3123517
+    },
+    {
+      "name": "baseline-native-remaining-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 1,
+      "lastJob": "run-rain-native",
+      "lastJobAccepted": false,
+      "elapsedMs": 180559,
+      "removedBytes": 286
+    },
+    {
+      "name": "rain-batch1-headless-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 11,
+      "lastJob": "run-ordinary-viewer-setters",
+      "lastJobAccepted": false,
+      "elapsedMs": 105908,
+      "removedBytes": 16811128
+    },
+    {
+      "name": "rain-batch2-profile-receipt.json",
+      "status": "PASS",
+      "completedJobs": 13,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 130716,
+      "removedBytes": 33650888
+    },
+    {
+      "name": "rain-batch3-cull-receipt.json",
+      "status": "PASS",
+      "completedJobs": 21,
+      "lastJob": "sizes-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 268848,
+      "removedBytes": 32574880
+    },
+    {
+      "name": "drag-batch1-physical-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 6,
+      "lastJob": "ordinary-order0-ground",
+      "lastJobAccepted": false,
+      "elapsedMs": 12994,
+      "removedBytes": 33530248
+    },
+    {
+      "name": "drag-batch2-tracking-receipt.json",
+      "status": "PASS",
+      "completedJobs": 6,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 9634,
+      "removedBytes": 33535992
+    },
+    {
+      "name": "drag-batch3-qualified-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 5,
+      "lastJob": "ordinary-order0-isolated",
+      "lastJobAccepted": false,
+      "elapsedMs": 4094,
+      "removedBytes": 33532112
+    },
+    {
+      "name": "drag-batch3-handle-correction-receipt.json",
+      "status": "PASS",
+      "completedJobs": 22,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 152228,
+      "removedBytes": 68870912
+    },
+    {
+      "name": "related-physical-checks-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 5,
+      "lastJob": "ordinary-order1-physical",
+      "lastJobAccepted": false,
+      "elapsedMs": 40763,
+      "removedBytes": 4555715
+    },
+    {
+      "name": "related-physical-remaining-receipt.json",
+      "status": "COMPLETED_WITH_RETAINED_FAILURES",
+      "completedJobs": 9,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 72707,
+      "removedBytes": 4859821
+    },
+    {
+      "name": "contact-policy-batch1-receipt.json",
+      "status": "PASS",
+      "completedJobs": 17,
+      "lastJob": "sizes-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 265203,
+      "removedBytes": 68878760
+    },
+    {
+      "name": "contact-policy-order1-verification-receipt.json",
+      "status": "PASS",
+      "completedJobs": 6,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 55641,
+      "removedBytes": 0
+    },
+    {
+      "name": "joint-c-qualification-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 6,
+      "lastJob": "run-ordinary-reaction",
+      "lastJobAccepted": false,
+      "elapsedMs": 5196,
+      "removedBytes": 33514072
+    },
+    {
+      "name": "joint-c-remaining-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 7,
+      "lastJob": "run-native-reaction",
+      "lastJobAccepted": false,
+      "elapsedMs": 65352,
+      "removedBytes": 68829048
+    },
+    {
+      "name": "mesh-ragdoll-qualification-receipt.json",
+      "status": "PASS",
+      "completedJobs": 55,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 82457,
+      "removedBytes": 68840992
+    },
+    {
+      "name": "joint-native-separation-receipt.json",
+      "status": "PASS",
+      "completedJobs": 6,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 15880,
+      "removedBytes": 35334368
+    },
+    {
+      "name": "remaining-rust-qualification-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 2,
+      "lastJob": "ordinary-order0-remaining",
+      "lastJobAccepted": false,
+      "elapsedMs": 120315,
+      "removedBytes": 0
+    },
+    {
+      "name": "distance-qualification-receipt.json",
+      "status": "PASS",
+      "completedJobs": 10,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 15211,
+      "removedBytes": 68783376
+    },
+    {
+      "name": "rust-unlaunched-qualification-receipt.json",
+      "status": "PASS",
+      "completedJobs": 19,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 324974,
+      "removedBytes": 0
+    },
+    {
+      "name": "identity-standalone-qualification-receipt.json",
+      "status": "PASS",
+      "completedJobs": 3,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 1299,
+      "removedBytes": 0
+    },
+    {
+      "name": "joint-kind-qualification-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 29,
+      "lastJob": "native-order0-separation",
+      "lastJobAccepted": true,
+      "elapsedMs": 217382,
+      "removedBytes": 137619840
+    },
+    {
+      "name": "joint-kind-final-audit-receipt.json",
+      "status": "PASS",
+      "completedJobs": 2,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 1627,
+      "removedBytes": 0
+    },
+    {
+      "name": "joint-whole-confirmation-receipt.json",
+      "status": "PASS",
+      "completedJobs": 8,
+      "lastJob": "caches-after",
+      "lastJobAccepted": true,
+      "elapsedMs": 182109,
+      "removedBytes": 35333888
+    }
+  ],
+  "distinctPinnedInputs": 211,
+  "rawBytes": 0,
+  "headless": [
+    {
+      "name": "rain-batch1-headless-run-cpu-viewer-setters.log",
+      "completedSteps": 600,
+      "passMarker": true,
+      "endpoint": {
+        "kind": "endpoint",
+        "humans": 300,
+        "dynamic_bodies": 4200,
+        "pose_velocity_digest": "187d68e48d2ebcef"
+      },
+      "all": {
+        "steps": 600,
+        "meanPhysicsMs": 11.058090800000002,
+        "completedStepsPerSecond": 90.43152367676342,
+        "simulatedSecondsPerSecond": 1.5071920612793903,
+        "p95Ms": 15.227667,
+        "maxMs": 17.835237,
+        "meanSettersMs": 0.00019338166666666662,
+        "meanCreateMs": 0.02602234666666664
+      },
+      "final20Completed": {
+        "steps": 20,
+        "meanPhysicsMs": 14.228119999999999,
+        "completedStepsPerSecond": 70.28335437148408,
+        "simulatedSecondsPerSecond": 1.1713892395247347,
+        "p95Ms": 14.76596,
+        "maxMs": 14.999546,
+        "meanSettersMs": 0.00019325,
+        "meanCreateMs": 0.035049949999999996
+      }
+    },
+    {
+      "name": "rain-batch1-headless-run-cpu-engine-only.log",
+      "completedSteps": 600,
+      "passMarker": true,
+      "endpoint": {
+        "kind": "endpoint",
+        "humans": 300,
+        "dynamic_bodies": 4200,
+        "pose_velocity_digest": "187d68e48d2ebcef"
+      },
+      "all": {
+        "steps": 600,
+        "meanPhysicsMs": 11.057543773333338,
+        "completedStepsPerSecond": 90.4359974058277,
+        "simulatedSecondsPerSecond": 1.5072666234304617,
+        "p95Ms": 14.92917,
+        "maxMs": 15.58848,
+        "meanSettersMs": 0.000022036666666666608,
+        "meanCreateMs": 0.025476165
+      },
+      "final20Completed": {
+        "steps": 20,
+        "meanPhysicsMs": 14.213613850000002,
+        "completedStepsPerSecond": 70.35508425607046,
+        "simulatedSecondsPerSecond": 1.1725847376011742,
+        "p95Ms": 14.540936,
+        "maxMs": 14.95083,
+        "meanSettersMs": 0.000022299999999999993,
+        "meanCreateMs": 0.035870650000000004
+      }
+    },
+    {
+      "name": "rain-batch1-headless-run-ordinary-viewer-setters.log",
+      "completedSteps": 407,
+      "passMarker": false,
+      "endpoint": null,
+      "all": {
+        "steps": 407,
+        "meanPhysicsMs": 219.55099482063892,
+        "completedStepsPerSecond": 4.554750484355331,
+        "simulatedSecondsPerSecond": 0.07591250807258886,
+        "p95Ms": 384.295435,
+        "maxMs": 1492.15507,
+        "meanSettersMs": 0.0013456805896805892,
+        "meanCreateMs": 0.44948238574938576
+      },
+      "final20Completed": {
+        "steps": 20,
+        "meanPhysicsMs": 394.74733365000003,
+        "completedStepsPerSecond": 2.5332660027202185,
+        "simulatedSecondsPerSecond": 0.042221100045336975,
+        "p95Ms": 406.690182,
+        "maxMs": 429.297636,
+        "meanSettersMs": 0.0013067,
+        "meanCreateMs": 2.22445325
+      }
+    }
+  ]
+}

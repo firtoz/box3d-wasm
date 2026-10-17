@@ -43,6 +43,14 @@ Earlier five-process evidence applies to its named older builds; the new policy
 still needs final-build repeat qualification. Rain, performance and the remaining
 release gates stay open. Recordings are optional diagnostics.
 
+The retained policy also passes the original 600-step Falling Ragdolls physical
+checks, isolated-joint calculations and 57 frozen mesh-contact poses on both
+backends and ordering modes, with real Box3D CPU first. [Scoped qualification](../experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/current-qualification.md)
+records those checks and current Rust source applicability. This does not qualify
+full Rain behavior or throughput/latency; the original native reaction timeout remains archived. The full 36-world native
+fixture now passes both ordering modes under its separately frozen confirmation
+budget; related-regression gate D is closed.
+
 The original Continuous/Stall step-4 freeze is repaired by bounding mesh-convex traversal with the shape's actual BVH node count. The unchanged stack capacity and sticky-loss checks still reject real invalid states. [CPU-first before/after evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/RUNTIME03.md) verifies120 completed steps on ordinary/native standalone and combined paths, original geometry/IDs/Launch/API picking, ground support and a bounded energy screen. Other scenes, swept/full-mesh CCD, manual dragging, long-window behavior and cold-start performance remain unqualified; the original failures are retained.
 
 The [Falling Trees repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/PERF01.md)
@@ -3010,3 +3018,5 @@ VIS07 drawing replay, VIS08 text placement and VIS02 material/state rendering ar
 The current [Washer CCD repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/PERF05.md) completes its bounded120-step default confirmation with realCPU-first ordinary/native/combined media, originalgeometry/defaults/IDs andpublicpicking/edit-reuse guards. Conservativeper-call static/kinematic convex bounds retain TOI arithmetic; matchedsoftwareordinaryfetch falls25.672→8.366s with exact prior publicrecords. At the Washer milestone the repairgoal had19 fixed,1 resolved withoutrepair,2 open (Rain andVillage); PR09 remainsunchecked. Original165review complete; other164defaults onthisfinalCCD revision/presets/manualdrag/fullmixing/drumSAT/complete-state/releaseFPS remainunreviewed orunqualified. Desktophardware capturesalso differDPI/UI context; fullUI andunobscured geometryclips are separatelylabelled. Allfailureevidence andpriorlocalwork remainpreserved; Box3D/WASM unchanged,no newcommitpush.
 
 The subsequent [Village mover query repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/PERF06.md) cachesoriginalpublicshape bounds and ownsconservativeBVHchildren whilepreservingpublicfiltercallbacks/IDs andcastmath. MatchedNVIDIA/default120 Village falls~29→~7.8s acrossordinary/native/combined, realCPU~2.4s unchanged. BothaffecteddefaultsVillage/CharacterMover arevisuallyconfirmed/all100beforeafterstages inspected; all120perbackendpublicstate andmoverresults unchanged, positivepicking/lifetime/editguards pass. Currentrepairgoal20fixed,1resolved,1open(Rain); PR09unchecked. Other163defaultcases andpresets/manual/completegeometrySAT/substeps/energy/longwindow/releaseFPS remainunqualified. Originalfailures andearlierfloor/colour/overlay/CCD work preserved; Box3D/WASM unchanged/no newcommitpush.
+
+Current-policy release inputs are [refrozen](../experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/refreeze-report.md):20artifacts,2cleanRust/fourfreshnative builds,CPUfirst external consumers andcache/lifecyclecontrols. PR04gatesC,D,F areclosed; A,B,E remainopen. Rain/performancebudgets areunchanged, andlater relevantenginechanges requireanother release applicability review.

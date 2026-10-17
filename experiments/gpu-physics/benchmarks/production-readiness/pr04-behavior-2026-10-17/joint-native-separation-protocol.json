@@ -1,0 +1,171 @@
+{
+  "purpose": "Original nine-kind C reaction/separation at unchanged source assertions, CPU-real prefix and ordinary/native retained policy mode1. Finite qualification, no new physics hypothesis, no Rain experiments or exhausted budget renewal. Metadata-only marker correction: original ordinary reaction code0/2856 comparisons complete; old driver wrongly required uppercasePASS. Preserve failedreceipt and reuse completedcell. Run ONLY3unlaunchedfixtures; no completed physicscell repeated. TwoCPP prerequisites were cleaned and mustbe rebuilt,15s each; no further corrections/retries.",
+  "sourcePolicy": "6b4aeaf97f94ed856b11ddcf4b0d7b6d0e19d3c8296ec0b3ff46d0f6768d97dd",
+  "candidateLibraries": [
+    {
+      "backend": "ordinary",
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/libgpu_physics.a",
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/ordinary.a",
+      "sha256": "e16b9c41bf783232e78d0d314ef72ac797804fe25936e74e0ec3d970881f2bfd",
+      "bytes": 87507106
+    },
+    {
+      "backend": "native",
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/libgpu_physics.a",
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/native.a",
+      "sha256": "115b11b9d3710c58d653609113532c394b1d32b5bd80783029957aad303868ab",
+      "bytes": 94830834
+    }
+  ],
+  "totalSeconds": 145,
+  "maxRawBytes": 134217728,
+  "environment": {
+    "WGPU_BACKEND": "vulkan",
+    "GPU_PHYSICS_ADAPTER": "nvidia",
+    "GPU_PHYSICS_BACKEND": "vulkan",
+    "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+    "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+    "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+  },
+  "inputs": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/sim.rs",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_joint_reaction_test.cpp",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_joint_separation_test.cpp",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_ids.h",
+    "/home/firtoz/work/2026/box3d-wasm/box3d/include/box3d/types.h",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/joint-qualification-tools.ts",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_both_api.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_samples_api.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libbox3d_cpu.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/box3d_src-libbox3d.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_both_api.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_samples_api.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libbox3d_cpu.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/box3d_src-libbox3d.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/ordinary.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/native.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/prepare-unlaunched-joint.ts"
+  ],
+  "jobs": [
+    {
+      "label": "caches-before",
+      "argv": [
+        "du",
+        "-sb",
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "/home/firtoz/.cache/nvidia"
+      ],
+      "seconds": 10
+    },
+    {
+      "label": "compile-separation",
+      "argv": [
+        "g++",
+        "-O2",
+        "-std=c++17",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+        "-c",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_joint_separation_test.cpp",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-separation.o"
+      ],
+      "seconds": 15
+    },
+    {
+      "label": "link-native-separation",
+      "argv": [
+        "g++",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-separation.o",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_both_api.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_samples_api.a",
+        "-Wl,--no-whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/native.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libbox3d_cpu.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/box3d_src-libbox3d.a",
+        "-ldl",
+        "-lpthread",
+        "-lm",
+        "-lgcc_s",
+        "-lGL",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-separation"
+      ],
+      "seconds": 25
+    },
+    {
+      "label": "run-native-separation",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-separation"
+      ],
+      "seconds": 60,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort"
+      },
+      "requireStrings": [
+        "joint separation: 2686 independent CPU/GPU checks passed across nine joint types; wheel angular unsupported upstream"
+      ],
+      "cleanup": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-separation"
+      ]
+    },
+    {
+      "label": "verify-frozen-libraries",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/joint-qualification-tools.ts",
+        "verify"
+      ],
+      "seconds": 15
+    },
+    {
+      "label": "caches-after",
+      "argv": [
+        "du",
+        "-sb",
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "/home/firtoz/.cache/nvidia"
+      ],
+      "seconds": 10
+    }
+  ],
+  "cleanup": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-separation.o"
+  ],
+  "cleanupOnFailure": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-reaction.o",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-separation.o",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-reaction",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-separation",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-separation"
+  ],
+  "progressCriterion": "ONLY original unlaunched native separation fixture2686checks; compile15/link25/run60/verify15/cache10/145phase.0reaction retries/newcandidates/enginebuilds/captures. Stopfirstfailure; originalreactiontimeout remainsfailed.",
+  "storage": "Default1GiBnewtemporary including sharedcache growth;raw128MiB/diagnosticevidence64MiB/free20GiB. Explicit retainedbinary exception196MiB for TWO currentpolicy archives only, ignored underartifacts/, namedconsumers originalC/mesh/articulatedqualification andPR06refreeze. No tree/cache copies. Delete taskobjects/exes afterconsumption onbothoutcomes; do not overwrite oldPR06candidate.",
+  "phase": "joint-native-separation"
+}

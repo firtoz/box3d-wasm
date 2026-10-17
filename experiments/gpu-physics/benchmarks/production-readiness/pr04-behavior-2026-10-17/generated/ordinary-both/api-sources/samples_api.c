@@ -1,0 +1,850 @@
+// Native viewer metadata and drawing. Engine C wrappers live in shim.c.
+#include "box3d/box3d.h"
+#include "box3d/collision.h"
+
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <time.h>
+#include "native_clock.h"
+#include "growable_slots.h"
+#include "native_api_status.h"
+#include "native_diagnostics.h"
+#include <errno.h>
+#include <inttypes.h>
+#include <math.h>
+
+#define GPU_SAMPLES_WORLD_CAP GPU_METADATA_WORLDS
+
+typedef struct WorldVis
+{
+	b3CreateDebugShapeCallback* create;
+	b3DestroyDebugShapeCallback* destroy;
+	void* ctx;
+	float inv_dt;
+} WorldVis;
+
+typedef struct ShapeVis
+{
+	uint8_t live;
+	b3ShapeId id;
+	b3ShapeType type;
+	b3BodyId body;
+	b3Sphere sphere;
+	b3Capsule capsule;
+	b3HullData* hull;
+	b3Mesh mesh;
+	const b3HeightFieldData* heightField;
+	const b3CompoundData* compound;
+	int is_box;
+	float box_h[3];
+	float box_c[3];
+	void* userShape;
+	char name[64];
+} ShapeVis;
+
+static void overlay_release_joints(unsigned world);
+static WorldVis g_worlds[GPU_SAMPLES_WORLD_CAP];
+static GpuSlots g_shapes[GPU_SAMPLES_WORLD_CAP];
+static float g_last_draw_list_ms;
+static float g_last_pose_prep_ms;
+static float g_last_import_ms;
+static uint32_t g_last_draw_shape_count;
+
+uint32_t gpu_samples_last_draw_shape_count(void)
+{
+    return g_last_draw_shape_count;
+}
+
+float gpu_samples_last_import_ms(void)
+{
+	return g_last_import_ms;
+}
+
+static uint64_t monotonic_ns(void)
+{
+	return gpu_monotonic_ns();
+}
+
+static float duration_ms_from_ns(uint64_t start_ns, uint64_t end_ns)
+{
+	return (float)((double)(end_ns - start_ns) * 1e-6);
+}
+
+float gpu_samples_duration_ms_from_ns(uint64_t start_ns, uint64_t end_ns)
+{
+	return duration_ms_from_ns(start_ns, end_ns);
+}
+
+float gpu_samples_last_draw_list_ms(void)
+{
+	return g_last_draw_list_ms;
+}
+
+float gpu_samples_last_pose_prep_ms(void)
+{
+	return g_last_pose_prep_ms;
+}
+
+static WorldVis* world_vis(b3WorldId id)
+{
+	if (id.index1 == 0 || id.index1 >= GPU_SAMPLES_WORLD_CAP)
+	{
+		return NULL;
+	}
+	return &g_worlds[id.index1];
+}
+
+static ShapeVis* shape_vis(b3ShapeId id, bool create)
+{
+    if (id.world0 == 0 || id.world0 >= GPU_SAMPLES_WORLD_CAP) return NULL;
+    ShapeVis* s = (ShapeVis*)gpu_slots_get(&g_shapes[id.world0], id.index1, sizeof(ShapeVis), create);
+    if (!create && s && (!s->live || s->id.generation != id.generation)) return NULL;
+    return s;
+}
+
+static void destroy_user_shape(b3WorldId world, ShapeVis* s)
+{
+	if (s == NULL || s->userShape == NULL)
+	{
+		return;
+	}
+	WorldVis* w = world_vis(world);
+	if (w != NULL && w->destroy != NULL)
+	{
+		w->destroy(s->userShape, w->ctx);
+	}
+	s->userShape = NULL;
+}
+
+void gpu_samples_on_world_created(b3WorldId world, const b3WorldDef* def)
+{
+	WorldVis* w = world_vis(world);
+	if (w == NULL || def == NULL)
+	{
+		return;
+	}
+	w->create = def->createDebugShape;
+	w->destroy = def->destroyDebugShape;
+	w->ctx = def->userDebugShapeContext;
+}
+
+void gpu_samples_on_world_destroyed(b3WorldId world)
+{
+    WorldVis* w = world_vis(world);
+    if (!w) return;
+    GpuSlots* slots = &g_shapes[world.index1];
+    for (uint32_t i = 1; i < slots->high_water; ++i)
+    {
+        ShapeVis* s = (ShapeVis*)gpu_slots_get(slots, (int32_t)i, sizeof(ShapeVis), false);
+        if (s && s->live)
+        {
+            destroy_user_shape(world, s);
+            if (s->hull) b3DestroyHull(s->hull);
+            memset(s, 0, sizeof(*s));
+        }
+    }
+    gpu_slots_release(slots);
+    overlay_release_joints(world.index1);
+    memset(w, 0, sizeof(*w));
+}
+
+void gpu_samples_on_shape_created(b3ShapeId shapeId, b3BodyId bodyId, b3ShapeType type, const b3Sphere* sphere,
+								  const b3Capsule* capsule, const b3HullData* hull)
+{
+	ShapeVis* s = shape_vis(shapeId, true);
+	if (s == NULL)
+	{
+		return;
+	}
+	memset(s, 0, sizeof(*s));
+	s->live = 1;
+	s->id = shapeId;
+	s->type = type;
+	s->body = bodyId;
+	s->name[0] = 0;
+	if (type == b3_sphereShape && sphere != NULL)
+	{
+		s->sphere = *sphere;
+	}
+	else if (type == b3_capsuleShape && capsule != NULL)
+	{
+		s->capsule = *capsule;
+	}
+	else if (type == b3_hullShape && hull != NULL)
+	{
+		s->hull = b3CloneHull(hull);
+		if (s->hull == NULL)
+		{
+			s->is_box = 1;
+			s->box_h[0] = 0.5f * (hull->aabb.upperBound.x - hull->aabb.lowerBound.x);
+			s->box_h[1] = 0.5f * (hull->aabb.upperBound.y - hull->aabb.lowerBound.y);
+			s->box_h[2] = 0.5f * (hull->aabb.upperBound.z - hull->aabb.lowerBound.z);
+			s->box_c[0] = 0.5f * (hull->aabb.upperBound.x + hull->aabb.lowerBound.x);
+			s->box_c[1] = 0.5f * (hull->aabb.upperBound.y + hull->aabb.lowerBound.y);
+			s->box_c[2] = 0.5f * (hull->aabb.upperBound.z + hull->aabb.lowerBound.z);
+		}
+	}
+}
+
+void gpu_samples_on_compound_shape_created(b3ShapeId shapeId, b3BodyId bodyId, const b3CompoundData* compound)
+{
+	gpu_samples_on_shape_created(shapeId, bodyId, b3_compoundShape, NULL, NULL, NULL);
+	ShapeVis* s = shape_vis(shapeId, false);
+	if (s != NULL && s->live)
+	{
+		s->compound = compound;
+	}
+}
+
+void gpu_samples_on_mesh_shape_created(b3ShapeId shapeId, b3BodyId bodyId, const b3MeshData* mesh, b3Vec3 scale)
+{
+	ShapeVis* s = shape_vis(shapeId, true);
+	if (s == NULL)
+	{
+		return;
+	}
+	memset(s, 0, sizeof(*s));
+	s->live = 1;
+	s->id = shapeId;
+	s->type = b3_meshShape;
+	s->body = bodyId;
+	s->mesh = (b3Mesh){mesh, scale};
+}
+
+void gpu_samples_on_mesh_shape_replaced(b3ShapeId id, b3BodyId body, const b3MeshData* mesh, b3Vec3 scale)
+{
+	ShapeVis* s = shape_vis(id, false);
+	if (s == NULL || !s->live) return;
+	b3WorldId world = {id.world0, 1};
+	destroy_user_shape(world, s);
+	s->body = body;
+	s->type = b3_meshShape;
+	s->mesh = (b3Mesh){mesh, scale};
+}
+
+void gpu_samples_on_height_field_shape_created(b3ShapeId shapeId, b3BodyId bodyId,
+                                              const b3HeightFieldData* heightField)
+{
+    if (shapeId.index1 <= 0 || heightField == NULL) return;
+    gpu_samples_on_shape_created(shapeId, bodyId, b3_heightShape, NULL, NULL, NULL);
+    ShapeVis* s = shape_vis(shapeId, false);
+    // Geometry is immutable and caller-owned, as for mesh/compound callbacks.
+    // Keep the original compressed heights, holes, winding and scale.
+    if (s != NULL) s->heightField = heightField;
+}
+
+void gpu_samples_on_shape_destroyed(b3ShapeId shapeId)
+{
+	ShapeVis* s = shape_vis(shapeId, false);
+	if (s == NULL || !s->live)
+	{
+		return;
+	}
+	b3WorldId world = {shapeId.world0, 1};
+	destroy_user_shape(world, s);
+	if (s->hull != NULL)
+	{
+		b3DestroyHull(s->hull);
+		s->hull = NULL;
+	}
+	s->live = 0;
+}
+
+void gpu_samples_on_shape_replaced(b3ShapeId id, b3BodyId body, b3ShapeType type,
+    const b3Sphere* sphere, const b3Capsule* capsule, const b3HullData* hull)
+{
+    ShapeVis* s = shape_vis(id, false);
+    if (!s) { return; }
+    char name[sizeof(s->name)];
+    memcpy(name, s->name, sizeof(name));
+    gpu_samples_on_shape_destroyed(id);
+    gpu_samples_on_shape_created(id, body, type, sphere, capsule, hull);
+    memcpy(s->name, name, sizeof(name));
+}
+
+void gpu_samples_on_height_field_shape_replaced(b3ShapeId id, b3BodyId body,
+                                               const b3HeightFieldData* heightField)
+{
+    gpu_samples_on_shape_replaced(id, body, b3_heightShape, NULL, NULL, NULL);
+    ShapeVis* s = shape_vis(id, false);
+    if (s != NULL) s->heightField = heightField;
+}
+
+typedef struct GpuDrawItem
+{
+	float pos[3];
+	uint32_t kind;
+	float rot[4];
+	float half[3];
+	float axis[3];
+	uint32_t flags;
+} GpuDrawItem;
+
+extern int gpu_b3_copy_draw_items(b3WorldId world, GpuDrawItem* out, int cap);
+extern void gpu_b3_world_bounds(b3WorldId world, float* out6);
+extern void gpu_b3_world_counts(b3WorldId world, int* bodies, int* shapes, int* joints);
+extern int gpu_b3_live_world_count(void);
+extern void gpu_b3_world_enable_sleeping(b3WorldId world, bool enable);
+extern bool gpu_b3_world_is_sleeping_enabled(b3WorldId world);
+extern b3Vec3 gpu_b3_world_get_gravity(b3WorldId world);
+extern b3MassData gpu_b3_body_get_mass_data(b3BodyId body);
+extern void gpu_b3_body_set_mass_data(b3BodyId body, b3MassData data);
+extern bool gpu_b3_body_is_valid(b3BodyId body);
+extern bool gpu_b3_shape_is_valid(b3ShapeId shape);
+extern bool gpu_b3_joint_is_valid(b3JointId joint);
+extern void gpu_b3_destroy_joint(b3JointId joint, bool wake_attached);
+extern void gpu_b3_destroy_body(b3BodyId body);
+extern b3BodyId gpu_b3_shape_get_body(b3ShapeId shape);
+extern int gpu_b3_shape_kind(b3ShapeId shape);
+extern bool gpu_b3_body_is_static(b3BodyId body);
+extern int gpu_b3_body_get_type(b3BodyId body);
+extern uint32_t gpu_b3_body_get_debug_flags(b3BodyId body);
+extern float gpu_b3_body_get_mass(b3BodyId body);
+extern bool gpu_b3_shape_is_sensor(b3ShapeId shape);
+extern b3SurfaceMaterial gpu_b3_shape_get_surface_material(b3ShapeId shape);
+extern b3SurfaceMaterial gpu_b3_shape_get_mesh_material(b3ShapeId shape, int index);
+extern float gpu_b3_body_inv_mass(b3BodyId body);
+extern void gpu_b3_body_set_transform(b3BodyId body, float px, float py, float pz, float rx, float ry, float rz,
+									  float rw);
+extern void gpu_b3_body_get_position(b3BodyId body, float* out);
+extern void gpu_b3_body_get_rotation(b3BodyId body, float* out);
+extern void gpu_b3_body_get_transform(b3BodyId body, float* pos, float* rot);
+extern void gpu_b3_world_prepare_pose_snapshot(b3WorldId world);
+extern b3AABB gpu_b3_shape_get_aabb(b3ShapeId shape);
+extern void gpu_b3_body_set_awake(b3BodyId body, bool awake);
+
+static void quat_rotate(const float q[4], const float v[3], float out[3])
+{
+	// Share Box3D's rounding behavior with the Rust API and GPU integrator.
+	const b3Quat rotation = {{q[0], q[1], q[2]}, q[3]};
+	const b3Vec3 vector = {v[0], v[1], v[2]};
+	const b3Vec3 result = b3RotateVector(rotation, vector);
+	out[0] = result.x;
+	out[1] = result.y;
+	out[2] = result.z;
+}
+
+
+
+
+
+
+
+
+
+
+
+static void* ensure_user_shape(b3WorldId worldId, b3ShapeId shapeId, ShapeVis* s)
+{
+	if (s->userShape != NULL)
+	{
+		return s->userShape;
+	}
+	WorldVis* w = world_vis(worldId);
+	if (w == NULL || w->create == NULL)
+	{
+		return NULL;
+	}
+	b3DebugShape debugShape = {0};
+	debugShape.shapeId = shapeId;
+	debugShape.type = s->type;
+	b3BoxHull box;
+	if (s->type == b3_sphereShape)
+	{
+		debugShape.sphere = &s->sphere;
+	}
+	else if (s->type == b3_capsuleShape)
+	{
+		debugShape.capsule = &s->capsule;
+	}
+	else if (s->type == b3_hullShape)
+	{
+		if (s->hull != NULL)
+		{
+			debugShape.hull = s->hull;
+		}
+		else if (s->is_box)
+		{
+			box = b3MakeOffsetBoxHull(s->box_h[0], s->box_h[1], s->box_h[2],
+									  (b3Vec3){s->box_c[0], s->box_c[1], s->box_c[2]});
+			debugShape.hull = &box.base;
+		}
+		else
+		{
+			return NULL;
+		}
+	}
+	else if (s->type == b3_meshShape && s->mesh.data != NULL)
+	{
+		debugShape.mesh = &s->mesh;
+	}
+	else if (s->type == b3_compoundShape && s->compound != NULL)
+	{
+		debugShape.compound = s->compound;
+	}
+	else if (s->type == b3_heightShape && s->heightField != NULL)
+	{
+		debugShape.heightField = s->heightField;
+	}
+	else
+	{
+		return NULL;
+	}
+	s->userShape = w->create(&debugShape, w->ctx);
+	return s->userShape;
+}
+
+void gpu_samples_shape_set_name(b3ShapeId shapeId, const char* name)
+{
+	ShapeVis* s = shape_vis(shapeId, false);
+	if (s == NULL || !s->live)
+	{
+		return;
+	}
+	if (name == NULL)
+	{
+		s->name[0] = 0;
+		return;
+	}
+	strncpy(s->name, name, sizeof(s->name) - 1);
+	s->name[sizeof(s->name) - 1] = 0;
+}
+
+const char* gpu_samples_shape_get_name(b3ShapeId shapeId)
+{
+	ShapeVis* s = shape_vis(shapeId, false);
+	if (s == NULL || !s->live)
+	{
+		return "";
+	}
+	return s->name;
+}
+
+#ifndef BOTH_SAMPLES
+
+
+
+
+
+
+
+
+
+
+
+#endif
+
+typedef struct GpuPoseExport
+{
+	uint32_t mode;
+	int32_t fd;
+	uint64_t size;
+	uint32_t stride;
+	uint32_t count;
+	uint32_t pad;
+} GpuPoseExport;
+
+extern GpuPoseExport gpu_b3_world_pose_export(b3WorldId worldId);
+extern bool gpu_b3_world_pose_export_uuid(b3WorldId worldId, uint8_t* uuid);
+extern void gpu_gl_import_pose_fd(int fd, uint64_t size, const uint8_t* uuid);
+extern bool gpu_gl_poses_imported(void);
+
+#include "draw_color.h"
+#include "debug_overlays.h"
+
+void gpu_samples_world_draw(b3WorldId worldId, b3DebugDraw* draw, uint64_t maskBits)
+{
+	(void)maskBits;
+	g_last_draw_shape_count = 0;
+	if (draw == NULL || world_vis(worldId) == NULL)
+	{
+		return;
+	}
+	uint64_t t_import = monotonic_ns();
+	if (!gpu_gl_poses_imported())
+	{
+		GpuPoseExport exp = gpu_b3_world_pose_export(worldId);
+		uint8_t uuid[16];
+		if (exp.mode == 1 && exp.fd >= 0 && gpu_b3_world_pose_export_uuid(worldId, uuid))
+		{
+			gpu_gl_import_pose_fd(exp.fd, exp.size, uuid);
+		}
+	}
+	g_last_import_ms = duration_ms_from_ns(t_import, monotonic_ns());
+	uint64_t t_prep = monotonic_ns();
+	gpu_b3_world_prepare_pose_snapshot(worldId);
+	g_last_pose_prep_ms = duration_ms_from_ns(t_prep, monotonic_ns());
+	uint64_t t_draw = monotonic_ns();
+	DrawSet bodies = {0}, joints = {0}, contacts = {0};
+	for (uint32_t i = 1; i < g_shapes[worldId.index1].high_water; ++i)
+	{
+		ShapeVis* s = (ShapeVis*)gpu_slots_get(&g_shapes[worldId.index1], (int32_t)i, sizeof(ShapeVis), false);
+		if (!s || !s->live || s->body.world0 != worldId.index1)
+		{
+			continue;
+		}
+		b3ShapeId shapeId = s->id;
+		// The caller includes the camera's draw distance and shadow caster box.
+		// Keep physics/identity metadata live when a shape leaves that draw set.
+		b3AABB bounds = gpu_b3_shape_get_aabb(shapeId);
+		if (!b3AABB_Overlaps(bounds, draw->drawingBounds))
+		{
+			continue;
+		}
+		if (draw->drawBounds && draw->DrawBoundsFcn) draw->DrawBoundsFcn(bounds, b3_colorGold, draw->context);
+		if (draw_set_add(&bodies, (DrawKey){s->body.index1,s->body.world0,s->body.generation}))
+			overlay_body(worldId, s->body, draw, &joints, &contacts);
+		if (!draw->drawShapes || !draw->DrawShapeFcn) continue;
+		void* userShape = ensure_user_shape(worldId, shapeId, s);
+		if (userShape == NULL)
+		{
+			continue;
+		}
+		float p[3] = {0};
+		float q[4] = {0, 0, 0, 1};
+		gpu_b3_body_get_transform(s->body, p, q);
+		b3WorldTransform xf;
+		xf.p.x = p[0];
+		xf.p.y = p[1];
+		xf.p.z = p[2];
+		xf.q.v.x = q[0];
+		xf.q.v.y = q[1];
+		xf.q.v.z = q[2];
+		xf.q.s = q[3];
+		const b3SurfaceMaterial material = s->type == b3_meshShape
+			? gpu_b3_shape_get_mesh_material(shapeId, 0)
+			: gpu_b3_shape_get_surface_material(shapeId);
+		const b3BodyType type = (b3BodyType)gpu_b3_body_get_type(s->body);
+		const uint32_t flags = gpu_b3_body_get_debug_flags(s->body);
+		const float mass = gpu_b3_body_get_mass(s->body);
+		const bool sensor = gpu_b3_shape_is_sensor(shapeId);
+#ifdef BOTH_SAMPLES
+		const bool coolPalette = true;
+#else
+		const bool coolPalette = false;
+#endif
+		const uint32_t color = gpu_samples_draw_color(material.customColor, type, mass, flags, sensor, coolPalette);
+		draw->DrawShapeFcn(userShape, xf, (b3HexColor)color, draw->context);
+		++g_last_draw_shape_count;
+	}
+	free(bodies.keys); free(joints.keys); free(contacts.keys);
+	g_last_draw_list_ms = duration_ms_from_ns(t_draw, monotonic_ns());
+}
+
+#ifndef BOTH_SAMPLES
+
+
+
+
+
+#endif
+
+b3AABB gpu_samples_world_bounds(b3WorldId worldId)
+{
+	float b[6];
+	gpu_b3_world_bounds(worldId, b);
+	b3AABB aabb;
+	aabb.lowerBound.x = b[0];
+	aabb.lowerBound.y = b[1];
+	aabb.lowerBound.z = b[2];
+	aabb.upperBound.x = b[3];
+	aabb.upperBound.y = b[4];
+	aabb.upperBound.z = b[5];
+	return aabb;
+}
+
+#ifndef BOTH_SAMPLES
+
+
+
+
+
+#endif
+
+_Static_assert(sizeof(b3Profile) == 23 * sizeof(float), "native profile layout");
+_Static_assert(sizeof(b3Counters) == 200, "native counter layout");
+_Static_assert(offsetof(b3Counters, colorCounts) == 52, "native color layout");
+_Static_assert(offsetof(b3Counters, manifoldCounts) == 148, "native manifold layout");
+_Static_assert(sizeof(b3Capacity) == 20, "native capacity layout");
+_Static_assert(sizeof(GpuNativeProfile) == 120, "native extended profile layout");
+_Static_assert(sizeof(GpuNativeAllocation) == 32, "native allocation layout");
+_Static_assert(sizeof(GpuNativeShapeBounds) == 40, "native bounds layout");
+
+static void native_diagnostic_error(const char* operation, uint32_t status)
+{
+    if (status != GPU_DIAGNOSTIC_OK)
+        gpu_native_api_error(operation, status == GPU_DIAGNOSTIC_BUSY ? EBUSY :
+            status == GPU_DIAGNOSTIC_FAILED ? EIO : EINVAL);
+}
+
+B3_API b3Profile b3World_GetProfile(b3WorldId worldId)
+{
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Profile);
+    GpuNativeProfile profile;
+    gpu_b3_world_native_profile(worldId, &profile);
+    b3Profile result;
+    memcpy(&result, profile.values, sizeof result);
+    native_diagnostic_error(__func__, profile.valid);
+    return result;
+}
+
+B3_API b3Counters b3World_GetCounters(b3WorldId worldId)
+{
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Counters);
+    b3Counters result;
+    const uint32_t status = gpu_b3_world_native_counters(worldId, &result);
+    native_diagnostic_error(__func__, status);
+    return result;
+}
+
+B3_API b3Capacity b3World_GetMaxCapacity(b3WorldId worldId)
+{
+    GPU_NATIVE_ACCESS_OR_RETURN_ZERO(b3Capacity);
+    b3Capacity result;
+    const uint32_t status = gpu_b3_world_native_max_capacity(worldId, &result);
+    native_diagnostic_error(__func__, status);
+    return result;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#ifndef BOTH_SAMPLES
+
+
+
+
+
+#endif
+
+B3_API void b3World_DumpMemoryStats(b3WorldId worldId)
+{
+    GPU_NATIVE_ACCESS_OR_RETURN();
+    GpuNativeAllocation allocation;
+    gpu_b3_world_native_allocation(worldId, &allocation);
+    if (allocation.valid != GPU_DIAGNOSTIC_OK) {
+        native_diagnostic_error(__func__, allocation.valid);
+        return;
+    }
+    printf("GPU primary owned physics buffer bytes: %" PRIu64 "\n", allocation.primary_buffer_bytes);
+    printf("reserved slots bodies/shapes/joints/contacts: %u/%u/%u/%u\n",
+        allocation.body_capacity, allocation.shape_capacity, allocation.joint_capacity,
+        allocation.contact_capacity);
+    printf("excludes staging, cache copies, pipelines, renderer and driver allocations\n");
+}
+
+static void native_print_shape_bounds(const GpuNativeShapeBounds* record, void* context)
+{
+    (void)context;
+    printf("GPU shape %d:%u:%u body %d:%u:%u bounds [%g,%g,%g] [%g,%g,%g]\n",
+        record->shape.index1, record->shape.world0, record->shape.generation,
+        record->body.index1, record->body.world0, record->body.generation,
+        record->bounds.lowerBound.x, record->bounds.lowerBound.y, record->bounds.lowerBound.z,
+        record->bounds.upperBound.x, record->bounds.upperBound.y, record->bounds.upperBound.z);
+}
+
+B3_API void b3World_DumpShapeBounds(b3WorldId worldId, b3BodyType type)
+{
+    GPU_NATIVE_ACCESS_OR_RETURN();
+    const uint32_t status = gpu_b3_world_native_visit_shape_bounds(worldId, (uint32_t)type,
+        native_print_shape_bounds, NULL);
+    native_diagnostic_error(__func__, status);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+b3WorldTransform gpu_samples_body_transform(b3BodyId bodyId)
+{
+	float p[3] = {0};
+	float q[4] = {0, 0, 0, 1};
+	gpu_b3_body_get_transform(bodyId, p, q);
+	b3WorldTransform xf;
+	xf.p.x = p[0];
+	xf.p.y = p[1];
+	xf.p.z = p[2];
+	xf.q.v.x = q[0];
+	xf.q.v.y = q[1];
+	xf.q.v.z = q[2];
+	xf.q.s = q[3];
+	return xf;
+}
+
+#ifndef BOTH_SAMPLES
+
+
+
+
+
+#endif
+
+#ifndef BOTH_SAMPLES
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#endif
+
+void gpu_samples_body_set_transform(b3BodyId bodyId, b3WorldTransform target)
+{
+	gpu_b3_body_set_transform(bodyId, target.p.x, target.p.y, target.p.z, target.q.v.x, target.q.v.y, target.q.v.z,
+							  target.q.s);
+}
+
+
+
+void gpu_samples_destroy_body(b3BodyId bodyId)
+{
+    if (bodyId.world0 > 0 && bodyId.world0 < GPU_SAMPLES_WORLD_CAP)
+    {
+        GpuSlots* slots = &g_shapes[bodyId.world0];
+        for (uint32_t i = 1; i < slots->high_water; ++i)
+        {
+            ShapeVis* s = (ShapeVis*)gpu_slots_get(slots, (int32_t)i, sizeof(ShapeVis), false);
+            if (s && s->live && s->body.index1 == bodyId.index1 && s->body.generation == bodyId.generation)
+                gpu_samples_on_shape_destroyed(s->id);
+        }
+    }
+    gpu_b3_destroy_body(bodyId);
+}
+
+
+
+
+
+
+
+B3_API b3ShapeType b3Shape_GetType(b3ShapeId shapeId)
+{
+	int k = gpu_b3_shape_kind(shapeId);
+	if (k == 0)
+	{
+		return b3_sphereShape;
+	}
+	if (k == 2)
+	{
+		return b3_capsuleShape;
+	}
+	if (k == 4)
+	{
+		return b3_meshShape;
+	}
+	if (k == 5)
+	{
+		return b3_heightShape;
+	}
+	if (k == 6)
+	{
+		return b3_compoundShape;
+	}
+	return b3_hullShape;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#ifndef BOTH_SAMPLES
+
+
+
+
+
+#endif
+
+B3_API b3Recording* b3CreateRecording(int byteCapacity)
+{
+	gpu_native_api_unavailable(__func__);
+	(void)byteCapacity;
+	return NULL;
+}
+
+B3_API void b3DestroyRecording(b3Recording* recording)
+{
+	gpu_native_api_unavailable(__func__);
+	(void)recording;
+}
+
+B3_API void b3World_StartRecording(b3WorldId worldId, b3Recording* recording)
+{
+    GPU_NATIVE_ACCESS_OR_RETURN();
+	gpu_native_api_unavailable(__func__);
+	(void)worldId;
+	(void)recording;
+}
+
+B3_API void b3World_StopRecording(b3WorldId worldId)
+{
+    GPU_NATIVE_ACCESS_OR_RETURN();
+	gpu_native_api_unavailable(__func__);
+	(void)worldId;
+}
+
+B3_API bool b3SaveRecordingToFile(const b3Recording* recording, const char* path)
+{
+	gpu_native_api_unavailable(__func__);
+	(void)recording;
+	(void)path;
+	fprintf(stderr, "GPU recording is not implemented; no recording file was saved.\n");
+	// Output errors must not replace this operation's unavailable status.
+	gpu_native_api_unavailable(__func__);
+	return false;
+}

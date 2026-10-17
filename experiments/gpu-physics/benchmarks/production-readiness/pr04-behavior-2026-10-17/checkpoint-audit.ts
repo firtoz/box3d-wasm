@@ -71,7 +71,7 @@ const cache = spawnSync("du", ["-sb", "/home/firtoz/.cache/box3d-gpu-physics/pip
 if (cache.status !== 0) throw Error("Cache inventory failed");
 const fs = statfsSync(root);
 const report = { status: "CHECKPOINT_INTEGRITY_PASS_NOT_PR04_ACCEPTANCE", auditedAt: new Date().toISOString(),
-  gatesDone: 1, gatesLeft: 5, receipts, distinctPinnedInputs: checked.size,
+  gatesDone: 3, gatesLeft: 3, receipts, distinctPinnedInputs: checked.size,
   supersededSources: [...sourceTransitions.values()], checkedProcessesAbsent: true,
   baseline, headless, rawBytes, retainedBytesBeforeAudit: bytes(root), freeBytes: fs.bavail * fs.bsize,
   cacheBytesAfter: cache.stdout.trim(),

@@ -1,0 +1,272 @@
+{
+  "status": "A_B_E_OPEN_CURRENT_SOURCE_F_REFROZEN",
+  "gatesDone": 3,
+  "gatesLeft": 3,
+  "reviewedReleaseProductionInputs": 259,
+  "productionDifferences": [
+    {
+      "file": "experiments/gpu-physics/src/sim.rs",
+      "releaseSha256": "1614bc79f321e4c97b090002a3fa28eca1feb22e5d36c0de429c29c225b7fc1d",
+      "currentSha256": "6b4aeaf97f94ed856b11ddcf4b0d7b6d0e19d3c8296ec0b3ff46d0f6768d97dd"
+    }
+  ],
+  "releaseArtifacts": [
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary/libgpu_physics.a",
+      "bytes": 87482212,
+      "sha256": "802497eebbb640f40e7219bcb08089b719a40bd852dc5e06d8e5cdb71e0715d1",
+      "currentSha256": "802497eebbb640f40e7219bcb08089b719a40bd852dc5e06d8e5cdb71e0715d1",
+      "applicability": "REBUILD_RUST_FOR_POLICY_CHANGE",
+      "reason": "Frozen release archive predates native paired-normal policy; empty-feature development qualification is not a clean release rebuild."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native/libgpu_physics.a",
+      "bytes": 94831618,
+      "sha256": "dc7ac771def098ae244a1632f5e906cc1fdb5ff087fa90d8443227f1306cf648",
+      "currentSha256": "dc7ac771def098ae244a1632f5e906cc1fdb5ff087fa90d8443227f1306cf648",
+      "applicability": "REBUILD_RUST_FOR_POLICY_CHANGE",
+      "reason": "Frozen release archive predates native paired-normal policy; empty-feature development qualification is not a clean release rebuild."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/cpu/bin-samples_cpu",
+      "bytes": 7292920,
+      "sha256": "bb66e64bf0b19ce934114297f17b4bf5e4daeb47405de4569d7ace1b5995505c",
+      "currentSha256": "bb66e64bf0b19ce934114297f17b4bf5e4daeb47405de4569d7ace1b5995505c",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/cpu/box3d_src-libbox3d.a",
+      "bytes": 1553070,
+      "sha256": "b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c",
+      "currentSha256": "b35f71d07515e333fa19f3e6297bbfc2040984a49f366c94afc5f974acef2c0c",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-gpu/bin-samples_gpu",
+      "bytes": 40068352,
+      "sha256": "e092e64a3e2d3d9ba1dbb35017b46d5908a863c3874827423c23799b9366095d",
+      "currentSha256": "e092e64a3e2d3d9ba1dbb35017b46d5908a863c3874827423c23799b9366095d",
+      "applicability": "RELINK_AND_VERIFY_VIEWER_WITH_NEW_ENGINE",
+      "reason": "CMake links the Rust archive into this executable; oldbinary lacks the policy change."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-gpu/box3d_src-libbox3d.a",
+      "bytes": 1036012,
+      "sha256": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c",
+      "currentSha256": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-gpu/libgpu_samples_api.a",
+      "bytes": 279120,
+      "sha256": "68a72917baae066bd11b2bf8d4c6fb01bca510eded59796dd25d6c39a9d2bebc",
+      "currentSha256": "68a72917baae066bd11b2bf8d4c6fb01bca510eded59796dd25d6c39a9d2bebc",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/bin-samples_both",
+      "bytes": 40857280,
+      "sha256": "404a734f54e4d27a44670e084566ce0ab45a26fdf589cce5f06b15b5da8511f2",
+      "currentSha256": "404a734f54e4d27a44670e084566ce0ab45a26fdf589cce5f06b15b5da8511f2",
+      "applicability": "RELINK_AND_VERIFY_VIEWER_WITH_NEW_ENGINE",
+      "reason": "CMake links the Rust archive into this executable; oldbinary lacks the policy change."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/box3d_src-libbox3d.a",
+      "bytes": 820770,
+      "sha256": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7",
+      "currentSha256": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_samples_api.a",
+      "bytes": 72746,
+      "sha256": "bd8af0719c227f2284718e95f37fb835643b013070112d271c01e332d6f96c10",
+      "currentSha256": "bd8af0719c227f2284718e95f37fb835643b013070112d271c01e332d6f96c10",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_both_api.a",
+      "bytes": 283512,
+      "sha256": "9b4f557611a082bd6970755d8d76002968ab803001050ccd7349122fe7237273",
+      "currentSha256": "9b4f557611a082bd6970755d8d76002968ab803001050ccd7349122fe7237273",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libbox3d_cpu.a",
+      "bytes": 1567886,
+      "sha256": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d",
+      "currentSha256": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-gpu/bin-samples_gpu",
+      "bytes": 43022560,
+      "sha256": "1e75665a3e9f0d14df14b99d6dd5595cf01f799ccb508840db2dab64a7f4fbfc",
+      "currentSha256": "1e75665a3e9f0d14df14b99d6dd5595cf01f799ccb508840db2dab64a7f4fbfc",
+      "applicability": "RELINK_AND_VERIFY_VIEWER_WITH_NEW_ENGINE",
+      "reason": "CMake links the Rust archive into this executable; oldbinary lacks the policy change."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-gpu/box3d_src-libbox3d.a",
+      "bytes": 1036012,
+      "sha256": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c",
+      "currentSha256": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-gpu/libgpu_samples_api.a",
+      "bytes": 279120,
+      "sha256": "68a72917baae066bd11b2bf8d4c6fb01bca510eded59796dd25d6c39a9d2bebc",
+      "currentSha256": "68a72917baae066bd11b2bf8d4c6fb01bca510eded59796dd25d6c39a9d2bebc",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/bin-samples_both",
+      "bytes": 43807400,
+      "sha256": "8bf5495aa897b89908921a61e8d56010fbdd5f3eddac1cbdfbf0575cbf0bb421",
+      "currentSha256": "8bf5495aa897b89908921a61e8d56010fbdd5f3eddac1cbdfbf0575cbf0bb421",
+      "applicability": "RELINK_AND_VERIFY_VIEWER_WITH_NEW_ENGINE",
+      "reason": "CMake links the Rust archive into this executable; oldbinary lacks the policy change."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/box3d_src-libbox3d.a",
+      "bytes": 820770,
+      "sha256": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7",
+      "currentSha256": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_samples_api.a",
+      "bytes": 72746,
+      "sha256": "bd8af0719c227f2284718e95f37fb835643b013070112d271c01e332d6f96c10",
+      "currentSha256": "bd8af0719c227f2284718e95f37fb835643b013070112d271c01e332d6f96c10",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_both_api.a",
+      "bytes": 283512,
+      "sha256": "9b4f557611a082bd6970755d8d76002968ab803001050ccd7349122fe7237273",
+      "currentSha256": "9b4f557611a082bd6970755d8d76002968ab803001050ccd7349122fe7237273",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    },
+    {
+      "path": "experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libbox3d_cpu.a",
+      "bytes": 1567886,
+      "sha256": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d",
+      "currentSha256": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d",
+      "applicability": "UNCHANGED_C_OR_CPU_ARTIFACT",
+      "reason": "Onlysim.rs policy changed. PublicABI/types, native/C bridge andBox3D sources in release snapshot remainidentical."
+    }
+  ],
+  "artifactApplicability": {
+    "REBUILD_RUST_FOR_POLICY_CHANGE": 2,
+    "UNCHANGED_C_OR_CPU_ARTIFACT": 14,
+    "RELINK_AND_VERIFY_VIEWER_WITH_NEW_ENGINE": 4
+  },
+  "oldCandidateBytes": 367035504,
+  "releaseStatus": "PR06_CURRENT_POLICY_REFROZEN",
+  "releaseDecision": "Historical14unaffected/6affected classification is preserved for oldcandidate. All6affected outputs now rebuilt/relinked; new20artifact candidate withcompiled-input/consumer/viewer evidence in refreeze-acceptance.json. Oldcandidate untouched.",
+  "sourceEvidence": [
+    {
+      "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/CMakeLists.txt",
+      "sha256": "a8790415d4144d8694413a438e29849a0099fe67729c04e1e1921f94cd197553",
+      "lines": "415-426",
+      "finding": "Standalone andcombined viewers linkgpu_physics viaWHOLE_ARCHIVE."
+    },
+    {
+      "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/api/world.rs",
+      "sha256": "fa0a06b1afea5fabf80ab88005ac2d4db0d78962b3c37cdf0c1e48507abafad0",
+      "lines": "3872-3899,4028-4031,5815-5822",
+      "finding": "Cleangetters are gated byensure_cpu_mirror_world; do notallocatecollectfromsync_world_mirror_parts oncleanread. OldunconditionalO(N²)per-getter-copy leadfalsified."
+    },
+    {
+      "file": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/api/world/callback_shape_reads.rs",
+      "sha256": "77c533549803087ca7cf2ac417b11d61aa2bb8459bcaf941987a709962582de5",
+      "lines": "57-62",
+      "finding": "Callbacksnapshotcreation isconditional onstepping/postCCD andregisteredcallbacks."
+    }
+  ],
+  "baselineEvidence": {
+    "profile": "rain-batch2-profile-summary.json",
+    "profileSha256": "3bb1cefdd2b3b1e3f9dc67a1b9bdab738308fc967ef3f4d69b17ce3ab157c1a2",
+    "rows": [
+      {
+        "backend": "cpu",
+        "steps": 336,
+        "loadedFinal20SPS": 71.1532482544694,
+        "meanMs": 14.05417215
+      },
+      {
+        "backend": "ordinary",
+        "steps": 336,
+        "loadedFinal20SPS": 2.9322057609189383,
+        "meanMs": 341.04018665
+      },
+      {
+        "backend": "native",
+        "steps": 336,
+        "loadedFinal20SPS": 2.9341268425087903,
+        "meanMs": 340.81689500000005
+      }
+    ],
+    "scope": "Matchedworker1/originalscene336steps throughfirstrecycle, finiteendpoint/timing; not full600physicalstate orloadedfinal120target window.",
+    "artifactCandidate": "rain-batch3-cull-comparison.json",
+    "artifactCandidateSha256": "d25ade91e4e54183d5600b98b31523bbe6d66a2c7426df6ac2f864e1c95e0631",
+    "candidateStatus": "ARTIFACT_ONLY_NOT_RETAINED_OR60SPSPASS"
+  },
+  "remaining": [
+    {
+      "gate": "A",
+      "status": "OPEN",
+      "missing": "Fullcurrent-source CPU/ordinary/native Rain600physicalbaseline andits sourceapplicability; bounded336timingandtargets do notfillthatgap."
+    },
+    {
+      "gate": "B",
+      "status": "OPEN",
+      "missing": "FullRain600finite/support/typedjoint residuals andidentity/recycling acceptance; FallingRagdolls600 andfrozenmeshprobes alreadyqualified butdonotsubstitute forRain."
+    },
+    {
+      "gate": "E",
+      "status": "FAIL_OR_UNQUALIFIED",
+      "missing": "Frozen60completedSPS/p95<=33.333ms/max<=250ms atrequiredwindows. Rainbaseline~2.93SPS/artifact4.64–4.74SPS; nativeisolateddrag47–48SPS/hitches andordinarygroundhitches remainfailures."
+    }
+  ],
+  "budget": {
+    "RainPerformance": {
+      "used": 3,
+      "max": 3,
+      "remaining": 0
+    },
+    "drag": {
+      "used": 3,
+      "max": 3,
+      "remaining": 0
+    },
+    "contactSymmetry": {
+      "status": "RESOLVED",
+      "used": 1,
+      "max": 3,
+      "unusedNotTransferable": 2
+    }
+  },
+  "limits": [
+    "No newsolver/performance experiment orreleasebuild authorized bythisaudit.",
+    "Oldcandidate preservedbyteexact; no currentrelease qualification claimed.",
+    "Untriedcredibleapproaches remain; finitebudget exhaustion doesnotproveallideas exhausted."
+  ],
+  "currentReleaseAcceptance": "refreeze-acceptance.json"
+}

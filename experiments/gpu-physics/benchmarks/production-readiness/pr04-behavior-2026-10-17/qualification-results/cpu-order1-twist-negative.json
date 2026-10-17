@@ -1,0 +1,23 @@
+{
+  "label": "cpu-order1-twist-negative",
+  "diagnostic": {
+    "binary": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ragdoll-cpu",
+    "binarySha256": "1bfe4796adaa01421dd68896ec97ff7ce99f145535afa8ca466296e852aa30dc",
+    "stdoutSha256": "ff12b820c3d1d2811cfe7e24c021dc1b9d3487c3f0932a5388159eb8987f288a",
+    "stdoutBytes": 6647,
+    "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderrBytes": 0,
+    "exit": 0,
+    "signal": null,
+    "error": null
+  },
+  "status": "PASS",
+  "limits": "Original physical/calculation limits; cross-engine chaotic trajectory matching deferred.",
+  "rows": 121,
+  "jointSetup": null,
+  "cpuReference": {
+    "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/qualification-references/cpu-twist-negative.json",
+    "sha256": "c78846d783d9cc3ef34530b7ce8b55b56223ef0b67263050b5c05a27a2e1ec91",
+    "bytes": 6900
+  }
+}

@@ -1,0 +1,935 @@
+{
+  "phase": "joint-kind-qualification",
+  "totalSeconds": 650,
+  "maxRawBytes": 134217728,
+  "inputs": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/sim.rs",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_joint_reaction_test.cpp",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_joint_separation_test.cpp",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_ids.h",
+    "/home/firtoz/work/2026/box3d-wasm/box3d/include/box3d/types.h",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/joint-qualification-tools.ts",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_both_api.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_samples_api.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libbox3d_cpu.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/box3d_src-libbox3d.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_both_api.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_samples_api.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libbox3d_cpu.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/box3d_src-libbox3d.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/ordinary.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/native.a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/prepare-joint-kind.ts"
+  ],
+  "jobs": [
+    {
+      "label": "caches-before",
+      "argv": [
+        "du",
+        "-sb",
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "/home/firtoz/.cache/nvidia"
+      ],
+      "seconds": 10
+    },
+    {
+      "label": "verify-frozen-libraries",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/joint-qualification-tools.ts",
+        "verify"
+      ],
+      "seconds": 15
+    },
+    {
+      "label": "compile-reaction",
+      "argv": [
+        "g++",
+        "-O2",
+        "-std=c++17",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+        "-c",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_joint_reaction_test.cpp",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-reaction.o"
+      ],
+      "seconds": 15
+    },
+    {
+      "label": "compile-separation",
+      "argv": [
+        "g++",
+        "-O2",
+        "-std=c++17",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+        "-c",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_joint_separation_test.cpp",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-separation.o"
+      ],
+      "seconds": 15
+    },
+    {
+      "label": "link-ordinary-reaction",
+      "argv": [
+        "g++",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-reaction.o",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_both_api.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_samples_api.a",
+        "-Wl,--no-whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/ordinary.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libbox3d_cpu.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/box3d_src-libbox3d.a",
+        "-ldl",
+        "-lpthread",
+        "-lm",
+        "-lgcc_s",
+        "-lGL",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-reaction"
+      ],
+      "seconds": 25
+    },
+    {
+      "label": "ordinary-order0-reaction",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-reaction"
+      ],
+      "seconds": 30,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      },
+      "requireStrings": [
+        "joint reaction: 2856 independent CPU/GPU scalar comparisons passed"
+      ],
+      "cleanup": [
+        "experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-reaction"
+      ]
+    },
+    {
+      "label": "link-ordinary-separation",
+      "argv": [
+        "g++",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-separation.o",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_both_api.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_samples_api.a",
+        "-Wl,--no-whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/ordinary.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libbox3d_cpu.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/box3d_src-libbox3d.a",
+        "-ldl",
+        "-lpthread",
+        "-lm",
+        "-lgcc_s",
+        "-lGL",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-separation"
+      ],
+      "seconds": 25
+    },
+    {
+      "label": "ordinary-order0-separation",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-separation"
+      ],
+      "seconds": 30,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      },
+      "requireStrings": [
+        "joint separation: 2686 independent CPU/GPU checks passed across nine joint types; wheel angular unsupported upstream"
+      ],
+      "cleanup": [
+        "experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-separation"
+      ]
+    },
+    {
+      "label": "link-native-reaction",
+      "argv": [
+        "g++",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-reaction.o",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_both_api.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_samples_api.a",
+        "-Wl,--no-whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/native.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libbox3d_cpu.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/box3d_src-libbox3d.a",
+        "-ldl",
+        "-lpthread",
+        "-lm",
+        "-lgcc_s",
+        "-lGL",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 25
+    },
+    {
+      "label": "native-order0-reaction-kind0",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "0"
+      },
+      "requireStrings": [
+        "joint reaction: 360 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order0-reaction-kind1",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "1"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order0-reaction-kind2",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "2"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order0-reaction-kind3",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "3"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order0-reaction-kind4",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "4"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order0-reaction-kind5",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "5"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order0-reaction-kind6",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "6"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order0-reaction-kind7",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "7"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order0-reaction-kind8",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "8"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order1-reaction-kind0",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "0"
+      },
+      "requireStrings": [
+        "joint reaction: 360 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order1-reaction-kind1",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "1"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order1-reaction-kind2",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "2"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order1-reaction-kind3",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "3"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order1-reaction-kind4",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "4"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order1-reaction-kind5",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "5"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order1-reaction-kind6",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "6"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order1-reaction-kind7",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "7"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ]
+    },
+    {
+      "label": "native-order1-reaction-kind8",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ],
+      "seconds": 20,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort",
+        "GPU_REACTION_KIND": "8"
+      },
+      "requireStrings": [
+        "joint reaction: 312 independent CPU/GPU scalar comparisons passed"
+      ],
+      "cleanup": [
+        "experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction"
+      ]
+    },
+    {
+      "label": "link-native-separation",
+      "argv": [
+        "g++",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-separation.o",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_both_api.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_samples_api.a",
+        "-Wl,--no-whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/native.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libbox3d_cpu.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/box3d_src-libbox3d.a",
+        "-ldl",
+        "-lpthread",
+        "-lm",
+        "-lgcc_s",
+        "-lGL",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-separation"
+      ],
+      "seconds": 25
+    },
+    {
+      "label": "native-order0-separation",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-separation"
+      ],
+      "seconds": 30,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+        "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+        "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+        "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+        "GPU_PHYSICS_FULL_REPLAY": "1",
+        "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+        "GPU_PHYSICS_GRAPH_MEMO": "1",
+        "GPU_PHYSICS_PAIR_MATRIX": "1",
+        "GPU_PHYSICS_COMPONENT_TGS": "1",
+        "GPU_PHYSICS_GPU_CCD": "1",
+        "GPU_PHYSICS_RESIDENT": "1",
+        "GPU_PHYSICS_GRAPH_SHARED": "1",
+        "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+        "GPU_PHYSICS_AB": "bounded-static-sort"
+      },
+      "requireStrings": [
+        "joint separation: 2686 independent CPU/GPU checks passed across nine joint types; wheel angular unsupported upstream"
+      ],
+      "cleanup": [
+        "experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-separation"
+      ]
+    },
+    {
+      "label": "verify-frozen-libraries",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/joint-qualification-tools.ts",
+        "verify"
+      ],
+      "seconds": 15
+    },
+    {
+      "label": "caches-after",
+      "argv": [
+        "du",
+        "-sb",
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "/home/firtoz/.cache/nvidia"
+      ],
+      "seconds": 10
+    }
+  ],
+  "cleanup": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-reaction.o",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-separation.o",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-reaction",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-separation",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-separation"
+  ],
+  "cleanupOnFailure": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-reaction.o",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-separation.o",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-reaction",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-separation",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-reaction",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/native-joint-separation"
+  ],
+  "progressCriterion": "Five C fixture/configuration completions: original ordinary order0 reaction/separation, native order0 separation, native reactionorder0/1 split only by pre-existing GPU_REACTION_KIND selector. Eachkind retainsall4configs/8steps/mutations/zero/sleep/nonzeroforcechecks;counts360+8*312=2856 perordering. Total13940unchangedscalarchecks.2CPP15/4links25/18kindruns20/3wholeruns30/2verify15/cache10/650phase.0Rustbuilds/candidates/Rainruns/performancehypotheses/newobserver/captures/automatic retries; stopfirstfailure. Original60sfullnative timeout staysfailed, not convertedto speedpass.",
+  "storage": "Default1GiBtemporary including observed sharedcachegrowth/raw128MiB/retained64MiB/free20GiB;2objects4executables deletedafterphase on success/failure. Existingtwo frozenlibs196MiBexception unchanged; no cache/buildcopies."
+}

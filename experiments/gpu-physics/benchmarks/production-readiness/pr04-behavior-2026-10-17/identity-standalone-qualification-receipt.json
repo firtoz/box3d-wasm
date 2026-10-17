@@ -1,0 +1,88 @@
+{
+  "phase": "identity-standalone-qualification",
+  "status": "PASS",
+  "protocolSha256": "4c9de6537b37c5c1fb74884c038cc47ed4dc70cfdf353ac8032573273629af77",
+  "inputHashes": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-reconciliation-2026-10-02/qualification-contract.json": "023fe1477320fd5e12b09c71cac95789203c725fda7d0d94ea54ad2311e9580c",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/prepare-remaining-rust.ts": "a1cda35038be4a9298b7b404853b7e59912ef811343b08543f9d651756bbde45",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/related-physical-checks-protocol.json": "285dd5ce815bc2e974561d2ea30d61987527b4644d31c6fedd7a1b507625729c",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/contact-policy-batch1-protocol.json": "3e7f7a7064e83dfd0710c5c6b706b7cbb2510a6f0c4a5d2c4aff4d4edfc7a249",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/sim.rs": "6b4aeaf97f94ed856b11ddcf4b0d7b6d0e19d3c8296ec0b3ff46d0f6768d97dd",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/deps/gpu_physics-115d4d38c3c51ef8": "90891c54567369fd52ea120a0ec6851cbe4b9a6d1754b6bbef105760a549dff8",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/checks/contact-policy-batch1-ordinary-tests.log": "275a49cbba5ab7dc21c08822c2dc510274d512af1ddc6e08a933292d7e46fb16",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/deps/gpu_physics-6d8fe90d7eaa469d": "6d43a130682b103f5cedfa5c9a906c6b00fce3667b56855e55204f59d9ef5e8f",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/checks/contact-policy-batch1-native-tests.log": "5d9c06ad8dd32b8670e58074bc622d08a2139a80b6befed8e4da3da3137127a2",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/remaining-rust-partial-disposition.json": "f798cb3df6c497fdaade386b17d50d5dba82f39a69e4dd40434a8b98a5987c09"
+  },
+  "rows": [
+    {
+      "label": "caches-before",
+      "argv": [
+        "du",
+        "-sb",
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "/home/firtoz/.cache/nvidia"
+      ],
+      "environment": {},
+      "pid": 3322594,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 96,
+      "elapsedMs": 7,
+      "log": "checks/identity-standalone-qualification-caches-before.log",
+      "logSha256": "ce6dadd4aca56a02749bf6e663db2b7ab31b2b632cc197e9c9cabbe762dd5be2"
+    },
+    {
+      "label": "ordinary-order0-identity-standalone",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/deps/gpu_physics-115d4d38c3c51ef8",
+        "api::world::state_trace::tests::trace_creation_identity_survives_body_slot_reuse",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "TMPDIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/identity-standalone"
+      },
+      "pid": 3322598,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 1801,
+      "elapsedMs": 1031,
+      "log": "checks/identity-standalone-qualification-ordinary-order0-identity-standalone.log",
+      "logSha256": "7667796bfae3bb118b6e0afa0874fd0632e84ef4bb6e4ccc22da482106e68b72"
+    },
+    {
+      "label": "caches-after",
+      "argv": [
+        "du",
+        "-sb",
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "/home/firtoz/.cache/nvidia"
+      ],
+      "environment": {},
+      "pid": 3322654,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 96,
+      "elapsedMs": 3,
+      "log": "checks/identity-standalone-qualification-caches-after.log",
+      "logSha256": "ce6dadd4aca56a02749bf6e663db2b7ab31b2b632cc197e9c9cabbe762dd5be2"
+    }
+  ],
+  "elapsedMs": 1299,
+  "removedBytes": 0,
+  "peakRawBytes": 0
+}

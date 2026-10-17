@@ -1,0 +1,71 @@
+{
+  "phase": "identity-standalone-qualification",
+  "totalSeconds": 60,
+  "maxRawBytes": 134217728,
+  "inputs": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr03-contract-reconciliation-2026-10-02/qualification-contract.json",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/prepare-remaining-rust.ts",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/related-physical-checks-protocol.json",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/contact-policy-batch1-protocol.json",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/sim.rs",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/deps/gpu_physics-115d4d38c3c51ef8",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/checks/contact-policy-batch1-ordinary-tests.log",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/deps/gpu_physics-6d8fe90d7eaa469d",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/checks/contact-policy-batch1-native-tests.log",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/remaining-rust-partial-disposition.json"
+  ],
+  "jobs": [
+    {
+      "label": "caches-before",
+      "argv": [
+        "du",
+        "-sb",
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "/home/firtoz/.cache/nvidia"
+      ],
+      "seconds": 10
+    },
+    {
+      "label": "ordinary-order0-identity-standalone",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/deps/gpu_physics-115d4d38c3c51ef8",
+        "api::world::state_trace::tests::trace_creation_identity_survives_body_slot_reuse",
+        "--exact",
+        "--nocapture",
+        "--test-threads=1"
+      ],
+      "seconds": 30,
+      "testCount": 1,
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "0",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "TMPDIR": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/identity-standalone"
+      },
+      "cleanup": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/identity-standalone"
+      ]
+    },
+    {
+      "label": "caches-after",
+      "argv": [
+        "du",
+        "-sb",
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "/home/firtoz/.cache/nvidia"
+      ],
+      "seconds": 10
+    }
+  ],
+  "cleanup": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/identity-standalone"
+  ],
+  "cleanupOnFailure": [
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/identity-standalone"
+  ],
+  "progressCriterion": "One original unfinished identity fixture now isolated from18earlier tests that consumed the aggregate120s limit.30s standalone attempt exactlyonce; no further attempts iffails. Failedaggregate remainsFAILED.0builds/candidates/newphysics/performancehypotheses/captures. This corrects verification batching, not a physics repair or benchmark pass.",
+  "storage": "Default1GiB temporaryinclsharedcache growth/raw128MiB/retained64MiB/free20GiB; originalownedtrace consumedbytest assertionsanddeletedonbothoutcomes. No newbinary/cachecopies."
+}

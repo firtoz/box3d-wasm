@@ -1,0 +1,44 @@
+{
+  "status": "BLOCKED_PENDING_EXPLICIT_RAIN_BUDGET_DECISION",
+  "gatesDone": 3,
+  "gatesLeft": 3,
+  "RainPerformance": {
+    "used": 3,
+    "max": 3,
+    "remaining": 0
+  },
+  "drag": {
+    "used": 3,
+    "max": 3,
+    "remaining": 0
+  },
+  "proposal": "next-batch-proposal.md",
+  "proposalAuthorized": false,
+  "question": "Authorize one additional45min Rain/performancebatch orkeepbudgetandstop experiments",
+  "previousGoalTurn": "NO_PROGRESS_REVALIDATED_BUDGET_IMPASSE",
+  "currentGoalTurn": "NO_PROGRESS_THIRD_BUDGET_IMPASSE_OBSERVATION",
+  "firstReviewedImpasseTurn": true,
+  "consecutiveBudgetDecisionImpasseTurns": 3,
+  "reason": "Same genuineimpasse firstrecorded afterFcompletion, revalidatedonthenextgoalturn andagainnow. All independentworkcomplete; A/B/E stillunmet,sourceunchanged, no ownedjob/rawinputs ornewhumanbudgetauthorization. Threebatchlimit prohibits furtherRain/performance trials. Optional45min proposalremainsunapproved; no credible-ideas-exhausted orcompletionclaim.",
+  "rules": [
+    "Do not count earlier productive qualification turns as blocked.",
+    "Do not resetspentbudgets orlaunchfromproposal withoutdirecthumanapproval.",
+    "Only markblockedafterthe samegenuineimpasse repeats3consecutivegoalturns; no paused/complete statusauthorized."
+  ],
+  "consecutiveNoProgressGoalTurns": 2,
+  "revalidation": {
+    "gatesDone": 3,
+    "gatesLeft": 3,
+    "remaining": [
+      "A",
+      "B",
+      "E"
+    ],
+    "sourceStillMatchesQualifiedRelease": true,
+    "activeReceipts": 0,
+    "rawFiles": 0,
+    "newHumanAuthorizationObserved": false,
+    "newBuilds": 0,
+    "newGPURuns": 0
+  }
+}

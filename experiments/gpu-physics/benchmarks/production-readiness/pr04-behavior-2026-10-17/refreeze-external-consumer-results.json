@@ -1,0 +1,87 @@
+{
+  "pass": true,
+  "absoluteTolerance": 0.00001,
+  "maxError": 0,
+  "rows": [
+    {
+      "route": "cpu",
+      "position": [
+        1,
+        4.997222423553467,
+        2
+      ],
+      "velocity": [
+        0,
+        -0.166666672,
+        0
+      ],
+      "mass": 523.598816,
+      "ray_fraction": 0.375,
+      "destroyed": true
+    },
+    {
+      "route": "ordinary-gpu",
+      "position": [
+        1,
+        4.997222423553467,
+        2
+      ],
+      "velocity": [
+        0,
+        -0.166666672,
+        0
+      ],
+      "mass": 523.598816,
+      "ray_fraction": 0.375,
+      "destroyed": true
+    },
+    {
+      "route": "ordinary-both",
+      "position": [
+        1,
+        4.997222423553467,
+        2
+      ],
+      "velocity": [
+        0,
+        -0.166666672,
+        0
+      ],
+      "mass": 523.598816,
+      "ray_fraction": 0.375,
+      "destroyed": true
+    },
+    {
+      "route": "native-gpu",
+      "position": [
+        1,
+        4.997222423553467,
+        2
+      ],
+      "velocity": [
+        0,
+        -0.166666672,
+        0
+      ],
+      "mass": 523.598816,
+      "ray_fraction": 0.375,
+      "destroyed": true
+    },
+    {
+      "route": "native-both",
+      "position": [
+        1,
+        4.997222423553467,
+        2
+      ],
+      "velocity": [
+        0,
+        -0.166666672,
+        0
+      ],
+      "mass": 523.598816,
+      "ray_fraction": 0.375,
+      "destroyed": true
+    }
+  ]
+}

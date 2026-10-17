@@ -1,0 +1,923 @@
+{
+  "status": "PASS_SCOPED_QUALIFICATION_NOT_PR04_COMPLETE",
+  "sourcePolicy": "6b4aeaf97f94ed856b11ddcf4b0d7b6d0e19d3c8296ec0b3ff46d0f6768d97dd",
+  "completedCells": 40,
+  "elapsedMs": 82457,
+  "removedRawBytes": 68840992,
+  "peakRawBytes": 68840992,
+  "cacheBefore": {
+    "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 269950391,
+    "/home/firtoz/.cache/nvidia": 1073740917
+  },
+  "cacheAfter": {
+    "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 269950391,
+    "/home/firtoz/.cache/nvidia": 1073014505
+  },
+  "cacheGrowth": 0,
+  "rags": [
+    {
+      "engine": "cpu",
+      "order": "1",
+      "rows": 67312,
+      "jointSetup": {
+        "status": "PASS",
+        "joints": 112,
+        "types": {
+          "filter": 8,
+          "revolute": 32,
+          "spherical": 72
+        },
+        "fieldComparison": "float32 exact against CPU"
+      },
+      "metrics": {
+        "peak_joint_separation": {
+          "value": 0.213310137,
+          "frame": 88,
+          "body": 23,
+          "row": [
+            88,
+            23,
+            -6.83057928,
+            5.07208014,
+            -7.51302099,
+            -0.611719489,
+            0.0764198452,
+            -0.0720122904,
+            0.784074962,
+            -0.751646698,
+            -1.84054399,
+            4.71872616,
+            15.13908,
+            -5.32757568,
+            1.12934542,
+            0.213310137
+          ]
+        },
+        "peak_angular_speed": {
+          "value": 101.96400514017317,
+          "frame": 163,
+          "body": 32,
+          "row": [
+            163,
+            32,
+            7.63634443,
+            0.155601874,
+            -4.50092602,
+            -0.158531398,
+            -0.342585385,
+            -0.292161494,
+            0.878717661,
+            1.89670372,
+            -4.13427305,
+            3.20473886,
+            66.5209045,
+            -10.486495,
+            76.5614853,
+            0.0424924418
+          ]
+        },
+        "tail_joint_separation": {
+          "value": 0.00139051978,
+          "frame": 480,
+          "body": 1,
+          "row": [
+            480,
+            1,
+            -8.77709866,
+            0.206484497,
+            -4.38715792,
+            0.256189823,
+            0.205833673,
+            0.835900605,
+            0.439624339,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.00139051978
+          ]
+        },
+        "tail_linear_speed": {
+          "value": 0,
+          "frame": 480,
+          "body": 0,
+          "row": [
+            480,
+            0,
+            -8.73693943,
+            0.197801232,
+            -4.21548843,
+            0.113496728,
+            0.056107562,
+            0.801163018,
+            0.58490032,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "tail_angular_speed": {
+          "value": 0,
+          "frame": 480,
+          "body": 0,
+          "row": [
+            480,
+            0,
+            -8.73693943,
+            0.197801232,
+            -4.21548843,
+            0.113496728,
+            0.056107562,
+            0.801163018,
+            0.58490032,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "engine": "ordinary",
+      "order": "0",
+      "rows": 67312,
+      "jointSetup": {
+        "status": "PASS",
+        "joints": 112,
+        "types": {
+          "filter": 8,
+          "revolute": 32,
+          "spherical": 72
+        },
+        "fieldComparison": "float32 exact against CPU"
+      },
+      "metrics": {
+        "peak_joint_separation": {
+          "value": 0.116392836,
+          "frame": 161,
+          "body": 103,
+          "row": [
+            161,
+            103,
+            9.43810272,
+            0.18968381,
+            10.0044985,
+            -0.780848801,
+            -0.331968546,
+            -0.340474248,
+            0.405153483,
+            1.09152377,
+            -9.35601521,
+            2.99857116,
+            -1.7102859,
+            0.683921516,
+            0.236993924,
+            0.116392836
+          ]
+        },
+        "peak_angular_speed": {
+          "value": 74.41479353952438,
+          "frame": 175,
+          "body": 60,
+          "row": [
+            175,
+            60,
+            -6.38134909,
+            0.298906267,
+            10.3890676,
+            0.914892972,
+            0.183666438,
+            -0.239342183,
+            -0.268240511,
+            -1.10479426,
+            -3.49267387,
+            2.1680274,
+            59.7414589,
+            6.9000988,
+            -43.828167,
+            0.0321228802
+          ]
+        },
+        "tail_joint_separation": {
+          "value": 0.00298925536,
+          "frame": 480,
+          "body": 11,
+          "row": [
+            480,
+            11,
+            -7.8443141,
+            0.0734274089,
+            -4.32046413,
+            -0.945079923,
+            -0.276389301,
+            -0.11559172,
+            0.130657837,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.00298925536
+          ]
+        },
+        "tail_linear_speed": {
+          "value": 0,
+          "frame": 480,
+          "body": 0,
+          "row": [
+            480,
+            0,
+            -7.48640585,
+            0.183312565,
+            -4.31020737,
+            -0.260909379,
+            0.314545363,
+            -0.758264899,
+            0.507958472,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "tail_angular_speed": {
+          "value": 0,
+          "frame": 480,
+          "body": 0,
+          "row": [
+            480,
+            0,
+            -7.48640585,
+            0.183312565,
+            -4.31020737,
+            -0.260909379,
+            0.314545363,
+            -0.758264899,
+            0.507958472,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "initialError": 0.0000018984999999999141,
+      "firstStepError": 0,
+      "frame2SpineNormalError": 0
+    },
+    {
+      "engine": "ordinary",
+      "order": "1",
+      "rows": 67312,
+      "jointSetup": {
+        "status": "PASS",
+        "joints": 112,
+        "types": {
+          "filter": 8,
+          "revolute": 32,
+          "spherical": 72
+        },
+        "fieldComparison": "float32 exact against CPU"
+      },
+      "metrics": {
+        "peak_joint_separation": {
+          "value": 0.116392836,
+          "frame": 161,
+          "body": 103,
+          "row": [
+            161,
+            103,
+            9.43810272,
+            0.18968381,
+            10.0044985,
+            -0.780848801,
+            -0.331968546,
+            -0.340474248,
+            0.405153483,
+            1.09152377,
+            -9.35601521,
+            2.99857116,
+            -1.7102859,
+            0.683921516,
+            0.236993924,
+            0.116392836
+          ]
+        },
+        "peak_angular_speed": {
+          "value": 74.41479353952438,
+          "frame": 175,
+          "body": 60,
+          "row": [
+            175,
+            60,
+            -6.38134909,
+            0.298906267,
+            10.3890676,
+            0.914892972,
+            0.183666438,
+            -0.239342183,
+            -0.268240511,
+            -1.10479426,
+            -3.49267387,
+            2.1680274,
+            59.7414589,
+            6.9000988,
+            -43.828167,
+            0.0321228802
+          ]
+        },
+        "tail_joint_separation": {
+          "value": 0.00298925536,
+          "frame": 480,
+          "body": 11,
+          "row": [
+            480,
+            11,
+            -7.8443141,
+            0.0734274089,
+            -4.32046413,
+            -0.945079923,
+            -0.276389301,
+            -0.11559172,
+            0.130657837,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.00298925536
+          ]
+        },
+        "tail_linear_speed": {
+          "value": 0,
+          "frame": 480,
+          "body": 0,
+          "row": [
+            480,
+            0,
+            -7.48640585,
+            0.183312565,
+            -4.31020737,
+            -0.260909379,
+            0.314545363,
+            -0.758264899,
+            0.507958472,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "tail_angular_speed": {
+          "value": 0,
+          "frame": 480,
+          "body": 0,
+          "row": [
+            480,
+            0,
+            -7.48640585,
+            0.183312565,
+            -4.31020737,
+            -0.260909379,
+            0.314545363,
+            -0.758264899,
+            0.507958472,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "initialError": 0.0000018984999999999141,
+      "firstStepError": 0,
+      "frame2SpineNormalError": 0
+    },
+    {
+      "engine": "native",
+      "order": "0",
+      "rows": 67312,
+      "jointSetup": {
+        "status": "PASS",
+        "joints": 112,
+        "types": {
+          "filter": 8,
+          "revolute": 32,
+          "spherical": 72
+        },
+        "fieldComparison": "float32 exact against CPU"
+      },
+      "metrics": {
+        "peak_joint_separation": {
+          "value": 0.116392836,
+          "frame": 161,
+          "body": 103,
+          "row": [
+            161,
+            103,
+            9.43810272,
+            0.18968381,
+            10.0044985,
+            -0.780848801,
+            -0.331968546,
+            -0.340474248,
+            0.405153483,
+            1.09152377,
+            -9.35601521,
+            2.99857116,
+            -1.7102859,
+            0.683921516,
+            0.236993924,
+            0.116392836
+          ]
+        },
+        "peak_angular_speed": {
+          "value": 74.41479353952438,
+          "frame": 175,
+          "body": 60,
+          "row": [
+            175,
+            60,
+            -6.38134909,
+            0.298906267,
+            10.3890676,
+            0.914892972,
+            0.183666438,
+            -0.239342183,
+            -0.268240511,
+            -1.10479426,
+            -3.49267387,
+            2.1680274,
+            59.7414589,
+            6.9000988,
+            -43.828167,
+            0.0321228802
+          ]
+        },
+        "tail_joint_separation": {
+          "value": 0.00298925536,
+          "frame": 480,
+          "body": 11,
+          "row": [
+            480,
+            11,
+            -7.8443141,
+            0.0734274089,
+            -4.32046413,
+            -0.945079923,
+            -0.276389301,
+            -0.11559172,
+            0.130657837,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.00298925536
+          ]
+        },
+        "tail_linear_speed": {
+          "value": 0,
+          "frame": 480,
+          "body": 0,
+          "row": [
+            480,
+            0,
+            -7.48640585,
+            0.183312565,
+            -4.31020737,
+            -0.260909379,
+            0.314545363,
+            -0.758264899,
+            0.507958472,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "tail_angular_speed": {
+          "value": 0,
+          "frame": 480,
+          "body": 0,
+          "row": [
+            480,
+            0,
+            -7.48640585,
+            0.183312565,
+            -4.31020737,
+            -0.260909379,
+            0.314545363,
+            -0.758264899,
+            0.507958472,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "initialError": 0.0000018984999999999141,
+      "firstStepError": 0,
+      "frame2SpineNormalError": 0
+    },
+    {
+      "engine": "native",
+      "order": "1",
+      "rows": 67312,
+      "jointSetup": {
+        "status": "PASS",
+        "joints": 112,
+        "types": {
+          "filter": 8,
+          "revolute": 32,
+          "spherical": 72
+        },
+        "fieldComparison": "float32 exact against CPU"
+      },
+      "metrics": {
+        "peak_joint_separation": {
+          "value": 0.116392836,
+          "frame": 161,
+          "body": 103,
+          "row": [
+            161,
+            103,
+            9.43810272,
+            0.18968381,
+            10.0044985,
+            -0.780848801,
+            -0.331968546,
+            -0.340474248,
+            0.405153483,
+            1.09152377,
+            -9.35601521,
+            2.99857116,
+            -1.7102859,
+            0.683921516,
+            0.236993924,
+            0.116392836
+          ]
+        },
+        "peak_angular_speed": {
+          "value": 74.41479353952438,
+          "frame": 175,
+          "body": 60,
+          "row": [
+            175,
+            60,
+            -6.38134909,
+            0.298906267,
+            10.3890676,
+            0.914892972,
+            0.183666438,
+            -0.239342183,
+            -0.268240511,
+            -1.10479426,
+            -3.49267387,
+            2.1680274,
+            59.7414589,
+            6.9000988,
+            -43.828167,
+            0.0321228802
+          ]
+        },
+        "tail_joint_separation": {
+          "value": 0.00298925536,
+          "frame": 480,
+          "body": 11,
+          "row": [
+            480,
+            11,
+            -7.8443141,
+            0.0734274089,
+            -4.32046413,
+            -0.945079923,
+            -0.276389301,
+            -0.11559172,
+            0.130657837,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0.00298925536
+          ]
+        },
+        "tail_linear_speed": {
+          "value": 0,
+          "frame": 480,
+          "body": 0,
+          "row": [
+            480,
+            0,
+            -7.48640585,
+            0.183312565,
+            -4.31020737,
+            -0.260909379,
+            0.314545363,
+            -0.758264899,
+            0.507958472,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        "tail_angular_speed": {
+          "value": 0,
+          "frame": 480,
+          "body": 0,
+          "row": [
+            480,
+            0,
+            -7.48640585,
+            0.183312565,
+            -4.31020737,
+            -0.260909379,
+            0.314545363,
+            -0.758264899,
+            0.507958472,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      },
+      "initialError": 0.0000018984999999999141,
+      "firstStepError": 0,
+      "frame2SpineNormalError": 0
+    }
+  ],
+  "calculationCells": [
+    {
+      "engine": "ordinary",
+      "order": "0",
+      "mode": "twist",
+      "maxStateError": 0
+    },
+    {
+      "engine": "ordinary",
+      "order": "0",
+      "mode": "twist-negative",
+      "maxStateError": 0
+    },
+    {
+      "engine": "ordinary",
+      "order": "0",
+      "mode": "tilted",
+      "maxStateError": 0
+    },
+    {
+      "engine": "ordinary",
+      "order": "0",
+      "mode": "tilted-negative",
+      "maxStateError": 0
+    },
+    {
+      "engine": "ordinary",
+      "order": "0",
+      "mode": "ragdolls-no-contacts",
+      "maxPositionError": 8.999999998593466e-7
+    },
+    {
+      "engine": "ordinary",
+      "order": "0",
+      "mode": "grid",
+      "maxComponentError": 1.0244999999991632e-8
+    },
+    {
+      "engine": "ordinary",
+      "order": "0",
+      "mode": "torus",
+      "maxComponentError": 1.3870000000089366e-7
+    },
+    {
+      "engine": "ordinary",
+      "order": "0",
+      "mode": "ragdolls"
+    },
+    {
+      "engine": "ordinary",
+      "order": "1",
+      "mode": "twist",
+      "maxStateError": 0
+    },
+    {
+      "engine": "ordinary",
+      "order": "1",
+      "mode": "twist-negative",
+      "maxStateError": 0
+    },
+    {
+      "engine": "ordinary",
+      "order": "1",
+      "mode": "tilted",
+      "maxStateError": 0
+    },
+    {
+      "engine": "ordinary",
+      "order": "1",
+      "mode": "tilted-negative",
+      "maxStateError": 0
+    },
+    {
+      "engine": "ordinary",
+      "order": "1",
+      "mode": "ragdolls-no-contacts",
+      "maxPositionError": 8.999999998593466e-7
+    },
+    {
+      "engine": "ordinary",
+      "order": "1",
+      "mode": "grid",
+      "maxComponentError": 1.0244999999991632e-8
+    },
+    {
+      "engine": "ordinary",
+      "order": "1",
+      "mode": "torus",
+      "maxComponentError": 1.3870000000089366e-7
+    },
+    {
+      "engine": "ordinary",
+      "order": "1",
+      "mode": "ragdolls"
+    },
+    {
+      "engine": "native",
+      "order": "0",
+      "mode": "twist",
+      "maxStateError": 0
+    },
+    {
+      "engine": "native",
+      "order": "0",
+      "mode": "twist-negative",
+      "maxStateError": 0
+    },
+    {
+      "engine": "native",
+      "order": "0",
+      "mode": "tilted",
+      "maxStateError": 0
+    },
+    {
+      "engine": "native",
+      "order": "0",
+      "mode": "tilted-negative",
+      "maxStateError": 0
+    },
+    {
+      "engine": "native",
+      "order": "0",
+      "mode": "ragdolls-no-contacts",
+      "maxPositionError": 8.999999998593466e-7
+    },
+    {
+      "engine": "native",
+      "order": "0",
+      "mode": "grid",
+      "maxComponentError": 1.0244999999991632e-8
+    },
+    {
+      "engine": "native",
+      "order": "0",
+      "mode": "torus",
+      "maxComponentError": 1.3870000000089366e-7
+    },
+    {
+      "engine": "native",
+      "order": "0",
+      "mode": "ragdolls"
+    },
+    {
+      "engine": "native",
+      "order": "1",
+      "mode": "twist",
+      "maxStateError": 0
+    },
+    {
+      "engine": "native",
+      "order": "1",
+      "mode": "twist-negative",
+      "maxStateError": 0
+    },
+    {
+      "engine": "native",
+      "order": "1",
+      "mode": "tilted",
+      "maxStateError": 0
+    },
+    {
+      "engine": "native",
+      "order": "1",
+      "mode": "tilted-negative",
+      "maxStateError": 0
+    },
+    {
+      "engine": "native",
+      "order": "1",
+      "mode": "ragdolls-no-contacts",
+      "maxPositionError": 8.999999998593466e-7
+    },
+    {
+      "engine": "native",
+      "order": "1",
+      "mode": "grid",
+      "maxComponentError": 1.0244999999991632e-8
+    },
+    {
+      "engine": "native",
+      "order": "1",
+      "mode": "torus",
+      "maxComponentError": 1.3870000000089366e-7
+    },
+    {
+      "engine": "native",
+      "order": "1",
+      "mode": "ragdolls"
+    }
+  ],
+  "consumedCPUReferences": [
+    {
+      "name": "cpu-twist.json",
+      "bytes": 6777
+    },
+    {
+      "name": "cpu-twist-negative.json",
+      "bytes": 6900
+    },
+    {
+      "name": "cpu-tilted.json",
+      "bytes": 12745
+    },
+    {
+      "name": "cpu-tilted-negative.json",
+      "bytes": 13225
+    },
+    {
+      "name": "cpu-ragdolls-no-contacts.json",
+      "bytes": 313547
+    },
+    {
+      "name": "cpu-grid.json",
+      "bytes": 3723
+    },
+    {
+      "name": "cpu-torus.json",
+      "bytes": 634
+    },
+    {
+      "name": "cpu-ragdolls.json",
+      "bytes": 104192
+    }
+  ],
+  "removedCPUReferenceBytes": 461743,
+  "limitations": [
+    "Original Rain4300body600step physical gate remains open; frozen mesh probes are independent discrete geometry fixtures, not full Rain behavior.",
+    "Timing includes fixture getters/parser/health and is not accepted SPS evidence.",
+    "No cross-engine full scene trajectory/pose parity criterion.",
+    "Native reaction timeout remains incomplete; no release refreeze or full D closure."
+  ],
+  "cleanupReconciliation": "All CPU reference files removed; final empty directory rmSync raised Bun EFAULT. Verified empty and removed via rmdirSync. No engine/test rerun or lost comparison results."
+}

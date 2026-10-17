@@ -1,0 +1,73 @@
+{
+  "status": "F_RELEASE_REFREEZE_COMPLETE_NOT_FULL_PR04",
+  "gatesDone": 3,
+  "gatesLeft": 3,
+  "phaseResults": [
+    {
+      "phase": "refreeze-rust",
+      "status": "PASS",
+      "elapsedMs": 400975,
+      "removedBytes": 1932312692,
+      "peakRawBytes": 989299999
+    },
+    {
+      "phase": "refreeze-native",
+      "status": "PASS",
+      "elapsedMs": 611261,
+      "removedBytes": 283301620,
+      "peakRawBytes": 76082583
+    },
+    {
+      "phase": "refreeze-consumer",
+      "status": "PASS",
+      "elapsedMs": 22360,
+      "removedBytes": 287349496,
+      "peakRawBytes": 37647304
+    },
+    {
+      "phase": "refreeze-viewers",
+      "status": "PASS",
+      "elapsedMs": 17211,
+      "removedBytes": 4536,
+      "peakRawBytes": 0
+    }
+  ],
+  "deletedTemporaryBytes": 2502968344,
+  "peakRawBytes": 989299999,
+  "cache": [
+    {
+      "phase": "refreeze-consumer",
+      "before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 270453164,
+        "/home/firtoz/.cache/nvidia": 1073739513
+      },
+      "after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 270453164,
+        "/home/firtoz/.cache/nvidia": 1073739513
+      },
+      "observedGrowth": 0
+    },
+    {
+      "phase": "refreeze-viewers",
+      "before": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 270453164,
+        "/home/firtoz/.cache/nvidia": 1073739513
+      },
+      "after": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 270453164,
+        "/home/firtoz/.cache/nvidia": 1073739513
+      },
+      "observedGrowth": 0
+    }
+  ],
+  "currentCandidateBytes": 367034636,
+  "oldCandidatePreserved": true,
+  "currentCandidateConsumers": "Current-source qualification/PR07/refreeze; laterenginechanges requireapplicabilityreviewagain",
+  "rawBytes": 0,
+  "allRecordedProcessGroupsAbsent": true,
+  "pinnedInputs": 350,
+  "retainedDiagnosticBytesBeforeAudit": 18314613,
+  "freeBytes": 1706094587904,
+  "pendingRainBudgetDecision": true,
+  "noNewRainExperiments": true
+}

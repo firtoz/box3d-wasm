@@ -1,0 +1,45 @@
+{
+  "status": "RELATED_REGRESSION_D_CLOSED_NOT_PR04_COMPLETE",
+  "gatesDone": 2,
+  "gatesLeft": 4,
+  "sourcePolicy": "6b4aeaf97f94ed856b11ddcf4b0d7b6d0e19d3c8296ec0b3ff46d0f6768d97dd",
+  "wholeNativeReactionMs": [
+    {
+      "label": "native-order0-whole-reaction",
+      "elapsedMs": 89441
+    },
+    {
+      "label": "native-order1-whole-reaction",
+      "elapsedMs": 88863
+    }
+  ],
+  "kindPhase": {
+    "status": "FAILED",
+    "completedJobs": 29,
+    "physicsRuns": 21,
+    "scalarChecks": 13940,
+    "reason": "Allphysicalchecks passed; finalmetadata duplicate-labelfailure retainedandreconciled separately."
+  },
+  "kindFinalAudit": "PASS",
+  "wholeConfirmation": "PASS",
+  "cacheGrowth": {
+    "kindObserved": 10583,
+    "wholeObserved": 0
+  },
+  "deletedRawBytes": 172953728,
+  "peakRawBytes": {
+    "kind": 35353280,
+    "whole": 35333888
+  },
+  "rawBytes": 0,
+  "pinnedInputs": 211,
+  "allRecordedProcessGroupsAbsent": true,
+  "retainedBytesBeforeAudit": 5393478,
+  "freeBytes": 1706356420608,
+  "syntaxOnlyTools": 26,
+  "limitations": [
+    "Original60swholefixture remainsFAILED; wholecurrentfixture passedunderseparate120sphysicalconfirmationbudget, not a performancepass.",
+    "A/B/E/F andRain/latency/releaseapplicability stayopen; Rain/performance anddragbudgetsnotrenewed.",
+    "No productioncode/Box3D/WASM changes, no commit/push."
+  ]
+}

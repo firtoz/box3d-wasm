@@ -1,0 +1,132 @@
+{
+  "status": "CONTINUATION_QUALIFICATION_CHECKPOINT_NOT_PR04_COMPLETE",
+  "records": [
+    {
+      "phase": "mesh-ragdoll-qualification",
+      "status": "PASS",
+      "elapsedMs": 82457,
+      "removedRawBytes": 68840992,
+      "peakRawBytes": 68840992,
+      "cacheBefore": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 269950391,
+        "/home/firtoz/.cache/nvidia": 1073740917
+      },
+      "cacheAfter": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 269950391,
+        "/home/firtoz/.cache/nvidia": 1073014505
+      },
+      "observedCacheGrowth": 0
+    },
+    {
+      "phase": "joint-native-separation",
+      "status": "PASS",
+      "elapsedMs": 15880,
+      "removedRawBytes": 35334368,
+      "peakRawBytes": 35334368,
+      "cacheBefore": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 269950391,
+        "/home/firtoz/.cache/nvidia": 1073014505
+      },
+      "cacheAfter": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 269950391,
+        "/home/firtoz/.cache/nvidia": 1073739191
+      },
+      "observedCacheGrowth": 724686
+    },
+    {
+      "phase": "distance-qualification",
+      "status": "PASS",
+      "elapsedMs": 15211,
+      "removedRawBytes": 68783376,
+      "peakRawBytes": 68783376,
+      "cacheBefore": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 269950391,
+        "/home/firtoz/.cache/nvidia": 1073739191
+      },
+      "cacheAfter": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 269950391,
+        "/home/firtoz/.cache/nvidia": 1072831939
+      },
+      "observedCacheGrowth": 0
+    },
+    {
+      "phase": "remaining-rust-qualification",
+      "status": "FAILED",
+      "elapsedMs": 120315,
+      "removedRawBytes": 0,
+      "peakRawBytes": 0,
+      "cacheBefore": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 269950391,
+        "/home/firtoz/.cache/nvidia": 1073739191
+      },
+      "cacheAfter": null,
+      "observedCacheGrowth": null
+    },
+    {
+      "phase": "rust-unlaunched-qualification",
+      "status": "PASS",
+      "elapsedMs": 324974,
+      "removedRawBytes": 0,
+      "peakRawBytes": 152311,
+      "cacheBefore": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 269950391,
+        "/home/firtoz/.cache/nvidia": 1072831939
+      },
+      "cacheAfter": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 270453164,
+        "/home/firtoz/.cache/nvidia": 1073728930
+      },
+      "observedCacheGrowth": 1399764
+    },
+    {
+      "phase": "identity-standalone-qualification",
+      "status": "PASS",
+      "elapsedMs": 1299,
+      "removedRawBytes": 0,
+      "peakRawBytes": 0,
+      "cacheBefore": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 270453164,
+        "/home/firtoz/.cache/nvidia": 1073728930
+      },
+      "cacheAfter": {
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 270453164,
+        "/home/firtoz/.cache/nvidia": 1073728930
+      },
+      "observedCacheGrowth": 0
+    }
+  ],
+  "rawBytes": 0,
+  "removedRawBytes": 172958736,
+  "removedCPUReferences": 461743,
+  "syntaxOnlyPassed": [
+    "run.ts",
+    "extract-baseline.ts",
+    "checkpoint-audit.ts",
+    "prepare-profile.ts",
+    "cull-tools.ts",
+    "compare-cull.ts",
+    "prepare-drag.ts",
+    "prepare-drag-final.ts",
+    "summarize-drag.ts",
+    "prepare-regressions.ts",
+    "prepare-contact-policy.ts",
+    "contact-policy-tools.ts",
+    "prepare-contact-verification.ts",
+    "summarize-contact-policy.ts",
+    "joint-qualification-tools.ts",
+    "qualification-fixture-tools.ts",
+    "prepare-mesh-ragdoll.ts",
+    "prepare-unlaunched-joint.ts",
+    "summarize-qualification.ts",
+    "prepare-remaining-rust.ts",
+    "prepare-distance.ts",
+    "prepare-rust-unlaunched.ts",
+    "qualify-rust-matrix.ts"
+  ],
+  "limitations": [
+    "RemainingRust aggregate timeout preserved; standalone identity result separately qualifies current source.",
+    "Native reaction60s timeout remains incomplete, not a proven incorrect reaction.",
+    "Rain600 and throughput/latency remain open; investigation budgets spent.",
+    "No engine production source changed or release artifact refrozen this continuation."
+  ]
+}

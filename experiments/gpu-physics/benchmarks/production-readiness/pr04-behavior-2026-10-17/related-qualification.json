@@ -1,0 +1,1887 @@
+{
+  "status": "RELATED_PR04_D_REGRESSIONS_QUALIFIED_NOT_FULL_PR04",
+  "contractSha256": "023fe1477320fd5e12b09c71cac95789203c725fda7d0d94ea54ad2311e9580c",
+  "sourcePolicy": "6b4aeaf97f94ed856b11ddcf4b0d7b6d0e19d3c8296ec0b3ff46d0f6768d97dd",
+  "CRecipeCells": 56,
+  "relatedCRecipeCells": 52,
+  "Ccounts": {
+    "CURRENT_BUILD_PASS": 46,
+    "OPEN_GATE_B": 4,
+    "REUSED_APPLICABLE_MODE0_POLICY_UNCHANGED": 4,
+    "REUSED_APPLICABLE_ISOLATED_CONTACT_POLICY": 2
+  },
+  "cCells": [
+    {
+      "recipeIndex": 0,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "ragdolls",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order0-ragdolls",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order0-ragdolls.log",
+          "logSha256": "30ce7e3d6fa2600bc0028355a451374d30542161a057c1bcf5f3fb18ac3e8b22"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order0-ragdolls.json",
+          "comparisonSha256": "7c0e3ec687c6d8bb3dfcd62cd27ad0c317a27fe7e55092ed48ca85e51d6b140d"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 0,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "ragdolls",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order1-ragdolls",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order1-ragdolls.log",
+          "logSha256": "d6ddab5b72ecc50d91c355b5502d3347c29516a1b8264c764738c5fae7b7baee"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order1-ragdolls.json",
+          "comparisonSha256": "2af44776a5e9c979aa8b3faada0077551652f9a93549d1f699819131d8093938"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 0,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "ragdolls",
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order0-ragdolls",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order0-ragdolls.log",
+          "logSha256": "9d030f540c436f1a6a19ffa931674762ef48eaa3a4151f4094b43b2a0d38fa86"
+        },
+        {
+          "comparison": "qualification-results/native-order0-ragdolls.json",
+          "comparisonSha256": "fd9ede6478d4d990e6a05d14fe491924775b11bbcced5d6c02dfc94dbebe03d0"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 0,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "ragdolls",
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order1-ragdolls",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order1-ragdolls.log",
+          "logSha256": "7a2915c23fabf0de14bfb347779a0955fdb0e71d2e9e59b2eb36cdfd4ba81d7e"
+        },
+        {
+          "comparison": "qualification-results/native-order1-ragdolls.json",
+          "comparisonSha256": "ed788d6cc516a8782bc59eb3d4c4513d954ad4516d771887e2cb4eb58435d180"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 1,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "ragdolls-no-contacts",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order0-ragdolls-no-contacts",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order0-ragdolls-no-contacts.log",
+          "logSha256": "f0ee749d7327de095ab7b8f2412810783f07fb3b626808c2a2c6535e1a756b8e"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order0-ragdolls-no-contacts.json",
+          "comparisonSha256": "05a274c20712e593edd337ff4d2a1a6e3e58b785b1dcaf050f9d2d115f907800"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 1,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "ragdolls-no-contacts",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order1-ragdolls-no-contacts",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order1-ragdolls-no-contacts.log",
+          "logSha256": "021f4085b2b08eadb099b29f23b9f6253ce3d972187c4a1e203ab20cfd549911"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order1-ragdolls-no-contacts.json",
+          "comparisonSha256": "019e95be90115bba65772e327f3eefcf2994434f83852e73b71466f201ce5f21"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 1,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "ragdolls-no-contacts",
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order0-ragdolls-no-contacts",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order0-ragdolls-no-contacts.log",
+          "logSha256": "de92c56927667b954f8c9ac1c1340005f3c0565c7723b4a5665ed2e9fe4e9519"
+        },
+        {
+          "comparison": "qualification-results/native-order0-ragdolls-no-contacts.json",
+          "comparisonSha256": "82385afb7f4c04c927b9ff698ca5c1d43355ae65c5a42bd061edd330eed66f1c"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 1,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "ragdolls-no-contacts",
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order1-ragdolls-no-contacts",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order1-ragdolls-no-contacts.log",
+          "logSha256": "331cb4767520af8f351c5fa007b63a8443c59bd94fd3ae1d1310f61b2d584c43"
+        },
+        {
+          "comparison": "qualification-results/native-order1-ragdolls-no-contacts.json",
+          "comparisonSha256": "b01ca51036ba4e8e3f4af015cc73f1006370f972d010dd67f1049807c71cad8b"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 2,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "twist",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order0-twist",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order0-twist.log",
+          "logSha256": "d3253a690fdf4188364f60cc1c8a9d528c15abacff7a8c341831a3e961c62007"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order0-twist.json",
+          "comparisonSha256": "103311703bfb9b2b4ad8cce0a877be3f8708c9e9c4d8d5a833e551fd809bce4a"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 2,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "twist",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order1-twist",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order1-twist.log",
+          "logSha256": "47c0d91e4e5023017393def3303af5e854026fc49b0f5a3dc876ac6991a215ac"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order1-twist.json",
+          "comparisonSha256": "f130e53ab97dcaba9c34a3c70ff7d1dc193dcb4049c66c5b3dd396d19a7fb028"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 2,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "twist",
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order0-twist",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order0-twist.log",
+          "logSha256": "e9903ac96e60dc8fa139f51f266a21893256702f1e8c5083883c08714c3a4b07"
+        },
+        {
+          "comparison": "qualification-results/native-order0-twist.json",
+          "comparisonSha256": "5f151048a0c9ee7862835aeb8077fb8f1cb74433f1e25023fac4f44077d55019"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 2,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "twist",
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order1-twist",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order1-twist.log",
+          "logSha256": "fc54537e9e7f025c4f5d3b7cf3ddf51e0fb36334504aff293beec369a7688c6f"
+        },
+        {
+          "comparison": "qualification-results/native-order1-twist.json",
+          "comparisonSha256": "88f37a58f38a4b9925e8d773faf034fe98ff4bb0eda5e98428054f1b244d79e8"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 3,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "twist-negative",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order0-twist-negative",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order0-twist-negative.log",
+          "logSha256": "c1cf4735d8c4d45007624a18290ad60b311a8d3dc09520c88619043210e0b77d"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order0-twist-negative.json",
+          "comparisonSha256": "dccdb555f8723dd7a2857fad0eee0eb7a57e37bd533d574375279f32a0dc7406"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 3,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "twist-negative",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order1-twist-negative",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order1-twist-negative.log",
+          "logSha256": "450b6c199f38c44777ab54985934f5884309e430557a51ad936b2f58be92f9f8"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order1-twist-negative.json",
+          "comparisonSha256": "a7b35f12c5cebc4b73cb7181ca9f6318803ed6803abe9061905551c1c63503e0"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 3,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "twist-negative",
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order0-twist-negative",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order0-twist-negative.log",
+          "logSha256": "aeb30b24fafa3039d68ee8d490d68285978570e7375dbbaac0494196cb1c0b8f"
+        },
+        {
+          "comparison": "qualification-results/native-order0-twist-negative.json",
+          "comparisonSha256": "0a684301187124900990ca41e9eed44fd4ebcb6847871d650689561a60994765"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 3,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "twist-negative",
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order1-twist-negative",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order1-twist-negative.log",
+          "logSha256": "3aee5bc2509babeebb68bd1b6dfe1e5d642f1142ae5dae7a26663da804f7135f"
+        },
+        {
+          "comparison": "qualification-results/native-order1-twist-negative.json",
+          "comparisonSha256": "1bc4c44e0b87577c6712ba051652acaebea519d5c20fddef3394319267179296"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 4,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "tilted",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order0-tilted",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order0-tilted.log",
+          "logSha256": "e4bf170efd6758be2e5c948f48e784d8d9bc4177e765caaab1571dc7b9d466ae"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order0-tilted.json",
+          "comparisonSha256": "85b6fabecf8801c5c19ebd89ba63299c862fffa10821722dd211eb91f09712b7"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 4,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "tilted",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order1-tilted",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order1-tilted.log",
+          "logSha256": "e7e50573dfaa4aeb7d1654fc9684c10f2aca79684362e57530ca23032a55e30c"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order1-tilted.json",
+          "comparisonSha256": "09a70ed2afaa0691f757e739b2de7a05ff8572dd4640ffadd1bf93a07e4e4041"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 4,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "tilted",
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order0-tilted",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order0-tilted.log",
+          "logSha256": "0b6f7ca18638959452d3d6b3c8a45b6df602d210b719c02852793456cdabd785"
+        },
+        {
+          "comparison": "qualification-results/native-order0-tilted.json",
+          "comparisonSha256": "01410ccf4b369c4b04005860f7cbce414bdae36b12cb1cc881ad8a71e1b78def"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 4,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "tilted",
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order1-tilted",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order1-tilted.log",
+          "logSha256": "11b4bbb5da6e2d33b11d7b4703e190b148a9f9cc1072eced93a9408248249bba"
+        },
+        {
+          "comparison": "qualification-results/native-order1-tilted.json",
+          "comparisonSha256": "703e1820823e43d76237ed5ea3717040b92355c7d2c5a7115897691ba1363665"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 5,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "tilted-negative",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order0-tilted-negative",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order0-tilted-negative.log",
+          "logSha256": "32d0a5f89a6b2bfbce31c790b156a84fd1bd7e417b1c80cf603c4d375ed17858"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order0-tilted-negative.json",
+          "comparisonSha256": "922172e27fb90ebda801d2083587ddba286ad1b1fe301543f5e21373667a8cc5"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 5,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "tilted-negative",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order1-tilted-negative",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order1-tilted-negative.log",
+          "logSha256": "c8a8258d3f925e0a851079161e309410d16fe779e61fa336936ef8e4a9582c89"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order1-tilted-negative.json",
+          "comparisonSha256": "0d91ab0cca57acb6497585876a7134e52b76df69c37ea9fe346a036097f405cd"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 5,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "tilted-negative",
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order0-tilted-negative",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order0-tilted-negative.log",
+          "logSha256": "3d902dacd9d001aa124cbcb856cc940d683577027248c4cf3237da08e624c0ab"
+        },
+        {
+          "comparison": "qualification-results/native-order0-tilted-negative.json",
+          "comparisonSha256": "e8c2d3ae0ca9eb656c2ebbcd42b2ac842085bce42485d1cf9da8c2d5de78c785"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 5,
+      "fixture": "ragdoll_reference.cpp",
+      "mode": "tilted-negative",
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order1-tilted-negative",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order1-tilted-negative.log",
+          "logSha256": "e90110f49504e514059243f49f86d45b3613b13414e5e490736b4b25b222813d"
+        },
+        {
+          "comparison": "qualification-results/native-order1-tilted-negative.json",
+          "comparisonSha256": "a6d3e6a7dfe71961495ddc0bf8e07a8842b29c0e083f889f799f99ad04690108"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 6,
+      "fixture": "Benchmark/Rain",
+      "mode": "--sample-name",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "OPEN_GATE_B",
+      "evidence": [
+        {
+          "scope": "Full600/currentphysical/recycling acceptance still open; no probe or endpoint digest substitutes for it."
+        }
+      ]
+    },
+    {
+      "recipeIndex": 6,
+      "fixture": "Benchmark/Rain",
+      "mode": "--sample-name",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "OPEN_GATE_B",
+      "evidence": [
+        {
+          "scope": "Full600/currentphysical/recycling acceptance still open; no probe or endpoint digest substitutes for it."
+        }
+      ]
+    },
+    {
+      "recipeIndex": 6,
+      "fixture": "Benchmark/Rain",
+      "mode": "--sample-name",
+      "backend": "native",
+      "order": 0,
+      "status": "OPEN_GATE_B",
+      "evidence": [
+        {
+          "scope": "Full600/currentphysical/recycling acceptance still open; no probe or endpoint digest substitutes for it."
+        }
+      ]
+    },
+    {
+      "recipeIndex": 6,
+      "fixture": "Benchmark/Rain",
+      "mode": "--sample-name",
+      "backend": "native",
+      "order": 1,
+      "status": "OPEN_GATE_B",
+      "evidence": [
+        {
+          "scope": "Full600/currentphysical/recycling acceptance still open; no probe or endpoint digest substitutes for it."
+        }
+      ]
+    },
+    {
+      "recipeIndex": 7,
+      "fixture": "both_drag_test.cpp",
+      "mode": "default",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "REUSED_APPLICABLE_MODE0_POLICY_UNCHANGED",
+      "evidence": [
+        {
+          "phase": "drag-batch3-handle-correction",
+          "label": "ordinary-order0-isolated",
+          "code": 0,
+          "log": "checks/drag-batch3-handle-correction-ordinary-order0-isolated.log",
+          "logSha256": "e5aee364e82f85e607f7c6f36c5324b075345641b8a423a07e52624e3349c5d1"
+        },
+        {
+          "scope": "Mode0 already selects paired normals before/after the sole production source change. Frozen CAND source unchanged; physical gateC evidence carried.",
+          "physicalScope": "Preserve original isolated numerical limits; loaded trajectory parity remains deferred. Timing misses remainE."
+        }
+      ]
+    },
+    {
+      "recipeIndex": 7,
+      "fixture": "both_drag_test.cpp",
+      "mode": "default",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "REUSED_APPLICABLE_ISOLATED_CONTACT_POLICY",
+      "evidence": [
+        {
+          "phase": "drag-batch3-handle-correction",
+          "label": "ordinary-order1-isolated",
+          "code": 0,
+          "log": "checks/drag-batch3-handle-correction-ordinary-order1-isolated.log",
+          "logSha256": "1a1470c6c9c66fd45b7e468667351dd9f96b93e54d6d59679f359379028cef21"
+        },
+        {
+          "scope": "Only normal-contact solver selection changed. Original controlledfixture resets all5bodies atheight100 each132step grab/release, separates x by3m, target excursion x.35/y2m, original velocity/positions remain bounded. No groundimpact or interbodycontact is exercised; joint/picking/defaults unchanged. Existingfree-servo/isolatednumerical checks carried, changedpolicy ground fixture separately passes.",
+          "physicalScope": "Preserve original isolated numerical limits; loaded trajectory parity remains deferred. Timing misses remainE."
+        }
+      ]
+    },
+    {
+      "recipeIndex": 7,
+      "fixture": "both_drag_test.cpp",
+      "mode": "default",
+      "backend": "native",
+      "order": 0,
+      "status": "REUSED_APPLICABLE_MODE0_POLICY_UNCHANGED",
+      "evidence": [
+        {
+          "phase": "drag-batch3-handle-correction",
+          "label": "native-order0-isolated",
+          "code": 0,
+          "log": "checks/drag-batch3-handle-correction-native-order0-isolated.log",
+          "logSha256": "661b9fd7e332e633c421685cad137ef886a14bc648acf13eb341a0ef79a028ac"
+        },
+        {
+          "scope": "Mode0 already selects paired normals before/after the sole production source change. Frozen CAND source unchanged; physical gateC evidence carried.",
+          "physicalScope": "Preserve original isolated numerical limits; loaded trajectory parity remains deferred. Timing misses remainE."
+        }
+      ]
+    },
+    {
+      "recipeIndex": 7,
+      "fixture": "both_drag_test.cpp",
+      "mode": "default",
+      "backend": "native",
+      "order": 1,
+      "status": "REUSED_APPLICABLE_ISOLATED_CONTACT_POLICY",
+      "evidence": [
+        {
+          "phase": "drag-batch3-handle-correction",
+          "label": "native-order1-isolated",
+          "code": 0,
+          "log": "checks/drag-batch3-handle-correction-native-order1-isolated.log",
+          "logSha256": "69a166fdb2dc4386a6573b7afbed3660a8c489f1da3a8bd33da105833544e502"
+        },
+        {
+          "scope": "Only normal-contact solver selection changed. Original controlledfixture resets all5bodies atheight100 each132step grab/release, separates x by3m, target excursion x.35/y2m, original velocity/positions remain bounded. No groundimpact or interbodycontact is exercised; joint/picking/defaults unchanged. Existingfree-servo/isolatednumerical checks carried, changedpolicy ground fixture separately passes.",
+          "physicalScope": "Preserve original isolated numerical limits; loaded trajectory parity remains deferred. Timing misses remainE."
+        }
+      ]
+    },
+    {
+      "recipeIndex": 8,
+      "fixture": "both_drag_test.cpp",
+      "mode": "--ground",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "REUSED_APPLICABLE_MODE0_POLICY_UNCHANGED",
+      "evidence": [
+        {
+          "phase": "drag-batch3-handle-correction",
+          "label": "ordinary-order0-ground",
+          "code": 0,
+          "log": "checks/drag-batch3-handle-correction-ordinary-order0-ground.log",
+          "logSha256": "e381fb3879d33fc10514a2f0a438a704535568218ec8c190c89dcf3841489d0a"
+        },
+        {
+          "scope": "Mode0 already selects paired normals before/after the sole production source change. Frozen CAND source unchanged; physical gateC evidence carried.",
+          "physicalScope": "Preserve original isolated numerical limits; loaded trajectory parity remains deferred. Timing misses remainE."
+        }
+      ]
+    },
+    {
+      "recipeIndex": 8,
+      "fixture": "both_drag_test.cpp",
+      "mode": "--ground",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "label": "ordinary-order1-ground",
+          "code": 0,
+          "log": "checks/contact-policy-batch1-ordinary-order1-ground.log",
+          "logSha256": "e8aa7fe062aebd06f361851d4b836ba834e24594b02f792e9083eceb9f5ed8a8"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 8,
+      "fixture": "both_drag_test.cpp",
+      "mode": "--ground",
+      "backend": "native",
+      "order": 0,
+      "status": "REUSED_APPLICABLE_MODE0_POLICY_UNCHANGED",
+      "evidence": [
+        {
+          "phase": "drag-batch3-handle-correction",
+          "label": "native-order0-ground",
+          "code": 0,
+          "log": "checks/drag-batch3-handle-correction-native-order0-ground.log",
+          "logSha256": "2efb109181f492e5aa22166717cf47ff76f9d64162526d08d500d084cc5f12cf"
+        },
+        {
+          "scope": "Mode0 already selects paired normals before/after the sole production source change. Frozen CAND source unchanged; physical gateC evidence carried.",
+          "physicalScope": "Preserve original isolated numerical limits; loaded trajectory parity remains deferred. Timing misses remainE."
+        }
+      ]
+    },
+    {
+      "recipeIndex": 8,
+      "fixture": "both_drag_test.cpp",
+      "mode": "--ground",
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "label": "native-order1-ground",
+          "code": 0,
+          "log": "checks/contact-policy-batch1-native-order1-ground.log",
+          "logSha256": "146164af6c248e288a0226a49cd5cfe0dd0ba13cdbf4f7884153be83fcd9ac1a"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 9,
+      "fixture": "distance-original.cpp",
+      "mode": "default",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "distance-qualification",
+          "label": "run-ordinary-order0",
+          "code": 0,
+          "log": "checks/distance-qualification-run-ordinary-order0.log",
+          "logSha256": "0cd6c011644dca3a7c37bf9d72866b7ab3f38734982548606fc2c583fb8dbebe"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 9,
+      "fixture": "distance-original.cpp",
+      "mode": "default",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "distance-qualification",
+          "label": "run-ordinary-order1",
+          "code": 0,
+          "log": "checks/distance-qualification-run-ordinary-order1.log",
+          "logSha256": "ce20c3fa383a75ffc3dc198cfb23f581389e9d129291c0907a8bf8fb2e872d41"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 9,
+      "fixture": "distance-original.cpp",
+      "mode": "default",
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "distance-qualification",
+          "label": "run-native-order0",
+          "code": 0,
+          "log": "checks/distance-qualification-run-native-order0.log",
+          "logSha256": "867c04c04b524c9c02ac7a9d7738d85ef2d885a6a072e5b7f520e6f84f1276ed"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 9,
+      "fixture": "distance-original.cpp",
+      "mode": "default",
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "distance-qualification",
+          "label": "run-native-order1",
+          "code": 0,
+          "log": "checks/distance-qualification-run-native-order1.log",
+          "logSha256": "2330148cb70e4ff362256ecfc4aec1f6cf009660849fb43a30ea70a7813007c3"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 10,
+      "fixture": "both_joint_reaction_test.cpp",
+      "mode": "default",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "joint-kind-qualification",
+          "label": "ordinary-order0-reaction",
+          "code": 0,
+          "log": "checks/joint-kind-qualification-ordinary-order0-reaction.log",
+          "logSha256": "cb641ca184cac2944d95e7cc8218d07384d84cef55f409d3bdf1fef1d98cdcbd"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 10,
+      "fixture": "both_joint_reaction_test.cpp",
+      "mode": "default",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "joint-c-qualification",
+          "label": "run-ordinary-reaction",
+          "code": 0,
+          "log": "checks/joint-c-qualification-run-ordinary-reaction.log",
+          "logSha256": "42e20200776f5932d70e94da9d318f5d9c9cbb355cdc593eca02b642124859eb",
+          "markerReconciled": true
+        }
+      ]
+    },
+    {
+      "recipeIndex": 10,
+      "fixture": "both_joint_reaction_test.cpp",
+      "mode": "default",
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "joint-whole-confirmation",
+          "label": "native-order0-whole-reaction",
+          "code": 0,
+          "log": "checks/joint-whole-confirmation-native-order0-whole-reaction.log",
+          "logSha256": "cb641ca184cac2944d95e7cc8218d07384d84cef55f409d3bdf1fef1d98cdcbd"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 10,
+      "fixture": "both_joint_reaction_test.cpp",
+      "mode": "default",
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "joint-whole-confirmation",
+          "label": "native-order1-whole-reaction",
+          "code": 0,
+          "log": "checks/joint-whole-confirmation-native-order1-whole-reaction.log",
+          "logSha256": "cb641ca184cac2944d95e7cc8218d07384d84cef55f409d3bdf1fef1d98cdcbd"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 11,
+      "fixture": "both_joint_separation_test.cpp",
+      "mode": "default",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "joint-kind-qualification",
+          "label": "ordinary-order0-separation",
+          "code": 0,
+          "log": "checks/joint-kind-qualification-ordinary-order0-separation.log",
+          "logSha256": "482d8b198653f07a69116b899ecf49809ddfc09063050c67ebd791c9f4253cae"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 11,
+      "fixture": "both_joint_separation_test.cpp",
+      "mode": "default",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "joint-c-remaining",
+          "label": "run-ordinary-separation",
+          "code": 0,
+          "log": "checks/joint-c-remaining-run-ordinary-separation.log",
+          "logSha256": "45c022e03282e2140528a91e71668061cb6319b45821fdfaefa76d30c0ff98b8"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 11,
+      "fixture": "both_joint_separation_test.cpp",
+      "mode": "default",
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "joint-kind-qualification",
+          "label": "native-order0-separation",
+          "code": 0,
+          "log": "checks/joint-kind-qualification-native-order0-separation.log",
+          "logSha256": "482d8b198653f07a69116b899ecf49809ddfc09063050c67ebd791c9f4253cae"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 11,
+      "fixture": "both_joint_separation_test.cpp",
+      "mode": "default",
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "joint-native-separation",
+          "label": "run-native-separation",
+          "code": 0,
+          "log": "checks/joint-native-separation-run-native-separation.log",
+          "logSha256": "45c022e03282e2140528a91e71668061cb6319b45821fdfaefa76d30c0ff98b8"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 12,
+      "fixture": "rain_frozen_contact.cpp",
+      "mode": "grid",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order0-grid",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order0-grid.log",
+          "logSha256": "eddad427273b050a4058809abda292cddeaeccebc7f6fc118777fa7c26e91ec2"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order0-grid.json",
+          "comparisonSha256": "5c2aed4f17dad739772475df38b3dfcfb7cc33ea49be669b4a891caa71a60d71"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 12,
+      "fixture": "rain_frozen_contact.cpp",
+      "mode": "grid",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order1-grid",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order1-grid.log",
+          "logSha256": "ad690902ff571338dcfa1ec186583c0ad82b30ca2c5cb2a04050b9e7482ccd2d"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order1-grid.json",
+          "comparisonSha256": "34f0a1cd55893369a677f848844eef1ddf82d3efe596deb4be8640385136b089"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 12,
+      "fixture": "rain_frozen_contact.cpp",
+      "mode": "grid",
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order0-grid",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order0-grid.log",
+          "logSha256": "894a5685112332a6f2da5cc8907ad8d47212e77b86c8d51213daa4bf8537e307"
+        },
+        {
+          "comparison": "qualification-results/native-order0-grid.json",
+          "comparisonSha256": "80537be41017c072dcd252e36bff7afc54c2db57495d950ec5a21df95741a8e9"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 12,
+      "fixture": "rain_frozen_contact.cpp",
+      "mode": "grid",
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order1-grid",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order1-grid.log",
+          "logSha256": "6116f28fffeda36ce30ef2ecac1efc2d1c6bd86d7eb16e74899a1210087cb0a4"
+        },
+        {
+          "comparison": "qualification-results/native-order1-grid.json",
+          "comparisonSha256": "ce7c3dba262d1e555e6864bde781286120b940b5529db312cba4f315e2a3109b"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 13,
+      "fixture": "rain_frozen_contact.cpp",
+      "mode": "torus",
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order0-torus",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order0-torus.log",
+          "logSha256": "ac2cdba7c5aadfaf3ae2802c953452de0829c65229bf1f512134fe665a431b03"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order0-torus.json",
+          "comparisonSha256": "e82ae7d9b8aef1902db90c134fba1ab2f13854a1cdabec866751dacd410b6615"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 13,
+      "fixture": "rain_frozen_contact.cpp",
+      "mode": "torus",
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-ordinary-order1-torus",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-ordinary-order1-torus.log",
+          "logSha256": "b2d10072d0614ccc1108272ee2273f259a79d80edd6d8ff937c74fa3b4414bb2"
+        },
+        {
+          "comparison": "qualification-results/ordinary-order1-torus.json",
+          "comparisonSha256": "7bccc77f4009073ba8014144b80f352dcfc97af8698d644938aa31e884a9e74a"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 13,
+      "fixture": "rain_frozen_contact.cpp",
+      "mode": "torus",
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order0-torus",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order0-torus.log",
+          "logSha256": "1014622765069524c3e1faf8157b0eb85dcabe98d5027aa39248b1ff10b0d82d"
+        },
+        {
+          "comparison": "qualification-results/native-order0-torus.json",
+          "comparisonSha256": "008a38163d291b6e65e684257734896eb47341164e72c22be935f881f570a512"
+        }
+      ]
+    },
+    {
+      "recipeIndex": 13,
+      "fixture": "rain_frozen_contact.cpp",
+      "mode": "torus",
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "mesh-ragdoll-qualification",
+          "label": "run-native-order1-torus",
+          "code": 0,
+          "log": "checks/mesh-ragdoll-qualification-run-native-order1-torus.log",
+          "logSha256": "60934ab29c09cb200936b8c0c33a4ed8a7433d8d0589625a961e3cafc0a07340"
+        },
+        {
+          "comparison": "qualification-results/native-order1-torus.json",
+          "comparisonSha256": "72a0db54dbb7217bff122d3040ca98af6fa3c9cc22b28bff45ca084aad6eff30"
+        }
+      ]
+    }
+  ],
+  "traceCells": 50,
+  "traceCounts": {
+    "CURRENT_BUILD_PASS": 48,
+    "REUSED_APPLICABLE_PREDICATE_EQUIVALENCE": 2
+  },
+  "traces": [
+    {
+      "selector": "api::world::state_trace::tests::trace_stack_support_and_energy",
+      "steps": 600,
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order0-physical.log",
+          "logSha256": "9e63db68a25cced1a29071239985c57c64d4d73323e8bf0883170523085a14a3"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_stack_support_and_energy",
+      "steps": 600,
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order1-physical.log",
+          "logSha256": "2bfc8fc823b9620fb6dba3f8ce65d92d90ac4e881fd91290d7ebc5ff493c362b"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_stack_support_and_energy",
+      "steps": 600,
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order0-physical.log",
+          "logSha256": "e2d931e88d1df97d8755b936929c920c288234dea557cde1b14a2a4f30146552"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_stack_support_and_energy",
+      "steps": 600,
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order1-physical.log",
+          "logSha256": "ab4c9544286d47df3dd6e3dd5871ae2a19a2adbe24c140d73a6208be25ab2ba0"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_sliding_friction_matches_analytical_motion",
+      "steps": 240,
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order0-physical.log",
+          "logSha256": "9e63db68a25cced1a29071239985c57c64d4d73323e8bf0883170523085a14a3"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_sliding_friction_matches_analytical_motion",
+      "steps": 240,
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order1-physical.log",
+          "logSha256": "2bfc8fc823b9620fb6dba3f8ce65d92d90ac4e881fd91290d7ebc5ff493c362b"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_sliding_friction_matches_analytical_motion",
+      "steps": 240,
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order0-physical.log",
+          "logSha256": "e2d931e88d1df97d8755b936929c920c288234dea557cde1b14a2a4f30146552"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_sliding_friction_matches_analytical_motion",
+      "steps": 240,
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order1-physical.log",
+          "logSha256": "ab4c9544286d47df3dd6e3dd5871ae2a19a2adbe24c140d73a6208be25ab2ba0"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+      "steps": 240,
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order0-physical.log",
+          "logSha256": "9e63db68a25cced1a29071239985c57c64d4d73323e8bf0883170523085a14a3"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+      "steps": 240,
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order1-physical.log",
+          "logSha256": "2bfc8fc823b9620fb6dba3f8ce65d92d90ac4e881fd91290d7ebc5ff493c362b"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+      "steps": 240,
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order0-physical.log",
+          "logSha256": "e2d931e88d1df97d8755b936929c920c288234dea557cde1b14a2a4f30146552"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_restitution_matches_analytical_rebound",
+      "steps": 240,
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order1-physical.log",
+          "logSha256": "ab4c9544286d47df3dd6e3dd5871ae2a19a2adbe24c140d73a6208be25ab2ba0"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_prismatic_motor_reversal_respects_both_limits",
+      "steps": 120,
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order0-physical.log",
+          "logSha256": "9e63db68a25cced1a29071239985c57c64d4d73323e8bf0883170523085a14a3"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_prismatic_motor_reversal_respects_both_limits",
+      "steps": 120,
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order1-physical.log",
+          "logSha256": "2bfc8fc823b9620fb6dba3f8ce65d92d90ac4e881fd91290d7ebc5ff493c362b"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_prismatic_motor_reversal_respects_both_limits",
+      "steps": 120,
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order0-physical.log",
+          "logSha256": "e2d931e88d1df97d8755b936929c920c288234dea557cde1b14a2a4f30146552"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_prismatic_motor_reversal_respects_both_limits",
+      "steps": 120,
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order1-physical.log",
+          "logSha256": "ab4c9544286d47df3dd6e3dd5871ae2a19a2adbe24c140d73a6208be25ab2ba0"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_mass_mutations_preserve_analytical_impulse_response",
+      "steps": 18,
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order0-physical.log",
+          "logSha256": "9e63db68a25cced1a29071239985c57c64d4d73323e8bf0883170523085a14a3"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_mass_mutations_preserve_analytical_impulse_response",
+      "steps": 18,
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order1-physical.log",
+          "logSha256": "2bfc8fc823b9620fb6dba3f8ce65d92d90ac4e881fd91290d7ebc5ff493c362b"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_mass_mutations_preserve_analytical_impulse_response",
+      "steps": 18,
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order0-physical.log",
+          "logSha256": "e2d931e88d1df97d8755b936929c920c288234dea557cde1b14a2a4f30146552"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_mass_mutations_preserve_analytical_impulse_response",
+      "steps": 18,
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order1-physical.log",
+          "logSha256": "ab4c9544286d47df3dd6e3dd5871ae2a19a2adbe24c140d73a6208be25ab2ba0"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_joint_island_wake_propagation",
+      "steps": 73,
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order0-physical.log",
+          "logSha256": "9e63db68a25cced1a29071239985c57c64d4d73323e8bf0883170523085a14a3"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_joint_island_wake_propagation",
+      "steps": 73,
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order1-physical.log",
+          "logSha256": "2bfc8fc823b9620fb6dba3f8ce65d92d90ac4e881fd91290d7ebc5ff493c362b"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_joint_island_wake_propagation",
+      "steps": 73,
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order0-physical.log",
+          "logSha256": "e2d931e88d1df97d8755b936929c920c288234dea557cde1b14a2a4f30146552"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_joint_island_wake_propagation",
+      "steps": 73,
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order1-physical.log",
+          "logSha256": "ab4c9544286d47df3dd6e3dd5871ae2a19a2adbe24c140d73a6208be25ab2ba0"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+      "steps": 73,
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order0-physical.log",
+          "logSha256": "9e63db68a25cced1a29071239985c57c64d4d73323e8bf0883170523085a14a3"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+      "steps": 73,
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order1-physical.log",
+          "logSha256": "2bfc8fc823b9620fb6dba3f8ce65d92d90ac4e881fd91290d7ebc5ff493c362b"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+      "steps": 73,
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order0-physical.log",
+          "logSha256": "e2d931e88d1df97d8755b936929c920c288234dea557cde1b14a2a4f30146552"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_contact_island_wake_propagation",
+      "steps": 73,
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order1-physical.log",
+          "logSha256": "ab4c9544286d47df3dd6e3dd5871ae2a19a2adbe24c140d73a6208be25ab2ba0"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_order_sensitive_callbacks_with_body_reuse",
+      "steps": 12,
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order0-physical.log",
+          "logSha256": "9e63db68a25cced1a29071239985c57c64d4d73323e8bf0883170523085a14a3"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_order_sensitive_callbacks_with_body_reuse",
+      "steps": 12,
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-ordinary-order1-physical.log",
+          "logSha256": "2bfc8fc823b9620fb6dba3f8ce65d92d90ac4e881fd91290d7ebc5ff493c362b"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_order_sensitive_callbacks_with_body_reuse",
+      "steps": 12,
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order0-physical.log",
+          "logSha256": "e2d931e88d1df97d8755b936929c920c288234dea557cde1b14a2a4f30146552"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_order_sensitive_callbacks_with_body_reuse",
+      "steps": 12,
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-batch1",
+          "log": "checks/contact-policy-batch1-native-order1-physical.log",
+          "logSha256": "ab4c9544286d47df3dd6e3dd5871ae2a19a2adbe24c140d73a6208be25ab2ba0"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_tracks_contact_retirement_and_slot_reuse",
+      "steps": 3,
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "rust-unlaunched-qualification",
+          "log": "checks/rust-unlaunched-qualification-ordinary-order0-unlaunched-1.log",
+          "logSha256": "88d9c0ba46228c945bb801ffe17974198aa622bbb3414862576e9adc585d69a8"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_tracks_contact_retirement_and_slot_reuse",
+      "steps": 3,
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "rust-unlaunched-qualification",
+          "log": "checks/rust-unlaunched-qualification-ordinary-order1-unlaunched-3.log",
+          "logSha256": "cf4f88d3b437469fb81ceb42d9b2119dfc672b05216d6897d404ee6e0b8eb651"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_tracks_contact_retirement_and_slot_reuse",
+      "steps": 3,
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "rust-unlaunched-qualification",
+          "log": "checks/rust-unlaunched-qualification-native-order0-unlaunched-3.log",
+          "logSha256": "27476e2bf0990ae712a358412e4f8fdb1948bc7493f62b5d8f5e7a1774be4a0a"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_tracks_contact_retirement_and_slot_reuse",
+      "steps": 3,
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "rust-unlaunched-qualification",
+          "log": "checks/rust-unlaunched-qualification-native-order1-unlaunched-3.log",
+          "logSha256": "59d5db5541b3456633802367dab6c30f915de8878351714646628ef54d962f60"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::child_relocation_joint_history_fixture",
+      "steps": 16,
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "remaining-rust-qualification",
+          "log": "checks/remaining-rust-qualification-ordinary-order0-remaining.log",
+          "logSha256": "0fed85fe04e06a694a1c89d73ea578c8d39c77732d6565ee2e2f791cabebe37d",
+          "scope": "Explicit completed ok prefix before aggregate timeout"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::child_relocation_joint_history_fixture",
+      "steps": 16,
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "rust-unlaunched-qualification",
+          "log": "checks/rust-unlaunched-qualification-ordinary-order1-unlaunched-3.log",
+          "logSha256": "cf4f88d3b437469fb81ceb42d9b2119dfc672b05216d6897d404ee6e0b8eb651"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::child_relocation_joint_history_fixture",
+      "steps": 16,
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "rust-unlaunched-qualification",
+          "log": "checks/rust-unlaunched-qualification-native-order0-unlaunched-3.log",
+          "logSha256": "27476e2bf0990ae712a358412e4f8fdb1948bc7493f62b5d8f5e7a1774be4a0a"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::child_relocation_joint_history_fixture",
+      "steps": 16,
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "rust-unlaunched-qualification",
+          "log": "checks/rust-unlaunched-qualification-native-order1-unlaunched-3.log",
+          "logSha256": "59d5db5541b3456633802367dab6c30f915de8878351714646628ef54d962f60"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::child_manifold_relocation_fixture",
+      "steps": 8,
+      "backend": "ordinary",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "remaining-rust-qualification",
+          "log": "checks/remaining-rust-qualification-ordinary-order0-remaining.log",
+          "logSha256": "0fed85fe04e06a694a1c89d73ea578c8d39c77732d6565ee2e2f791cabebe37d",
+          "scope": "Explicit completed ok prefix before aggregate timeout"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::child_manifold_relocation_fixture",
+      "steps": 8,
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "rust-unlaunched-qualification",
+          "log": "checks/rust-unlaunched-qualification-ordinary-order1-unlaunched-2.log",
+          "logSha256": "6e2a47a7e446f1fe0e9f8c8db0a2a084e6c30943fa1fab235fd601bb31085e18"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::child_manifold_relocation_fixture",
+      "steps": 8,
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "rust-unlaunched-qualification",
+          "log": "checks/rust-unlaunched-qualification-native-order0-unlaunched-2.log",
+          "logSha256": "74e4446175ddc83ca4af511f3a0c523cb080dfc881b75acb88a01e89c32b8244"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::child_manifold_relocation_fixture",
+      "steps": 8,
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "rust-unlaunched-qualification",
+          "log": "checks/rust-unlaunched-qualification-native-order1-unlaunched-2.log",
+          "logSha256": "5fe1c3be4f74a09ade0b4f1ad0cef585fb055b73f48c9311c3f0650325053075"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::convex_ccd_integration_tests::convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation",
+      "steps": 5,
+      "backend": "ordinary",
+      "order": 0,
+      "status": "REUSED_APPLICABLE_PREDICATE_EQUIVALENCE",
+      "evidence": [
+        {
+          "phase": "related-physical-checks",
+          "log": "checks/related-physical-checks-ordinary-order0-ccd.log",
+          "logSha256": "442cdaf26df4f88032a921d6d8aaa33487430f8dec3257ea99f4738b1c26fc9b",
+          "scope": "Mode0 normal policy unchanged; archived broadphase candidate only reorders pure material/AABB rejection before joint filtering. Original current broadphase restored. This is applicability reuse, not a fresh current-build run."
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::convex_ccd_integration_tests::convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation",
+      "steps": 5,
+      "backend": "ordinary",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-order1-verification",
+          "log": "checks/contact-policy-order1-verification-ordinary-order1-ccd.log",
+          "logSha256": "4479e0d6f2557f0f44a846c20fe4323d90588a3bb109681b4daf1ed5a729b5aa"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::convex_ccd_integration_tests::convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation",
+      "steps": 5,
+      "backend": "native",
+      "order": 0,
+      "status": "REUSED_APPLICABLE_PREDICATE_EQUIVALENCE",
+      "evidence": [
+        {
+          "phase": "related-physical-remaining",
+          "log": "checks/related-physical-remaining-native-order0-ccd.log",
+          "logSha256": "352a40e43a9958171e3cc919325f15f9308c8910d6a0661c82ac281fa845f6b4",
+          "scope": "Mode0 normal policy unchanged; archived broadphase candidate only reorders pure material/AABB rejection before joint filtering. Original current broadphase restored. This is applicability reuse, not a fresh current-build run."
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::convex_ccd_integration_tests::convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation",
+      "steps": 5,
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "contact-policy-order1-verification",
+          "log": "checks/contact-policy-order1-verification-native-order1-ccd.log",
+          "logSha256": "fb2d3d199f2688eb2ba102b0b30388c1c84fa10af6c8dad9ed9701e4306cdf8f"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_covers_native_full_replay_and_reentry",
+      "steps": 48,
+      "backend": "native",
+      "order": 0,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "rust-unlaunched-qualification",
+          "log": "checks/rust-unlaunched-qualification-native-order0-unlaunched-3.log",
+          "logSha256": "27476e2bf0990ae712a358412e4f8fdb1948bc7493f62b5d8f5e7a1774be4a0a"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    },
+    {
+      "selector": "api::world::state_trace::tests::trace_covers_native_full_replay_and_reentry",
+      "steps": 48,
+      "backend": "native",
+      "order": 1,
+      "status": "CURRENT_BUILD_PASS",
+      "evidence": [
+        {
+          "phase": "rust-unlaunched-qualification",
+          "log": "checks/rust-unlaunched-qualification-native-order1-unlaunched-3.log",
+          "logSha256": "59d5db5541b3456633802367dab6c30f915de8878351714646628ef54d962f60"
+        }
+      ],
+      "scope": "Original source writes/validates/consumes temporary semantic states during assertions. No fresh five-process full-future-state qualification or archive-copy claim."
+    }
+  ],
+  "rustCounts": {
+    "REUSED_APPLICABLE_PREDICATE_EQUIVALENCE": 114,
+    "CURRENT_BUILD_PASS": 286,
+    "NOT_APPLICABLE": 4
+  },
+  "rustRequired": 400,
+  "sourceApplicability": {
+    "soleProductionChange": "sim.rs policy initialization; git diff442689de1..8d18dc8b6 shows no other Rust/WGSL/Cargo change",
+    "mode0": "Both source versions select SOLVER_PAIRED_NORMALS whenordering0. Shader implementation and physics parameters unchanged.",
+    "mode1": "Changed policy qualified withfresh physical/numerical/joint/mesh/ragdoll/grounddrag cases; isolateddrag unaffected contact path explicitly reused.",
+    "preserved": "Bodyidentity/picking/defaults andBox3D/WASM unchanged; oldfailedreceipts neverrewritten."
+  },
+  "limitations": [
+    "Rain4cells remainOPEN_GATE_B; Dclosure doesnot waiveRain/throughput/latency/release orPR07/08final campaigns.",
+    "Originalnativewhole60sFAILED remains archived. Current full36world process qualifies bothorders with120s cap derived from measuredperkind cost; not a speed/coldstartup pass.",
+    "All165scene dispositions retained; onlyFallingRagdolls physicalfixture individually upgraded, not a freshfullcatalogvisual review.",
+    "Modes/API source applicability is explicit. 400Rustentries include114historicalpredicate-equivalence reuses; not400newfinal-buildruns."
+  ],
+  "gate": "D",
+  "gateClosed": true,
+  "gatesDone": 2,
+  "gatesLeft": 4
+}

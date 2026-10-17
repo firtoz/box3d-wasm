@@ -10,12 +10,14 @@ const spec=protocol.modes.find(m=>m.mode===mode);if(!spec)throw Error('mode');
 const binary=p+'/raw/'+(spec.kind==='mesh'?'mesh-':'ragdoll-')+engine;
 const hash=(bytes:any)=>createHash('sha256').update(bytes).digest('hex');
 const args=spec.kind==='mesh'?[]:[mode,String(spec.steps)];
-const result=spawnSync(binary,args,{input:spec.input?readFileSync(spec.input):undefined,encoding:'utf8',timeout:(engine==='cpu'?25:spec.steps===600?85:25)*1000,killSignal:'SIGKILL',maxBuffer:16*1024**2});
+const fixtureEnv={...process.env};for(const k of Object.keys(fixtureEnv))if(k.startsWith('RAIN_FROZEN_'))delete fixtureEnv[k];if(mode==='grid')fixtureEnv.RAIN_FROZEN_GRID='1';
+const result=spawnSync(binary,args,{env:fixtureEnv,input:spec.input?readFileSync(spec.input):undefined,encoding:'utf8',timeout:(engine==='cpu'?25:spec.steps===600?85:25)*1000,killSignal:'SIGKILL',maxBuffer:16*1024**2});
 mkdirSync(p+'/qualification-results',{recursive:true});
 const label=engine+'-order'+order+'-'+mode;
 const diagnostic={binary,binarySha256:hash(readFileSync(binary)),stdoutSha256:hash(result.stdout??''),stdoutBytes:Buffer.byteLength(result.stdout??''),stderrSha256:hash(result.stderr??''),stderrBytes:Buffer.byteLength(result.stderr??''),exit:result.status,signal:result.signal,error:result.error?String(result.error):null};
 const retained=p+'/qualification-results/'+label+'.json';
-const reference=p+'/raw/cpu-reference-'+mode+'.json';
+mkdirSync(p+'/qualification-references',{recursive:true});
+const reference=p+'/qualification-references/cpu-'+mode+'.json';
 let report:any={label,diagnostic,status:'FAIL',limits:'Original physical/calculation limits; cross-engine chaotic trajectory matching deferred.'};
 try{
  if(result.error||result.status!==0)throw Error('Fixture process failed');
@@ -61,7 +63,7 @@ try{
    for(let h=0;h<8;++h)for(let slot=1;slot<15;++slot)if(!setup[h+':'+slot])throw Error('Missing typed joint');
    const histogram=Object.values(setup).reduce((n:any,r:any)=>(n[r.type]=(n[r.type]??0)+1,n),{});if(JSON.stringify(histogram)!=='{"2":8,"5":32,"6":72}')throw Error('Joint type counts');
   }
-  const spine:any={};if(mode==='ragdolls')for(const line of stderr.split('\n')){const v=line.trim().split(/\s+/);if(v[0]==='spine-contact'){const key=v.slice(1,5).join(':');if(key in spine)throw Error('duplicate spine');spine[key]=v.slice(5).map(Number)}}
+  const spine:any={};if(mode==='ragdolls')for(const line of stderr.split('\n')){const v=line.trim().split(/\s+/);if(v[0]==='spine-contact'){if(v.length!==8||v.slice(1).some(x=>!Number.isFinite(Number(x))))throw Error('Invalid spine record');const key=v.slice(1,5).join(':');if(key in spine)throw Error('duplicate spine');spine[key]=v.slice(5).map(Number)}}
   let cpu:any;
   if(engine!=='cpu'){
    cpu=JSON.parse(readFileSync(reference,'utf8'));
@@ -96,4 +98,5 @@ try{
  }
  report.status='PASS';
 }catch(error){report.error=String(error);report.stderrTail=(result.stderr??'').slice(-4000);}
+if(existsSync(reference))report.cpuReference={path:reference,sha256:hash(readFileSync(reference)),bytes:Buffer.byteLength(readFileSync(reference))};
 writeFileSync(retained,JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));if(report.status!=='PASS')process.exit(1);
