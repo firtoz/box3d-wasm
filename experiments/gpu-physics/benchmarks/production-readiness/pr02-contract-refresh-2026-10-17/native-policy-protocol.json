@@ -1,0 +1,171 @@
+{
+  "purpose": "Previously unlaunched actual native-cache launcher policy; original36 default-runtime passes and5filter passes preserved, never relabeled",
+  "head": "17e3575a7",
+  "budget": {
+    "adapterBuilds": 0,
+    "adapterBuildSeconds": 90,
+    "jobs": 2,
+    "rustBuilds": 0,
+    "viewerBuilds": 0,
+    "candidates": 0,
+    "captures": 0,
+    "CProcesses": 18,
+    "links": 18,
+    "linkSeconds": 25,
+    "gpuSeconds": 90,
+    "hostSeconds": 10,
+    "batchSeconds": 240,
+    "inventorySeconds": 90,
+    "inventoryCommandSeconds": 15,
+    "retries": 0,
+    "temporaryBytes": 1073741824,
+    "retainedBytes": 67108864,
+    "minFreeBytes": 21474836480,
+    "logBytesPerCommand": 16777216
+  },
+  "cases": [
+    {
+      "fixture": "api_settings_test",
+      "cell": "native-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "api_settings_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "cell": "native-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostics_fixture",
+      "cell": "native-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostics_fixture",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostic_populations",
+      "cell": "native-gpu",
+      "flags": [
+        "-DGPU_POPULATIONS"
+      ],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostic_populations",
+      "cell": "native-both",
+      "flags": [
+        "-DGPU_POPULATIONS"
+      ],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "compound_property_diagnostic",
+      "cell": "native-gpu",
+      "flags": [
+        "-DGPU_PROPERTY_DIAGNOSTIC"
+      ],
+      "independent_prefixed_CPU": true
+    },
+    {
+      "fixture": "compound_property_diagnostic",
+      "cell": "native-both",
+      "flags": [
+        "-DGPU_PROPERTY_DIAGNOSTIC"
+      ],
+      "independent_prefixed_CPU": true
+    },
+    {
+      "fixture": "both_substep_forces_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_shape_replacement_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_joint_reaction_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_joint_separation_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_compound_ownership_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "compound_aabb_contract",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "cell": "native-gpu",
+      "fixture": "pr02_default_filter_test",
+      "flags": []
+    },
+    {
+      "cell": "native-both",
+      "fixture": "pr02_default_filter_test",
+      "flags": []
+    }
+  ],
+  "additional": [
+    "native_unavailable_fixture in four linkages",
+    "pr02_default_filter_test CPU and four linkages"
+  ],
+  "cleanup": "One temporary binary at a time, delete after consumer. Remove inventory scratch on completion; retain concise outputs and source/library identities. Shared current builds/cache preserved.",
+  "environment": {
+    "WGPU_BACKEND": "vulkan",
+    "GPU_PHYSICS_SPIRV_LAYOUT_RUST": "1",
+    "GPU_PHYSICS_NATIVE_RADIX_CACHE": "2",
+    "GPU_PHYSICS_NATIVE_CONTACT_CACHE": "1",
+    "GPU_PHYSICS_NATIVE_GRAPH_CACHE": "1",
+    "GPU_PHYSICS_NATIVE_TAIL_CACHE": "1",
+    "GPU_PHYSICS_NATIVE_PAIR_CACHE": "1",
+    "GPU_PHYSICS_NATIVE_RESET_CACHE": "1",
+    "GPU_PHYSICS_FULL_REPLAY": "1",
+    "GPU_PHYSICS_SAMPLES_DEMAND_POSES": "0",
+    "GPU_PHYSICS_GRAPH_MEMO": "1",
+    "GPU_PHYSICS_PAIR_MATRIX": "1",
+    "GPU_PHYSICS_COMPONENT_TGS": "1",
+    "GPU_PHYSICS_GPU_CCD": "1",
+    "GPU_PHYSICS_RESIDENT": "1",
+    "GPU_PHYSICS_GRAPH_SHARED": "1",
+    "GPU_PHYSICS_SMALL_COMPONENT_WG": "16",
+    "GPU_PHYSICS_AB": "bounded-static-sort",
+    "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+    "GPU_PHYSICS_BACKEND": "vulkan"
+  },
+  "policySource": "scripts/native-samples-cache-env.sh",
+  "reason": "Initial runner selected native compiled library but omitted its supported launcher environment. Distinct configuration check closes applicability gap; no product failure or original pass overwritten."
+}

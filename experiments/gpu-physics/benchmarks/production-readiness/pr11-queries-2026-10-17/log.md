@@ -8,7 +8,7 @@ Complete one roadmap item, PR11, in /home/firtoz/work/2026/box3d-wasm on feat/gp
 
 ## Final state — complete,7 done /0 left
 
-PR11 is verified locally. Starting and fetched HEAD/origin are d03ab8cc2530b7fc6871e6c6a40b7a719ea23c5a,0ahead/0behind. Current worktree contains this uncommitted PR11 change. PR02 is now activated by the user; no other roadmap item is activated. Full result and original limitations: [report](README.md), [final acceptance](final-acceptance.json).
+PR11 is verified locally. Starting and fetched HEAD/origin are d03ab8cc2530b7fc6871e6c6a40b7a719ea23c5a,0ahead/0behind. PR11 was committed by user request as 17e3575a7 on 2026-10-17. Current local changes are the separate PR02 contract refresh. PR02 is now activated by the user; no other roadmap item is activated. Full result and original limitations: [report](README.md), [final acceptance](final-acceptance.json).
 
 | Gate | Status and evidence |
 | --- | --- |
@@ -42,4 +42,4 @@ Final audit PASS: task-owned336398948bytes of raw builds,viewers,generated drive
 
 ## Next action
 
-Commit this verified PR11 milestone, then audit PR02 under a new finite protocol. Do not resume closed PR11 budgets or historical solver campaigns. Push was not requested.
+PR11 is committed as17e3575a7. The subsequent user-authorized PR02 audit is complete; read ../pr02-contract-refresh-2026-10-17/log.md for current recovery. Stop; push or a later milestone was not requested. Do not resume closed budgets.

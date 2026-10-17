@@ -1,0 +1,15 @@
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+physics-pipeline-cache: submitted 93542100 compatible bytes from /home/firtoz/.cache/box3d-gpu-physics/pipelines/wgpu_pipeline_cache_vulkan_4318_10115_8630c1e8656103274ce2c594064a4787
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=4 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+physics-pipeline-cache: save 93542100 bytes, success=true
+GPU primary owned physics buffer bytes: 10078576
+reserved slots bodies/shapes/joints/contacts: 256/256/16/4096
+excludes staging, cache copies, pipelines, renderer and driver allocations
+GPU shape 2:1:1 body 2:1:1 bounds [-0.521129,0.47852,-0.520944] [0.519301,1.51926,0.519368]
+GPU shape 3:1:1 body 3:1:1 bounds [4.48,1.48,-0.52] [5.52,2.52,0.52]
+native diagnostics C contract passed: counters/profile/peak/bytes/bounds/type/ownership/stale IDs

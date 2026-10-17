@@ -1,0 +1,215 @@
+{
+  "status": "PASS for named PR02 source/control applicability",
+  "head": "17e3575a7",
+  "changedWrappers": [
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3CreateHeightFieldShape",
+      "definitionSha256": "72292a5e016bac665f16dfe52ec59e21368902dace081e0137948b2dc2da3362",
+      "applicability": "PR10 UI24: flat heightfield encoding and render metadata; prior PR09 floor applicability"
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3Shape_SetMesh",
+      "definitionSha256": "39638d3570de0a3b0562bccbda13d9fba5e4030f145340ce54abd02378bde4c4",
+      "applicability": "PR10 UI23: safe-scale native mesh replacement and cached draw refresh; PR11 query checks"
+    },
+    {
+      "cell": "ordinary-gpu",
+      "symbol": "b3World_Step",
+      "definitionSha256": "0f74fd2fa83dedaa7d144b27075b9fde79eb619e45c8eeb34b6bd36d2b7f4bc5",
+      "applicability": "PR10 UI03: notify read-only debug-overlay step state after the existing GPU step"
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3Body_GetType",
+      "definitionSha256": "ceaa08896f7f7f9ad5b2c4c557118ae341313b54bbbf810f6939dece2b46a450",
+      "applicability": "PR10 UI06: raw CPU draw callback ownership; normal public lookup remains GPU-authoritative"
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3CreateHeightFieldShape",
+      "definitionSha256": "c876901ae450c8f14921ae1acc91529df530a178220a4064e107d6fa25105919",
+      "applicability": "PR10 UI24: flat heightfield encoding and render metadata; prior PR09 floor applicability"
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3Shape_GetBody",
+      "definitionSha256": "121a17fe068ef85bf0b801e2fb1d010d99b8389016f7dfd9f4ad804751aabcb7",
+      "applicability": "PR10 UI06: raw CPU draw callback ownership; public picking identity retained and checked in PR11"
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3Shape_GetName",
+      "definitionSha256": "45c24d40afb085a12f9a6bfb8a466322ce209f6661e831faea3469709930e439",
+      "applicability": "PR09 VIS01: CPU ground debug metadata reads raw CPU names"
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3Shape_SetMesh",
+      "definitionSha256": "e5656b6a1fbfc60b2ba152a5d58d428c23eb031f1a207d4489b56593444c7937",
+      "applicability": "PR10 UI23: safe-scale native mesh replacement and cached draw refresh; PR11 query checks"
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3World_Draw",
+      "definitionSha256": "fda5a830c3af737a7fa0b9cc4555af14f007ecfe937c88023af8a9c7acd86367",
+      "applicability": "PR09 VIS01 and PR10 UI06: scope CPU debug metadata reads to actual CPU draw"
+    },
+    {
+      "cell": "ordinary-both",
+      "symbol": "b3World_Step",
+      "definitionSha256": "283d47b3b493f354cc9755c27b466b20d6347ec12e30d55e551c6d84d83cd9c3",
+      "applicability": "PR10 UI03: notify read-only debug-overlay step state after the existing GPU step"
+    }
+  ],
+  "rustSources": [
+    {
+      "path": "experiments/gpu-physics/src/api/contact_data.rs",
+      "sha256": "28a62f21dbf3b75b3cef5762c44ed7cdb56c8fce15f721b51da951a8d622b794",
+      "unchangedSinceOriginalPR02": true,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/ids.rs",
+      "sha256": "654897f5ce5891fb206a84f329d4767de4c3dadbbc74e1cee0243bc8d90e6c8b",
+      "unchangedSinceOriginalPR02": true,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/mod.rs",
+      "sha256": "6c0ba271e289638708e21500c103f917fac16d14296b79e05c45bd12cd4b4d11",
+      "unchangedSinceOriginalPR02": true,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/query.rs",
+      "sha256": "3e61d39d4f69883f20b11c9af3064e7af1301d185fa57d4fffdcc11321f14a17",
+      "unchangedSinceOriginalPR02": false,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/query_toi.rs",
+      "sha256": "a5dfd290ff059b8dfcd3ac25ffd4bfcf9aaefa48d0f3f14dbc07aa964d6f3cc9",
+      "unchangedSinceOriginalPR02": false,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/types_api.rs",
+      "sha256": "57ed6b9fa7aaee402dd8fdbdaf16e9b0558bb0bb51aa9660502e3cf5ee172dfb",
+      "unchangedSinceOriginalPR02": false,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/coordinate_frame_tests.rs",
+      "sha256": "ca2c1376427222d8aac4ced621876a4ce04932cf9f6697fb158f047907f370f8",
+      "unchangedSinceOriginalPR02": false,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/query_mesh_sweep.rs",
+      "sha256": "8b0103ea10c474a55a9c5d31a6b91488ee63f3b67d0173d20419e18dbb01a219",
+      "unchangedSinceOriginalPR02": false,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/query_mesh_cast.rs",
+      "sha256": "d7714ae42e6bce1a93ddc5b03c1edd411f6473071b1fd61b5b524d0511691fae",
+      "unchangedSinceOriginalPR02": false,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world.rs",
+      "sha256": "b6d5d7df4303e68ba67c34a0a78b50059ec23d4162fc084254a388d5886da438",
+      "unchangedSinceOriginalPR02": false,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world/ccd_state_trace.rs",
+      "sha256": "51129e29627bb225d301d9b9ba5a500cb885c7d3f443d44a453dfb0f2d4d7f1e",
+      "unchangedSinceOriginalPR02": true,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world/contact_api.rs",
+      "sha256": "fc1661380ea49d704669e7f1d428b0ead87424b0081456e5224b4d269df83044",
+      "unchangedSinceOriginalPR02": true,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world/geometry_trace.rs",
+      "sha256": "17167294270f624d5aff549f14200170c1fa261bf552ae4d2f46362300a2e4fb",
+      "unchangedSinceOriginalPR02": true,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world/host_events_trace.rs",
+      "sha256": "816199285ba58a339e44bb3877043a55fad934fca068dea7f370cd3848990133",
+      "unchangedSinceOriginalPR02": true,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world/host_state_trace.rs",
+      "sha256": "d6bc079ec30a4f3b3a9a01a2587af0fae6a6c1d17e614c996a777941ae8af9f3",
+      "unchangedSinceOriginalPR02": false,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world/joint_reaction.rs",
+      "sha256": "7aad2d3a6900ece923e67a2cc0c3f100c61f476009a1d3a7061dfac134eb48d7",
+      "unchangedSinceOriginalPR02": true,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world/joint_separation.rs",
+      "sha256": "f3b9c2533991f038c56425ee88f26bcce71f9c2b74161673b1d80fbee8eb2e18",
+      "unchangedSinceOriginalPR02": true,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world/shape_geometry.rs",
+      "sha256": "6e3d9aa0b283f2cf572ded5563848a4c336981109be1f65e8ed3a357c24625c4",
+      "unchangedSinceOriginalPR02": true,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world/state_trace.rs",
+      "sha256": "42350783c82172dcd7b7be18c2907492d758db81a95c36a8141e2b750b281e33",
+      "unchangedSinceOriginalPR02": false,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world/scheduling_tests.rs",
+      "sha256": "d96a4709645b374f977eda5e373df9e48f06276d119fdba603544621a1e902c0",
+      "unchangedSinceOriginalPR02": true,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world/native_diagnostics.rs",
+      "sha256": "3cb55258b1c8587f2b26cceb04813ba743186934b8a239d64a7a7c491fe52059",
+      "unchangedSinceOriginalPR02": true,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world/world_lifetime.rs",
+      "sha256": "393d87dc351655fb9d1a3d2b3719956254a57bf05be2078f8494e739555fab68",
+      "unchangedSinceOriginalPR02": true,
+      "stubMarkers": []
+    },
+    {
+      "path": "experiments/gpu-physics/src/api/world/callback_shape_reads.rs",
+      "sha256": "3b0d81e3fc2f12f5360a15eae7d4bf54205884f6c18b9ddfcbcde448f5ee076b",
+      "unchangedSinceOriginalPR02": false,
+      "stubMarkers": []
+    }
+  ],
+  "notes": [
+    "C default aliases are now inventoried separately; standalone b3DefaultFilter category correction is in PR11 commit17e3575a7 and freshly tested here against actualCPU.",
+    "Current linked Rust libraries exactly match PR11 final source/library identities; no Rust/WGSL source changed during PR02.",
+    "Fresh C fixtures execute current Rust implementation through public C ABI; original20 Rust selectors are retained historical evidence, not rerun or relabeled as current-build passes.",
+    "Existing PR10 actual mouse/keyboard/UI control receipts remain scoped UI evidence. Current C ownership/mutation/lifetime fixtures and PR11 display/query receipts complement them; no new viewer/sample sweep.",
+    "Private callback metadata/geometry/allocation/query/CCD paths changed afterabc0a54; current narrow C checks cover the named API effects, while PR09/PR10/PR11 reports retain their original applicability/physical limits.",
+    "Wheel angular separation preserves explicit upstream release-zero fallback; unavailable/invalid-world results are not independent wheel physics qualification.",
+    "No TODO/todo!/unimplemented! markers in current API sources. Lexical/source/link review does not prove376 independent physical behaviors."
+  ]
+}

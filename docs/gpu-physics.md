@@ -191,13 +191,12 @@ activate implementation on its own.
    ten-drag sequence at unchanged normal and strict thresholds. Solver/contact
    regressions pass; the separate AMD sweep and secondary-queue failures below
    remain. These results do not establish general GPU parity.
-2. **Next: non-recording native APIs.** Shape replacement, joint separation and reaction
-   queries and substep force/torque integration are implemented with the precision
-   limits below. Warm-start and speculative-contact controls are implemented; finish their readiness acceptance and then
-   world diagnostics and review the remaining worker-count/static-tree API semantics.
-   Review CPU-only comparison wrappers alongside each API. Each completed API needs a sample or focused fixture
-   exercising independent CPU and GPU behavior, including mutation and lifetime
-   cases where relevant.
+2. **Completed: named native API contract.** PR02 now includes the standalone
+   default-filter repair and a fresh C/Rust/linkage audit. Current controls,
+   diagnostics, forces, replacement, joint queries and scoped ownership/lifetime
+   checks pass; recording/player and CPU worker/static-tree operations report
+   explicit unavailability. The roadmap retains required physics and broad
+   lifecycle/release qualification. See the current API acceptance below.
 3. **Queued: GPU engine in WASM/WebGPU.** Repair the experimental browser build
    and add browser runtime tests. Start with Firefox on the development machine:
    WebGPU is reported available there, but unavailable in the local Chromium,
@@ -270,6 +269,8 @@ not complete the production roadmap's final physics or repeatability matrix.
 
 ## Native API availability
 
+The [2026-10-17 PR02 refresh](../experiments/gpu-physics/benchmarks/production-readiness/pr02-contract-refresh-2026-10-17/README.md) closes the named functional contract after PR09–PR11. Its [current inventory](../experiments/gpu-physics/benchmarks/production-readiness/pr02-contract-refresh-2026-10-17/inventory.json) identifies 415 stateful operations per standalone/combined/backend route: 376 implemented candidates and 39 explicit exclusions. It also inventories 17 public default aliases, including the filter alias omitted from the older stateful list. Independent CPU/default and native-policy checks, current named API assertions and source applicability are recorded separately; this is not universal physical API qualification. The earlier campaign history below retains its original failures and scope.
+
 The earlier [independent root-world lifetime diagnosis](../experiments/gpu-physics/benchmarks/production-readiness/pr02-world-lifetime-diagnostic-2026-10-01/README.md)
 showed recreation reusing the same ID and stale controls/destruction affecting a
 replacement. The retained repair keeps root and child epochs across destruction. Child
@@ -286,9 +287,9 @@ observations and42 separate mapped-cleanup observations. Four actual repaired
 viewer control contracts pass with retained source/binary receipts and full
 captures. All 52 required first scene captures and current linked-source inventories pass
 their stated checks, and the CPU-first comparisons are reviewed with recorded
-limitations. PR02 acceptance reconciliation and broad PR05 lifecycle
-acceptance remain open; concurrency/reentrancy, C adapter world limits and full
-release matrix still require their own qualification.
+limitations. PR02 functional acceptance is now reconciled by the refresh above.
+Broad PR05 lifecycle acceptance, concurrency/reentrancy, C adapter world limits
+and the full release matrix still require their own qualification.
 
 The [Sensor callback repair](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/RUNTIME02.md) qualifies read-only shape validity, sensor/event flags and opaque user-data getters during GPU custom-filter/pre-solve callouts, including pending host CCD completion. Owned metadata captured under the registry lock prevents these getters from reacquiring the stepping lock; shape generations and owners remain intact. Both GPU backends pass the original120-step Sensor factory and nine filter/event/deletion/CCD controls against actual Box3D CPU. This evidence does not qualify arbitrary body/query/material API reentry, mutation or callback-created threads; broader reentrancy/concurrency qualification remains open.
 
@@ -348,13 +349,14 @@ fixture-assumption failures remain retained. The separate host receiver verifies
 held mouse/key delivery; actual viewer controls remain unqualified until a fixed
 adapter/build is frozen and exercised.
 
-### Native GPU diagnostic contract (focused checks pass; broader PR02 open)
+### Native GPU diagnostic contract (named PR02 checks pass; release qualification open)
 
 The current implementation replaces zero diagnostic placeholders. The
 [focused report](../experiments/gpu-physics/benchmarks/production-readiness/pr02-diagnostics-2026-10-01/README.md)
 records passing C/Rust/regression/storage checks, four viewer builds and 40
-CPU-first scene clips. Actual counter/tab interactions remain open after a
-retained mouse-stimulus harness failure. The
+CPU-first scene clips. Its original mouse-stimulus harness failure remains
+recorded; later PR02/PR10 actual control checks and the current PR02 diagnostic
+fixtures close the named interaction/diagnostic contract. The
 [frozen protocol](../experiments/gpu-physics/benchmarks/production-readiness/pr02-diagnostics-2026-10-01/protocol.json)
 records the process budget, exact selectors, settings and stop rule.
 
@@ -469,7 +471,7 @@ the existing adapter. Seven confirmed surfaces and three related constructor/
 control cases now render on ordinary/native and combined routes, with CPU-first
 before/after evidence and box/mesh guards. Identity/cache/lifetime metadata checks
 pass; no collision, query, picking, performance or full-release qualification is
-inferred. The second repair, [VIS01 combined CPU ground decoration](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS01.md), scopes raw CPU shape-name lookup during CPU draw, restoring the existing grid/axes material without extra geometry or identity changes.12 before/12 after focused cases and97 CPU-first reviews/194 after captures verify shared-path applicability, with explicit occlusion/health limits. The third repair, [VIS05 draw bounds](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS05.md), applies the incoming CPU view/shadow bounds before GPU debug allocation/submission, retaining physical geometry and identity.21before/21after focused cases,165 individual reviews/660after cells and20383-file portable verification pass with all original runtime/availability/health limits retained. The fourth repair, [VIS06 Sensor visibility](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS06.md), verifies the same bounds cause on actual CPU and all four GPU routes without an additional production change:1681 static sensors/IDs/poses/AABBs retained,0 draws;14before/14after cases and279-file portable audit pass. The fifth repair, [VIS07 sample drawings/labels](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS07.md), preserves accepted direct Step submissions across the combined pane reset and mirrors late control labels without repeating physics/queries or changing geometry, defaults or identity. All55 affected/related scenes individually reviewed,110candidate captures,516-input ASAN/UBSAN check and4518-file portable verification pass; shared readout/projection/conditional/panel limits are explicit. The sixth repair, [VIS08 combined text placement](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS08.md), gives both Render calls the same after-Step cursor and preserves the first Render end for late UI. All33 source-related/guard cases (all18 original tags) individually reviewed,66 candidate captures,725-source/object audit and2,815-file portable verification PASS; Step labels and deliberate blank spacing remain intact. The seventh repair, [VIS02 material/state rendering](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS02.md), preserves custom material and actual type/sleep/diagnostic precedence across all samples; focused ordinary/native checks,165 individual dispositions,725 source/object and29245-file portable verification pass with unavailable/pixel/runtime limits retained. The earlier BEH01-stage repair goal had12 issue groups fixed and10 open, including [conveyor surface velocity](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/BEH01.md), verified ray/picking setup and scene health classification; PR09 stays unchecked. A separate preexisting standalone default-filter mismatch (local audit archive) reopens PR02: shimcategory1 versus actualCPU/header/combinedUINT64_MAX, mask-specific behavior unqualified. It does not explain Sensor visibility under ALL draw masks. Sensor step32 runtime remains open.
+inferred. The second repair, [VIS01 combined CPU ground decoration](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS01.md), scopes raw CPU shape-name lookup during CPU draw, restoring the existing grid/axes material without extra geometry or identity changes.12 before/12 after focused cases and97 CPU-first reviews/194 after captures verify shared-path applicability, with explicit occlusion/health limits. The third repair, [VIS05 draw bounds](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS05.md), applies the incoming CPU view/shadow bounds before GPU debug allocation/submission, retaining physical geometry and identity.21before/21after focused cases,165 individual reviews/660after cells and20383-file portable verification pass with all original runtime/availability/health limits retained. The fourth repair, [VIS06 Sensor visibility](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS06.md), verifies the same bounds cause on actual CPU and all four GPU routes without an additional production change:1681 static sensors/IDs/poses/AABBs retained,0 draws;14before/14after cases and279-file portable audit pass. The fifth repair, [VIS07 sample drawings/labels](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS07.md), preserves accepted direct Step submissions across the combined pane reset and mirrors late control labels without repeating physics/queries or changing geometry, defaults or identity. All55 affected/related scenes individually reviewed,110candidate captures,516-input ASAN/UBSAN check and4518-file portable verification pass; shared readout/projection/conditional/panel limits are explicit. The sixth repair, [VIS08 combined text placement](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS08.md), gives both Render calls the same after-Step cursor and preserves the first Render end for late UI. All33 source-related/guard cases (all18 original tags) individually reviewed,66 candidate captures,725-source/object audit and2,815-file portable verification PASS; Step labels and deliberate blank spacing remain intact. The seventh repair, [VIS02 material/state rendering](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/VIS02.md), preserves custom material and actual type/sleep/diagnostic precedence across all samples; focused ordinary/native checks,165 individual dispositions,725 source/object and29245-file portable verification pass with unavailable/pixel/runtime limits retained. The earlier BEH01-stage repair goal had12 issue groups fixed and10 open, including [conveyor surface velocity](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/BEH01.md), verified ray/picking setup and scene health classification; PR09 stays unchecked. The historical standalone default-filter mismatch (shimcategory1 versus actualCPU/header/combinedUINT64_MAX) reopened PR02; PR11 corrected it, and the 2026-10-17 PR02 refresh qualifies mask-specific defaults, mutation and lifetimes on actual CPU and all GPU routes. It does not explain Sensor visibility under ALL draw masks. Sensor step32 runtime remains open.
 
 Full-state schema v24 includes host peak occupancy, the harvested GPU contact
 peak and its persistent device query word. Readers retain earlier schemas and
@@ -492,29 +494,28 @@ speculative setter is implemented and routed to both mapped worlds. Full native
 compatibility must not be inferred from scene checks. See the
 [portable control report](../experiments/gpu-physics/benchmarks/production-readiness/pr01-speculative-2026-10-01/README.md); the production roadmap records PR01/PR02 functional gates and later release checks.
 
-The [current native API acceptance](../experiments/gpu-physics/benchmarks/production-readiness/pr02-current-acceptance-2026-10-02/README.md)
-closes PR02's named functional contracts on retained source `abc0a54`:32 C world
-tests and20 Rust selectors pass unchanged (16 GPU, four host calculations).
-Exact [ordinary](../experiments/gpu-physics/benchmarks/production-readiness/pr02-current-acceptance-2026-10-02/api-inventory-ordinary.json)
-and [native inventories](../experiments/gpu-physics/benchmarks/production-readiness/pr02-current-acceptance-2026-10-02/api-inventory-native.json)
-identify each of415 stateful symbols per linkage:376 implemented candidate
-operations and39 explicitly unavailable operations. Current error definitions
-match applicable successful compiled error tests; all four actual GPU viewers'
-required controls and ownership/lifetime contracts pass. The original harness
-stop caused by expecting a GPU banner from a host-only selector remains in the
-portable evidence; no completed test was rerun. This is not376 independent
-physical/runtime passes, full Box3D compatibility or production readiness.
-PR03–PR08 still require the full physics/lifecycle/final-build/repeat/performance
-matrix. Floor visibility, sample-wide widgets and raycast appearance remain
-PR09–PR11; fresh desktop-only CPU/GPU charts remain PR12. There is no new timing
-or no-regression claim, and the exhausted mixed-scheduling target remains unmet.
+The [2026-10-17 native API refresh](../experiments/gpu-physics/benchmarks/production-readiness/pr02-contract-refresh-2026-10-17/README.md) closes PR02's named functional contract on PR11 milestone `17e3575a7`.
+All 32 unchanged C API contracts, four explicit-error fixtures and five CPU/GPU
+filter fixtures pass; 18 additional cases cover the supported native launcher
+policy. The [current source/link inventory](../experiments/gpu-physics/benchmarks/production-readiness/pr02-contract-refresh-2026-10-17/inventory.json)
+finds one provider per operation and no stateful CPU-only passthrough. Filters
+use CPU-compatible category/mask defaults, including bit63 queries and independent
+world mutation/deletion/replacement. The original compile/parser errors and the
+initial default-runtime versus native-policy distinction remain explicit.
+
+The [original acceptance](../experiments/gpu-physics/benchmarks/production-readiness/pr02-current-acceptance-2026-10-02/README.md)
+retains its 32 C/20 Rust results at `abc0a54`. Historical Rust tests and scoped
+PR10 viewer controls were not rerun or promoted to new-build evidence. Current
+public C fixtures execute the current Rust library. None of these results is
+376 independent physical/runtime passes, full Box3D compatibility or production
+readiness; Rain/dragging/CCD and the remaining release gates stay open.
 
 | Gap | User-visible consequence / remaining work |
 |---|---|
 | Joint query limits | Wheel angular separation is unimplemented upstream; its release fallback is zero. Reaction precision limits are described below. |
 | Falling-cube GPU capacity | The archived sweep hit the old 65,536 spatial-insertion limit at 20,000 cubes. Insertion buffers now scale with reserved shape capacity; the static-contact sort also no longer packs body/index into 16-bit halves. Pair/contact buffers and their prefix scans now scale with reserved body capacity. Pair/history storage and callbacks/events now use full-width endpoints; canonical cell ownership removes online packed-key deduplication. High-index collision, event, remap, and reuse regressions pass. Native sample C metadata now uses per-world growable chunks and passes high-index ownership/callback regressions; Sokol debug/opaque renderer reservations now follow benchmark size, and both engines must upload every cube and the floor. The sample fixes a saved draw-distance culling issue. Updated full-scene app measurements replace the earlier unvalidated Sokol curve. Collision-heavy physics and direct rendering are qualified through 200,000 cubes across three 330-step trials each; Sokol stops below 10 FPS at 150,000. The former tiled-dispatch boundary is resolved. The 200,000-cube physics buffers occupy 3.42 GiB, excluding renderer/driver resources; this is not a measured memory ceiling. |
 | World controls | Speculative switching controls experimental hull–mesh positive-gap contacts per world, subject to endpoint flags and the documented CCD handoff shell. Warm-start switching controls contact and joint caches per world. CPU worker/static-tree APIs explicitly report ENOTSUP. |
-| World diagnostics | New public counters, partial GPU profiles, occupancy/allocation and bounds/memory diagnostics are implemented with explicit availability; Current C/Rust contracts, required recordings and actual counter/tab interactions pass; final-build physical/runtime behavior remains open. See the native diagnostic contract above. |
+| World diagnostics | New public counters, partial GPU profiles, occupancy/allocation and bounds/memory diagnostics are implemented with explicit availability; Named C/Rust contracts and scoped actual counter/tab interactions pass; final-build physical/runtime behavior remains open. See the native diagnostic contract above. |
 | Recording/replay | Native recording creation, storage, file I/O, playback, seeking and query-history APIs are explicitly unavailable, with ENOTSUP and a thread-local operation name. Diagnostic state replay does not implement these APIs. |
 | Combined viewer coverage | Current shared diagnostics report GPU data and explicit CPU helpers return CPU data; excluded operations preserve errors. No remaining CPU-only passthrough is found in the linked inventory. Current named API contracts pass; remaining full physical/runtime qualification is tracked under PR03–PR08. |
 | AMD convex sweeps | A rotating capsule reports a GPU hit where the CPU conservative-advancement reference reports no hit. Cause undiagnosed; investigation is deferred. |

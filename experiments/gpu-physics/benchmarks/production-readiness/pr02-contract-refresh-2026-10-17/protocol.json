@@ -1,0 +1,241 @@
+{
+  "purpose": "Fresh PR02 named native API/default contract refresh after PR09-PR11 changes; independent of closed historical budgets",
+  "head": "17e3575a7",
+  "budget": {
+    "adapterBuilds": 4,
+    "adapterBuildSeconds": 90,
+    "jobs": 2,
+    "rustBuilds": 0,
+    "viewerBuilds": 0,
+    "candidates": 0,
+    "captures": 0,
+    "CProcesses": 41,
+    "links": 41,
+    "linkSeconds": 25,
+    "gpuSeconds": 90,
+    "hostSeconds": 10,
+    "batchSeconds": 600,
+    "inventorySeconds": 90,
+    "inventoryCommandSeconds": 15,
+    "retries": 0,
+    "temporaryBytes": 1073741824,
+    "retainedBytes": 67108864,
+    "minFreeBytes": 21474836480,
+    "logBytesPerCommand": 16777216
+  },
+  "cases": [
+    {
+      "fixture": "api_settings_test",
+      "cell": "ordinary-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "api_settings_test",
+      "cell": "native-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "api_settings_test",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "api_settings_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "cell": "ordinary-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "cell": "native-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "warm_start_fixture",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostics_fixture",
+      "cell": "ordinary-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostics_fixture",
+      "cell": "native-gpu",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostics_fixture",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostics_fixture",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostic_populations",
+      "cell": "ordinary-gpu",
+      "flags": [
+        "-DGPU_POPULATIONS"
+      ],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostic_populations",
+      "cell": "native-gpu",
+      "flags": [
+        "-DGPU_POPULATIONS"
+      ],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostic_populations",
+      "cell": "ordinary-both",
+      "flags": [
+        "-DGPU_POPULATIONS"
+      ],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "native_diagnostic_populations",
+      "cell": "native-both",
+      "flags": [
+        "-DGPU_POPULATIONS"
+      ],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "compound_property_diagnostic",
+      "cell": "ordinary-gpu",
+      "flags": [
+        "-DGPU_PROPERTY_DIAGNOSTIC"
+      ],
+      "independent_prefixed_CPU": true
+    },
+    {
+      "fixture": "compound_property_diagnostic",
+      "cell": "native-gpu",
+      "flags": [
+        "-DGPU_PROPERTY_DIAGNOSTIC"
+      ],
+      "independent_prefixed_CPU": true
+    },
+    {
+      "fixture": "compound_property_diagnostic",
+      "cell": "ordinary-both",
+      "flags": [
+        "-DGPU_PROPERTY_DIAGNOSTIC"
+      ],
+      "independent_prefixed_CPU": true
+    },
+    {
+      "fixture": "compound_property_diagnostic",
+      "cell": "native-both",
+      "flags": [
+        "-DGPU_PROPERTY_DIAGNOSTIC"
+      ],
+      "independent_prefixed_CPU": true
+    },
+    {
+      "fixture": "both_substep_forces_test",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_substep_forces_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_shape_replacement_test",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_shape_replacement_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_joint_reaction_test",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_joint_reaction_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_joint_separation_test",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_joint_separation_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_compound_ownership_test",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "both_compound_ownership_test",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "compound_aabb_contract",
+      "cell": "ordinary-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    },
+    {
+      "fixture": "compound_aabb_contract",
+      "cell": "native-both",
+      "flags": [],
+      "independent_prefixed_CPU": false
+    }
+  ],
+  "additional": [
+    "native_unavailable_fixture in four linkages",
+    "pr02_default_filter_test CPU and four linkages"
+  ],
+  "cleanup": "One temporary binary at a time, delete after consumer. Remove inventory scratch on completion; retain concise outputs and source/library identities. Shared current builds/cache preserved."
+}

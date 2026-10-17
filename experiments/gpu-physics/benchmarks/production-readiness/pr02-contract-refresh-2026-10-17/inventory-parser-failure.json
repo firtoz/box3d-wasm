@@ -1,0 +1,67 @@
+{
+  "status": "FAILED",
+  "elapsedMs": 2185,
+  "summaries": [
+    {
+      "cell": "ordinary-gpu",
+      "stateful": 415,
+      "implemented": 376,
+      "exclusions": 39,
+      "defaultAliases": 17,
+      "changedDefinitionHashes": 3
+    },
+    {
+      "cell": "ordinary-both",
+      "stateful": 415,
+      "implemented": 376,
+      "exclusions": 39,
+      "defaultAliases": 17,
+      "changedDefinitionHashes": 7
+    },
+    {
+      "cell": "native-gpu",
+      "stateful": 415,
+      "implemented": 376,
+      "exclusions": 39,
+      "defaultAliases": 17,
+      "changedDefinitionHashes": 3
+    },
+    {
+      "cell": "native-both",
+      "stateful": 415,
+      "implemented": 376,
+      "exclusions": 39,
+      "defaultAliases": 17,
+      "changedDefinitionHashes": 7
+    }
+  ],
+  "issues": [
+    {
+      "cell": "ordinary-gpu",
+      "name": "b3DefaultDebugDraw",
+      "problem": "Missing source definition for actual provider",
+      "provider": {
+        "archive": "experiments/gpu-physics/native-samples/build-gpu-portable/box3d_src/libbox3d.a",
+        "symbol": "b3DefaultDebugDraw",
+        "object": "types.c.o",
+        "kind": "T"
+      }
+    },
+    {
+      "cell": "native-gpu",
+      "name": "b3DefaultDebugDraw",
+      "problem": "Missing source definition for actual provider",
+      "provider": {
+        "archive": "experiments/gpu-physics/native-samples/build-gpu-native-cache-portable/box3d_src/libbox3d.a",
+        "symbol": "b3DefaultDebugDraw",
+        "object": "types.c.o",
+        "kind": "T"
+      }
+    }
+  ],
+  "originalBytes": 1946631,
+  "originalSha256": "de4356d3881b772070674172f0aaa09555f81e55228b269a520543bba08d52ee",
+  "duplicateRowsRemoved": 1728,
+  "originalParserPattern": "^B3_API required on all indexed C definitions",
+  "cleanup": "Duplicate successful inventory rows/source recipes removed after corrected inventory passed; original failed findings and output identity retained."
+}

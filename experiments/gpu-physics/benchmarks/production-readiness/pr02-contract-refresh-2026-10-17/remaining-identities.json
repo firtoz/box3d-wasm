@@ -1,0 +1,44 @@
+{
+  "protocolSha256": "e79a9a26a2d974e2220a20e5811d34979c9208a73f3221b291b96bc590a71de7",
+  "libraries": {
+    "ordinary": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/libgpu_physics.a",
+      "sha256": "2a4516f5de665f1e3460ad0532a7ca26350bbd8b01c239050d53f387f50c9cae"
+    },
+    "native": {
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/libgpu_physics.a",
+      "sha256": "f6e59978aff679019eb48c04f9c50e62b8394b86e43bfa109578f7759c3930e0"
+    }
+  },
+  "sources": {
+    "c_abi/shim.c": "1c809e15e96c0d50706632f0f62dad269e0a04f5659589b5ecfed54362e9905a",
+    "c_abi/samples_api.c": "68bc60757e75b35d345f429e6eec5689b0e46e5dbeaafbd293be0517be44db43",
+    "c_abi/samples_stubs.c": "8d4382789ce321cbe9b5485814fc4cf260e3d2a93d1308a2b5e566101b42b7d0",
+    "c_abi/both_dual.c": "f13bc58d92f5f902c208fd01a36acfc5aa322ad273d9515649ad53688ad15844",
+    "c_abi/both_map.c": "580358cf28028624c0928835751b24597811074d818b62938451f1f3d92dd9a2",
+    "c_abi/native_unavailable.inc": "dff1fd7d9897f4691f54a663712c07eda2c1231cac9ca930634159fff7bcbcef",
+    "c_abi/pr02_default_filter_test.cpp": "78fc3a7f2d0877a030db5461bc50787197b8b7f3c36b562750f738725b4e86c4"
+  },
+  "ordinary-gpu": {
+    "libgpu_samples_api.a": "a98c2dd1f31c69aadfb578c43957a0c525f955f8622b3aa27b4c94f5d713c2fe",
+    "box3d_src/libbox3d.a": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c"
+  },
+  "ordinary-both": {
+    "libgpu_samples_api.a": "fdb03dfb66d98f23c63824036b19b6d90a69e9f54fd5d9c2123a0a89aa62b7be",
+    "libgpu_both_api.a": "2873b068e41de95ff3bf6dde6360433fa2a769c902f6d7b55314c162b4aa2893",
+    "libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d",
+    "libbox3d_unprefixed.a": "c4483223811aa16fc03b689a165c000b39978d809b7a0e658a40d1657bf9b178",
+    "box3d_src/libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7"
+  },
+  "native-gpu": {
+    "libgpu_samples_api.a": "a98c2dd1f31c69aadfb578c43957a0c525f955f8622b3aa27b4c94f5d713c2fe",
+    "box3d_src/libbox3d.a": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c"
+  },
+  "native-both": {
+    "libgpu_samples_api.a": "fdb03dfb66d98f23c63824036b19b6d90a69e9f54fd5d9c2123a0a89aa62b7be",
+    "libgpu_both_api.a": "2873b068e41de95ff3bf6dde6360433fa2a769c902f6d7b55314c162b4aa2893",
+    "libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d",
+    "libbox3d_unprefixed.a": "c4483223811aa16fc03b689a165c000b39978d809b7a0e658a40d1657bf9b178",
+    "box3d_src/libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7"
+  }
+}

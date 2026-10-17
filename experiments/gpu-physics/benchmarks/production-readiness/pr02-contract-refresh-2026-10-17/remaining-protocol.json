@@ -1,0 +1,32 @@
+{
+  "purpose": "Only five previously unlaunched filter cases after compile-only harness error; 36 prior passes remain original and are never repeated",
+  "head": "17e3575a7",
+  "budget": {
+    "adapterBuilds": 0,
+    "adapterBuildSeconds": 90,
+    "jobs": 2,
+    "rustBuilds": 0,
+    "viewerBuilds": 0,
+    "candidates": 0,
+    "captures": 0,
+    "CProcesses": 5,
+    "links": 5,
+    "linkSeconds": 25,
+    "gpuSeconds": 90,
+    "hostSeconds": 10,
+    "batchSeconds": 180,
+    "inventorySeconds": 90,
+    "inventoryCommandSeconds": 15,
+    "retries": 0,
+    "temporaryBytes": 1073741824,
+    "retainedBytes": 67108864,
+    "minFreeBytes": 21474836480,
+    "logBytesPerCommand": 16777216
+  },
+  "cases": [],
+  "additional": [
+    "CPU and four GPU/linkage default-filter fixture; corrected required invokeContacts=false argument from actual header"
+  ],
+  "cleanup": "One temporary binary at a time, delete after consumer. Remove inventory scratch on completion; retain concise outputs and source/library identities. Shared current builds/cache preserved.",
+  "inventoryCorrection": "Allow upstream default definitions without B3_API annotation. Original two false missing-source findings retained. One new offline inventory batch90s, no engine processes."
+}

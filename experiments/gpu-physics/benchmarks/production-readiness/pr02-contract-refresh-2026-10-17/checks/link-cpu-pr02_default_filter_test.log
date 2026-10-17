@@ -1,0 +1,8 @@
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/pr02_default_filter_test.cpp: In function ‘int main()’:
+/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/pr02_default_filter_test.cpp:57:22: error: too few arguments to function ‘void b3Shape_SetFilter(b3ShapeId, b3Filter, bool)’
+   57 |     b3Shape_SetFilter(shape, changed);
+      |     ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~
+In file included from /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/pr02_default_filter_test.cpp:2:
+/home/firtoz/work/2026/box3d-wasm/box3d/include/box3d/box3d.h:912:13: note: declared here
+  912 | B3_API void b3Shape_SetFilter( b3ShapeId shapeId, b3Filter filter, bool invokeContacts );
+      |             ^~~~~~~~~~~~~~~~~

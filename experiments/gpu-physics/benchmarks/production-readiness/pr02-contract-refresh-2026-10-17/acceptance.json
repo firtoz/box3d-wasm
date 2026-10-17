@@ -1,0 +1,186 @@
+{
+  "status": "PASS",
+  "item": "PR02 named native API and truthful-control contract",
+  "head": "17e3575a7",
+  "gates": [
+    {
+      "id": "G1",
+      "status": "PASS"
+    },
+    {
+      "id": "G2",
+      "status": "PASS"
+    },
+    {
+      "id": "G3",
+      "status": "PASS"
+    },
+    {
+      "id": "G4",
+      "status": "PASS"
+    },
+    {
+      "id": "G5",
+      "status": "PASS"
+    }
+  ],
+  "successfulProcesses": 59,
+  "checks": {
+    "unchangedAPIFixtures": 32,
+    "excludedErrorFixtures": 4,
+    "independentCPUAndGPUFilterFixtures": 5,
+    "additionalNativePolicyFixtures": 18,
+    "filterQueryIdentityChecksPerProcess": 34,
+    "inventory": [
+      {
+        "cell": "ordinary-gpu",
+        "stateful": 415,
+        "implemented": 376,
+        "exclusions": 39,
+        "defaultAliases": 17,
+        "changedDefinitionHashes": 3
+      },
+      {
+        "cell": "ordinary-both",
+        "stateful": 415,
+        "implemented": 376,
+        "exclusions": 39,
+        "defaultAliases": 17,
+        "changedDefinitionHashes": 7
+      },
+      {
+        "cell": "native-gpu",
+        "stateful": 415,
+        "implemented": 376,
+        "exclusions": 39,
+        "defaultAliases": 17,
+        "changedDefinitionHashes": 3
+      },
+      {
+        "cell": "native-both",
+        "stateful": 415,
+        "implemented": 376,
+        "exclusions": 39,
+        "defaultAliases": 17,
+        "changedDefinitionHashes": 7
+      }
+    ],
+    "allOutputHashesMatch": true,
+    "exactPR11Libraries": true,
+    "sourceObjectsAndLinkedArchivesMatch": true,
+    "typecheck": {
+      "argv": [
+        "--ignoreConfig",
+        "--noEmit",
+        "--target",
+        "esnext",
+        "--module",
+        "esnext",
+        "--moduleResolution",
+        "bundler",
+        "--types",
+        "bun,node",
+        "--strict",
+        "--skipLibCheck",
+        "--noUnusedLocals",
+        "--noUnusedParameters",
+        "experiments/gpu-physics/scripts/pr02-contract-refresh.ts",
+        "experiments/gpu-physics/scripts/pr02-api-inventory.ts"
+      ],
+      "exit": 0,
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "productionAndBox3dWasmUnchanged": true,
+    "ownedJobs": [],
+    "rawAbsent": true,
+    "diffCheck": true
+  },
+  "failuresRetained": {
+    "originalCompileOnly": "runs.json",
+    "parser": "inventory-parser-failure.json",
+    "configurationCorrection": "native-policy-protocol.json",
+    "recoveredOriginalLogBytesVerified": true
+  },
+  "cleanup": {
+    "executablesDeletedCumulativeBytes": 1992568992,
+    "retainedBytesBeforeThisReceipt": 3410921,
+    "freeBytes": 1706973032448,
+    "measuredGrowthBytes": {
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu-portable": 92701,
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-portable": -210181,
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-gpu-native-cache-portable": 435109,
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/native-samples/build-both-native-cache-portable": -237329,
+      "/home/firtoz/.cache/box3d-gpu-physics/pipelines": 43276,
+      "/home/firtoz/.cache/nvidia": 3696324,
+      "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr02-contract-refresh-2026-10-17/raw": 0
+    },
+    "sharedCachesPreserved": true,
+    "storageScope": "Temporary executables created/deleted one at a time; cumulative writes are not peak disk use. Cache growth may include other apps."
+  },
+  "sourceLibraryIdentities": {
+    "protocolSha256": "753df15ad3b04f1831df2ec2d8f38a96656e91c0309937928af92d0b72141200",
+    "libraries": {
+      "ordinary": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/libgpu_physics.a",
+        "sha256": "2a4516f5de665f1e3460ad0532a7ca26350bbd8b01c239050d53f387f50c9cae"
+      },
+      "native": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/libgpu_physics.a",
+        "sha256": "f6e59978aff679019eb48c04f9c50e62b8394b86e43bfa109578f7759c3930e0"
+      }
+    },
+    "sources": {
+      "c_abi/shim.c": "1c809e15e96c0d50706632f0f62dad269e0a04f5659589b5ecfed54362e9905a",
+      "c_abi/samples_api.c": "68bc60757e75b35d345f429e6eec5689b0e46e5dbeaafbd293be0517be44db43",
+      "c_abi/samples_stubs.c": "8d4382789ce321cbe9b5485814fc4cf260e3d2a93d1308a2b5e566101b42b7d0",
+      "c_abi/both_dual.c": "f13bc58d92f5f902c208fd01a36acfc5aa322ad273d9515649ad53688ad15844",
+      "c_abi/both_map.c": "580358cf28028624c0928835751b24597811074d818b62938451f1f3d92dd9a2",
+      "c_abi/native_unavailable.inc": "dff1fd7d9897f4691f54a663712c07eda2c1231cac9ca930634159fff7bcbcef",
+      "c_abi/pr02_default_filter_test.cpp": "78fc3a7f2d0877a030db5461bc50787197b8b7f3c36b562750f738725b4e86c4"
+    },
+    "ordinary-gpu": {
+      "libgpu_samples_api.a": "a98c2dd1f31c69aadfb578c43957a0c525f955f8622b3aa27b4c94f5d713c2fe",
+      "box3d_src/libbox3d.a": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c"
+    },
+    "ordinary-both": {
+      "libgpu_samples_api.a": "fdb03dfb66d98f23c63824036b19b6d90a69e9f54fd5d9c2123a0a89aa62b7be",
+      "libgpu_both_api.a": "2873b068e41de95ff3bf6dde6360433fa2a769c902f6d7b55314c162b4aa2893",
+      "libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d",
+      "libbox3d_unprefixed.a": "c4483223811aa16fc03b689a165c000b39978d809b7a0e658a40d1657bf9b178",
+      "box3d_src/libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7"
+    },
+    "native-gpu": {
+      "libgpu_samples_api.a": "a98c2dd1f31c69aadfb578c43957a0c525f955f8622b3aa27b4c94f5d713c2fe",
+      "box3d_src/libbox3d.a": "89a9885175a093466e480e39be39451b843bc7b40e86ca8f9259ee2faa9c1f1c"
+    },
+    "native-both": {
+      "libgpu_samples_api.a": "fdb03dfb66d98f23c63824036b19b6d90a69e9f54fd5d9c2123a0a89aa62b7be",
+      "libgpu_both_api.a": "2873b068e41de95ff3bf6dde6360433fa2a769c902f6d7b55314c162b4aa2893",
+      "libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d",
+      "libbox3d_unprefixed.a": "c4483223811aa16fc03b689a165c000b39978d809b7a0e658a40d1657bf9b178",
+      "box3d_src/libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7"
+    }
+  },
+  "receipts": [
+    {
+      "path": "runs.json",
+      "sha256": "7beeaaba9b45c15a39a76296a4d6b0abc880b890f41aae1c32b01da0384428c4"
+    },
+    {
+      "path": "remaining-runs.json",
+      "sha256": "55a76fd65dff220887bb06690b555e8836fac319390e9ed4ed84f53df7b746a7"
+    },
+    {
+      "path": "native-policy-runs.json",
+      "sha256": "0c745c25a2bc27bcc9b1a7dd68b044f809825b980411f1583b7646c1ee02161e"
+    }
+  ],
+  "limitations": [
+    "Not376independentphysicalpasses or fullGPUreadiness.",
+    "Other14default aliases source/link audited; new independent behavior checks cover filter/shape-filter/query-filter.",
+    "Original Rust selectors and scoped prior viewer receipts remain historical,notcurrent-build reruns.",
+    "Rain/dragging/CCD and broad lifecycle/build/repeat/performance gates remainopen.",
+    "PR11 committed; PR02 local/uncommitted. No push requested."
+  ],
+  "elapsedMs": 717
+}

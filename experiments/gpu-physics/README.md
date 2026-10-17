@@ -19,6 +19,8 @@ Fresh native/frontend/unchanged-source WASM compatibility passed. Commit and pus
 
 PR11 query qualification, 2026-10-17: mesh shape casts and overlaps now follow the native two-sided contract, preserve witness normals and use a local triangle frame for long casts. Standalone shape-cast child metadata and default filter categories also match CPU. Independent CPU/ordinary/native fixtures cover180 ray inputs,601 output records and14,278 frozen Height Field casts, plus callback/lifetime checks. Near-tied adjacent facets may select different valid witness points/normals; each selected calculation is checked against CPU at1e-5. [Repairs, intentional conventions and targeted native display evidence](benchmarks/production-readiness/pr11-queries-2026-10-17/README.md). This is separate from remaining solver and release gates; Box3D/WASM are unchanged.
 
+PR02 API contract refresh, 2026-10-17: the standalone filter-default reopening is closed. The [current inventory and scoped acceptance](benchmarks/production-readiness/pr02-contract-refresh-2026-10-17/README.md) cover415stateful operations perroute (376implemented candidates/39explicit exclusions), plus17default aliases. All32named Ccontracts, four excluded-operation fixtures, five CPU/GPU filter fixtures and18native-launcher-policy cases pass at unchanged assertions. Source/link coverage does not certify every physical behavior; remaining physics, lifecycle and release gates stay open.
+
 ## Tested platforms and hardware
 
 The current Manjaro desktop has an **Intel Core i9-9900K** and an **NVIDIA
