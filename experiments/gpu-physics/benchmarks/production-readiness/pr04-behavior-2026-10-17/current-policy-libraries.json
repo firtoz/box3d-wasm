@@ -1,0 +1,22 @@
+{
+  "status": "FROZEN_DEVELOPMENT_CANDIDATE_NOT_PR06",
+  "sourcePolicy": "6b4aeaf97f94ed856b11ddcf4b0d7b6d0e19d3c8296ec0b3ff46d0f6768d97dd",
+  "candidateLibraries": [
+    {
+      "backend": "ordinary",
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/libgpu_physics.a",
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/ordinary.a",
+      "sha256": "e16b9c41bf783232e78d0d314ef72ac797804fe25936e74e0ec3d970881f2bfd",
+      "bytes": 87507106
+    },
+    {
+      "backend": "native",
+      "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/native-cache-build/release/libgpu_physics.a",
+      "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/native.a",
+      "sha256": "115b11b9d3710c58d653609113532c394b1d32b5bd80783029957aad303868ab",
+      "bytes": 94830834
+    }
+  ],
+  "producer": "contact-policy-batch1 library compiler receipts; empty artifact-isolation feature has no cfg consumer",
+  "consumer": "original C fixtures, articulated qualification and PR06 applicability/refreeze; remove when replaced/consumed"
+}

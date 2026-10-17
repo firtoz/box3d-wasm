@@ -34,12 +34,14 @@ The [GPU solver qualification](gpu-solver-qualification.md) tracks correctness,
 stability and same-device repeatability with efficient GPU ordering. It separates
 physical behavior from exact CPU trajectory agreement and lists unverified areas.
 
-The current desktop candidate enables paired normal-contact solving only with
-`GPU_PHYSICS_LIVE_CONTACT_ORDER=0`. It passes the original contact-island,
-support, friction and restitution checks in five fresh processes per backend;
-default and CPU-compatible contact solving remain unchanged. Rain, the remaining
-capability checks, performance and recordings still prevent qualification or a
-default-mode change. See the qualification report for frozen builds and scope.
+Native builds now select paired normal-contact solving independently of
+`GPU_PHYSICS_LIVE_CONTACT_ORDER`. The old coupling restored the asymmetric
+scalar solver with CPU-compatible priority and failed the original contact-island
+spin/drift limits. The [PR04 policy repair](../experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/contact-policy.md)
+passes those unchanged physical limits on both backends and ordering modes.
+Earlier five-process evidence applies to its named older builds; the new policy
+still needs final-build repeat qualification. Rain, performance and the remaining
+release gates stay open. Recordings are optional diagnostics.
 
 The original Continuous/Stall step-4 freeze is repaired by bounding mesh-convex traversal with the shape's actual BVH node count. The unchanged stack capacity and sticky-loss checks still reject real invalid states. [CPU-first before/after evidence](../experiments/gpu-physics/benchmarks/production-readiness/pr09-verified-2026-10-15/reports/RUNTIME03.md) verifies120 completed steps on ordinary/native standalone and combined paths, original geometry/IDs/Launch/API picking, ground support and a bounded energy screen. Other scenes, swept/full-mesh CCD, manual dragging, long-window behavior and cold-start performance remain unqualified; the original failures are retained.
 
@@ -110,10 +112,10 @@ in pairs, using opposite points for four-point manifolds. Coupled unilateral
 impulses retain the existing softness and material parameters; ill-conditioned
 pairs fall back to scalar updates. The original contact-island spin/drift checks
 pass on both backends, including five fresh captured runs of the initial
-candidate. The new solve is selected only by explicit
-`GPU_PHYSICS_LIVE_CONTACT_ORDER=0`; default and CPU-compatible ordering keep the
-scalar point solve. Its mode bit is included in captured parameters. Broader
-physical and performance qualification remains open.
+candidate. The solve is selected in both native ordering modes and with default
+ordering; contact priority no longer selects a different normal solver.
+The WebAssembly configuration is unchanged. Its mode bit is included in captured
+parameters. Broader physical and performance qualification remains open.
 Contact-retirement commands use storage separate from sticky contact-failure
 reasons. Removing a shape or disabling a body pair must neither manufacture a
 failure reason nor clear an earlier one; retirement still selects the same roots.

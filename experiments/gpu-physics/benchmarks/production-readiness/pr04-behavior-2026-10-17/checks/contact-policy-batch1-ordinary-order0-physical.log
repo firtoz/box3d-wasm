@@ -1,0 +1,106 @@
+Actual compiler-selected binary /home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/target/samples/release/deps/gpu_physics-115d4d38c3c51ef8 90891c54567369fd52ea120a0ec6851cbe4b9a6d1754b6bbef105760a549dff8
+
+running 8 tests
+test api::world::state_trace::tests::trace_contact_island_wake_propagation ... ok
+test api::world::state_trace::tests::trace_joint_island_wake_propagation ... ok
+test api::world::state_trace::tests::trace_mass_mutations_preserve_analytical_impulse_response ... ok
+test api::world::state_trace::tests::trace_order_sensitive_callbacks_with_body_reuse ... ok
+test api::world::state_trace::tests::trace_prismatic_motor_reversal_respects_both_limits ... ok
+test api::world::state_trace::tests::trace_restitution_matches_analytical_rebound ... ok
+test api::world::state_trace::tests::trace_sliding_friction_matches_analytical_motion ... ok
+test api::world::state_trace::tests::trace_stack_support_and_energy ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 434 filtered out; finished in 12.42s
+
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+physics-pipeline-cache: submitted 93655870 compatible bytes from /home/firtoz/.cache/box3d-gpu-physics/pipelines/wgpu_pipeline_cache_vulkan_4318_10115_8630c1e8656103274ce2c594064a4787
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=4 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+physics-pipeline-cache: save 93655870 bytes, success=true
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+physics-pipeline-cache: submitted 93655870 compatible bytes from /home/firtoz/.cache/box3d-gpu-physics/pipelines/wgpu_pipeline_cache_vulkan_4318_10115_8630c1e8656103274ce2c594064a4787
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=4 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+physics-pipeline-cache: save 93655870 bytes, success=true
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=2 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+physics-pipeline-cache: submitted 93655870 compatible bytes from /home/firtoz/.cache/box3d-gpu-physics/pipelines/wgpu_pipeline_cache_vulkan_4318_10115_8630c1e8656103274ce2c594064a4787
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=1 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=1 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=1 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=1 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=1 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=0 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+physics-pipeline-cache: save 93655870 bytes, success=true
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+physics-pipeline-cache: submitted 93655870 compatible bytes from /home/firtoz/.cache/box3d-gpu-physics/pipelines/wgpu_pipeline_cache_vulkan_4318_10115_8630c1e8656103274ce2c594064a4787
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=9 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=8 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=9 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+physics-pipeline-cache: save 93655870 bytes, success=true
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+physics-pipeline-cache: submitted 93655870 compatible bytes from /home/firtoz/.cache/box3d-gpu-physics/pipelines/wgpu_pipeline_cache_vulkan_4318_10115_8630c1e8656103274ce2c594064a4787
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=1 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=1 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+PRISMATIC_REVERSAL steps=120 peak_limit_error=0.00070363283
+physics-pipeline-cache: save 93655870 bytes, success=true
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+physics-pipeline-cache: submitted 93655870 compatible bytes from /home/firtoz/.cache/box3d-gpu-physics/pipelines/wgpu_pipeline_cache_vulkan_4318_10115_8630c1e8656103274ce2c594064a4787
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=4 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+RESTITUTION first_apices=[0.0, 0.99096805, 2.488538] peak_energy_j_per_kg=25.017302 peak_penetration=0.004999995
+physics-pipeline-cache: save 93655870 bytes, success=true
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+physics-pipeline-cache: submitted 93655870 compatible bytes from /home/firtoz/.cache/box3d-gpu-physics/pipelines/wgpu_pipeline_cache_vulkan_4318_10115_8630c1e8656103274ce2c594064a4787
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=3 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+SLIDING_FRICTION stopping_distance=0.39576817 peak_control_position_error=0.000006198883
+physics-pipeline-cache: save 93655870 bytes, success=true
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+physics-pipeline-cache: submitted 93655870 compatible bytes from /home/firtoz/.cache/box3d-gpu-physics/pipelines/wgpu_pipeline_cache_vulkan_4318_10115_8630c1e8656103274ce2c594064a4787
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=4 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+STACK_SUPPORT peak_energy_gain_j_per_kg=0 peak_vertical_overlap=0.0009977221 tail_speed=0
+physics-pipeline-cache: save 93655870 bytes, success=true

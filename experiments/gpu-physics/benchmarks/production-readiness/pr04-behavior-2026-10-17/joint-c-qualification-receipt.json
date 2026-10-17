@@ -1,0 +1,206 @@
+{
+  "phase": "joint-c-qualification",
+  "status": "FAILED",
+  "protocolSha256": "b5e7ac3e7b449af6b29ccc80efdfcc00c8ee93d1c8a6d26b14c0cd073e63143e",
+  "inputHashes": {
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/sim.rs": "6b4aeaf97f94ed856b11ddcf4b0d7b6d0e19d3c8296ec0b3ff46d0f6768d97dd",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_joint_reaction_test.cpp": "5f942482a0c75cdeb694d37c7f0c05ac8230f1011825eacc22a5098971e4517a",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_joint_separation_test.cpp": "3a3bd08a56be95beb1070237d5f381f53127ff58866e4ed0eedbb69d770ec8fa",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_ids.h": "9c04b775fd367d0d217ab64224e6ec30113e6b76bcc3ccb9ae94b3ef4b10ca31",
+    "/home/firtoz/work/2026/box3d-wasm/box3d/include/box3d/types.h": "d39bd492bb6599b1ba8c308f8f3d901e19b190d2db65fff2e7b833a3511bc5b7",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/joint-qualification-tools.ts": "b2cf6ed2c6816761b38119c9a4f8f05cfb88ce85fb9029a5c8d7e25e49773540",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_both_api.a": "9b4f557611a082bd6970755d8d76002968ab803001050ccd7349122fe7237273",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_samples_api.a": "bd8af0719c227f2284718e95f37fb835643b013070112d271c01e332d6f96c10",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/box3d_src-libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_both_api.a": "9b4f557611a082bd6970755d8d76002968ab803001050ccd7349122fe7237273",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libgpu_samples_api.a": "bd8af0719c227f2284718e95f37fb835643b013070112d271c01e332d6f96c10",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/libbox3d_cpu.a": "877954e67133986df2644c43580d465909efd6072ce2192f7249159ee872289d",
+    "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/native-both/box3d_src-libbox3d.a": "f81c11b8b1a4a0fa9fecc0902e0987f4f3b7ed2767cf17f27e8798f617220da7"
+  },
+  "rows": [
+    {
+      "label": "caches-before",
+      "argv": [
+        "du",
+        "-sb",
+        "/home/firtoz/.cache/box3d-gpu-physics/pipelines",
+        "/home/firtoz/.cache/nvidia"
+      ],
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      },
+      "pid": 3264639,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 96,
+      "elapsedMs": 8,
+      "log": "checks/joint-c-qualification-caches-before.log",
+      "logSha256": "a7f3944bc9cc1ec549511fd0347e610aa30f325e6c7591304d7699844506f22b"
+    },
+    {
+      "label": "freeze-current-libraries",
+      "argv": [
+        "bun",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/joint-qualification-tools.ts",
+        "freeze"
+      ],
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      },
+      "pid": 3264642,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 715,
+      "elapsedMs": 1093,
+      "log": "checks/joint-c-qualification-freeze-current-libraries.log",
+      "logSha256": "38df927f1c584b4cc2f2543472cfb7deacfb3e5a5e2e823a355622949eab93d6"
+    },
+    {
+      "label": "compile-reaction",
+      "argv": [
+        "g++",
+        "-O2",
+        "-std=c++17",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+        "-c",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_joint_reaction_test.cpp",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-reaction.o"
+      ],
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      },
+      "pid": 3264794,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 0,
+      "elapsedMs": 363,
+      "log": "checks/joint-c-qualification-compile-reaction.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "compile-separation",
+      "argv": [
+        "g++",
+        "-O2",
+        "-std=c++17",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/box3d/include",
+        "-I",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi",
+        "-c",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/c_abi/both_joint_separation_test.cpp",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-separation.o"
+      ],
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      },
+      "pid": 3264805,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 0,
+      "elapsedMs": 331,
+      "log": "checks/joint-c-qualification-compile-separation.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "link-ordinary-reaction",
+      "argv": [
+        "g++",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/joint-reaction.o",
+        "-Wl,--whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_both_api.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libgpu_samples_api.a",
+        "-Wl,--no-whole-archive",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr04-contact-policy-candidate-2026-10-17/ordinary.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/libbox3d_cpu.a",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/artifacts/pr05-pr06-release-candidate-2026-10-17/ordinary-both/box3d_src-libbox3d.a",
+        "-ldl",
+        "-lpthread",
+        "-lm",
+        "-lgcc_s",
+        "-lGL",
+        "-o",
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-reaction"
+      ],
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      },
+      "pid": 3264808,
+      "code": 0,
+      "signal": null,
+      "expectedTimeout": false,
+      "accepted": true,
+      "bytes": 0,
+      "elapsedMs": 1236,
+      "log": "checks/joint-c-qualification-link-ordinary-reaction.log",
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "run-ordinary-reaction",
+      "argv": [
+        "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/raw/ordinary-joint-reaction"
+      ],
+      "environment": {
+        "WGPU_BACKEND": "vulkan",
+        "GPU_PHYSICS_ADAPTER": "nvidia",
+        "GPU_PHYSICS_BACKEND": "vulkan",
+        "VK_DRIVER_FILES": "/usr/share/vulkan/icd.d/nvidia_icd.json",
+        "GPU_PHYSICS_LIVE_CONTACT_ORDER": "1",
+        "GPU_PHYSICS_PIPELINE_CACHE_DIR": "/home/firtoz/.cache/box3d-gpu-physics/pipelines"
+      },
+      "pid": 3264903,
+      "code": 0,
+      "signal": null,
+      "reason": "Missing required output: PASS",
+      "expectedTimeout": false,
+      "accepted": false,
+      "bytes": 32396,
+      "elapsedMs": 2140,
+      "log": "checks/joint-c-qualification-run-ordinary-reaction.log",
+      "logSha256": "42e20200776f5932d70e94da9d318f5d9c9cbb355cdc593eca02b642124859eb"
+    }
+  ],
+  "elapsedMs": 5196,
+  "error": "Error: run-ordinary-reaction failed; inspect its retained log",
+  "removedBytes": 33514072,
+  "peakRawBytes": 33514072
+}

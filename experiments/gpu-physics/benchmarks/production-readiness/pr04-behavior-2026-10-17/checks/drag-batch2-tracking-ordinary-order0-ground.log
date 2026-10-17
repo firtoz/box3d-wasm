@@ -1,0 +1,287 @@
+samples_both: CPU left / GPU right; split-view toggle available, same step. HUD 'step N' is shared.
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+gpu-alloc scene generation=1 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+physics-pipeline-cache: submitted 93655870 compatible bytes from /home/firtoz/.cache/box3d-gpu-physics/pipelines/wgpu_pipeline_cache_vulkan_4318_10115_8630c1e8656103274ce2c594064a4787
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+GPU pose export: Vulkan opaque FD 23 (28672 bytes)
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+progress physical steps=120 CPUcorner=-7.05718994e-05 GPUcorner=-7.03036785e-05
+TRACKING engine=CPU frame=232 round=0 cube=0 t=172 error=0.219247147 target=-5.93778229,0.855485201,0.499997139 anchor=-5.90617704,1.00235975,0.340315312 local=1.03857832e-10,1.54662771e-08,0.50000006 center=-5.90381145,0.502393067,0.335036337 contacts=1
+CONTACT engine=CPU frame=232 normal=0,1,0 separation=-0.00569331646 normal_impulse=1333.64685
+CONTACT engine=CPU frame=232 normal=0,1,0 separation=0.0389670134 normal_impulse=298.51593
+CONTACT engine=CPU frame=232 normal=0,1,0 separation=0.0447922945 normal_impulse=0
+CONTACT engine=CPU frame=232 normal=0,1,0 separation=0.000131905079 normal_impulse=897.552551
+TRACKING engine=GPU frame=232 round=0 cube=0 t=172 error=0.221975192 target=-5.93778229,0.855485201,0.5 anchor=-5.89968348,1.00434613,0.339806706 local=-4.29153442e-06,-5.96374932e-08,0.5 center=-5.89871168,0.504389584,0.333286792 contacts=1
+CONTACT engine=GPU frame=232 normal=0,1,0 separation=-0.00147128105 normal_impulse=1333.95154
+CONTACT engine=GPU frame=232 normal=0,1,0 separation=0.0468809605 normal_impulse=67.0877533
+CONTACT engine=GPU frame=232 normal=0,1,0 separation=0.0490689278 normal_impulse=0
+CONTACT engine=GPU frame=232 normal=0,1,0 separation=0.000716924667 normal_impulse=745.997681
+TRACKING engine=CPU frame=233 round=0 cube=0 t=173 error=0.256177127 target=-5.94555998,0.811040759,0.499997139 anchor=-5.90524769,0.999212623,0.330902517 local=1.03857832e-10,1.54662771e-08,0.50000006 center=-5.90303326,0.499221802,0.328798145 contacts=1
+CONTACT engine=CPU frame=233 normal=0,1,0 separation=-0.00557929277 normal_impulse=778.553589
+CONTACT engine=CPU frame=233 normal=0,1,0 separation=0.00411063433 normal_impulse=959.485779
+CONTACT engine=CPU frame=233 normal=0,1,0 separation=0.0104321241 normal_impulse=0
+CONTACT engine=CPU frame=233 normal=0,1,0 separation=0.000742197037 normal_impulse=1115.97693
+TRACKING engine=GPU frame=233 round=0 cube=0 t=173 error=0.259051293 target=-5.94555998,0.811040759,0.5 anchor=-5.89931726,0.999527693,0.328413695 local=-4.29153442e-06,-5.96374932e-08,0.5 center=-5.89842606,0.499531657,0.326637566 contacts=1
+CONTACT engine=GPU frame=233 normal=0,1,0 separation=-0.00384402275 normal_impulse=789.148743
+CONTACT engine=GPU frame=233 normal=0,1,0 separation=0.00871837139 normal_impulse=995.415955
+CONTACT engine=GPU frame=233 normal=0,1,0 separation=0.012709856 normal_impulse=0
+CONTACT engine=GPU frame=233 normal=0,1,0 separation=0.0001475811 normal_impulse=1081.72705
+TRACKING engine=CPU frame=234 round=0 cube=0 t=174 error=0.29049626 target=-5.95333767,0.766596317,0.499997139 anchor=-5.90546799,0.998090029,0.331156284 local=1.03857832e-10,1.54662771e-08,0.50000006 center=-5.90278816,0.498098969,0.329765409 contacts=1
+CONTACT engine=CPU frame=234 normal=0,1,0 separation=-0.00501984358 normal_impulse=1005.98157
+CONTACT engine=CPU frame=234 normal=0,1,0 separation=-0.001539886 normal_impulse=989.154236
+CONTACT engine=CPU frame=234 normal=0,1,0 separation=0.00348210335 normal_impulse=0
+CONTACT engine=CPU frame=234 normal=0,1,0 separation=2.14576721e-06 normal_impulse=1280.9071
+TRACKING engine=GPU frame=234 round=0 cube=0 t=174 error=0.291546494 target=-5.95333767,0.766596317,0.5 anchor=-5.89861584,0.996844769,0.329733938 local=-4.29153442e-06,-5.96374932e-08,0.5 center=-5.89773083,0.49684912,0.327841759 contacts=1
+CONTACT engine=GPU frame=234 normal=0,1,0 separation=-0.00323295593 normal_impulse=1147.81824
+CONTACT engine=GPU frame=234 normal=0,1,0 separation=-2.38418579e-06 normal_impulse=850.599304
+CONTACT engine=GPU frame=234 normal=0,1,0 separation=0.00230431557 normal_impulse=144.406067
+CONTACT engine=GPU frame=234 normal=0,1,0 separation=-0.000926375389 normal_impulse=1098.53638
+TRACKING engine=CPU frame=235 round=0 cube=0 t=175 error=0.327499926 target=-5.96111536,0.722151875,0.499997139 anchor=-5.90463305,0.996380091,0.330100626 local=1.03857832e-10,1.54662771e-08,0.50000006 center=-5.90298367,0.496385038,0.328546733 contacts=1
+CONTACT engine=CPU frame=235 normal=0,1,0 separation=-0.00571686029 normal_impulse=1087.93945
+CONTACT engine=CPU frame=235 normal=0,1,0 separation=-0.00378972292 normal_impulse=1126.31604
+CONTACT engine=CPU frame=235 normal=0,1,0 separation=0.00193297863 normal_impulse=148.857635
+CONTACT engine=CPU frame=235 normal=0,1,0 separation=5.96046448e-06 normal_impulse=1301.49219
+TRACKING engine=GPU frame=235 round=0 cube=0 t=175 error=0.328056931 target=-5.96111536,0.722151875,0.5 anchor=-5.89904785,0.995498598,0.329557776 local=-4.29153442e-06,-5.96374932e-08,0.5 center=-5.89813089,0.495503396,0.327553153 contacts=1
+CONTACT engine=GPU frame=235 normal=0,1,0 separation=-0.0060428381 normal_impulse=1424.92419
+CONTACT engine=GPU frame=235 normal=0,1,0 separation=-0.00258111954 normal_impulse=807.403687
+CONTACT engine=GPU frame=235 normal=0,1,0 separation=-0.00024998188 normal_impulse=430.139252
+CONTACT engine=GPU frame=235 normal=0,1,0 separation=-0.00371170044 normal_impulse=999.971985
+TRACKING engine=CPU frame=236 round=0 cube=0 t=176 error=0.365095735 target=-5.96889305,0.677707434,0.499997139 anchor=-5.90474892,0.995045424,0.33124575 local=1.03857832e-10,1.54662771e-08,0.50000006 center=-5.90357733,0.495051324,0.329109788 contacts=1
+CONTACT engine=CPU frame=236 normal=0,1,0 separation=-0.00676071644 normal_impulse=1344.29492
+CONTACT engine=CPU frame=236 normal=0,1,0 separation=-0.00419545174 normal_impulse=1108.0592
+CONTACT engine=CPU frame=236 normal=0,1,0 separation=-0.000459015369 normal_impulse=353.104218
+CONTACT engine=CPU frame=236 normal=0,1,0 separation=-0.00302428007 normal_impulse=1260.52832
+TRACKING engine=GPU frame=236 round=0 cube=0 t=176 error=0.366564751 target=-5.96889305,0.677707434,0.5 anchor=-5.89929485,0.994742513,0.329663396 local=-4.29153442e-06,-5.96374932e-08,0.5 center=-5.89830828,0.494747669,0.327600926 contacts=1
+CONTACT engine=GPU frame=236 normal=0,1,0 separation=-0.0075430274 normal_impulse=1615.83582
+CONTACT engine=GPU frame=236 normal=0,1,0 separation=-0.00386893749 normal_impulse=850.526367
+CONTACT engine=GPU frame=236 normal=0,1,0 separation=-0.00144028664 normal_impulse=593.804504
+CONTACT engine=GPU frame=236 normal=0,1,0 separation=-0.00511431694 normal_impulse=1013.28516
+TRACKING engine=CPU frame=237 round=0 cube=0 t=177 error=0.404500872 target=-5.97667074,0.633262992,0.499997139 anchor=-5.90500355,0.994027019,0.331669867 local=1.03857832e-10,1.54662771e-08,0.50000006 center=-5.90395784,0.494033396,0.32934311 contacts=1
+CONTACT engine=CPU frame=237 normal=0,1,0 separation=-0.0083591938 normal_impulse=1538.21582
+CONTACT engine=CPU frame=237 normal=0,1,0 separation=-0.00449705124 normal_impulse=1138.53577
+CONTACT engine=CPU frame=237 normal=0,1,0 separation=-0.00152641535 normal_impulse=523.113831
+CONTACT engine=CPU frame=237 normal=0,1,0 separation=-0.0053884387 normal_impulse=1272.30554
+TRACKING engine=GPU frame=237 round=0 cube=0 t=177 error=0.40643543 target=-5.97667074,0.633262992,0.5 anchor=-5.89955425,0.994145751,0.329687148 local=-4.29153442e-06,-5.96374932e-08,0.5 center=-5.89848948,0.494151264,0.327584594 contacts=1
+CONTACT engine=GPU frame=237 normal=0,1,0 separation=-0.00842255354 normal_impulse=1763.20605
+CONTACT engine=GPU frame=237 normal=0,1,0 separation=-0.00465595722 normal_impulse=933.520874
+CONTACT engine=GPU frame=237 normal=0,1,0 separation=-0.00207161903 normal_impulse=714.377686
+CONTACT engine=GPU frame=237 normal=0,1,0 separation=-0.00583815575 normal_impulse=1069.4071
+TRACKING engine=CPU frame=238 round=0 cube=0 t=178 error=0.44503209 target=-5.98444891,0.58881855,0.499997139 anchor=-5.90536642,0.993190527,0.331822127 local=1.03857832e-10,1.54662771e-08,0.50000006 center=-5.90432405,0.493196845,0.329507411 contacts=1
+CONTACT engine=CPU frame=238 normal=0,1,0 separation=-0.00948917866 normal_impulse=1704.66614
+CONTACT engine=CPU frame=238 normal=0,1,0 separation=-0.00521123409 normal_impulse=1199.51636
+CONTACT engine=CPU frame=238 normal=0,1,0 separation=-0.00243109465 normal_impulse=664.283447
+CONTACT engine=CPU frame=238 normal=0,1,0 separation=-0.00670892 normal_impulse=1309.74121
+TRACKING engine=GPU frame=238 round=0 cube=0 t=178 error=0gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+.447193623 target=-5.98444891,0.58881855,0.5 anchor=-5.89983225,0.993566513,0.329702526 local=-4.29153442e-06,-5.96374932e-08,0.5 center=-5.89868164,0.493572325,0.327574432 contacts=1
+CONTACT engine=GPU frame=238 normal=0,1,0 separation=-0.00912958384 normal_impulse=1892.27209
+CONTACT engine=GPU frame=238 normal=0,1,0 separation=-0.00530815125 normal_impulse=1035.62158
+CONTACT engine=GPU frame=238 normal=0,1,0 separation=-0.00255656242 normal_impulse=816.690674
+CONTACT engine=GPU frame=238 normal=0,1,0 separation=-0.00637805462 normal_impulse=1141.46057
+progress physical steps=240 CPUcorner=-0.0110065043 GPUcorner=-0.0105012655
+TRACKING engine=CPU frame=239 round=0 cube=0 t=179 error=0.486302674 target=-5.9922266,0.544374108,0.499997139 anchor=-5.90576839,0.992446065,0.331929356 local=1.03857832e-10,1.54662771e-08,0.50000006 center=-5.90466976,0.492452115,0.32969752 contacts=1
+CONTACT engine=CPU frame=239 normal=0,1,0 separation=-0.0103090405 normal_impulse=1854.53711
+CONTACT engine=CPU frame=239 normal=0,1,0 separation=-0.00605398417 normal_impulse=1280.3313
+CONTACT engine=CPU frame=239 normal=0,1,0 separation=-0.00328445435 normal_impulse=785.717163
+CONTACT engine=CPU frame=239 normal=0,1,0 separation=-0.00753951073 normal_impulse=1363.33362
+TRACKING engine=GPU frame=239 round=0 cube=0 t=179 error=0.488588959 target=-5.9922266,0.544374108,0.5 anchor=-5.90010834,0.992966294,0.329710603 local=-4.29153442e-06,-5.96374932e-08,0.5 center=-5.89886808,0.492972434,0.327566266 contacts=1
+CONTACT engine=GPU frame=239 normal=0,1,0 separation=-0.00980871916 normal_impulse=2013.29639
+CONTACT engine=GPU frame=239 normal=0,1,0 separation=-0.00596356392 normal_impulse=1145.06311
+CONTACT engine=GPU frame=239 normal=0,1,0 separation=-0.00303459167 normal_impulse=911.290894
+CONTACT engine=GPU frame=239 normal=0,1,0 separation=-0.00687968731 normal_impulse=1221.34521
+progress physical steps=360 CPUcorner=-0.0110065043 GPUcorner=-0.0105012655
+round=0 cube=0 hit_fraction=0.47500014/0.47499999 held_pos=0.0171647 held_quat=0.00474274 held_vel=0.73063 released_pos=0.0123724 released_quat=0.00257725 released_vel=0.152737
+progress physical steps=480 CPUcorner=-0.0110065043 GPUcorner=-0.0105012655
+TRACKING engine=GPU frame=535 round=0 cube=1 t=175 error=0.49450919 target=-2.74111509,0.942151845,0.5 anchor=-2.59456587,1.32173955,0.218973577 local=0.219995975,0.219999939,0.5 center=-2.64094329,0.739545584,0.294456005 contacts=1
+CONTACT engine=GPU frame=535 normal=0,1,0 separation=0.000131368637 normal_impulse=4652.53906
+CONTACT engine=GPU frame=535 normal=0,1,0 separation=0.313861489 normal_impulse=0
+CONTACT engine=GPU frame=535 normal=0,1,0 separation=0.59408462 normal_impulse=0
+CONTACT engine=GPU frame=535 normal=0,1,0 separation=0.2803545 normal_impulse=0
+TRACKING engine=CPU frame=536 round=0 cube=1 t=176 error=0.524132073 target=-2.74889302,0.897707403,0.499997139 anchor=-2.58787012,1.28736615,0.188625813 local=0.220000044,0.219999999,0.50000006 center=-2.6425612,0.708633602,0.282846987 contacts=1
+CONTACT engine=CPU frame=536 normal=0,1,0 separation=-0.0118886232 normal_impulse=4748.91943
+CONTACT engine=CPU frame=536 normal=0,1,0 separation=0.281851411 normal_impulse=0
+CONTACT engine=CPU frame=536 normal=0,1,0 separation=0.540521979 normal_impulse=0
+CONTACT engine=CPU frame=536 normal=0,1,0 separation=0.246781945 normal_impulse=0
+TRACKING engine=GPU frame=536 round=0 cube=1 t=176 error=0.540439308 target=-2.74889302,0.897707403,0.5 anchor=-2.58669925,1.30356431,0.182119608 local=0.219995975,0.219999939,0.5 center=-2.63727903,0.724393666,0.275934875 contacts=1
+CONTACT engine=GPU frame=536 normal=0,1,0 separation=0.000701069832 normal_impulse=4906.46631
+CONTACT engine=GPU frame=536 normal=0,1,0 separation=0.293865919 normal_impulse=0
+CONTACT engine=GPU frame=536 normal=0,1,0 separation=0.560163379 normal_impulse=0
+CONTACT engine=GPU frame=536 normal=0,1,0 separation=0.266998529 normal_impulse=0
+TRACKING engine=CPU frame=537 round=0 cube=1 t=177 error=0.570163667 target=-2.75667071,0.853262961,0.499997139 anchor=-2.57930827,1.26597118,0.148854584 gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+local=0.220000044,0.219999999,0.50000006 center=-2.63812208,0.690983534,0.261682481 contacts=1
+CONTACT engine=CPU frame=537 normal=0,1,0 separation=-0.0138260722 normal_impulse=4989.31787
+CONTACT engine=CPU frame=537 normal=0,1,0 separation=0.256292403 normal_impulse=0
+CONTACT engine=CPU frame=537 normal=0,1,0 separation=0.499485493 normal_impulse=0
+CONTACT engine=CPU frame=537 normal=0,1,0 separation=0.229367018 normal_impulse=0
+TRACKING engine=GPU frame=537 round=0 cube=1 t=177 error=0.587558508 target=-2.75667071,0.853262961,0.5 anchor=-2.57794762,1.28270972,0.141031325 local=0.219995975,0.219999939,0.5 center=-2.63307762,0.707543731,0.25479883 contacts=1
+CONTACT engine=GPU frame=537 normal=0,1,0 separation=0.000165700912 normal_impulse=5151.60986
+CONTACT engine=GPU frame=537 normal=0,1,0 separation=0.268361092 normal_impulse=0
+CONTACT engine=GPU frame=537 normal=0,1,0 separation=0.518223763 normal_impulse=0
+CONTACT engine=GPU frame=537 normal=0,1,0 separation=0.250028372 normal_impulse=0
+TRACKING engine=CPU frame=538 round=0 cube=1 t=178 error=0.615890384 target=-2.7644484,0.808818519,0.499997139 anchor=-2.57045937,1.24132919,0.106774941 local=0.220000044,0.219999999,0.50000006 center=-2.63363814,0.671111286,0.23966606 contacts=1
+CONTACT engine=CPU frame=538 normal=0,1,0 separation=-0.0157539248 normal_impulse=5229.98096
+CONTACT engine=CPU frame=538 normal=0,1,0 separation=0.228536129 normal_impulse=0
+CONTACT engine=CPU frame=538 normal=0,1,0 separation=0.454781234 normal_impulse=0
+CONTACT engine=CPU frame=538 normal=0,1,0 separation=0.21049118 normal_impulse=0
+TRACKING engine=GPU frame=538 round=0 cube=1 t=178 error=0.63421011 target=-2.7644484,0.808818519,0.5 anchor=-2.56890106,1.25832105,0.0975932479 local=0.219995975,0.219999939,0.5 center=-2.62882304,0.688300788,0.232813001 contacts=1
+CONTACT engine=GPU frame=538 normal=0,1,0 separation=0.000194191933 normal_impulse=5394.88574
+CONTACT engine=GPU frame=538 normal=0,1,0 separation=0.240756989 normal_impulse=0
+CONTACT engine=GPU frame=538 normal=0,1,0 separation=0.472275138 normal_impulse=0
+CONTACT engine=GPU frame=538 normal=0,1,0 separation=0.231712341 normal_impulse=0
+TRACKING engine=CPU frame=539 round=0 cube=1 t=179 error=0.661120534 target=-2.77222633,0.764374077,0.499997139 anchor=-2.56145382,1.21333814,0.06286259 local=0.220000044,0.219999999,0.50000006 center=-2.62913227,0.649006665,0.21697183 contacts=1
+CONTACT engine=CPU frame=539 normal=0,1,0 separation=-0.0176935196 normal_impulse=5440.20215
+CONTACT engine=CPU frame=539 normal=0,1,0 separation=0.198283553 normal_impulse=0
+CONTACT engine=CPU frame=539 normal=0,1,0 separation=0.405831337 normal_impulse=0
+CONTACT engine=CPU frame=539 normal=0,1,0 separation=0.189854264 normal_impulse=0
+TRACKING engine=GPU frame=539 round=0 cube=1 t=179 error=0.680245996 target=-2.77222633,0.764374077,0.5 anchor=-2.55966806,1.23029566,0.0522605926 local=0.219995975,0.219999939,0.5 center=-2.62452865,0.66667825,0.210142449 contacts=1
+CONTACT engine=GPU frame=539 normal=0,1,0 separation=0.000220179558 normal_impulse=5605.48193
+CONTACT engine=GPU frame=539 normal=0,1,0 separation=0.210531831 normal_impulse=0
+CONTACT engine=GPU frame=539 normal=0,1,0 separation=0.42186141 normal_impulse=0
+CONTACT engine=GPU frame=539 normal=0,1,0 separation=0.211549759 normal_impulse=0
+progress physical steps=600 CPUcorner=-0.0223578811 GPUcorner=-0.0105012655
+round=0 cube=1 hit_fraction=0.47500014/0.47499999 held_pos=0.0277678 held_quat=0.00661827 held_vel=0.169165 released_pos=0.0951321 released_quat=0.0522495 released_vel=2.45818
+progress physical steps=720 CPUcorner=-0.0223578811 GPUcorner=-0.0105012655
+progress physical steps=840 CPUcorner=-0.0223578811 GPUcorner=-0.0105012655
+progress physical steps=960 CPUcorner=-0.0223578811 GPUcorner=-0.0105012655
+round=0 cube=2 hit_fraction=0.47500014/0.47499999 held_pos=0.0280166 held_quat=0.0150491 held_vel=0.92487 released_pos=0.205286 released_quat=0.0843544 released_vel=1.05309
+progress physical steps=1080 CPUcorner=-0.0223578811 GPUcorner=-0.0105012655
+TRACKING engine=CPU frame=1133 round=0 cube=3 t=173 error=0.679579496 target=3.33444047,0.611040711,0.499997139 anchor=3.51838589,1.16104603,0.145756409 local=0.279999971,-0.200000018,0.50000006 center=3.29497743,0.607697606,0.0348770507 contacts=1
+CONTACT engine=CPU frame=1133 normal=0,1,0 separation=-0.012955308 normal_impulse=3021.62939
+CONTACT engine=CPU frame=1133 normal=0,1,0 separation=8.29100609e-05 normal_impulse=2412.31982
+CONTACT engine=CPU frame=1133 normal=0,1,0 separation=0.28676939 normal_impulse=0
+CONTACT engine=CPU frame=1133 normal=0,1,0 separation=0.273731053 normal_impulse=0
+TRACKING engine=GPU frame=1133 round=0 cube=3 t=173 error=0.685120583 target=3.33444047,0.611040711,0.5 anchor=3.50902963,1.16389799,0.134955227 local=0.279995918,-0.200000077,0.5 center=3.2887373,0.609648824,0.0223631486 contacts=1
+CONTACT engine=GPU frame=1133 normal=0,1,0 separation=-0.0126771927 normal_impulse=3068.07861
+CONTACT engine=GPU frame=1133 normal=0,1,0 separation=0.000364899635 normal_impulse=2333.9834
+CONTACT engine=GPU frame=1133 normal=0,1,0 separation=0.295785427 normal_impulse=0
+CONTACT engine=GPU frame=1133 normal=0,1,0 separation=0.282743335 normal_impulse=0
+TRACKING engine=CPU frame=1134 round=0 cube=3 t=174 error=0.720852494 target=3.32666254,0.56659627,0.499997139 anchor=3.5442071,1.14553583,0.129684135 local=0.279999971,-0.200000018,0.50000006 center=3.3066268,0.596578121,0.0267225057 contacts=1
+CONTACT engine=CPU frame=1134 normal=0,1,0 separation=-0.0133981705 normal_impulse=3113.97314
+CONTACT engine=CPU frame=1134 normal=0,1,0 separation=0.00044465065 normal_impulse=2564.50977
+CONTACT engine=CPU frame=1134 normal=0,1,0 separation=0.264341831 normal_impulse=0
+CONTACT engine=CPU frame=1134 normal=0,1,0 separation=0.25049901 normal_impulse=0
+TRACKING engine=GPU frame=1134 round=0 cube=3 t=174 error=0.727223754 target=3.32666254,0.56659627,0.5 anchor=3.53283715,1.15126252,0.11985302 local=0.279995918,-0.200000077,0.5 center=3.30023813,0.600738049,0.013936908 contacts=1
+CONTACT engine=GPU frame=1134 normal=0,1,0 separation=-0.0137064457 normal_impulse=3178.72754
+CONTACT engine=GPU frame=1134 normal=0,1,0 separation=9.22679901e-05 normal_impulse=2547.48169
+CONTACT engine=GPU frame=1134 normal=0,1,0 separation=0.270349026 normal_impulse=0
+CONTACT engine=GPU frame=1134 normal=0,1,0 separation=0.256550431 normal_impulse=0
+TRACKING engine=CPU frame=1135 round=0 cube=3 t=175 error=0.763417363 target=3.31888485,0.522151828,0.499997139 anchor=3.57004857,1.13054407,0.113239191 local=0.279999971,-0.200000018,0.50000006 center=3.31906629,0.586233258,0.017668508 contacts=1
+CONTACT engine=CPU frame=1135 normal=0,1,0 separation=-0.0143451691 normal_impulse=3216.45679
+CONTACT engine=CPU frame=1135 normal=0,1,0 separation=0.000112056732 normal_impulse=2772.55957
+CONTACT engine=CPU frame=1135 normal=0,1,0 separation=0.235826135 normal_impulse=0
+CONTACT engine=CPU frame=1135 normal=0,1,0 separation=0.221368909 normal_impulse=0
+TRACKING engine=GPU frame=1135 round=0 cube=3 t=175 error=0.768242359 target=3.31888485,0.522151828,0.5 anchor=3.56008053,1.13399529,0.102924995 local=0.279995918,-0.200000077,0.5 center=3.31245637,0.588491738,0.00542705227 contacts=1
+CONTACT engine=GPU frame=1135 normal=0,1,0 separation=-0.0141887665 normal_impulse=3262.72754
+CONTACT engine=GPU frame=1135 normal=0,1,0 separation=0.000493526459 normal_impulse=2688.37134
+CONTACT engine=GPU frame=1135 normal=0,1,0 separation=0.246510506 normal_impulse=0
+CONTACT engine=GPU frame=1135 normal=0,1,0 separation=0.231828213 normal_impulse=0
+TRACKING engine=CPU frame=1136 round=0 cube=3 t=176 error=0.804373085 target=3.31110692,0.477707386,0.499997139 anchor=3.59956503,1.10993314,0.0949064046 local=0.279999971,-0.200000018,0.50000006 center=3.33220983,0.571902454,0.00862698257 contacts=1
+CONTACT engine=CPU frame=1136 normal=0,1,0 separation=-0.0146912336 normal_impulse=3283.80688
+CONTACT engine=CPU frame=1136 normal=0,1,0 separation=0.000591933727 normal_impulse=2891.23218
+CONTACT engine=CPU frame=1136 normal=0,1,0 separation=0.20929873 normal_impulse=0
+CONTACT engine=CPU frame=1136 normal=0,1,0 separation=0.194015622 normal_impulse=0
+TRACKING engine=GPU frame=1136 round=0 cube=3 t=176 error=0.810669422 target=3.31110692,0.477707386,0.5 anchor=3.58731604,1.11735475,0.0855791271 local=0.279995918,-0.200000077,0.5 center=3.32553768,0.577139378,-0.00407114532 contacts=1
+CONTACT engine=GPU frame=1136 normal=0,1,0 separation=-0.0152106285 normal_impulse=3359.52344
+CONTACT engine=GPU frame=1136 normal=0,1,0 separation=0.000126123428 normal_impulse=2892.87988
+CONTACT engine=GPU frame=1136 normal=0,1,0 separation=0.215918064 normal_impulse=0
+CONTACT engine=GPU frame=1136 normal=0,1,0 separation=0.200581312 normal_impulse=0
+TRACKING engine=CPU frame=1137 round=0 cube=3 t=177 error=0.846859455 target=3.30332923,0.433262944,0.499997139 anchor=3.6289947,1.09011507,0.0761360526 local=0.279999971,-0.200000018,0.50000006 center=3.34629226,0.558657467,-0.00153196044 contacts=1
+CONTACT engine=CPU frame=1137 normal=0,1,0 separation=-0.0157350302 normal_impulse=3370.70923
+CONTACT engine=CPU frame=1137 normal=0,1,0 separation=0.000151574612 normal_impulse=3086.96509
+CONTACT engine=CPU frame=1137 normal=0,1,0 separation=0.17514503 normal_impulse=0
+CONTACT engine=CPU frame=1137 normal=0,1,0 separation=0.159258485 normal_impulse=0
+TRACKING engine=GPU frame=1137 round=0 cube=3 t=177 error=0.851150095 target=3.30332923,0.433262944,0.5 anchor=3.61848617,1.09431171,0.0662406832 local=0.279995918,-0.200000077,0.5 center=3.33934593,0.561284244,-0.0135108642 contacts=1
+CONTACT engine=GPU frame=1137 normal=0,1,0 separation=-0.0155309439 normal_impulse=3413.22876
+CONTACT engine=GPU frame=1137 normal=0,1,0 separation=0.000663280487 normal_impulse=2994.98804
+CONTACT engine=GPU frame=1137 normal=0,1,0 separation=0.187564492 normal_impulse=0
+CONTACT engine=GPU frame=1137 normal=0,1,0 separation=0.171370268 normal_impulse=0
+TRACKING engine=CPU frame=1138 round=0 cube=3 t=178 error=0.883864284 target=3.29555154,0.388818502,0.499997139 anchor=3.660676,1.05985665,0.0554658324 local=0.279999971,-0.200000018,0.50000006 center=3.35743618,0.53827256,-0.0108350385 contacts=1
+CONTACT engine=CPU frame=1138 normal=0,1,0 separation=-0.01594311 normal_impulse=3342.9375
+CONTACT engine=CPU frame=1138 normal=0,1,0 separation=0.000787734985 normal_impulse=2962.07471
+CONTACT engine=CPU frame=1138 normal=0,1,0 separation=0.143657863 normal_impulse=0
+CONTACT engine=CPU frame=1138 normal=0,1,0 separation=0.126927018 normal_impulse=0
+TRACKING engine=GPU frame=1138 round=0 cube=3 t=178 error=0.893333137 target=3.29555154,0.388818502,0.5 anchor=3.64952731,1.07219052,0.0464055091 local=0.279995918,-0.200000077,0.5 center=3.35416627,0.546664596,-0.0241795909 contacts=1
+CONTACT engine=GPU frame=1138 normal=0,1,0 separation=-0.0166386366 normal_impulse=3492.49512
+CONTACT engine=GPU frame=1138 normal=0,1,0 separation=0.000171422958 normal_impulse=3185.24048
+CONTACT engine=GPU frame=1138 normal=0,1,0 separation=0.150809884 normal_impulse=0
+CONTACT engine=GPU frame=1138 normal=0,1,0 separation=0.133999825 normal_impulse=0
+TRACKING engine=CPU frame=1139 round=0 cube=3 t=179 error=0.899215698 target=3.28777361,0.344374061,0.499997139 anchor=3.68134594,1.00361979,0.0319321975 local=0.279999971,-0.200000018,0.50000006 center=3.3435967,0.501680493,-0.0168786421 contacts=1
+CONTACT engine=CPU frame=1139 normal=0,1,0 separation=-0.0172564983 normal_impulse=2990.45654
+CONTACT engine=CPU frame=1139 normal=0,1,0 separation=0.00025832653 normal_impulse=2084.44922
+CONTACT engine=CPU frame=1139 normal=0,1,0 separation=0.0988253951 normal_impulse=100.71315
+CONTACT engine=CPU frame=1139 normal=0,1,0 separation=0.0813105702 normal_impulse=1106.53613
+TRACKING engine=GPU frame=1139 round=0 cube=3 t=179 error=0.919589102 target=3.28777361,0.344374061,0.5 anchor=3.67671084,1.0294286,0.0255821627 local=0.279995918,-0.200000077,0.5 center=3.35432386,0.518315554,-0.0312319417 contacts=1
+CONTACT engine=GPU frame=1139 normal=0,1,0 separation=-0.0167793036 normal_impulse=3249.54102
+CONTACT engine=GPU frame=1139 normal=0,1,0 separation=0.000884652138 normal_impulse=2494.854
+CONTACT engine=GPU frame=1139 normal=0gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+gpu-alloc scene generation=0 bodies=256 shapes=256 hull_points=64 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=64 mesh_triangles=64 mesh_nodes=64 materials=256 joints=16 scene_heap_bytes=237568 max=536870912
+gpu-scene-input shapes=6 mesh_vertices=0 mesh_triangles=0 scene_heap_bytes=237568
+physics-pipeline-cache: save 93655870 bytes, success=true
+,1,0 separation=0.117033601 normal_impulse=0
+CONTACT engine=GPU frame=1139 normal=0,1,0 separation=0.0993697643 normal_impulse=0
+progress physical steps=1200 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+round=0 cube=3 hit_fraction=0.47500014/0.47499999 held_pos=0.0244502 held_quat=0.0176646 held_vel=0.926785 released_pos=0.250265 released_quat=0.165795 released_vel=1.36748
+progress physical steps=1320 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+progress physical steps=1440 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+progress physical steps=1560 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+round=0 cube=4 hit_fraction=0.47500014/0.47499999 held_pos=0.0141488 held_quat=0.00755968 held_vel=0.436515 released_pos=0.0198718 released_quat=0.0111761 released_vel=1.20369
+progress physical steps=1680 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+progress physical steps=1800 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+round=1 cube=0 hit_fraction=0.45855829/0.45888236 held_pos=0.025916 held_quat=0.0194355 held_vel=1.90265 released_pos=0.0278511 released_quat=0.0107904 released_vel=0.317311
+progress physical steps=1920 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+progress physical steps=2040 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+progress physical steps=2160 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+round=1 cube=1 hit_fraction=0.5319221/0.5318591 held_pos=0.00905282 held_quat=0.0102951 held_vel=0.197469 released_pos=0.0674099 released_quat=0.0454365 released_vel=2.01824
+progress physical steps=2280 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+progress physical steps=2400 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+round=1 cube=2 hit_fraction=0.46470621/0.4587391 held_pos=0.147446 held_quat=0.078797 held_vel=2.57777 released_pos=0.389718 released_quat=0.351599 released_vel=1.84929
+progress physical steps=2520 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+progress physical steps=2640 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+progress physical steps=2760 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+round=1 cube=3 hit_fraction=0.48798424/0.48196927 held_pos=0.142304 held_quat=0.100754 held_vel=2.01293 released_pos=0.170784 released_quat=0.0544202 released_vel=0.514762
+progress physical steps=2880 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+progress physical steps=3000 CPUcorner=-0.0223578811 GPUcorner=-0.0184907913
+round=1 cube=4 hit_fraction=0.47123921/0.47172526 held_pos=0.0220739 held_quat=0.0138977 held_vel=0.287651 released_pos=0.0245146 released_quat=0.0185184 released_vel=0.811814
+ground motion: held_position=0.147446 held_quaternion=0.100754 held_velocity=2.57777 settled_velocity=0 strict_peak_velocity=FAIL
+FAIL ground-contact comparison: ten drags; max position=0.389718 m quaternion_chord=0.351599 velocity=2.57777 m/s
+PHYSICAL engine=CPU steps=3060 finite=15300 min_corner=-0.0223578811 worst_frame=525 worst_body=1 max_speed=4.15626812 max_abs_y=2.33963251 tracking=0.899215698 constant_tracking=0.00813954696
+PHYSICAL engine=GPU steps=3060 finite=15300 min_corner=-0.0184907913 worst_frame=1139 worst_body=3 max_speed=4.13417721 max_abs_y=2.33935618 tracking=0.919589102 constant_tracking=0.00814334583
+TIMING combined_completed steps=3060 mean_ms=1.93090593 SPS=517.89162 simulated_sps=8.631527 p95_ms=2.197672 max_ms=663.322467
+Original trajectory result=FAIL (deferred for loaded scenes; unchanged limits/diagnostics)
+FAIL independent physical dragging

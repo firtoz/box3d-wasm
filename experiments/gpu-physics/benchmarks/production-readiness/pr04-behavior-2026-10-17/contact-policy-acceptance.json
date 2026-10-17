@@ -1,0 +1,88 @@
+{
+  "status": "VERIFIED_LOCAL_CONTACT_POLICY_REPAIR_NOT_PR04_COMPLETION",
+  "source": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/src/sim.rs",
+  "retainedSourceSha256": "6b4aeaf97f94ed856b11ddcf4b0d7b6d0e19d3c8296ec0b3ff46d0f6768d97dd",
+  "priorFailures": [
+    {
+      "label": "ordinary-order1-physical",
+      "code": 101,
+      "log": "checks/related-physical-checks-ordinary-order1-physical.log",
+      "spin": "0.019269153",
+      "transverse": "0.001521538"
+    },
+    {
+      "label": "native-order1-physical",
+      "code": 101,
+      "log": "checks/related-physical-remaining-native-order1-physical.log",
+      "spin": "0.019269153",
+      "transverse": "0.001521538"
+    }
+  ],
+  "freshOriginalPhysicalChecks": 32,
+  "freshChangedModeCCDAndNumericalChecks": 114,
+  "groundDragConfirmations": 2,
+  "groundDragCombinedSteps": 6120,
+  "physical": [
+    {
+      "label": "ordinary-order0-physical",
+      "accepted": true,
+      "log": "checks/contact-policy-batch1-ordinary-order0-physical.log"
+    },
+    {
+      "label": "ordinary-order1-physical",
+      "accepted": true,
+      "log": "checks/contact-policy-batch1-ordinary-order1-physical.log"
+    },
+    {
+      "label": "native-order0-physical",
+      "accepted": true,
+      "log": "checks/contact-policy-batch1-native-order0-physical.log"
+    },
+    {
+      "label": "native-order1-physical",
+      "accepted": true,
+      "log": "checks/contact-policy-batch1-native-order1-physical.log"
+    }
+  ],
+  "verification": [
+    {
+      "label": "ordinary-order1-ccd",
+      "accepted": true,
+      "log": "checks/contact-policy-order1-verification-ordinary-order1-ccd.log"
+    },
+    {
+      "label": "ordinary-order1-precision",
+      "accepted": true,
+      "log": "checks/contact-policy-order1-verification-ordinary-order1-precision.log"
+    },
+    {
+      "label": "native-order1-ccd",
+      "accepted": true,
+      "log": "checks/contact-policy-order1-verification-native-order1-ccd.log"
+    },
+    {
+      "label": "native-order1-precision",
+      "accepted": true,
+      "log": "checks/contact-policy-order1-verification-native-order1-precision.log"
+    }
+  ],
+  "scenes": [
+    {
+      "label": "ordinary-order1-ground",
+      "accepted": true,
+      "log": "checks/contact-policy-batch1-ordinary-order1-ground.log"
+    },
+    {
+      "label": "native-order1-ground",
+      "accepted": true,
+      "log": "checks/contact-policy-batch1-native-order1-ground.log"
+    }
+  ],
+  "temporaryManifestsRestored": true,
+  "temporaryFeature": "Empty build-isolation feature; no source cfg consumer. Production manifest restored byte-exact.",
+  "limitations": [
+    "Mode0 CCD/numerical controls reused by unchanged-policy/source applicability; no new five-repeat full-state qualification.",
+    "Rain600 and current-policy ragdoll600 remain open. Scene-disposition inventory marks all165 individual current-policy reviews unreviewed.",
+    "OldPR06candidate remains old-source; refreeze reopened. Throughput/latency targets remain failed. Cull optimization not promoted."
+  ]
+}

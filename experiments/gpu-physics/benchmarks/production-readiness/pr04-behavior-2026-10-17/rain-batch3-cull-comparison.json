@@ -1,0 +1,133 @@
+{
+  "status": "FOCUSED_CANDIDATE_PASS_NOT_PR04_ACCEPTANCE",
+  "rows": [
+    {
+      "backend": "ordinary",
+      "before": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/checks/rain-batch2-profile-run-ordinary-viewer-setters.log",
+        "sha256": "ba5d555a2d7ccef8d631102011df4886dab6c1035e672877b4273dc5b693f8ea",
+        "steps": 336,
+        "endpoint": "f177d8f0fa03811c",
+        "tail20": {
+          "meanMs": 341.04018665,
+          "SPS": 2.9322057609189383,
+          "simulatedSecondsPerSecond": 0.04887009601531564,
+          "p95Ms": 355.917751,
+          "maxMs": 357.034063
+        },
+        "clocks": {
+          "submit_call_ms": 3.1975602999999992,
+          "completion_call_ms": 337.84262635000005,
+          "encode_ms": 2.2181052575,
+          "fetch_ms": 98.56405485999998,
+          "device_ms": 238.89950720000002,
+          "broadphase_ms": 186.32494049999997,
+          "collide_ms": 3.400396777,
+          "solver_ms": 49.174169340000006
+        }
+      },
+      "after": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/checks/rain-batch3-cull-run-ordinary-viewer-setters.log",
+        "sha256": "2b21ad53a4c7a91f9086a4e6ca157d43b2daaf11f1efe2ee93362a59938c0146",
+        "steps": 336,
+        "endpoint": "f177d8f0fa03811c",
+        "tail20": {
+          "meanMs": 215.42087539999997,
+          "SPS": 4.642075649090042,
+          "simulatedSecondsPerSecond": 0.07736792748483404,
+          "p95Ms": 228.257875,
+          "maxMs": 228.444665
+        },
+        "clocks": {
+          "submit_call_ms": 3.2802572000000003,
+          "completion_call_ms": 212.14061819999998,
+          "encode_ms": 2.2445918085,
+          "fetch_ms": 102.48561626499998,
+          "device_ms": 109.234073265,
+          "broadphase_ms": 56.29747162000001,
+          "collide_ms": 3.3549824234999996,
+          "solver_ms": 49.58161850999999
+        }
+      },
+      "throughputRatio": 1.583134345809088,
+      "meets20PercentGain": true,
+      "endpointExact": true
+    },
+    {
+      "backend": "native",
+      "before": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/checks/rain-batch2-profile-run-native-viewer-setters.log",
+        "sha256": "ea98b0b7830eae5fcbf7f59e8c4430a985671f0e381eb98a6783c635f46f3bbf",
+        "steps": 336,
+        "endpoint": "f177d8f0fa03811c",
+        "tail20": {
+          "meanMs": 340.81689500000005,
+          "SPS": 2.9341268425087903,
+          "simulatedSecondsPerSecond": 0.048902114041813174,
+          "p95Ms": 357.944469,
+          "maxMs": 358.620825
+        },
+        "clocks": {
+          "submit_call_ms": 2.8146665000000004,
+          "completion_call_ms": 338.0022285,
+          "encode_ms": 1.7719649145000003,
+          "fetch_ms": 99.54804530000001,
+          "device_ms": 238.03694069999997,
+          "broadphase_ms": 185.88057720000003,
+          "collide_ms": 2.7056128029999997,
+          "solver_ms": 49.45075187500001
+        }
+      },
+      "after": {
+        "path": "/home/firtoz/work/2026/box3d-wasm/experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/checks/rain-batch3-cull-run-native-viewer-setters.log",
+        "sha256": "143a44f07ce42b11c422b3f1aae5fd70a406b13329a0744929572991326ec9fe",
+        "steps": 336,
+        "endpoint": "f177d8f0fa03811c",
+        "tail20": {
+          "meanMs": 210.91402774999997,
+          "SPS": 4.741268329412955,
+          "simulatedSecondsPerSecond": 0.07902113882354926,
+          "p95Ms": 220.786292,
+          "maxMs": 223.653611
+        },
+        "clocks": {
+          "submit_call_ms": 2.77698575,
+          "completion_call_ms": 208.13704199999998,
+          "encode_ms": 1.7479623975000003,
+          "fetch_ms": 99.32044793500002,
+          "device_ms": 108.39720989999998,
+          "broadphase_ms": 56.32491494,
+          "collide_ms": 2.6437120304999997,
+          "solver_ms": 49.428582195000004
+        }
+      },
+      "throughputRatio": 1.6159043503923607,
+      "meets20PercentGain": true,
+      "endpointExact": true
+    }
+  ],
+  "focusedChecks": [
+    {
+      "label": "ordinary-joint_filter_table_matches_scan_oracle",
+      "accepted": true,
+      "log": "checks/rain-batch3-cull-ordinary-joint_filter_table_matches_scan_oracle.log"
+    },
+    {
+      "label": "ordinary-joint_filter_survives_body_growth_within_capacity",
+      "accepted": true,
+      "log": "checks/rain-batch3-cull-ordinary-joint_filter_survives_body_growth_within_capacity.log"
+    },
+    {
+      "label": "native-joint_filter_table_matches_scan_oracle",
+      "accepted": true,
+      "log": "checks/rain-batch3-cull-native-joint_filter_table_matches_scan_oracle.log"
+    },
+    {
+      "label": "native-joint_filter_survives_body_growth_within_capacity",
+      "accepted": true,
+      "log": "checks/rain-batch3-cull-native-joint_filter_survives_body_growth_within_capacity.log"
+    }
+  ],
+  "sourceRestored": true,
+  "limitations": "336step development profile and endpoint digest, not full600 joint/support/energy qualification or full semantic repeatability. Frozen60SPS target still applies; a20% development improvement does not satisfy that target."
+}

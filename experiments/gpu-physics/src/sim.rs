@@ -25,9 +25,9 @@ use crate::types::{
 
 #[cfg(not(target_arch = "wasm32"))]
 fn diagnostic_flags_from_env() -> u32 {
-    let solver = if std::env::var("GPU_PHYSICS_LIVE_CONTACT_ORDER").as_deref() == Ok("0") {
-        crate::types::SOLVER_PAIRED_NORMALS
-    } else { 0 };
+    // Contact priority and normal solving are independent policies. Keeping
+    // CPU-compatible priority must not restore the asymmetric scalar solver.
+    let solver = crate::types::SOLVER_PAIRED_NORMALS;
     std::env::var("GPU_PHYSICS_AB")
         .unwrap_or_default()
         .split(',')

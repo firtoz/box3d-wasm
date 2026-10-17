@@ -1,0 +1,21 @@
+{
+  "status": "SYNTAX_ONLY_PASS_NOT_RUNTIME_QUALIFICATION",
+  "files": [
+    "run.ts",
+    "extract-baseline.ts",
+    "checkpoint-audit.ts",
+    "prepare-profile.ts",
+    "cull-tools.ts",
+    "compare-cull.ts",
+    "prepare-drag.ts",
+    "prepare-drag-final.ts",
+    "summarize-drag.ts",
+    "prepare-regressions.ts",
+    "prepare-contact-policy.ts",
+    "contact-policy-tools.ts",
+    "prepare-contact-verification.ts",
+    "summarize-contact-policy.ts",
+    "joint-qualification-tools.ts",
+    "qualification-fixture-tools.ts"
+  ]
+}

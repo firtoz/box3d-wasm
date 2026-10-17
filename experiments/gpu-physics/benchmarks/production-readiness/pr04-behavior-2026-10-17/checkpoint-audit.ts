@@ -7,6 +7,7 @@ import { spawnSync } from "node:child_process";
 const root = resolve("experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17");
 const hash = (p: string) => createHash("sha256").update(readFileSync(p)).digest("hex");
 const checked = new Map<string, string>();
+const sourceTransitions = new Map<string, object>();
 const present = (pid: number) => {
   try { process.kill(pid, 0); return true; }
   catch (e: any) { if (e.code !== "ESRCH") throw e; return false; }
@@ -19,7 +20,18 @@ const receipts = readdirSync(root).filter(p => p.endsWith("-receipt.json")).map(
   for (const [path, expected] of Object.entries(r.inputHashes)) {
     const actual = checked.get(path) ?? hash(path);
     checked.set(path, actual);
-    if (actual !== expected) throw Error("Input changed " + path);
+    if (actual !== expected) {
+      // Historical build inputs can be superseded by the verified retained
+      // repair. Validate both exact source images; do not call them unchanged.
+      const before = join(root, "contact-policy-sim-before.rs");
+      const candidate = join(root, "contact-policy-sim-candidate.rs");
+      if (path !== resolve("experiments/gpu-physics/src/sim.rs")
+        || !existsSync(before) || !existsSync(candidate)
+        || hash(before) !== expected || hash(candidate) !== actual) throw Error("Input changed " + path);
+      sourceTransitions.set(path, { path, historicalSha256: expected, currentSha256: actual,
+        historicalSource: before, currentSource: candidate,
+        reason: "Verified normal-solver policy repair retained; historical results retain their original source scope." });
+    }
   }
   for (const row of r.rows) {
     if (hash(join(root, row.log)) !== row.logSha256) throw Error("Log changed " + row.log);
@@ -59,7 +71,8 @@ const cache = spawnSync("du", ["-sb", "/home/firtoz/.cache/box3d-gpu-physics/pip
 if (cache.status !== 0) throw Error("Cache inventory failed");
 const fs = statfsSync(root);
 const report = { status: "CHECKPOINT_INTEGRITY_PASS_NOT_PR04_ACCEPTANCE", auditedAt: new Date().toISOString(),
-  gatesDone: 0, gatesLeft: 6, receipts, distinctPinnedInputs: checked.size, checkedProcessesAbsent: true,
+  gatesDone: 1, gatesLeft: 5, receipts, distinctPinnedInputs: checked.size,
+  supersededSources: [...sourceTransitions.values()], checkedProcessesAbsent: true,
   baseline, headless, rawBytes, retainedBytesBeforeAudit: bytes(root), freeBytes: fs.bavail * fs.bsize,
   cacheBytesAfter: cache.stdout.trim(),
   limitations: ["Normal viewer baselines record workerCount=8; headless fixture explicitly uses one worker. Do not present them as matched one-worker timings.",

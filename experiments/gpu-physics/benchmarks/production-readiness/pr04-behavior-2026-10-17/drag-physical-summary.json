@@ -1,0 +1,178 @@
+{
+  "status": "PHYSICAL_DRAG_MATRIX_PASS_NOT_PR04_OR_PERFORMANCE_COMPLETION",
+  "physicalSceneCells": 8,
+  "isolatedSteps": 1320,
+  "groundSteps": 3060,
+  "totalCombinedSteps": 17520,
+  "independentBodyObservations": 175200,
+  "focusedCCDChecks": 8,
+  "rows": [
+    {
+      "label": "ordinary-order0-isolated",
+      "log": "checks/drag-batch3-handle-correction-ordinary-order0-isolated.log",
+      "accepted": true,
+      "metrics": [
+        "PHYSICAL engine=CPU steps=1320 finite=6600 min_corner=1e+09 worst_frame=-1 worst_body=-1 max_speed=21.9999561 max_abs_y=101.986069 tracking=0.0162413958 constant_tracking=0.00955042616",
+        "PHYSICAL engine=GPU steps=1320 finite=6600 min_corner=1e+09 worst_frame=-1 worst_body=-1 max_speed=21.9999561 max_abs_y=101.986069 tracking=0.0162413958 constant_tracking=0.00955042616",
+        "TRACKING_APPLICABILITY engine=CPU free_peak=0.0162413958 floor_loaded_lowering=0 global_screen=PASS",
+        "TRACKING_APPLICABILITY engine=GPU free_peak=0.0162413958 floor_loaded_lowering=0 global_screen=PASS",
+        "TIMING combined_completed steps=1320 mean_ms=1.83687923 SPS=544.401605 simulated_sps=9.07336009 p95_ms=2.23516 max_ms=49.095411"
+      ],
+      "timingPass": true,
+      "originalTrajectoryPass": true,
+      "unconditionalTrackingPass": true
+    },
+    {
+      "label": "ordinary-order0-ground",
+      "log": "checks/drag-batch3-handle-correction-ordinary-order0-ground.log",
+      "accepted": true,
+      "metrics": [
+        "PHYSICAL engine=CPU steps=3060 finite=15300 min_corner=-0.0223578811 worst_frame=525 worst_body=1 max_speed=4.15626812 max_abs_y=2.33963251 tracking=0.899215698 constant_tracking=0.00813954696",
+        "PHYSICAL engine=GPU steps=3060 finite=15300 min_corner=-0.0184907913 worst_frame=1139 worst_body=3 max_speed=4.13417721 max_abs_y=2.33935618 tracking=0.919589102 constant_tracking=0.00814334583",
+        "TRACKING_APPLICABILITY engine=CPU free_peak=0.198899776 floor_loaded_lowering=119 global_screen=FAIL_preserved",
+        "TRACKING_APPLICABILITY engine=GPU free_peak=0.199107528 floor_loaded_lowering=121 global_screen=FAIL_preserved",
+        "TIMING combined_completed steps=3060 mean_ms=1.95504829 SPS=511.496317 simulated_sps=8.52493862 p95_ms=2.187879 max_ms=730.304393"
+      ],
+      "timingPass": false,
+      "originalTrajectoryPass": false,
+      "unconditionalTrackingPass": false
+    },
+    {
+      "label": "ordinary-order1-isolated",
+      "log": "checks/drag-batch3-handle-correction-ordinary-order1-isolated.log",
+      "accepted": true,
+      "metrics": [
+        "PHYSICAL engine=CPU steps=1320 finite=6600 min_corner=1e+09 worst_frame=-1 worst_body=-1 max_speed=21.9999561 max_abs_y=101.986069 tracking=0.0162413958 constant_tracking=0.00955042616",
+        "PHYSICAL engine=GPU steps=1320 finite=6600 min_corner=1e+09 worst_frame=-1 worst_body=-1 max_speed=21.9999561 max_abs_y=101.986069 tracking=0.0162413958 constant_tracking=0.00955042616",
+        "TRACKING_APPLICABILITY engine=CPU free_peak=0.0162413958 floor_loaded_lowering=0 global_screen=PASS",
+        "TRACKING_APPLICABILITY engine=GPU free_peak=0.0162413958 floor_loaded_lowering=0 global_screen=PASS",
+        "TIMING combined_completed steps=1320 mean_ms=1.83038687 SPS=546.33259 simulated_sps=9.10554316 p95_ms=2.149546 max_ms=51.31546"
+      ],
+      "timingPass": true,
+      "originalTrajectoryPass": true,
+      "unconditionalTrackingPass": true
+    },
+    {
+      "label": "ordinary-order1-ground",
+      "log": "checks/drag-batch3-handle-correction-ordinary-order1-ground.log",
+      "accepted": true,
+      "metrics": [
+        "PHYSICAL engine=CPU steps=3060 finite=15300 min_corner=-0.0223578811 worst_frame=525 worst_body=1 max_speed=4.15626812 max_abs_y=2.33963251 tracking=0.899215698 constant_tracking=0.00813954696",
+        "PHYSICAL engine=GPU steps=3060 finite=15300 min_corner=-0.0184835196 worst_frame=1139 worst_body=3 max_speed=4.13461494 max_abs_y=2.33999944 tracking=0.919279635 constant_tracking=0.00813954696",
+        "TRACKING_APPLICABILITY engine=CPU free_peak=0.198899776 floor_loaded_lowering=119 global_screen=FAIL_preserved",
+        "TRACKING_APPLICABILITY engine=GPU free_peak=0.187043011 floor_loaded_lowering=122 global_screen=FAIL_preserved",
+        "TIMING combined_completed steps=3060 mean_ms=1.92841793 SPS=518.559791 simulated_sps=8.64266318 p95_ms=2.153183 max_ms=672.219452"
+      ],
+      "timingPass": false,
+      "originalTrajectoryPass": false,
+      "unconditionalTrackingPass": false
+    },
+    {
+      "label": "native-order0-isolated",
+      "log": "checks/drag-batch3-handle-correction-native-order0-isolated.log",
+      "accepted": true,
+      "metrics": [
+        "PHYSICAL engine=CPU steps=1320 finite=6600 min_corner=1e+09 worst_frame=-1 worst_body=-1 max_speed=21.9999561 max_abs_y=101.986069 tracking=0.0162413958 constant_tracking=0.00955042616",
+        "PHYSICAL engine=GPU steps=1320 finite=6600 min_corner=1e+09 worst_frame=-1 worst_body=-1 max_speed=21.9999561 max_abs_y=101.986069 tracking=0.0162413958 constant_tracking=0.00955042616",
+        "TRACKING_APPLICABILITY engine=CPU free_peak=0.0162413958 floor_loaded_lowering=0 global_screen=PASS",
+        "TRACKING_APPLICABILITY engine=GPU free_peak=0.0162413958 floor_loaded_lowering=0 global_screen=PASS",
+        "TIMING combined_completed steps=1320 mean_ms=21.0669488 SPS=47.4677188 simulated_sps=0.791128646 p95_ms=6.048062 max_ms=1473.13339"
+      ],
+      "timingPass": false,
+      "originalTrajectoryPass": true,
+      "unconditionalTrackingPass": true
+    },
+    {
+      "label": "native-order0-ground",
+      "log": "checks/drag-batch3-handle-correction-native-order0-ground.log",
+      "accepted": true,
+      "metrics": [
+        "PHYSICAL engine=CPU steps=3060 finite=15300 min_corner=-0.0223578811 worst_frame=525 worst_body=1 max_speed=4.15626812 max_abs_y=2.33963251 tracking=0.899215698 constant_tracking=0.00813954696",
+        "PHYSICAL engine=GPU steps=3060 finite=15300 min_corner=-0.0184907913 worst_frame=1139 worst_body=3 max_speed=4.13417244 max_abs_y=2.33998132 tracking=0.919588923 constant_tracking=0.00814334583",
+        "TRACKING_APPLICABILITY engine=CPU free_peak=0.198899776 floor_loaded_lowering=119 global_screen=FAIL_preserved",
+        "TRACKING_APPLICABILITY engine=GPU free_peak=0.199110359 floor_loaded_lowering=121 global_screen=FAIL_preserved",
+        "TIMING combined_completed steps=3060 mean_ms=10.0147231 SPS=99.8529856 simulated_sps=1.66421643 p95_ms=3.975467 max_ms=2129.74915"
+      ],
+      "timingPass": false,
+      "originalTrajectoryPass": false,
+      "unconditionalTrackingPass": false
+    },
+    {
+      "label": "native-order1-isolated",
+      "log": "checks/drag-batch3-handle-correction-native-order1-isolated.log",
+      "accepted": true,
+      "metrics": [
+        "PHYSICAL engine=CPU steps=1320 finite=6600 min_corner=1e+09 worst_frame=-1 worst_body=-1 max_speed=21.9999561 max_abs_y=101.986069 tracking=0.0162413958 constant_tracking=0.00955042616",
+        "PHYSICAL engine=GPU steps=1320 finite=6600 min_corner=1e+09 worst_frame=-1 worst_body=-1 max_speed=21.9999561 max_abs_y=101.986069 tracking=0.0162413958 constant_tracking=0.00955042616",
+        "TRACKING_APPLICABILITY engine=CPU free_peak=0.0162413958 floor_loaded_lowering=0 global_screen=PASS",
+        "TRACKING_APPLICABILITY engine=GPU free_peak=0.0162413958 floor_loaded_lowering=0 global_screen=PASS",
+        "TIMING combined_completed steps=1320 mean_ms=20.8617483 SPS=47.934621 simulated_sps=0.79891035 p95_ms=5.493383 max_ms=1487.89844"
+      ],
+      "timingPass": false,
+      "originalTrajectoryPass": true,
+      "unconditionalTrackingPass": true
+    },
+    {
+      "label": "native-order1-ground",
+      "log": "checks/drag-batch3-handle-correction-native-order1-ground.log",
+      "accepted": true,
+      "metrics": [
+        "PHYSICAL engine=CPU steps=3060 finite=15300 min_corner=-0.0223578811 worst_frame=525 worst_body=1 max_speed=4.15626812 max_abs_y=2.33963251 tracking=0.899215698 constant_tracking=0.00813954696",
+        "PHYSICAL engine=GPU steps=3060 finite=15300 min_corner=-0.0184835196 worst_frame=1139 worst_body=3 max_speed=4.13461447 max_abs_y=2.33996296 tracking=0.919279814 constant_tracking=0.00813954696",
+        "TRACKING_APPLICABILITY engine=CPU free_peak=0.198899776 floor_loaded_lowering=119 global_screen=FAIL_preserved",
+        "TRACKING_APPLICABILITY engine=GPU free_peak=0.186948448 floor_loaded_lowering=122 global_screen=FAIL_preserved",
+        "TIMING combined_completed steps=3060 mean_ms=10.0236115 SPS=99.7644409 simulated_sps=1.66274068 p95_ms=4.07901 max_ms=2133.214"
+      ],
+      "timingPass": false,
+      "originalTrajectoryPass": false,
+      "unconditionalTrackingPass": false
+    }
+  ],
+  "checks": [
+    {
+      "label": "ordinary-order0-ccd_landing_refreshes_empty_contact_inside_speculative_shell",
+      "accepted": true,
+      "log": "checks/drag-batch3-handle-correction-ordinary-order0-ccd_landing_refreshes_empty_contact_inside_speculative_shell.log"
+    },
+    {
+      "label": "ordinary-order0-convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation",
+      "accepted": true,
+      "log": "checks/drag-batch3-handle-correction-ordinary-order0-convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation.log"
+    },
+    {
+      "label": "ordinary-order1-ccd_landing_refreshes_empty_contact_inside_speculative_shell",
+      "accepted": true,
+      "log": "checks/drag-batch3-handle-correction-ordinary-order1-ccd_landing_refreshes_empty_contact_inside_speculative_shell.log"
+    },
+    {
+      "label": "ordinary-order1-convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation",
+      "accepted": true,
+      "log": "checks/drag-batch3-handle-correction-ordinary-order1-convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation.log"
+    },
+    {
+      "label": "native-order0-ccd_landing_refreshes_empty_contact_inside_speculative_shell",
+      "accepted": true,
+      "log": "checks/drag-batch3-handle-correction-native-order0-ccd_landing_refreshes_empty_contact_inside_speculative_shell.log"
+    },
+    {
+      "label": "native-order0-convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation",
+      "accepted": true,
+      "log": "checks/drag-batch3-handle-correction-native-order0-convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation.log"
+    },
+    {
+      "label": "native-order1-ccd_landing_refreshes_empty_contact_inside_speculative_shell",
+      "accepted": true,
+      "log": "checks/drag-batch3-handle-correction-native-order1-ccd_landing_refreshes_empty_contact_inside_speculative_shell.log"
+    },
+    {
+      "label": "native-order1-convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation",
+      "accepted": true,
+      "log": "checks/drag-batch3-handle-correction-native-order1-convex_gpu_ccd_corrects_live_steps_and_rebuilds_after_mutation.log"
+    }
+  ],
+  "limitations": [
+    "Original loaded trajectory FAIL remains deferred, not repaired. Unconditional tracking screen still FAILS on supported lowering; actual upward impulses justify only the documented free-servo applicability exception.",
+    "Timing is combined CPU+GPU completed-step wall time; some first-use maximum latencies fail the frozen250ms target.",
+    "Scene libraries are frozen PR06 production inputs; focused CCD Rust test executables include the artifact-only pure-predicate cull change. No final PR07 or complete29CCD regression claim."
+  ]
+}

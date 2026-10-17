@@ -1,0 +1,8 @@
+{
+  "originalReceiptStatus": "FAILED",
+  "run": "run-ordinary-reaction",
+  "exit": 0,
+  "actualOriginalSuccessMarker": "joint reaction: 2856 independent CPU/GPU scalar comparisons passed",
+  "cause": "Driver required uppercase PASS although unchanged fixture reports lowercase passed. Original completion accepted from code0/full original check count; no rerun.",
+  "reusedLog": "checks/joint-c-qualification-run-ordinary-reaction.log"
+}
