@@ -1,4 +1,4 @@
-PR04 behavior/performance plan prepared, 2026-10-17: see [the six-gate plan and pivot/stop rules](#pr04-behavior-performance-plan). **0/6 PR04 gates closed; no new solver experiment started.** The user requested goal text to activate separately. Practical physical behavior and completed physics steps/second are the targets; cross-engine bit/trajectory parity is outside this goal. Commit/push of the verified milestone and this plan are authorized. This planning request does not activate PR04 or the full roadmap.
+PR04 ACTIVE, 2026-10-17: **0/6 gates closed.** Read [current PR04 recovery](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/log.md) FIRST on continuation/compaction, then AGENTS.md and this roadmap. The user requested commit/push of the current checkpoint and reusable goal text; this does not certify PR04 complete. Source baseline `cebc1e08d`, runtime `442689de1`; no production solver changes. Both normal Rain viewers timed out at 180 seconds. Headless ordinary Rain reached 407/600 steps before its 90-second cap; its final20 completed steps averaged394.75ms, so rendering alone cannot explain the slowdown. Normal viewer records use eight CPU workers; the headless control uses one. No physical acceptance is inferred from timing. [Integrity/cleanup audit](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/checkpoint-audit.json):17 pinned inputs unchanged, recorded process groups absent, no raw outputs left. Rain/performance batch1 closed; two of three batches remain. No jobs running; old budgets do not authorize another experiment. Stop after PR04 under the pivot/stop rules below.
 
 PR05 and PR06 completed as `442689de1`, 2026-10-17: **PR05 8/8 gates closed; PR06 5/5, 0 left.** [Verified runtime repairs, clean builds and consumer report](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/README.md), [acceptance](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/acceptance.json), [completed recovery log](../../experiments/gpu-physics/benchmarks/production-readiness/pr05-pr06-native-2026-10-17/log.md). Push is now authorized. Later relevant PR04 changes require release applicability review/refreeze. This supersedes older activation/stop prose below.
 
@@ -431,14 +431,17 @@ GPU repeatability remains PR07, distinct from cross-engine parity. Alternative
 algorithms must satisfy the same physical model and independent invariants;
 identical solver internals are not an acceptance requirement.
 
-Use this section as PR04's durable recovery record. Read this roadmap and
-AGENTS.md first at every continuation/compaction; before solver work also read
+Use this section and its linked current log as PR04's durable recovery record.
+Read the current log first, then this roadmap and AGENTS.md at every
+continuation/compaction; before solver work also read
 `docs/gpu-solver-goal.md`, relevant rejected experiments in
 `docs/gpu-solver-qualification.md`, and the deferred PR04 recovery below. Historical
 next actions and exhausted budgets are not authorization to repeat experiments.
-Current baseline: `442689de1`, clean `feat/gpu`; PR05/PR06 evidence remains bounded
-to its recorded inputs. Plan only: no live jobs, baseline measurements or new
-experimental output. Keep all six gates open until their evidence exists.
+Runtime baseline: `442689de1`; PR05/PR06 evidence remains bounded to its recorded
+inputs. Measurements, failed runs, cleanup and next discriminating work are in
+[the current log](../../experiments/gpu-physics/benchmarks/production-readiness/pr04-behavior-2026-10-17/log.md).
+Keep all six gates open until their evidence exists. A checkpoint commit is not
+a physical or performance acceptance result.
 
 | Gate | Required result | Status |
 | --- | --- | --- |

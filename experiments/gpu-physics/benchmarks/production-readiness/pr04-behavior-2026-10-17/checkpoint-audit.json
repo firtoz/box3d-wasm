@@ -1,0 +1,243 @@
+{
+  "status": "CHECKPOINT_INTEGRITY_PASS_NOT_PR04_ACCEPTANCE",
+  "auditedAt": "2026-10-17T14:47:54.217Z",
+  "gatesDone": 0,
+  "gatesLeft": 6,
+  "receipts": [
+    {
+      "name": "baseline-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 10,
+      "lastJob": "run-rain-ordinary",
+      "lastJobAccepted": false,
+      "elapsedMs": 203027,
+      "removedBytes": 3123517
+    },
+    {
+      "name": "baseline-native-remaining-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 1,
+      "lastJob": "run-rain-native",
+      "lastJobAccepted": false,
+      "elapsedMs": 180559,
+      "removedBytes": 286
+    },
+    {
+      "name": "rain-batch1-headless-receipt.json",
+      "status": "FAILED",
+      "completedJobs": 11,
+      "lastJob": "run-ordinary-viewer-setters",
+      "lastJobAccepted": false,
+      "elapsedMs": 105908,
+      "removedBytes": 16811128
+    }
+  ],
+  "distinctPinnedInputs": 17,
+  "checkedProcessesAbsent": true,
+  "baseline": [
+    {
+      "name": "baseline-ragdolls-cpu.json",
+      "workerCount": 8,
+      "all": {
+        "steps": 600,
+        "meanCompletedStepMs": 0.13375283333333324,
+        "completedStepsPerSecond": 7476.477133817732,
+        "simulatedSecondsPerSecond": 124.60795223029552,
+        "p95Ms": 0.3016,
+        "maxMs": 1.7417,
+        "maxBodies": 116,
+        "maxJoints": 112,
+        "meanHealthMs": 0
+      },
+      "loadedTail120": {
+        "steps": 120,
+        "meanCompletedStepMs": 0.0021883333333333347,
+        "completedStepsPerSecond": 456968.77380045666,
+        "simulatedSecondsPerSecond": 7616.146230007611,
+        "p95Ms": 0.0027,
+        "maxMs": 0.0037,
+        "maxBodies": 116,
+        "maxJoints": 112,
+        "meanHealthMs": 0
+      }
+    },
+    {
+      "name": "baseline-ragdolls-ordinary.json",
+      "workerCount": 8,
+      "all": {
+        "steps": 600,
+        "meanCompletedStepMs": 10.150644666666668,
+        "completedStepsPerSecond": 98.51591035236052,
+        "simulatedSecondsPerSecond": 1.6419318392060087,
+        "p95Ms": 17.1742,
+        "maxMs": 213.7818,
+        "maxBodies": 116,
+        "maxJoints": 112,
+        "meanHealthMs": 0
+      },
+      "loadedTail120": {
+        "steps": 120,
+        "meanCompletedStepMs": 4.448014166666666,
+        "completedStepsPerSecond": 224.81942784579715,
+        "simulatedSecondsPerSecond": 3.746990464096619,
+        "p95Ms": 5.1253,
+        "maxMs": 5.3548,
+        "maxBodies": 116,
+        "maxJoints": 112,
+        "meanHealthMs": 0
+      }
+    },
+    {
+      "name": "baseline-ragdolls-native.json",
+      "workerCount": 8,
+      "all": {
+        "steps": 600,
+        "meanCompletedStepMs": 9.391749833333328,
+        "completedStepsPerSecond": 106.4764306701171,
+        "simulatedSecondsPerSecond": 1.774607177835285,
+        "p95Ms": 16.3659,
+        "maxMs": 232.3664,
+        "maxBodies": 116,
+        "maxJoints": 112,
+        "meanHealthMs": 0
+      },
+      "loadedTail120": {
+        "steps": 120,
+        "meanCompletedStepMs": 3.6844208333333333,
+        "completedStepsPerSecond": 271.4130782653538,
+        "simulatedSecondsPerSecond": 4.523551304422564,
+        "p95Ms": 4.0336,
+        "maxMs": 4.4538,
+        "maxBodies": 116,
+        "maxJoints": 112,
+        "meanHealthMs": 0
+      }
+    },
+    {
+      "name": "baseline-rain-cpu.json",
+      "workerCount": 8,
+      "all": {
+        "steps": 600,
+        "meanCompletedStepMs": 2.562461166666666,
+        "completedStepsPerSecond": 390.24981646876347,
+        "simulatedSecondsPerSecond": 6.504163607812725,
+        "p95Ms": 3.5213,
+        "maxMs": 4.9919,
+        "maxBodies": 4300,
+        "maxJoints": 4200,
+        "meanHealthMs": 0
+      },
+      "loadedTail120": {
+        "steps": 120,
+        "meanCompletedStepMs": 3.1643316666666648,
+        "completedStepsPerSecond": 316.02249869509063,
+        "simulatedSecondsPerSecond": 5.267041644918177,
+        "p95Ms": 3.5071,
+        "maxMs": 3.6676,
+        "maxBodies": 4300,
+        "maxJoints": 4200,
+        "meanHealthMs": 0
+      }
+    }
+  ],
+  "headless": [
+    {
+      "name": "rain-batch1-headless-run-cpu-viewer-setters.log",
+      "completedSteps": 600,
+      "passMarker": true,
+      "endpoint": {
+        "kind": "endpoint",
+        "humans": 300,
+        "dynamic_bodies": 4200,
+        "pose_velocity_digest": "187d68e48d2ebcef"
+      },
+      "all": {
+        "steps": 600,
+        "meanPhysicsMs": 11.058090800000002,
+        "completedStepsPerSecond": 90.43152367676342,
+        "simulatedSecondsPerSecond": 1.5071920612793903,
+        "p95Ms": 15.227667,
+        "maxMs": 17.835237,
+        "meanSettersMs": 0.00019338166666666662,
+        "meanCreateMs": 0.02602234666666664
+      },
+      "final20Completed": {
+        "steps": 20,
+        "meanPhysicsMs": 14.228119999999999,
+        "completedStepsPerSecond": 70.28335437148408,
+        "simulatedSecondsPerSecond": 1.1713892395247347,
+        "p95Ms": 14.76596,
+        "maxMs": 14.999546,
+        "meanSettersMs": 0.00019325,
+        "meanCreateMs": 0.035049949999999996
+      }
+    },
+    {
+      "name": "rain-batch1-headless-run-cpu-engine-only.log",
+      "completedSteps": 600,
+      "passMarker": true,
+      "endpoint": {
+        "kind": "endpoint",
+        "humans": 300,
+        "dynamic_bodies": 4200,
+        "pose_velocity_digest": "187d68e48d2ebcef"
+      },
+      "all": {
+        "steps": 600,
+        "meanPhysicsMs": 11.057543773333338,
+        "completedStepsPerSecond": 90.4359974058277,
+        "simulatedSecondsPerSecond": 1.5072666234304617,
+        "p95Ms": 14.92917,
+        "maxMs": 15.58848,
+        "meanSettersMs": 0.000022036666666666608,
+        "meanCreateMs": 0.025476165
+      },
+      "final20Completed": {
+        "steps": 20,
+        "meanPhysicsMs": 14.213613850000002,
+        "completedStepsPerSecond": 70.35508425607046,
+        "simulatedSecondsPerSecond": 1.1725847376011742,
+        "p95Ms": 14.540936,
+        "maxMs": 14.95083,
+        "meanSettersMs": 0.000022299999999999993,
+        "meanCreateMs": 0.035870650000000004
+      }
+    },
+    {
+      "name": "rain-batch1-headless-run-ordinary-viewer-setters.log",
+      "completedSteps": 407,
+      "passMarker": false,
+      "endpoint": null,
+      "all": {
+        "steps": 407,
+        "meanPhysicsMs": 219.55099482063892,
+        "completedStepsPerSecond": 4.554750484355331,
+        "simulatedSecondsPerSecond": 0.07591250807258886,
+        "p95Ms": 384.295435,
+        "maxMs": 1492.15507,
+        "meanSettersMs": 0.0013456805896805892,
+        "meanCreateMs": 0.44948238574938576
+      },
+      "final20Completed": {
+        "steps": 20,
+        "meanPhysicsMs": 394.74733365000003,
+        "completedStepsPerSecond": 2.5332660027202185,
+        "simulatedSecondsPerSecond": 0.042221100045336975,
+        "p95Ms": 406.690182,
+        "maxMs": 429.297636,
+        "meanSettersMs": 0.0013067,
+        "meanCreateMs": 2.22445325
+      }
+    }
+  ],
+  "rawBytes": 0,
+  "retainedBytesBeforeAudit": 991922,
+  "freeBytes": 1706427506688,
+  "cacheBytesAfter": "269836621\t/home/firtoz/.cache/box3d-gpu-physics/pipelines\n1059801083\t/home/firtoz/.cache/nvidia",
+  "limitations": [
+    "Normal viewer baselines record workerCount=8; headless fixture explicitly uses one worker. Do not present them as matched one-worker timings.",
+    "Timeouts remain failures. Unlaunched controls are unreviewed; no GPU Rain600 physical pass.",
+    "Baseline health scans are disabled. Headless endpoints only check valid finite live body states, not joint/support/energy acceptance.",
+    "A physics-step clock includes queue completion and mirror synchronization; this is not pure GPU kernel time."
+  ]
+}

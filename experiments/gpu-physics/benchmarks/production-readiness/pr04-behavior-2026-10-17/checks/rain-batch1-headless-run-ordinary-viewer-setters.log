@@ -1,0 +1,457 @@
+GPU adapter: NVIDIA GeForce RTX 4070 SUPER | backend=Vulkan driver=NVIDIA
+GPU features: subgroups
+GPU limits: storage bind 2048.0 MiB, buffer 17592186044416.0 MiB
+{"kind":"setup","ms":172.949377,"variant":"viewer-setters","gpu":true}
+gpu-alloc scene generation=1 bodies=650 shapes=775 hull_points=840 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=775 joints=420 scene_heap_bytes=2495984 max=536870912
+physics-pipeline-cache: submitted 93542100 compatible bytes from /home/firtoz/.cache/box3d-gpu-physics/pipelines/wgpu_pipeline_cache_vulkan_4318_10115_8630c1e8656103274ce2c594064a4787
+gpu-alloc scene generation=0 bodies=650 shapes=775 hull_points=840 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=775 joints=420 scene_heap_bytes=2495984 max=536870912
+gpu-scene-input shapes=620 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=2495984
+GPU pose export: Vulkan opaque FD 23 (72960 bytes)
+{"kind":"step","step":1,"completed":1,"create_ms":0.983381,"setters_ms":0.001261,"physics_ms":1492.15507,"bodies":520,"joints":420}
+{"kind":"step","step":2,"completed":2,"create_ms":0.0002,"setters_ms":0.001124,"physics_ms":17.177455,"bodies":520,"joints":420}
+{"kind":"step","step":3,"completed":3,"create_ms":4.9e-05,"setters_ms":0.000686,"physics_ms":18.460737,"bodies":520,"joints":420}
+{"kind":"step","step":4,"completed":4,"create_ms":9.7e-05,"setters_ms":0.000935,"physics_ms":20.959484,"bodies":520,"joints":420}
+{"kind":"step","step":5,"completed":5,"create_ms":5.1e-05,"setters_ms":0.000907,"physics_ms":22.364571,"bodies":520,"joints":420}
+{"kind":"step","step":6,"completed":6,"create_ms":4.1e-05,"setters_ms":0.000807,"physics_ms":30.87635,"bodies":520,"joints":420}
+{"kind":"step","step":7,"completed":7,"create_ms":0.000117,"setters_ms":0.001128,"physics_ms":31.593344,"bodies":520,"joints":420}
+{"kind":"step","step":8,"completed":8,"create_ms":9.4e-05,"setters_ms":0.001236,"physics_ms":42.824812,"bodies":520,"joints":420}
+{"kind":"step","step":9,"completed":9,"create_ms":0.000153,"setters_ms":0.001649,"physics_ms":44.613128,"bodies":520,"joints":420}
+{"kind":"step","step":10,"completed":10,"create_ms":0.000205,"setters_ms":0.001377,"physics_ms":48.862875,"bodies":520,"joints":420}
+{"kind":"step","step":11,"completed":11,"create_ms":0.000164,"setters_ms":0.001395,"physics_ms":55.261888,"bodies":520,"joints":420}
+{"kind":"step","step":12,"completed":12,"create_ms":0.000136,"setters_ms":0.001666,"physics_ms":55.96555,"bodies":520,"joints":420}
+{"kind":"step","step":13,"completed":13,"create_ms":0.000287,"setters_ms":0.001556,"physics_ms":45.219613,"bodies":520,"joints":420}
+{"kind":"step","step":14,"completed":14,"create_ms":4.4e-05,"setters_ms":0.001146,"physics_ms":51.012646,"bodies":520,"joints":420}
+{"kind":"step","step":15,"completed":15,"create_ms":0.000121,"setters_ms":0.001546,"physics_ms":52.235508,"bodies":520,"joints":420}
+{"kind":"step","step":16,"completed":16,"create_ms":0.000131,"setters_ms":0.001203,"physics_ms":51.770232,"bodies":520,"joints":420}
+gpu-alloc scene generation=17 bodies=1300 shapes=1550 hull_points=1680 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=1550 joints=840 scene_heap_bytes=2789024 max=536870912
+gpu-alloc scene generation=0 bodies=1300 shapes=1550 hull_points=1680 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=1550 joints=840 scene_heap_bytes=2789024 max=536870912
+gpu-scene-input shapes=1040 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=2789024
+GPU pose export: Vulkan opaque FD 24 (145664 bytes)
+live contact ordering disabled: proxy topology changed during allocation
+{"kind":"step","step":17,"completed":17,"create_ms":0.926698,"setters_ms":0.00085,"physics_ms":58.658076,"bodies":940,"joints":840}
+{"kind":"step","step":18,"completed":18,"create_ms":0.000305,"setters_ms":0.001154,"physics_ms":30.06156,"bodies":940,"joints":840}
+{"kind":"step","step":19,"completed":19,"create_ms":7.1e-05,"setters_ms":0.000769,"physics_ms":31.376879,"bodies":940,"joints":840}
+{"kind":"step","step":20,"completed":20,"create_ms":0.000138,"setters_ms":0.001542,"physics_ms":32.015188,"bodies":940,"joints":840}
+{"kind":"step","step":21,"completed":21,"create_ms":0.000134,"setters_ms":0.001275,"physics_ms":31.834055,"bodies":940,"joints":840}
+{"kind":"step","step":22,"completed":22,"create_ms":0.000143,"setters_ms":0.00124,"physics_ms":33.613841,"bodies":940,"joints":840}
+{"kind":"step","step":23,"completed":23,"create_ms":0.000102,"setters_ms":0.001436,"physics_ms":33.027394,"bodies":940,"joints":840}
+{"kind":"step","step":24,"completed":24,"create_ms":0.000138,"setters_ms":0.001353,"physics_ms":46.682813,"bodies":940,"joints":840}
+{"kind":"step","step":25,"completed":25,"create_ms":0.000177,"setters_ms":0.001495,"physics_ms":49.772907,"bodies":940,"joints":840}
+{"kind":"step","step":26,"completed":26,"create_ms":0.000139,"setters_ms":0.001777,"physics_ms":46.625635,"bodies":940,"joints":840}
+{"kind":"step","step":27,"completed":27,"create_ms":0.000109,"setters_ms":0.001269,"physics_ms":45.068916,"bodies":940,"joints":840}
+{"kind":"step","step":28,"completed":28,"create_ms":0.000183,"setters_ms":0.001283,"physics_ms":46.225521,"bodies":940,"joints":840}
+{"kind":"step","step":29,"completed":29,"create_ms":0.000106,"setters_ms":0.001158,"physics_ms":46.885088,"bodies":940,"joints":840}
+{"kind":"step","step":30,"completed":30,"create_ms":0.000141,"setters_ms":0.001228,"physics_ms":51.065816,"bodies":940,"joints":840}
+{"kind":"step","step":31,"completed":31,"create_ms":0.000129,"setters_ms":0.001535,"physics_ms":51.024473,"bodies":940,"joints":840}
+{"kind":"step","step":32,"completed":32,"create_ms":0.000116,"setters_ms":0.001109,"physics_ms":48.446768,"bodies":940,"joints":840}
+{"kind":"step","step":33,"completed":33,"create_ms":0.000117,"setters_ms":0.001248,"physics_ms":46.679452,"bodies":940,"joints":840}
+{"kind":"step","step":34,"completed":34,"create_ms":0.000159,"setters_ms":0.001498,"physics_ms":45.963996,"bodies":940,"joints":840}
+{"kind":"step","step":35,"completed":35,"create_ms":0.000112,"setters_ms":0.001128,"physics_ms":45.350328,"bodies":940,"joints":840}
+{"kind":"step","step":36,"completed":36,"create_ms":0.000112,"setters_ms":0.001165,"physics_ms":45.905568,"bodies":940,"joints":840}
+{"kind":"step","step":37,"completed":37,"create_ms":0.000142,"setters_ms":0.001439,"physics_ms":45.952307,"bodies":940,"joints":840}
+{"kind":"step","step":38,"completed":38,"create_ms":0.000123,"setters_ms":0.001412,"physics_ms":45.819556,"bodies":940,"joints":840}
+{"kind":"step","step":39,"completed":39,"create_ms":0.000108,"setters_ms":0.001395,"physics_ms":45.294414,"bodies":940,"joints":840}
+{"kind":"step","step":40,"completed":40,"create_ms":9.3e-05,"setters_ms":0.00124,"physics_ms":46.436245,"bodies":940,"joints":840}
+{"kind":"step","step":41,"completed":41,"create_ms":3.8e-05,"setters_ms":0.001287,"physics_ms":46.237673,"bodies":940,"joints":840}
+{"kind":"step","step":42,"completed":42,"create_ms":0.000145,"setters_ms":0.001604,"physics_ms":46.230045,"bodies":940,"joints":840}
+{"kind":"step","step":43,"completed":43,"create_ms":0.000115,"setters_ms":0.001423,"physics_ms":45.341052,"bodies":940,"joints":840}
+{"kind":"step","step":44,"completed":44,"create_ms":0.000118,"setters_ms":0.001266,"physics_ms":46.722138,"bodies":940,"joints":840}
+{"kind":"step","step":45,"completed":45,"create_ms":0.000105,"setters_ms":0.001261,"physics_ms":46.069534,"bodies":940,"joints":840}
+{"kind":"step","step":46,"completed":46,"create_ms":0.000134,"setters_ms":0.001314,"physics_ms":46.288308,"bodies":940,"joints":840}
+{"kind":"step","step":47,"completed":47,"create_ms":4.8e-05,"setters_ms":0.001301,"physics_ms":44.992079,"bodies":940,"joints":840}
+{"kind":"step","step":48,"completed":48,"create_ms":3.3e-05,"setters_ms":0.001067,"physics_ms":46.05817,"bodies":940,"joints":840}
+{"kind":"step","step":49,"completed":49,"create_ms":3.5e-05,"setters_ms":0.001226,"physics_ms":46.464553,"bodies":940,"joints":840}
+{"kind":"step","step":50,"completed":50,"create_ms":0.000121,"setters_ms":0.001256,"physics_ms":45.716216,"bodies":940,"joints":840}
+{"kind":"step","step":51,"completed":51,"create_ms":0.000135,"setters_ms":0.001249,"physics_ms":44.935776,"bodies":940,"joints":840}
+{"kind":"step","step":52,"completed":52,"create_ms":4.8e-05,"setters_ms":0.001332,"physics_ms":45.403552,"bodies":940,"joints":840}
+{"kind":"step","step":53,"completed":53,"create_ms":0.000132,"setters_ms":0.001191,"physics_ms":48.197269,"bodies":940,"joints":840}
+{"kind":"step","step":54,"completed":54,"create_ms":0.000132,"setters_ms":0.001174,"physics_ms":50.138702,"bodies":940,"joints":840}
+{"kind":"step","step":55,"completed":55,"create_ms":0.000159,"setters_ms":0.001458,"physics_ms":46.80451,"bodies":940,"joints":840}
+{"kind":"step","step":56,"completed":56,"create_ms":4.6e-05,"setters_ms":0.001367,"physics_ms":45.611521,"bodies":940,"joints":840}
+{"kind":"step","step":57,"completed":57,"create_ms":0.000101,"setters_ms":0.001255,"physics_ms":46.0756,"bodies":940,"joints":840}
+{"kind":"step","step":58,"completed":58,"create_ms":0.000115,"setters_ms":0.001252,"physics_ms":46.126837,"bodies":940,"joints":840}
+{"kind":"step","step":59,"completed":59,"create_ms":9.5e-05,"setters_ms":0.001244,"physics_ms":46.365091,"bodies":940,"joints":840}
+{"kind":"step","step":60,"completed":60,"create_ms":9.1e-05,"setters_ms":0.0012,"physics_ms":45.733097,"bodies":940,"joints":840}
+{"kind":"step","step":61,"completed":61,"create_ms":3.9e-05,"setters_ms":0.001302,"physics_ms":45.233502,"bodies":940,"joints":840}
+{"kind":"step","step":62,"completed":62,"create_ms":0.000147,"setters_ms":0.001187,"physics_ms":46.070658,"bodies":940,"joints":840}
+{"kind":"step","step":63,"completed":63,"create_ms":4.7e-05,"setters_ms":0.00115,"physics_ms":48.783036,"bodies":940,"joints":840}
+{"kind":"step","step":64,"completed":64,"create_ms":0.000125,"setters_ms":0.001223,"physics_ms":49.320545,"bodies":940,"joints":840}
+gpu-alloc scene generation=65 bodies=2600 shapes=1550 hull_points=3360 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=1550 joints=1680 scene_heap_bytes=3003104 max=536870912
+gpu-alloc scene generation=0 bodies=2600 shapes=1550 hull_points=3360 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=1550 joints=1680 scene_heap_bytes=3003104 max=536870912
+gpu-scene-input shapes=1460 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=3003104
+GPU pose export: Vulkan opaque FD 23 (291328 bytes)
+{"kind":"step","step":65,"completed":65,"create_ms":0.678938,"setters_ms":0.000877,"physics_ms":87.564972,"bodies":1360,"joints":1260}
+{"kind":"step","step":66,"completed":66,"create_ms":0.000125,"setters_ms":0.00127,"physics_ms":54.534874,"bodies":1360,"joints":1260}
+{"kind":"step","step":67,"completed":67,"create_ms":4e-05,"setters_ms":0.001247,"physics_ms":53.855726,"bodies":1360,"joints":1260}
+{"kind":"step","step":68,"completed":68,"create_ms":4e-05,"setters_ms":0.001229,"physics_ms":53.824399,"bodies":1360,"joints":1260}
+{"kind":"step","step":69,"completed":69,"create_ms":0.00012,"setters_ms":0.001248,"physics_ms":53.628239,"bodies":1360,"joints":1260}
+{"kind":"step","step":70,"completed":70,"create_ms":9.8e-05,"setters_ms":0.001265,"physics_ms":54.494602,"bodies":1360,"joints":1260}
+{"kind":"step","step":71,"completed":71,"create_ms":3.3e-05,"setters_ms":0.001299,"physics_ms":62.193625,"bodies":1360,"joints":1260}
+{"kind":"step","step":72,"completed":72,"create_ms":0.000106,"setters_ms":0.001202,"physics_ms":69.934548,"bodies":1360,"joints":1260}
+{"kind":"step","step":73,"completed":73,"create_ms":0.000194,"setters_ms":0.001101,"physics_ms":70.123351,"bodies":1360,"joints":1260}
+{"kind":"step","step":74,"completed":74,"create_ms":0.000332,"setters_ms":0.001635,"physics_ms":72.464461,"bodies":1360,"joints":1260}
+{"kind":"step","step":75,"completed":75,"create_ms":0.000148,"setters_ms":0.001312,"physics_ms":68.929693,"bodies":1360,"joints":1260}
+{"kind":"step","step":76,"completed":76,"create_ms":0.000109,"setters_ms":0.001192,"physics_ms":68.899786,"bodies":1360,"joints":1260}
+{"kind":"step","step":77,"completed":77,"create_ms":3.2e-05,"setters_ms":0.001451,"physics_ms":69.52156,"bodies":1360,"joints":1260}
+{"kind":"step","step":78,"completed":78,"create_ms":0.000182,"setters_ms":0.001235,"physics_ms":69.331656,"bodies":1360,"joints":1260}
+{"kind":"step","step":79,"completed":79,"create_ms":0.000108,"setters_ms":0.001332,"physics_ms":69.218525,"bodies":1360,"joints":1260}
+{"kind":"step","step":80,"completed":80,"create_ms":3.9e-05,"setters_ms":0.001355,"physics_ms":70.420274,"bodies":1360,"joints":1260}
+gpu-alloc scene generation=81 bodies=2600 shapes=3100 hull_points=3360 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=3100 joints=1680 scene_heap_bytes=3375104 max=536870912
+gpu-alloc scene generation=0 bodies=2600 shapes=3100 hull_points=3360 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=3100 joints=1680 scene_heap_bytes=3375104 max=536870912
+gpu-scene-input shapes=1880 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=3375104
+GPU pose export: Vulkan opaque FD 24 (291328 bytes)
+{"kind":"step","step":81,"completed":81,"create_ms":0.69567,"setters_ms":0.000851,"physics_ms":108.099125,"bodies":1780,"joints":1680}
+{"kind":"step","step":82,"completed":82,"create_ms":0.00019,"setters_ms":0.001252,"physics_ms":75.712728,"bodies":1780,"joints":1680}
+{"kind":"step","step":83,"completed":83,"create_ms":0.000113,"setters_ms":0.001247,"physics_ms":74.91127,"bodies":1780,"joints":1680}
+{"kind":"step","step":84,"completed":84,"create_ms":0.000157,"setters_ms":0.001386,"physics_ms":73.505968,"bodies":1780,"joints":1680}
+{"kind":"step","step":85,"completed":85,"create_ms":0.000144,"setters_ms":0.001502,"physics_ms":73.408728,"bodies":1780,"joints":1680}
+{"kind":"step","step":86,"completed":86,"create_ms":0.000199,"setters_ms":0.001214,"physics_ms":74.406455,"bodies":1780,"joints":1680}
+{"kind":"step","step":87,"completed":87,"create_ms":4.3e-05,"setters_ms":0.001227,"physics_ms":73.965266,"bodies":1780,"joints":1680}
+{"kind":"step","step":88,"completed":88,"create_ms":0.00013,"setters_ms":0.001313,"physics_ms":92.864957,"bodies":1780,"joints":1680}
+{"kind":"step","step":89,"completed":89,"create_ms":0.000129,"setters_ms":0.001106,"physics_ms":90.979337,"bodies":1780,"joints":1680}
+{"kind":"step","step":90,"completed":90,"create_ms":0.000134,"setters_ms":0.001111,"physics_ms":92.552091,"bodies":1780,"joints":1680}
+{"kind":"step","step":91,"completed":91,"create_ms":0.000118,"setters_ms":0.001199,"physics_ms":90.292933,"bodies":1780,"joints":1680}
+{"kind":"step","step":92,"completed":92,"create_ms":3.4e-05,"setters_ms":0.00122,"physics_ms":91.086747,"bodies":1780,"joints":1680}
+{"kind":"step","step":93,"completed":93,"create_ms":0.000103,"setters_ms":0.001114,"physics_ms":90.515544,"bodies":1780,"joints":1680}
+{"kind":"step","step":94,"completed":94,"create_ms":0.000126,"setters_ms":0.001289,"physics_ms":91.568088,"bodies":1780,"joints":1680}
+{"kind":"step","step":95,"completed":95,"create_ms":0.000101,"setters_ms":0.001189,"physics_ms":90.874505,"bodies":1780,"joints":1680}
+{"kind":"step","step":96,"completed":96,"create_ms":0.000116,"setters_ms":0.001442,"physics_ms":91.37849,"bodies":1780,"joints":1680}
+{"kind":"step","step":97,"completed":97,"create_ms":0.00016,"setters_ms":0.001319,"physics_ms":90.209387,"bodies":1780,"joints":1680}
+{"kind":"step","step":98,"completed":98,"create_ms":3.4e-05,"setters_ms":0.001246,"physics_ms":88.362016,"bodies":1780,"joints":1680}
+{"kind":"step","step":99,"completed":99,"create_ms":0.000113,"setters_ms":0.001116,"physics_ms":88.15301,"bodies":1780,"joints":1680}
+{"kind":"step","step":100,"completed":100,"create_ms":3.4e-05,"setters_ms":0.001144,"physics_ms":87.57286,"bodies":1780,"joints":1680}
+{"kind":"step","step":101,"completed":101,"create_ms":0.000127,"setters_ms":0.001168,"physics_ms":88.060831,"bodies":1780,"joints":1680}
+{"kind":"step","step":102,"completed":102,"create_ms":0.000113,"setters_ms":0.001224,"physics_ms":88.147363,"bodies":1780,"joints":1680}
+{"kind":"step","step":103,"completed":103,"create_ms":0.00019,"setters_ms":0.00138,"physics_ms":88.800696,"bodies":1780,"joints":1680}
+{"kind":"step","step":104,"completed":104,"create_ms":9.5e-05,"setters_ms":0.001176,"physics_ms":93.321752,"bodies":1780,"joints":1680}
+{"kind":"step","step":105,"completed":105,"create_ms":0.000145,"setters_ms":0.001288,"physics_ms":96.014983,"bodies":1780,"joints":1680}
+{"kind":"step","step":106,"completed":106,"create_ms":0.000137,"setters_ms":0.001289,"physics_ms":93.290078,"bodies":1780,"joints":1680}
+{"kind":"step","step":107,"completed":107,"create_ms":0.00019,"setters_ms":0.001185,"physics_ms":94.043897,"bodies":1780,"joints":1680}
+{"kind":"step","step":108,"completed":108,"create_ms":0.00027,"setters_ms":0.003298,"physics_ms":96.311297,"bodies":1780,"joints":1680}
+{"kind":"step","step":109,"completed":109,"create_ms":0.000197,"setters_ms":0.001233,"physics_ms":97.447262,"bodies":1780,"joints":1680}
+{"kind":"step","step":110,"completed":110,"create_ms":9.1e-05,"setters_ms":0.001159,"physics_ms":97.258058,"bodies":1780,"joints":1680}
+{"kind":"step","step":111,"completed":111,"create_ms":0.000132,"setters_ms":0.001045,"physics_ms":108.7485,"bodies":1780,"joints":1680}
+{"kind":"step","step":112,"completed":112,"create_ms":0.000114,"setters_ms":0.001138,"physics_ms":103.010884,"bodies":1780,"joints":1680}
+{"kind":"step","step":113,"completed":113,"create_ms":0.000108,"setters_ms":0.001156,"physics_ms":88.772911,"bodies":1780,"joints":1680}
+{"kind":"step","step":114,"completed":114,"create_ms":4.2e-05,"setters_ms":0.001226,"physics_ms":87.75537,"bodies":1780,"joints":1680}
+{"kind":"step","step":115,"completed":115,"create_ms":0.000114,"setters_ms":0.001215,"physics_ms":88.347759,"bodies":1780,"joints":1680}
+{"kind":"step","step":116,"completed":116,"create_ms":0.000118,"setters_ms":0.001202,"physics_ms":89.528964,"bodies":1780,"joints":1680}
+{"kind":"step","step":117,"completed":117,"create_ms":0.000159,"setters_ms":0.001293,"physics_ms":88.054344,"bodies":1780,"joints":1680}
+{"kind":"step","step":118,"completed":118,"create_ms":0.000119,"setters_ms":0.00114,"physics_ms":88.801381,"bodies":1780,"joints":1680}
+{"kind":"step","step":119,"completed":119,"create_ms":0.000139,"setters_ms":0.001279,"physics_ms":88.915402,"bodies":1780,"joints":1680}
+{"kind":"step","step":120,"completed":120,"create_ms":3.5e-05,"setters_ms":0.001231,"physics_ms":88.702455,"bodies":1780,"joints":1680}
+{"kind":"step","step":121,"completed":121,"create_ms":3.5e-05,"setters_ms":0.001141,"physics_ms":88.393136,"bodies":1780,"joints":1680}
+{"kind":"step","step":122,"completed":122,"create_ms":0.000127,"setters_ms":0.001253,"physics_ms":88.534743,"bodies":1780,"joints":1680}
+{"kind":"step","step":123,"completed":123,"create_ms":0.000157,"setters_ms":0.001279,"physics_ms":89.375,"bodies":1780,"joints":1680}
+{"kind":"step","step":124,"completed":124,"create_ms":0.000126,"setters_ms":0.00145,"physics_ms":88.704306,"bodies":1780,"joints":1680}
+{"kind":"step","step":125,"completed":125,"create_ms":0.000124,"setters_ms":0.001162,"physics_ms":89.035297,"bodies":1780,"joints":1680}
+{"kind":"step","step":126,"completed":126,"create_ms":0.00018,"setters_ms":0.00123,"physics_ms":88.137744,"bodies":1780,"joints":1680}
+{"kind":"step","step":127,"completed":127,"create_ms":0.00016,"setters_ms":0.001579,"physics_ms":87.676842,"bodies":1780,"joints":1680}
+{"kind":"step","step":128,"completed":128,"create_ms":0.000119,"setters_ms":0.001511,"physics_ms":88.519894,"bodies":1780,"joints":1680}
+gpu-alloc scene generation=135 bodies=2600 shapes=3100 hull_points=6720 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=3100 joints=3360 scene_heap_bytes=3428864 max=536870912
+gpu-alloc scene generation=0 bodies=2600 shapes=3100 hull_points=6720 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=3100 joints=3360 scene_heap_bytes=3428864 max=536870912
+gpu-scene-input shapes=2300 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=3428864
+GPU pose export: Vulkan opaque FD 23 (291328 bytes)
+{"kind":"step","step":129,"completed":129,"create_ms":1.003563,"setters_ms":0.001088,"physics_ms":128.04136,"bodies":2200,"joints":2100}
+{"kind":"step","step":130,"completed":130,"create_ms":4.1e-05,"setters_ms":0.001196,"physics_ms":91.017244,"bodies":2200,"joints":2100}
+{"kind":"step","step":131,"completed":131,"create_ms":0.000125,"setters_ms":0.001445,"physics_ms":90.744997,"bodies":2200,"joints":2100}
+{"kind":"step","step":132,"completed":132,"create_ms":0.000129,"setters_ms":0.001232,"physics_ms":93.148523,"bodies":2200,"joints":2100}
+{"kind":"step","step":133,"completed":133,"create_ms":9.5e-05,"setters_ms":0.001321,"physics_ms":96.784822,"bodies":2200,"joints":2100}
+{"kind":"step","step":134,"completed":134,"create_ms":0.000136,"setters_ms":0.001128,"physics_ms":100.877969,"bodies":2200,"joints":2100}
+{"kind":"step","step":135,"completed":135,"create_ms":0.000124,"setters_ms":0.001169,"physics_ms":97.802309,"bodies":2200,"joints":2100}
+{"kind":"step","step":136,"completed":136,"create_ms":4.6e-05,"setters_ms":0.001075,"physics_ms":110.44694,"bodies":2200,"joints":2100}
+{"kind":"step","step":137,"completed":137,"create_ms":0.000125,"setters_ms":0.001173,"physics_ms":110.696895,"bodies":2200,"joints":2100}
+{"kind":"step","step":138,"completed":138,"create_ms":0.00013,"setters_ms":0.001309,"physics_ms":110.625418,"bodies":2200,"joints":2100}
+{"kind":"step","step":139,"completed":139,"create_ms":0.000179,"setters_ms":0.001329,"physics_ms":110.970684,"bodies":2200,"joints":2100}
+{"kind":"step","step":140,"completed":140,"create_ms":0.000123,"setters_ms":0.001175,"physics_ms":111.35711,"bodies":2200,"joints":2100}
+{"kind":"step","step":141,"completed":141,"create_ms":0.000131,"setters_ms":0.00126,"physics_ms":112.453758,"bodies":2200,"joints":2100}
+{"kind":"step","step":142,"completed":142,"create_ms":0.000157,"setters_ms":0.001207,"physics_ms":112.705677,"bodies":2200,"joints":2100}
+{"kind":"step","step":143,"completed":143,"create_ms":0.00015,"setters_ms":0.001197,"physics_ms":113.391484,"bodies":2200,"joints":2100}
+{"kind":"step","step":144,"completed":144,"create_ms":0.000129,"setters_ms":0.001306,"physics_ms":111.95064,"bodies":2200,"joints":2100}
+gpu-alloc scene generation=152 bodies=5200 shapes=3100 hull_points=6720 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=3100 joints=3360 scene_heap_bytes=3803264 max=536870912
+gpu-alloc scene generation=0 bodies=5200 shapes=3100 hull_points=6720 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=3100 joints=3360 scene_heap_bytes=3803264 max=536870912
+gpu-scene-input shapes=2720 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=3803264
+GPU pose export: Vulkan opaque FD 24 (582400 bytes)
+{"kind":"step","step":145,"completed":145,"create_ms":0.735034,"setters_ms":0.000914,"physics_ms":185.53721,"bodies":2620,"joints":2520}
+{"kind":"step","step":146,"completed":146,"create_ms":9.5e-05,"setters_ms":0.001523,"physics_ms":121.536992,"bodies":2620,"joints":2520}
+{"kind":"step","step":147,"completed":147,"create_ms":0.000102,"setters_ms":0.001504,"physics_ms":121.429497,"bodies":2620,"joints":2520}
+{"kind":"step","step":148,"completed":148,"create_ms":3.5e-05,"setters_ms":0.001264,"physics_ms":122.695249,"bodies":2620,"joints":2520}
+{"kind":"step","step":149,"completed":149,"create_ms":0.000121,"setters_ms":0.001131,"physics_ms":122.801349,"bodies":2620,"joints":2520}
+{"kind":"step","step":150,"completed":150,"create_ms":0.000191,"setters_ms":0.001552,"physics_ms":119.109071,"bodies":2620,"joints":2520}
+{"kind":"step","step":151,"completed":151,"create_ms":7.4e-05,"setters_ms":0.001174,"physics_ms":130.984822,"bodies":2620,"joints":2520}
+{"kind":"step","step":152,"completed":152,"create_ms":9.6e-05,"setters_ms":0.001101,"physics_ms":145.949132,"bodies":2620,"joints":2520}
+{"kind":"step","step":153,"completed":153,"create_ms":0.00011,"setters_ms":0.001295,"physics_ms":127.687406,"bodies":2620,"joints":2520}
+{"kind":"step","step":154,"completed":154,"create_ms":0.000123,"setters_ms":0.001298,"physics_ms":127.901557,"bodies":2620,"joints":2520}
+{"kind":"step","step":155,"completed":155,"create_ms":0.000119,"setters_ms":0.001233,"physics_ms":124.601325,"bodies":2620,"joints":2520}
+{"kind":"step","step":156,"completed":156,"create_ms":0.00011,"setters_ms":0.001257,"physics_ms":125.298653,"bodies":2620,"joints":2520}
+{"kind":"step","step":157,"completed":157,"create_ms":0.00015,"setters_ms":0.001281,"physics_ms":124.795828,"bodies":2620,"joints":2520}
+{"kind":"step","step":158,"completed":158,"create_ms":0.000123,"setters_ms":0.001334,"physics_ms":124.581813,"bodies":2620,"joints":2520}
+{"kind":"step","step":159,"completed":159,"create_ms":0.000125,"setters_ms":0.001418,"physics_ms":126.007947,"bodies":2620,"joints":2520}
+{"kind":"step","step":160,"completed":160,"create_ms":0.000155,"setters_ms":0.001285,"physics_ms":124.466385,"bodies":2620,"joints":2520}
+{"kind":"step","step":161,"completed":161,"create_ms":0.000117,"setters_ms":0.001331,"physics_ms":125.223231,"bodies":2620,"joints":2520}
+{"kind":"step","step":162,"completed":162,"create_ms":0.000119,"setters_ms":0.001491,"physics_ms":124.977547,"bodies":2620,"joints":2520}
+{"kind":"step","step":163,"completed":163,"create_ms":0.000122,"setters_ms":0.001282,"physics_ms":124.335176,"bodies":2620,"joints":2520}
+{"kind":"step","step":164,"completed":164,"create_ms":0.000105,"setters_ms":0.001534,"physics_ms":124.606437,"bodies":2620,"joints":2520}
+{"kind":"step","step":165,"completed":165,"create_ms":0.000169,"setters_ms":0.001361,"physics_ms":124.052993,"bodies":2620,"joints":2520}
+{"kind":"step","step":166,"completed":166,"create_ms":0.0001,"setters_ms":0.001196,"physics_ms":124.288913,"bodies":2620,"joints":2520}
+{"kind":"step","step":167,"completed":167,"create_ms":3.5e-05,"setters_ms":0.001222,"physics_ms":130.445985,"bodies":2620,"joints":2520}
+{"kind":"step","step":168,"completed":168,"create_ms":0.000155,"setters_ms":0.001274,"physics_ms":131.26706,"bodies":2620,"joints":2520}
+{"kind":"step","step":169,"completed":169,"create_ms":0.000117,"setters_ms":0.001425,"physics_ms":131.505919,"bodies":2620,"joints":2520}
+{"kind":"step","step":170,"completed":170,"create_ms":0.000173,"setters_ms":0.001242,"physics_ms":133.54598,"bodies":2620,"joints":2520}
+{"kind":"step","step":171,"completed":171,"create_ms":0.000143,"setters_ms":0.001302,"physics_ms":134.562153,"bodies":2620,"joints":2520}
+{"kind":"step","step":172,"completed":172,"create_ms":3.6e-05,"setters_ms":0.001347,"physics_ms":136.12764,"bodies":2620,"joints":2520}
+{"kind":"step","step":173,"completed":173,"create_ms":4.4e-05,"setters_ms":0.001213,"physics_ms":135.664555,"bodies":2620,"joints":2520}
+{"kind":"step","step":174,"completed":174,"create_ms":0.000126,"setters_ms":0.001294,"physics_ms":139.47433,"bodies":2620,"joints":2520}
+{"kind":"step","step":175,"completed":175,"create_ms":0.00012,"setters_ms":0.001271,"physics_ms":133.129266,"bodies":2620,"joints":2520}
+{"kind":"step","step":176,"completed":176,"create_ms":0.000119,"setters_ms":0.001344,"physics_ms":132.322397,"bodies":2620,"joints":2520}
+{"kind":"step","step":177,"completed":177,"create_ms":4.5e-05,"setters_ms":0.001509,"physics_ms":133.305324,"bodies":2620,"joints":2520}
+{"kind":"step","step":178,"completed":178,"create_ms":0.000134,"setters_ms":0.001266,"physics_ms":132.943159,"bodies":2620,"joints":2520}
+{"kind":"step","step":179,"completed":179,"create_ms":3.8e-05,"setters_ms":0.001429,"physics_ms":132.274431,"bodies":2620,"joints":2520}
+{"kind":"step","step":180,"completed":180,"create_ms":0.00013,"setters_ms":0.001392,"physics_ms":134.202672,"bodies":2620,"joints":2520}
+{"kind":"step","step":181,"completed":181,"create_ms":0.000104,"setters_ms":0.001418,"physics_ms":133.162007,"bodies":2620,"joints":2520}
+{"kind":"step","step":182,"completed":182,"create_ms":3.7e-05,"setters_ms":0.001357,"physics_ms":135.331958,"bodies":2620,"joints":2520}
+{"kind":"step","step":183,"completed":183,"create_ms":4.3e-05,"setters_ms":0.001277,"physics_ms":133.739199,"bodies":2620,"joints":2520}
+{"kind":"step","step":184,"completed":184,"create_ms":0.000196,"setters_ms":0.001272,"physics_ms":146.143352,"bodies":2620,"joints":2520}
+{"kind":"step","step":185,"completed":185,"create_ms":0.000111,"setters_ms":0.001458,"physics_ms":131.036848,"bodies":2620,"joints":2520}
+{"kind":"step","step":186,"completed":186,"create_ms":3.6e-05,"setters_ms":0.001251,"physics_ms":130.278149,"bodies":2620,"joints":2520}
+{"kind":"step","step":187,"completed":187,"create_ms":0.000144,"setters_ms":0.00134,"physics_ms":131.000247,"bodies":2620,"joints":2520}
+{"kind":"step","step":188,"completed":188,"create_ms":0.000126,"setters_ms":0.00125,"physics_ms":132.509916,"bodies":2620,"joints":2520}
+{"kind":"step","step":189,"completed":189,"create_ms":0.000131,"setters_ms":0.001305,"physics_ms":132.411091,"bodies":2620,"joints":2520}
+{"kind":"step","step":190,"completed":190,"create_ms":0.000125,"setters_ms":0.001468,"physics_ms":131.322093,"bodies":2620,"joints":2520}
+{"kind":"step","step":191,"completed":191,"create_ms":0.000105,"setters_ms":0.001141,"physics_ms":128.898701,"bodies":2620,"joints":2520}
+{"kind":"step","step":192,"completed":192,"create_ms":0.000152,"setters_ms":0.004646,"physics_ms":129.396686,"bodies":2620,"joints":2520}
+gpu-alloc scene generation=218 bodies=5200 shapes=6200 hull_points=6720 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=6200 joints=3360 scene_heap_bytes=4547264 max=536870912
+gpu-alloc scene generation=0 bodies=5200 shapes=6200 hull_points=6720 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=6200 joints=3360 scene_heap_bytes=4547264 max=536870912
+gpu-scene-input shapes=3140 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=4547264
+GPU pose export: Vulkan opaque FD 23 (582400 bytes)
+{"kind":"step","step":193,"completed":193,"create_ms":0.685078,"setters_ms":0.000854,"physics_ms":325.301523,"bodies":3040,"joints":2940}
+{"kind":"step","step":194,"completed":194,"create_ms":4.8e-05,"setters_ms":0.001298,"physics_ms":250.572774,"bodies":3040,"joints":2940}
+{"kind":"step","step":195,"completed":195,"create_ms":0.000236,"setters_ms":0.001247,"physics_ms":251.526158,"bodies":3040,"joints":2940}
+{"kind":"step","step":196,"completed":196,"create_ms":0.000278,"setters_ms":0.001298,"physics_ms":254.295794,"bodies":3040,"joints":2940}
+{"kind":"step","step":197,"completed":197,"create_ms":9.2e-05,"setters_ms":0.00116,"physics_ms":252.140266,"bodies":3040,"joints":2940}
+{"kind":"step","step":198,"completed":198,"create_ms":0.000119,"setters_ms":0.001146,"physics_ms":252.377011,"bodies":3040,"joints":2940}
+{"kind":"step","step":199,"completed":199,"create_ms":0.000124,"setters_ms":0.001155,"physics_ms":260.00427,"bodies":3040,"joints":2940}
+{"kind":"step","step":200,"completed":200,"create_ms":0.000173,"setters_ms":0.001841,"physics_ms":271.774566,"bodies":3040,"joints":2940}
+{"kind":"step","step":201,"completed":201,"create_ms":0.000213,"setters_ms":0.002592,"physics_ms":303.604422,"bodies":3040,"joints":2940}
+{"kind":"step","step":202,"completed":202,"create_ms":0.000252,"setters_ms":0.001355,"physics_ms":292.709345,"bodies":3040,"joints":2940}
+{"kind":"step","step":203,"completed":203,"create_ms":0.000132,"setters_ms":0.001749,"physics_ms":282.418501,"bodies":3040,"joints":2940}
+{"kind":"step","step":204,"completed":204,"create_ms":3.1e-05,"setters_ms":0.001386,"physics_ms":264.938515,"bodies":3040,"joints":2940}
+{"kind":"step","step":205,"completed":205,"create_ms":0.000151,"setters_ms":0.001216,"physics_ms":264.783555,"bodies":3040,"joints":2940}
+{"kind":"step","step":206,"completed":206,"create_ms":0.000132,"setters_ms":0.001209,"physics_ms":263.30101,"bodies":3040,"joints":2940}
+{"kind":"step","step":207,"completed":207,"create_ms":9.4e-05,"setters_ms":0.001335,"physics_ms":263.876068,"bodies":3040,"joints":2940}
+{"kind":"step","step":208,"completed":208,"create_ms":4.3e-05,"setters_ms":0.00131,"physics_ms":265.937861,"bodies":3040,"joints":2940}
+gpu-alloc scene generation=0 bodies=5200 shapes=6200 hull_points=6720 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=6200 joints=3360 scene_heap_bytes=4547264 max=536870912
+gpu-scene-input shapes=3560 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=4547264
+{"kind":"step","step":209,"completed":209,"create_ms":0.703003,"setters_ms":0.00087,"physics_ms":282.233103,"bodies":3460,"joints":3360}
+{"kind":"step","step":210,"completed":210,"create_ms":0.000231,"setters_ms":0.00132,"physics_ms":282.739356,"bodies":3460,"joints":3360}
+{"kind":"step","step":211,"completed":211,"create_ms":9.1e-05,"setters_ms":0.001257,"physics_ms":285.719044,"bodies":3460,"joints":3360}
+{"kind":"step","step":212,"completed":212,"create_ms":4.1e-05,"setters_ms":0.001183,"physics_ms":289.056361,"bodies":3460,"joints":3360}
+{"kind":"step","step":213,"completed":213,"create_ms":0.000124,"setters_ms":0.001276,"physics_ms":281.389719,"bodies":3460,"joints":3360}
+{"kind":"step","step":214,"completed":214,"create_ms":0.00011,"setters_ms":0.00128,"physics_ms":288.529922,"bodies":3460,"joints":3360}
+{"kind":"step","step":215,"completed":215,"create_ms":0.000212,"setters_ms":0.001357,"physics_ms":288.260634,"bodies":3460,"joints":3360}
+{"kind":"step","step":216,"completed":216,"create_ms":4.5e-05,"setters_ms":0.001315,"physics_ms":296.01992,"bodies":3460,"joints":3360}
+{"kind":"step","step":217,"completed":217,"create_ms":0.00019,"setters_ms":0.001529,"physics_ms":296.138981,"bodies":3460,"joints":3360}
+{"kind":"step","step":218,"completed":218,"create_ms":0.000108,"setters_ms":0.001678,"physics_ms":298.079685,"bodies":3460,"joints":3360}
+{"kind":"step","step":219,"completed":219,"create_ms":0.000128,"setters_ms":0.001523,"physics_ms":297.766272,"bodies":3460,"joints":3360}
+{"kind":"step","step":220,"completed":220,"create_ms":0.00013,"setters_ms":0.001803,"physics_ms":298.627918,"bodies":3460,"joints":3360}
+{"kind":"step","step":221,"completed":221,"create_ms":3.4e-05,"setters_ms":0.001166,"physics_ms":299.310235,"bodies":3460,"joints":3360}
+{"kind":"step","step":222,"completed":222,"create_ms":0.00012,"setters_ms":0.001323,"physics_ms":304.310259,"bodies":3460,"joints":3360}
+{"kind":"step","step":223,"completed":223,"create_ms":0.000113,"setters_ms":0.001219,"physics_ms":305.535636,"bodies":3460,"joints":3360}
+{"kind":"step","step":224,"completed":224,"create_ms":3.9e-05,"setters_ms":0.001259,"physics_ms":286.532897,"bodies":3460,"joints":3360}
+{"kind":"step","step":225,"completed":225,"create_ms":0.00017,"setters_ms":0.00137,"physics_ms":298.544624,"bodies":3460,"joints":3360}
+{"kind":"step","step":226,"completed":226,"create_ms":0.0001,"setters_ms":0.001223,"physics_ms":299.892357,"bodies":3460,"joints":3360}
+{"kind":"step","step":227,"completed":227,"create_ms":0.000122,"setters_ms":0.001196,"physics_ms":302.824013,"bodies":3460,"joints":3360}
+{"kind":"step","step":228,"completed":228,"create_ms":0.000158,"setters_ms":0.00127,"physics_ms":299.173193,"bodies":3460,"joints":3360}
+{"kind":"step","step":229,"completed":229,"create_ms":0.000125,"setters_ms":0.001574,"physics_ms":298.137664,"bodies":3460,"joints":3360}
+{"kind":"step","step":230,"completed":230,"create_ms":0.000114,"setters_ms":0.001235,"physics_ms":306.825321,"bodies":3460,"joints":3360}
+{"kind":"step","step":231,"completed":231,"create_ms":0.000112,"setters_ms":0.001274,"physics_ms":291.548347,"bodies":3460,"joints":3360}
+{"kind":"step","step":232,"completed":232,"create_ms":0.00015,"setters_ms":0.001514,"physics_ms":292.021463,"bodies":3460,"joints":3360}
+{"kind":"step","step":233,"completed":233,"create_ms":0.000124,"setters_ms":0.001269,"physics_ms":316.324119,"bodies":3460,"joints":3360}
+{"kind":"step","step":234,"completed":234,"create_ms":0.000122,"setters_ms":0.001521,"physics_ms":289.440924,"bodies":3460,"joints":3360}
+{"kind":"step","step":235,"completed":235,"create_ms":0.000117,"setters_ms":0.00121,"physics_ms":288.60038,"bodies":3460,"joints":3360}
+{"kind":"step","step":236,"completed":236,"create_ms":9.7e-05,"setters_ms":0.00125,"physics_ms":290.052852,"bodies":3460,"joints":3360}
+{"kind":"step","step":237,"completed":237,"create_ms":3.3e-05,"setters_ms":0.00157,"physics_ms":287.676653,"bodies":3460,"joints":3360}
+{"kind":"step","step":238,"completed":238,"create_ms":0.000121,"setters_ms":0.001236,"physics_ms":292.538484,"bodies":3460,"joints":3360}
+{"kind":"step","step":239,"completed":239,"create_ms":0.00011,"setters_ms":0.00156,"physics_ms":287.803372,"bodies":3460,"joints":3360}
+{"kind":"step","step":240,"completed":240,"create_ms":9.6e-05,"setters_ms":0.001179,"physics_ms":281.576758,"bodies":3460,"joints":3360}
+{"kind":"step","step":241,"completed":241,"create_ms":0.000111,"setters_ms":0.001186,"physics_ms":278.446981,"bodies":3460,"joints":3360}
+{"kind":"step","step":242,"completed":242,"create_ms":0.00027,"setters_ms":0.001198,"physics_ms":281.157162,"bodies":3460,"joints":3360}
+{"kind":"step","step":243,"completed":243,"create_ms":0.000109,"setters_ms":0.001308,"physics_ms":281.324899,"bodies":3460,"joints":3360}
+{"kind":"step","step":244,"completed":244,"create_ms":3.2e-05,"setters_ms":0.001397,"physics_ms":279.003127,"bodies":3460,"joints":3360}
+{"kind":"step","step":245,"completed":245,"create_ms":4.3e-05,"setters_ms":0.001306,"physics_ms":288.668651,"bodies":3460,"joints":3360}
+{"kind":"step","step":246,"completed":246,"create_ms":0.000111,"setters_ms":0.001306,"physics_ms":283.975561,"bodies":3460,"joints":3360}
+{"kind":"step","step":247,"completed":247,"create_ms":0.000118,"setters_ms":0.001245,"physics_ms":292.374583,"bodies":3460,"joints":3360}
+{"kind":"step","step":248,"completed":248,"create_ms":0.000124,"setters_ms":0.001403,"physics_ms":289.798374,"bodies":3460,"joints":3360}
+{"kind":"step","step":249,"completed":249,"create_ms":4.5e-05,"setters_ms":0.001166,"physics_ms":296.92616,"bodies":3460,"joints":3360}
+{"kind":"step","step":250,"completed":250,"create_ms":0.000131,"setters_ms":0.001367,"physics_ms":295.708934,"bodies":3460,"joints":3360}
+{"kind":"step","step":251,"completed":251,"create_ms":4.3e-05,"setters_ms":0.001217,"physics_ms":291.341958,"bodies":3460,"joints":3360}
+{"kind":"step","step":252,"completed":252,"create_ms":0.000113,"setters_ms":0.001203,"physics_ms":294.080924,"bodies":3460,"joints":3360}
+{"kind":"step","step":253,"completed":253,"create_ms":0.000136,"setters_ms":0.001213,"physics_ms":287.331501,"bodies":3460,"joints":3360}
+{"kind":"step","step":254,"completed":254,"create_ms":8.8e-05,"setters_ms":0.001218,"physics_ms":287.307967,"bodies":3460,"joints":3360}
+{"kind":"step","step":255,"completed":255,"create_ms":0.000114,"setters_ms":0.001209,"physics_ms":287.593447,"bodies":3460,"joints":3360}
+{"kind":"step","step":256,"completed":256,"create_ms":4.8e-05,"setters_ms":0.001395,"physics_ms":290.135426,"bodies":3460,"joints":3360}
+gpu-alloc scene generation=327 bodies=5200 shapes=6200 hull_points=13440 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=6200 joints=6720 scene_heap_bytes=4654784 max=536870912
+gpu-alloc scene generation=0 bodies=5200 shapes=6200 hull_points=13440 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=6200 joints=6720 scene_heap_bytes=4654784 max=536870912
+gpu-scene-input shapes=3980 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=4654784
+GPU pose export: Vulkan opaque FD 24 (582400 bytes)
+{"kind":"step","step":257,"completed":257,"create_ms":0.683105,"setters_ms":0.000822,"physics_ms":370.7794,"bodies":3880,"joints":3780}
+{"kind":"step","step":258,"completed":258,"create_ms":3.4e-05,"setters_ms":0.001411,"physics_ms":317.817935,"bodies":3880,"joints":3780}
+{"kind":"step","step":259,"completed":259,"create_ms":4.7e-05,"setters_ms":0.001416,"physics_ms":314.564328,"bodies":3880,"joints":3780}
+{"kind":"step","step":260,"completed":260,"create_ms":0.000129,"setters_ms":0.001264,"physics_ms":311.760418,"bodies":3880,"joints":3780}
+{"kind":"step","step":261,"completed":261,"create_ms":0.000105,"setters_ms":0.001232,"physics_ms":311.97827,"bodies":3880,"joints":3780}
+{"kind":"step","step":262,"completed":262,"create_ms":9.1e-05,"setters_ms":0.001223,"physics_ms":315.613559,"bodies":3880,"joints":3780}
+{"kind":"step","step":263,"completed":263,"create_ms":0.00013,"setters_ms":0.001324,"physics_ms":311.631417,"bodies":3880,"joints":3780}
+{"kind":"step","step":264,"completed":264,"create_ms":0.000142,"setters_ms":0.001127,"physics_ms":329.740175,"bodies":3880,"joints":3780}
+{"kind":"step","step":265,"completed":265,"create_ms":3.4e-05,"setters_ms":0.001415,"physics_ms":322.656311,"bodies":3880,"joints":3780}
+{"kind":"step","step":266,"completed":266,"create_ms":0.000118,"setters_ms":0.005194,"physics_ms":326.329522,"bodies":3880,"joints":3780}
+{"kind":"step","step":267,"completed":267,"create_ms":0.000119,"setters_ms":0.001302,"physics_ms":325.505378,"bodies":3880,"joints":3780}
+{"kind":"step","step":268,"completed":268,"create_ms":0.000112,"setters_ms":0.001238,"physics_ms":320.808896,"bodies":3880,"joints":3780}
+{"kind":"step","step":269,"completed":269,"create_ms":0.000115,"setters_ms":0.001249,"physics_ms":323.962943,"bodies":3880,"joints":3780}
+{"kind":"step","step":270,"completed":270,"create_ms":0.000131,"setters_ms":0.001142,"physics_ms":319.136741,"bodies":3880,"joints":3780}
+{"kind":"step","step":271,"completed":271,"create_ms":0.000112,"setters_ms":0.001364,"physics_ms":323.047324,"bodies":3880,"joints":3780}
+{"kind":"step","step":272,"completed":272,"create_ms":0.000113,"setters_ms":0.001285,"physics_ms":317.340587,"bodies":3880,"joints":3780}
+gpu-alloc scene generation=0 bodies=5200 shapes=6200 hull_points=13440 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=6200 joints=6720 scene_heap_bytes=4654784 max=536870912
+gpu-scene-input shapes=4400 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=4654784
+{"kind":"step","step":273,"completed":273,"create_ms":1.034304,"setters_ms":0.000828,"physics_ms":353.215637,"bodies":4300,"joints":4200}
+{"kind":"step","step":274,"completed":274,"create_ms":6.3e-05,"setters_ms":0.001704,"physics_ms":337.520626,"bodies":4300,"joints":4200}
+{"kind":"step","step":275,"completed":275,"create_ms":0.000187,"setters_ms":0.001548,"physics_ms":335.689207,"bodies":4300,"joints":4200}
+{"kind":"step","step":276,"completed":276,"create_ms":0.000114,"setters_ms":0.001442,"physics_ms":330.987162,"bodies":4300,"joints":4200}
+{"kind":"step","step":277,"completed":277,"create_ms":5.3e-05,"setters_ms":0.001867,"physics_ms":326.258982,"bodies":4300,"joints":4200}
+{"kind":"step","step":278,"completed":278,"create_ms":0.000102,"setters_ms":0.006757,"physics_ms":333.949195,"bodies":4300,"joints":4200}
+{"kind":"step","step":279,"completed":279,"create_ms":0.000126,"setters_ms":0.001553,"physics_ms":335.171991,"bodies":4300,"joints":4200}
+{"kind":"step","step":280,"completed":280,"create_ms":0.000109,"setters_ms":0.001568,"physics_ms":349.361912,"bodies":4300,"joints":4200}
+{"kind":"step","step":281,"completed":281,"create_ms":6.2e-05,"setters_ms":0.001666,"physics_ms":334.665886,"bodies":4300,"joints":4200}
+{"kind":"step","step":282,"completed":282,"create_ms":4.3e-05,"setters_ms":0.001459,"physics_ms":342.117485,"bodies":4300,"joints":4200}
+{"kind":"step","step":283,"completed":283,"create_ms":4.1e-05,"setters_ms":0.001547,"physics_ms":337.040369,"bodies":4300,"joints":4200}
+{"kind":"step","step":284,"completed":284,"create_ms":0.000119,"setters_ms":0.001645,"physics_ms":338.106087,"bodies":4300,"joints":4200}
+{"kind":"step","step":285,"completed":285,"create_ms":0.000142,"setters_ms":0.001611,"physics_ms":336.943823,"bodies":4300,"joints":4200}
+{"kind":"step","step":286,"completed":286,"create_ms":0.000148,"setters_ms":0.001697,"physics_ms":335.043704,"bodies":4300,"joints":4200}
+{"kind":"step","step":287,"completed":287,"create_ms":4.5e-05,"setters_ms":0.00157,"physics_ms":338.26426,"bodies":4300,"joints":4200}
+{"kind":"step","step":288,"completed":288,"create_ms":5e-05,"setters_ms":0.001596,"physics_ms":343.061776,"bodies":4300,"joints":4200}
+{"kind":"step","step":289,"completed":289,"create_ms":5.4e-05,"setters_ms":0.001807,"physics_ms":337.356864,"bodies":4300,"joints":4200}
+{"kind":"step","step":290,"completed":290,"create_ms":0.00011,"setters_ms":0.001173,"physics_ms":335.091451,"bodies":4300,"joints":4200}
+{"kind":"step","step":291,"completed":291,"create_ms":0.000112,"setters_ms":0.001181,"physics_ms":350.76344,"bodies":4300,"joints":4200}
+{"kind":"step","step":292,"completed":292,"create_ms":0.000123,"setters_ms":0.001522,"physics_ms":335.925742,"bodies":4300,"joints":4200}
+{"kind":"step","step":293,"completed":293,"create_ms":5.3e-05,"setters_ms":0.001217,"physics_ms":337.718371,"bodies":4300,"joints":4200}
+{"kind":"step","step":294,"completed":294,"create_ms":0.000144,"setters_ms":0.001256,"physics_ms":334.266885,"bodies":4300,"joints":4200}
+{"kind":"step","step":295,"completed":295,"create_ms":0.000119,"setters_ms":0.001264,"physics_ms":338.186352,"bodies":4300,"joints":4200}
+{"kind":"step","step":296,"completed":296,"create_ms":9.7e-05,"setters_ms":0.00122,"physics_ms":334.555072,"bodies":4300,"joints":4200}
+{"kind":"step","step":297,"completed":297,"create_ms":0.000113,"setters_ms":0.001216,"physics_ms":327.424445,"bodies":4300,"joints":4200}
+{"kind":"step","step":298,"completed":298,"create_ms":0.000113,"setters_ms":0.00124,"physics_ms":332.43325,"bodies":4300,"joints":4200}
+{"kind":"step","step":299,"completed":299,"create_ms":4.1e-05,"setters_ms":0.001551,"physics_ms":332.113554,"bodies":4300,"joints":4200}
+{"kind":"step","step":300,"completed":300,"create_ms":0.000125,"setters_ms":0.001491,"physics_ms":322.187037,"bodies":4300,"joints":4200}
+{"kind":"step","step":301,"completed":301,"create_ms":0.000104,"setters_ms":0.001242,"physics_ms":331.906606,"bodies":4300,"joints":4200}
+{"kind":"step","step":302,"completed":302,"create_ms":3.5e-05,"setters_ms":0.001365,"physics_ms":324.402349,"bodies":4300,"joints":4200}
+{"kind":"step","step":303,"completed":303,"create_ms":4.5e-05,"setters_ms":0.001409,"physics_ms":328.427273,"bodies":4300,"joints":4200}
+{"kind":"step","step":304,"completed":304,"create_ms":0.000106,"setters_ms":0.001548,"physics_ms":324.164265,"bodies":4300,"joints":4200}
+{"kind":"step","step":305,"completed":305,"create_ms":3.5e-05,"setters_ms":0.002842,"physics_ms":324.296399,"bodies":4300,"joints":4200}
+{"kind":"step","step":306,"completed":306,"create_ms":0.000187,"setters_ms":0.001143,"physics_ms":317.438436,"bodies":4300,"joints":4200}
+{"kind":"step","step":307,"completed":307,"create_ms":4.7e-05,"setters_ms":0.001497,"physics_ms":323.096668,"bodies":4300,"joints":4200}
+{"kind":"step","step":308,"completed":308,"create_ms":0.000137,"setters_ms":0.001261,"physics_ms":321.735593,"bodies":4300,"joints":4200}
+{"kind":"step","step":309,"completed":309,"create_ms":0.000126,"setters_ms":0.001218,"physics_ms":321.388876,"bodies":4300,"joints":4200}
+{"kind":"step","step":310,"completed":310,"create_ms":0.000135,"setters_ms":0.001452,"physics_ms":324.423933,"bodies":4300,"joints":4200}
+{"kind":"step","step":311,"completed":311,"create_ms":0.000133,"setters_ms":0.001239,"physics_ms":321.009045,"bodies":4300,"joints":4200}
+{"kind":"step","step":312,"completed":312,"create_ms":0.000131,"setters_ms":0.001368,"physics_ms":321.49754,"bodies":4300,"joints":4200}
+{"kind":"step","step":313,"completed":313,"create_ms":4.5e-05,"setters_ms":0.001288,"physics_ms":324.978471,"bodies":4300,"joints":4200}
+{"kind":"step","step":314,"completed":314,"create_ms":0.000116,"setters_ms":0.001396,"physics_ms":325.135106,"bodies":4300,"joints":4200}
+{"kind":"step","step":315,"completed":315,"create_ms":4.4e-05,"setters_ms":0.001543,"physics_ms":320.552061,"bodies":4300,"joints":4200}
+{"kind":"step","step":316,"completed":316,"create_ms":0.000103,"setters_ms":0.001383,"physics_ms":319.304229,"bodies":4300,"joints":4200}
+{"kind":"step","step":317,"completed":317,"create_ms":4.7e-05,"setters_ms":0.001447,"physics_ms":324.135185,"bodies":4300,"joints":4200}
+{"kind":"step","step":318,"completed":318,"create_ms":3.4e-05,"setters_ms":0.001425,"physics_ms":318.151949,"bodies":4300,"joints":4200}
+{"kind":"step","step":319,"completed":319,"create_ms":0.000238,"setters_ms":0.001244,"physics_ms":319.230397,"bodies":4300,"joints":4200}
+{"kind":"step","step":320,"completed":320,"create_ms":0.000129,"setters_ms":0.001254,"physics_ms":317.43224,"bodies":4300,"joints":4200}
+gpu-alloc scene generation=0 bodies=5200 shapes=6200 hull_points=13440 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=6200 joints=6720 scene_heap_bytes=4654784 max=536870912
+gpu-scene-input shapes=4400 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=4654784
+{"kind":"step","step":321,"completed":321,"create_ms":42.72177,"setters_ms":0.001579,"physics_ms":354.339381,"bodies":4300,"joints":4200}
+{"kind":"step","step":322,"completed":322,"create_ms":0.000117,"setters_ms":0.001206,"physics_ms":342.397376,"bodies":4300,"joints":4200}
+{"kind":"step","step":323,"completed":323,"create_ms":9.4e-05,"setters_ms":0.001515,"physics_ms":337.828536,"bodies":4300,"joints":4200}
+{"kind":"step","step":324,"completed":324,"create_ms":4e-05,"setters_ms":0.001369,"physics_ms":338.438499,"bodies":4300,"joints":4200}
+{"kind":"step","step":325,"completed":325,"create_ms":3.3e-05,"setters_ms":0.001345,"physics_ms":342.276502,"bodies":4300,"joints":4200}
+{"kind":"step","step":326,"completed":326,"create_ms":0.000171,"setters_ms":0.001301,"physics_ms":335.634773,"bodies":4300,"joints":4200}
+{"kind":"step","step":327,"completed":327,"create_ms":3.4e-05,"setters_ms":0.001242,"physics_ms":339.957152,"bodies":4300,"joints":4200}
+{"kind":"step","step":328,"completed":328,"create_ms":4.2e-05,"setters_ms":0.001308,"physics_ms":355.803937,"bodies":4300,"joints":4200}
+{"kind":"step","step":329,"completed":329,"create_ms":3.3e-05,"setters_ms":0.001413,"physics_ms":356.684979,"bodies":4300,"joints":4200}
+{"kind":"step","step":330,"completed":330,"create_ms":3.2e-05,"setters_ms":0.001331,"physics_ms":360.86847,"bodies":4300,"joints":4200}
+{"kind":"step","step":331,"completed":331,"create_ms":3.2e-05,"setters_ms":0.001205,"physics_ms":356.446552,"bodies":4300,"joints":4200}
+{"kind":"step","step":332,"completed":332,"create_ms":3.3e-05,"setters_ms":0.001563,"physics_ms":358.186921,"bodies":4300,"joints":4200}
+{"kind":"step","step":333,"completed":333,"create_ms":0.000158,"setters_ms":0.001136,"physics_ms":350.131015,"bodies":4300,"joints":4200}
+{"kind":"step","step":334,"completed":334,"create_ms":4.2e-05,"setters_ms":0.001362,"physics_ms":349.052858,"bodies":4300,"joints":4200}
+{"kind":"step","step":335,"completed":335,"create_ms":4.7e-05,"setters_ms":0.001577,"physics_ms":347.353687,"bodies":4300,"joints":4200}
+{"kind":"step","step":336,"completed":336,"create_ms":4.6e-05,"setters_ms":0.001291,"physics_ms":352.56291,"bodies":4300,"joints":4200}
+gpu-alloc scene generation=0 bodies=5200 shapes=6200 hull_points=13440 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=6200 joints=6720 scene_heap_bytes=4654784 max=536870912
+gpu-scene-input shapes=4400 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=4654784
+{"kind":"step","step":337,"completed":337,"create_ms":39.098365,"setters_ms":0.001011,"physics_ms":384.295435,"bodies":4300,"joints":4200}
+{"kind":"step","step":338,"completed":338,"create_ms":9.3e-05,"setters_ms":0.001224,"physics_ms":367.371123,"bodies":4300,"joints":4200}
+{"kind":"step","step":339,"completed":339,"create_ms":0.000326,"setters_ms":0.001363,"physics_ms":360.131205,"bodies":4300,"joints":4200}
+{"kind":"step","step":340,"completed":340,"create_ms":0.000141,"setters_ms":0.001213,"physics_ms":353.106422,"bodies":4300,"joints":4200}
+{"kind":"step","step":341,"completed":341,"create_ms":0.000208,"setters_ms":0.001209,"physics_ms":363.199388,"bodies":4300,"joints":4200}
+{"kind":"step","step":342,"completed":342,"create_ms":0.000123,"setters_ms":0.001201,"physics_ms":364.312248,"bodies":4300,"joints":4200}
+{"kind":"step","step":343,"completed":343,"create_ms":0.000124,"setters_ms":0.001336,"physics_ms":360.477529,"bodies":4300,"joints":4200}
+{"kind":"step","step":344,"completed":344,"create_ms":3.4e-05,"setters_ms":0.001545,"physics_ms":384.294979,"bodies":4300,"joints":4200}
+{"kind":"step","step":345,"completed":345,"create_ms":0.000131,"setters_ms":0.001297,"physics_ms":379.205812,"bodies":4300,"joints":4200}
+{"kind":"step","step":346,"completed":346,"create_ms":0.000149,"setters_ms":0.001451,"physics_ms":378.251747,"bodies":4300,"joints":4200}
+{"kind":"step","step":347,"completed":347,"create_ms":0.00012,"setters_ms":0.001265,"physics_ms":379.714075,"bodies":4300,"joints":4200}
+{"kind":"step","step":348,"completed":348,"create_ms":3.4e-05,"setters_ms":0.001283,"physics_ms":385.126729,"bodies":4300,"joints":4200}
+{"kind":"step","step":349,"completed":349,"create_ms":0.000105,"setters_ms":0.001142,"physics_ms":379.196427,"bodies":4300,"joints":4200}
+{"kind":"step","step":350,"completed":350,"create_ms":0.000317,"setters_ms":0.001326,"physics_ms":373.745744,"bodies":4300,"joints":4200}
+{"kind":"step","step":351,"completed":351,"create_ms":0.000196,"setters_ms":0.001213,"physics_ms":374.289363,"bodies":4300,"joints":4200}
+{"kind":"step","step":352,"completed":352,"create_ms":0.000134,"setters_ms":0.001339,"physics_ms":377.27439,"bodies":4300,"joints":4200}
+{"kind":"step","step":353,"completed":353,"create_ms":0.000147,"setters_ms":0.001486,"physics_ms":376.639047,"bodies":4300,"joints":4200}
+{"kind":"step","step":354,"completed":354,"create_ms":3.3e-05,"setters_ms":0.001515,"physics_ms":375.304676,"bodies":4300,"joints":4200}
+{"kind":"step","step":355,"completed":355,"create_ms":0.000135,"setters_ms":0.001268,"physics_ms":374.452997,"bodies":4300,"joints":4200}
+{"kind":"step","step":356,"completed":356,"create_ms":0.000174,"setters_ms":0.001428,"physics_ms":371.887314,"bodies":4300,"joints":4200}
+{"kind":"step","step":357,"completed":357,"create_ms":4.4e-05,"setters_ms":0.001221,"physics_ms":373.682704,"bodies":4300,"joints":4200}
+{"kind":"step","step":358,"completed":358,"create_ms":0.00014,"setters_ms":0.001346,"physics_ms":374.578295,"bodies":4300,"joints":4200}
+{"kind":"step","step":359,"completed":359,"create_ms":9.8e-05,"setters_ms":0.001241,"physics_ms":377.664744,"bodies":4300,"joints":4200}
+{"kind":"step","step":360,"completed":360,"create_ms":0.000138,"setters_ms":0.001292,"physics_ms":374.365124,"bodies":4300,"joints":4200}
+{"kind":"step","step":361,"completed":361,"create_ms":0.000159,"setters_ms":0.001212,"physics_ms":379.684176,"bodies":4300,"joints":4200}
+{"kind":"step","step":362,"completed":362,"create_ms":4.3e-05,"setters_ms":0.001313,"physics_ms":366.190496,"bodies":4300,"joints":4200}
+{"kind":"step","step":363,"completed":363,"create_ms":4.7e-05,"setters_ms":0.001543,"physics_ms":370.765096,"bodies":4300,"joints":4200}
+{"kind":"step","step":364,"completed":364,"create_ms":3.4e-05,"setters_ms":0.001504,"physics_ms":371.255504,"bodies":4300,"joints":4200}
+{"kind":"step","step":365,"completed":365,"create_ms":0.000141,"setters_ms":0.001399,"physics_ms":368.847143,"bodies":4300,"joints":4200}
+{"kind":"step","step":366,"completed":366,"create_ms":3.1e-05,"setters_ms":0.001155,"physics_ms":369.32342,"bodies":4300,"joints":4200}
+{"kind":"step","step":367,"completed":367,"create_ms":3.2e-05,"setters_ms":0.001199,"physics_ms":368.36819,"bodies":4300,"joints":4200}
+{"kind":"step","step":368,"completed":368,"create_ms":0.00019,"setters_ms":0.001421,"physics_ms":373.365306,"bodies":4300,"joints":4200}
+{"kind":"step","step":369,"completed":369,"create_ms":0.000252,"setters_ms":0.001257,"physics_ms":370.305048,"bodies":4300,"joints":4200}
+{"kind":"step","step":370,"completed":370,"create_ms":0.000127,"setters_ms":0.001197,"physics_ms":370.708723,"bodies":4300,"joints":4200}
+{"kind":"step","step":371,"completed":371,"create_ms":5.1e-05,"setters_ms":0.001574,"physics_ms":375.744433,"bodies":4300,"joints":4200}
+{"kind":"step","step":372,"completed":372,"create_ms":3.5e-05,"setters_ms":0.001609,"physics_ms":371.813562,"bodies":4300,"joints":4200}
+{"kind":"step","step":373,"completed":373,"create_ms":9.8e-05,"setters_ms":0.001223,"physics_ms":367.859292,"bodies":4300,"joints":4200}
+{"kind":"step","step":374,"completed":374,"create_ms":3.3e-05,"setters_ms":0.001139,"physics_ms":366.26583,"bodies":4300,"joints":4200}
+{"kind":"step","step":375,"completed":375,"create_ms":0.000138,"setters_ms":0.001416,"physics_ms":364.247818,"bodies":4300,"joints":4200}
+{"kind":"step","step":376,"completed":376,"create_ms":3.3e-05,"setters_ms":0.001381,"physics_ms":356.534248,"bodies":4300,"joints":4200}
+{"kind":"step","step":377,"completed":377,"create_ms":3.2e-05,"setters_ms":0.00144,"physics_ms":366.117494,"bodies":4300,"joints":4200}
+{"kind":"step","step":378,"completed":378,"create_ms":3.1e-05,"setters_ms":0.001188,"physics_ms":363.071268,"bodies":4300,"joints":4200}
+{"kind":"step","step":379,"completed":379,"create_ms":3.3e-05,"setters_ms":0.001346,"physics_ms":362.500622,"bodies":4300,"joints":4200}
+{"kind":"step","step":380,"completed":380,"create_ms":3.4e-05,"setters_ms":0.001212,"physics_ms":364.835182,"bodies":4300,"joints":4200}
+{"kind":"step","step":381,"completed":381,"create_ms":0.000183,"setters_ms":0.001146,"physics_ms":366.074068,"bodies":4300,"joints":4200}
+{"kind":"step","step":382,"completed":382,"create_ms":4.9e-05,"setters_ms":0.001862,"physics_ms":358.777955,"bodies":4300,"joints":4200}
+{"kind":"step","step":383,"completed":383,"create_ms":8.8e-05,"setters_ms":0.001456,"physics_ms":359.23478,"bodies":4300,"joints":4200}
+{"kind":"step","step":384,"completed":384,"create_ms":0.000103,"setters_ms":0.001115,"physics_ms":356.849247,"bodies":4300,"joints":4200}
+gpu-alloc scene generation=0 bodies=5200 shapes=6200 hull_points=13440 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=6200 joints=6720 scene_heap_bytes=4654784 max=536870912
+gpu-scene-input shapes=4400 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=4654784
+{"kind":"step","step":385,"completed":385,"create_ms":48.459744,"setters_ms":0.000939,"physics_ms":398.483768,"bodies":4300,"joints":4200}
+{"kind":"step","step":386,"completed":386,"create_ms":0.000111,"setters_ms":0.001104,"physics_ms":378.429499,"bodies":4300,"joints":4200}
+{"kind":"step","step":387,"completed":387,"create_ms":0.000105,"setters_ms":0.001227,"physics_ms":388.340887,"bodies":4300,"joints":4200}
+{"kind":"step","step":388,"completed":388,"create_ms":0.000112,"setters_ms":0.001501,"physics_ms":377.978674,"bodies":4300,"joints":4200}
+{"kind":"step","step":389,"completed":389,"create_ms":0.000129,"setters_ms":0.00127,"physics_ms":378.724554,"bodies":4300,"joints":4200}
+{"kind":"step","step":390,"completed":390,"create_ms":0.000134,"setters_ms":0.001263,"physics_ms":376.175408,"bodies":4300,"joints":4200}
+{"kind":"step","step":391,"completed":391,"create_ms":0.000121,"setters_ms":0.001375,"physics_ms":379.810113,"bodies":4300,"joints":4200}
+{"kind":"step","step":392,"completed":392,"create_ms":0.000121,"setters_ms":0.001274,"physics_ms":388.886074,"bodies":4300,"joints":4200}
+{"kind":"step","step":393,"completed":393,"create_ms":0.000119,"setters_ms":0.001221,"physics_ms":400.352965,"bodies":4300,"joints":4200}
+{"kind":"step","step":394,"completed":394,"create_ms":0.00015,"setters_ms":0.001235,"physics_ms":390.256663,"bodies":4300,"joints":4200}
+{"kind":"step","step":395,"completed":395,"create_ms":0.000316,"setters_ms":0.001606,"physics_ms":402.601259,"bodies":4300,"joints":4200}
+{"kind":"step","step":396,"completed":396,"create_ms":0.000156,"setters_ms":0.001686,"physics_ms":393.702827,"bodies":4300,"joints":4200}
+{"kind":"step","step":397,"completed":397,"create_ms":3.3e-05,"setters_ms":0.001393,"physics_ms":389.745376,"bodies":4300,"joints":4200}
+{"kind":"step","step":398,"completed":398,"create_ms":3.4e-05,"setters_ms":0.001403,"physics_ms":392.172475,"bodies":4300,"joints":4200}
+{"kind":"step","step":399,"completed":399,"create_ms":3.8e-05,"setters_ms":0.001243,"physics_ms":387.523477,"bodies":4300,"joints":4200}
+{"kind":"step","step":400,"completed":400,"create_ms":0.000274,"setters_ms":0.00131,"physics_ms":389.141734,"bodies":4300,"joints":4200}
+gpu-alloc scene generation=0 bodies=5200 shapes=6200 hull_points=13440 hull_planes=64 hull_edges=64 hull_topology=64 mesh_vertices=33700 mesh_triangles=64000 mesh_nodes=15800 materials=6200 joints=6720 scene_heap_bytes=4654784 max=536870912
+gpu-scene-input shapes=4400 mesh_vertices=33700 mesh_triangles=64000 scene_heap_bytes=4654784
+{"kind":"step","step":401,"completed":401,"create_ms":44.48675,"setters_ms":0.000902,"physics_ms":429.297636,"bodies":4300,"joints":4200}
+{"kind":"step","step":402,"completed":402,"create_ms":3.6e-05,"setters_ms":0.001245,"physics_ms":401.020104,"bodies":4300,"joints":4200}
+{"kind":"step","step":403,"completed":403,"create_ms":0.000201,"setters_ms":0.001263,"physics_ms":405.830247,"bodies":4300,"joints":4200}
+{"kind":"step","step":404,"completed":404,"create_ms":0.000171,"setters_ms":0.001082,"physics_ms":406.690182,"bodies":4300,"joints":4200}
+{"kind":"step","step":405,"completed":405,"create_ms":3.2e-05,"setters_ms":0.0013,"physics_ms":401.790761,"bodies":4300,"joints":4200}
+{"kind":"step","step":406,"completed":406,"create_ms":3.2e-05,"setters_ms":0.001236,"physics_ms":403.120182,"bodies":4300,"joints":4200}
+{"kind":"step","step":407,"completed":407,"create_ms":0.000106,"setters_ms":0.001326,"physics_ms":400.125962,"bodies":4300,"joints":4200}

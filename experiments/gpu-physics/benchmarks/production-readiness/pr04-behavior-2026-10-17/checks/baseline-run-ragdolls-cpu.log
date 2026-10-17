@@ -1,0 +1,6 @@
+[gfx/info] GPU: NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2 (NVIDIA Corporation)
+sokol-capacity: 65536 debug shapes and opaque instances per stream
+sokol-debug-pool: 65536 stable slots (was 0)
+sokol-renderer: NVIDIA Corporation / NVIDIA GeForce RTX 4070 SUPER/PCIe/SSE2; framebuffer=2400x1350
+samples: 600 frames, 0 sokol errors
+sleep step = 308, hash = 0x4D94E049
