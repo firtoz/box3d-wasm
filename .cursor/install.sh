@@ -51,12 +51,52 @@ ensure_native_cxx
 cmake --version | head -n1
 
 # 1. Bun (pinned to the version in package.json "packageManager").
-if ! command -v bun >/dev/null 2>&1; then
-  echo "[setup] installing Bun 1.2.0"
-  curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.0"
+export PATH="$HOME/.bun/bin:$PATH"
+
+# Keep agent setup aligned with the runtime pin used by CI.
+PINNED_BUN_VERSION="$(grep -oE '"packageManager"[[:space:]]*:[[:space:]]*"bun@[0-9.]+"' package.json | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || true)"
+if [ -z "$PINNED_BUN_VERSION" ]; then
+    echo "❌ package.json must declare a numeric bun@ version."
+    exit 1
+fi
+
+if ! command -v bun &> /dev/null || [ "$(bun --version)" != "$PINNED_BUN_VERSION" ]; then
+    echo "📦 Installing Bun $PINNED_BUN_VERSION from packageManager..."
+    curl -fsSL https://bun.sh/install | bash -s -- "bun-v$PINNED_BUN_VERSION"
+    export PATH="$HOME/.bun/bin:$PATH"
+fi
+
+if [ "$(bun --version)" != "$PINNED_BUN_VERSION" ]; then
+    echo "❌ Bun does not match the packageManager pin."
+    exit 1
+fi
+echo "✅ Bun ready: $(bun --version)"
+
+
+# Install the exact project Node when this base image has no matching runtime.
+PINNED_NODE_VERSION="$(tr -d '[:space:]' < .nvmrc)"
+[[ "$PINNED_NODE_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]] || exit 1
+if [ "$(node --version 2>/dev/null || true)" != "v$PINNED_NODE_VERSION" ]; then
+  case "$(uname -m)" in
+    x86_64) node_arch=x64 ;;
+    aarch64) node_arch=arm64 ;;
+    *) echo "Unsupported Cloud Agent architecture" >&2; exit 1 ;;
+  esac
+  node_archive="node-v$PINNED_NODE_VERSION-linux-$node_arch.tar.xz"
+  node_temp="$(mktemp -d)"
+  trap 'rm -rf "$node_temp"' EXIT
+  curl -fsSLo "$node_temp/$node_archive" "https://nodejs.org/dist/v$PINNED_NODE_VERSION/$node_archive"
+  curl -fsSLo "$node_temp/SHASUMS256.txt" "https://nodejs.org/dist/v$PINNED_NODE_VERSION/SHASUMS256.txt"
+  (cd "$node_temp" && grep "  $node_archive$" SHASUMS256.txt | sha256sum --check --status)
+  node_home="$HOME/.local/share/box3d-node-$PINNED_NODE_VERSION"
+  mkdir -p "$node_home" "$HOME/.bun/bin"
+  tar -xJf "$node_temp/$node_archive" --strip-components=1 -C "$node_home"
+  for tool in node npm npx; do ln -sfn "$node_home/bin/$tool" "$HOME/.bun/bin/$tool"; done
+  rm -rf "$node_temp"
+  trap - EXIT
 fi
 export PATH="$HOME/.bun/bin:$PATH"
-bun --version
+[ "$(node --version)" = "v$PINNED_NODE_VERSION" ] || exit 1
 
 # 2. box3d submodule. .gitmodules pins an SSH URL; rewrite it to HTTPS so the
 #    public upstream engine can be fetched without SSH credentials.
@@ -64,7 +104,7 @@ git -c url."https://github.com/".insteadOf="git@github.com:" \
   submodule update --init --recursive
 
 # 3. Workspace dependencies (Bun workspaces + Turborepo).
-bun install
+bun install --frozen-lockfile
 
 # 4. Repo-local Emscripten SDK pin (installs into gitignored .emsdk/; WASM
 #    builds source it automatically).
