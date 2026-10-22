@@ -9,7 +9,7 @@ https://github.com/user-attachments/assets/1c161c46-1dae-45a0-8d77-cb8df45819e8
 
 
 
-[![Bun](https://img.shields.io/badge/Bun-1.2.0-black)](https://bun.sh/)
+[![Bun](https://img.shields.io/badge/Bun-1.4.3-black)](https://bun.sh/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-7.0.1--rc-blue)](https://www.typescriptlang.org/)
 [![Turborepo](https://img.shields.io/badge/Turborepo-2.10.2-EF4444)](https://turbo.build/repo)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
@@ -56,7 +56,8 @@ bun run dev
 
 ## Requirements
 
-- Bun 1.2.0
+- Bun 1.4.3
+- Node 24.22.1 for the standalone Emscripten benchmark (`bun run bench:junkyard`).
 - A C/C++ toolchain
 - CMake
 - Emscripten (**prefer 6.0.2**). System packages like Manjaro/Arch `6.0.3` currently ICE compiling Box3D `shape.c` with `-msimd128`. For this repo, install a local pin with `bun run setup:emsdk` (downloads into gitignored `.emsdk/`; WASM builds prefer it automatically). Override with `BOX3D_EMSDK_DIR` / `BOX3D_EMSDK_VERSION`, or set `BOX3D_DISABLE_SIMD=1` as a last-resort workaround.
