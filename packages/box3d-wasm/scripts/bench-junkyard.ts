@@ -133,7 +133,7 @@ function hashTransforms(positions: Float32Array, rotations: Float32Array, count:
 }
 
 function usageKey(usage: SlotUsage): string {
-  return `w${usage.worlds}/b${usage.bodies}/j${usage.joints}/h${usage.hulls}/s${usage.shapes}/m${usage.meshes}/c${usage.compounds}/u${usage.humans}`;
+  return `w${usage.worlds}/h${usage.hulls}/m${usage.meshes}/c${usage.compounds}/u${usage.humans}/hf${usage.heightFields}`;
 }
 
 function publishDense(
@@ -264,12 +264,7 @@ async function main(): Promise<void> {
       `  restart ${restart + 1}: init=${initMs.toFixed(1)}ms bodies=${handles.length} usageBefore=${usageKey(usageBeforeDestroy)} usageAfter=${usageKey(usageAfterDestroy)}`,
     );
 
-    if (
-      usageAfterDestroy.bodies !== baselineUsage.bodies ||
-      usageAfterDestroy.shapes !== baselineUsage.shapes ||
-      usageAfterDestroy.worlds !== baselineUsage.worlds ||
-      usageAfterDestroy.joints !== baselineUsage.joints
-    ) {
+    if (usageKey(usageAfterDestroy) !== usageKey(baselineUsage)) {
       throw new Error(
         `Slot leak detected: after destroy ${usageKey(usageAfterDestroy)} != baseline ${usageKey(baselineUsage)}`,
       );
@@ -280,6 +275,7 @@ async function main(): Promise<void> {
   {
     const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
     const before = runtime.getSlotUsage();
+    const beforeCounters = world.getCounters();
     const bodies: BodyHandle[] = [];
     for (let i = 0; i < 64; i++) {
       const body = world.createBody({ type: BodyType.Dynamic, position: [i, 2, 0] });
@@ -291,31 +287,37 @@ async function main(): Promise<void> {
       runtime.destroyBody(body);
     }
     const afterBodies = runtime.getSlotUsage();
+    const afterCounters = world.getCounters();
     world.destroy();
     const afterWorld = runtime.getSlotUsage();
-    if (afterBodies.shapes > before.shapes || afterBodies.bodies > before.bodies) {
+    if (
+      usageKey(afterBodies) !== usageKey(before) ||
+      afterCounters.bodyCount !== beforeCounters.bodyCount ||
+      afterCounters.shapeCount !== beforeCounters.shapeCount ||
+      afterCounters.jointCount !== beforeCounters.jointCount
+    ) {
       throw new Error(
-        `Body-only destroy left slots: before=${usageKey(before)} mid=${usageKey(mid)} afterBodies=${usageKey(afterBodies)}`,
+        `Body-only destroy leaked: slots before=${usageKey(before)} mid=${usageKey(mid)} after=${usageKey(afterBodies)} counters before=${JSON.stringify(beforeCounters)} after=${JSON.stringify(afterCounters)}`,
       );
     }
-    if (afterWorld.shapes !== baselineUsage.shapes || afterWorld.bodies !== baselineUsage.bodies) {
+    if (usageKey(afterWorld) !== usageKey(baselineUsage)) {
       throw new Error(`World destroy after body-only destroy leaked: ${usageKey(afterWorld)}`);
     }
     console.log(`  body-only destroy OK (created ${bodies.length} boxes)`);
   }
 
-  // Freed handles reusable: allocate until shapes used, free world, allocate again.
+  // Native body/shape allocation is world-owned; verify fresh worlds have the same counts.
   {
     const first = buildJunkyard(runtime, 1);
-    const used = runtime.getSlotUsage().shapes;
+    const used = first.world.getCounters();
     first.world.destroy();
     const second = buildJunkyard(runtime, 1);
-    const used2 = runtime.getSlotUsage().shapes;
+    const used2 = second.world.getCounters();
     second.world.destroy();
-    if (used2 !== used) {
-      throw new Error(`Handle reuse mismatch: first shapes=${used} second shapes=${used2}`);
+    if (used2.shapeCount !== used.shapeCount || used2.bodyCount !== used.bodyCount) {
+      throw new Error(`World allocation mismatch: first=${JSON.stringify(used)} second=${JSON.stringify(used2)}`);
     }
-    console.log(`  handle reuse OK (shapes peaked at ${used})`);
+    console.log(`  world allocation OK (${used.bodyCount} bodies, ${used.shapeCount} shapes)`);
   }
 
   if (!args.hashOnly) {

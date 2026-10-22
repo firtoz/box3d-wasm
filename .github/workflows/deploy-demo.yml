@@ -51,6 +51,9 @@ jobs:
       - name: Check workspace and script types
         run: bun run typecheck
 
+      - name: Smoke test world and slot cleanup
+        run: bun run bench:junkyard --frames=1 --warmup=0 --restarts=2 --profile=off
+
       - name: Build demo
         working-directory: demo
         env:
