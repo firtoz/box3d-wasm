@@ -198,144 +198,150 @@ async function main(): Promise<void> {
   console.log(`  expected rocks=${ROCK_Y * ROCK_XZ * ROCK_XZ}`);
 
   const runtime = await loadRuntime();
-  console.log(`  slot limits: ${usageKey(runtime.limits)}`);
+  try {
+    console.log(`  slot limits: ${usageKey(runtime.limits)}`);
 
-  const baselineUsage = runtime.getSlotUsage();
-  console.log(`  baseline usage: ${usageKey(baselineUsage)}`);
+    const baselineUsage = runtime.getSlotUsage();
+    console.log(`  baseline usage: ${usageKey(baselineUsage)}`);
 
-  const restartMs: number[] = [];
-  let lastHash = "";
-  const stepMs: number[] = [];
-  const publishMs: number[] = [];
-  let peakContacts = 0;
-  let finalMoveCount = 0;
+    const restartMs: number[] = [];
+    let lastHash = "";
+    const stepMs: number[] = [];
+    const publishMs: number[] = [];
+    let peakContacts = 0;
+    let finalMoveCount = 0;
 
-  for (let restart = 0; restart < args.restarts; restart++) {
-    const tInit = performance.now();
-    const { world, handles } = buildJunkyard(runtime, args.workers);
-    const initMs = performance.now() - tInit;
-    restartMs.push(initMs);
+    for (let restart = 0; restart < args.restarts; restart++) {
+      const tInit = performance.now();
+      const { world, handles } = buildJunkyard(runtime, args.workers);
+      const initMs = performance.now() - tInit;
+      restartMs.push(initMs);
 
-    world.setProfileLevel(args.profile);
-    const batch = world.allocBodyBatchBuffers(handles.length);
-    world.writeBodyHandles(batch, handles);
-    if (args.publish === "sparse") {
-      world.configureBodyMoveTracking(handles.length, batch.bodyHandlesPtr);
-    }
-
-    for (let i = 0; i < args.warmup; i++) {
-      world.step(DT, SUBSTEPS);
+      world.setProfileLevel(args.profile);
+      const batch = world.allocBodyBatchBuffers(handles.length);
+      world.writeBodyHandles(batch, handles);
       if (args.publish === "sparse") {
-        publishSparse(world, handles.length, batch, i === 0);
-      } else {
-        publishDense(world, handles.length, batch);
+        world.configureBodyMoveTracking(handles.length, batch.bodyHandlesPtr);
+      }
+
+      for (let i = 0; i < args.warmup; i++) {
+        world.step(DT, SUBSTEPS);
+        if (args.publish === "sparse") {
+          publishSparse(world, handles.length, batch, i === 0);
+        } else {
+          publishDense(world, handles.length, batch);
+        }
+      }
+
+      let positions: Float32Array | null = null;
+      let rotations: Float32Array | null = null;
+      for (let i = 0; i < args.frames; i++) {
+        const t0 = performance.now();
+        world.step(DT, SUBSTEPS);
+        stepMs.push(performance.now() - t0);
+
+        const published =
+          args.publish === "sparse"
+            ? publishSparse(world, handles.length, batch, false)
+            : publishDense(world, handles.length, batch);
+        publishMs.push(published.ms);
+        positions = published.positions;
+        rotations = published.rotations;
+        if ("moveCount" in published) finalMoveCount = Number(published.moveCount);
+
+        const counters = world.getCounters();
+        peakContacts = Math.max(peakContacts, counters.contactCount);
+      }
+
+      if (positions !== null && rotations !== null && args.workers === 1) {
+        lastHash = hashTransforms(positions, rotations, handles.length);
+      }
+
+      const usageBeforeDestroy = runtime.getSlotUsage();
+      world.destroy();
+      const usageAfterDestroy = runtime.getSlotUsage();
+
+      console.log(
+        `  restart ${restart + 1}: init=${initMs.toFixed(1)}ms bodies=${handles.length} usageBefore=${usageKey(usageBeforeDestroy)} usageAfter=${usageKey(usageAfterDestroy)}`,
+      );
+
+      if (usageKey(usageAfterDestroy) !== usageKey(baselineUsage)) {
+        throw new Error(
+          `Slot leak detected: after destroy ${usageKey(usageAfterDestroy)} != baseline ${usageKey(baselineUsage)}`,
+        );
       }
     }
 
-    let positions: Float32Array | null = null;
-    let rotations: Float32Array | null = null;
-    for (let i = 0; i < args.frames; i++) {
-      const t0 = performance.now();
-      world.step(DT, SUBSTEPS);
-      stepMs.push(performance.now() - t0);
-
-      const published =
-        args.publish === "sparse"
-          ? publishSparse(world, handles.length, batch, false)
-          : publishDense(world, handles.length, batch);
-      publishMs.push(published.ms);
-      positions = published.positions;
-      rotations = published.rotations;
-      if ("moveCount" in published) finalMoveCount = Number(published.moveCount);
-
-      const counters = world.getCounters();
-      peakContacts = Math.max(peakContacts, counters.contactCount);
+    // Body-only destroy path: create small world, destroy bodies individually, then world.
+    {
+      const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
+      const before = runtime.getSlotUsage();
+      const beforeCounters = world.getCounters();
+      const bodies: BodyHandle[] = [];
+      for (let i = 0; i < 64; i++) {
+        const body = world.createBody({ type: BodyType.Dynamic, position: [i, 2, 0] });
+        runtime.createHullShape(body, [0.5, 0.5, 0.5]);
+        bodies.push(body);
+      }
+      const mid = runtime.getSlotUsage();
+      for (const body of bodies) {
+        runtime.destroyBody(body);
+      }
+      const afterBodies = runtime.getSlotUsage();
+      const afterCounters = world.getCounters();
+      world.destroy();
+      const afterWorld = runtime.getSlotUsage();
+      if (
+        usageKey(afterBodies) !== usageKey(before) ||
+        afterCounters.bodyCount !== beforeCounters.bodyCount ||
+        afterCounters.shapeCount !== beforeCounters.shapeCount ||
+        afterCounters.jointCount !== beforeCounters.jointCount
+      ) {
+        throw new Error(
+          `Body-only destroy leaked: slots before=${usageKey(before)} mid=${usageKey(mid)} after=${usageKey(afterBodies)} counters before=${JSON.stringify(beforeCounters)} after=${JSON.stringify(afterCounters)}`,
+        );
+      }
+      if (usageKey(afterWorld) !== usageKey(baselineUsage)) {
+        throw new Error(`World destroy after body-only destroy leaked: ${usageKey(afterWorld)}`);
+      }
+      console.log(`  body-only destroy OK (created ${bodies.length} boxes)`);
     }
 
-    if (positions !== null && rotations !== null && args.workers === 1) {
-      lastHash = hashTransforms(positions, rotations, handles.length);
+    // Native body/shape allocation is world-owned; verify fresh worlds have the same counts.
+    {
+      const first = buildJunkyard(runtime, 1);
+      const used = first.world.getCounters();
+      first.world.destroy();
+      const second = buildJunkyard(runtime, 1);
+      const used2 = second.world.getCounters();
+      second.world.destroy();
+      if (used2.shapeCount !== used.shapeCount || used2.bodyCount !== used.bodyCount) {
+        throw new Error(`World allocation mismatch: first=${JSON.stringify(used)} second=${JSON.stringify(used2)}`);
+      }
+      console.log(`  world allocation OK (${used.bodyCount} bodies, ${used.shapeCount} shapes)`);
     }
 
-    const usageBeforeDestroy = runtime.getSlotUsage();
-    world.destroy();
-    const usageAfterDestroy = runtime.getSlotUsage();
-
-    console.log(
-      `  restart ${restart + 1}: init=${initMs.toFixed(1)}ms bodies=${handles.length} usageBefore=${usageKey(usageBeforeDestroy)} usageAfter=${usageKey(usageAfterDestroy)}`,
-    );
-
-    if (usageKey(usageAfterDestroy) !== usageKey(baselineUsage)) {
-      throw new Error(
-        `Slot leak detected: after destroy ${usageKey(usageAfterDestroy)} != baseline ${usageKey(baselineUsage)}`,
+    if (!args.hashOnly) {
+      console.log("\n=== Results ===");
+      console.log(`  init/restart median: ${median(restartMs).toFixed(1)}ms  mean=${mean(restartMs).toFixed(1)}ms`);
+      console.log(
+        `  step median: ${median(stepMs).toFixed(2)}ms  mean=${mean(stepMs).toFixed(2)}ms  min=${Math.min(...stepMs).toFixed(2)} max=${Math.max(...stepMs).toFixed(2)}`,
       );
-    }
-  }
-
-  // Body-only destroy path: create small world, destroy bodies individually, then world.
-  {
-    const world = runtime.createWorld({ gravity: [0, -10, 0], workerCount: 1 });
-    const before = runtime.getSlotUsage();
-    const beforeCounters = world.getCounters();
-    const bodies: BodyHandle[] = [];
-    for (let i = 0; i < 64; i++) {
-      const body = world.createBody({ type: BodyType.Dynamic, position: [i, 2, 0] });
-      runtime.createHullShape(body, [0.5, 0.5, 0.5]);
-      bodies.push(body);
-    }
-    const mid = runtime.getSlotUsage();
-    for (const body of bodies) {
-      runtime.destroyBody(body);
-    }
-    const afterBodies = runtime.getSlotUsage();
-    const afterCounters = world.getCounters();
-    world.destroy();
-    const afterWorld = runtime.getSlotUsage();
-    if (
-      usageKey(afterBodies) !== usageKey(before) ||
-      afterCounters.bodyCount !== beforeCounters.bodyCount ||
-      afterCounters.shapeCount !== beforeCounters.shapeCount ||
-      afterCounters.jointCount !== beforeCounters.jointCount
-    ) {
-      throw new Error(
-        `Body-only destroy leaked: slots before=${usageKey(before)} mid=${usageKey(mid)} after=${usageKey(afterBodies)} counters before=${JSON.stringify(beforeCounters)} after=${JSON.stringify(afterCounters)}`,
+      console.log(
+        `  publish(${args.publish}) median: ${median(publishMs).toFixed(3)}ms  mean=${mean(publishMs).toFixed(3)}ms`,
       );
+      console.log(`  peak contacts: ${peakContacts}`);
+      if (args.publish === "sparse") console.log(`  last moveCount: ${finalMoveCount}`);
     }
-    if (usageKey(afterWorld) !== usageKey(baselineUsage)) {
-      throw new Error(`World destroy after body-only destroy leaked: ${usageKey(afterWorld)}`);
+    if (args.workers === 1 && lastHash !== "") {
+      console.log(`  transformHash@frame${args.frames}: ${lastHash}`);
     }
-    console.log(`  body-only destroy OK (created ${bodies.length} boxes)`);
+    console.log("  slot usage returned to baseline after every restart: OK");
+  } finally {
+    // The harness owns this module; release its workers even when an assertion fails.
+    runtime.terminatePthreads();
+    runtime.destroy();
   }
-
-  // Native body/shape allocation is world-owned; verify fresh worlds have the same counts.
-  {
-    const first = buildJunkyard(runtime, 1);
-    const used = first.world.getCounters();
-    first.world.destroy();
-    const second = buildJunkyard(runtime, 1);
-    const used2 = second.world.getCounters();
-    second.world.destroy();
-    if (used2.shapeCount !== used.shapeCount || used2.bodyCount !== used.bodyCount) {
-      throw new Error(`World allocation mismatch: first=${JSON.stringify(used)} second=${JSON.stringify(used2)}`);
-    }
-    console.log(`  world allocation OK (${used.bodyCount} bodies, ${used.shapeCount} shapes)`);
-  }
-
-  if (!args.hashOnly) {
-    console.log("\n=== Results ===");
-    console.log(`  init/restart median: ${median(restartMs).toFixed(1)}ms  mean=${mean(restartMs).toFixed(1)}ms`);
-    console.log(
-      `  step median: ${median(stepMs).toFixed(2)}ms  mean=${mean(stepMs).toFixed(2)}ms  min=${Math.min(...stepMs).toFixed(2)} max=${Math.max(...stepMs).toFixed(2)}`,
-    );
-    console.log(
-      `  publish(${args.publish}) median: ${median(publishMs).toFixed(3)}ms  mean=${mean(publishMs).toFixed(3)}ms`,
-    );
-    console.log(`  peak contacts: ${peakContacts}`);
-    if (args.publish === "sparse") console.log(`  last moveCount: ${finalMoveCount}`);
-  }
-  if (args.workers === 1 && lastHash !== "") {
-    console.log(`  transformHash@frame${args.frames}: ${lastHash}`);
-  }
-  console.log("  slot usage returned to baseline after every restart: OK");
 }
 
 main().catch((error) => {

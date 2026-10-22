@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -52,6 +52,7 @@ jobs:
         run: bun run typecheck
 
       - name: Smoke test world and slot cleanup
+        timeout-minutes: 3
         run: bun run bench:junkyard --frames=1 --warmup=0 --restarts=2 --profile=off
 
       - name: Build demo
