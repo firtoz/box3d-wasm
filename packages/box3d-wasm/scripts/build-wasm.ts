@@ -12,6 +12,18 @@ const generatedDir = join(repoRoot, "demo", "public", "wasm");
 const emsdkDir = process.env.BOX3D_EMSDK_DIR?.trim() || join(repoRoot, ".emsdk");
 const emsdkEnvSh = join(emsdkDir, "emsdk_env.sh");
 
+// EM_NODE_JS overrides the SDK's bundled, independently versioned Node.
+const pinnedNodeVersion = (await readFile(join(repoRoot, ".nvmrc"), "utf8")).trim();
+const projectNode = Bun.which("node");
+if (!projectNode) throw new Error("Activate the Node version from .nvmrc before building");
+const nodeVersion = Bun.spawnSync([projectNode, "--version"]);
+if (nodeVersion.exitCode !== 0 || nodeVersion.stdout.toString().trim() !== "v" + pinnedNodeVersion) {
+  throw new Error("WASM compilation requires Node " + pinnedNodeVersion + "; run nvm use");
+}
+process.env.EM_NODE_JS = projectNode;
+console.log("[box3d-wasm] Emscripten compiler Node: " + projectNode + " (v" + pinnedNodeVersion + ")");
+
+
 const buildMode = getWasmBuildMode();
 const variants = variantsToBuild(buildMode);
 

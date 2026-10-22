@@ -56,6 +56,20 @@ jobs:
           test "$(node --version)" = "v$(cat .nvmrc)"
           node --version
           bun --version
+          echo "EM_NODE_JS=$(command -v node)" >> "$GITHUB_ENV"
+
+      - name: Verify Emscripten compiler Node override
+        run: |
+          python - <<'PY'
+          import os, pathlib, shutil, subprocess, sys
+          sys.path.insert(0, str(pathlib.Path(shutil.which("emcc")).resolve().parent))
+          from tools import config
+          config.init()
+          assert config.NODE_JS == [os.environ["EM_NODE_JS"]], config.NODE_JS
+          version = subprocess.check_output(config.NODE_JS + ["--version"], text=True).strip()
+          assert version == "v" + pathlib.Path(".nvmrc").read_text().strip(), version
+          print("Emscripten compiler runtime:", version, config.NODE_JS[0])
+          PY
 
       - name: Install dependencies
         run: bun install --frozen-lockfile

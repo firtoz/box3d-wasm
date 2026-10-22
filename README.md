@@ -59,7 +59,7 @@ The WASM watcher uses Chokidar 5 directly, avoiding the unpatched `braces` depen
 ## Requirements
 
 - Bun 1.4.4
-- Node 24.22.1 (`nvm use`) for development tooling and the standalone Emscripten benchmark (`bun run bench:junkyard`).
+- Node 24.22.1 (`nvm use`) for development tooling, Emscripten compilation and the standalone benchmark (`bun run bench:junkyard`). The build explicitly sets Emscripten's supported `EM_NODE_JS` override so the SDK's bundled Node 22.16.0 is not used by the compiler.
 - A C/C++ toolchain
 - CMake
 - Emscripten (**prefer 6.0.2**). System packages like Manjaro/Arch `6.0.3` currently ICE compiling Box3D `shape.c` with `-msimd128`. For this repo, install a local pin with `bun run setup:emsdk` (downloads into gitignored `.emsdk/`; WASM builds prefer it automatically). Override with `BOX3D_EMSDK_DIR` / `BOX3D_EMSDK_VERSION`, or set `BOX3D_DISABLE_SIMD=1` as a last-resort workaround.
