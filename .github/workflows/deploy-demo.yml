@@ -45,6 +45,18 @@ jobs:
           # 6.0.2 matches the locally verified toolchain.
           version: 6.0.2
 
+      - name: Restore patched Node after SDK PATH changes
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          package-manager-cache: false
+
+      - name: Verify selected tooling runtime
+        run: |
+          test "$(node --version)" = "v$(cat .nvmrc)"
+          node --version
+          bun --version
+
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
