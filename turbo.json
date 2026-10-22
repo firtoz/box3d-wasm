@@ -1,4 +1,5 @@
 {
+  "globalDependencies": ["package.json", ".nvmrc"],
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {

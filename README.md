@@ -9,7 +9,7 @@ https://github.com/user-attachments/assets/1c161c46-1dae-45a0-8d77-cb8df45819e8
 
 
 
-[![Bun](https://img.shields.io/badge/Bun-1.4.3-black)](https://bun.sh/)
+[![Bun](https://img.shields.io/badge/Bun-1.4.4-black)](https://bun.sh/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-7.0.1--rc-blue)](https://www.typescriptlang.org/)
 [![Turborepo](https://img.shields.io/badge/Turborepo-2.10.2-EF4444)](https://turbo.build/repo)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
@@ -54,10 +54,12 @@ bun run dev
 - `bun run clean` - clear build output.
 - `bun run format` - format repo-owned files while skipping the `box3d/` submodule and generated output.
 
+The WASM watcher uses Chokidar 5 directly, avoiding the unpatched `braces` dependency in the old watch CLI. It preserves the TypeScript/C bridge/patch input filters, debounces changes, and queues rebuilds without running compilers in parallel. CI tests real file events and runs a blocking dependency audit.
+
 ## Requirements
 
-- Bun 1.4.3
-- Node 24.22.1 for the standalone Emscripten benchmark (`bun run bench:junkyard`).
+- Bun 1.4.4
+- Node 24.22.1 (`nvm use`) for development tooling, Emscripten compilation and the standalone benchmark (`bun run bench:junkyard`). The build explicitly sets Emscripten's supported `EM_NODE_JS` override so the SDK's bundled Node 22.16.0 is not used by the compiler.
 - A C/C++ toolchain
 - CMake
 - Emscripten (**prefer 6.0.2**). System packages like Manjaro/Arch `6.0.3` currently ICE compiling Box3D `shape.c` with `-msimd128`. For this repo, install a local pin with `bun run setup:emsdk` (downloads into gitignored `.emsdk/`; WASM builds prefer it automatically). Override with `BOX3D_EMSDK_DIR` / `BOX3D_EMSDK_VERSION`, or set `BOX3D_DISABLE_SIMD=1` as a last-resort workaround.
