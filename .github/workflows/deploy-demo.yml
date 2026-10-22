@@ -51,6 +51,11 @@ jobs:
       - name: Check workspace and script types
         run: bun run typecheck
 
+      - name: Set up patched Node for the Emscripten runtime
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "24.22.1"
+
       - name: Smoke test world and slot cleanup
         timeout-minutes: 3
         run: bun run bench:junkyard --frames=1 --warmup=0 --restarts=2 --profile=off

@@ -5,8 +5,10 @@
  * dense transform publish cost, and single-thread transform hashes.
  *
  * Usage:
- *   bun packages/box3d-wasm/scripts/bench-junkyard.ts
- *   bun packages/box3d-wasm/scripts/bench-junkyard.ts --frames=120 --workers=1 --profile=off
+ *   bun run bench:junkyard
+ *   bun run bench:junkyard --frames=120 --workers=1 --profile=off
+ *
+ * Bun builds the TypeScript harness; Node runs the Emscripten pthread module.
  */
 import { createHash } from "node:crypto";
 import path from "node:path";

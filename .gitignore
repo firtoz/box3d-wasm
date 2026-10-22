@@ -13,3 +13,6 @@ packages/box3d-wasm/.box3d-patched/
 .reference-dumps/
 packages/box3d-wasm/build-native/
 compile_commands.json
+
+# Generated Node benchmark bundle
+packages/box3d-wasm/scripts/bench-junkyard.mjs

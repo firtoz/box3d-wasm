@@ -22,7 +22,7 @@
     "clean": "turbo run clean",
     "typecheck:scripts": "bunx tsc -p packages/box3d-wasm/scripts/tsconfig.json --noEmit",
     "typecheck:workspace": "bunx tsc -p packages/box3d-wasm/tsconfig.json --noEmit && bunx tsc -p demo/tsconfig.json --noEmit",
-    "bench:junkyard": "bun packages/box3d-wasm/scripts/bench-junkyard.ts",
+    "bench:junkyard": "bun build packages/box3d-wasm/scripts/bench-junkyard.ts --target=node --outfile=packages/box3d-wasm/scripts/bench-junkyard.mjs && node packages/box3d-wasm/scripts/bench-junkyard.mjs",
     "bench:object-asserts": "bun packages/box3d-wasm/scripts/bench-object-asserts.ts"
   },
   "devDependencies": {
